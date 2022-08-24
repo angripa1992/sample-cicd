@@ -44,13 +44,35 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "io.klikit.enterprise.klikit_enterprise_app"
+        applicationId "io.klikit.enterprise"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+    }
+
+    flavorDimensions "app"
+    productFlavors{
+        staging{
+            dimension "app"
+            applicationId "io.klikit.enterprise.staging"
+            versionCode 1
+            versionName "1.0"
+        }
+        dev{
+            dimension "app"
+            applicationId "io.klikit.enterprise.dev"
+            versionCode 1
+            versionName "1.0"
+        }
+        live{
+            dimension "app"
+            applicationId "io.klikit.enterprise"
+            versionCode 1
+            versionName "1.0"
+        }
     }
 
     buildTypes {
