@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:klikit/app/klikit.dart';
+import 'package:klikit/environment_variables.dart';
+import 'package:klikit/main.dart';
 
 void main() {
-  runApp(const Klikit());
+  final environmentVariables = EnvironmentVariables();
+  mainCommon(environmentVariables);
 }
