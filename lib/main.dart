@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/klikit.dart';
 import 'package:klikit/environment_variables.dart';
+import 'package:klikit/resources/assets.dart';
 
 import 'app/di.dart';
 
@@ -19,7 +20,7 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
   ).then(
     (_) => runApp(
       EasyLocalization(
-        path: 'assets/translations',
+        path: AppAssets.translations,
         supportedLocales: const [Locale('en', 'US')],
         fallbackLocale: const Locale('en', 'US'),
         child: const Klikit(),
