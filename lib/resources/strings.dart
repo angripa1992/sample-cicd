@@ -1,3 +1,3 @@
 class AppStrings {
-  static const String noRouteFound = "No Route Found";
+  static const String noRouteFound = "noRouteFound";
 }
