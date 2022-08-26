@@ -8,19 +8,19 @@ class AppPreferences{
 
   AppPreferences(this._preferences);
 
-  void setAccessToken(String? token){
+  void insertAccessToken(String? token){
     _preferences.setString(_kAccessToken, token.orEmpty());
   }
 
-  void setRefreshToken(String? token){
+  void insertRefreshToken(String? token){
     _preferences.setString(_kRefreshToken, token.orEmpty());
   }
 
-  String? getRefreshToken(){
+  String? retrieveRefreshToken(){
     return _preferences.getString(_kRefreshToken);
   }
 
-  String? getAccessToken(){
+  String? retrieveAccessToken(){
     return _preferences.getString(_kAccessToken);
   }
 

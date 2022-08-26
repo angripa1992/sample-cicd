@@ -10,7 +10,7 @@ import 'app/di.dart';
 void mainCommon(EnvironmentVariables environmentVariables) async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await initAppModule();
+  await initAppModule(environmentVariables);
 
   SystemChrome.setPreferredOrientations(
     [

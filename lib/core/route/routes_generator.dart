@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/route/routes.dart';
+import 'package:klikit/core/route/routes.dart';
 
-import '../resources/strings.dart';
-import '../splash/splash_screen.dart';
+import '../../modules/splash/splash_screen.dart';
+import '../../resources/strings.dart';
+
 
 class RoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {

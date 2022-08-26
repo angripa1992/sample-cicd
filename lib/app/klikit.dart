@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/resources/themes.dart';
-import 'package:klikit/route/routes.dart';
-import 'package:klikit/route/routes_generator.dart';
-import 'package:klikit/route/routes_observer.dart';
+
+import '../core/route/routes.dart';
+import '../core/route/routes_generator.dart';
+import '../core/route/routes_observer.dart';
+
 
 class Klikit extends StatelessWidget {
   const Klikit({Key? key}) : super(key: key);
