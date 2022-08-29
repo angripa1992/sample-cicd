@@ -7,6 +7,8 @@ import 'package:klikit/modules/onboarding/onboarding_screen.dart';
 import '../../resources/strings.dart';
 
 class RoutesGenerator {
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.splash:
