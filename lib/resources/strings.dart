@@ -1,4 +1,5 @@
 class AppStrings {
+  //error message
   static const String noRouteFound = "noRouteFound";
   static const String badRequestError = "bad_request_error";
   static const String noContent = "no_content";
@@ -11,5 +12,6 @@ class AppStrings {
   static const String timeoutError = "timeout_error";
   static const String defaultError = "something_went_wrong";
   static const String cacheError = "cache_error";
-  static const String noInternetError = "no_internet_error";
+  static const String noInternetError = "no_internet_connection";
+
 }

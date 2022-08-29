@@ -31,7 +31,7 @@ class ScreenSizes {
   static late double screenHeight;
 
   final Size _designSize =
-  const Size(428, 926);
+  const Size(360, 640);
   Size get designSize => _designSize;
 
   double get scaleWidth => screenWidth / designSize.width;

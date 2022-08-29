@@ -1,3 +1,4 @@
 {
-  "noRouteFound" : "No Route Found"
+  "noRouteFound" : "No Route Found",
+  "no_internet_connection" : "No Internet Connection"
 }

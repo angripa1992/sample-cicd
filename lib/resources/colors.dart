@@ -4,4 +4,5 @@ class AppColors {
   static Color primary = const Color(0xFF6A13F4);
   static Color white = const Color(0xFFFFFFFF);
   static Color red = const Color(0xFFF44336);
+  static Color black = const Color(0xFF000000);
 }
