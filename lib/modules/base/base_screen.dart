@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
-import 'package:klikit/resources/fonts.dart';
-import 'package:klikit/resources/styles.dart';
 
 import '../../app/di.dart';
 import '../widgets/snackbars.dart';
