@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../resources/strings.dart';
 
@@ -21,6 +22,10 @@ class ErrorHandler implements Exception {
     }
   }
 
+  ErrorHandler.handleInternetConnection() {
+    failure = Failure(ResponseCode.NO_INTERNET_CONNECTION,ResponseMessage.NO_INTERNET_CONNECTION);
+  }
+
   Failure _handleError(DioError error) {
     switch (error.type) {
       case DioErrorType.connectTimeout:
@@ -36,7 +41,16 @@ class ErrorHandler implements Exception {
       case DioErrorType.other:
         return Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
       case DioErrorType.response:
-        return Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
+        return _handleResponseError(error);
+    }
+  }
+
+  Failure _handleResponseError(DioError error){
+    try{
+      final message = error.response?.data['message'];
+      return Failure(ResponseCode.RESPONSE, message);
+    }catch(error){
+      return Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
     }
   }
 }
@@ -47,7 +61,8 @@ class ResponseCode {
   static const int NO_CONTENT = 201;
   static const int BAD_REQUEST = 400;
   static const int FORBIDDEN = 403;
-  static const int UNAUTHORISED = 401;
+  static const int UNAUTHORISED = 407;
+  static const int RESPONSE = 401;
   static const int NOT_FOUND = 404;
   static const int INTERNAL_SERVER_ERROR = 500;
   // local status code
@@ -61,17 +76,17 @@ class ResponseCode {
 }
 
 class ResponseMessage {
-  static const String NO_CONTENT = AppStrings.noContent;
-  static const String BAD_REQUEST = AppStrings.badRequestError;
-  static const String FORBIDDEN = AppStrings.forbiddenError;
-  static const String UNAUTHORISED = AppStrings.unauthorizedError;
-  static const String NOT_FOUND = AppStrings.notFoundError;
-  static const String INTERNAL_SERVER_ERROR = AppStrings.internalServerError;
-  static const String DEFAULT = AppStrings.defaultError;
-  static const String CONNECT_TIMEOUT = AppStrings.timeoutError;
-  static const String CANCEL = AppStrings.defaultError;
-  static const String RECEIVE_TIMEOUT = AppStrings.timeoutError;
-  static const String SEND_TIMEOUT = AppStrings.timeoutError;
-  static const String CACHE_ERROR = AppStrings.defaultError;
-  static const String NO_INTERNET_CONNECTION = AppStrings.noInternetError;
+  static String NO_CONTENT = AppStrings.noContent.tr();
+  static String BAD_REQUEST = AppStrings.badRequestError.tr();
+  static String FORBIDDEN = AppStrings.forbiddenError.tr();
+  static String UNAUTHORISED = AppStrings.unauthorizedError.tr();
+  static String NOT_FOUND = AppStrings.notFoundError.tr();
+  static String INTERNAL_SERVER_ERROR = AppStrings.internalServerError.tr();
+  static String DEFAULT = AppStrings.defaultError.tr();
+  static String CONNECT_TIMEOUT = AppStrings.timeoutError.tr();
+  static String CANCEL = AppStrings.defaultError.tr();
+  static String RECEIVE_TIMEOUT = AppStrings.timeoutError.tr();
+  static String SEND_TIMEOUT = AppStrings.timeoutError.tr();
+  static String CACHE_ERROR = AppStrings.defaultError.tr();
+  static String NO_INTERNET_CONNECTION = AppStrings.noInternetError.tr();
 }

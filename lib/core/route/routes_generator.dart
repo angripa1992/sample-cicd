@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen.dart';
 import 'package:klikit/modules/onboarding/onboarding_screen.dart';
+import 'package:klikit/modules/user/presentation/pages/login_page.dart';
 
 import '../../resources/strings.dart';
 
@@ -14,6 +15,11 @@ class RoutesGenerator {
       case Routes.splash:
         return MaterialPageRoute(
           builder: (_) => const OnboardingScreen(),
+          settings: routeSettings,
+        );
+        case Routes.login:
+        return MaterialPageRoute(
+          builder: (_) => LoginScreen(),
           settings: routeSettings,
         );
       case Routes.base:

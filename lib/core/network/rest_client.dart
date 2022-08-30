@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:klikit/core/network/token_provider.dart';
+import 'package:klikit/core/network/urls.dart';
 
 import '../../app/di.dart';
 import '../../app/enums.dart';
@@ -26,6 +27,11 @@ class RestClient {
           if (!kReleaseMode) {
             _dioLogger.logRequest(options);
           }
+          print(options.path);
+          if(options.path == Urls.login){
+            handler.next(options);
+            return;
+          }
           if (_tokenProvider.accessToken == null) {
             final tokenResponse = await _tokenProvider.fetchTokenFromServer();
             tokenResponse.fold(
@@ -36,8 +42,7 @@ class RestClient {
               (errorCode) {},
             );
           } else {
-            _dio.options.headers['Authorization'] =
-                'Bearer ${_tokenProvider.accessToken}';
+            _dio.options.headers['Authorization'] = 'Bearer ${_tokenProvider.accessToken}';
             handler.next(options);
           }
         },

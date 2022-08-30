@@ -37,3 +37,35 @@ void showConnectivitySnackBar(BuildContext context) {
     ),
   );
 }
+
+void showErrorSnackBar(BuildContext context,String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: getBoldTextStyle(
+          color: AppColors.white,
+          fontSize: AppFontSize.s15.rSp,
+        ),
+      ),
+      duration: const Duration(seconds: 5),
+      backgroundColor: AppColors.red,
+    ),
+  );
+}
+
+void showSuccessSnackBar(BuildContext context,String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: getBoldTextStyle(
+          color: AppColors.white,
+          fontSize: AppFontSize.s15.rSp,
+        ),
+      ),
+      duration: const Duration(seconds: 5),
+      backgroundColor: AppColors.primary,
+    ),
+  );
+}

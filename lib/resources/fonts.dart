@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppFontConstants {
-  static const String fontFamily = "Aeonik";
+class AppFonts {
+  static const String fontFamilyAeonik = "Aeonik";
 }
 
 class AppFontWeight {

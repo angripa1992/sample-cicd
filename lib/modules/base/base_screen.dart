@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 
 import '../../app/di.dart';
@@ -13,6 +14,7 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreenState extends State<BaseScreen> {
   final _networkConnectivity = getIt.get<NetworkConnectivity>();
+  final _appPreference = getIt.get<AppPreferences>();
 
   @override
   void initState() {
@@ -25,6 +27,7 @@ class _BaseScreenState extends State<BaseScreen> {
         showConnectivitySnackBar(context);
       }
     });
+    _appPreference.getUser().then((value) => print('==============${value.userInfo.id}'));
   }
 
   @override

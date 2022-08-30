@@ -17,11 +17,11 @@ class NetworkConnectivity{
   }
 
   void _checkStatus() async{
-    final isOnline = await checkConnection();
+    final isOnline = await hasConnection();
     _controller.sink.add(isOnline);
   }
 
-  Future<bool> checkConnection() async{
+  Future<bool> hasConnection() async{
     bool isOnline = false;
     try{
       final result = await InternetAddress.lookup('google.com');

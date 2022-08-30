@@ -22,7 +22,7 @@ TextStyle getRegularTextStyle({
 }) {
   return _getTextStyle(
     fontSize,
-    AppFontConstants.fontFamily,
+    AppFonts.fontFamilyAeonik,
     AppFontWeight.regular,
     color,
   );
@@ -34,7 +34,7 @@ TextStyle getLightTextStyle({
 }) {
   return _getTextStyle(
     fontSize,
-    AppFontConstants.fontFamily,
+    AppFonts.fontFamilyAeonik,
     AppFontWeight.light,
     color,
   );
@@ -46,7 +46,7 @@ TextStyle getBoldTextStyle({
 }) {
   return _getTextStyle(
     fontSize,
-    AppFontConstants.fontFamily,
+    AppFonts.fontFamilyAeonik,
     AppFontWeight.bold,
     color,
   );
@@ -58,7 +58,7 @@ TextStyle getMediumTextStyle({
 }) {
   return _getTextStyle(
     fontSize,
-    AppFontConstants.fontFamily,
+    AppFonts.fontFamilyAeonik,
     AppFontWeight.medium,
     color,
   );

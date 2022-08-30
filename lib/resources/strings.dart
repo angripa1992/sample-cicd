@@ -14,4 +14,14 @@ class AppStrings {
   static const String cacheError = "cache_error";
   static const String noInternetError = "no_internet_connection";
 
+  //app strings
+  static const String cloud = "cloud";
+  static const String existing_account = "existing_account";
+  static const String dont_have_account = "dont_have_account";
+  static const String email = "email";
+  static const String password = "password";
+  static const String forgot_password = "forgot_password";
+  static const String login = "login";
+  static const String login_as_manager = "login_as_manager";
+
 }

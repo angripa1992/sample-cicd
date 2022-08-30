@@ -29,6 +29,7 @@ class ScreenSizes {
 
   static late double screenWidth;
   static late double screenHeight;
+  static late double statusBarHeight;
 
   final Size _designSize =
   const Size(360, 640);
