@@ -1,9 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
-import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -12,7 +10,12 @@ class LoadingButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onTap;
 
-  const LoadingButton({Key? key, required this.isLoading, required this.onTap, required this.text}) : super(key: key);
+  const LoadingButton({
+    Key? key,
+    required this.isLoading,
+    required this.onTap,
+    required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +30,17 @@ class LoadingButton extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: AppSize.s16.rh),
             child: isLoading
                 ? SizedBox(
-                    height: 14.rh,
-                    width: 16.rw,
-                    child: CircularProgressIndicator(color: AppColors.purpleBlue),
+                    height: AppSize.s16.rh,
+                    width: AppSize.s18.rw,
+                    child:
+                        CircularProgressIndicator(color: AppColors.purpleBlue),
                   )
                 : Text(
                     text,
                     style: getRegularTextStyle(
                       fontFamily: AppFonts.Abel,
                       color: AppColors.white,
-                      fontSize: AppFontSize.s14.rSp,
+                      fontSize: AppFontSize.s16.rSp,
                     ),
                   ),
           ),

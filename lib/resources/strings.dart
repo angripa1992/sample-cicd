@@ -37,5 +37,7 @@ class AppStrings {
   static const String company_name = "company_name";
   static const String phone = "phone";
   static const String update = "update";
+  static const String field_required = "field_required";
+  static const String enter_valid_email = "enter_valid_email";
 
 }

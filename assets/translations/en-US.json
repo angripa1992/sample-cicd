@@ -22,5 +22,7 @@
   "title" : "Title",
   "company_name" : "Company Name",
   "phone" : "Phone",
-  "update" : "Update"
+  "update" : "Update",
+  "field_required" : "This field is required",
+  "enter_valid_email" : "Enter a valid email"
 }

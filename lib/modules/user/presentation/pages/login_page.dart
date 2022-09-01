@@ -33,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AppPreferences _appPreferences = getIt.get<AppPreferences>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -41,11 +42,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login(BuildContext context) {
-    context.read<LoginBloc>().add(
-          LoginEventAuthenticate(
-            LoginRequestModel(_emailController.text, _passwordController.text),
-          ),
-        );
+    if (_formKey.currentState!.validate()) {
+      context.read<LoginBloc>().add(
+            LoginEventAuthenticate(
+              LoginRequestModel(
+                  _emailController.text, _passwordController.text),
+            ),
+          );
+    }
   }
 
   void _checkRole(User user, BuildContext context) {
@@ -91,7 +95,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       children: [
                         SizedBox(
-                          child: Image.asset(AppImages.klikit),
+                          child: Image.asset(
+                            AppImages.klikit,
+                            width: 87.rw,
+                            height: 33.rh,
+                          ),
                         ),
                         SizedBox(
                           width: AppSize.s8.rw,
@@ -107,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: AppSize.s12.rh,
+                      height: AppSize.s8.rh,
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -128,58 +136,78 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontFamily: AppFonts.ABeeZee,
                                 color: AppColors.blueViolet,
                                 fontSize: AppSize.s16.rSp,
-                                fontStyle: FontStyle.italic,
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
+                            TextButton(
+                              onPressed: () {
                                 Navigator.of(context).pushNamed(
                                   Routes.webView,
                                   arguments: AppConstant.signUpUrl,
                                 );
                               },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                alignment: Alignment.centerLeft,
+                              ),
                               child: Text(
                                 AppStrings.dont_have_account.tr(),
-                                style: getBoldTextStyle(
+                                style: getRegularTextStyle(
                                   fontFamily: AppFonts.ABeeZee,
                                   color: AppColors.purpleBlue,
                                   fontSize: AppSize.s16.rSp,
+                                  fontStyle: FontStyle.italic,
                                 ),
                               ),
                             ),
                             SizedBox(
                               height: AppSize.s24.rh,
                             ),
-                            InputField(
-                              label: AppStrings.email.tr(),
-                              controller: _emailController,
-                              inputType: TextInputType.emailAddress,
-                              obscureText: false,
-                            ),
-                            SizedBox(
-                              height: AppSize.s28.rh,
-                            ),
-                            InputField(
-                              label: AppStrings.password.tr(),
-                              controller: _passwordController,
-                              inputType: TextInputType.text,
-                              obscureText: true,
-                            ),
-                            SizedBox(
-                              height: AppSize.s28.rh,
-                            ),
-                            Text(
-                              AppStrings.forgot_password.tr(),
-                              style: TextStyle(
-                                fontFamily: AppFonts.ABeeZee,
-                                color: AppColors.blueViolet,
-                                fontSize: AppSize.s16.rSp,
-                                fontWeight: AppFontWeight.regular,
-                                decoration: TextDecoration.underline,
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  InputField(
+                                    label: AppStrings.email.tr(),
+                                    controller: _emailController,
+                                    inputType: TextInputType.emailAddress,
+                                    obscureText: false,
+                                  ),
+                                  SizedBox(
+                                    height: AppSize.s28.rh,
+                                  ),
+                                  InputField(
+                                    label: AppStrings.password.tr(),
+                                    controller: _passwordController,
+                                    inputType: TextInputType.text,
+                                    obscureText: true,
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(
-                              height: AppSize.s28.rh,
+                              height: AppSize.s24.rh,
+                            ),
+                            TextButton(
+                              onPressed: () {  },
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                alignment: Alignment.centerLeft,
+                              ),
+                              child: Text(
+                                AppStrings.forgot_password.tr(),
+                                style: TextStyle(
+                                  fontFamily: AppFonts.ABeeZee,
+                                  color: AppColors.blueViolet,
+                                  fontSize: AppSize.s16.rSp,
+                                  fontWeight: AppFontWeight.regular,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: AppSize.s24.rh,
                             ),
                             BlocConsumer<LoginBloc, LoginState>(
                               listener: (context, state) {
