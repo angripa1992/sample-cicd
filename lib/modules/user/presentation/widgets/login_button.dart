@@ -19,7 +19,7 @@ class LoginButton extends StatelessWidget {
       onTap: isLoading ? null : onTap,
       child: Container(
         decoration: BoxDecoration(
-            color: isLoading ? AppColors.primaryThird : AppColors.primary,
+            color: isLoading ? AppColors.lightViolet : AppColors.purpleBlue,
             borderRadius: BorderRadius.circular(AppSize.s8.rSp)),
         child: Center(
           child: Padding(
@@ -27,8 +27,8 @@ class LoginButton extends StatelessWidget {
             child: isLoading
                 ? SizedBox(
                     height: 14.rh,
-                    width: 18.rw,
-                    child: CircularProgressIndicator(color: AppColors.primary),
+                    width: 16.rw,
+                    child: CircularProgressIndicator(color: AppColors.purpleBlue),
                   )
                 : Text(
                     AppStrings.login.tr(),

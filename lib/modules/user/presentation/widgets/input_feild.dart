@@ -28,7 +28,7 @@ class InputField extends StatelessWidget {
         Text(
           label,
           style: getRegularTextStyle(
-            color: AppColors.primarySecond,
+            color: AppColors.blueViolet,
             fontSize: AppFontSize.s16.rSp,
           ),
         ),
@@ -36,20 +36,20 @@ class InputField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           keyboardType: inputType,
-          cursorColor: AppColors.primaryThird,
+          cursorColor: AppColors.blueViolet,
           style: getRegularTextStyle(
-            color: AppColors.white,
+            color: AppColors.blueViolet,
             fontSize: AppFontSize.s16.rSp,
           ),
           decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.primaryThird,width: AppSize.s2.rSp),
+              borderSide: BorderSide(color: AppColors.blueViolet),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.primaryThird),
+              borderSide: BorderSide(color: AppColors.blueViolet),
             ),
             border: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.primaryThird),
+              borderSide: BorderSide(color: AppColors.blueViolet),
             ),
           ),
         ),

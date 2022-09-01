@@ -23,5 +23,19 @@ class AppStrings {
   static const String forgot_password = "forgot_password";
   static const String login = "login";
   static const String login_as_manager = "login_as_manager";
+  static const String home = "home";
+  static const String orders = "orders";
+  static const String stock = "stock";
+  static const String account = "account";
+  static const String contact_support = "contact_support";
+  static const String available = "available";
+  static const String live_chat = "live_chat";
+  static const String email_support = "email_support";
+  static const String edit_profile = "edit_profile";
+  static const String name = "name";
+  static const String title = "title";
+  static const String company_name = "company_name";
+  static const String phone = "phone";
+  static const String update = "update";
 
 }

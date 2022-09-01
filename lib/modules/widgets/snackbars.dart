@@ -65,7 +65,7 @@ void showSuccessSnackBar(BuildContext context,String message) {
         ),
       ),
       duration: const Duration(seconds: 5),
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.purpleBlue,
     ),
   );
 }

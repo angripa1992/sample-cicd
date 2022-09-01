@@ -22,11 +22,23 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AppPreferences _appPreferences = getIt.get<AppPreferences>();
 
-  LoginScreen({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    _emailController.text = _appPreferences.getLoginEmail();
+    super.initState();
+  }
 
   void _login(BuildContext context) {
     context.read<LoginBloc>().add(
@@ -41,18 +53,18 @@ class LoginScreen extends StatelessWidget {
       (role) => role == AppConstant.roleManger,
       orElse: () => EMPTY,
     );
-    if(role == AppConstant.roleManger){
+    if (role == AppConstant.roleManger) {
       _saveUserDataAndNavigateToBase(user, context);
-    }else{
+    } else {
       showErrorSnackBar(context, AppStrings.login_as_manager);
     }
   }
 
-  void _saveUserDataAndNavigateToBase(User user, BuildContext context){
-    final appPreference = getIt.get<AppPreferences>();
-    appPreference.insertAccessToken(user.accessToken);
-    appPreference.insertRefreshToken(user.refreshToken);
-    appPreference.loggedInUser(user).then((_){
+  void _saveUserDataAndNavigateToBase(User user, BuildContext context) {
+    _appPreferences.saveLoginEmail(user.userInfo.email);
+    _appPreferences.insertAccessToken(user.accessToken);
+    _appPreferences.insertRefreshToken(user.refreshToken);
+    _appPreferences.loggedInUser(user).then((_) {
       Navigator.of(context).pushReplacementNamed(Routes.base);
     });
   }
@@ -70,7 +82,7 @@ class LoginScreen extends StatelessWidget {
               width: ScreenSizes.screenWidth,
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s43.rw,
+                  horizontal: AppSize.s24.rw,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -78,84 +90,114 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Image.asset(AppImages.klikit),
+                        SizedBox(
+                          child: Image.asset(AppImages.klikit),
+                        ),
                         SizedBox(
                           width: AppSize.s8.rw,
                         ),
                         Text(
                           AppStrings.cloud.tr(),
                           style: getBoldTextStyle(
-                            color: AppColors.yellow,
+                            color: AppColors.canaryYellow,
                             fontSize: AppSize.s48.rSp,
                           ),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: AppSize.s20.rh,
+                      height: AppSize.s12.rh,
                     ),
-                    Text(
-                      AppStrings.existing_account.tr(),
-                      style: getRegularTextStyle(
+                    Container(
+                      decoration: BoxDecoration(
                         color: AppColors.white,
-                        fontSize: AppSize.s16.rSp,
+                        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppSize.s20.rh,
+                          horizontal: AppSize.s20.rw,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppStrings.existing_account.tr(),
+                              style: getRegularTextStyle(
+                                color: AppColors.blueViolet,
+                                fontSize: AppSize.s16.rSp,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  Routes.webView,
+                                  arguments: AppConstant.signUpUrl,
+                                );
+                              },
+                              child: Text(
+                                AppStrings.dont_have_account.tr(),
+                                style: getBoldTextStyle(
+                                  color: AppColors.purpleBlue,
+                                  fontSize: AppSize.s16.rSp,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: AppSize.s24.rh,
+                            ),
+                            InputField(
+                              label: AppStrings.email.tr(),
+                              controller: _emailController,
+                              inputType: TextInputType.emailAddress,
+                              obscureText: false,
+                            ),
+                            SizedBox(
+                              height: AppSize.s28.rh,
+                            ),
+                            InputField(
+                              label: AppStrings.password.tr(),
+                              controller: _passwordController,
+                              inputType: TextInputType.text,
+                              obscureText: true,
+                            ),
+                            SizedBox(
+                              height: AppSize.s28.rh,
+                            ),
+                            Text(
+                              AppStrings.forgot_password.tr(),
+                              style: TextStyle(
+                                  fontFamily: AppFonts.fontFamilyAeonik,
+                                  color: AppColors.blueViolet,
+                                  fontSize: AppSize.s16.rSp,
+                                  fontWeight: AppFontWeight.regular,
+                                  decoration: TextDecoration.underline),
+                            ),
+                            SizedBox(
+                              height: AppSize.s28.rh,
+                            ),
+                            BlocConsumer<LoginBloc, LoginState>(
+                              listener: (context, state) {
+                                if (state is LoginStateError) {
+                                  showErrorSnackBar(
+                                      context, state.failure.message);
+                                } else if (state is LoginStateSuccess) {
+                                  _checkRole(state.user, context);
+                                }
+                              },
+                              builder: (context, state) {
+                                return LoginButton(
+                                  isLoading: (state is LoginStateLoading),
+                                  onTap: () {
+                                    _login(context);
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Text(
-                      AppStrings.dont_have_account.tr(),
-                      style: getBoldTextStyle(
-                        color: AppColors.primary,
-                        fontSize: AppSize.s16.rSp,
-                      ),
-                    ),
-                    SizedBox(
-                      height: AppSize.s34.rh,
-                    ),
-                    InputField(
-                      label: AppStrings.email.tr(),
-                      controller: _emailController,
-                      inputType: TextInputType.emailAddress,
-                      obscureText: false,
-                    ),
-                    SizedBox(
-                      height: AppSize.s34.rh,
-                    ),
-                    InputField(
-                      label: AppStrings.password.tr(),
-                      controller: _passwordController,
-                      inputType: TextInputType.text,
-                      obscureText: true,
-                    ),
-                    SizedBox(
-                      height: AppSize.s28.rh,
-                    ),
-                    Text(
-                      AppStrings.forgot_password.tr(),
-                      style: TextStyle(
-                          fontFamily: AppFonts.fontFamilyAeonik,
-                          color: AppColors.primarySecond,
-                          fontSize: AppSize.s16.rSp,
-                          fontWeight: AppFontWeight.regular,
-                          decoration: TextDecoration.underline),
-                    ),
-                    SizedBox(
-                      height: AppSize.s28.rh,
-                    ),
-                    BlocConsumer<LoginBloc, LoginState>(
-                        listener: (context, state) {
-                      if (state is LoginStateError) {
-                        showErrorSnackBar(context, state.failure.message);
-                      } else if (state is LoginStateSuccess) {
-                        _checkRole(state.user, context);
-                      }
-                    }, builder: (context, state) {
-                      return LoginButton(
-                        isLoading: (state is LoginStateLoading),
-                        onTap: () {
-                          _login(context);
-                        },
-                      );
-                    }),
                   ],
                 ),
               ),

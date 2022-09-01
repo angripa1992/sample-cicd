@@ -1,5 +1,5 @@
 const String IMAGE_PATH = "assets/images";
-const String ICON_PATH = "assets/images";
+const String ICON_PATH = "assets/icons";
 const String TRANSLATION_PATH = "assets/translations";
 
 class AppAssets {
@@ -12,5 +12,12 @@ class AppImages {
 }
 
 class AppIcons {
-  static const String splashLogo = "$IMAGE_PATH/example.svg";
+  static const String account = "$ICON_PATH/ic_account.svg";
+  static const String accountActive = "$ICON_PATH/ic_account_active.svg";
+  static const String home = "$ICON_PATH/ic_home.svg";
+  static const String homeActive = "$ICON_PATH/ic_home_active.svg";
+  static const String order = "$ICON_PATH/ic_order.svg";
+  static const String orderActive = "$ICON_PATH/ic_order_active.svg";
+  static const String stock = "$ICON_PATH/ic_stock.svg";
+  static const String stockActive = "$ICON_PATH/ic_stock_active.svg";
 }

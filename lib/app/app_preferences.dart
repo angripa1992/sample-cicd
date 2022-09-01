@@ -10,6 +10,7 @@ class AppPreferences{
   final String _kRefreshToken = "refresh_token";
   final String _kUser = "user";
   final String _kLoggedIn = "logged_in";
+  final String _kLoginEmail = "login_email";
 
   AppPreferences(this._preferences);
 
@@ -42,5 +43,20 @@ class AppPreferences{
 
   bool isLoggedIn(){
     return _preferences.getBool(_kLoggedIn) ?? false;
+  }
+
+  Future<void> saveLoginEmail(String email) async{
+    _preferences.setString(_kLoginEmail, email);
+  }
+
+  String getLoginEmail() {
+    return _preferences.getString(_kLoginEmail) ?? EMPTY;
+  }
+
+  Future<void> clearPreferences() async{
+    await _preferences.remove(_kAccessToken);
+    await _preferences.remove(_kRefreshToken);
+    await _preferences.remove(_kUser);
+    await _preferences.remove(_kLoggedIn);
   }
 }

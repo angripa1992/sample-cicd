@@ -8,5 +8,19 @@
   "password" : "Password",
   "forgot_password" : "Forgot your Password?",
   "login" : "Log In",
-  "login_as_manager" : "Please login as a branch manager"
+  "login_as_manager" : "Please login as a branch manager",
+  "home" : "Home",
+  "orders" : "Orders",
+  "stock" : "Stock",
+  "account" : "Account",
+  "contact_support" : "Contact Support",
+  "available" : "Available",
+  "live_chat" : "Live Chat",
+  "email_support" : "Email Support",
+  "edit_profile" : "Edit Profile",
+  "name" : "Name",
+  "title" : "Title",
+  "company_name" : "Company Name",
+  "phone" : "Phone",
+  "update" : "Update"
 }
