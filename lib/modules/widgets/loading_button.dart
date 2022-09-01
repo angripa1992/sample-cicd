@@ -7,11 +7,12 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-class LoginButton extends StatelessWidget {
+class LoadingButton extends StatelessWidget {
+  final String text;
   final bool isLoading;
   final VoidCallback onTap;
 
-  const LoginButton({Key? key, required this.isLoading, required this.onTap}) : super(key: key);
+  const LoadingButton({Key? key, required this.isLoading, required this.onTap, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,9 @@ class LoginButton extends StatelessWidget {
                     child: CircularProgressIndicator(color: AppColors.purpleBlue),
                   )
                 : Text(
-                    AppStrings.login.tr(),
-                    style: getBoldTextStyle(
+                    text,
+                    style: getRegularTextStyle(
+                      fontFamily: AppFonts.Abel,
                       color: AppColors.white,
                       fontSize: AppFontSize.s14.rSp,
                     ),

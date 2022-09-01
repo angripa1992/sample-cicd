@@ -9,72 +9,85 @@ TextStyle _getTextStyle(
   String fontFamily,
   FontWeight fontWeight,
   Color color,
+  FontStyle fontStyle,
 ) {
   return TextStyle(
     fontSize: fontSize,
     fontFamily: fontFamily,
     color: color,
     fontWeight: fontWeight,
+    fontStyle: fontStyle,
   );
 }
 
 TextStyle getRegularTextStyle({
   double fontSize = AppFontSize.s12,
+  FontStyle fontStyle = FontStyle.normal,
+  required String fontFamily,
   required Color color,
 }) {
   return _getTextStyle(
     fontSize,
-    AppFonts.fontFamilyAeonik,
+    fontFamily,
     AppFontWeight.regular,
     color,
+    fontStyle,
   );
 }
 
 TextStyle getLightTextStyle({
   double fontSize = AppFontSize.s12,
+  FontStyle fontStyle = FontStyle.normal,
   required Color color,
 }) {
   return _getTextStyle(
     fontSize,
-    AppFonts.fontFamilyAeonik,
+    AppFonts.Aeonik,
     AppFontWeight.light,
     color,
+    fontStyle,
   );
 }
 
 TextStyle getBoldTextStyle({
   double fontSize = AppFontSize.s12,
+  FontStyle fontStyle = FontStyle.normal,
+  required String fontFamily,
   required Color color,
 }) {
   return _getTextStyle(
     fontSize,
-    AppFonts.fontFamilyAeonik,
+    fontFamily,
     AppFontWeight.bold,
     color,
+    fontStyle
   );
 }
 
 TextStyle getMediumTextStyle({
   double fontSize = AppFontSize.s12,
+  FontStyle fontStyle = FontStyle.normal,
   required Color color,
 }) {
   return _getTextStyle(
     fontSize,
-    AppFonts.fontFamilyAeonik,
+    AppFonts.Aeonik,
     AppFontWeight.medium,
     color,
+    fontStyle,
   );
 }
 
 TextStyle getAppBarTextStyle() {
   return getBoldTextStyle(
+    fontFamily: AppFonts.Abel,
     color: AppColors.white,
     fontSize: AppFontSize.s17.rSp,
   );
 }
 
-Widget getAppBarBackground(){
- return Container(
+Widget getAppBarBackground() {
+  return Container(
     decoration: BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.centerLeft,

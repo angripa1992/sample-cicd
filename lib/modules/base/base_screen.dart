@@ -7,6 +7,7 @@ import 'package:klikit/modules/home/presentation/pages/home_screen.dart';
 import 'package:klikit/modules/orders/presentation/pages/orders_screen.dart';
 import 'package:klikit/modules/stock/presentation/pages/stock_screen.dart';
 import 'package:klikit/resources/assets.dart';
+import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -82,11 +83,12 @@ class _BaseScreenState extends State<BaseScreen> {
           type: BottomNavigationBarType.fixed,
           selectedItemColor: AppColors.purpleBlue,
           unselectedItemColor: AppColors.smokeyGrey,
-          selectedLabelStyle: getBoldTextStyle(
+          selectedLabelStyle: getRegularTextStyle(
             color: AppColors.purpleBlue,
-            fontSize: 14.rSp,
+            fontSize: 14.rSp, fontFamily: AppFonts.ABeeZee,
           ),
           unselectedLabelStyle: getRegularTextStyle(
+            fontFamily: AppFonts.ABeeZee,
             color: AppColors.smokeyGrey,
             fontSize: 14.rSp,
           ),

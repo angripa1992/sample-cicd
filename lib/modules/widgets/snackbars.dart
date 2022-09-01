@@ -20,7 +20,8 @@ void showConnectivitySnackBar(BuildContext context) {
           Expanded(
             child: Text(
               AppStrings.noInternetError.tr(),
-              style: getBoldTextStyle(
+              style: getRegularTextStyle(
+                fontFamily: AppFonts.ABeeZee,
                 color: AppColors.white,
                 fontSize: AppFontSize.s15.rSp,
               ),
@@ -43,7 +44,8 @@ void showErrorSnackBar(BuildContext context,String message) {
     SnackBar(
       content: Text(
         message,
-        style: getBoldTextStyle(
+        style: getRegularTextStyle(
+          fontFamily: AppFonts.ABeeZee,
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,
         ),
@@ -59,7 +61,8 @@ void showSuccessSnackBar(BuildContext context,String message) {
     SnackBar(
       content: Text(
         message,
-        style: getBoldTextStyle(
+        style: getRegularTextStyle(
+          fontFamily: AppFonts.ABeeZee,
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,
         ),

@@ -37,13 +37,13 @@ flutter:
   uses-material-design: true
 
   assets:
-     - assets/icons/
-     - assets/translations/
-     - assets/images/
-     - assets/images/1.5x/
-     - assets/images/2.0x/
-     - assets/images/3.0x/
-     - assets/images/4.0x/
+    - assets/icons/
+    - assets/translations/
+    - assets/images/
+    - assets/images/1.5x/
+    - assets/images/2.0x/
+    - assets/images/3.0x/
+    - assets/images/4.0x/
 
   fonts:
     - family: Aeonik
@@ -54,5 +54,19 @@ flutter:
           weight: 500
         - asset: assets/fonts/Aeonik-Regular.otf
           weight: 400
+        - asset: assets/fonts/ABeeZee-Regular.otf
+          weight: 400
         - asset: assets/fonts/Aeonik-Light.otf
           weight: 300
+    - family: ABeeZee
+      fonts:
+        - asset: assets/fonts/ABeeZee-Regular.otf
+          weight: 400
+    - family: Abel
+      fonts:
+        - asset: assets/fonts/Abel-Regular.ttf
+          weight: 400
+    - family: DMSans
+      fonts:
+        - asset: assets/fonts/DMSans-Bold.ttf
+          weight: 700

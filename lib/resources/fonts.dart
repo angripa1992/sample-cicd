@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppFonts {
-  static const String fontFamilyAeonik = "Aeonik";
+  static const String Aeonik = "Aeonik";
+  static const String ABeeZee = "ABeeZee";
+  static const String Abel = "Abel";
+  static const String DMSans = "DMSans";
 }
 
 class AppFontWeight {

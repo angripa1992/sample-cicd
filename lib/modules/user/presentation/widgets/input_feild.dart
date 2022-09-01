@@ -28,6 +28,7 @@ class InputField extends StatelessWidget {
         Text(
           label,
           style: getRegularTextStyle(
+            fontFamily: AppFonts.ABeeZee,
             color: AppColors.blueViolet,
             fontSize: AppFontSize.s16.rSp,
           ),
@@ -38,6 +39,7 @@ class InputField extends StatelessWidget {
           keyboardType: inputType,
           cursorColor: AppColors.blueViolet,
           style: getRegularTextStyle(
+            fontFamily: AppFonts.ABeeZee,
             color: AppColors.blueViolet,
             fontSize: AppFontSize.s16.rSp,
           ),

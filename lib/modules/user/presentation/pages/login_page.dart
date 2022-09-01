@@ -13,7 +13,7 @@ import 'package:klikit/modules/user/presentation/bloc/login_bloc.dart';
 import 'package:klikit/modules/user/presentation/bloc/login_event.dart';
 import 'package:klikit/modules/user/presentation/bloc/login_state.dart';
 import 'package:klikit/modules/user/presentation/widgets/input_feild.dart';
-import 'package:klikit/modules/user/presentation/widgets/login_button.dart';
+import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
@@ -98,9 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Text(
                           AppStrings.cloud.tr(),
-                          style: getBoldTextStyle(
+                          style: getRegularTextStyle(
+                            fontFamily: AppFonts.Abel,
                             color: AppColors.canaryYellow,
-                            fontSize: AppSize.s48.rSp,
+                            fontSize: AppSize.s40.rSp,
                           ),
                         ),
                       ],
@@ -124,8 +125,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text(
                               AppStrings.existing_account.tr(),
                               style: getRegularTextStyle(
+                                fontFamily: AppFonts.ABeeZee,
                                 color: AppColors.blueViolet,
                                 fontSize: AppSize.s16.rSp,
+                                fontStyle: FontStyle.italic,
                               ),
                             ),
                             InkWell(
@@ -138,6 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 AppStrings.dont_have_account.tr(),
                                 style: getBoldTextStyle(
+                                  fontFamily: AppFonts.ABeeZee,
                                   color: AppColors.purpleBlue,
                                   fontSize: AppSize.s16.rSp,
                                 ),
@@ -167,11 +171,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text(
                               AppStrings.forgot_password.tr(),
                               style: TextStyle(
-                                  fontFamily: AppFonts.fontFamilyAeonik,
-                                  color: AppColors.blueViolet,
-                                  fontSize: AppSize.s16.rSp,
-                                  fontWeight: AppFontWeight.regular,
-                                  decoration: TextDecoration.underline),
+                                fontFamily: AppFonts.ABeeZee,
+                                color: AppColors.blueViolet,
+                                fontSize: AppSize.s16.rSp,
+                                fontWeight: AppFontWeight.regular,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                             SizedBox(
                               height: AppSize.s28.rh,
@@ -186,7 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               },
                               builder: (context, state) {
-                                return LoginButton(
+                                return LoadingButton(
+                                  text: AppStrings.login.tr(),
                                   isLoading: (state is LoginStateLoading),
                                   onTap: () {
                                     _login(context);
