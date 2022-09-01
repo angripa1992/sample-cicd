@@ -39,7 +39,7 @@ class InputField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           keyboardType: inputType,
-          cursorColor: AppColors.blueViolet,
+          cursorColor: AppColors.black,
           style: getRegularTextStyle(
             fontFamily: AppFonts.ABeeZee,
             color: AppColors.black,

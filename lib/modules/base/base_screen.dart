@@ -85,12 +85,12 @@ class _BaseScreenState extends State<BaseScreen> {
           unselectedItemColor: AppColors.smokeyGrey,
           selectedLabelStyle: getRegularTextStyle(
             color: AppColors.purpleBlue,
-            fontSize: AppSize.s12.rSp, fontFamily: AppFonts.ABeeZee,
+            fontSize: 14.rSp, fontFamily: AppFonts.ABeeZee,
           ),
           unselectedLabelStyle: getRegularTextStyle(
             fontFamily: AppFonts.ABeeZee,
             color: AppColors.smokeyGrey,
-            fontSize: AppSize.s12.rSp,
+            fontSize: 14.rSp,
           ),
         ),
       ),

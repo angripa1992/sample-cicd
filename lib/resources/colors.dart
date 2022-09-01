@@ -11,4 +11,5 @@ class AppColors {
   static Color whiteSmoke = const Color(0xFFF4F5F7);
   static Color smokeyGrey = const Color(0xFF727272);
   static Color blackCow = const Color(0xFF4A4A4A);
+  static Color blueChalk = const Color(0xFFF0E7FE);
 }

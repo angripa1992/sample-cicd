@@ -42,5 +42,6 @@ class AppStrings {
   static const String reset_password = "reset_password";
   static const String first_name = "first_name";
   static const String last_name = "last_name";
+  static const String same_value_validation_message = "same_value_validation_message";
 
 }

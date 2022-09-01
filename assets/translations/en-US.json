@@ -27,5 +27,6 @@
   "phone" : "Phone",
   "update" : "Update",
   "field_required" : "This field is required",
-  "enter_valid_email" : "Enter a valid email"
+  "enter_valid_email" : "Enter a valid email",
+  "same_value_validation_message" : "The value you entered same as previous"
 }

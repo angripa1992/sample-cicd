@@ -35,7 +35,7 @@ class AppPreferences{
     await _preferences.setString(_kUser, json.encode(user));
   }
   
-  Future<User> getUser() async{
+  User getUser() {
     final preferenceData = _preferences.getString(_kUser);
     final data = json.decode(preferenceData!);
     return User.fromJson(data);
