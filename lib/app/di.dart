@@ -5,12 +5,12 @@ import 'package:klikit/modules/user/data/datasource/login_remote_data_source.dar
 import 'package:klikit/modules/user/data/repositories/login_repository_impl.dart';
 import 'package:klikit/modules/user/domain/repositories/login_repository.dart';
 import 'package:klikit/modules/user/domain/usecases/login_usecases.dart';
-import 'package:klikit/modules/user/presentation/bloc/login_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
 import '../environment_variables.dart';
+import '../modules/user/presentation/login/bloc/login_bloc.dart';
 
 final getIt = GetIt.instance;
 

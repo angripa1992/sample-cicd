@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/strings.dart';
 
-import '../../../../app/functions.dart';
-import '../../../../resources/colors.dart';
-import '../../../../resources/fonts.dart';
-import '../../../../resources/styles.dart';
+import '../../../../../app/functions.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/styles.dart';
 
 class InputField extends StatelessWidget {
   final String label;

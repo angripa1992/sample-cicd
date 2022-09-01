@@ -79,7 +79,7 @@ TextStyle getMediumTextStyle({
 }
 
 TextStyle getAppBarTextStyle() {
-  return getBoldTextStyle(
+  return getRegularTextStyle(
     fontFamily: AppFonts.Abel,
     color: AppColors.white,
     fontSize: AppFontSize.s17.rSp,

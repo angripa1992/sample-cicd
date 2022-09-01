@@ -31,50 +31,48 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppStrings.contact_support.tr()),
-          titleTextStyle: getAppBarTextStyle(),
-          flexibleSpace: getAppBarBackground(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppStrings.contact_support.tr()),
+        titleTextStyle: getAppBarTextStyle(),
+        flexibleSpace: getAppBarBackground(),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s20.rw,
+          vertical: AppSize.s26.rh,
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s20.rw,
-            vertical: AppSize.s26.rh,
-          ),
-          child: Column(
-            children: [
-              ContactItem(
-                iconData: Icons.phone,
-                title: AppConstant.supportNumber,
-                description: 'Available 9am - 12am',
-                onTap: () async {
-                  await _callSupport();
-                },
-              ),
-              SizedBox(
-                height: AppSize.s12.rh,
-              ),
-              ContactItem(
-                iconData: Icons.chat,
-                title: 'Live Chat',
-                description: 'Available 9am - 12am',
-                onTap: () {},
-              ),
-              SizedBox(
-                height: AppSize.s12.rh,
-              ),
-              ContactItem(
-                iconData: Icons.email_outlined,
-                title: 'Email Support',
-                description: 'Available 24/7',
-                onTap: () async {
-                  await _mailSupport();
-                },
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            ContactItem(
+              iconData: Icons.phone,
+              title: AppConstant.supportNumber,
+              description: 'Available 9am - 12am',
+              onTap: () async {
+                await _callSupport();
+              },
+            ),
+            SizedBox(
+              height: AppSize.s12.rh,
+            ),
+            ContactItem(
+              iconData: Icons.chat,
+              title: 'Live Chat',
+              description: 'Available 9am - 12am',
+              onTap: () {},
+            ),
+            SizedBox(
+              height: AppSize.s12.rh,
+            ),
+            ContactItem(
+              iconData: Icons.email_outlined,
+              title: 'Email Support',
+              description: 'Available 24/7',
+              onTap: () async {
+                await _mailSupport();
+              },
+            ),
+          ],
         ),
       ),
     );

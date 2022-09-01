@@ -39,5 +39,8 @@ class AppStrings {
   static const String update = "update";
   static const String field_required = "field_required";
   static const String enter_valid_email = "enter_valid_email";
+  static const String reset_password = "reset_password";
+  static const String first_name = "first_name";
+  static const String last_name = "last_name";
 
 }

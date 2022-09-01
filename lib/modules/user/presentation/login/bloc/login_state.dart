@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:klikit/modules/user/presentation/bloc/login_event.dart';
 
-import '../../../../core/network/error_handler.dart';
-import '../../domain/entities/user.dart';
+import '../../../../../core/network/error_handler.dart';
+import '../../../domain/entities/user.dart';
 
 abstract class LoginState extends Equatable {
   @override

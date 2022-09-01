@@ -14,7 +14,7 @@ import 'package:klikit/resources/values.dart';
 import '../../app/di.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
-import '../user/presentation/pages/account.dart';
+import '../user/presentation/account/account.dart';
 import '../widgets/snackbars.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -85,12 +85,12 @@ class _BaseScreenState extends State<BaseScreen> {
           unselectedItemColor: AppColors.smokeyGrey,
           selectedLabelStyle: getRegularTextStyle(
             color: AppColors.purpleBlue,
-            fontSize: 14.rSp, fontFamily: AppFonts.ABeeZee,
+            fontSize: AppSize.s12.rSp, fontFamily: AppFonts.ABeeZee,
           ),
           unselectedLabelStyle: getRegularTextStyle(
             fontFamily: AppFonts.ABeeZee,
             color: AppColors.smokeyGrey,
-            fontSize: 14.rSp,
+            fontSize: AppSize.s12.rSp,
           ),
         ),
       ),

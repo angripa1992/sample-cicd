@@ -9,21 +9,23 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
-import 'package:klikit/modules/user/presentation/bloc/login_bloc.dart';
-import 'package:klikit/modules/user/presentation/bloc/login_event.dart';
-import 'package:klikit/modules/user/presentation/bloc/login_state.dart';
-import 'package:klikit/modules/user/presentation/widgets/input_feild.dart';
+import 'package:klikit/modules/user/presentation/login/bloc/login_bloc.dart';
+import 'package:klikit/modules/user/presentation/login/components/login_form.dart';
+import 'package:klikit/modules/user/presentation/login/components/logo.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
-import 'package:klikit/resources/assets.dart';
+import 'package:klikit/modules/widgets/url_text_button.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import 'bloc/login_event.dart';
+import 'bloc/login_state.dart';
+
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -92,28 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          child: Image.asset(
-                            AppImages.klikit,
-                            width: 87.rw,
-                            height: 33.rh,
-                          ),
-                        ),
-                        SizedBox(
-                          width: AppSize.s8.rw,
-                        ),
-                        Text(
-                          AppStrings.cloud.tr(),
-                          style: getRegularTextStyle(
-                            fontFamily: AppFonts.Abel,
-                            color: AppColors.canaryYellow,
-                            fontSize: AppSize.s40.rSp,
-                          ),
-                        ),
-                      ],
-                    ),
+                    const LogoView(),
                     SizedBox(
                       height: AppSize.s8.rh,
                     ),
@@ -138,73 +119,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: AppSize.s16.rSp,
                               ),
                             ),
-                            TextButton(
+                            UrlTextButton(
                               onPressed: () {
                                 Navigator.of(context).pushNamed(
                                   Routes.webView,
                                   arguments: AppConstant.signUpUrl,
                                 );
                               },
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                alignment: Alignment.centerLeft,
-                              ),
-                              child: Text(
-                                AppStrings.dont_have_account.tr(),
-                                style: getRegularTextStyle(
-                                  fontFamily: AppFonts.ABeeZee,
-                                  color: AppColors.purpleBlue,
-                                  fontSize: AppSize.s16.rSp,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
+                              text: AppStrings.dont_have_account.tr(),
                             ),
                             SizedBox(
                               height: AppSize.s24.rh,
                             ),
-                            Form(
-                              key: _formKey,
-                              child: Column(
-                                children: [
-                                  InputField(
-                                    label: AppStrings.email.tr(),
-                                    controller: _emailController,
-                                    inputType: TextInputType.emailAddress,
-                                    obscureText: false,
-                                  ),
-                                  SizedBox(
-                                    height: AppSize.s28.rh,
-                                  ),
-                                  InputField(
-                                    label: AppStrings.password.tr(),
-                                    controller: _passwordController,
-                                    inputType: TextInputType.text,
-                                    obscureText: true,
-                                  ),
-                                ],
-                              ),
+                            LoginForm(
+                              formKey: _formKey,
+                              emailController: _emailController,
+                              passwordController: _passwordController,
                             ),
                             SizedBox(
                               height: AppSize.s24.rh,
                             ),
-                            TextButton(
-                              onPressed: () {  },
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                alignment: Alignment.centerLeft,
-                              ),
-                              child: Text(
-                                AppStrings.forgot_password.tr(),
-                                style: TextStyle(
-                                  fontFamily: AppFonts.ABeeZee,
-                                  color: AppColors.blueViolet,
-                                  fontSize: AppSize.s16.rSp,
-                                  fontWeight: AppFontWeight.regular,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
+                            UrlTextButton(
+                              onPressed: () {},
+                              text: AppStrings.forgot_password.tr(),
                             ),
                             SizedBox(
                               height: AppSize.s24.rh,

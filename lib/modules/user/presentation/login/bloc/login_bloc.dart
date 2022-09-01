@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/modules/user/presentation/bloc/login_event.dart';
-import 'package:klikit/modules/user/presentation/bloc/login_state.dart';
 
-import '../../domain/usecases/login_usecases.dart';
+import '../../../domain/usecases/login_usecases.dart';
+import 'login_event.dart';
+import 'login_state.dart';
+
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticateUser authenticateUser;
