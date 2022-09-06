@@ -21,7 +21,9 @@ class AppStrings {
   static const String email = "email";
   static const String password = "password";
   static const String forgot_password = "forgot_password";
+  static const String change_your_password = "change_your_password";
   static const String login = "login";
+  static const String logout = "logout";
   static const String login_as_manager = "login_as_manager";
   static const String home = "home";
   static const String orders = "orders";
@@ -43,5 +45,6 @@ class AppStrings {
   static const String first_name = "first_name";
   static const String last_name = "last_name";
   static const String same_value_validation_message = "same_value_validation_message";
-
+  static const String logout_confirm_message = "logout_confirm_message";
+  static const String cancel = "cancel";
 }

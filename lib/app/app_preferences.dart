@@ -30,7 +30,7 @@ class AppPreferences{
     return _preferences.getString(_kAccessToken);
   }
   
-  Future<void> loggedInUser(User user) async{
+  Future<void> saveUser(User user) async{
     await _preferences.setBool(_kLoggedIn, true);
     await _preferences.setString(_kUser, json.encode(user));
   }

@@ -47,8 +47,12 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       permissions: (json['permissions'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      country_ids: json['country_ids'] as List<dynamic>?,
-      country_codes: json['country_codes'] as List<dynamic>?,
+      country_ids: (json['country_ids'] as List<dynamic>?)
+          ?.map((e) => e as int)
+          .toList(),
+      country_codes: (json['country_codes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     )..phone = json['phone'] as String?;
 
 Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>

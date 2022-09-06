@@ -9,14 +9,17 @@ import '../../resources/values.dart';
 class UrlTextButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
+  final Color? color;
 
-  const UrlTextButton({Key? key, required this.onPressed, required this.text})
+  const UrlTextButton({Key? key, required this.onPressed, required this.text, this.color})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        onPressed();
+      },
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -24,11 +27,13 @@ class UrlTextButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: getRegularTextStyle(
-          fontFamily: AppFonts.ABeeZee,
-          color: AppColors.purpleBlue,
+        style: TextStyle(
+          fontFamily: AppFonts.Aeonik,
+          color: color ?? AppColors.purpleBlue,
           fontSize: AppSize.s16.rSp,
-          fontStyle: FontStyle.italic,
+          fontStyle: FontStyle.normal,
+          fontWeight: AppFontWeight.regular,
+            decoration: TextDecoration.underline,
         ),
       ),
     );

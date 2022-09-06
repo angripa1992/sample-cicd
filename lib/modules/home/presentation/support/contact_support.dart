@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/home/presentation/widgets/contact_item.dart';
+import 'package:klikit/modules/home/presentation/support/components/contact_item.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';

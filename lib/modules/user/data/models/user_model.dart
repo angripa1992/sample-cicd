@@ -35,8 +35,8 @@ class UserInfoModel{
   List<int>? role_ids;
   List<String>? display_roles;
   List<String>? permissions;
-  List<dynamic>? country_ids;
-  List<dynamic>? country_codes;
+  List<int>? country_ids;
+  List<String>? country_codes;
 
   UserInfoModel(
       {this.id,

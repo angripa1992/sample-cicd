@@ -13,6 +13,7 @@ class EditProfileTextField extends StatelessWidget {
   final bool enabled;
   final String label;
   final String currentValue;
+  final TextInputType? inputType;
 
   const EditProfileTextField({
     Key? key,
@@ -20,6 +21,7 @@ class EditProfileTextField extends StatelessWidget {
     required this.enabled,
     required this.label,
     required this.currentValue,
+    this.inputType,
   }) : super(key: key);
 
   @override
@@ -30,7 +32,6 @@ class EditProfileTextField extends StatelessWidget {
         Text(
           label,
           style: getRegularTextStyle(
-            fontFamily: AppFonts.ABeeZee,
             color: AppColors.purpleBlue,
             fontSize: AppSize.s14.rSp,
           ),
@@ -39,6 +40,7 @@ class EditProfileTextField extends StatelessWidget {
         TextFormField(
           controller: editingController,
           cursorColor: AppColors.black,
+          keyboardType: inputType ?? TextInputType.text,
           style: getRegularTextStyle(
             fontFamily: AppFonts.ABeeZee,
             color: AppColors.black,
@@ -48,7 +50,7 @@ class EditProfileTextField extends StatelessWidget {
             enabled: enabled,
             isDense: true,
             filled: true,
-            fillColor: AppColors.blueChalk,
+            fillColor: enabled ? AppColors.blueChalk : AppColors.lightGrey,
             contentPadding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,
               horizontal: AppSize.s10.rw,

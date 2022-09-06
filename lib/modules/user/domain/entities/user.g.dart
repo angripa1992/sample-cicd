@@ -43,6 +43,11 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       permissions: (json['permissions'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      countryIds:
+          (json['countryIds'] as List<dynamic>).map((e) => e as int).toList(),
+      countryCodes: (json['countryCodes'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
@@ -66,4 +71,6 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'roleIds': instance.roleIds,
       'displayRoles': instance.displayRoles,
       'permissions': instance.permissions,
+      'countryIds': instance.countryIds,
+      'countryCodes': instance.countryCodes,
     };

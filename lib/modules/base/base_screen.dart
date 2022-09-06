@@ -2,8 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/network/network_connectivity.dart';
-import 'package:klikit/modules/home/presentation/pages/home_screen.dart';
+import 'package:klikit/modules/home/presentation/home_screen.dart';
 import 'package:klikit/modules/orders/presentation/pages/orders_screen.dart';
 import 'package:klikit/modules/stock/presentation/pages/stock_screen.dart';
 import 'package:klikit/resources/assets.dart';
@@ -11,11 +10,9 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../app/di.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
-import '../user/presentation/account/account.dart';
-import '../widgets/snackbars.dart';
+import '../user/presentation/account/account_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
@@ -25,27 +22,7 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-  final _networkConnectivity = getIt.get<NetworkConnectivity>();
   int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _networkConnectivity.init();
-    _networkConnectivity.connectivityStream.listen((isOnline) {
-      if (isOnline) {
-        dismissCurrentSnackBar(context);
-      } else {
-        showConnectivitySnackBar(context);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _networkConnectivity.disposeConnectivityStream();
-    super.dispose();
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -85,7 +62,8 @@ class _BaseScreenState extends State<BaseScreen> {
           unselectedItemColor: AppColors.smokeyGrey,
           selectedLabelStyle: getRegularTextStyle(
             color: AppColors.purpleBlue,
-            fontSize: 14.rSp, fontFamily: AppFonts.ABeeZee,
+            fontSize: 14.rSp,
+            fontFamily: AppFonts.ABeeZee,
           ),
           unselectedLabelStyle: getRegularTextStyle(
             fontFamily: AppFonts.ABeeZee,

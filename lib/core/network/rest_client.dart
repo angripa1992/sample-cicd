@@ -24,26 +24,26 @@ class RestClient {
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
+          if (options.path == Urls.login) {
+            handler.next(options);
+          } else {
+            if (_tokenProvider.accessToken == null) {
+              final tokenResponse = await _tokenProvider.fetchTokenFromServer();
+              tokenResponse.fold(
+                (accessToken) {
+                  options.headers['Authorization'] = 'Bearer $accessToken';
+                  handler.next(options);
+                },
+                (errorCode) {},
+              );
+            } else {
+              options.headers['Authorization'] =
+                  'Bearer ${_tokenProvider.accessToken}';
+              handler.next(options);
+            }
+          }
           if (!kReleaseMode) {
             _dioLogger.logRequest(options);
-          }
-          print(options.path);
-          if(options.path == Urls.login){
-            handler.next(options);
-            return;
-          }
-          if (_tokenProvider.accessToken == null) {
-            final tokenResponse = await _tokenProvider.fetchTokenFromServer();
-            tokenResponse.fold(
-              (accessToken) {
-                _dio.options.headers['Authorization'] = 'Bearer $accessToken';
-                handler.next(options);
-              },
-              (errorCode) {},
-            );
-          } else {
-            _dio.options.headers['Authorization'] = 'Bearer ${_tokenProvider.accessToken}';
-            handler.next(options);
           }
         },
         onError: (error, handler) async {
@@ -52,10 +52,8 @@ class RestClient {
           }
           if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
             var options = error.response!.requestOptions;
-            if ("Bearer ${_tokenProvider.accessToken}" !=
-                options.headers['Authorization']) {
-              options.headers['Authorization'] =
-                  "Bearer ${_tokenProvider.accessToken}";
+            if ("Bearer ${_tokenProvider.accessToken}" != options.headers['Authorization']) {
+              options.headers['Authorization'] = "Bearer ${_tokenProvider.accessToken}";
               _dio.fetch(options).then(
                 (r) => handler.resolve(r),
                 onError: (e) {
@@ -67,7 +65,7 @@ class RestClient {
             final tokenResponse = await _tokenProvider.fetchTokenFromServer();
             tokenResponse.fold(
               (accessToken) {
-                _dio.options.headers['Authorization'] = 'Bearer $accessToken';
+                options.headers['Authorization'] = 'Bearer $accessToken';
                 _dio.fetch(options).then(
                   (r) => handler.resolve(r),
                   onError: (e) {
@@ -79,6 +77,7 @@ class RestClient {
                 handler.reject(error);
               },
             );
+            return;
           }
           return handler.next(error);
         },

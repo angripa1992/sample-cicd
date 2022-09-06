@@ -30,33 +30,31 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     final url = ModalRoute.of(context)!.settings.arguments as String;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          flexibleSpace: getAppBarBackground(),
-        ),
-        body: Stack(
-          children: [
-            WebView(
-              key: _key,
-              initialUrl: url,
-              javascriptMode: JavascriptMode.unrestricted,
-              onPageFinished: (String url) {
-                setState(() {
-                  _isLoading = false;
-                });
-              },
-            ),
-            Visibility(
-              visible: _isLoading,
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.purpleBlue,
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: getAppBarBackground(),
+      ),
+      body: Stack(
+        children: [
+          WebView(
+            key: _key,
+            initialUrl: url,
+            javascriptMode: JavascriptMode.unrestricted,
+            onPageFinished: (String url) {
+              setState(() {
+                _isLoading = false;
+              });
+            },
+          ),
+          Visibility(
+            visible: _isLoading,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: AppColors.purpleBlue,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

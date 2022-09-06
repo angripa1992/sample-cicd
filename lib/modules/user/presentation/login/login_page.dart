@@ -6,6 +6,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
@@ -32,9 +33,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final AppPreferences _appPreferences = getIt.get<AppPreferences>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _appPreferences = getIt.get<AppPreferences>();
+  final _tokenProvider = getIt.get<TokenProvider>();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -70,7 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _appPreferences.saveLoginEmail(user.userInfo.email);
     _appPreferences.insertAccessToken(user.accessToken);
     _appPreferences.insertRefreshToken(user.refreshToken);
-    _appPreferences.loggedInUser(user).then((_) {
+    _tokenProvider.loadTokenFromPreference();
+    _appPreferences.saveUser(user).then((_) {
       Navigator.of(context).pushReplacementNamed(Routes.base);
     });
   }
@@ -114,19 +117,29 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text(
                               AppStrings.existing_account.tr(),
                               style: getRegularTextStyle(
-                                fontFamily: AppFonts.ABeeZee,
                                 color: AppColors.blueViolet,
                                 fontSize: AppSize.s16.rSp,
                               ),
                             ),
-                            UrlTextButton(
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                alignment: Alignment.centerLeft,
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pushNamed(
                                   Routes.webView,
                                   arguments: AppConstant.signUpUrl,
                                 );
                               },
-                              text: AppStrings.dont_have_account.tr(),
+                              child: Text(
+                                AppStrings.dont_have_account.tr(),
+                                style: getMediumTextStyle(
+                                  color: AppColors.purpleBlue,
+                                  fontSize: AppFontSize.s16.rSp,
+                                ),
+                              ),
                             ),
                             SizedBox(
                               height: AppSize.s24.rh,
@@ -158,6 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               builder: (context, state) {
                                 return LoadingButton(
                                   text: AppStrings.login.tr(),
+                                  verticalPadding: AppSize.s12.rh,
                                   isLoading: (state is LoginStateLoading),
                                   onTap: () {
                                     _login(context);

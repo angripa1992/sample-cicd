@@ -8,7 +8,9 @@
   "password" : "Password",
   "forgot_password" : "Forgot your Password?",
   "reset_password" : "Reset your Password?",
+  "change_your_password" : "Change your Password?",
   "login" : "Log In",
+  "logout" : "Logout",
   "login_as_manager" : "Please login as a branch manager",
   "home" : "Home",
   "orders" : "Orders",
@@ -28,5 +30,7 @@
   "update" : "Update",
   "field_required" : "This field is required",
   "enter_valid_email" : "Enter a valid email",
-  "same_value_validation_message" : "The value you entered same as previous"
+  "same_value_validation_message" : "The value you entered same as previous",
+  "logout_confirm_message": "Are you sure, do you want to logout? You will be returned to login screen.",
+  "cancel": "Cancel"
 }

@@ -23,7 +23,7 @@ TextStyle _getTextStyle(
 TextStyle getRegularTextStyle({
   double fontSize = AppFontSize.s12,
   FontStyle fontStyle = FontStyle.normal,
-  required String fontFamily,
+  String fontFamily = AppFonts.Aeonik,
   required Color color,
 }) {
   return _getTextStyle(
@@ -52,7 +52,7 @@ TextStyle getLightTextStyle({
 TextStyle getBoldTextStyle({
   double fontSize = AppFontSize.s12,
   FontStyle fontStyle = FontStyle.normal,
-  required String fontFamily,
+  String fontFamily = AppFonts.Aeonik,
   required Color color,
 }) {
   return _getTextStyle(
