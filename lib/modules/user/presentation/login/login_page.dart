@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (role == AppConstant.roleManger) {
       _saveUserDataAndNavigateToBase(user, context);
     } else {
-      showErrorSnackBar(context, AppStrings.login_as_manager);
+      showErrorSnackBar(context, AppStrings.login_as_manager.tr());
     }
   }
 
@@ -193,5 +193,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

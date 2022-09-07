@@ -214,7 +214,9 @@ class _AccountScreenState extends State<AccountScreen> {
                     height: AppSize.s20.rh,
                   ),
                   UrlTextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(Routes.changePassword);
+                    },
                     color: AppColors.black,
                     text: AppStrings.change_your_password.tr(),
                   ),
@@ -225,5 +227,13 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _phoneNameController.dispose();
+    _emailNameController.dispose();
+    super.dispose();
   }
 }

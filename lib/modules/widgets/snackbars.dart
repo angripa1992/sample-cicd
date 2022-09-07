@@ -11,7 +11,7 @@ void dismissCurrentSnackBar(BuildContext context) {
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
 }
 
-void showConnectivitySnackBar(BuildContext context) {
+void showConnectivitySnackBar(BuildContext context, bool isOnline) {
   dismissCurrentSnackBar(context);
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -19,7 +19,9 @@ void showConnectivitySnackBar(BuildContext context) {
         children: [
           Expanded(
             child: Text(
-              AppStrings.noInternetError.tr(),
+              isOnline
+                  ? AppStrings.internet_connection_reestablished.tr()
+                  : AppStrings.noInternetError.tr(),
               style: getRegularTextStyle(
                 fontFamily: AppFonts.ABeeZee,
                 color: AppColors.white,
@@ -28,18 +30,18 @@ void showConnectivitySnackBar(BuildContext context) {
             ),
           ),
           Icon(
-            Icons.signal_wifi_connected_no_internet_4,
+            isOnline ? Icons.wifi :Icons.wifi_off,
             color: AppColors.white,
           ),
         ],
       ),
-      duration: const Duration(hours: 1),
-      backgroundColor: AppColors.red,
+      duration: isOnline ? const Duration(seconds: 3) : const Duration(hours: 1),
+      backgroundColor: isOnline ? AppColors.green :AppColors.red,
     ),
   );
 }
 
-void showErrorSnackBar(BuildContext context,String message) {
+void showErrorSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
@@ -56,7 +58,7 @@ void showErrorSnackBar(BuildContext context,String message) {
   );
 }
 
-void showSuccessSnackBar(BuildContext context,String message) {
+void showSuccessSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(

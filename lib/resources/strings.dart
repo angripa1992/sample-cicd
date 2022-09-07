@@ -51,4 +51,16 @@ class AppStrings {
   static const String type_your_email_here = "type_your_email_here";
   static const String sent_reset_link = "sent_reset_link";
   static const String back_to_login = "back_to_login";
+  static const String change_password = "change_password";
+  static const String current_password = "current_password";
+  static const String new_password = "new_password";
+  static const String confirm_new_password = "confirm_new_password";
+  static const String goto_profile = "goto_profile";
+  static const String enter_your_current_password = "enter_your_current_password";
+  static const String enter_your_new_password = "enter_your_new_password";
+  static const String please_enter_new_password = "please_enter_new_password";
+  static const String current_password_required = "current_password_required";
+  static const String please_enter_password_again = "please_enter_password_again";
+  static const String new_and_confirm_not_match = "new_and_confirm_not_match";
+  static const String internet_connection_reestablished = "internet_connection_reestablished";
 }

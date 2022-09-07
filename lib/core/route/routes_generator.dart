@@ -4,6 +4,7 @@ import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen.dart';
 import 'package:klikit/modules/home/presentation/support/contact_support.dart';
 import 'package:klikit/modules/onboarding/onboarding_screen.dart';
+import 'package:klikit/modules/user/presentation/chnage_password/change_password_screen.dart';
 import 'package:klikit/modules/user/presentation/forget/forget_screen.dart';
 import 'package:klikit/modules/user/presentation/login/login_page.dart';
 import 'package:klikit/modules/widgets/web_view_screen.dart';
@@ -37,12 +38,17 @@ class RoutesGenerator {
         );
       case Routes.webView:
         return MaterialPageRoute(
-          builder: (_) =>  const WebViewScreen(),
+          builder: (_) => const WebViewScreen(),
           settings: routeSettings,
         );
-        case Routes.forget:
+      case Routes.forget:
         return MaterialPageRoute(
-          builder: (_) =>  const ForgetScreen(),
+          builder: (_) => const ForgetScreen(),
+          settings: routeSettings,
+        );
+      case Routes.changePassword:
+        return MaterialPageRoute(
+          builder: (_) => const ChangePasswordScreen(),
           settings: routeSettings,
         );
       default:

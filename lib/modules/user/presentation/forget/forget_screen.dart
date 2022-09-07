@@ -153,4 +153,9 @@ class _ForgetScreenState extends State<ForgetScreen> {
       ),
     );
   }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 }

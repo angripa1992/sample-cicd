@@ -16,7 +16,6 @@ class NetworkConnectivity {
 
   void _init() async {
     await _networkConnectivity.checkConnectivity();
-    _checkStatus();
     _networkConnectivity.onConnectivityChanged.listen(
       (result) {
         _checkStatus();
@@ -30,11 +29,11 @@ class NetworkConnectivity {
         BuildContext? currentContext = RoutesGenerator.navigatorKey.currentState?.context;
         if (isOnline) {
           if (currentContext != null) {
-            dismissCurrentSnackBar(currentContext);
+            showConnectivitySnackBar(currentContext,true);
           }
         } else {
           if (currentContext != null) {
-            showConnectivitySnackBar(currentContext);
+            showConnectivitySnackBar(currentContext,false);
           }
         }
       },

@@ -1,6 +1,7 @@
 {
   "noRouteFound" : "No Route Found",
   "no_internet_connection" : "No Internet Connection",
+  "internet_connection_reestablished" : "Connection Re-established",
   "cloud" : "cloud",
   "existing_account" : "Existing Account Login.",
   "dont_have_account" : "Don’t have an Account?",
@@ -36,6 +37,16 @@
   "password_reset_page": "Password Reset Page",
   "type_your_email_here": "Type your email here",
   "sent_reset_link": "Send Reset Link",
-  "back_to_login": "Back to login"
-
+  "back_to_login": "Back to login",
+  "change_password": "Change Password",
+  "current_password": "Current Password",
+  "enter_your_current_password": "Enter your current password",
+  "new_password": "New Password",
+  "enter_your_new_password": "Enter your new password",
+  "confirm_new_password": "Confirm New Password",
+  "goto_profile" : "Go To Profile",
+  "please_enter_new_password" : "Please enter your new password",
+  "current_password_required" : "Current password is required",
+  "please_enter_password_again" : "Please enter the password again",
+  "new_and_confirm_not_match" : "Password does’t match"
 }
