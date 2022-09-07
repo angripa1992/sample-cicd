@@ -10,8 +10,9 @@ class UrlTextButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final Color? color;
+  final FontWeight? fontWeight;
 
-  const UrlTextButton({Key? key, required this.onPressed, required this.text, this.color})
+  const UrlTextButton({Key? key, required this.onPressed, required this.text, this.color, this.fontWeight})
       : super(key: key);
 
   @override
@@ -32,7 +33,7 @@ class UrlTextButton extends StatelessWidget {
           color: color ?? AppColors.purpleBlue,
           fontSize: AppSize.s16.rSp,
           fontStyle: FontStyle.normal,
-          fontWeight: AppFontWeight.regular,
+          fontWeight: fontWeight ?? AppFontWeight.regular,
             decoration: TextDecoration.underline,
         ),
       ),

@@ -21,13 +21,13 @@ class ContactItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.whiteSmoke,
-          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        ),
+    return Material(
+      color: AppColors.whiteSmoke,
+      borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+      child: InkWell(
+        onTap: onTap,
+        splashColor: AppColors.lightViolet,
+        borderRadius: BorderRadius.circular(AppSize.s16.rSp),
         child: Padding(
           padding: EdgeInsets.symmetric(
             vertical: AppSize.s24.rh,

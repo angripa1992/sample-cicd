@@ -153,7 +153,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: AppSize.s24.rh,
                             ),
                             UrlTextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(Routes.forget);
+                              },
                               text: AppStrings.forgot_password.tr(),
                             ),
                             SizedBox(

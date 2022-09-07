@@ -31,7 +31,7 @@ class LoadingButton extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical:
-              (verticalPadding == null) ? AppSize.s16.rh : verticalPadding!,
+              (verticalPadding == null) ? AppSize.s12.rh : verticalPadding!,
             ),
             child: isLoading
                 ? SizedBox(

@@ -10,6 +10,10 @@ import '../../../../../resources/styles.dart';
 
 class InputField extends StatelessWidget {
   final String label;
+  final String? hintText;
+  final Color? labelColor;
+  final Color? textColor;
+  final Color? borderColor;
   final TextEditingController controller;
   final TextInputType inputType;
   final bool obscureText;
@@ -20,6 +24,7 @@ class InputField extends StatelessWidget {
     required this.controller,
     required this.inputType,
     required this.obscureText,
+    this.hintText, this.labelColor, this.textColor, this.borderColor,
   }) : super(key: key);
 
   @override
@@ -30,7 +35,7 @@ class InputField extends StatelessWidget {
         Text(
           label,
           style: getRegularTextStyle(
-            color: AppColors.blueViolet,
+            color: labelColor ?? AppColors.blueViolet,
             fontSize: AppFontSize.s16.rSp,
           ),
         ),
@@ -41,18 +46,24 @@ class InputField extends StatelessWidget {
           cursorColor: AppColors.black,
           style: getRegularTextStyle(
             fontFamily: AppFonts.ABeeZee,
-            color: AppColors.black,
+            color: textColor ?? AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
           decoration: InputDecoration(
+            hintText: hintText ?? '',
+            hintStyle: getRegularTextStyle(
+              fontFamily: AppFonts.ABeeZee,
+              color: textColor ?? AppColors.black,
+              fontSize: AppFontSize.s16.rSp,
+            ),
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.blueViolet),
+              borderSide: BorderSide(color: borderColor ?? AppColors.blueViolet),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.blueViolet),
+              borderSide: BorderSide(color: borderColor ??  AppColors.blueViolet),
             ),
             border: UnderlineInputBorder(
-              borderSide: BorderSide(color: AppColors.blueViolet),
+              borderSide: BorderSide(color: borderColor ??  AppColors.blueViolet),
             ),
           ),
           validator: (value) {

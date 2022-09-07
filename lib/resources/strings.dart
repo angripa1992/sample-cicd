@@ -47,4 +47,8 @@ class AppStrings {
   static const String same_value_validation_message = "same_value_validation_message";
   static const String logout_confirm_message = "logout_confirm_message";
   static const String cancel = "cancel";
+  static const String password_reset_page = "password_reset_page";
+  static const String type_your_email_here = "type_your_email_here";
+  static const String sent_reset_link = "sent_reset_link";
+  static const String back_to_login = "back_to_login";
 }

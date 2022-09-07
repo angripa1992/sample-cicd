@@ -32,5 +32,10 @@
   "enter_valid_email" : "Enter a valid email",
   "same_value_validation_message" : "The value you entered same as previous",
   "logout_confirm_message": "Are you sure, do you want to logout? You will be returned to login screen.",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "password_reset_page": "Password Reset Page",
+  "type_your_email_here": "Type your email here",
+  "sent_reset_link": "Send Reset Link",
+  "back_to_login": "Back to login"
+
 }

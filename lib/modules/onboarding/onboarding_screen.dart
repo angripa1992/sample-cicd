@@ -21,13 +21,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final _appPreferences = getIt.get<AppPreferences>();
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 3),
+    duration: const Duration(seconds: 1),
     vsync: this,
   )..repeat();
 
   final Tween<double> _turnsTween = Tween<double>(
     begin: 1,
-    end: 0.0,
+    end: 0,
   );
 
   @override

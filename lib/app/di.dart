@@ -6,9 +6,11 @@ import 'package:klikit/modules/user/data/repositories/user_repository_impl.dart'
 import 'package:klikit/modules/user/domain/repositories/user_repository.dart';
 import 'package:klikit/modules/user/domain/usecases/login_usecases.dart';
 import 'package:klikit/modules/user/domain/usecases/logout_usecase.dart';
+import 'package:klikit/modules/user/domain/usecases/send_reset_link.dart';
 import 'package:klikit/modules/user/domain/usecases/update_user_info.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/update_user_info_cubit.dart';
+import 'package:klikit/modules/user/presentation/forget/cubit/forget_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/network/rest_client.dart';
@@ -37,4 +39,6 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => LogoutCubit(getIt()));
   getIt.registerLazySingleton(() => UpdateUserInfo(getIt()));
   getIt.registerFactory(() => UpdateUserInfoCubit(getIt()));
+  getIt.registerLazySingleton(() => SentResetLink(getIt()));
+  getIt.registerFactory(() => ForgetPasswordCubit(getIt()));
 }
