@@ -9,7 +9,7 @@ import '../../modules/widgets/snackbars.dart';
 
 class NetworkConnectivity {
   final _networkConnectivity = Connectivity();
-  bool _isFirst = true;
+  bool _isFirstTime = true;
 
   NetworkConnectivity() {
     _init();
@@ -17,9 +17,14 @@ class NetworkConnectivity {
 
   void _init() async {
     await _networkConnectivity.checkConnectivity();
+    //_checkStatus();
     _networkConnectivity.onConnectivityChanged.listen(
       (result) {
-        _checkStatus();
+        if(result == ConnectivityResult.none){
+          _showNoInternetSnackbar();
+        }else{
+          _checkStatus();
+        }
       },
     );
   }
@@ -27,20 +32,29 @@ class NetworkConnectivity {
   void _checkStatus() {
     hasConnection().then(
       (isOnline) {
-        BuildContext? currentContext = RoutesGenerator.navigatorKey.currentState?.context;
-        if (isOnline) {
-          if (currentContext != null && !_isFirst) {
-            showConnectivitySnackBar(currentContext,true);
-          }
+        if (isOnline && !_isFirstTime) {
+         _showOnlineSnackbar();
         } else {
-          if (currentContext != null) {
-            showConnectivitySnackBar(currentContext,false);
-          }
+          _showNoInternetSnackbar();
         }
-        print('---------is online $isOnline ------------is first $_isFirst');
-        _isFirst = false;
+        print('---------is online $isOnline ----------- is first time $_isFirstTime');
+        _isFirstTime = false;
       },
     );
+  }
+
+  void _showNoInternetSnackbar(){
+    BuildContext? currentContext = RoutesGenerator.navigatorKey.currentState?.context;
+    if (currentContext != null) {
+      showConnectivitySnackBar(currentContext,false);
+    }
+  }
+
+  void _showOnlineSnackbar(){
+    BuildContext? currentContext = RoutesGenerator.navigatorKey.currentState?.context;
+    if (currentContext != null) {
+      showConnectivitySnackBar(currentContext,true);
+    }
   }
 
   Future<bool> hasConnection() async {

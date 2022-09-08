@@ -15,6 +15,7 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
   dismissCurrentSnackBar(context);
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      behavior: SnackBarBehavior.floating,
       content: Row(
         children: [
           Expanded(
@@ -44,6 +45,7 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
 void showErrorSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      behavior: SnackBarBehavior.floating,
       content: Text(
         message,
         style: getRegularTextStyle(
@@ -61,6 +63,7 @@ void showErrorSnackBar(BuildContext context, String message) {
 void showSuccessSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      behavior: SnackBarBehavior.floating,
       content: Text(
         message,
         style: getRegularTextStyle(
