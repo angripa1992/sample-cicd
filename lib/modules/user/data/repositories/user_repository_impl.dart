@@ -4,6 +4,7 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
 import 'package:klikit/modules/user/data/maper/user_mapper.dart';
+import 'package:klikit/modules/user/data/request_model/change_password_request_model.dart';
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
 import 'package:klikit/modules/user/data/request_model/reset_link_request_model.dart';
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
@@ -65,10 +66,27 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, SuccessResponse>> sendResetLink(ResetLinkRequestModel requestModel) async {
+  Future<Either<Failure, SuccessResponse>> sendResetLink(
+      ResetLinkRequestModel requestModel) async {
     if (await _networkConnectivity.hasConnection()) {
       try {
-        final response = await _userRemoteDataSource.sendResetLink(requestModel);
+        final response =
+            await _userRemoteDataSource.sendResetLink(requestModel);
+        return Right(mapSuccessResponse(response));
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SuccessResponse>> changePassword(ChangePasswordRequestModel requestModel) async {
+    if (await _networkConnectivity.hasConnection()) {
+      try {
+        final response =
+            await _userRemoteDataSource.changePassword(requestModel);
         return Right(mapSuccessResponse(response));
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);

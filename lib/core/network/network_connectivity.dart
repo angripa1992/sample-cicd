@@ -9,6 +9,7 @@ import '../../modules/widgets/snackbars.dart';
 
 class NetworkConnectivity {
   final _networkConnectivity = Connectivity();
+  bool _isFirst = true;
 
   NetworkConnectivity() {
     _init();
@@ -28,7 +29,7 @@ class NetworkConnectivity {
       (isOnline) {
         BuildContext? currentContext = RoutesGenerator.navigatorKey.currentState?.context;
         if (isOnline) {
-          if (currentContext != null) {
+          if (currentContext != null && !_isFirst) {
             showConnectivitySnackBar(currentContext,true);
           }
         } else {
@@ -36,6 +37,8 @@ class NetworkConnectivity {
             showConnectivitySnackBar(currentContext,false);
           }
         }
+        print('---------is online $isOnline ------------is first $_isFirst');
+        _isFirst = false;
       },
     );
   }
