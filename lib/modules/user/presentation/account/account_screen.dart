@@ -51,27 +51,40 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _validateAndUpdate(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      context.read<UpdateUserInfoCubit>().updateUserInfo(
-            UpdateUserInfoParams(
-              UserUpdateRequestModel(
-                branchId: _user.userInfo.branchId,
-                brandId: _user.userInfo.brandId == 0
-                    ? null
-                    : _user.userInfo.brandId,
-                businessId: _user.userInfo.businessId,
-                firstName: _firstNameController.text,
-                lastName: _lastNameController.text,
-                phone: _phoneNameController.text,
-                roleIds: _user.userInfo.roleIds,
-                countryIds: _user.userInfo.countryIds,
+      bool isSameFirstName =
+          _firstNameController.text == _user.userInfo.firstName;
+      bool isSameLastName = _lastNameController.text == _user.userInfo.lastName;
+      bool isSamePhone = _phoneNameController.text == _user.userInfo.phone;
+      if (isSameFirstName && isSameLastName && isSamePhone) {
+        showValidationDialog(
+          context: context,
+          title: AppStrings.invalid_information.tr(),
+          message: AppStrings.same_value_validation_message.tr(),
+          onOK: () {},
+        );
+      } else {
+        context.read<UpdateUserInfoCubit>().updateUserInfo(
+              UpdateUserInfoParams(
+                UserUpdateRequestModel(
+                  branchId: _user.userInfo.branchId,
+                  brandId: _user.userInfo.brandId == 0
+                      ? null
+                      : _user.userInfo.brandId,
+                  businessId: _user.userInfo.businessId,
+                  firstName: _firstNameController.text,
+                  lastName: _lastNameController.text,
+                  phone: _phoneNameController.text,
+                  roleIds: _user.userInfo.roleIds,
+                  countryIds: _user.userInfo.countryIds,
+                ),
+                _user.userInfo.id,
               ),
-              _user.userInfo.id,
-            ),
-          );
+            );
+      }
     }
   }
 
-  void _saveUpdatedUserInfo() async{
+  void _saveUpdatedUserInfo() async {
     await _appPreferences.saveUser(
       _user.copyWith(
         firstName: _firstNameController.text,
@@ -88,8 +101,9 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(lazy:false,create: (_) => getIt.get<LogoutCubit>()),
-        BlocProvider(lazy:false,create: (_) => getIt.get<UpdateUserInfoCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt.get<LogoutCubit>()),
+        BlocProvider(
+            lazy: false, create: (_) => getIt.get<UpdateUserInfoCubit>()),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -228,6 +242,7 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
     _firstNameController.dispose();

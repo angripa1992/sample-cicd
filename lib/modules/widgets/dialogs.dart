@@ -24,7 +24,7 @@ void showLogoutDialog(
               AppStrings.logout.tr(),
               style: getMediumTextStyle(
                 color: AppColors.black,
-                fontSize: AppFontSize.s20,
+                fontSize: AppFontSize.s20.rSp,
               ),
             ),
             SizedBox(
@@ -35,7 +35,7 @@ void showLogoutDialog(
               textAlign: TextAlign.center,
               style: getRegularTextStyle(
                 color: AppColors.black,
-                fontSize: AppFontSize.s16,
+                fontSize: AppFontSize.s16.rSp,
               ),
             ),
             SizedBox(
@@ -55,7 +55,7 @@ void showLogoutDialog(
                         AppStrings.cancel.tr(),
                         style: getRegularTextStyle(
                           color: AppColors.purpleBlue,
-                          fontSize: AppFontSize.s16,
+                          fontSize: AppFontSize.s18.rSp,
                         ),
                       ),
                     ),
@@ -71,7 +71,7 @@ void showLogoutDialog(
                         AppStrings.logout.tr(),
                         style: getRegularTextStyle(
                           color: AppColors.purpleBlue,
-                          fontSize: AppFontSize.s16,
+                          fontSize: AppFontSize.s18.rSp,
                         ),
                       ),
                     ),
@@ -79,6 +79,66 @@ void showLogoutDialog(
                 ],
               ),
             )
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void showValidationDialog({
+  required BuildContext context,
+  required String title,
+  required String message,
+  required VoidCallback onOK,
+}) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+             title,
+              style: getMediumTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s20.rSp,
+              ),
+            ),
+            SizedBox(
+              height: AppSize.s16.rh,
+            ),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: getRegularTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+            ),
+            SizedBox(
+              height: AppSize.s16.rh,
+            ),
+            const Divider(),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                onOK();
+              },
+              child: Center(
+                child: Text(
+                  AppStrings.ok.tr(),
+                  style: getRegularTextStyle(
+                    color: AppColors.purpleBlue,
+                    fontSize: AppFontSize.s18.rSp,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       );

@@ -70,8 +70,6 @@ class EditProfileTextField extends StatelessWidget {
               return null;
             }else if (value == null || value.isEmpty) {
               return AppStrings.field_required.tr();
-            }else if(value == currentValue){
-              return AppStrings.same_value_validation_message.tr();
             }else{
               return null;
             }

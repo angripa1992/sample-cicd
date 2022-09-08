@@ -63,4 +63,6 @@ class AppStrings {
   static const String please_enter_password_again = "please_enter_password_again";
   static const String new_and_confirm_not_match = "new_and_confirm_not_match";
   static const String internet_connection_reestablished = "internet_connection_reestablished";
+  static const String invalid_information = "invalid_information";
+  static const String ok = "ok";
 }

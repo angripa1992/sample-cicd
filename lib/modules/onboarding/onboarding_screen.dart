@@ -21,7 +21,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final _appPreferences = getIt.get<AppPreferences>();
 
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 1),
+    duration: const Duration(seconds: 2),
     vsync: this,
   )..repeat();
 
