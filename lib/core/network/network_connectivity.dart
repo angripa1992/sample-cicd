@@ -9,15 +9,14 @@ import '../../modules/widgets/snackbars.dart';
 
 class NetworkConnectivity {
   final _networkConnectivity = Connectivity();
-  bool _isFirstTime = true;
+  static bool _isFirstTime = true;
 
   NetworkConnectivity() {
     _init();
   }
 
-  void _init() async {
-    await _networkConnectivity.checkConnectivity();
-    _checkStatus();
+  void _init()  {
+    _networkConnectivity.checkConnectivity();
     _networkConnectivity.onConnectivityChanged.listen(
       (result) {
         print('===============listener called $result');
@@ -33,8 +32,10 @@ class NetworkConnectivity {
   void _checkStatus() {
     hasConnection().then(
       (isOnline) {
-        if (isOnline && !_isFirstTime) {
-         _showOnlineSnackbar();
+        if (isOnline) {
+          if(!_isFirstTime){
+            _showOnlineSnackbar();
+          }
         } else {
           _showNoInternetSnackbar();
         }
