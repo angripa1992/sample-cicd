@@ -65,4 +65,5 @@ class AppStrings {
   static const String internet_connection_reestablished = "internet_connection_reestablished";
   static const String invalid_information = "invalid_information";
   static const String ok = "ok";
+  static const String phone_validation_message = "phone_validation_message";
 }

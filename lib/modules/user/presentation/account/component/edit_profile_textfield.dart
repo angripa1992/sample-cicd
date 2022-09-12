@@ -66,11 +66,17 @@ class EditProfileTextField extends StatelessWidget {
             ),
           ),
           validator: (value) {
-            if(!enabled){
+            if (!enabled) {
               return null;
-            }else if (value == null || value.isEmpty) {
+            } else if (inputType == TextInputType.phone &&
+                (value == null ||
+                    value.isEmpty ||
+                    value.length < 10 ||
+                    value.length > 18)) {
+              return AppStrings.phone_validation_message.tr();
+            } else if (value == null || value.isEmpty) {
               return AppStrings.field_required.tr();
-            }else{
+            } else {
               return null;
             }
           },
