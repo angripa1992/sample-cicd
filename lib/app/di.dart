@@ -5,8 +5,8 @@ import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart
 import 'package:klikit/modules/user/data/repositories/user_repository_impl.dart';
 import 'package:klikit/modules/user/domain/repositories/user_repository.dart';
 import 'package:klikit/modules/user/domain/usecases/chnage_password.dart';
-import 'package:klikit/modules/user/domain/usecases/login_usecases.dart';
-import 'package:klikit/modules/user/domain/usecases/logout_usecase.dart';
+import 'package:klikit/modules/user/domain/usecases/login.dart';
+import 'package:klikit/modules/user/domain/usecases/logout.dart';
 import 'package:klikit/modules/user/domain/usecases/send_reset_link.dart';
 import 'package:klikit/modules/user/domain/usecases/update_user_info.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';

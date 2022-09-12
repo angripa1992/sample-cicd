@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/usecases/login_usecases.dart';
+import '../../../domain/usecases/login.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 

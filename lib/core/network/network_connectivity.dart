@@ -17,9 +17,10 @@ class NetworkConnectivity {
 
   void _init() async {
     await _networkConnectivity.checkConnectivity();
-    //_checkStatus();
+    _checkStatus();
     _networkConnectivity.onConnectivityChanged.listen(
       (result) {
+        print('===============listener called $result');
         if(result == ConnectivityResult.none){
           _showNoInternetSnackbar();
         }else{

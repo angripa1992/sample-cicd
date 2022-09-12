@@ -5,7 +5,7 @@ import 'package:klikit/modules/user/data/request_model/change_password_request_m
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 
 import '../../../domain/usecases/chnage_password.dart';
-import '../../../domain/usecases/logout_usecase.dart';
+import '../../../domain/usecases/logout.dart';
 
 class ChangePasswordCubit extends Cubit<CubitState> {
   final ChangePassword _changePassword;
