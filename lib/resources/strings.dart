@@ -66,4 +66,19 @@ class AppStrings {
   static const String invalid_information = "invalid_information";
   static const String ok = "ok";
   static const String phone_validation_message = "phone_validation_message";
+
+ ///access denied
+  static const String access_denied = "access_denied";
+  static const String access_denied_message = "access_denied_message";
+  static const String go_back = "go_back";
+  static const String access_denied_message_header_part_one = "access_denied_message_header_part_one";
+  static const String access_denied_message_header_part_two = "access_denied_message_header_part_two";
+  static const String access_denied_message_middle_part_one = "access_denied_message_middle_part_one";
+  static const String access_denied_message_middle_part_two = "access_denied_message_middle_part_two";
+  static const String access_denied_message_footer = "access_denied_message_footer";
+  static const String admin = "admin";
+  static const String business_owner = "business_owner";
+  static const String brand_manager = "brand_manager";
+  static const String branch_manager = "branch_manager";
+
 }

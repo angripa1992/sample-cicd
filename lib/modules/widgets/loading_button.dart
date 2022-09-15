@@ -26,7 +26,7 @@ class LoadingButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: isLoading ? AppColors.lightViolet : AppColors.purpleBlue,
-            borderRadius: BorderRadius.circular(AppSize.s8.rSp)),
+            borderRadius: BorderRadius.circular(AppSize.s4.rSp)),
         child: Center(
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -42,7 +42,7 @@ class LoadingButton extends StatelessWidget {
                   )
                 : Text(
                     text,
-                    style: getRegularTextStyle(
+                    style: getBoldTextStyle(
                       color: AppColors.white,
                       fontSize: AppFontSize.s16.rSp,
                     ),

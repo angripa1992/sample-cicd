@@ -34,7 +34,7 @@ class InputField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: getRegularTextStyle(
+          style: getMediumTextStyle(
             color: labelColor ?? AppColors.blueViolet,
             fontSize: AppFontSize.s16.rSp,
           ),
@@ -43,16 +43,14 @@ class InputField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           keyboardType: inputType,
-          cursorColor: AppColors.black,
-          style: getRegularTextStyle(
-            fontFamily: AppFonts.ABeeZee,
+          cursorColor: textColor ?? AppColors.black,
+          style: getMediumTextStyle(
             color: textColor ?? AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
           decoration: InputDecoration(
             hintText: hintText ?? '',
             hintStyle: getRegularTextStyle(
-              fontFamily: AppFonts.ABeeZee,
               color: textColor ?? AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),

@@ -38,7 +38,7 @@
   "phone_validation_message": "Length must be between 10 and 18",
   "cancel": "Cancel",
   "ok": "OK",
-  "password_reset_page": "Password Reset Page",
+  "password_reset_page": "Forgot Password",
   "type_your_email_here": "Type your email here",
   "sent_reset_link": "Send Reset Link",
   "back_to_login": "Back to login",
@@ -52,5 +52,17 @@
   "please_enter_new_password" : "Please enter your new password",
   "current_password_required" : "Current password is required",
   "please_enter_password_again" : "Please enter the password again",
-  "new_and_confirm_not_match" : "Password does’t match"
+  "new_and_confirm_not_match" : "Password does’t match",
+
+  "access_denied" : "Access Denied",
+  "access_denied_message_header_part_one" : "We noticed you’re trying to log onto klikit cloud mobile from a account.",
+  "access_denied_message_header_part_two" : "account.",
+  "access_denied_message_middle_part_one" : "Currently, this application is available",
+  "access_denied_message_middle_part_two" : "only for branch managers.",
+  "access_denied_message_footer" : "Please contact support for more info.",
+  "admin" : "Admin",
+  "business_owner" : "Business Owner",
+  "brand_manager" : "Brand Manager",
+  "branch_manager" : "Branch Manager",
+  "go_back": "Go Back"
 }

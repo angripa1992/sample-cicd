@@ -13,9 +13,11 @@ import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:klikit/modules/user/presentation/login/bloc/login_bloc.dart';
 import 'package:klikit/modules/user/presentation/login/components/login_form.dart';
 import 'package:klikit/modules/user/presentation/login/components/logo.dart';
+import 'package:klikit/modules/widgets/dialogs.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/modules/widgets/url_text_button.dart';
+import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -57,14 +59,28 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _checkRole(User user, BuildContext context) {
-    final role = user.userInfo.roles.firstWhere(
-      (role) => role == AppConstant.roleManger,
+    var role = user.userInfo.roles.firstWhere(
+      (role) => role == AppConstant.roleBranchManger,
       orElse: () => EMPTY,
     );
-    if (role == AppConstant.roleManger) {
-      _saveUserDataAndNavigateToBase(user, context);
-    } else {
-      showErrorSnackBar(context, AppStrings.login_as_manager.tr());
+    if(role == EMPTY && user.userInfo.roles.isNotEmpty){
+      role = user.userInfo.roles[0];
+    }
+    switch (role) {
+      case AppConstant.roleBranchManger:
+        _saveUserDataAndNavigateToBase(user, context);
+        break;
+      case AppConstant.roleAdmin:
+        showAccessDeniedDialog(context: context, role: AppStrings.admin.tr());
+        break;
+      case AppConstant.roleBrandManager:
+        showAccessDeniedDialog(
+            context: context, role: AppStrings.brand_manager.tr());
+        break;
+      default:
+        showAccessDeniedDialog(
+            context: context, role: AppStrings.business_owner.tr());
+        break;
     }
   }
 
@@ -86,12 +102,18 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
           backgroundColor: AppColors.black,
           body: SingleChildScrollView(
-            child: SizedBox(
+            child: Container(
               height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
               width: ScreenSizes.screenWidth,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(AppImages.loginBG),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s24.rw,
+                  horizontal: AppSize.s50.rw,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,89 +123,78 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: AppSize.s8.rh,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: AppSize.s20.rh,
-                          horizontal: AppSize.s20.rw,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppStrings.existing_account.tr(),
+                          style: getRegularTextStyle(
+                            color: AppColors.manilla,
+                            fontSize: AppSize.s14.rSp,
+                          ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppStrings.existing_account.tr(),
-                              style: getRegularTextStyle(
-                                color: AppColors.blueViolet,
-                                fontSize: AppSize.s16.rSp,
-                              ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            alignment: Alignment.centerLeft,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                              Routes.webView,
+                              arguments: AppConstant.signUpUrl,
+                            );
+                          },
+                          child: Text(
+                            AppStrings.dont_have_account.tr(),
+                            style: getBoldTextStyle(
+                              color: AppColors.manilla,
+                              fontSize: AppFontSize.s14.rSp,
                             ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                alignment: Alignment.centerLeft,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(
-                                  Routes.webView,
-                                  arguments: AppConstant.signUpUrl,
-                                );
-                              },
-                              child: Text(
-                                AppStrings.dont_have_account.tr(),
-                                style: getMediumTextStyle(
-                                  color: AppColors.purpleBlue,
-                                  fontSize: AppFontSize.s16.rSp,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: AppSize.s24.rh,
-                            ),
-                            LoginForm(
-                              formKey: _formKey,
-                              emailController: _emailController,
-                              passwordController: _passwordController,
-                            ),
-                            SizedBox(
-                              height: AppSize.s24.rh,
-                            ),
-                            UrlTextButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(Routes.forget);
-                              },
-                              text: AppStrings.forgot_password.tr(),
-                            ),
-                            SizedBox(
-                              height: AppSize.s24.rh,
-                            ),
-                            BlocConsumer<LoginBloc, LoginState>(
-                              listener: (context, state) {
-                                if (state is LoginStateError) {
-                                  showErrorSnackBar(
-                                      context, state.failure.message);
-                                } else if (state is LoginStateSuccess) {
-                                  _checkRole(state.user, context);
-                                }
-                              },
-                              builder: (context, state) {
-                                return LoadingButton(
-                                  text: AppStrings.login.tr(),
-                                  verticalPadding: AppSize.s12.rh,
-                                  isLoading: (state is LoginStateLoading),
-                                  onTap: () {
-                                    _login(context);
-                                  },
-                                );
-                              },
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          height: AppSize.s24.rh,
+                        ),
+                        LoginForm(
+                          formKey: _formKey,
+                          emailController: _emailController,
+                          passwordController: _passwordController,
+                        ),
+                        SizedBox(
+                          height: AppSize.s8.rh,
+                        ),
+                        UrlTextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(Routes.forget);
+                          },
+                          text: AppStrings.forgot_password.tr(),
+                          color: AppColors.manilla,
+                          textSize: AppSize.s14.rSp,
+                        ),
+                        SizedBox(
+                          height: AppSize.s24.rh,
+                        ),
+                        BlocConsumer<LoginBloc, LoginState>(
+                          listener: (context, state) {
+                            if (state is LoginStateError) {
+                              showErrorSnackBar(context, state.failure.message);
+                            } else if (state is LoginStateSuccess) {
+                              _checkRole(state.user, context);
+                            }
+                          },
+                          builder: (context, state) {
+                            return LoadingButton(
+                              text: AppStrings.login.tr(),
+                              verticalPadding: AppSize.s12.rh,
+                              isLoading: (state is LoginStateLoading),
+                              onTap: () {
+                                _login(context);
+                              },
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -194,6 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
     _emailController.dispose();

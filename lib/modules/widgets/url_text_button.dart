@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
@@ -11,8 +13,15 @@ class UrlTextButton extends StatelessWidget {
   final String text;
   final Color? color;
   final FontWeight? fontWeight;
+  final double? textSize;
 
-  const UrlTextButton({Key? key, required this.onPressed, required this.text, this.color, this.fontWeight})
+  const UrlTextButton(
+      {Key? key,
+      required this.onPressed,
+      required this.text,
+      this.color,
+      this.fontWeight,
+      this.textSize})
       : super(key: key);
 
   @override
@@ -31,10 +40,10 @@ class UrlTextButton extends StatelessWidget {
         style: TextStyle(
           fontFamily: AppFonts.Aeonik,
           color: color ?? AppColors.purpleBlue,
-          fontSize: AppSize.s16.rSp,
+          fontSize: textSize ?? AppSize.s16.rSp,
           fontStyle: FontStyle.normal,
           fontWeight: fontWeight ?? AppFontWeight.regular,
-            decoration: TextDecoration.underline,
+          decoration: TextDecoration.underline,
         ),
       ),
     );

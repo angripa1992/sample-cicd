@@ -23,12 +23,11 @@ TextStyle _getTextStyle(
 TextStyle getRegularTextStyle({
   double fontSize = AppFontSize.s12,
   FontStyle fontStyle = FontStyle.normal,
-  String fontFamily = AppFonts.Aeonik,
   required Color color,
 }) {
   return _getTextStyle(
     fontSize,
-    fontFamily,
+    AppFonts.Aeonik,
     AppFontWeight.regular,
     color,
     fontStyle,
@@ -52,15 +51,14 @@ TextStyle getLightTextStyle({
 TextStyle getBoldTextStyle({
   double fontSize = AppFontSize.s12,
   FontStyle fontStyle = FontStyle.normal,
-  String fontFamily = AppFonts.Aeonik,
   required Color color,
 }) {
   return _getTextStyle(
     fontSize,
-    fontFamily,
+    AppFonts.Aeonik,
     AppFontWeight.bold,
     color,
-    fontStyle
+    fontStyle,
   );
 }
 
@@ -80,7 +78,6 @@ TextStyle getMediumTextStyle({
 
 TextStyle getAppBarTextStyle() {
   return getRegularTextStyle(
-    fontFamily: AppFonts.Abel,
     color: AppColors.white,
     fontSize: AppFontSize.s17.rSp,
   );

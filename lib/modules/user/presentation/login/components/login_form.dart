@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/resources/colors.dart';
 
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/values.dart';
@@ -29,6 +30,9 @@ class LoginForm extends StatelessWidget {
             controller: emailController,
             inputType: TextInputType.emailAddress,
             obscureText: false,
+            labelColor: AppColors.canaryYellow,
+            borderColor: AppColors.lightGrey,
+            textColor: AppColors.lightGrey,
           ),
           SizedBox(
             height: AppSize.s28.rh,
@@ -38,6 +42,9 @@ class LoginForm extends StatelessWidget {
             controller: passwordController,
             inputType: TextInputType.text,
             obscureText: true,
+            labelColor: AppColors.canaryYellow,
+            borderColor: AppColors.lightGrey,
+            textColor: AppColors.lightGrey,
           ),
         ],
       ),

@@ -1,7 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -103,7 +103,7 @@ void showValidationDialog({
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-             title,
+              title,
               style: getMediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s20.rSp,
@@ -138,6 +138,89 @@ void showValidationDialog({
                   ),
                 ),
               ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void showAccessDeniedDialog({
+  required BuildContext context,
+  required String role,
+}) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppStrings.access_denied.tr(),
+              textAlign: TextAlign.start,
+              style: getMediumTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s24.rSp,
+              ),
+            ),
+            SizedBox(
+              height: AppSize.s16.rh,
+            ),
+            Text(
+              '${AppStrings.access_denied_message_header_part_one.tr()} $role ${AppStrings.access_denied_message_header_part_two.tr()}',
+              textAlign: TextAlign.start,
+              style: getRegularTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+            SizedBox(
+              height: AppSize.s10.rh,
+            ),
+            RichText(
+              text: TextSpan(
+                text: '${AppStrings.access_denied_message_middle_part_one.tr()} ',
+                style: getRegularTextStyle(
+                  color: AppColors.black,
+                  fontSize: AppFontSize.s14.rSp,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: AppStrings.access_denied_message_middle_part_two.tr(),
+                    style: getBoldTextStyle(
+                      color: AppColors.black,
+                      fontSize: AppFontSize.s14.rSp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: AppSize.s10.rh,
+            ),
+            Text(
+              AppStrings.access_denied_message_footer.tr(),
+              textAlign: TextAlign.start,
+              style: getRegularTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+            SizedBox(
+              height: AppSize.s32.rh,
+            ),
+            LoadingButton(
+              isLoading: false,
+              text: AppStrings.go_back.tr(),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
             ),
           ],
         ),

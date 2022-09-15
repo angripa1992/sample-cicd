@@ -24,7 +24,6 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
                   ? AppStrings.internet_connection_reestablished.tr()
                   : AppStrings.noInternetError.tr(),
               style: getRegularTextStyle(
-                fontFamily: AppFonts.ABeeZee,
                 color: AppColors.white,
                 fontSize: AppFontSize.s15.rSp,
               ),
@@ -49,7 +48,6 @@ void showErrorSnackBar(BuildContext context, String message) {
       content: Text(
         message,
         style: getRegularTextStyle(
-          fontFamily: AppFonts.ABeeZee,
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,
         ),
@@ -67,7 +65,6 @@ void showSuccessSnackBar(BuildContext context, String message) {
       content: Text(
         message,
         style: getRegularTextStyle(
-          fontFamily: AppFonts.ABeeZee,
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,
         ),

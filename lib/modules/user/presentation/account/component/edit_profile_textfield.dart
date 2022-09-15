@@ -42,7 +42,6 @@ class EditProfileTextField extends StatelessWidget {
           cursorColor: AppColors.black,
           keyboardType: inputType ?? TextInputType.text,
           style: getRegularTextStyle(
-            fontFamily: AppFonts.ABeeZee,
             color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),

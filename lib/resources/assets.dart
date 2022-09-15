@@ -9,6 +9,7 @@ class AppAssets {
 class AppImages {
   static const String splashLogo = "$IMAGE_PATH/splash_logo.png";
   static const String klikit = "$IMAGE_PATH/klikit.png";
+  static const String loginBG = "$IMAGE_PATH/login_bg.png";
 }
 
 class AppIcons {

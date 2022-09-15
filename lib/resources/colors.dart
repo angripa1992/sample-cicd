@@ -9,6 +9,7 @@ class AppColors {
   static Color green = const Color(0xFF5C9E1E);
   static Color black = const Color(0xFF000000);
   static Color canaryYellow = const Color(0xFFFAF84F);
+  static Color manilla = const Color(0xFFFBFA92);
   static Color whiteSmoke = const Color(0xFFF4F5F7);
   static Color smokeyGrey = const Color(0xFF727272);
   static Color lightGrey = const Color(0xFFD9D9D9);

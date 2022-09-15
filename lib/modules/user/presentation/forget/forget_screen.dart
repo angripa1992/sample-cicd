@@ -15,11 +15,11 @@ import 'package:klikit/resources/fonts.dart';
 import '../../../../app/constants.dart';
 import '../../../../app/size_config.dart';
 import '../../../../core/route/routes.dart';
+import '../../../../resources/assets.dart';
 import '../../../../resources/colors.dart';
 import '../../../../resources/strings.dart';
 import '../../../../resources/styles.dart';
 import '../../../../resources/values.dart';
-import '../login/components/logo.dart';
 
 class ForgetScreen extends StatefulWidget {
   const ForgetScreen({Key? key}) : super(key: key);
@@ -44,49 +44,54 @@ class _ForgetScreenState extends State<ForgetScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt.get<ForgetPasswordCubit>(),
-      child: Scaffold(
-        backgroundColor: AppColors.black,
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
-            width: ScreenSizes.screenWidth,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s24.rw,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: AppColors.black,
+          body: SingleChildScrollView(
+            child: Container(
+              height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
+              width: ScreenSizes.screenWidth,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: const AssetImage(AppImages.loginBG),
+                  colorFilter: ColorFilter.mode(
+                      AppColors.black.withOpacity(0.3), BlendMode.dstATop),
+                  fit: BoxFit.cover,
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const LogoView(),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: AppSize.s20.rh,
-                        horizontal: AppSize.s20.rw,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s28.rw,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Center(
-                            child: Text(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppSize.s20.rh,
+                          horizontal: AppSize.s20.rw,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
                               AppStrings.password_reset_page.tr(),
-                              style: getRegularTextStyle(
+                              style: getMediumTextStyle(
                                 color: AppColors.black,
-                                fontSize: AppSize.s16.rSp,
+                                fontSize: AppSize.s24.rSp,
                               ),
                             ),
-                          ),
-                          SizedBox(height: AppSize.s14.rh),
-                          Center(
-                            child: UrlTextButton(
+                            UrlTextButton(
                               text: AppStrings.dont_have_account.tr(),
                               color: AppColors.black,
                               fontWeight: AppFontWeight.bold,
+                              textSize: AppSize.s14.rSp,
                               onPressed: () {
                                 Navigator.of(context).pushNamed(
                                   Routes.webView,
@@ -94,58 +99,58 @@ class _ForgetScreenState extends State<ForgetScreen> {
                                 );
                               },
                             ),
-                          ),
-                          SizedBox(height: AppSize.s32.rh),
-                          Form(
-                            key: _formKey,
-                            child: InputField(
-                              label: AppStrings.email.tr(),
-                              controller: _emailController,
-                              inputType: TextInputType.emailAddress,
-                              obscureText: false,
-                              hintText: AppStrings.type_your_email_here.tr(),
-                              labelColor: AppColors.smokeyGrey,
-                              textColor: AppColors.smokeyGrey,
-                              borderColor: AppColors.smokeyGrey,
+                            SizedBox(height: AppSize.s32.rh),
+                            Form(
+                              key: _formKey,
+                              child: InputField(
+                                label: AppStrings.email.tr(),
+                                controller: _emailController,
+                                inputType: TextInputType.emailAddress,
+                                obscureText: false,
+                                hintText: AppStrings.type_your_email_here.tr(),
+                                labelColor: AppColors.smokeyGrey,
+                                textColor: AppColors.smokeyGrey,
+                                borderColor: AppColors.smokeyGrey,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: AppSize.s42.rh),
-                          BlocConsumer<ForgetPasswordCubit, CubitState>(
-                            builder: (context, state) {
-                              return LoadingButton(
-                                isLoading: (state is Loading),
-                                text: AppStrings.sent_reset_link.tr(),
-                                verticalPadding: AppSize.s12.rh,
-                                onTap: () {
-                                  _validateAndSentResetLink(context);
-                                },
-                              );
-                            },
-                            listener: (context, state) {
-                              if (state is Failed) {
-                                showErrorSnackBar(
-                                    context, state.failure.message);
-                              } else if (state is Success<SuccessResponse>) {
-                                showSuccessSnackBar(
-                                    context, state.data.message);
+                            SizedBox(height: AppSize.s42.rh),
+                            BlocConsumer<ForgetPasswordCubit, CubitState>(
+                              builder: (context, state) {
+                                return LoadingButton(
+                                  isLoading: (state is Loading),
+                                  text: AppStrings.sent_reset_link.tr(),
+                                  verticalPadding: AppSize.s12.rh,
+                                  onTap: () {
+                                    _validateAndSentResetLink(context);
+                                  },
+                                );
+                              },
+                              listener: (context, state) {
+                                if (state is Failed) {
+                                  showErrorSnackBar(
+                                      context, state.failure.message);
+                                } else if (state is Success<SuccessResponse>) {
+                                  showSuccessSnackBar(
+                                      context, state.data.message);
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                            ),
+                            SizedBox(height: AppSize.s24.rh),
+                            UrlTextButton(
+                              text: AppStrings.back_to_login.tr(),
+                              color: AppColors.black,
+                              fontWeight: AppFontWeight.bold,
+                              onPressed: () {
                                 Navigator.of(context).pop();
-                              }
-                            },
-                          ),
-                          SizedBox(height: AppSize.s32.rh),
-                          UrlTextButton(
-                            text: AppStrings.back_to_login.tr(),
-                            color: AppColors.black,
-                            fontWeight: AppFontWeight.bold,
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -153,6 +158,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
     _emailController.dispose();
