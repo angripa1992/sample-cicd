@@ -1,6 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
+import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
+import 'package:klikit/modules/orders/data/repository/orders_repository_impl.dart';
+import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
 import 'package:klikit/modules/user/data/repositories/user_repository_impl.dart';
 import 'package:klikit/modules/user/domain/repositories/user_repository.dart';
@@ -45,4 +48,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => ForgetPasswordCubit(getIt()));
   getIt.registerLazySingleton(() => ChangePassword(getIt()));
   getIt.registerFactory(() => ChangePasswordCubit(getIt(), getIt()));
+
+  ///order
+  getIt.registerLazySingleton<OrderRemoteDatasource>(() => OrderRemoteDatasourceImpl(getIt()));
+  getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt()));
 }
