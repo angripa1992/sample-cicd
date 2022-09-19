@@ -1,11 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/presentation/pages/orders_screen.dart';
+import 'package:klikit/modules/base/base_screen_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/busy_mode_cubit.dart';
+import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
 import 'package:klikit/modules/stock/presentation/pages/stock_screen.dart';
 import 'package:klikit/resources/assets.dart';
-import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -22,13 +25,6 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
@@ -39,37 +35,43 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        if (_selectedIndex == 0) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BusyModeCubit>(create: (_) => getIt.get<BusyModeCubit>()),
+      ],
+      child: WillPopScope(onWillPop: () {
+        if (context.read<BaseScreenCubit>().state == 0) {
           return Future.value(true);
         } else {
-          _onItemTapped(0);
+          context.read<BaseScreenCubit>().changeIndex(0);
           return Future.value(false);
         }
-      },
-      child: Scaffold(
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: _navigationItems(),
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          backgroundColor: AppColors.whiteSmoke,
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: AppColors.purpleBlue,
-          unselectedItemColor: AppColors.smokeyGrey,
-          selectedLabelStyle: getRegularTextStyle(
-            color: AppColors.purpleBlue,
-            fontSize: 14.rSp,
-          ),
-          unselectedLabelStyle: getRegularTextStyle(
-            color: AppColors.smokeyGrey,
-            fontSize: 14.rSp,
-          ),
-        ),
-      ),
+      }, child: BlocBuilder<BaseScreenCubit, int>(
+        builder: (context, index) {
+          return Scaffold(
+            body: Center(child: _widgetOptions.elementAt(index)),
+            bottomNavigationBar: BottomNavigationBar(
+              items: _navigationItems(),
+              currentIndex: context.read<BaseScreenCubit>().state,
+              onTap: (index) {
+                context.read<BaseScreenCubit>().changeIndex(index);
+              },
+              backgroundColor: AppColors.whiteSmoke,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: AppColors.purpleBlue,
+              unselectedItemColor: AppColors.smokeyGrey,
+              selectedLabelStyle: getRegularTextStyle(
+                color: AppColors.purpleBlue,
+                fontSize: 14.rSp,
+              ),
+              unselectedLabelStyle: getRegularTextStyle(
+                color: AppColors.smokeyGrey,
+                fontSize: 14.rSp,
+              ),
+            ),
+          );
+        },
+      )),
     );
   }
 

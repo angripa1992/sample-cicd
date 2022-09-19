@@ -64,5 +64,13 @@
   "business_owner" : "Business Owner",
   "brand_manager" : "Brand Manager",
   "branch_manager" : "Branch Manager",
-  "go_back": "Go Back"
+  "go_back": "Go Back",
+
+  "total_orders_today": "Total Orders Today",
+  "yesterday": "Yesterday",
+  "completed_orders": "Completed Orders",
+  "cancelled_orders": "Cancelled Orders",
+  "busy_mode": "Busy Mode",
+  "new_orders": "New Orders",
+  "ongoing_orders": "Ongoing Orders"
 }

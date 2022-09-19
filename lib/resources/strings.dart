@@ -81,4 +81,13 @@ class AppStrings {
   static const String brand_manager = "brand_manager";
   static const String branch_manager = "branch_manager";
 
+  ///home
+  static const String total_orders_today = "total_orders_today";
+  static const String yesterday = "yesterday";
+  static const String completed_orders = "completed_orders";
+  static const String cancelled_orders = "cancelled_orders";
+  static const String busy_mode = "busy_mode";
+  static const String new_orders = "new_orders";
+  static const String ongoing_orders = "ongoing_orders";
+
 }

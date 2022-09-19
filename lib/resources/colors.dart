@@ -15,4 +15,7 @@ class AppColors {
   static Color lightGrey = const Color(0xFFD9D9D9);
   static Color blackCow = const Color(0xFF4A4A4A);
   static Color blueChalk = const Color(0xFFF0E7FE);
+  static Color coolGrey = const Color(0xFF9C9C9C);
+  static Color lightSalmon = const Color(0xFFFBA592);
+  static Color warmRed = const Color(0xFFFF2E00);
 }

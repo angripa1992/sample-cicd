@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen.dart';
+import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/onboarding/onboarding_screen.dart';
 import 'package:klikit/modules/user/presentation/chnage_password/change_password_screen.dart';
 import 'package:klikit/modules/user/presentation/forget/forget_screen.dart';
@@ -23,12 +26,15 @@ class RoutesGenerator {
         );
       case Routes.login:
         return MaterialPageRoute(
-          builder: (_) => LoginScreen(),
+          builder: (_) => const LoginScreen(),
           settings: routeSettings,
         );
       case Routes.base:
         return MaterialPageRoute(
-          builder: (_) => const BaseScreen(),
+          builder: (_) => BlocProvider(
+            create: (_) => getIt.get<BaseScreenCubit>(),
+            child: const BaseScreen(),
+          ),
           settings: routeSettings,
         );
       case Routes.contactSupport:
