@@ -6,4 +6,5 @@ class AppConstant {
   static const String roleBusinessOwner = "business_owner";
   static const String supportNumber = "+63 203 4090 2112";
   static const String supportMail = "example@exampl.co";
+  static const int refreshTime = 30;
 }

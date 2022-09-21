@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/today_total_order_cubit.dart';
@@ -26,13 +29,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Timer? _timer;
   final _user = getIt.get<AppPreferences>().getUser();
 
   @override
   void initState() {
+    _fetchOrder();
+    _startTimer();
+    super.initState();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: AppConstant.refreshTime), (timer) {
+      _fetchOrder();
+    });
+  }
+
+  void _fetchOrder(){
     context.read<TodayTotalOrderCubit>().fetchTotalOrder();
     context.read<YesterdayTotalOrderCubit>().fetchTotalOrder();
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -58,8 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       left: AppSize.s20.rw,
                       right: AppSize.s20.rw,
                       child: HomeTotalOrdersCard(
-                        totalOrderToday: 153,
-                        totalOrderYesterday: 125,
                         onTap: () {},
                       ),
                     )
@@ -98,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     horizontal: AppSize.s20.rw,
                     vertical: AppSize.s8.rh,
                   ),
-                  child: BusyModeView(),
+                  child: const BusyModeView(),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
