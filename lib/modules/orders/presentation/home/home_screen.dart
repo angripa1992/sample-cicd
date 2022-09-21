@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/today_total_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/components/busy_mode_view.dart';
 import 'package:klikit/modules/orders/presentation/home/components/home_header_view.dart';
 import 'package:klikit/modules/orders/presentation/home/components/home_order_nav_card.dart';
@@ -16,13 +18,25 @@ import 'package:klikit/resources/values.dart';
 import '../../../../app/app_preferences.dart';
 import '../../../base/base_screen_cubit.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final _user = getIt.get<AppPreferences>().getUser();
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  final _user = getIt.get<AppPreferences>().getUser();
+
+  @override
+  void initState() {
+    context.read<TodayTotalOrderCubit>().fetchTotalOrder();
+    context.read<YesterdayTotalOrderCubit>().fetchTotalOrder();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(

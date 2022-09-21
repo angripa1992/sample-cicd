@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/core/network/rest_client.dart';
@@ -13,11 +15,11 @@ import 'package:klikit/modules/orders/data/request_models/provider_request_model
 import '../models/order_status_model.dart';
 
 abstract class OrderRemoteDatasource{
-  Future<OrderStatusModel> fetchOrderStatus();
+  Future<List<OrderStatusModel>> fetchOrderStatus();
   Future<BrandModel> fetchBrand(BrandRequestModel requestModel);
-  Future<ProviderModel> fetchProvider(ProviderRequestModel requestModel);
+  Future<List<ProviderModel>> fetchProvider(ProviderRequestModel requestModel);
   Future<SettingsModel> fetchSettings(int id);
-  Future<OrdersModel> fetchOrder(OrderRequestModel requestModel);
+  Future<OrdersModel> fetchOrder(Map<String,dynamic> params);
 }
 
 class OrderRemoteDatasourceImpl extends OrderRemoteDatasource{
@@ -26,10 +28,11 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource{
   OrderRemoteDatasourceImpl(this._restClient);
 
   @override
-  Future<OrderStatusModel> fetchOrderStatus() async{
+  Future<List<OrderStatusModel>> fetchOrderStatus() async{
     try{
-      final response = await _restClient.request(Urls.status, Method.GET, null);
-      return OrderStatusModel.fromJson(response);
+      final List<dynamic> response = await _restClient.request(Urls.status, Method.GET, null);
+      final List<OrderStatusModel> result = response.map((e) => OrderStatusModel.fromJson(e)).toList();
+      return result;
     }on DioError{
       rethrow;
     }
@@ -46,10 +49,11 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource{
   }
 
   @override
-  Future<ProviderModel> fetchProvider(ProviderRequestModel requestModel) async{
+  Future<List<ProviderModel>> fetchProvider(ProviderRequestModel requestModel) async{
     try{
-      final response = await _restClient.request(Urls.provider, Method.GET, requestModel.toJson());
-      return ProviderModel.fromJson(response);
+      final List<dynamic> response = await _restClient.request(Urls.provider, Method.GET, requestModel.toJson());
+      final data = response.map((e) => ProviderModel.fromJson(e)).toList();
+      return data;
     }on DioError{
       rethrow;
     }
@@ -66,9 +70,9 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource{
   }
 
   @override
-  Future<OrdersModel> fetchOrder(OrderRequestModel requestModel) async{
+  Future<OrdersModel> fetchOrder(Map<String,dynamic> params) async{
     try{
-      final response = await _restClient.request(Urls.order, Method.GET,requestModel.toJson());
+      final response = await _restClient.request(Urls.order, Method.GET,params);
       return OrdersModel.fromJson(response);
     }on DioError{
       rethrow;

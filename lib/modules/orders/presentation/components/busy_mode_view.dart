@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy_mode_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/state/busy_mode_state.dart';
+import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_state.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -19,6 +19,13 @@ class BusyModeView extends StatefulWidget {
 }
 
 class _BusyModeViewState extends State<BusyModeView> {
+
+  @override
+  void initState() {
+    context.read<BusyModeCubit>().test();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<BusyModeCubit, BusyModeState>(

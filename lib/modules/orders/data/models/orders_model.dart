@@ -258,7 +258,7 @@ class CartModel {
   List<dynamic>? groups;
   List<dynamic>? options;
   @JsonKey(name: 'unit_price')
-  String? unitPrice;
+  double? unitPrice;
   @JsonKey(name: 'parent_name')
   String? parentName;
   @JsonKey(name: 'item_id')
@@ -296,7 +296,7 @@ class CartModel {
       name: name.orEmpty(),
       options: options ?? [],
       quantity: quantity.orZero(),
-      unitPrice: unitPrice.orEmpty(),
+      unitPrice: unitPrice.orZero(),
       parentName: parentName.orEmpty(),
       vat: vat.orZero(),
       image: image.orEmpty(),

@@ -25,6 +25,9 @@ dependencies:
   flutter_bloc: ^8.1.1
   webview_flutter: ^3.0.4
   url_launcher: ^6.1.5
+  intl: ^0.17.0
+  flutter_native_timezone: ^2.0.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

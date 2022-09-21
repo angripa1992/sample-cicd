@@ -11,9 +11,9 @@ import '../../data/request_models/order_request_model.dart';
 import '../../data/request_models/provider_request_model.dart';
 
 abstract class OrderRepository{
-  Future<Either<OrderStatus,Failure>> fetchOrderStatus();
-  Future<Either<Brands,Failure>> fetchBrand(BrandRequestModel requestModel);
-  Future<Either<Provider,Failure>> fetchProvider(ProviderRequestModel requestModel);
-  Future<Either<Settings,Failure>> fetchSettings(int id);
-  Future<Either<Orders,Failure>> fetchOrder(OrderRequestModel requestModel);
+  Future<Either<Failure,List<OrderStatus>>> fetchOrderStatus();
+  Future<Either<Failure,Brands>> fetchBrand(BrandRequestModel requestModel);
+  Future<Either<Failure,List<Provider>>> fetchProvider(ProviderRequestModel requestModel);
+  Future<Either<Failure,Settings>> fetchSettings(int id);
+  Future<Either<Failure,Orders>> fetchOrder(Map<String,dynamic> params);
 }

@@ -1,7 +1,7 @@
 class Brands{
  final List<Brand> brands;
 
-  Brands(this.brands);
+ Brands(this.brands);
 }
 class Brand {
   final int id;

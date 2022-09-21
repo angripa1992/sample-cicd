@@ -20,75 +20,77 @@ class OrderRepositoryImpl extends OrderRepository {
   OrderRepositoryImpl(this._datasource, this._connectivity);
 
   @override
-  Future<Either<Brands, Failure>> fetchBrand(
+  Future<Either<Failure, Brands>> fetchBrand(
       BrandRequestModel requestModel) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchBrand(requestModel);
-        return Left(response.toEntity());
+        return Right(response.toEntity());
       } on DioError catch (error) {
-        return Right(ErrorHandler.handle(error).failure);
+        return Left(ErrorHandler.handle(error).failure);
       }
     } else {
-      return Right(ErrorHandler.handleInternetConnection().failure);
+      return Left(ErrorHandler.handleInternetConnection().failure);
     }
   }
 
   @override
-  Future<Either<Orders, Failure>> fetchOrder(
-      OrderRequestModel requestModel) async {
+  Future<Either<Failure, Orders>> fetchOrder(
+      Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchOrder(requestModel);
-        return Left(response.toEntity());
+        final response = await _datasource.fetchOrder(params);
+        return Right(response.toEntity());
       } on DioError catch (error) {
-        return Right(ErrorHandler.handle(error).failure);
+        return Left(ErrorHandler.handle(error).failure);
       }
     } else {
-      return Right(ErrorHandler.handleInternetConnection().failure);
+      return Left(ErrorHandler.handleInternetConnection().failure);
     }
   }
 
   @override
-  Future<Either<OrderStatus, Failure>> fetchOrderStatus() async {
+  Future<Either<Failure, List<OrderStatus>>> fetchOrderStatus() async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchOrderStatus();
-        return Left(response.toEntity());
+        final result = response.map((e) => e.toEntity()).toList();
+        return Right(result);
       } on DioError catch (error) {
-        return Right(ErrorHandler.handle(error).failure);
+        return Left(ErrorHandler.handle(error).failure);
       }
     } else {
-      return Right(ErrorHandler.handleInternetConnection().failure);
+      return Left(ErrorHandler.handleInternetConnection().failure);
     }
   }
 
   @override
-  Future<Either<Provider, Failure>> fetchProvider(
+  Future<Either<Failure, List<Provider>>> fetchProvider(
       ProviderRequestModel requestModel) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchProvider(requestModel);
-        return Left(response.toEntity());
+        final data = response.map((e) => e.toEntity()).toList();
+        return Right(data);
       } on DioError catch (error) {
-        return Right(ErrorHandler.handle(error).failure);
+        return Left(ErrorHandler.handle(error).failure);
       }
     } else {
-      return Right(ErrorHandler.handleInternetConnection().failure);
+      return Left(ErrorHandler.handleInternetConnection().failure);
     }
   }
 
   @override
-  Future<Either<Settings, Failure>> fetchSettings(int id) async {
+  Future<Either<Failure, Settings>> fetchSettings(int id) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchSettings(id);
-        return Left(response.toEntity());
+        return Right(response.toEntity());
       } on DioError catch (error) {
-        return Right(ErrorHandler.handle(error).failure);
+        return Left(ErrorHandler.handle(error).failure);
       }
     } else {
-      return Right(ErrorHandler.handleInternetConnection().failure);
+      return Left(ErrorHandler.handleInternetConnection().failure);
     }
   }
 }
