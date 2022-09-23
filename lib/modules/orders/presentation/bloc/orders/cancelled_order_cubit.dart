@@ -15,8 +15,10 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
   CancelledOrderCubit(this._fetchCancelledOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchCancelledOrder() async {
-    emit(Loading());
+  void fetchCancelledOrder({required bool isInitial}) async {
+    if(isInitial){
+      emit(Loading());
+    }
     final status = await _informationProvider.getStatusByNames(
       [OrderStatusName.CANCELLED],
     );

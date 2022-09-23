@@ -15,8 +15,10 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
   CompletedOrderCubit(this._fetchCompletedOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchCompletedOrder() async {
-    emit(Loading());
+  void fetchCompletedOrder({required bool isInitial}) async {
+    if(isInitial){
+      emit(Loading());
+    }
     final status = await _informationProvider.getStatusByNames(
       [OrderStatusName.DELIVERED],
     );

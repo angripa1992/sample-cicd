@@ -15,8 +15,10 @@ class TodayTotalOrderCubit extends Cubit<ResponseState> {
   TodayTotalOrderCubit(this._fetchTotalOrders, this._informationProvider)
       : super(Empty());
 
-  void fetchTotalOrder() async {
-    emit(Loading());
+  void fetchTotalOrder({required bool isInitial}) async {
+    if(isInitial){
+      emit(Loading());
+    }
     final status = await _informationProvider.getStatusByNames(
       [OrderStatusName.CANCELLED, OrderStatusName.DELIVERED],
     );

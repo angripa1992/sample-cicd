@@ -55,14 +55,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _fetchOrder(bool isInitialCall) {
-    // context.read<TodayTotalOrderCubit>().fetchTotalOrder();
-    // context.read<CompletedOrderCubit>().fetchCompletedOrder();
-    // context.read<CancelledOrderCubit>().fetchCancelledOrder();
-    // context.read<NewOrderCubit>().fetchNewOrder(page: 1);
-    // context.read<OngoingOrderCubit>().fetchOngoingOrder(page: 1);
-    // if(isInitialCall){
-    //   context.read<YesterdayTotalOrderCubit>().fetchTotalOrder();
-    // }
+    context.read<TodayTotalOrderCubit>().fetchTotalOrder(isInitial: isInitialCall);
+     context.read<CompletedOrderCubit>().fetchCompletedOrder(isInitial: isInitialCall);
+     context.read<CancelledOrderCubit>().fetchCancelledOrder(isInitial: isInitialCall);
+     context.read<NewOrderCubit>().fetchNewOrder(page: 1,isInitial: isInitialCall);
+     context.read<OngoingOrderCubit>().fetchOngoingOrder(page: 1,isInitial: isInitialCall);
+    if(isInitialCall){
+      context.read<YesterdayTotalOrderCubit>().fetchTotalOrder();
+    }
   }
 
   @override

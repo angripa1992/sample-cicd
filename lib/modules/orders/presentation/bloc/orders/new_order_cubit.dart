@@ -15,8 +15,10 @@ class NewOrderCubit extends Cubit<ResponseState> {
   NewOrderCubit(this._fetchNewOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchNewOrder({required int page}) async {
-    emit(Loading());
+  void fetchNewOrder({required int page,required bool isInitial}) async {
+    if(isInitial){
+      emit(Loading());
+    }
     final status = await _informationProvider.getStatusByNames(
       [OrderStatusName.PLACED, OrderStatusName.ACCEPTED],
     );
