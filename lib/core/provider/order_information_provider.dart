@@ -1,8 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
-import 'package:klikit/modules/orders/data/request_models/provider_request_model.dart';
 import 'package:klikit/modules/orders/domain/entities/order_status.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -107,8 +107,8 @@ class OrderInformationProvider {
 
   Future<List<Provider>> getProviders() async{
     if(_providers.isEmpty){
-      final requestModel = ProviderRequestModel(filterByCountry: _preferences.getUser().userInfo.countryIds);
-      final response = await _orderRepository.fetchProvider(requestModel);
+      final ids = ListParam<int>(_preferences.getUser().userInfo.countryIds, ListFormat.csv);
+      final response = await _orderRepository.fetchProvider({"filterByCountry" : ids});
       if(response.isRight()){
         final data = response.getOrElse(() => []);
         _providers = data;

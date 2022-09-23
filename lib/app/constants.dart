@@ -7,4 +7,5 @@ class AppConstant {
   static const String supportNumber = "+63 203 4090 2112";
   static const String supportMail = "example@exampl.co";
   static const int refreshTime = 30;
+  static const int busyTimeInMin = 60;
 }

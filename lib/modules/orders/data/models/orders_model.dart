@@ -250,7 +250,7 @@ class OrderModel {
 class CartModel {
   String? id;
   String? name;
-  int? quantity;
+  dynamic quantity;
   int? vat;
   String? image;
   int? price;
@@ -295,7 +295,7 @@ class CartModel {
       id: id.orEmpty(),
       name: name.orEmpty(),
       options: options ?? [],
-      quantity: quantity.orZero(),
+      quantity: quantity,
       unitPrice: unitPrice.orZero(),
       parentName: parentName.orEmpty(),
       vat: vat.orZero(),

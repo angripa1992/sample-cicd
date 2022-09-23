@@ -1,44 +1,43 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/core/provider/date_time_provider.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/domain/entities/order_status.dart';
 
 import '../../../../../core/provider/order_information_provider.dart';
-import '../../../domain/usecases/fetch_today_total_orders.dart';
+import '../../../domain/entities/order.dart';
+import '../../../domain/entities/order_status.dart';
+import '../../../domain/usecases/fetch_new_order.dart';
 
-class TodayTotalOrderCubit extends Cubit<ResponseState> {
-  final FetchTodayTotalOrders _fetchTotalOrders;
+class NewOrderCubit extends Cubit<ResponseState> {
+  final FetchNewOrder _fetchNewOrder;
   final OrderInformationProvider _informationProvider;
 
-  TodayTotalOrderCubit(this._fetchTotalOrders, this._informationProvider)
+  NewOrderCubit(this._fetchNewOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchTotalOrder() async {
+  void fetchNewOrder({required int page}) async {
     emit(Loading());
     final status = await _informationProvider.getStatusByNames(
-      [OrderStatusName.CANCELLED, OrderStatusName.DELIVERED],
+      [OrderStatusName.PLACED, OrderStatusName.ACCEPTED],
     );
     final brands = await _informationProvider.getBrandsIds();
     final providers = await _informationProvider.getProvidersIds();
     final branch = await _informationProvider.getBranchId();
-    final timeZone = await DateTimeProvider.timeZone();
     final params = {
-      "start" : DateTimeProvider.today(),
-      "end" : DateTimeProvider.nextDay(),
-      "timezone" : timeZone,
+      "page": page,
+      "size": 10,
       "filterByBranch": branch,
       "filterByBrand": ListParam<int>(brands,ListFormat.csv),
       "filterByProvider": ListParam<int>(providers,ListFormat.csv),
       "filterByStatus": ListParam<int>(status,ListFormat.csv),
     };
-    final response = await _fetchTotalOrders(params);
+    final response = await _fetchNewOrder(params);
     response.fold(
       (failure) {
         emit(Failed(failure));
       },
       (orders) {
+        print('====new orders ${orders.total}');
         emit(Success<Orders>(orders));
       },
     );

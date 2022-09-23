@@ -72,5 +72,13 @@
   "cancelled_orders": "Cancelled Orders",
   "busy_mode": "Busy Mode",
   "new_orders": "New Orders",
-  "ongoing_orders": "Ongoing Orders"
+  "ongoing_orders": "Ongoing Orders",
+
+  "online_title": "Would You Like To Go Online?",
+  "online_message": "If You Go Online, Your Customer Will See You And Receive Order From Them. Would You Like To Go Online?",
+  "go_online": "Go Online",
+  "offline_title": "Would You Like To Go Offline?",
+  "offline_message": "If You Go Offline, You Will Not Receive Any Order. Would You Like To Go Offline?",
+  "go_offline": "GO Offline",
+  "not_now": "Not Now"
 }

@@ -42,6 +42,7 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
 }
 
 void showErrorSnackBar(BuildContext context, String message) {
+  dismissCurrentSnackBar(context);
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,
@@ -70,7 +71,7 @@ void showSuccessSnackBar(BuildContext context, String message) {
         ),
       ),
       duration: const Duration(seconds: 5),
-      backgroundColor: AppColors.purpleBlue,
+      backgroundColor: AppColors.green,
     ),
   );
 }

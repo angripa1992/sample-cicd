@@ -6,6 +6,11 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/today_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
@@ -40,8 +45,13 @@ class _BaseScreenState extends State<BaseScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BusyModeCubit>(create: (_) => getIt.get<BusyModeCubit>()),
+        BlocProvider<UpdateBusyModeCubit>(create: (_) => getIt.get<UpdateBusyModeCubit>()),
         BlocProvider<TodayTotalOrderCubit>(create: (_) => getIt.get<TodayTotalOrderCubit>()),
         BlocProvider<YesterdayTotalOrderCubit>(create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
+        BlocProvider<CompletedOrderCubit>(create: (_) => getIt.get<CompletedOrderCubit>()),
+        BlocProvider<CancelledOrderCubit>(create: (_) => getIt.get<CancelledOrderCubit>()),
+        BlocProvider<NewOrderCubit>(create: (_) => getIt.get<NewOrderCubit>()),
+        BlocProvider<OngoingOrderCubit>(create: (_) => getIt.get<OngoingOrderCubit>()),
       ],
       child: WillPopScope(onWillPop: () {
         if (context.read<BaseScreenCubit>().state == 0) {

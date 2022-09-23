@@ -10,6 +10,9 @@ class LoadingButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onTap;
   final double? verticalPadding;
+  final double? textSize;
+  final double? progressHeight;
+  final double? progressWidth;
 
   const LoadingButton({
     Key? key,
@@ -17,6 +20,9 @@ class LoadingButton extends StatelessWidget {
     required this.onTap,
     required this.text,
     this.verticalPadding,
+    this.textSize,
+    this.progressHeight,
+    this.progressWidth,
   }) : super(key: key);
 
   @override
@@ -30,13 +36,12 @@ class LoadingButton extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical:
-              (verticalPadding == null) ? AppSize.s12.rh : verticalPadding!,
+              vertical: verticalPadding ?? AppSize.s12.rh,
             ),
             child: isLoading
                 ? SizedBox(
-                    height: AppSize.s16.rh,
-                    width: AppSize.s18.rw,
+                    height: progressHeight ?? AppSize.s16.rh,
+                    width: progressWidth ?? AppSize.s18.rw,
                     child:
                         CircularProgressIndicator(color: AppColors.purpleBlue),
                   )
@@ -44,7 +49,7 @@ class LoadingButton extends StatelessWidget {
                     text,
                     style: getBoldTextStyle(
                       color: AppColors.white,
-                      fontSize: AppFontSize.s16.rSp,
+                      fontSize: textSize ?? AppFontSize.s16.rSp,
                     ),
                   ),
           ),

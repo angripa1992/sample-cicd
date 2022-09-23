@@ -15,6 +15,12 @@ class DateTimeProvider{
     return formatted;
   }
 
+  static String nextDay (){
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formatted = formatter.format(DateTime.now().add(const Duration(days: 1)));
+    return formatted;
+  }
+
   static Future<String> timeZone () async{
     final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     return currentTimeZone;

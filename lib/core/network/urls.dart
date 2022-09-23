@@ -10,4 +10,5 @@ class Urls{
   static const String brand = '/brand';
   static const String provider = '/provider';
   static const String printerSettings = '/printer/settings';
+  static const String busy = '/brand-provider/busy';
 }

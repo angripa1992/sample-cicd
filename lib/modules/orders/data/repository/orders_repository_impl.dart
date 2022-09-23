@@ -4,9 +4,8 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
-import 'package:klikit/modules/orders/data/request_models/order_request_model.dart';
-import 'package:klikit/modules/orders/data/request_models/provider_request_model.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
+import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/entities/order_status.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
@@ -66,10 +65,10 @@ class OrderRepositoryImpl extends OrderRepository {
 
   @override
   Future<Either<Failure, List<Provider>>> fetchProvider(
-      ProviderRequestModel requestModel) async {
+      Map<String, dynamic> param) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchProvider(requestModel);
+        final response = await _datasource.fetchProvider(param);
         final data = response.map((e) => e.toEntity()).toList();
         return Right(data);
       } on DioError catch (error) {
@@ -85,6 +84,38 @@ class OrderRepositoryImpl extends OrderRepository {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchSettings(id);
+        return Right(response.toEntity());
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BusyModeGetResponse>> isBusy(
+    Map<String, dynamic> params,
+  ) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.isBusy(params);
+        return Right(response.toEntity());
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BusyModePostResponse>> updateBusyMode(
+    Map<String, dynamic> params,
+  ) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.updateBusyMode(params);
         return Right(response.toEntity());
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);

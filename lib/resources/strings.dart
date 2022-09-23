@@ -90,4 +90,13 @@ class AppStrings {
   static const String new_orders = "new_orders";
   static const String ongoing_orders = "ongoing_orders";
 
+  ///busy mode
+  static const String online_title = "online_title";
+  static const String online_message = "online_message";
+  static const String go_online = "go_online";
+  static const String offline_title = "offline_title";
+  static const String offline_message = "offline_message";
+  static const String go_offline = "go_offline";
+  static const String not_now = "not_now";
+
 }

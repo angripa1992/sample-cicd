@@ -126,7 +126,7 @@ CartModel _$CartModelFromJson(Map<String, dynamic> json) => CartModel(
       id: json['id'] as String?,
       name: json['name'] as String?,
       options: json['options'] as List<dynamic>?,
-      quantity: json['quantity'] as int?,
+      quantity: json['quantity'],
       unitPrice: (json['unit_price'] as num?)?.toDouble(),
       parentName: json['parent_name'] as String?,
       vat: json['vat'] as int?,

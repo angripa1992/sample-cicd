@@ -6,9 +6,19 @@ import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
 import 'package:klikit/modules/orders/data/repository/orders_repository_impl.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
+import 'package:klikit/modules/orders/domain/usecases/check_busy_mode.dart';
+import 'package:klikit/modules/orders/domain/usecases/fetch_cancelled_order.dart';
+import 'package:klikit/modules/orders/domain/usecases/fetch_completed_order.dart';
+import 'package:klikit/modules/orders/domain/usecases/fetch_new_order.dart';
+import 'package:klikit/modules/orders/domain/usecases/fetch_ongoing_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_today_total_orders.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_yesterday_total_order.dart';
+import 'package:klikit/modules/orders/domain/usecases/update_busy_mode_status.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/today_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
@@ -28,6 +38,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
 import '../environment_variables.dart';
+import '../modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
 
 final getIt = GetIt.instance;
@@ -46,8 +57,10 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => BaseScreenCubit());
 
   ///user
-  getIt.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSourceImpl(getIt()));
-  getIt.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(getIt(),getIt()));
+  getIt.registerLazySingleton<UserRemoteDataSource>(
+      () => UserRemoteDataSourceImpl(getIt()));
+  getIt.registerLazySingleton<UserRepository>(
+      () => UserRepositoryImpl(getIt(), getIt()));
   getIt.registerLazySingleton(() => AuthenticateUser(getIt()));
   getIt.registerFactory(() => LoginBloc(authenticateUser: getIt()));
   getIt.registerLazySingleton(() => LogoutUser(getIt()));
@@ -60,12 +73,27 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => ChangePasswordCubit(getIt(), getIt()));
 
   ///order
-  getIt.registerLazySingleton<OrderRemoteDatasource>(() => OrderRemoteDatasourceImpl(getIt()));
-  getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt()));
-  getIt.registerLazySingleton(() => OrderInformationProvider(getIt(),getIt()));
-  getIt.registerFactory(() => BusyModeCubit());
+  getIt.registerLazySingleton<OrderRemoteDatasource>(
+      () => OrderRemoteDatasourceImpl(getIt()));
+  getIt.registerLazySingleton<OrderRepository>(
+      () => OrderRepositoryImpl(getIt(), getIt()));
+  getIt.registerLazySingleton(() => OrderInformationProvider(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchTodayTotalOrders(getIt()));
   getIt.registerFactory(() => TodayTotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchYesterdayTotalOrders(getIt()));
   getIt.registerFactory(() => YesterdayTotalOrderCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => FetchCompletedOrder(getIt()));
+  getIt.registerFactory(() => CompletedOrderCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => FetchCancelledOrder(getIt()));
+  getIt.registerFactory(() => CancelledOrderCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => FetchNewOrder(getIt()));
+  getIt.registerFactory(() => NewOrderCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => FetchOngoingOrder(getIt()));
+  getIt.registerFactory(() => OngoingOrderCubit(getIt(), getIt()));
+
+  ///busy mode
+  getIt.registerLazySingleton(() => CheckBusyMode(getIt()));
+  getIt.registerLazySingleton(() => UpdateBusyModeStatus(getIt()));
+  getIt.registerFactory(() => BusyModeCubit(getIt(), getIt(),));
+  getIt.registerFactory(() => UpdateBusyModeCubit(getIt(), getIt(),));
 }

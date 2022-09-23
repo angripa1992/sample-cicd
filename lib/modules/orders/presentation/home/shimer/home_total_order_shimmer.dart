@@ -23,11 +23,12 @@ Widget todayTotalOrderShimmer() {
           fontSize: AppFontSize.s14.rSp,
         ),
       ),
+      SizedBox(height: AppSize.s8.rh,),
       ContainerShimmer(
         baseColor: AppColors.lightGrey,
         highlightColor: AppColors.whiteSmoke,
-        height: AppSize.s16.rh,
-        width: AppSize.s100.rw,
+        height: AppFontSize.s14.rh,
+        width: AppSize.s32.rw,
       ),
     ],
   );
@@ -46,11 +47,12 @@ Widget yesterdayTotalOrderShimmer() {
           fontSize: AppFontSize.s14.rSp,
         ),
       ),
+      SizedBox(height: AppSize.s8.rh,),
       ContainerShimmer(
         baseColor: AppColors.lightGrey,
         highlightColor: AppColors.whiteSmoke,
-        height: AppSize.s12.rh,
-        width: AppSize.s50.rw,
+        height: AppFontSize.s14.rh,
+        width: AppSize.s32.rw,
       ),
     ],
   );

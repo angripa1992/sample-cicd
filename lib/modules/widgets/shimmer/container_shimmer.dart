@@ -25,7 +25,6 @@ class ContainerShimmer extends StatelessWidget {
       highlightColor: highlightColor,
       enabled: true,
       child: Container(
-        margin: EdgeInsets.only(top: AppSize.s8.rh),
         height: height,
         width: width,
         decoration: BoxDecoration(
