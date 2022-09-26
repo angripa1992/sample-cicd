@@ -55,7 +55,7 @@
   "new_and_confirm_not_match" : "Password does’t match",
 
   "access_denied" : "Access Denied",
-  "access_denied_message_header_part_one" : "We noticed you’re trying to log onto klikit cloud mobile from a account.",
+  "access_denied_message_header_part_one" : "We noticed you’re trying to log onto klikit cloud mobile from a",
   "access_denied_message_header_part_two" : "account.",
   "access_denied_message_middle_part_one" : "Currently, this application is available",
   "access_denied_message_middle_part_two" : "only for branch managers.",
