@@ -3,7 +3,7 @@ class Cart {
   final String name;
   final List<dynamic> options;
   final dynamic quantity;
-  final double unitPrice;
+  final dynamic unitPrice;
   final String parentName;
   final int vat;
   final String image;

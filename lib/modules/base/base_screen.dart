@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/network/web_socket_client.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
@@ -32,7 +33,7 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-
+  final webSocketClient = getIt.get<WebSocketClient>();
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     OrdersScreen(),
@@ -41,17 +42,30 @@ class _BaseScreenState extends State<BaseScreen> {
   ];
 
   @override
+  void initState() {
+    webSocketClient.createWebSocketChannel();
+    webSocketClient.startListening();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<BusyModeCubit>(create: (_) => getIt.get<BusyModeCubit>()),
-        BlocProvider<UpdateBusyModeCubit>(create: (_) => getIt.get<UpdateBusyModeCubit>()),
-        BlocProvider<TodayTotalOrderCubit>(create: (_) => getIt.get<TodayTotalOrderCubit>()),
-        BlocProvider<YesterdayTotalOrderCubit>(create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
-        BlocProvider<CompletedOrderCubit>(create: (_) => getIt.get<CompletedOrderCubit>()),
-        BlocProvider<CancelledOrderCubit>(create: (_) => getIt.get<CancelledOrderCubit>()),
+        BlocProvider<UpdateBusyModeCubit>(
+            create: (_) => getIt.get<UpdateBusyModeCubit>()),
+        BlocProvider<TodayTotalOrderCubit>(
+            create: (_) => getIt.get<TodayTotalOrderCubit>()),
+        BlocProvider<YesterdayTotalOrderCubit>(
+            create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
+        BlocProvider<CompletedOrderCubit>(
+            create: (_) => getIt.get<CompletedOrderCubit>()),
+        BlocProvider<CancelledOrderCubit>(
+            create: (_) => getIt.get<CancelledOrderCubit>()),
         BlocProvider<NewOrderCubit>(create: (_) => getIt.get<NewOrderCubit>()),
-        BlocProvider<OngoingOrderCubit>(create: (_) => getIt.get<OngoingOrderCubit>()),
+        BlocProvider<OngoingOrderCubit>(
+            create: (_) => getIt.get<OngoingOrderCubit>()),
       ],
       child: WillPopScope(onWillPop: () {
         if (context.read<BaseScreenCubit>().state == 0) {
