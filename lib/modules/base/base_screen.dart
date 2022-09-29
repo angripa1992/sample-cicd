@@ -66,39 +66,42 @@ class _BaseScreenState extends State<BaseScreen> {
         BlocProvider<OngoingOrderCubit>(
             create: (_) => getIt.get<OngoingOrderCubit>()),
       ],
-      child: WillPopScope(onWillPop: () {
-        if (context.read<BaseScreenCubit>().state == 0) {
-          return Future.value(true);
-        } else {
-          context.read<BaseScreenCubit>().changeIndex(0);
-          return Future.value(false);
-        }
-      }, child: BlocBuilder<BaseScreenCubit, int>(
-        builder: (context, index) {
-          return Scaffold(
-            body: Center(child: _widgetOptions.elementAt(index)),
-            bottomNavigationBar: BottomNavigationBar(
-              items: _navigationItems(),
-              currentIndex: context.read<BaseScreenCubit>().state,
-              onTap: (index) {
-                context.read<BaseScreenCubit>().changeIndex(index);
-              },
-              backgroundColor: AppColors.whiteSmoke,
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: AppColors.purpleBlue,
-              unselectedItemColor: AppColors.smokeyGrey,
-              selectedLabelStyle: getRegularTextStyle(
-                color: AppColors.purpleBlue,
-                fontSize: 14.rSp,
-              ),
-              unselectedLabelStyle: getRegularTextStyle(
-                color: AppColors.smokeyGrey,
-                fontSize: 14.rSp,
-              ),
-            ),
-          );
+      child: WillPopScope(
+        onWillPop: () {
+          if (context.read<BaseScreenCubit>().state == 0) {
+            return Future.value(true);
+          } else {
+            context.read<BaseScreenCubit>().changeIndex(0);
+            return Future.value(false);
+          }
         },
-      )),
+        child: BlocBuilder<BaseScreenCubit, int>(
+          builder: (context, index) {
+            return Scaffold(
+              body: Center(child: _widgetOptions.elementAt(index)),
+              bottomNavigationBar: BottomNavigationBar(
+                items: _navigationItems(),
+                currentIndex: context.read<BaseScreenCubit>().state,
+                onTap: (index) {
+                  context.read<BaseScreenCubit>().changeIndex(index);
+                },
+                backgroundColor: AppColors.whiteSmoke,
+                type: BottomNavigationBarType.fixed,
+                selectedItemColor: AppColors.purpleBlue,
+                unselectedItemColor: AppColors.smokeyGrey,
+                selectedLabelStyle: getRegularTextStyle(
+                  color: AppColors.purpleBlue,
+                  fontSize: 14.rSp,
+                ),
+                unselectedLabelStyle: getRegularTextStyle(
+                  color: AppColors.smokeyGrey,
+                  fontSize: 14.rSp,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 

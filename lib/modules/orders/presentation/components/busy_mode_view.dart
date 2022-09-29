@@ -93,9 +93,9 @@ class _BusyModeViewState extends State<BusyModeView> {
                   );
                 },
                 value: state is Available,
-                activeColor: AppColors.black,
+                activeColor: AppColors.purpleBlue,
                 activeTrackColor: AppColors.smokeyGrey,
-                inactiveThumbColor: AppColors.purpleBlue,
+                inactiveThumbColor: AppColors.black,
                 inactiveTrackColor: AppColors.smokeyGrey,
               ),
             ],

@@ -122,6 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             }
                             return OrdersCard(
+                              height: AppSize.s80.rh,
+                              width: AppSize.s100.rw,
                               text: AppStrings.completed_orders.tr(),
                               orders: (state is Success<Orders>)
                                   ? state.data.total.toString()
@@ -149,6 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             }
                             return OrdersCard(
+                              height: AppSize.s80.rh,
+                              width: AppSize.s100.rw,
                               text: AppStrings.cancelled_orders.tr(),
                               orders: (state is Success<Orders>)
                                   ? state.data.total.toString()
@@ -166,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: AppSize.s20.rw,
-                    vertical: AppSize.s8.rh,
+                    vertical: AppSize.s16.rh,
                   ),
                   child: const BusyModeView(),
                 ),
