@@ -43,8 +43,7 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   void initState() {
-    webSocketClient.createWebSocketChannel();
-    webSocketClient.startListening();
+    webSocketClient.initWebSocketConnection();
     super.initState();
   }
 
