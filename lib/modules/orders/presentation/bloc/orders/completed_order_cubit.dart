@@ -15,26 +15,45 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
   CompletedOrderCubit(this._fetchCompletedOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchCompletedOrder({required bool isInitial}) async {
-    if(isInitial){
+  void fetchTodayCompletedOrder({required bool willShowLoading}) async {
+    final timeZone = await DateTimeProvider.timeZone();
+    final brands = await _informationProvider.getBrandsIds();
+    final providers = await _informationProvider.getProvidersIds();
+    final Map<String, dynamic> params = {};
+    params["start"] = DateTimeProvider.today();
+    params["end"] = DateTimeProvider.today();
+    params["timezone"] = timeZone;
+    params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
+    params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
+    _fetchCompletedOrders(willShowLoading: willShowLoading, params: params);
+  }
+
+  void fetchLifeTimeCompletedOrder({
+    required bool willShowLoading,
+    List<int>? providersID,
+    List<int>? brandsID,
+  }) async {
+    final brands = brandsID ?? await _informationProvider.getBrandsIds();
+    final providers = providersID ?? await _informationProvider.getProvidersIds();
+    final Map<String, dynamic> params = {};
+    params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
+    params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
+    _fetchCompletedOrders(willShowLoading: willShowLoading, params: params);
+  }
+
+  void _fetchCompletedOrders({
+    required bool willShowLoading,
+    required Map<String, dynamic> params,
+  }) async {
+    if (willShowLoading) {
       emit(Loading());
     }
     final status = await _informationProvider.getStatusByNames(
       [OrderStatusName.DELIVERED],
     );
-    final brands = await _informationProvider.getBrandsIds();
-    final providers = await _informationProvider.getProvidersIds();
     final branch = await _informationProvider.getBranchId();
-    final timeZone = await DateTimeProvider.timeZone();
-    final params = {
-      "start": DateTimeProvider.today(),
-      "end": DateTimeProvider.today(),
-      "timezone": timeZone,
-      "filterByBranch": branch,
-      "filterByBrand": ListParam<int>(brands,ListFormat.csv),
-      "filterByProvider": ListParam<int>(providers,ListFormat.csv),
-      "filterByStatus": ListParam<int>(status,ListFormat.csv),
-    };
+    params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
+    params['filterByBranch'] = branch;
     final response = await _fetchCompletedOrder(params);
     response.fold(
       (failure) {

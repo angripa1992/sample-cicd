@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/resources/colors.dart';
-import 'package:klikit/resources/styles.dart';
+import 'package:shimmer/shimmer.dart';
 
-import '../../../../resources/values.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/styles.dart';
+import '../../../../../resources/values.dart';
+import '../../../../widgets/shimmer/container_shimmer.dart';
 
-class OrdersCard extends StatelessWidget {
+class TotalOrderCardShimmer extends StatelessWidget {
   final String text;
   final String orders;
   final Color orderColor;
@@ -16,17 +19,17 @@ class OrdersCard extends StatelessWidget {
   final double height;
   final double width;
 
-  const OrdersCard(
+  const TotalOrderCardShimmer(
       {Key? key,
       required this.text,
       required this.orders,
       required this.orderColor,
-      required this.fontSize,
-      required this.orderFontSize,
-      required this.height,
-      required this.width,
       this.textColor,
-      this.bgColor})
+      this.bgColor,
+      required this.orderFontSize,
+      required this.fontSize,
+      required this.height,
+      required this.width})
       : super(key: key);
 
   @override
@@ -47,19 +50,21 @@ class OrdersCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                orders,
-                style: getRegularTextStyle(
-                  color: orderColor,
-                  fontSize: orderFontSize,
-                ),
+              ContainerShimmer(
+                baseColor: AppColors.lightGrey,
+                highlightColor: AppColors.whiteSmoke,
+                height: AppFontSize.s14.rh,
+                width: AppSize.s32.rw,
               ),
               SizedBox(height: AppSize.s8.rh),
-              Expanded(
+              Shimmer.fromColors(
+                baseColor: textColor ?? AppColors.blackCow,
+                highlightColor: AppColors.whiteSmoke,
+                enabled: true,
                 child: Text(
                   text,
                   style: getRegularTextStyle(
-                    color: textColor ?? AppColors.blackCow,
+                    color: AppColors.blackCow,
                     fontSize: fontSize,
                   ),
                 ),

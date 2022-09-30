@@ -43,12 +43,12 @@ class RestClient {
             }
           }
           if (!kReleaseMode) {
-           // _dioLogger.logRequest(options);
+            _dioLogger.logRequest(options);
           }
         },
         onError: (error, handler) async {
           if (!kReleaseMode) {
-           // _dioLogger.logError(error);
+            _dioLogger.logError(error);
           }
           var options = error.response!.requestOptions;
           if (options.path == Urls.login || options.path == Urls.forgetPassword) {
@@ -87,7 +87,7 @@ class RestClient {
         },
         onResponse: (response, handler) {
           if (!kReleaseMode) {
-           // _dioLogger.logResponse(response);
+            _dioLogger.logResponse(response);
           }
           handler.next(response);
         },

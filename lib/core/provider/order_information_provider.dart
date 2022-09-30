@@ -124,13 +124,13 @@ class OrderInformationProvider {
   Future<List<int>> getProvidersIds() async{
    if(_providers.isEmpty){
      final providers = await getProviders();
-     return _extractProvidersIds(providers);
+     return extractProvidersIds(providers);
    }else{
-     return _extractProvidersIds(_providers);
+     return extractProvidersIds(_providers);
    }
   }
 
-  Future<List<int>> _extractProvidersIds(List<Provider> providers) async{
+  Future<List<int>> extractProvidersIds(List<Provider> providers) async{
     final ids = <int>[];
     for(var provider in providers){
       ids.add(provider.id);

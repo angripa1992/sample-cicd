@@ -1,21 +1,66 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/orders/presentation/order/observer/filter_observer.dart';
+import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
+import '../../bloc/orders/completed_order_cubit.dart';
 import '../../components/orders_card.dart';
 
 class TotalOrderView extends StatefulWidget {
-  const TotalOrderView({Key? key}) : super(key: key);
+  final FilterSubject subject;
+
+  const TotalOrderView({Key? key, required this.subject}) : super(key: key);
 
   @override
   State<TotalOrderView> createState() => _TotalOrderViewState();
 }
 
-class _TotalOrderViewState extends State<TotalOrderView> {
+class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
+  List<int>? providers;
+  List<int>? brands;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    filterSubject = widget.subject;
+    filterSubject?.addObserver(this, ObserverTag.TOTAL_ORDER);
+    _fetchCompletedOrder(true);
+    _startTimer();
+    super.initState();
+  }
+
+  void _fetchCompletedOrder(bool willShowLoading) {
+    context.read<CompletedOrderCubit>().fetchLifeTimeCompletedOrder(
+          willShowLoading: willShowLoading,
+          providersID: providers,
+          brandsID: brands,
+        );
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(
+      const Duration(seconds: AppConstant.refreshTime),
+      (timer) {
+        _fetchCompletedOrder(false);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -37,8 +82,10 @@ class _TotalOrderViewState extends State<TotalOrderView> {
             height: AppSize.s96.rh,
             width: AppSize.s107.rw,
             text: 'Completed Orders',
-            orders: '0',
-            orderColor: AppColors.purpleBlue,
+            orders: '139',
+            orderColor: AppColors.white,
+            textColor: AppColors.white,
+            bgColor: AppColors.blackCow,
             fontSize: AppFontSize.s14.rSp,
             orderFontSize: AppFontSize.s24.rSp,
           ),
@@ -54,5 +101,17 @@ class _TotalOrderViewState extends State<TotalOrderView> {
         ],
       ),
     );
+  }
+
+  @override
+  void applyBrandsFilter(List<int> brandsID) {
+    // TODO: implement applyBrandsFilter
+  }
+
+  @override
+  void applyProviderFilter(List<int> providersID) {
+    providers = providersID;
+    _fetchCompletedOrder(false);
+    print(providersID);
   }
 }

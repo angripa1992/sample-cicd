@@ -5,16 +5,14 @@ import 'package:klikit/modules/orders/presentation/order/components/brand_filter
 import 'package:klikit/modules/orders/presentation/order/components/delivery_platform_filter.dart';
 import 'package:klikit/modules/orders/presentation/order/components/order_app_bar.dart';
 import 'package:klikit/modules/orders/presentation/order/components/total_orders.dart';
+import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/values.dart';
 
-class OrderHeaderView extends StatefulWidget {
-  const OrderHeaderView({Key? key}) : super(key: key);
+class OrderHeaderView extends StatelessWidget {
+  final FilterSubject subject;
 
-  @override
-  State<OrderHeaderView> createState() => _OrderHeaderViewState();
-}
+  const OrderHeaderView({Key? key, required this.subject}) : super(key: key);
 
-class _OrderHeaderViewState extends State<OrderHeaderView> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,23 +23,24 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: AppSize.s20.rw,
-            vertical: AppSize.s12.rh,
-          ),
-          child: const DeliveryPlatformFilter(),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s20.rw,
-            vertical: AppSize.s8.rh,
+            vertical: AppSize.s16.rh,
           ),
           child: const BrandFilter(),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s18.rw,
-            vertical: AppSize.s8.rh,
+          padding: EdgeInsets.only(
+            right: AppSize.s20.rw,
+            left: AppSize.s20.rw,
           ),
-          child: const TotalOrderView(),
+          child: DeliveryPlatformFilter(filterSubject: subject),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            left: AppSize.s18.rw,
+            right: AppSize.s18.rw,
+            top: AppSize.s16.rh,
+          ),
+          child: TotalOrderView(subject: subject),
         ),
         Padding(
           padding: EdgeInsets.only(

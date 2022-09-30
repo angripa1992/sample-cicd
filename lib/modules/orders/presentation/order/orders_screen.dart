@@ -1,13 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/presentation/order/components/order_header.dart';
+import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../resources/strings.dart';
-import '../../../../resources/styles.dart';
-import '../components/busy_mode_view.dart';
+import 'components/tabbar_delegate.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -17,6 +16,7 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderStateMixin {
+  final _filterSubject = FilterSubject();
   TabController? _tabController;
 
   @override
@@ -32,20 +32,27 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         physics: const NeverScrollableScrollPhysics(),
         headerSliverBuilder: (context, isScrolled) {
           return [
-            const SliverToBoxAdapter(
-              child: OrderHeaderView(),
+            SliverToBoxAdapter(
+              child: OrderHeaderView(subject: _filterSubject),
             ),
             SliverPersistentHeader(
               delegate: MyDelegate(
                 TabBar(
                   controller: _tabController,
-                  tabs: [
-                    Tab(text: 'New',),
-                    Tab(text: 'Ongoing',),
-                    Tab(text: 'Order History',),
+                  tabs: const [
+                    Tab(text: 'New'),
+                    Tab(text: 'Ongoing'),
+                    Tab(text: 'Order History'),
                   ],
+                  labelPadding:
+                      EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
                   unselectedLabelColor: AppColors.lightViolet,
                   labelColor: AppColors.white,
+                  labelStyle: TextStyle(
+                    fontSize: AppFontSize.s14.rSp,
+                    fontFamily: AppFonts.Aeonik,
+                    fontWeight: AppFontWeight.regular,
+                  ),
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppSize.s4.rSp),
                     border: Border.all(color: AppColors.purpleBlue),
@@ -70,41 +77,5 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         ),
       ),
     );
-  }
-}
-
-class MyDelegate extends SliverPersistentHeaderDelegate {
-  MyDelegate(this.tabBar);
-
-  final TabBar tabBar;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: ScreenSizes.statusBarHeight,
-        right: AppSize.s18.rw,
-        left: AppSize.s18.rw,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-        color: AppColors.lightVioletTwo,
-      ),
-      child: tabBar,
-    );
-  }
-
-  @override
-  double get maxExtent =>
-      tabBar.preferredSize.height + ScreenSizes.statusBarHeight;
-
-  @override
-  double get minExtent =>
-      tabBar.preferredSize.height + ScreenSizes.statusBarHeight;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }
