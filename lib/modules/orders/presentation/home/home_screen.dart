@@ -12,7 +12,7 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_c
 import 'package:klikit/modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/today_total_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/components/busy_mode_view.dart';
 import 'package:klikit/modules/orders/presentation/components/orders_card.dart';
@@ -57,21 +57,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _fetchOrder(bool isInitialCall) {
-    context
-        .read<TodayTotalOrderCubit>()
-        .fetchTotalOrder(isInitial: isInitialCall);
-    context
-        .read<CompletedOrderCubit>()
-        .fetchTodayCompletedOrder(willShowLoading: isInitialCall);
-    context
-        .read<CancelledOrderCubit>()
-        .fetchCancelledOrder(isInitial: isInitialCall);
-    context
-        .read<NewOrderCubit>()
-        .fetchNewOrder(page: 1, isInitial: isInitialCall);
-    context
-        .read<OngoingOrderCubit>()
-        .fetchOngoingOrder(page: 1, isInitial: isInitialCall);
+    context.read<TotalOrderCubit>().fetchTodayTotalOrder(
+          willShowLoading: isInitialCall,
+        );
+    context.read<CompletedOrderCubit>().fetchTodayCompletedOrder(
+          willShowLoading: isInitialCall,
+        );
+    context.read<CancelledOrderCubit>().fetchTodayCancelledOrder(
+          willShowLoading: isInitialCall,
+        );
+    context.read<NewOrderCubit>().fetchNewOrder(
+          page: 1,
+          willShowLoading: isInitialCall,
+        );
+    context.read<OngoingOrderCubit>().fetchOngoingOrder(
+          page: 1,
+          willShowLoading: isInitialCall,
+        );
     if (isInitialCall) {
       context.read<YesterdayTotalOrderCubit>().fetchTotalOrder();
     }

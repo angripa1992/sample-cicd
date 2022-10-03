@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/today_total_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/home/shimer/home_total_order_shimmer.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -35,7 +35,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              BlocConsumer<TodayTotalOrderCubit,ResponseState>(
+              BlocConsumer<TotalOrderCubit,ResponseState>(
                 listener: (context,state){
                   if(state is Failed){
                     showErrorSnackBar(context, state.failure.message);

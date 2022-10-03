@@ -15,8 +15,8 @@ class NewOrderCubit extends Cubit<ResponseState> {
   NewOrderCubit(this._fetchNewOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchNewOrder({required int page,required bool isInitial}) async {
-    if(isInitial){
+  void fetchNewOrder({required int page,required bool willShowLoading}) async {
+    if(willShowLoading){
       emit(Loading());
     }
     final status = await _informationProvider.getStatusByNames(
@@ -39,7 +39,6 @@ class NewOrderCubit extends Cubit<ResponseState> {
         emit(Failed(failure));
       },
       (orders) {
-        print('====new orders ${orders.total}');
         emit(Success<Orders>(orders));
       },
     );

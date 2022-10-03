@@ -21,7 +21,7 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
     final providers = await _informationProvider.getProvidersIds();
     final Map<String, dynamic> params = {};
     params["start"] = DateTimeProvider.today();
-    params["end"] = DateTimeProvider.today();
+    params["end"] = DateTimeProvider.nextDay();
     params["timezone"] = timeZone;
     params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
     params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
@@ -36,8 +36,12 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
     final brands = brandsID ?? await _informationProvider.getBrandsIds();
     final providers = providersID ?? await _informationProvider.getProvidersIds();
     final Map<String, dynamic> params = {};
-    params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
-    params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
+    if(brands.isNotEmpty){
+      params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
+    }
+    if(providers.isNotEmpty){
+      params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
+    }
     _fetchCompletedOrders(willShowLoading: willShowLoading, params: params);
   }
 

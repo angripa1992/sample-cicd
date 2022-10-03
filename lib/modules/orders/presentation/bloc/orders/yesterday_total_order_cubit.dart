@@ -39,7 +39,6 @@ class YesterdayTotalOrderCubit extends Cubit<ResponseState> {
         emit(Failed(failure));
       },
       (orders) {
-        print('===========total orders ${orders.total}');
         emit(Success<Orders>(orders));
       },
     );

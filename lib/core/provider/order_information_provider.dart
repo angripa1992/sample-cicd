@@ -55,6 +55,15 @@ class OrderInformationProvider {
     }
   }
 
+  Future<String> getStatusNameByID(int id) async{
+    if (_orderStatus.isEmpty) {
+      final status = await getStatus();
+      return _extractStatusNameByID(status,id);
+    } else {
+      return _extractStatusNameByID(_orderStatus,id);
+    }
+  }
+
   Future<List<int>> _extractStatusIds(List<OrderStatus> status) async{
     final ids = <int>[];
     for (var status in status) {
@@ -70,6 +79,10 @@ class OrderInformationProvider {
       ids.add(id);
     }
     return ids;
+  }
+
+  Future<String> _extractStatusNameByID(List<OrderStatus> status,int id) async{
+    return status.firstWhere((status) => status.id == id).status;
   }
 
   Future<Brands> getBrands() async{
@@ -130,11 +143,24 @@ class OrderInformationProvider {
    }
   }
 
+ Future<Provider> getProviderById(int id) async{
+   if(_providers.isEmpty){
+     final providers = await getProviders();
+     return extractProviderById(providers,id);
+   }else{
+     return extractProviderById(_providers,id);
+   }
+  }
+
   Future<List<int>> extractProvidersIds(List<Provider> providers) async{
     final ids = <int>[];
     for(var provider in providers){
       ids.add(provider.id);
     }
     return ids;
+  }
+
+  Future<Provider> extractProviderById(List<Provider> providers,int id) async{
+    return providers.firstWhere((element) => element.id == id);
   }
 }

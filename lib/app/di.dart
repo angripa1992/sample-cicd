@@ -12,7 +12,7 @@ import 'package:klikit/modules/orders/domain/usecases/fetch_cancelled_order.dart
 import 'package:klikit/modules/orders/domain/usecases/fetch_completed_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_new_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_ongoing_order.dart';
-import 'package:klikit/modules/orders/domain/usecases/fetch_today_total_orders.dart';
+import 'package:klikit/modules/orders/domain/usecases/fetch_total_orders.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_yesterday_total_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/update_busy_mode_status.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
@@ -20,7 +20,7 @@ import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cu
 import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/today_total_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
 import 'package:klikit/modules/user/data/repositories/user_repository_impl.dart';
@@ -80,8 +80,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton<OrderRepository>(
       () => OrderRepositoryImpl(getIt(), getIt()));
   getIt.registerLazySingleton(() => OrderInformationProvider(getIt(), getIt()));
-  getIt.registerLazySingleton(() => FetchTodayTotalOrders(getIt()));
-  getIt.registerFactory(() => TodayTotalOrderCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => FetchTotalOrders(getIt()));
+  getIt.registerFactory(() => TotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchYesterdayTotalOrders(getIt()));
   getIt.registerFactory(() => YesterdayTotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchCompletedOrder(getIt()));

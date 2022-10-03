@@ -1,21 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/domain/entities/order_status.dart';
 
-import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../core/provider/order_information_provider.dart';
-import '../../../domain/entities/order.dart';
-import '../../../domain/entities/order_status.dart';
-import '../../../domain/usecases/fetch_cancelled_order.dart';
+import '../../../domain/usecases/fetch_total_orders.dart';
 
-class CancelledOrderCubit extends Cubit<ResponseState> {
-  final FetchCancelledOrder _fetchCancelledOrder;
+class TotalOrderCubit extends Cubit<ResponseState> {
+  final FetchTotalOrders _fetchTotalOrders;
   final OrderInformationProvider _informationProvider;
 
-  CancelledOrderCubit(this._fetchCancelledOrder, this._informationProvider)
+  TotalOrderCubit(this._fetchTotalOrders, this._informationProvider)
       : super(Empty());
 
-  void fetchTodayCancelledOrder({required bool willShowLoading}) async {
+  void fetchTodayTotalOrder({required bool willShowLoading}) async {
     final timeZone = await DateTimeProvider.timeZone();
     final brands = await _informationProvider.getBrandsIds();
     final providers = await _informationProvider.getProvidersIds();
@@ -25,10 +25,10 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
     params["timezone"] = timeZone;
     params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
     params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
-    _fetchCancelledOrders(willShowLoading: willShowLoading, params: params);
+    _fetchTotalOrder(willShowLoading: willShowLoading, params: params);
   }
 
-  void fetchLifeTimeCancelledOrder({
+  void fetchLifeTimeTotalOrder({
     required bool willShowLoading,
     List<int>? providersID,
     List<int>? brandsID,
@@ -42,10 +42,11 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
     if(providers.isNotEmpty){
       params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
     }
-    _fetchCancelledOrders(willShowLoading: willShowLoading, params: params);
+    _fetchTotalOrder(willShowLoading: willShowLoading, params: params);
   }
 
-  void _fetchCancelledOrders({
+
+  void _fetchTotalOrder({
     required bool willShowLoading,
     required Map<String, dynamic> params,
   }) async {
@@ -53,12 +54,12 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
       emit(Loading());
     }
     final status = await _informationProvider.getStatusByNames(
-      [OrderStatusName.CANCELLED],
+      [OrderStatusName.CANCELLED, OrderStatusName.DELIVERED],
     );
     final branch = await _informationProvider.getBranchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;
-    final response = await _fetchCancelledOrder(params);
+    final response = await _fetchTotalOrders(params);
     response.fold(
           (failure) {
         emit(Failed(failure));

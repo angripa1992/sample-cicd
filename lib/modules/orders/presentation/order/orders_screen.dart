@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/order/components/new_order_screen.dart';
+import 'package:klikit/modules/orders/presentation/order/components/ongoing_order_screen.dart';
 import 'package:klikit/modules/orders/presentation/order/components/order_header.dart';
+import 'package:klikit/modules/orders/presentation/order/components/order_history_screen.dart';
 import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -15,7 +23,8 @@ class OrdersScreen extends StatefulWidget {
   State<OrdersScreen> createState() => _OrdersScreenState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderStateMixin {
+class _OrdersScreenState extends State<OrdersScreen>
+    with SingleTickerProviderStateMixin {
   final _filterSubject = FilterSubject();
   TabController? _tabController;
 
@@ -23,6 +32,12 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -39,10 +54,18 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               delegate: MyDelegate(
                 TabBar(
                   controller: _tabController,
-                  tabs: const [
-                    Tab(text: 'New'),
-                    Tab(text: 'Ongoing'),
-                    Tab(text: 'Order History'),
+                  tabs: [
+                    BlocBuilder<NewOrderCubit, ResponseState>(
+                      builder: (context, state) {
+                        return Tab(text: (state is Success<Orders>) ? 'New (${state.data.total})' : 'New');
+                      },
+                    ),
+                    BlocBuilder<OngoingOrderCubit, ResponseState>(
+                      builder: (context, state) {
+                        return Tab(text: (state is Success<Orders>) ? 'Ongoing (${state.data.total})' : 'Ongoing');
+                      },
+                    ),
+                    const Tab(text: 'Order History'),
                   ],
                   labelPadding:
                       EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
@@ -67,11 +90,13 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         body: SafeArea(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s18.rw),
-            child: ListView.builder(
-              itemCount: 30,
-              itemBuilder: (context, index) {
-                return Text('Value $index');
-              },
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                NewOrderScreen(),
+                OngoingOrderScreen(),
+                OrderHistoryScreen(),
+              ],
             ),
           ),
         ),

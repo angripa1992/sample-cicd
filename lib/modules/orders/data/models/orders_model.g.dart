@@ -123,7 +123,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     };
 
 CartModel _$CartModelFromJson(Map<String, dynamic> json) => CartModel(
-      id: json['id'] as String?,
+      id: json['id'],
       name: json['name'] as String?,
       options: json['options'] as List<dynamic>?,
       quantity: json['quantity'],
@@ -137,6 +137,9 @@ CartModel _$CartModelFromJson(Map<String, dynamic> json) => CartModel(
       itemId: json['item_id'] as int?,
       itemName: json['item_name'] as String?,
       itemFinalPrice: json['item_final_price'] as int?,
+      variants: (json['variants'] as List<dynamic>?)
+          ?.map((e) => VariantModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$CartModelToJson(CartModel instance) => <String, dynamic>{
@@ -154,6 +157,20 @@ Map<String, dynamic> _$CartModelToJson(CartModel instance) => <String, dynamic>{
       'item_id': instance.itemId,
       'item_name': instance.itemName,
       'item_final_price': instance.itemFinalPrice,
+      'variants': instance.variants,
+    };
+
+VariantModel _$VariantModelFromJson(Map<String, dynamic> json) => VariantModel(
+      json['id'] as String?,
+      json['name'] as String?,
+      json['external_id'] as String?,
+    );
+
+Map<String, dynamic> _$VariantModelToJson(VariantModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'external_id': instance.externalId,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

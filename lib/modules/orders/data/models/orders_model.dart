@@ -3,6 +3,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
 import '../../domain/entities/order.dart';
+import '../../domain/entities/variant.dart';
 
 part 'orders_model.g.dart';
 
@@ -248,7 +249,7 @@ class OrderModel {
 
 @JsonSerializable()
 class CartModel {
-  String? id;
+  dynamic id;
   String? name;
   dynamic quantity;
   int? vat;
@@ -267,6 +268,7 @@ class CartModel {
   String? itemName;
   @JsonKey(name: 'item_final_price')
   int? itemFinalPrice;
+  List<VariantModel>? variants;
 
   CartModel({
     this.id,
@@ -283,6 +285,7 @@ class CartModel {
     this.itemId,
     this.itemName,
     this.itemFinalPrice,
+    this.variants,
   });
 
   factory CartModel.fromJson(Map<String, dynamic> json) =>
@@ -292,7 +295,7 @@ class CartModel {
 
   Cart toEntity() {
     return Cart(
-      id: id.orEmpty(),
+      id: id,
       name: name.orEmpty(),
       options: options ?? [],
       quantity: quantity,
@@ -306,8 +309,36 @@ class CartModel {
       itemId: itemId.orZero(),
       itemName: itemName.orEmpty(),
       itemFinalPrice: itemFinalPrice.orZero(),
+      variants: _getVariants(),
     );
   }
+
+  List<Variant> _getVariants() {
+    if (variants == null || variants!.isEmpty) {
+      return [];
+    }
+    final List<Variant> data = [];
+    for (var variant in variants!) {
+      data.add(variant.toEntity());
+    }
+    return data;
+  }
+}
+
+@JsonSerializable()
+class VariantModel {
+  String? id;
+  String? name;
+  @JsonKey(name: 'external_id')
+  String? externalId;
+
+  VariantModel(this.id, this.name, this.externalId);
+
+  Variant toEntity() {
+    return Variant(id.orEmpty(), name.orEmpty(), externalId.orEmpty());
+  }
+
+  factory VariantModel.fromJson(Map<String, dynamic> json) => _$VariantModelFromJson(json);
 }
 
 @JsonSerializable()

@@ -1,8 +1,9 @@
-class Brands{
- final List<Brand> brands;
+class Brands {
+  final List<Brand> brands;
 
- Brands(this.brands);
+  Brands(this.brands);
 }
+
 class Brand {
   final int id;
   final int businessId;
@@ -15,6 +16,7 @@ class Brand {
   final List<int> branchIds;
   final List<String> branchTitles;
   final List<int> brandCuisines;
+  final bool isSelected;
 
   Brand({
     required this.id,
@@ -28,5 +30,38 @@ class Brand {
     required this.branchIds,
     required this.branchTitles,
     required this.brandCuisines,
+    this.isSelected = true,
   });
+
+  Brand copy() {
+    return Brand(id: id,
+      businessId: businessId,
+      title: title,
+      logo: logo,
+      banner: banner,
+      qrContent: qrContent,
+      qrLabel: qrLabel,
+      businessTitle: businessTitle,
+      branchIds: branchIds,
+      branchTitles: branchTitles,
+      brandCuisines: brandCuisines,
+      isSelected: isSelected,
+    );
+  }
+
+  Brand copyWith({required isSelected}) {
+    return Brand(id: id,
+      businessId: businessId,
+      title: title,
+      logo: logo,
+      banner: banner,
+      qrContent: qrContent,
+      qrLabel: qrLabel,
+      businessTitle: businessTitle,
+      branchIds: branchIds,
+      branchTitles: branchTitles,
+      brandCuisines: brandCuisines,
+      isSelected: isSelected,
+    );
+  }
 }

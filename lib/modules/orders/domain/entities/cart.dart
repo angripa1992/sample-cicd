@@ -1,5 +1,7 @@
+import 'package:klikit/modules/orders/domain/entities/variant.dart';
+
 class Cart {
-  final String id;
+  final dynamic id;
   final String name;
   final List<dynamic> options;
   final dynamic quantity;
@@ -13,6 +15,7 @@ class Cart {
   final int itemId;
   final String itemName;
   final int itemFinalPrice;
+  final List<Variant> variants;
 
   Cart({
     required this.id,
@@ -29,6 +32,7 @@ class Cart {
     required this.itemId,
     required this.itemName,
     required this.itemFinalPrice,
+    required this.variants,
   });
 }
 

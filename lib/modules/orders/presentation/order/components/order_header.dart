@@ -25,22 +25,22 @@ class OrderHeaderView extends StatelessWidget {
             horizontal: AppSize.s20.rw,
             vertical: AppSize.s16.rh,
           ),
-          child: const BrandFilter(),
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            right: AppSize.s20.rw,
-            left: AppSize.s20.rw,
-          ),
-          child: DeliveryPlatformFilter(filterSubject: subject),
+          child: BrandFilter(filterSubject: subject,),
         ),
         Padding(
           padding: EdgeInsets.only(
             left: AppSize.s18.rw,
             right: AppSize.s18.rw,
-            top: AppSize.s16.rh,
           ),
           child: TotalOrderView(subject: subject),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            right: AppSize.s20.rw,
+            left: AppSize.s20.rw,
+            top: AppSize.s16.rh,
+          ),
+          child: DeliveryPlatformFilter(filterSubject: subject),
         ),
         Padding(
           padding: EdgeInsets.only(

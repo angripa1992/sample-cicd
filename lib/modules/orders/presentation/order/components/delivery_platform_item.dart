@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
+import 'package:klikit/environment_variables.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
+import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/styles.dart';
 
+import '../../../../../app/di.dart';
 import '../../../../../resources/colors.dart';
+import '../../../../../resources/values.dart';
 
 class DeliveryPlatformItem extends StatefulWidget {
   final Provider provider;
@@ -16,6 +22,7 @@ class DeliveryPlatformItem extends StatefulWidget {
 }
 
 class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
+  final envVariables = getIt.get<EnvironmentVariables>();
   bool? _isSelected;
 
   @override
@@ -26,23 +33,48 @@ class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        //Image.network(widget.provider.logo,),
-        Text(widget.provider.title),
-        Switch(
-          onChanged: (isSelected) {
-            setState(() {
-              _isSelected = isSelected;
-              widget.onChange(_isSelected!,widget.provider);
-            });
-          },
-          value: _isSelected!,
-          activeColor: AppColors.purpleBlue,
-          activeTrackColor: AppColors.smokeyGrey,
-          inactiveThumbColor: AppColors.black,
-          inactiveTrackColor: AppColors.smokeyGrey,
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: AppSize.s4.rh,
+            horizontal: AppSize.s8.rw,
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                height: AppSize.s36.rh,
+                width: AppSize.s36.rw,
+                child: Image.network(
+                  '${envVariables.cdnUrl}${widget.provider.logo}',
+                ),
+              ),
+              SizedBox(width: AppSize.s16.rw),
+              Text(
+                widget.provider.title,
+                style: getRegularTextStyle(
+                  color: AppColors.blueViolet,
+                  fontSize: AppFontSize.s16.rSp,
+                ),
+              ),
+              const Spacer(),
+              Switch(
+                onChanged: (isSelected) {
+                  setState(() {
+                    _isSelected = isSelected;
+                    widget.onChange(_isSelected!, widget.provider);
+                  });
+                },
+                value: _isSelected!,
+                activeColor: AppColors.purpleBlue,
+                activeTrackColor: AppColors.smokeyGrey,
+                inactiveThumbColor: AppColors.black,
+                inactiveTrackColor: AppColors.smokeyGrey,
+              ),
+            ],
+          ),
         ),
+        const Divider(),
       ],
     );
   }

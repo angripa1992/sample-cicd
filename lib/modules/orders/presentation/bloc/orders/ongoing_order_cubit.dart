@@ -14,8 +14,8 @@ class OngoingOrderCubit extends Cubit<ResponseState> {
   OngoingOrderCubit(this._fetchOngoingOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchOngoingOrder({required int page,required bool isInitial}) async {
-    if(isInitial){
+  void fetchOngoingOrder({required int page,required bool willShowLoading}) async {
+    if(willShowLoading){
       emit(Loading());
     }
     final status = await _informationProvider.getStatusByNames(

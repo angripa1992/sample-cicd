@@ -12,7 +12,7 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_c
 import 'package:klikit/modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/today_total_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
 import 'package:klikit/modules/stock/presentation/pages/stock_screen.dart';
@@ -54,8 +54,8 @@ class _BaseScreenState extends State<BaseScreen> {
         BlocProvider<BusyModeCubit>(create: (_) => getIt.get<BusyModeCubit>()),
         BlocProvider<UpdateBusyModeCubit>(
             create: (_) => getIt.get<UpdateBusyModeCubit>()),
-        BlocProvider<TodayTotalOrderCubit>(
-            create: (_) => getIt.get<TodayTotalOrderCubit>()),
+        BlocProvider<TotalOrderCubit>(
+            create: (_) => getIt.get<TotalOrderCubit>()),
         BlocProvider<YesterdayTotalOrderCubit>(
             create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
         BlocProvider<CompletedOrderCubit>(
