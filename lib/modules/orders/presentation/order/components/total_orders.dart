@@ -30,8 +30,8 @@ class TotalOrderView extends StatefulWidget {
 }
 
 class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
-  List<int>? providers;
-  List<int>? brands;
+  List<int>? _providers;
+  List<int>? _brands;
   Timer? _timer;
 
   @override
@@ -46,18 +46,18 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
   void _fetchCompletedOrder(bool willShowLoading) {
     context.read<CompletedOrderCubit>().fetchLifeTimeCompletedOrder(
           willShowLoading: willShowLoading,
-          providersID: providers,
-          brandsID: brands,
+          providersID: _providers,
+          brandsID: _brands,
         );
     context.read<TotalOrderCubit>().fetchLifeTimeTotalOrder(
           willShowLoading: willShowLoading,
-          providersID: providers,
-          brandsID: brands,
+          providersID: _providers,
+          brandsID: _brands,
         );
     context.read<CancelledOrderCubit>().fetchLifeTimeCancelledOrder(
           willShowLoading: willShowLoading,
-          providersID: providers,
-          brandsID: brands,
+          providersID: _providers,
+          brandsID: _brands,
         );
   }
 
@@ -65,7 +65,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
     _timer = Timer.periodic(
       const Duration(seconds: AppConstant.refreshTime),
       (timer) {
-       // _fetchCompletedOrder(false);
+        // _fetchCompletedOrder(false);
       },
     );
   }
@@ -173,13 +173,13 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
 
   @override
   void applyBrandsFilter(List<int> brandsID) {
-    // TODO: implement applyBrandsFilter
+    _brands = brandsID;
+    _fetchCompletedOrder(true);
   }
 
   @override
   void applyProviderFilter(List<int> providersID) {
-    providers = providersID;
+    _providers = providersID;
     _fetchCompletedOrder(true);
-    print(providersID);
   }
 }

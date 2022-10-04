@@ -104,15 +104,15 @@ class OrderInformationProvider {
   Future<List<int>> getBrandsIds() async{
     if(_brands.brands.isEmpty){
       final brands = await getBrands();
-      return await _extractBrandsIds(brands);
+      return await extractBrandsIds(brands.brands);
     }else{
-      return await _extractBrandsIds(_brands);
+      return await extractBrandsIds(_brands.brands);
     }
   }
 
-  Future<List<int>> _extractBrandsIds(Brands brands) async{
+  Future<List<int>> extractBrandsIds(List<Brand> brands) async{
     final ids = <int>[];
-    for(var brand in brands.brands){
+    for(var brand in brands){
       ids.add(brand.id);
     }
     return ids;

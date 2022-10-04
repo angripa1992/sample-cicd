@@ -50,7 +50,6 @@ class _DeliveryPlatformFilterState extends State<DeliveryPlatformFilter> {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
         headerColor: AppColors.purpleBlue,
-        headerRadius: AppSize.s4.rSp,
         headerPadding: EdgeInsets.symmetric(
           horizontal: AppSize.s20.rw,
           vertical: AppSize.s10.rh,

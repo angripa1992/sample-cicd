@@ -16,7 +16,7 @@ class Brand {
   final List<int> branchIds;
   final List<String> branchTitles;
   final List<int> brandCuisines;
-  final bool isSelected;
+  final bool isChecked;
 
   Brand({
     required this.id,
@@ -30,7 +30,7 @@ class Brand {
     required this.branchIds,
     required this.branchTitles,
     required this.brandCuisines,
-    this.isSelected = true,
+    this.isChecked = true,
   });
 
   Brand copy() {
@@ -45,11 +45,11 @@ class Brand {
       branchIds: branchIds,
       branchTitles: branchTitles,
       brandCuisines: brandCuisines,
-      isSelected: isSelected,
+      isChecked: isChecked,
     );
   }
 
-  Brand copyWith({required isSelected}) {
+  Brand copyWith({required isChecked}) {
     return Brand(id: id,
       businessId: businessId,
       title: title,
@@ -61,7 +61,7 @@ class Brand {
       branchIds: branchIds,
       branchTitles: branchTitles,
       brandCuisines: brandCuisines,
-      isSelected: isSelected,
+      isChecked: isChecked,
     );
   }
 }

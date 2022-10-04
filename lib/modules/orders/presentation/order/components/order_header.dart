@@ -29,18 +29,18 @@ class OrderHeaderView extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(
-            left: AppSize.s18.rw,
-            right: AppSize.s18.rw,
+            right: AppSize.s20.rw,
+            left: AppSize.s20.rw,
           ),
-          child: TotalOrderView(subject: subject),
+          child: DeliveryPlatformFilter(filterSubject: subject),
         ),
         Padding(
           padding: EdgeInsets.only(
-            right: AppSize.s20.rw,
-            left: AppSize.s20.rw,
+            left: AppSize.s18.rw,
+            right: AppSize.s18.rw,
             top: AppSize.s16.rh,
           ),
-          child: DeliveryPlatformFilter(filterSubject: subject),
+          child: TotalOrderView(subject: subject),
         ),
         Padding(
           padding: EdgeInsets.only(

@@ -19,4 +19,5 @@ class AppColors {
   static Color coolGrey = const Color(0xFF9C9C9C);
   static Color lightSalmon = const Color(0xFFFBA592);
   static Color warmRed = const Color(0xFFFF2E00);
+  static Color pearl = const Color(0xFFF3F1F1);
 }

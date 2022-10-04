@@ -1,7 +1,8 @@
-import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
+import 'package:klikit/modules/orders/presentation/order/components/brand_filter_item.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -13,6 +14,7 @@ import '../observer/filter_subject.dart';
 
 class BrandFilter extends StatefulWidget {
   final FilterSubject filterSubject;
+
   const BrandFilter({Key? key, required this.filterSubject}) : super(key: key);
 
   @override
@@ -22,20 +24,37 @@ class BrandFilter extends StatefulWidget {
 class _BrandFilterState extends State<BrandFilter> {
   final _controller = ExpandedTileController(isExpanded: false);
   final _orderInfoProvider = getIt.get<OrderInformationProvider>();
-  final List<Brand> _providers = [];
+  final List<Brand> _brands = [];
+
+  void _changeSelectedStatus(bool isChecked, Brand value) async {
+    final brand = value.copyWith(isChecked: isChecked);
+    _brands[_brands.indexWhere((element) => element.id == brand.id)] = brand;
+    widget.filterSubject.applyBrandsFilter(
+      await _orderInfoProvider.extractBrandsIds(
+        _brands.where((element) => element.isChecked).toList(),
+      ),
+    );
+  }
+
+  void _copyDataToLocalVariable(List<Brand> brands){
+    if (_brands.isEmpty) {
+      for (var brand in brands) {
+        _brands.add(brand.copy());
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
         headerColor: AppColors.lightVioletTwo,
-        headerRadius: AppSize.s4.rSp,
         headerPadding: EdgeInsets.symmetric(
           horizontal: AppSize.s20.rw,
           vertical: AppSize.s10.rh,
         ),
         headerSplashColor: AppColors.lightViolet,
-        contentBackgroundColor: Colors.transparent,
+        contentBackgroundColor: AppColors.pearl,
         contentPadding: EdgeInsets.zero,
       ),
       trailing: Icon(
@@ -55,18 +74,24 @@ class _BrandFilterState extends State<BrandFilter> {
         removeTop: true,
         child: FutureBuilder<Brands>(
           future: _orderInfoProvider.getBrands(),
-          builder: (context,snapshot){
-           if(snapshot.hasData){
-             return ListView.builder(
-               itemCount: snapshot.data!.brands.length,
-               physics: const NeverScrollableScrollPhysics(),
-               shrinkWrap: true,
-               itemBuilder: (context, index) {
-                 return Text(snapshot.data!.brands[index].title);
-               },
-             );
-           }
-           return const SizedBox();
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              _copyDataToLocalVariable(snapshot.data!.brands);
+              return ListView.builder(
+                itemCount: _brands.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return BrandFilterItem(
+                    brand: _brands[index],
+                    onChanged: (isChecked, brand) {
+                      _changeSelectedStatus(isChecked, brand);
+                    },
+                  );
+                },
+              );
+            }
+            return const SizedBox();
           },
         ),
       ),

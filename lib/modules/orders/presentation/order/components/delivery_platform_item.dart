@@ -37,7 +37,6 @@ class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
-            vertical: AppSize.s4.rh,
             horizontal: AppSize.s8.rw,
           ),
           child: Row(
@@ -54,7 +53,7 @@ class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
                 widget.provider.title,
                 style: getRegularTextStyle(
                   color: AppColors.blueViolet,
-                  fontSize: AppFontSize.s16.rSp,
+                  fontSize: AppFontSize.s14.rSp,
                 ),
               ),
               const Spacer(),

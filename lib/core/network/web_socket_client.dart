@@ -38,7 +38,7 @@ class WebSocketClient {
     final token = _appPreferences.retrieveAccessToken();
     try {
       return await WebSocket.connect(
-          'wss://socket.dev.shadowchef.co/socket.io/?token=$token&transport=websocket');
+          'wss://socket-qa.shadowchef.co/socket.io/?token=$token&EIO=3&transport=websocket');
     } catch (e) {
       print("============= Error! can not connect WS $e");
       await Future.delayed(const Duration(milliseconds: 25000));
