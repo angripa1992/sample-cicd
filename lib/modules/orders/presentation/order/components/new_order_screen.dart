@@ -13,27 +13,34 @@ import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../domain/entities/order_status.dart';
 import '../../bloc/orders/new_order_cubit.dart';
+import '../observer/filter_observer.dart';
+import '../observer/filter_subject.dart';
 import 'order_item_view.dart';
 
 class NewOrderScreen extends StatefulWidget {
-  const NewOrderScreen({Key? key}) : super(key: key);
+  final FilterSubject subject;
+
+  const NewOrderScreen({Key? key, required this.subject}) : super(key: key);
 
   @override
   State<NewOrderScreen> createState() => _NewOrderScreenState();
 }
 
-class _NewOrderScreenState extends State<NewOrderScreen> {
+class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _informationProvider = getIt.get<OrderInformationProvider>();
   static const _pageSize = 10;
   Timer? _timer;
+  List<int>? _providers;
+  List<int>? _brands;
 
   final PagingController<int, Order> _pagingController =
       PagingController(firstPageKey: 1);
 
   @override
   void initState() {
-    _refreshOrderCount();
+    filterSubject = widget.subject;
+    filterSubject?.addObserver(this, ObserverTag.NEW_ORDER);
     _startTimer();
     _pagingController.addPageRequestListener((pageKey) {
       _fetchNewOrder(pageKey);
@@ -42,9 +49,11 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
   }
 
   void _refreshOrderCount() {
-    context
-        .read<NewOrderCubit>()
-        .fetchNewOrder(page: 1, willShowLoading: false);
+    context.read<NewOrderCubit>().fetchNewOrder(
+          willShowLoading: false,
+          providersID: _providers,
+          brandsID: _brands,
+        );
   }
 
   void _startTimer() {
@@ -81,8 +90,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
     final status = await _informationProvider.getStatusByNames(
       [OrderStatusName.PLACED, OrderStatusName.ACCEPTED],
     );
-    final brands = await _informationProvider.getBrandsIds();
-    final providers = await _informationProvider.getProvidersIds();
+    final brands = _brands ?? await _informationProvider.getBrandsIds();
+    final providers =
+        _providers ?? await _informationProvider.getProvidersIds();
     final branch = await _informationProvider.getBranchId();
     return {
       "size": _pageSize,
@@ -93,26 +103,35 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
     };
   }
 
+  void _applyFilter(){
+    _pagingController.refresh();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PagedListView<int, Order>(
-      pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate<Order>(
-        itemBuilder: (context, item, index) {
-          return OrderItemView(order: item);
-        },
-        firstPageProgressIndicatorBuilder: (_) =>
-            getFirstPageProgressIndicator(),
-        newPageProgressIndicatorBuilder: (_) => getNewPageProgressIndicator(),
-        newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(
-          () {
-            _pagingController.refresh();
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: PagedListView<int, Order>(
+        pagingController: _pagingController,
+        padding: EdgeInsets.zero,
+        builderDelegate: PagedChildBuilderDelegate<Order>(
+          itemBuilder: (context, item, index) {
+            return OrderItemView(order: item);
           },
-        ),
-        firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(
-          () {
-            _pagingController.refresh();
-          },
+          firstPageProgressIndicatorBuilder: (_) =>
+              getFirstPageProgressIndicator(),
+          newPageProgressIndicatorBuilder: (_) => getNewPageProgressIndicator(),
+          newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(
+            () {
+              _pagingController.refresh();
+            },
+          ),
+          firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(
+            () {
+              _pagingController.refresh();
+            },
+          ),
         ),
       ),
     );
@@ -123,5 +142,17 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
     _timer?.cancel();
     _pagingController.dispose();
     super.dispose();
+  }
+
+  @override
+  void applyBrandsFilter(List<int> brandsID) {
+    _brands = brandsID;
+    _applyFilter();
+  }
+
+  @override
+  void applyProviderFilter(List<int> providersID) {
+    _providers = providersID;
+    _applyFilter();
   }
 }

@@ -22,7 +22,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Card(
         shadowColor: AppColors.smokeyGrey,

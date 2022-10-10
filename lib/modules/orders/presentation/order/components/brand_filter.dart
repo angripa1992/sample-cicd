@@ -51,7 +51,7 @@ class _BrandFilterState extends State<BrandFilter> {
         headerColor: AppColors.lightVioletTwo,
         headerPadding: EdgeInsets.symmetric(
           horizontal: AppSize.s20.rw,
-          vertical: AppSize.s10.rh,
+          vertical: AppSize.s8.rh,
         ),
         headerSplashColor: AppColors.lightViolet,
         contentBackgroundColor: AppColors.pearl,

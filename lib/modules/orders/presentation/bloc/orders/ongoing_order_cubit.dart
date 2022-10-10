@@ -14,7 +14,7 @@ class OngoingOrderCubit extends Cubit<ResponseState> {
   OngoingOrderCubit(this._fetchOngoingOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchOngoingOrder({required int page,required bool willShowLoading}) async {
+  void fetchOngoingOrder({required bool willShowLoading,List<int>? providersID,List<int>? brandsID}) async {
     if(willShowLoading){
       emit(Loading());
     }
@@ -29,12 +29,10 @@ class OngoingOrderCubit extends Cubit<ResponseState> {
         OrderStatusName.PICKED_UP,
       ],
     );
-    final brands = await _informationProvider.getBrandsIds();
-    final providers = await _informationProvider.getProvidersIds();
+    final brands = brandsID ?? await _informationProvider.getBrandsIds();
+    final providers = providersID ?? await _informationProvider.getProvidersIds();
     final branch = await _informationProvider.getBranchId();
     final params = {
-      "page": page,
-      "size": 10,
       "filterByBranch": branch,
       "filterByBrand": ListParam<int>(brands,ListFormat.csv),
       "filterByProvider": ListParam<int>(providers,ListFormat.csv),

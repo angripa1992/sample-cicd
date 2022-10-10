@@ -14,9 +14,9 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       margin: EdgeInsets.only(
-        top: ScreenSizes.statusBarHeight,
         right: AppSize.s12.rw,
         left: AppSize.s12.rw,
+        top: AppSize.s12.rh,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s4.rSp),
@@ -28,11 +28,11 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get maxExtent =>
-      tabBar.preferredSize.height + ScreenSizes.statusBarHeight;
+      tabBar.preferredSize.height;
 
   @override
   double get minExtent =>
-      tabBar.preferredSize.height + ScreenSizes.statusBarHeight;
+      tabBar.preferredSize.height;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

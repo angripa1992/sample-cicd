@@ -9,29 +9,53 @@ import 'package:klikit/modules/orders/presentation/order/components/new_order_sc
 import 'package:klikit/modules/orders/presentation/order/components/ongoing_order_screen.dart';
 import 'package:klikit/modules/orders/presentation/order/components/order_header.dart';
 import 'package:klikit/modules/orders/presentation/order/components/order_history_screen.dart';
+import 'package:klikit/modules/orders/presentation/order/observer/filter_observer.dart';
 import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../app/constants.dart';
+import '../../../../resources/styles.dart';
 import 'components/tabbar_delegate.dart';
 
 class OrdersScreen extends StatefulWidget {
-  const OrdersScreen({Key? key}) : super(key: key);
+  final int tabIndex;
+
+  const OrdersScreen({Key? key, required this.tabIndex}) : super(key: key);
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen>
-    with SingleTickerProviderStateMixin {
+class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderStateMixin, FilterObserver {
   final _filterSubject = FilterSubject();
   TabController? _tabController;
+  List<int>? _providers;
+  List<int>? _brands;
+
 
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
+    _tabController!.index = widget.tabIndex;
+    filterSubject = _filterSubject;
+    filterSubject?.addObserver(this, ObserverTag.ORDER_SCREEN);
+    _refreshOrderCount();
     super.initState();
+  }
+
+  void _refreshOrderCount() {
+    context.read<NewOrderCubit>().fetchNewOrder(
+      willShowLoading: false,
+      providersID: _providers,
+      brandsID: _brands,
+    );
+    context.read<OngoingOrderCubit>().fetchOngoingOrder(
+      willShowLoading: false,
+      providersID: _providers,
+      brandsID: _brands,
+    );
   }
 
   @override
@@ -43,6 +67,11 @@ class _OrdersScreenState extends State<OrdersScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Order Dashboard'),
+        titleTextStyle: getAppBarTextStyle(),
+        flexibleSpace: getAppBarBackground(),
+      ),
       body: NestedScrollView(
         physics: const NeverScrollableScrollPhysics(),
         headerSliverBuilder: (context, isScrolled) {
@@ -57,12 +86,18 @@ class _OrdersScreenState extends State<OrdersScreen>
                   tabs: [
                     BlocBuilder<NewOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        return Tab(text: (state is Success<Orders>) ? 'New (${state.data.total})' : 'New');
+                        return Tab(
+                            text: (state is Success<Orders>)
+                                ? 'New (${state.data.total})'
+                                : 'New');
                       },
                     ),
                     BlocBuilder<OngoingOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        return Tab(text: (state is Success<Orders>) ? 'Ongoing (${state.data.total})' : 'Ongoing');
+                        return Tab(
+                            text: (state is Success<Orders>)
+                                ? 'Ongoing (${state.data.total})'
+                                : 'Ongoing');
                       },
                     ),
                     const Tab(text: 'Order History'),
@@ -72,7 +107,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                   unselectedLabelColor: AppColors.lightViolet,
                   labelColor: AppColors.white,
                   labelStyle: TextStyle(
-                    fontSize: AppFontSize.s14.rSp,
+                    fontSize: AppFontSize.s12.rSp,
                     fontFamily: AppFonts.Aeonik,
                     fontWeight: AppFontWeight.regular,
                   ),
@@ -87,20 +122,38 @@ class _OrdersScreenState extends State<OrdersScreen>
             ),
           ];
         },
-        body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s18.rw),
-            child: TabBarView(
-              controller: _tabController,
-              children: const [
-                NewOrderScreen(),
-                OngoingOrderScreen(),
-                OrderHistoryScreen(),
-              ],
-            ),
+        body: Container(
+          padding: EdgeInsets.only(
+            left: AppSize.s12.rw,
+            right: AppSize.s12.rw,
+            top: AppSize.s12.rh,
+          ),
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              NewOrderScreen(subject: _filterSubject),
+              OngoingOrderScreen(
+                subject: _filterSubject,
+              ),
+              OrderHistoryScreen(
+                subject: _filterSubject,
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void applyBrandsFilter(List<int> brandsID) {
+    _brands = brandsID;
+    _refreshOrderCount();
+  }
+
+  @override
+  void applyProviderFilter(List<int> providersID) {
+    _providers= providersID;
+    _refreshOrderCount();
   }
 }

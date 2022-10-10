@@ -17,9 +17,11 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_o
 import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
 import 'package:klikit/modules/stock/presentation/pages/stock_screen.dart';
 import 'package:klikit/resources/assets.dart';
+import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../app/constants.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
 import '../orders/presentation/home/home_screen.dart';
@@ -34,17 +36,23 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreenState extends State<BaseScreen> {
   final webSocketClient = getIt.get<WebSocketClient>();
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    OrdersScreen(),
-    StockScreen(),
-    AccountScreen(),
-  ];
 
   @override
   void initState() {
     webSocketClient.initWebSocketConnection();
     super.initState();
+  }
+
+  Widget _getWidget(NavigationData navigationData){
+    if(navigationData.index == BottomNavItem.HOME){
+      return const HomeScreen();
+    }else if(navigationData.index == BottomNavItem.ORDER){
+      return OrdersScreen(tabIndex: (navigationData.data ?? OrderTab.NEW));
+    }else if(navigationData.index == BottomNavItem.STOCK){
+      return const StockScreen();
+    }else{
+      return const AccountScreen();
+    }
   }
 
   @override
@@ -68,22 +76,22 @@ class _BaseScreenState extends State<BaseScreen> {
       ],
       child: WillPopScope(
         onWillPop: () {
-          if (context.read<BaseScreenCubit>().state == 0) {
+          if (context.read<BaseScreenCubit>().state.index == BottomNavItem.HOME) {
             return Future.value(true);
           } else {
-            context.read<BaseScreenCubit>().changeIndex(0);
+            context.read<BaseScreenCubit>().changeIndex(NavigationData(BottomNavItem.HOME, null));
             return Future.value(false);
           }
         },
-        child: BlocBuilder<BaseScreenCubit, int>(
-          builder: (context, index) {
+        child: BlocBuilder<BaseScreenCubit, NavigationData>(
+          builder: (context, data) {
             return Scaffold(
-              body: Center(child: _widgetOptions.elementAt(index)),
+              body: Center(child: _getWidget(data)),
               bottomNavigationBar: BottomNavigationBar(
                 items: _navigationItems(),
-                currentIndex: context.read<BaseScreenCubit>().state,
+                currentIndex: context.read<BaseScreenCubit>().state.index,
                 onTap: (index) {
-                  context.read<BaseScreenCubit>().changeIndex(index);
+                  context.read<BaseScreenCubit>().changeIndex(NavigationData(index, null));
                 },
                 backgroundColor: AppColors.whiteSmoke,
                 type: BottomNavigationBarType.fixed,
@@ -91,11 +99,11 @@ class _BaseScreenState extends State<BaseScreen> {
                 unselectedItemColor: AppColors.smokeyGrey,
                 selectedLabelStyle: getRegularTextStyle(
                   color: AppColors.purpleBlue,
-                  fontSize: 14.rSp,
+                  fontSize: AppFontSize.s14.rSp,
                 ),
                 unselectedLabelStyle: getRegularTextStyle(
                   color: AppColors.smokeyGrey,
-                  fontSize: 14.rSp,
+                  fontSize: AppFontSize.s14.rSp,
                 ),
               ),
             );

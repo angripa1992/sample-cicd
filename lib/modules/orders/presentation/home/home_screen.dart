@@ -27,6 +27,7 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../app/app_preferences.dart';
+import '../../../base/base_screen_cubit.dart';
 import 'components/home_order_nav_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -67,11 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
           willShowLoading: isInitialCall,
         );
     context.read<NewOrderCubit>().fetchNewOrder(
-          page: 1,
           willShowLoading: isInitialCall,
         );
     context.read<OngoingOrderCubit>().fetchOngoingOrder(
-          page: 1,
           willShowLoading: isInitialCall,
         );
     if (isInitialCall) {
@@ -108,7 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       left: AppSize.s20.rw,
                       right: AppSize.s20.rw,
                       child: HomeTotalOrdersCard(
-                        onTap: () {},
+                        onTap: () {
+                          context.read<BaseScreenCubit>().changeIndex(
+                                NavigationData(
+                                  BottomNavItem.ORDER,
+                                  OrderTab.History,
+                                ),
+                              );
+                        },
                       ),
                     )
                   ],
@@ -215,7 +221,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             : "0",
                         bgColor: AppColors.purpleBlue,
                         textColor: AppColors.white,
-                        onTap: () {},
+                        onTap: () {
+                          context.read<BaseScreenCubit>().changeIndex(
+                            NavigationData(
+                              BottomNavItem.ORDER,
+                              OrderTab.NEW,
+                            ),
+                          );
+                        },
                         text: AppStrings.new_orders.tr(),
                       );
                     },
@@ -249,7 +262,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             : "0",
                         bgColor: AppColors.white,
                         textColor: AppColors.blueViolet,
-                        onTap: () {},
+                        onTap: () {
+                          context.read<BaseScreenCubit>().changeIndex(
+                            NavigationData(
+                              BottomNavItem.ORDER,
+                              OrderTab.ONGOING,
+                            ),
+                          );
+                        },
                         text: AppStrings.ongoing_orders.tr(),
                       );
                     },

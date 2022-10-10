@@ -10,7 +10,7 @@ class OrderAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppSize.s50.rh + ScreenSizes.statusBarHeight,
+      height: AppSize.s50.rh,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
@@ -22,11 +22,15 @@ class OrderAppBar extends StatelessWidget {
           ],
         ),
       ),
-      //TODO
-      child: AppBar(
-        title: Text('Order Dashboard'),
-        titleTextStyle: getAppBarTextStyle(),
-        flexibleSpace: getAppBarBackground(),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s18.rw),
+          child: Text(
+            'Order Dashboard',
+            style: getAppBarTextStyle(),
+          ),
+        ),
       ),
     );
   }

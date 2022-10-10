@@ -15,19 +15,17 @@ class NewOrderCubit extends Cubit<ResponseState> {
   NewOrderCubit(this._fetchNewOrder, this._informationProvider)
       : super(Empty());
 
-  void fetchNewOrder({required int page,required bool willShowLoading}) async {
+  void fetchNewOrder({required bool willShowLoading,List<int>? providersID,List<int>? brandsID}) async {
     if(willShowLoading){
       emit(Loading());
     }
     final status = await _informationProvider.getStatusByNames(
       [OrderStatusName.PLACED, OrderStatusName.ACCEPTED],
     );
-    final brands = await _informationProvider.getBrandsIds();
-    final providers = await _informationProvider.getProvidersIds();
+    final brands = brandsID ?? await _informationProvider.getBrandsIds();
+    final providers = providersID ?? await _informationProvider.getProvidersIds();
     final branch = await _informationProvider.getBranchId();
     final params = {
-      "page": page,
-      "size": 10,
       "filterByBranch": branch,
       "filterByBrand": ListParam<int>(brands,ListFormat.csv),
       "filterByProvider": ListParam<int>(providers,ListFormat.csv),

@@ -52,7 +52,7 @@ class _DeliveryPlatformFilterState extends State<DeliveryPlatformFilter> {
         headerColor: AppColors.purpleBlue,
         headerPadding: EdgeInsets.symmetric(
           horizontal: AppSize.s20.rw,
-          vertical: AppSize.s10.rh,
+          vertical: AppSize.s8.rh,
         ),
         headerSplashColor: AppColors.lightViolet,
         contentBackgroundColor: Colors.transparent,

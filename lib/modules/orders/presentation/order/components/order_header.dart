@@ -19,34 +19,34 @@ class OrderHeaderView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const OrderAppBar(),
+       // const OrderAppBar(),
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s20.rw,
+            horizontal: AppSize.s12.rw,
             vertical: AppSize.s16.rh,
           ),
           child: BrandFilter(filterSubject: subject,),
         ),
         Padding(
           padding: EdgeInsets.only(
-            right: AppSize.s20.rw,
-            left: AppSize.s20.rw,
+            right: AppSize.s12.rw,
+            left: AppSize.s12.rw,
           ),
           child: DeliveryPlatformFilter(filterSubject: subject),
         ),
         Padding(
           padding: EdgeInsets.only(
-            left: AppSize.s18.rw,
-            right: AppSize.s18.rw,
+            left: AppSize.s12.rw,
+            right: AppSize.s12.rw,
             top: AppSize.s16.rh,
           ),
           child: TotalOrderView(subject: subject),
         ),
         Padding(
           padding: EdgeInsets.only(
-            right: AppSize.s18.rw,
-            left: AppSize.s18.rw,
-            top: AppSize.s8.rw,
+            right: AppSize.s12.rw,
+            left: AppSize.s12.rw,
+            top: AppSize.s12.rw,
           ),
           child: const BusyModeView(),
         ),

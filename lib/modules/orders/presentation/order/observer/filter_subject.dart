@@ -1,12 +1,5 @@
 import 'filter_observer.dart';
 
-class ObserverTag{
-  static const TOTAL_ORDER = "total_order";
-  static const NEW_ORDER = "new_order";
-  static const ONGOING_ORDER = "ongoing_order";
-  static const ORDER_HISTORY = "order_history";
-}
-
 class FilterSubject {
   final Map<String,FilterObserver> _observers = {};
 
