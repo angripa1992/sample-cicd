@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:intl/intl.dart';
 
@@ -19,6 +20,25 @@ class DateTimeProvider{
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String formatted = formatter.format(DateTime.now().add(const Duration(days: 1)));
     return formatted;
+  }
+
+  static String getDate (DateTime dateTime){
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formatted = formatter.format(dateTime);
+    return formatted;
+  }
+
+  static String dateRangeString (DateTimeRange dateTimeRange){
+    final formatter = DateFormat('d MMMM yyy');
+    final start = formatter.format(dateTimeRange.start);
+    final end = formatter.format(dateTimeRange.end);
+    return '$start - $end';
+  }
+
+  static String parseOrderCreatedDate (String createdAt){
+    final formatter = DateFormat('d MMM yy h:mm a');
+    final dateTime = DateTime.parse(createdAt);
+    return formatter.format(dateTime);
   }
 
   static Future<String> timeZone () async{

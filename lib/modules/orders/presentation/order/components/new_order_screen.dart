@@ -1,21 +1,21 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:klikit/core/provider/order_information_provider.dart';
+import 'package:klikit/core/provider/order_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/order/components/progress_indicator.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../../../domain/entities/order_status.dart';
 import '../../bloc/orders/new_order_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
-import 'order_item_view.dart';
+import 'details/history_order_details.dart';
+import 'order_item/new_order_item.dart';
+import 'order_item/order_item_view.dart';
 
 class NewOrderScreen extends StatefulWidget {
   final FilterSubject subject;
@@ -28,19 +28,22 @@ class NewOrderScreen extends StatefulWidget {
 
 class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
-  final _informationProvider = getIt.get<OrderInformationProvider>();
+  final _orderParameterProvider = getIt.get<OrderParameterProvider>();
   static const _pageSize = 10;
+  static const _firstPageKey = 1;
   Timer? _timer;
   List<int>? _providers;
   List<int>? _brands;
 
   final PagingController<int, Order> _pagingController =
-      PagingController(firstPageKey: 1);
+      PagingController(firstPageKey: _firstPageKey);
 
   @override
   void initState() {
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.NEW_ORDER);
+    _providers = filterSubject?.getProviders();
+    _brands = filterSubject?.getBrands();
     _startTimer();
     _pagingController.addPageRequestListener((pageKey) {
       _fetchNewOrder(pageKey);
@@ -61,13 +64,17 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
       const Duration(seconds: AppConstant.refreshTime),
       (timer) {
         _refreshOrderCount();
-        _pagingController.refresh();
+        _refresh(willBackground: true);
       },
     );
   }
 
   void _fetchNewOrder(int pageKey) async {
-    final params = await _getParams();
+    final params = await _orderParameterProvider.getNewOrderParams(
+      _brands,
+      _providers,
+      pageSize: _pageSize,
+    );
     params['page'] = pageKey;
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
@@ -86,53 +93,33 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
-  Future<Map<String, dynamic>> _getParams() async {
-    final status = await _informationProvider.getStatusByNames(
-      [OrderStatusName.PLACED, OrderStatusName.ACCEPTED],
-    );
-    final brands = _brands ?? await _informationProvider.getBrandsIds();
-    final providers =
-        _providers ?? await _informationProvider.getProvidersIds();
-    final branch = await _informationProvider.getBranchId();
-    return {
-      "size": _pageSize,
-      "filterByBranch": branch,
-      "filterByBrand": ListParam<int>(brands, ListFormat.csv),
-      "filterByProvider": ListParam<int>(providers, ListFormat.csv),
-      "filterByStatus": ListParam<int>(status, ListFormat.csv),
-    };
-  }
-
-  void _applyFilter(){
-    _pagingController.refresh();
+  void _refresh({bool willBackground = false}) {
+    if(willBackground){
+      _pagingController.itemList?.clear();
+      _pagingController.notifyPageRequestListeners(_firstPageKey);
+    }else{
+      _pagingController.refresh();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.removePadding(
-      context: context,
-      removeTop: true,
-      child: PagedListView<int, Order>(
-        pagingController: _pagingController,
-        padding: EdgeInsets.zero,
-        builderDelegate: PagedChildBuilderDelegate<Order>(
-          itemBuilder: (context, item, index) {
-            return OrderItemView(order: item);
+    return PagedListView<int, Order>(
+      pagingController: _pagingController,
+      builderDelegate: PagedChildBuilderDelegate<Order>(
+        itemBuilder: (context, item, index) {
+          return NewOrderItemView(order: item,seeDetails: (order){
+            showHistoryOrderDetails(context,order);
           },
-          firstPageProgressIndicatorBuilder: (_) =>
-              getFirstPageProgressIndicator(),
-          newPageProgressIndicatorBuilder: (_) => getNewPageProgressIndicator(),
-          newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(
-            () {
-              _pagingController.refresh();
-            },
-          ),
-          firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(
-            () {
-              _pagingController.refresh();
-            },
-          ),
-        ),
+          );
+        },
+        firstPageProgressIndicatorBuilder: (_) =>
+            getFirstPageProgressIndicator(),
+        newPageProgressIndicatorBuilder: (_) => getNewPageProgressIndicator(),
+        newPageErrorIndicatorBuilder: (_) =>
+            getPageErrorIndicator(() => _refresh()),
+        firstPageErrorIndicatorBuilder: (_) =>
+            getPageErrorIndicator(() => _refresh()),
       ),
     );
   }
@@ -141,18 +128,19 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   void dispose() {
     _timer?.cancel();
     _pagingController.dispose();
+    filterSubject?.removeObserver(ObserverTag.NEW_ORDER);
     super.dispose();
   }
 
   @override
   void applyBrandsFilter(List<int> brandsID) {
     _brands = brandsID;
-    _applyFilter();
+    _refresh();
   }
 
   @override
   void applyProviderFilter(List<int> providersID) {
     _providers = providersID;
-    _applyFilter();
+    _refresh();
   }
 }

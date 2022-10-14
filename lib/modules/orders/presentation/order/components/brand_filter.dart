@@ -36,11 +36,12 @@ class _BrandFilterState extends State<BrandFilter> {
     );
   }
 
-  void _copyDataToLocalVariable(List<Brand> brands){
+  void _copyDataToLocalVariable(List<Brand> brands) async{
     if (_brands.isEmpty) {
       for (var brand in brands) {
         _brands.add(brand.copy());
       }
+      widget.filterSubject.setBrands(await _orderInfoProvider.extractBrandsIds(_brands));
     }
   }
 

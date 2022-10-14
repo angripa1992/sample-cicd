@@ -38,6 +38,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
+import '../core/provider/order_parameter_provider.dart';
 import '../environment_variables.dart';
 import '../modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
@@ -80,6 +81,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton<OrderRepository>(
       () => OrderRepositoryImpl(getIt(), getIt()));
   getIt.registerLazySingleton(() => OrderInformationProvider(getIt(), getIt()));
+  getIt.registerLazySingleton(() => OrderParameterProvider(getIt()));
   getIt.registerLazySingleton(() => FetchTotalOrders(getIt()));
   getIt.registerFactory(() => TotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchYesterdayTotalOrders(getIt()));

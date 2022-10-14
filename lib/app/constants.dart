@@ -8,6 +8,8 @@ class AppConstant {
   static const String supportMail = "example@exampl.co";
   static const int refreshTime = 30;
   static const int busyTimeInMin = 60;
+  static const int TYPE_PICKUP = 1;
+  static const int TYPE_DELIVERY = 2;
 }
 
 class ObserverTag{

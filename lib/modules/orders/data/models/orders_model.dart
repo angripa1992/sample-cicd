@@ -98,7 +98,6 @@ class OrderModel {
   String? userPhone;
   @JsonKey(name: 'user_email')
   String? userEmail;
-  List<CartModel>? cart;
   @JsonKey(name: 'cart_v2')
   List<CartV2Model>? cartV2;
   @JsonKey(name: 'klikit_store_id')
@@ -155,7 +154,6 @@ class OrderModel {
       this.userProfilePic,
       this.userPhone,
       this.userEmail,
-      this.cart,
       this.cartV2,
       this.klikitStoreId,
       this.type,
@@ -199,13 +197,14 @@ class OrderModel {
       currencySymbol: currencySymbol.orEmpty(),
       itemCount: itemCount.orZero(),
       uniqueItemCount: uniqueItemCount.orZero(),
+      createdAt: createdAt.orEmpty(),
+      updatedAt: updatedAt.orEmpty(),
       userId: userId.orZero(),
       userFirstName: userFirstName.orEmpty(),
       userLastName: userLastName.orEmpty(),
       userProfilePic: userProfilePic.orEmpty(),
       userPhone: userPhone.orEmpty(),
       userEmail: userEmail.orEmpty(),
-      cart: toCartListEntity(),
       cartV2: toCartV2ListEntity(),
       klikitStoreId: klikitStoreId.orEmpty(),
       type: type.orZero(),
@@ -224,17 +223,6 @@ class OrderModel {
     );
   }
 
-  List<Cart> toCartListEntity() {
-    if (cart == null) {
-      return [];
-    }
-    List<Cart> carts = [];
-    for (var item in cart!) {
-      carts.add(item.toEntity());
-    }
-    return carts;
-  }
-
   List<CartV2> toCartV2ListEntity() {
     if (cartV2 == null) {
       return [];
@@ -244,84 +232,6 @@ class OrderModel {
       carts.add(item.toEntity());
     }
     return carts;
-  }
-}
-
-@JsonSerializable()
-class CartModel {
-  dynamic id;
-  String? name;
-  dynamic quantity;
-  int? vat;
-  String? image;
-  int? price;
-  String? title;
-  List<dynamic>? groups;
-  List<dynamic>? options;
-  @JsonKey(name: 'unit_price')
-  dynamic unitPrice;
-  @JsonKey(name: 'parent_name')
-  String? parentName;
-  @JsonKey(name: 'item_id')
-  int? itemId;
-  @JsonKey(name: 'item_name')
-  String? itemName;
-  @JsonKey(name: 'item_final_price')
-  int? itemFinalPrice;
-  List<VariantModel>? variants;
-
-  CartModel({
-    this.id,
-    this.name,
-    this.options,
-    this.quantity,
-    this.unitPrice,
-    this.parentName,
-    this.vat,
-    this.image,
-    this.price,
-    this.title,
-    this.groups,
-    this.itemId,
-    this.itemName,
-    this.itemFinalPrice,
-    this.variants,
-  });
-
-  factory CartModel.fromJson(Map<String, dynamic> json) =>
-      _$CartModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CartModelToJson(this);
-
-  Cart toEntity() {
-    return Cart(
-      id: id,
-      name: name.orEmpty(),
-      options: options ?? [],
-      quantity: quantity,
-      unitPrice: unitPrice,
-      parentName: parentName.orEmpty(),
-      vat: vat.orZero(),
-      image: image.orEmpty(),
-      price: price.orZero(),
-      title: title.orEmpty(),
-      groups: groups ?? [],
-      itemId: itemId.orZero(),
-      itemName: itemName.orEmpty(),
-      itemFinalPrice: itemFinalPrice.orZero(),
-      variants: _getVariants(),
-    );
-  }
-
-  List<Variant> _getVariants() {
-    if (variants == null || variants!.isEmpty) {
-      return [];
-    }
-    final List<Variant> data = [];
-    for (var variant in variants!) {
-      data.add(variant.toEntity());
-    }
-    return data;
   }
 }
 
@@ -338,7 +248,8 @@ class VariantModel {
     return Variant(id.orEmpty(), name.orEmpty(), externalId.orEmpty());
   }
 
-  factory VariantModel.fromJson(Map<String, dynamic> json) => _$VariantModelFromJson(json);
+  factory VariantModel.fromJson(Map<String, dynamic> json) =>
+      _$VariantModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -352,7 +263,7 @@ class CartV2Model {
   @JsonKey(name: 'unit_price')
   String? unitPrice;
   @JsonKey(name: 'modifier_groups')
-  List<dynamic>? modifierGroups;
+  List<ModifierGroupsModel>? modifierGroups;
 
   CartV2Model({
     this.id,
@@ -379,7 +290,89 @@ class CartV2Model {
       comment: comment.orEmpty(),
       quantity: quantity.orZero(),
       unitPrice: unitPrice.orEmpty(),
-      modifierGroups: modifierGroups ?? [],
+      modifierGroups: _getModifiersGroup(),
     );
+  }
+
+  List<ModifierGroups> _getModifiersGroup() {
+    if (modifierGroups == null || modifierGroups!.isEmpty) return [];
+    List<ModifierGroups> groups = [];
+    for (var modifiersGroup in modifierGroups!) {
+      groups.add(modifiersGroup.toEntity());
+    }
+    return groups;
+  }
+}
+
+@JsonSerializable()
+class ModifierGroupsModel {
+  String? id;
+  String? name;
+  List<ModifiersModel>? modifiers;
+
+  ModifierGroupsModel({this.id, this.name, this.modifiers});
+
+  factory ModifierGroupsModel.fromJson(Map<String, dynamic> json) =>
+      _$ModifierGroupsModelFromJson(json);
+
+  ModifierGroups toEntity() {
+    return ModifierGroups(
+      id: id.orEmpty(),
+      name: name.orEmpty(),
+      modifiers: _getModifiers(),
+    );
+  }
+
+  List<Modifiers> _getModifiers() {
+    if (modifiers == null || modifiers!.isEmpty) return [];
+    List<Modifiers> data = [];
+    for (var modifier in modifiers!) {
+      data.add(modifier.toEntity());
+    }
+    return data;
+  }
+}
+
+@JsonSerializable()
+class ModifiersModel {
+  String? id;
+  String? name;
+  String? price;
+  int? quantity;
+  @JsonKey(name: 'unit_price')
+  String? unitPrice;
+  @JsonKey(name: 'modifier_groups')
+  List<ModifierGroupsModel>? modifierGroups;
+
+  ModifiersModel({
+    this.id,
+    this.name,
+    this.price,
+    this.quantity,
+    this.unitPrice,
+    this.modifierGroups,
+  });
+
+  factory ModifiersModel.fromJson(Map<String, dynamic> json) =>
+      _$ModifiersModelFromJson(json);
+
+  Modifiers toEntity() {
+    return Modifiers(
+      id: id.orEmpty(),
+      name: name.orEmpty(),
+      price: price.orEmpty(),
+      quantity: quantity.orZero(),
+      unitPrice: unitPrice.orEmpty(),
+      modifierGroups: _getModifiersGroup(),
+    );
+  }
+
+  List<ModifierGroups> _getModifiersGroup() {
+    if (modifierGroups == null || modifierGroups!.isEmpty) return [];
+    List<ModifierGroups> groups = [];
+    for (var modifiersGroup in modifierGroups!) {
+      groups.add(modifiersGroup.toEntity());
+    }
+    return groups;
   }
 }

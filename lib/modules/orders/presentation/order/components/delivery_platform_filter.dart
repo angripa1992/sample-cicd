@@ -37,11 +37,12 @@ class _DeliveryPlatformFilterState extends State<DeliveryPlatformFilter> {
     );
   }
 
-  void _copyDataToLocalVariable(List<Provider> providers){
+  void _copyDataToLocalVariable(List<Provider> providers) async{
     if (_providers.isEmpty) {
       for (var provider in providers) {
         _providers.add(provider.copy());
       }
+      widget.filterSubject.setProviders(await _orderInfoProvider.extractProvidersIds(_providers));
     }
   }
 

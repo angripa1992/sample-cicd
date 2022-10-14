@@ -1,40 +1,3 @@
-import 'package:klikit/modules/orders/domain/entities/variant.dart';
-
-class Cart {
-  final dynamic id;
-  final String name;
-  final List<dynamic> options;
-  final dynamic quantity;
-  final dynamic unitPrice;
-  final String parentName;
-  final int vat;
-  final String image;
-  final int price;
-  final String title;
-  final List<dynamic> groups;
-  final int itemId;
-  final String itemName;
-  final int itemFinalPrice;
-  final List<Variant> variants;
-
-  Cart({
-    required this.id,
-    required this.name,
-    required this.options,
-    required this.quantity,
-    required this.unitPrice,
-    required this.parentName,
-    required this.vat,
-    required this.image,
-    required this.price,
-    required this.title,
-    required this.groups,
-    required this.itemId,
-    required this.itemName,
-    required this.itemFinalPrice,
-    required this.variants,
-  });
-}
 
 class CartV2 {
   final String id;
@@ -44,7 +7,7 @@ class CartV2 {
   final String comment;
   final int quantity;
   final String unitPrice;
-  final List<dynamic> modifierGroups;
+  final List<ModifierGroups> modifierGroups;
 
   CartV2({
     required this.id,
@@ -52,6 +15,36 @@ class CartV2 {
     required this.image,
     required this.price,
     required this.comment,
+    required this.quantity,
+    required this.unitPrice,
+    required this.modifierGroups,
+  });
+}
+
+class ModifierGroups {
+  final String id;
+  final String name;
+  final List<Modifiers> modifiers;
+
+  ModifierGroups({
+    required this.id,
+    required this.name,
+    required this.modifiers,
+  });
+}
+
+class Modifiers {
+  final String id;
+  final String name;
+  final String price;
+  final int quantity;
+  final String unitPrice;
+  final List<ModifierGroups> modifierGroups;
+
+  Modifiers({
+    required this.id,
+    required this.name,
+    required this.price,
     required this.quantity,
     required this.unitPrice,
     required this.modifierGroups,

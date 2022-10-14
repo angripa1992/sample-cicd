@@ -38,12 +38,14 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
   void initState() {
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.TOTAL_ORDER);
-    _fetchCompletedOrder(true);
+    _providers = filterSubject?.getProviders();
+    _brands = filterSubject?.getBrands();
+    _fetchOrders(true);
     _startTimer();
     super.initState();
   }
 
-  void _fetchCompletedOrder(bool willShowLoading) {
+  void _fetchOrders(bool willShowLoading) {
     context.read<CompletedOrderCubit>().fetchLifeTimeCompletedOrder(
           willShowLoading: willShowLoading,
           providersID: _providers,
@@ -174,12 +176,12 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
   @override
   void applyBrandsFilter(List<int> brandsID) {
     _brands = brandsID;
-    _fetchCompletedOrder(true);
+    _fetchOrders(true);
   }
 
   @override
   void applyProviderFilter(List<int> providersID) {
     _providers = providersID;
-    _fetchCompletedOrder(true);
+    _fetchOrders(true);
   }
 }

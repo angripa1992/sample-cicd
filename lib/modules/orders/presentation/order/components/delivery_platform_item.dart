@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/environment_variables.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
+import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
@@ -22,7 +23,6 @@ class DeliveryPlatformItem extends StatefulWidget {
 }
 
 class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
-  final envVariables = getIt.get<EnvironmentVariables>();
   bool? _isSelected;
 
   @override
@@ -41,13 +41,7 @@ class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
           ),
           child: Row(
             children: [
-              SizedBox(
-                height: AppSize.s36.rh,
-                width: AppSize.s36.rw,
-                child: Image.network(
-                  '${envVariables.cdnUrl}${widget.provider.logo}',
-                ),
-              ),
+              ImageView(path: widget.provider.logo),
               SizedBox(width: AppSize.s16.rw),
               Text(
                 widget.provider.title,

@@ -41,6 +41,8 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
     _tabController!.index = widget.tabIndex;
     filterSubject = _filterSubject;
     filterSubject?.addObserver(this, ObserverTag.ORDER_SCREEN);
+    _providers = filterSubject?.getProviders();
+    _brands = filterSubject?.getBrands();
     _refreshOrderCount();
     super.initState();
   }

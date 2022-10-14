@@ -52,9 +52,6 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       userProfilePic: json['user_profile_pic'] as String?,
       userPhone: json['user_phone'] as String?,
       userEmail: json['user_email'] as String?,
-      cart: (json['cart'] as List<dynamic>?)
-          ?.map((e) => CartModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
       cartV2: (json['cart_v2'] as List<dynamic>?)
           ?.map((e) => CartV2Model.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -106,7 +103,6 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'user_profile_pic': instance.userProfilePic,
       'user_phone': instance.userPhone,
       'user_email': instance.userEmail,
-      'cart': instance.cart,
       'cart_v2': instance.cartV2,
       'klikit_store_id': instance.klikitStoreId,
       'is_fake': instance.isFake,
@@ -120,44 +116,6 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'auto_accept': instance.autoAccept,
       'auto_pilot': instance.autoPilot,
       'auto_pilot_time': instance.autoPilotTime,
-    };
-
-CartModel _$CartModelFromJson(Map<String, dynamic> json) => CartModel(
-      id: json['id'],
-      name: json['name'] as String?,
-      options: json['options'] as List<dynamic>?,
-      quantity: json['quantity'],
-      unitPrice: json['unit_price'],
-      parentName: json['parent_name'] as String?,
-      vat: json['vat'] as int?,
-      image: json['image'] as String?,
-      price: json['price'] as int?,
-      title: json['title'] as String?,
-      groups: json['groups'] as List<dynamic>?,
-      itemId: json['item_id'] as int?,
-      itemName: json['item_name'] as String?,
-      itemFinalPrice: json['item_final_price'] as int?,
-      variants: (json['variants'] as List<dynamic>?)
-          ?.map((e) => VariantModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$CartModelToJson(CartModel instance) => <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'quantity': instance.quantity,
-      'vat': instance.vat,
-      'image': instance.image,
-      'price': instance.price,
-      'title': instance.title,
-      'groups': instance.groups,
-      'options': instance.options,
-      'unit_price': instance.unitPrice,
-      'parent_name': instance.parentName,
-      'item_id': instance.itemId,
-      'item_name': instance.itemName,
-      'item_final_price': instance.itemFinalPrice,
-      'variants': instance.variants,
     };
 
 VariantModel _$VariantModelFromJson(Map<String, dynamic> json) => VariantModel(
@@ -181,7 +139,9 @@ CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(
       comment: json['comment'] as String?,
       quantity: json['quantity'] as int?,
       unitPrice: json['unit_price'] as String?,
-      modifierGroups: json['modifier_groups'] as List<dynamic>?,
+      modifierGroups: (json['modifier_groups'] as List<dynamic>?)
+          ?.map((e) => ModifierGroupsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$CartV2ModelToJson(CartV2Model instance) =>
@@ -191,6 +151,45 @@ Map<String, dynamic> _$CartV2ModelToJson(CartV2Model instance) =>
       'image': instance.image,
       'price': instance.price,
       'comment': instance.comment,
+      'quantity': instance.quantity,
+      'unit_price': instance.unitPrice,
+      'modifier_groups': instance.modifierGroups,
+    };
+
+ModifierGroupsModel _$ModifierGroupsModelFromJson(Map<String, dynamic> json) =>
+    ModifierGroupsModel(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      modifiers: (json['modifiers'] as List<dynamic>?)
+          ?.map((e) => ModifiersModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$ModifierGroupsModelToJson(
+        ModifierGroupsModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'modifiers': instance.modifiers,
+    };
+
+ModifiersModel _$ModifiersModelFromJson(Map<String, dynamic> json) =>
+    ModifiersModel(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      price: json['price'] as String?,
+      quantity: json['quantity'] as int?,
+      unitPrice: json['unit_price'] as String?,
+      modifierGroups: (json['modifier_groups'] as List<dynamic>?)
+          ?.map((e) => ModifierGroupsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$ModifiersModelToJson(ModifiersModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'price': instance.price,
       'quantity': instance.quantity,
       'unit_price': instance.unitPrice,
       'modifier_groups': instance.modifierGroups,
