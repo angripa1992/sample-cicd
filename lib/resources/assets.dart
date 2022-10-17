@@ -21,4 +21,5 @@ class AppIcons {
   static const String orderActive = "$ICON_PATH/ic_order_active.svg";
   static const String stock = "$ICON_PATH/ic_stock.svg";
   static const String stockActive = "$ICON_PATH/ic_stock_active.svg";
+  static const String canceled = "$ICON_PATH/ic_canceled.svg";
 }

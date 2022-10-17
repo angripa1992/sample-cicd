@@ -14,7 +14,7 @@ import '../../../../../app/di.dart';
 import '../../bloc/orders/ongoing_order_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
-import 'details/history_order_details.dart';
+import 'details/order_details_bottom_sheet.dart';
 import 'order_item/order_item_view.dart';
 
 class OngoingOrderScreen extends StatefulWidget {
@@ -95,6 +95,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
   }
 
   void _refresh({bool willBackground = false}) {
+    _refreshOrderCount();
     if(willBackground){
       _pagingController.itemList?.clear();
       _pagingController.notifyPageRequestListeners(_firstPageKey);
@@ -112,6 +113,9 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
           return OngoingOrderItemView(order: item,seeDetails: (order){
             showHistoryOrderDetails(context,order);
           },
+            onRefresh: (){
+            _refresh(willBackground: true);
+            },
           );
         },
         firstPageProgressIndicatorBuilder: (_) =>

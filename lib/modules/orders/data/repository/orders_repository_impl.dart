@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
+import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
@@ -117,6 +118,20 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.updateBusyMode(params);
         return Right(response.toEntity());
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> updateStatus(Map<String, dynamic> params) async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.updateOrderStatus(params);
+        return Right(response);
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

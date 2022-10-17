@@ -15,11 +15,13 @@ import 'package:klikit/modules/orders/domain/usecases/fetch_ongoing_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_total_orders.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_yesterday_total_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/update_busy_mode_status.dart';
+import 'package:klikit/modules/orders/domain/usecases/update_order_status.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
@@ -94,6 +96,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => NewOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchOngoingOrder(getIt()));
   getIt.registerFactory(() => OngoingOrderCubit(getIt(), getIt()));
+  getIt.registerLazySingleton(() => UpdateOrderStatus(getIt()));
+  getIt.registerFactory(() => OrderActionCubit(getIt()));
 
   ///busy mode
   getIt.registerLazySingleton(() => CheckBusyMode(getIt()));

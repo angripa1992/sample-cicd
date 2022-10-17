@@ -12,6 +12,7 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_c
 import 'package:klikit/modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
@@ -73,6 +74,8 @@ class _BaseScreenState extends State<BaseScreen> {
         BlocProvider<NewOrderCubit>(create: (_) => getIt.get<NewOrderCubit>()),
         BlocProvider<OngoingOrderCubit>(
             create: (_) => getIt.get<OngoingOrderCubit>()),
+        BlocProvider<OrderActionCubit>(
+            create: (_) => getIt.get<OrderActionCubit>()),
       ],
       child: WillPopScope(
         onWillPop: () {

@@ -28,7 +28,7 @@ class HistoryOrderItemView extends StatelessWidget {
               },
             ),
             PrintButton(
-              () {},
+              onPrint: () {},
             ),
           ],
         ),

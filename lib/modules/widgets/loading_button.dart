@@ -32,7 +32,7 @@ class LoadingButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: isLoading ? AppColors.lightViolet : AppColors.purpleBlue,
-            borderRadius: BorderRadius.circular(AppSize.s4.rSp)),
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp)),
         child: Center(
           child: Padding(
             padding: EdgeInsets.symmetric(

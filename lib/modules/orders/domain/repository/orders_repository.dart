@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:klikit/core/network/error_handler.dart';
+import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -17,4 +18,5 @@ abstract class OrderRepository{
   Future<Either<Failure,Orders>> fetchOrder(Map<String,dynamic> params);
   Future<Either<Failure,BusyModeGetResponse>> isBusy(Map<String,dynamic> params);
   Future<Either<Failure,BusyModePostResponse>> updateBusyMode(Map<String,dynamic> params);
+  Future<Either<Failure,ActionSuccess>> updateStatus(Map<String,dynamic> params);
 }

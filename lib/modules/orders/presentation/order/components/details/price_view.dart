@@ -8,95 +8,174 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
-class PriceView extends StatelessWidget {
+class PriceView extends StatefulWidget {
   final Order order;
-  final _controller = ExpandedTileController(isExpanded: false);
 
-  PriceView({Key? key, required this.order}) : super(key: key);
+  const PriceView({super.key, required this.order});
+
+  @override
+  State<PriceView> createState() => _PriceViewState();
+}
+
+class _PriceViewState extends State<PriceView> {
+  ExpandedTileController? _controller;
+
+  @override
+  void initState() {
+    _controller = ExpandedTileController(isExpanded: false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Divider(),
+        const Divider(),
         ExpandedTile(
           theme: ExpandedTileThemeData(
-            headerColor: AppColors.white,
+            headerColor: Colors.transparent,
             headerPadding: EdgeInsets.symmetric(
-              horizontal: AppSize.ZERO,
+              horizontal: AppSize.s12.rw,
               vertical: AppSize.ZERO,
             ),
-            headerSplashColor: AppColors.lightViolet,
+            leadingPadding: EdgeInsets.zero,
+            trailingPadding: EdgeInsets.zero,
+            titlePadding: EdgeInsets.zero,
+            headerSplashColor: AppColors.blackCow,
             contentBackgroundColor: Colors.transparent,
             contentPadding: EdgeInsets.zero,
           ),
-          trailing: Icon(
-            Icons.keyboard_arrow_down_rounded,
-            color: AppColors.black,
-          ),
-          trailingRotation: 180,
-          title: Text(
-            'Subtotal',
-            style: getRegularTextStyle(
+          trailing: Text(
+            '${widget.order.currencySymbol}${widget.order.finalPrice}',
+            style: TextStyle(
               color: AppColors.black,
-              fontSize: AppFontSize.s11.rSp,
+              fontSize: AppFontSize.s14.rSp,
+              fontWeight: AppFontWeight.bold,
             ),
           ),
-          content: MediaQuery.removePadding(
-            context: context,
-            removeTop: true,
+          trailingRotation: 0,
+          title: SubtotalExpandHeader(controller: _controller!),
+          content: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: AppSize.s8.rh,
+              horizontal: AppSize.s12.rw,
+            ),
             child: Column(
               children: [
-                _getSubtotalItem('Vat', order.vat.toString()),
-                _getSubtotalItem('Delivery Fee', order.vat.toString()),
-                _getSubtotalItem('Additional Fee', order.vat.toString()),
-                _getSubtotalItem('Discount', order.vat.toString(),color: AppColors.red),
+                _getSubtotalItem('Vat', widget.order.vat.toString()),
+                SizedBox(height: AppSize.s2.rh),
+                _getSubtotalItem('Delivery Fee', widget.order.vat.toString()),
+                SizedBox(height: AppSize.s2.rh),
+                _getSubtotalItem('Additional Fee', widget.order.vat.toString()),
+                SizedBox(height: AppSize.s2.rh),
+                _getSubtotalItem('Discount', widget.order.vat.toString(),
+                    color: AppColors.red),
               ],
             ),
           ),
-          controller: _controller,
+          controller: _controller!,
         ),
-        Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Total',
-              style: getRegularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
+        const Divider(),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: AppSize.s8.rh,
+            horizontal: AppSize.s12.rw,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total',
+                style: TextStyle(
+                  color: AppColors.black,
+                  fontSize: AppFontSize.s20.rSp,
+                  fontWeight: AppFontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              '${order.currencySymbol}${order.finalPrice}',
-              style: getRegularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
+              Text(
+                '${widget.order.currencySymbol}${widget.order.finalPrice}',
+                style: TextStyle(
+                  color: AppColors.black,
+                  fontSize: AppFontSize.s20.rSp,
+                  fontWeight: AppFontWeight.bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
   }
 
   Widget _getSubtotalItem(String name, String price, {Color? color}) {
+    final textStyle = TextStyle(
+      color: color ?? AppColors.black,
+      fontSize: AppFontSize.s14.rSp,
+      fontWeight: AppFontWeight.regular,
+    );
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           name,
-          style: getRegularTextStyle(
-            color: color ?? AppColors.black,
+          style: textStyle,
+        ),
+        Text(
+          '${widget.order.currencySymbol}$price',
+          style: textStyle,
+        ),
+      ],
+    );
+  }
+}
+
+class SubtotalExpandHeader extends StatefulWidget {
+  final ExpandedTileController controller;
+
+  const SubtotalExpandHeader({Key? key, required this.controller})
+      : super(key: key);
+
+  @override
+  State<SubtotalExpandHeader> createState() => _SubtotalExpandHeaderState();
+}
+
+class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
+  bool? _isExpanded;
+
+  @override
+  void initState() {
+    _isExpanded = widget.controller.isExpanded;
+    widget.controller.addListener(onExpandStateChange);
+    super.initState();
+  }
+
+  void onExpandStateChange() {
+    setState(() {
+      _isExpanded = widget.controller.isExpanded;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          'Subtotal',
+          style: getBoldTextStyle(
+            color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
-        Text(
-          '${order.currencySymbol}$price',
-          style: getRegularTextStyle(
-            color: color ?? AppColors.black,
-            fontSize: AppFontSize.s14.rSp,
-          ),
+        Visibility(
+          visible: !_isExpanded!,
+          child: Icon(Icons.keyboard_arrow_down,
+              color: AppColors.black, size: AppSize.s24.rSp),
         ),
       ],
     );

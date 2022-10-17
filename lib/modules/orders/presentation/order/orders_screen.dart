@@ -98,8 +98,8 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                       builder: (context, state) {
                         return Tab(
                             text: (state is Success<Orders>)
-                                ? 'Ongoing (${state.data.total})'
-                                : 'Ongoing');
+                                ? 'Ready (${state.data.total})'
+                                : 'Ready');
                       },
                     ),
                     const Tab(text: 'Order History'),

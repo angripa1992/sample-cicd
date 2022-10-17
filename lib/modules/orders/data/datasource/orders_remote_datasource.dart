@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/core/network/rest_client.dart';
 import 'package:klikit/core/network/urls.dart';
+import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/data/models/brand_model.dart';
 import 'package:klikit/modules/orders/data/models/busy_mode_model.dart';
 import 'package:klikit/modules/orders/data/models/orders_model.dart';
@@ -22,6 +23,7 @@ abstract class OrderRemoteDatasource{
   Future<OrdersModel> fetchOrder(Map<String,dynamic> params);
   Future<BusyModeGetResponseModel> isBusy(Map<String,dynamic> params);
   Future<BusyModePostResponseModel> updateBusyMode(Map<String,dynamic> params);
+  Future<ActionSuccess> updateOrderStatus(Map<String,dynamic> params);
 }
 
 class OrderRemoteDatasourceImpl extends OrderRemoteDatasource{
@@ -96,6 +98,16 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource{
     try{
       final response = await _restClient.request(Urls.busy, Method.POST,params);
       return BusyModePostResponseModel.fromJson(response);
+    }on DioError{
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params) async{
+    try{
+      final response = await _restClient.request(Urls.updateStatus, Method.PATCH,params);
+      return ActionSuccess.fromJson(response);
     }on DioError{
       rethrow;
     }

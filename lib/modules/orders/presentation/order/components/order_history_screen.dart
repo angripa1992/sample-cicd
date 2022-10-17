@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/provider/order_parameter_provider.dart';
-import 'package:klikit/modules/orders/presentation/order/components/details/history_order_details.dart';
+import 'package:klikit/modules/orders/presentation/order/components/details/order_details_bottom_sheet.dart';
 import 'package:klikit/modules/orders/presentation/order/components/order_item/history_order_item.dart';
 import 'package:klikit/modules/orders/presentation/order/components/progress_indicator.dart';
 import 'package:klikit/modules/orders/presentation/order/observer/filter_observer.dart';

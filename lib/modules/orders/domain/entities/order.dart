@@ -50,6 +50,7 @@ class Order {
   final String orderComment;
   final String deliveryComment;
   final String foodpandaToken;
+  final String klikitComment;
   final bool isManualOrder;
   final int source;
   final int paymentMethod;
@@ -95,6 +96,7 @@ class Order {
     required this.orderComment,
     required this.deliveryComment,
     required this.foodpandaToken,
+    required this.klikitComment,
     required this.isManualOrder,
     required this.source,
     required this.paymentMethod,

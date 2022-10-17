@@ -112,6 +112,8 @@ class OrderModel {
   String? deliveryComment;
   @JsonKey(name: 'foodpanda_token')
   String? foodpandaToken;
+  @JsonKey(name: 'klikit_comment')
+  String? klikitComment;
   @JsonKey(name: 'is_manual_order')
   bool? isManualOrder;
   @JsonKey(name: 'payment_method')
@@ -162,6 +164,7 @@ class OrderModel {
       this.orderComment,
       this.deliveryComment,
       this.foodpandaToken,
+      this.klikitComment,
       this.isManualOrder,
       this.source,
       this.paymentMethod,
@@ -220,6 +223,7 @@ class OrderModel {
       autoAccept: autoAccept ?? false,
       autoPilot: autoPilot ?? false,
       autoPilotTime: autoPilotTime.orZero(),
+      klikitComment: klikitComment.orEmpty(),
     );
   }
 

@@ -13,9 +13,8 @@ import '../../../../../app/di.dart';
 import '../../bloc/orders/new_order_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
-import 'details/history_order_details.dart';
+import 'details/order_details_bottom_sheet.dart';
 import 'order_item/new_order_item.dart';
-import 'order_item/order_item_view.dart';
 
 class NewOrderScreen extends StatefulWidget {
   final FilterSubject subject;
@@ -94,10 +93,11 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   }
 
   void _refresh({bool willBackground = false}) {
-    if(willBackground){
+    _refreshOrderCount();
+    if (willBackground) {
       _pagingController.itemList?.clear();
       _pagingController.notifyPageRequestListeners(_firstPageKey);
-    }else{
+    } else {
       _pagingController.refresh();
     }
   }
@@ -108,9 +108,14 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
       pagingController: _pagingController,
       builderDelegate: PagedChildBuilderDelegate<Order>(
         itemBuilder: (context, item, index) {
-          return NewOrderItemView(order: item,seeDetails: (order){
-            showHistoryOrderDetails(context,order);
-          },
+          return NewOrderItemView(
+            order: item,
+            seeDetails: (order) {
+              showNewOrderDetails(context, order);
+            },
+            onRefresh: () {
+              _refresh(willBackground: true);
+            },
           );
         },
         firstPageProgressIndicatorBuilder: (_) =>
