@@ -7,7 +7,7 @@ import 'order_action_buttons.dart';
 
 class HistoryOrderItemView extends StatelessWidget {
   final Order order;
-  final Function(Order) seeDetails;
+  final VoidCallback seeDetails;
 
   const HistoryOrderItemView(
       {Key? key, required this.order, required this.seeDetails})
@@ -23,9 +23,7 @@ class HistoryOrderItemView extends StatelessWidget {
           children: [
             OrderItemView(
               order: order,
-              seeDetails: (order) {
-                seeDetails(order);
-              },
+              seeDetails: seeDetails,
             ),
             PrintButton(
               onPrint: () {},

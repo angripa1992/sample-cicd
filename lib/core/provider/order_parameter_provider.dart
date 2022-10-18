@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../modules/orders/domain/entities/order_status.dart';
+import '../../app/constants.dart';
 import 'order_information_provider.dart';
 
 class OrderParameterProvider {
@@ -13,12 +14,7 @@ class OrderParameterProvider {
     List<int>? providersID, {
     int? pageSize,
   }) async {
-    final status = await _informationProvider.getStatusByNames(
-      [
-        OrderStatusName.PLACED,
-        OrderStatusName.ACCEPTED,
-      ],
-    );
+    final status = [OrderStatus.PLACED, OrderStatus.ACCEPTED];
     return _getParams(brandsID, providersID, status, pageSize: pageSize);
   }
 
@@ -27,12 +23,7 @@ class OrderParameterProvider {
     List<int>? providersID, {
     int? pageSize,
   }) async {
-    final status = await _informationProvider.getStatusByNames(
-      [
-        OrderStatusName.CANCELLED,
-        OrderStatusName.DELIVERED,
-      ],
-    );
+    final status = [OrderStatus.CANCELLED, OrderStatus.DELIVERED];
     return _getParams(brandsID, providersID, status, pageSize: pageSize);
   }
 
@@ -41,11 +32,7 @@ class OrderParameterProvider {
     List<int>? providersID, {
     int? pageSize,
   }) async {
-    final status = await _informationProvider.getStatusByNames(
-      [
-        OrderStatusName.READY,
-      ],
-    );
+    final status = [OrderStatus.READY];
     return _getParams(brandsID, providersID, status, pageSize: pageSize);
   }
 
@@ -65,6 +52,31 @@ class OrderParameterProvider {
       "filterByBrand": ListParam<int>(brands, ListFormat.csv),
       "filterByProvider": ListParam<int>(providers, ListFormat.csv),
       "filterByStatus": ListParam<int>(status, ListFormat.csv),
+    };
+  }
+
+  Map<String,dynamic> getOrderActionParams(Order order,bool willCancel){
+    final orderStatus = order.status;
+    final provider = order.providerId;
+    late int status;
+    if(willCancel){
+      status = OrderStatus.CANCELLED;
+    }else if(orderStatus == OrderStatus.PLACED){
+      status = OrderStatus.ACCEPTED;
+    }else if(orderStatus == OrderStatus.ACCEPTED){
+      status = OrderStatus.READY;
+    }else if(orderStatus == OrderStatus.READY){
+      if (((provider == Provider.FOOD_PANDA && order.isFoodpandaApiOrder) || provider == Provider.GRAB_FOOD) && order.type == OrderType.PICKUP) {
+        status = OrderStatus.PICKED_UP;
+      } else {
+        status = OrderStatus.DELIVERED;
+      }
+    }else{
+      status = OrderStatus.DELIVERED;
+    }
+    return  {
+      'status': status,
+      'id': order.id,
     };
   }
 }

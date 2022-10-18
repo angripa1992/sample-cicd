@@ -14,7 +14,7 @@ import 'package:klikit/resources/values.dart';
 
 class OrderItemView extends StatelessWidget {
   final _infoProvider = getIt.get<OrderInformationProvider>();
-  final Function(Order) seeDetails;
+  final VoidCallback seeDetails;
   final Order order;
 
   OrderItemView({Key? key, required this.order, required this.seeDetails}) : super(key: key);
@@ -71,9 +71,7 @@ class OrderItemView extends StatelessWidget {
             SizedBox(
               height: AppSize.s20.rh,
               child: ElevatedButton(
-                onPressed: (){
-                  seeDetails(order);
-                },
+                onPressed: seeDetails,
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size.zero,
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),

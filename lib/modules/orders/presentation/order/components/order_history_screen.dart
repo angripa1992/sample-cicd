@@ -34,20 +34,20 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   Timer? _timer;
   List<int>? _providers;
   List<int>? _brands;
-
-  final PagingController<int, Order> _pagingController =
-      PagingController(firstPageKey: _firstPageKey);
+  PagingController<int, Order>? _pagingController;
 
   DateTimeRange _dateRange =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
 
   @override
   void initState() {
+    _pagingController =
+        PagingController(firstPageKey: _firstPageKey);
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.ORDER_HISTORY);
     _providers = filterSubject?.getProviders();
     _brands = filterSubject?.getBrands();
-    _pagingController.addPageRequestListener((pageKey) {
+    _pagingController?.addPageRequestListener((pageKey) {
       _fetchOrderHistory(pageKey);
     });
     super.initState();
@@ -61,19 +61,20 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     );
     params['page'] = pageKey;
     params['start'] = DateTimeProvider.getDate(_dateRange.start);
-    params['end'] = DateTimeProvider.getDate(_dateRange.end);
+    params['end'] =
+        DateTimeProvider.getDate(_dateRange.end.add(const Duration(days: 1)));
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
-        _pagingController.error = failure;
+        _pagingController?.error = failure;
       },
       (orders) {
         final isLastPage = orders.total < (pageKey * _pageSize);
         if (isLastPage) {
-          _pagingController.appendLastPage(orders.data);
+          _pagingController?.appendLastPage(orders.data);
         } else {
           final nextPageKey = pageKey + 1;
-          _pagingController.appendPage(orders.data, nextPageKey);
+          _pagingController?.appendPage(orders.data, nextPageKey);
         }
       },
     );
@@ -82,7 +83,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   void _refresh() {
     //_pagingController.itemList?.clear();
     //_pagingController.notifyPageRequestListeners(_firstPageKey);
-    _pagingController.refresh();
+    _pagingController?.refresh();
   }
 
   @override
@@ -104,13 +105,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
         Flexible(
           flex: 4,
           child: PagedListView<int, Order>(
-            pagingController: _pagingController,
+            pagingController: _pagingController!,
             builderDelegate: PagedChildBuilderDelegate<Order>(
               itemBuilder: (context, item, index) {
                 return HistoryOrderItemView(
                   order: item,
-                  seeDetails: (order) {
-                    showHistoryOrderDetails(context,order);
+                  seeDetails: () {
+                    showHistoryOrderDetails(context, item);
                   },
                 );
               },
@@ -132,7 +133,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   @override
   void dispose() {
     _timer?.cancel();
-    _pagingController.dispose();
+    _pagingController?.dispose();
     filterSubject?.removeObserver(ObserverTag.ORDER_HISTORY);
     super.dispose();
   }

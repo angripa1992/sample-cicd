@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
 import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../core/provider/order_information_provider.dart';
 import '../../../domain/entities/order.dart';
-import '../../../domain/entities/order_status.dart';
 import '../../../domain/usecases/fetch_completed_order.dart';
 
 class CompletedOrderCubit extends Cubit<ResponseState> {
@@ -34,12 +34,13 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
     List<int>? brandsID,
   }) async {
     final brands = brandsID ?? await _informationProvider.getBrandsIds();
-    final providers = providersID ?? await _informationProvider.getProvidersIds();
+    final providers =
+        providersID ?? await _informationProvider.getProvidersIds();
     final Map<String, dynamic> params = {};
-    if(brands.isNotEmpty){
+    if (brands.isNotEmpty) {
       params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
     }
-    if(providers.isNotEmpty){
+    if (providers.isNotEmpty) {
       params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
     }
     _fetchCompletedOrders(willShowLoading: willShowLoading, params: params);
@@ -52,9 +53,7 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
     if (willShowLoading) {
       emit(Loading());
     }
-    final status = await _informationProvider.getStatusByNames(
-      [OrderStatusName.DELIVERED],
-    );
+    final status = [OrderStatus.DELIVERED];
     final branch = await _informationProvider.getBranchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;

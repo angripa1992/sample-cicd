@@ -11,8 +11,10 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../bloc/orders/new_order_cubit.dart';
+import '../../bloc/orders/order_action_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
+import 'action_dialogs.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'order_item/new_order_item.dart';
 
@@ -33,18 +35,18 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   Timer? _timer;
   List<int>? _providers;
   List<int>? _brands;
-
-  final PagingController<int, Order> _pagingController =
-      PagingController(firstPageKey: _firstPageKey);
+  PagingController<int, Order>? _pagingController;
 
   @override
   void initState() {
+    _pagingController =
+        PagingController(firstPageKey: _firstPageKey);
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.NEW_ORDER);
     _providers = filterSubject?.getProviders();
     _brands = filterSubject?.getBrands();
     _startTimer();
-    _pagingController.addPageRequestListener((pageKey) {
+    _pagingController?.addPageRequestListener((pageKey) {
       _fetchNewOrder(pageKey);
     });
     super.initState();
@@ -78,15 +80,15 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
-        _pagingController.error = failure;
+        _pagingController?.error = failure;
       },
       (orders) {
         final isLastPage = orders.total < (pageKey * _pageSize);
         if (isLastPage) {
-          _pagingController.appendLastPage(orders.data);
+          _pagingController?.appendLastPage(orders.data);
         } else {
           final nextPageKey = pageKey + 1;
-          _pagingController.appendPage(orders.data, nextPageKey);
+          _pagingController?.appendPage(orders.data, nextPageKey);
         }
       },
     );
@@ -95,26 +97,78 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   void _refresh({bool willBackground = false}) {
     _refreshOrderCount();
     if (willBackground) {
-      _pagingController.itemList?.clear();
-      _pagingController.notifyPageRequestListeners(_firstPageKey);
+      _pagingController?.itemList?.clear();
+      _pagingController?.notifyPageRequestListeners(_firstPageKey);
     } else {
-      _pagingController.refresh();
+      _pagingController?.refresh();
     }
   }
+
+  void _onAction({
+    required String title,
+    required Order order,
+    bool willCancel = false,
+    bool isFromDetails = false,
+  }) {
+    showOrderActionDialog(
+      params: _orderParameterProvider.getOrderActionParams(order, willCancel),
+      context: context,
+      onSuccess: () {
+        _refresh(willBackground: true);
+        if (isFromDetails) {
+          Navigator.of(context).pop();
+        }
+      },
+      title: title,
+      cubit: context.read<OrderActionCubit>(),
+    );
+  }
+
+  void _onPrint() {}
 
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, Order>(
-      pagingController: _pagingController,
+      pagingController: _pagingController!,
       builderDelegate: PagedChildBuilderDelegate<Order>(
         itemBuilder: (context, item, index) {
           return NewOrderItemView(
             order: item,
-            seeDetails: (order) {
-              showNewOrderDetails(context, order);
+            seeDetails: () {
+              showOrderDetails(
+                context: context,
+                order: item,
+                onAction: (title) {
+                  _onAction(
+                    title: title,
+                    order: item,
+                    isFromDetails: true,
+                  );
+                },
+                onPrint: _onPrint,
+                onCancel: (title) {
+                  _onAction(
+                    title: title,
+                    order: item,
+                    isFromDetails: true,
+                    willCancel: true,
+                  );
+                },
+              );
             },
-            onRefresh: () {
-              _refresh(willBackground: true);
+            onAction: (title) {
+              _onAction(
+                title: title,
+                order: item,
+              );
+            },
+            onPrint: _onPrint,
+            onCancel: (title) {
+              _onAction(
+                title: title,
+                order: item,
+                willCancel: true,
+              );
             },
           );
         },
@@ -132,7 +186,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   @override
   void dispose() {
     _timer?.cancel();
-    _pagingController.dispose();
+    _pagingController?.dispose();
     filterSubject?.removeObserver(ObserverTag.NEW_ORDER);
     super.dispose();
   }

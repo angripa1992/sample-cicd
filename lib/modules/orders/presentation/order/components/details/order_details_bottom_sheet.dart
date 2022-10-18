@@ -7,7 +7,6 @@ import 'package:klikit/modules/orders/presentation/order/components/details/orde
 import 'package:klikit/modules/orders/presentation/order/components/details/price_view.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../domain/entities/order_status.dart';
 import '../order_item/order_action_buttons.dart';
 
 void _openBottomSheet({
@@ -25,8 +24,8 @@ void _openBottomSheet({
       ),
     ),
     builder: (context) => DraggableScrollableSheet(
-      initialChildSize: 0.85,
-      minChildSize: 0.5,
+      initialChildSize: 0.65,
+      minChildSize: 0.65,
       maxChildSize: 0.85,
       expand: false,
       builder: (_, controller) => Column(
@@ -60,7 +59,13 @@ void showHistoryOrderDetails(BuildContext context, Order order) {
   );
 }
 
-void showNewOrderDetails(BuildContext context, Order order) {
+void showOrderDetails({
+  required BuildContext context,
+  required Order order,
+  required Function(String) onAction,
+  required Function(String) onCancel,
+  required VoidCallback onPrint,
+}) {
   _openBottomSheet(
     context: context,
     order: order,
@@ -69,38 +74,12 @@ void showNewOrderDetails(BuildContext context, Order order) {
         vertical: AppSize.s12.rh,
         horizontal: AppSize.s12.rw,
       ),
-      child: order.status == OrderStatusId.PLACED
-          ? Row(
-              children: [
-                Expanded(
-                  child: AcceptButton(
-                    onAccept: () {},
-                  ),
-                ),
-                SizedBox(width: AppSize.s8.rw),
-                Expanded(
-                  child: CanceledButton(
-                    onCanceled: () {},
-                  ),
-                ),
-              ],
-            )
-          : Row(
-              children: [
-                Expanded(
-                  child: PrintButton(
-                    onPrint: () {},
-                    padding: AppSize.s16,
-                  ),
-                ),
-                SizedBox(width: AppSize.s8.rw),
-                Expanded(
-                  child: ReadyButton(
-                    onReady: () {},
-                  ),
-                ),
-              ],
-            ),
+      child: getExpandActionButtons(
+        order: order,
+        onAction: onAction,
+        onCancel: onCancel,
+        onPrint: onPrint,
+      ),
     ),
   );
 }

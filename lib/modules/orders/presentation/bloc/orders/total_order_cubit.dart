@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/domain/entities/order_status.dart';
 
 import '../../../../../core/provider/order_information_provider.dart';
 import '../../../domain/usecases/fetch_total_orders.dart';
@@ -34,17 +34,17 @@ class TotalOrderCubit extends Cubit<ResponseState> {
     List<int>? brandsID,
   }) async {
     final brands = brandsID ?? await _informationProvider.getBrandsIds();
-    final providers = providersID ?? await _informationProvider.getProvidersIds();
+    final providers =
+        providersID ?? await _informationProvider.getProvidersIds();
     final Map<String, dynamic> params = {};
-    if(brands.isNotEmpty){
+    if (brands.isNotEmpty) {
       params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
     }
-    if(providers.isNotEmpty){
+    if (providers.isNotEmpty) {
       params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
     }
     _fetchTotalOrder(willShowLoading: willShowLoading, params: params);
   }
-
 
   void _fetchTotalOrder({
     required bool willShowLoading,
@@ -53,18 +53,16 @@ class TotalOrderCubit extends Cubit<ResponseState> {
     if (willShowLoading) {
       emit(Loading());
     }
-    final status = await _informationProvider.getStatusByNames(
-      [OrderStatusName.CANCELLED, OrderStatusName.DELIVERED],
-    );
+    final status = [OrderStatus.CANCELLED, OrderStatus.DELIVERED];
     final branch = await _informationProvider.getBranchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;
     final response = await _fetchTotalOrders(params);
     response.fold(
-          (failure) {
+      (failure) {
         emit(Failed(failure));
       },
-          (orders) {
+      (orders) {
         emit(Success<Orders>(orders));
       },
     );

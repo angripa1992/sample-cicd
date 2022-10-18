@@ -15,7 +15,7 @@ class OrderStatusModel {
 
   Map<String, dynamic> toJson() => _$OrderStatusModelToJson(this);
 
-  OrderStatus toEntity(){
-    return OrderStatus(id.orZero(), status.orEmpty());
-  }
+  // OrderStatus toEntity(){
+  //   return OrderStatus(id.orZero(), status.orEmpty());
+  // }
 }

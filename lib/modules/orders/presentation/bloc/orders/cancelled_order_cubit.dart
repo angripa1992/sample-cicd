@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
 import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../core/provider/order_information_provider.dart';
 import '../../../domain/entities/order.dart';
-import '../../../domain/entities/order_status.dart';
 import '../../../domain/usecases/fetch_cancelled_order.dart';
 
 class CancelledOrderCubit extends Cubit<ResponseState> {
@@ -34,12 +34,13 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
     List<int>? brandsID,
   }) async {
     final brands = brandsID ?? await _informationProvider.getBrandsIds();
-    final providers = providersID ?? await _informationProvider.getProvidersIds();
+    final providers =
+        providersID ?? await _informationProvider.getProvidersIds();
     final Map<String, dynamic> params = {};
-    if(brands.isNotEmpty){
+    if (brands.isNotEmpty) {
       params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
     }
-    if(providers.isNotEmpty){
+    if (providers.isNotEmpty) {
       params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);
     }
     _fetchCancelledOrders(willShowLoading: willShowLoading, params: params);
@@ -52,18 +53,16 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
     if (willShowLoading) {
       emit(Loading());
     }
-    final status = await _informationProvider.getStatusByNames(
-      [OrderStatusName.CANCELLED],
-    );
+    final status = [OrderStatus.CANCELLED];
     final branch = await _informationProvider.getBranchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;
     final response = await _fetchCancelledOrder(params);
     response.fold(
-          (failure) {
+      (failure) {
         emit(Failed(failure));
       },
-          (orders) {
+      (orders) {
         emit(Success<Orders>(orders));
       },
     );

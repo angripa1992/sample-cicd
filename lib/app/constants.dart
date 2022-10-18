@@ -8,8 +8,6 @@ class AppConstant {
   static const String supportMail = "example@exampl.co";
   static const int refreshTime = 30;
   static const int busyTimeInMin = 60;
-  static const int TYPE_PICKUP = 1;
-  static const int TYPE_DELIVERY = 2;
 }
 
 class ObserverTag{
@@ -31,4 +29,28 @@ class OrderTab{
   static const int NEW = 0;
   static const int ONGOING = 1;
   static const int History = 2;
+}
+
+class OrderType{
+  static const int PICKUP = 1;
+  static const int DELIVERY = 2;
+}
+
+class Provider{
+  static const int KLIKIT = 1;
+  static const int GRAB_FOOD = 6;
+  static const int FOOD_PANDA = 7;
+  static const int SHOPEE = 11;
+}
+
+class OrderStatus{
+  static const PLACED = 1;
+  static final ACCEPTED = 2;
+  static final CANCELLED = 3;
+  static final READY = 4;
+  static final DELIVERED = 5;
+  static final SCHEDULED = 6;
+  static final DRIVER_ASSIGNED = 7;
+  static final DRIVER_ARRIVED = 8;
+  static final PICKED_UP = 9;
 }

@@ -14,8 +14,7 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
 void showOrderActionDialog({
-  required int id,
-  required status,
+  required Map<String,dynamic> params,
   required BuildContext context,
   required VoidCallback onSuccess,
   required String title,
@@ -64,7 +63,7 @@ void showOrderActionDialog({
                           isLoading: (state is Loading),
                           verticalPadding: AppSize.s8.rh,
                           onTap: () {
-                            cubit.updateOrderStatus(status, id);
+                            cubit.updateOrderStatus(params);
                           },
                           text: 'Yes',
                         );

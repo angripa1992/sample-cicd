@@ -12,10 +12,11 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../bloc/orders/ongoing_order_cubit.dart';
+import '../../bloc/orders/order_action_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
+import 'action_dialogs.dart';
 import 'details/order_details_bottom_sheet.dart';
-import 'order_item/order_item_view.dart';
 
 class OngoingOrderScreen extends StatefulWidget {
   final FilterSubject subject;
@@ -36,17 +37,17 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
   List<int>? _providers;
   List<int>? _brands;
 
-  final PagingController<int, Order> _pagingController =
-      PagingController(firstPageKey: 1);
+  PagingController<int, Order>? _pagingController;
 
   @override
   void initState() {
+    _pagingController = PagingController(firstPageKey: _firstPageKey);
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.ONGOING_ORDER);
     _providers = filterSubject?.getProviders();
     _brands = filterSubject?.getBrands();
     _startTimer();
-    _pagingController.addPageRequestListener((pageKey) {
+    _pagingController?.addPageRequestListener((pageKey) {
       _fetchOngoingOrder(pageKey);
     });
     super.initState();
@@ -80,15 +81,15 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
-        _pagingController.error = failure;
+        _pagingController?.error = failure;
       },
       (orders) {
         final isLastPage = orders.total < (pageKey * _pageSize);
         if (isLastPage) {
-          _pagingController.appendLastPage(orders.data);
+          _pagingController?.appendLastPage(orders.data);
         } else {
           final nextPageKey = pageKey + 1;
-          _pagingController.appendPage(orders.data, nextPageKey);
+          _pagingController?.appendPage(orders.data, nextPageKey);
         }
       },
     );
@@ -96,33 +97,89 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
 
   void _refresh({bool willBackground = false}) {
     _refreshOrderCount();
-    if(willBackground){
-      _pagingController.itemList?.clear();
-      _pagingController.notifyPageRequestListeners(_firstPageKey);
-    }else{
-      _pagingController.refresh();
+    if (willBackground) {
+      _pagingController?.itemList?.clear();
+      _pagingController?.notifyPageRequestListeners(_firstPageKey);
+    } else {
+      _pagingController?.refresh();
     }
   }
+
+  void _onAction({
+    required String title,
+    required Order order,
+    bool willCancel = false,
+    bool isFromDetails = false,
+  }) {
+    showOrderActionDialog(
+      params: _orderParamProvider.getOrderActionParams(order, willCancel),
+      context: context,
+      onSuccess: () {
+        _refresh(willBackground: true);
+        if (isFromDetails) {
+          Navigator.of(context).pop();
+        }
+      },
+      title: title,
+      cubit: context.read<OrderActionCubit>(),
+    );
+  }
+
+  void _onPrint() {}
 
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, Order>(
-      pagingController: _pagingController,
+      pagingController: _pagingController!,
       builderDelegate: PagedChildBuilderDelegate<Order>(
         itemBuilder: (context, item, index) {
-          return OngoingOrderItemView(order: item,seeDetails: (order){
-            showHistoryOrderDetails(context,order);
-          },
-            onRefresh: (){
-            _refresh(willBackground: true);
+          return OngoingOrderItemView(
+            order: item,
+            seeDetails: () {
+              showOrderDetails(
+                context: context,
+                order: item,
+                onAction: (title) {
+                  _onAction(
+                    title: title,
+                    order: item,
+                    isFromDetails: true,
+                  );
+                },
+                onPrint: _onPrint,
+                onCancel: (title) {
+                  _onAction(
+                    title: title,
+                    order: item,
+                    isFromDetails: true,
+                    willCancel: true,
+                  );
+                },
+              );
+            },
+            onAction: (title) {
+              _onAction(
+                title: title,
+                order: item,
+              );
+            },
+            onPrint: _onPrint,
+            onCancel: (title) {
+              _onAction(
+                title: title,
+                order: item,
+                willCancel: true,
+              );
             },
           );
         },
         firstPageProgressIndicatorBuilder: (_) =>
             getFirstPageProgressIndicator(),
         newPageProgressIndicatorBuilder: (_) => getNewPageProgressIndicator(),
-        newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(()=> _refresh()),
-        firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(()=> _refresh()),
+        newPageErrorIndicatorBuilder: (_) =>
+            getPageErrorIndicator(() => _refresh()),
+        firstPageErrorIndicatorBuilder: (_) =>
+            getPageErrorIndicator(() => _refresh()),
       ),
     );
   }
@@ -130,7 +187,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
   @override
   void dispose() {
     _timer?.cancel();
-    _pagingController.dispose();
+    _pagingController?.dispose();
     filterSubject?.removeObserver(ObserverTag.ONGOING_ORDER);
     super.dispose();
   }

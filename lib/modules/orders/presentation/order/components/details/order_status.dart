@@ -23,7 +23,7 @@ class OrderStatusView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Visibility(
-          visible: (order.isManualOrder || order.type == AppConstant.TYPE_PICKUP),
+          visible: (order.isManualOrder || order.type == OrderType.PICKUP),
           child: Padding(
             padding: EdgeInsets.only(top: AppSize.s12.rh),
             child: Text('<Status>', style: _style),
@@ -39,7 +39,7 @@ class OrderStatusView extends StatelessWidget {
         ),
         SizedBox(width: AppSize.s24.rw),
         Visibility(
-          visible: (order.type == AppConstant.TYPE_PICKUP),
+          visible: (order.type == OrderType.PICKUP),
           child: Padding(
             padding: EdgeInsets.only(left: AppSize.s24.rw,top: AppSize.s12.rh),
             child: Text('Pickup', style: _style),
