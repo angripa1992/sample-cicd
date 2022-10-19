@@ -14,6 +14,7 @@ void _openBottomSheet({
   required Order order,
   required Widget actionView,
   required GlobalKey<ScaffoldState> key,
+  required VoidCallback onCommentActionSuccess,
 }) {
   showModalBottomSheet(
     context: context,
@@ -36,10 +37,15 @@ void _openBottomSheet({
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            OrderDetailsHeaderView(order: order,modalKey: key),
+            OrderDetailsHeaderView(
+              order: order,
+              modalKey: key,
+              onCommentActionSuccess: onCommentActionSuccess,
+            ),
             OrderItemDetails(order: order, controller: controller),
-            CommentView(comment: order.klikitComment),
+            CommentView(comment: order.orderComment),
             PriceView(order: order),
             actionView,
           ],
@@ -49,11 +55,17 @@ void _openBottomSheet({
   );
 }
 
-void showHistoryOrderDetails({required BuildContext context,required Order order,required GlobalKey<ScaffoldState> key,}) {
+void showHistoryOrderDetails({
+  required BuildContext context,
+  required Order order,
+  required GlobalKey<ScaffoldState> key,
+  required VoidCallback onCommentActionSuccess,
+}) {
   _openBottomSheet(
     key: key,
     context: context,
     order: order,
+    onCommentActionSuccess: onCommentActionSuccess,
     actionView: Padding(
       padding: EdgeInsets.symmetric(
         vertical: AppSize.s12.rh,
@@ -73,10 +85,12 @@ void showOrderDetails({
   required Function(String) onCancel,
   required VoidCallback onPrint,
   required GlobalKey<ScaffoldState> key,
+  required VoidCallback onCommentActionSuccess,
 }) {
   _openBottomSheet(
     key: key,
     context: context,
+    onCommentActionSuccess: onCommentActionSuccess,
     order: order,
     actionView: Padding(
       padding: EdgeInsets.symmetric(

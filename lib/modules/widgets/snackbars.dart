@@ -62,7 +62,7 @@ void showErrorSnackBar(BuildContext context, String message) {
 void showSuccessSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      //behavior: SnackBarBehavior.floating,
+      behavior: SnackBarBehavior.floating,
       content: Text(
         message,
         style: getRegularTextStyle(
@@ -70,7 +70,7 @@ void showSuccessSnackBar(BuildContext context, String message) {
           fontSize: AppFontSize.s15.rSp,
         ),
       ),
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 3),
       backgroundColor: AppColors.purpleBlue,
     ),
   );

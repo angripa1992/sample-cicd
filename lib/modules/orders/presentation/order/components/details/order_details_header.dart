@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
+import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/order/components/details/order_status.dart';
+import 'package:klikit/modules/orders/presentation/order/components/dialogs/comment_dialog.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -17,10 +19,16 @@ import '../../../../domain/entities/provider.dart';
 
 class OrderDetailsHeaderView extends StatelessWidget {
   final _infoProvider = getIt.get<OrderInformationProvider>();
-  final  GlobalKey<ScaffoldState> modalKey;
+  final GlobalKey<ScaffoldState> modalKey;
   final Order order;
+  final VoidCallback onCommentActionSuccess;
 
-  OrderDetailsHeaderView({Key? key, required this.order, required this.modalKey}) : super(key: key);
+  OrderDetailsHeaderView(
+      {Key? key,
+      required this.order,
+      required this.modalKey,
+      required this.onCommentActionSuccess})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +62,9 @@ class OrderDetailsHeaderView extends StatelessWidget {
                           : order.shortId,
                     ),
                   ).then((value) {
-                    showSuccessSnackBar(modalKey.currentState!.context, 'Order id copied');
+                    showSuccessSnackBar(
+                        RoutesGenerator.navigatorKey.currentState!.context,
+                        'Order id copied');
                   });
                 },
                 icon: Icon(
@@ -69,9 +79,15 @@ class OrderDetailsHeaderView extends StatelessWidget {
               child: IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
+                  Navigator.of(context).pop();
+                  showCommentDialog(
+                    context: context,
+                    order: order,
+                    onCommentActionSuccess: onCommentActionSuccess,
+                  );
                 },
                 icon: Icon(
-                  Icons.add_comment_outlined,
+                  order.klikitComment.isEmpty ? Icons.add_comment_outlined : Icons.comment_outlined,
                   size: AppSize.s18.rSp,
                   color: AppColors.purpleBlue,
                 ),

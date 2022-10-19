@@ -10,9 +10,16 @@ class LoadingButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onTap;
   final double? verticalPadding;
+  final double? horizontalPadding;
   final double? textSize;
   final double? progressHeight;
   final double? progressWidth;
+  final Color? borderColor;
+  final Color? loadingBorderColor;
+  final Color? bgColor;
+  final Color? loadingBgColor;
+  final Color? textColor;
+  final Color? loaderColor;
 
   const LoadingButton({
     Key? key,
@@ -23,6 +30,13 @@ class LoadingButton extends StatelessWidget {
     this.textSize,
     this.progressHeight,
     this.progressWidth,
+    this.horizontalPadding,
+    this.borderColor,
+    this.bgColor,
+    this.loadingBgColor,
+    this.loadingBorderColor,
+    this.textColor,
+    this.loaderColor,
   }) : super(key: key);
 
   @override
@@ -31,24 +45,33 @@ class LoadingButton extends StatelessWidget {
       onTap: isLoading ? null : onTap,
       child: Container(
         decoration: BoxDecoration(
-            color: isLoading ? AppColors.lightViolet : AppColors.purpleBlue,
-            borderRadius: BorderRadius.circular(AppSize.s8.rSp)),
+          color: isLoading
+              ? (loadingBgColor ?? AppColors.lightViolet)
+              : (bgColor ?? AppColors.purpleBlue),
+          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+          border: Border.all(
+            color: isLoading
+                ? (loadingBorderColor ?? AppColors.lightViolet)
+                : (borderColor ?? AppColors.purpleBlue),
+          ),
+        ),
         child: Center(
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical: verticalPadding ?? AppSize.s12.rh,
+              horizontal: horizontalPadding ?? AppSize.s12.rh,
             ),
             child: isLoading
                 ? SizedBox(
                     height: progressHeight ?? AppSize.s16.rh,
                     width: progressWidth ?? AppSize.s18.rw,
                     child:
-                        CircularProgressIndicator(color: AppColors.purpleBlue),
+                        CircularProgressIndicator(color: loaderColor ?? AppColors.purpleBlue),
                   )
                 : Text(
                     text,
                     style: getBoldTextStyle(
-                      color: AppColors.white,
+                      color: textColor ?? AppColors.white,
                       fontSize: textSize ?? AppFontSize.s16.rSp,
                     ),
                   ),

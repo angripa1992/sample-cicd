@@ -11,11 +11,10 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../bloc/orders/new_order_cubit.dart';
-import '../../bloc/orders/order_action_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
-import 'dialogs/action_dialogs.dart';
 import 'details/order_details_bottom_sheet.dart';
+import 'dialogs/action_dialogs.dart';
 import 'order_item/new_order_item.dart';
 
 class NewOrderScreen extends StatefulWidget {
@@ -40,8 +39,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
 
   @override
   void initState() {
-    _pagingController =
-        PagingController(firstPageKey: _firstPageKey);
+    _pagingController = PagingController(firstPageKey: _firstPageKey);
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.NEW_ORDER);
     _providers = filterSubject?.getProviders();
@@ -121,7 +119,6 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         }
       },
       title: title,
-      cubit: context.read<OrderActionCubit>(),
     );
   }
 
@@ -155,6 +152,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                     isFromDetails: true,
                     willCancel: true,
                   );
+                },
+                onCommentActionSuccess: () {
+                  _refresh(willBackground: true);
                 },
               );
             },

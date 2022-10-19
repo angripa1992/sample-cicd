@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
-import 'package:klikit/modules/orders/presentation/order/components/brand_filter_item.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -11,6 +10,7 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../../app/di.dart';
 import '../../../../../../core/provider/order_information_provider.dart';
 import '../../observer/filter_subject.dart';
+import 'brand_filter_item.dart';
 
 class BrandFilter extends StatefulWidget {
   final FilterSubject filterSubject;

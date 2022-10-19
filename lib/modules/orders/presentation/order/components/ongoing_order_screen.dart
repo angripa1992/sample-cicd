@@ -12,11 +12,10 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../bloc/orders/ongoing_order_cubit.dart';
-import '../../bloc/orders/order_action_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
-import 'dialogs/action_dialogs.dart';
 import 'details/order_details_bottom_sheet.dart';
+import 'dialogs/action_dialogs.dart';
 
 class OngoingOrderScreen extends StatefulWidget {
   final FilterSubject subject;
@@ -122,7 +121,6 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
         }
       },
       title: title,
-      cubit: context.read<OrderActionCubit>(),
     );
   }
 
@@ -156,6 +154,9 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                     isFromDetails: true,
                     willCancel: true,
                   );
+                },
+                onCommentActionSuccess: () {
+                  _refresh(willBackground: true);
                 },
               );
             },

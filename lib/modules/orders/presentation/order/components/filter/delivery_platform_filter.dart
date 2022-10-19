@@ -3,7 +3,6 @@ import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
-import 'package:klikit/modules/orders/presentation/order/components/delivery_platform_item.dart';
 import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -11,6 +10,7 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../domain/entities/provider.dart';
+import 'delivery_platform_item.dart';
 
 class DeliveryPlatformFilter extends StatefulWidget {
   final FilterSubject filterSubject;

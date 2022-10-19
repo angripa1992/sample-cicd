@@ -12,20 +12,20 @@ import '../../../../../../../resources/colors.dart';
 import '../../../../../../../resources/fonts.dart';
 import '../../../../../../../resources/styles.dart';
 import '../../../../../../../resources/values.dart';
+import '../../../../../../app/di.dart';
 
 void showOrderActionDialog({
   required Map<String,dynamic> params,
   required BuildContext context,
   required VoidCallback onSuccess,
   required String title,
-  required OrderActionCubit cubit,
 }) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return BlocProvider<OrderActionCubit>.value(
-        value: cubit,
+      return BlocProvider<OrderActionCubit>(
+        create: (_) => getIt.get<OrderActionCubit>(),
         child: AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
@@ -63,7 +63,7 @@ void showOrderActionDialog({
                           isLoading: (state is Loading),
                           verticalPadding: AppSize.s8.rh,
                           onTap: () {
-                            cubit.updateOrderStatus(params);
+                            context.read<OrderActionCubit>().updateOrderStatus(params);
                           },
                           text: 'Yes',
                         );

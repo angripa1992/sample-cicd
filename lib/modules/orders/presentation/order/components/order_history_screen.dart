@@ -115,7 +115,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                     showHistoryOrderDetails(
                       key: _modelScaffoldKey,
                       context: context,
-                      order: item,
+                      order: item, onCommentActionSuccess: () {  },
                     );
                   },
                 );
