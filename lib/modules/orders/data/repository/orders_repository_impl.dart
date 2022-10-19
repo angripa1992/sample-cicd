@@ -9,7 +9,6 @@ import 'package:klikit/modules/orders/data/request_models/brand_request_model.da
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/domain/entities/order_status.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -127,10 +126,42 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> updateStatus(Map<String, dynamic> params) async{
+  Future<Either<Failure, ActionSuccess>> updateStatus(
+      Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updateOrderStatus(params);
+        return Right(response);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> addComment(
+    Map<String, dynamic> params,
+    int orderID,
+  ) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.addComment(params, orderID);
+        return Right(response);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> deleteComment(int orderID) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.deleteComment(orderID);
         return Right(response);
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);

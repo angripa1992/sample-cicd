@@ -15,7 +15,7 @@ import '../../bloc/orders/ongoing_order_cubit.dart';
 import '../../bloc/orders/order_action_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
-import 'action_dialogs.dart';
+import 'dialogs/action_dialogs.dart';
 import 'details/order_details_bottom_sheet.dart';
 
 class OngoingOrderScreen extends StatefulWidget {

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/core/network/rest_client.dart';
@@ -11,104 +9,145 @@ import 'package:klikit/modules/orders/data/models/orders_model.dart';
 import 'package:klikit/modules/orders/data/models/provider_model.dart';
 import 'package:klikit/modules/orders/data/models/settings_model.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
-import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
 
 import '../models/order_status_model.dart';
 
-abstract class OrderRemoteDatasource{
+abstract class OrderRemoteDatasource {
   Future<List<OrderStatusModel>> fetchOrderStatus();
+
   Future<BrandModel> fetchBrand(BrandRequestModel requestModel);
-  Future<List<ProviderModel>> fetchProvider(Map<String,dynamic> param);
+
+  Future<List<ProviderModel>> fetchProvider(Map<String, dynamic> param);
+
   Future<SettingsModel> fetchSettings(int id);
-  Future<OrdersModel> fetchOrder(Map<String,dynamic> params);
-  Future<BusyModeGetResponseModel> isBusy(Map<String,dynamic> params);
-  Future<BusyModePostResponseModel> updateBusyMode(Map<String,dynamic> params);
-  Future<ActionSuccess> updateOrderStatus(Map<String,dynamic> params);
+
+  Future<OrdersModel> fetchOrder(Map<String, dynamic> params);
+
+  Future<BusyModeGetResponseModel> isBusy(Map<String, dynamic> params);
+
+  Future<BusyModePostResponseModel> updateBusyMode(Map<String, dynamic> params);
+
+  Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params);
+
+  Future<ActionSuccess> addComment(Map<String, dynamic> params,int orderID);
+
+  Future<ActionSuccess> deleteComment(int orderID);
 }
 
-class OrderRemoteDatasourceImpl extends OrderRemoteDatasource{
+class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   final RestClient _restClient;
 
   OrderRemoteDatasourceImpl(this._restClient);
 
   @override
-  Future<List<OrderStatusModel>> fetchOrderStatus() async{
-    try{
-      final List<dynamic> response = await _restClient.request(Urls.status, Method.GET, null);
-      final List<OrderStatusModel> result = response.map((e) => OrderStatusModel.fromJson(e)).toList();
+  Future<List<OrderStatusModel>> fetchOrderStatus() async {
+    try {
+      final List<dynamic> response =
+          await _restClient.request(Urls.status, Method.GET, null);
+      final List<OrderStatusModel> result =
+          response.map((e) => OrderStatusModel.fromJson(e)).toList();
       return result;
-    }on DioError{
+    } on DioError {
       rethrow;
     }
   }
 
   @override
-  Future<BrandModel> fetchBrand(BrandRequestModel requestModel) async{
-    try{
-      final response = await _restClient.request(Urls.brand, Method.GET, requestModel.toJson());
+  Future<BrandModel> fetchBrand(BrandRequestModel requestModel) async {
+    try {
+      final response = await _restClient.request(
+          Urls.brand, Method.GET, requestModel.toJson());
       return BrandModel.fromJson(response);
-    }on DioError{
+    } on DioError {
       rethrow;
     }
   }
 
   @override
-  Future<List<ProviderModel>> fetchProvider(Map<String,dynamic> param) async{
-    try{
-      final List<dynamic> response = await _restClient.request(Urls.provider, Method.GET, param);
+  Future<List<ProviderModel>> fetchProvider(Map<String, dynamic> param) async {
+    try {
+      final List<dynamic> response =
+          await _restClient.request(Urls.provider, Method.GET, param);
       final data = response.map((e) => ProviderModel.fromJson(e)).toList();
       return data;
-    }on DioError{
+    } on DioError {
       rethrow;
     }
   }
 
   @override
-  Future<SettingsModel> fetchSettings(int id) async{
-    try{
-      final response = await _restClient.request('${Urls.printerSettings}/$id', Method.GET,null);
+  Future<SettingsModel> fetchSettings(int id) async {
+    try {
+      final response = await _restClient.request(
+          '${Urls.printerSettings}/$id', Method.GET, null);
       return SettingsModel.fromJson(response);
-    }on DioError{
+    } on DioError {
       rethrow;
     }
   }
 
   @override
-  Future<OrdersModel> fetchOrder(Map<String,dynamic> params) async{
-    try{
-      final response = await _restClient.request(Urls.order, Method.GET,params);
+  Future<OrdersModel> fetchOrder(Map<String, dynamic> params) async {
+    try {
+      final response =
+          await _restClient.request(Urls.order, Method.GET, params);
       return OrdersModel.fromJson(response);
-    }on DioError{
+    } on DioError {
       rethrow;
     }
   }
 
   @override
-  Future<BusyModeGetResponseModel> isBusy(Map<String, dynamic> params) async{
-    try{
-      final response = await _restClient.request(Urls.busy, Method.GET,params);
+  Future<BusyModeGetResponseModel> isBusy(Map<String, dynamic> params) async {
+    try {
+      final response = await _restClient.request(Urls.busy, Method.GET, params);
       return BusyModeGetResponseModel.fromJson(response);
-    }on DioError{
+    } on DioError {
       rethrow;
     }
   }
 
   @override
-  Future<BusyModePostResponseModel> updateBusyMode(Map<String, dynamic> params) async{
-    try{
-      final response = await _restClient.request(Urls.busy, Method.POST,params);
+  Future<BusyModePostResponseModel> updateBusyMode(
+      Map<String, dynamic> params) async {
+    try {
+      final response =
+          await _restClient.request(Urls.busy, Method.POST, params);
       return BusyModePostResponseModel.fromJson(response);
-    }on DioError{
+    } on DioError {
       rethrow;
     }
   }
 
   @override
-  Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params) async{
-    try{
-      final response = await _restClient.request(Urls.updateStatus, Method.PATCH,params);
+  Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params) async {
+    try {
+      final response =
+          await _restClient.request(Urls.updateStatus, Method.PATCH, params);
       return ActionSuccess.fromJson(response);
-    }on DioError{
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> addComment(Map<String, dynamic> params,int orderID) async{
+    try {
+      final response =
+          await _restClient.request(Urls.comment(orderID), Method.PATCH, params);
+      return ActionSuccess.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> deleteComment(int orderID) async{
+    try {
+      final response =
+          await _restClient.request(Urls.comment(orderID), Method.DELETE, null);
+      return ActionSuccess.fromJson(response);
+    } on DioError {
       rethrow;
     }
   }

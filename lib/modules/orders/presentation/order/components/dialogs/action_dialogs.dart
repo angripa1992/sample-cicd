@@ -8,10 +8,10 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubi
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 
-import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
-import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
+import '../../../../../../../resources/colors.dart';
+import '../../../../../../../resources/fonts.dart';
+import '../../../../../../../resources/styles.dart';
+import '../../../../../../../resources/values.dart';
 
 void showOrderActionDialog({
   required Map<String,dynamic> params,

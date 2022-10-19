@@ -7,7 +7,9 @@ import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
 import 'package:klikit/modules/orders/data/repository/orders_repository_impl.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
+import 'package:klikit/modules/orders/domain/usecases/add_comment.dart';
 import 'package:klikit/modules/orders/domain/usecases/check_busy_mode.dart';
+import 'package:klikit/modules/orders/domain/usecases/delete_comment.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_cancelled_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_completed_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_new_order.dart';
@@ -19,6 +21,7 @@ import 'package:klikit/modules/orders/domain/usecases/update_order_status.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/comment_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubit.dart';
@@ -98,6 +101,9 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => OngoingOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => UpdateOrderStatus(getIt()));
   getIt.registerFactory(() => OrderActionCubit(getIt()));
+  getIt.registerLazySingleton(() => AddComment(getIt()));
+  getIt.registerLazySingleton(() => DeleteComment(getIt()));
+  getIt.registerFactory(() => CommentCubit(getIt(), getIt()));
 
   ///busy mode
   getIt.registerLazySingleton(() => CheckBusyMode(getIt()));

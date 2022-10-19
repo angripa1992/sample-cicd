@@ -10,7 +10,7 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../domain/entities/provider.dart';
+import '../../../../domain/entities/provider.dart';
 
 class DeliveryPlatformFilter extends StatefulWidget {
   final FilterSubject filterSubject;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/presentation/components/busy_mode_view.dart';
-import 'package:klikit/modules/orders/presentation/order/components/brand_filter.dart';
-import 'package:klikit/modules/orders/presentation/order/components/delivery_platform_filter.dart';
+import 'package:klikit/modules/orders/presentation/order/components/filter/brand_filter.dart';
+import 'package:klikit/modules/orders/presentation/order/components/filter/delivery_platform_filter.dart';
 import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';

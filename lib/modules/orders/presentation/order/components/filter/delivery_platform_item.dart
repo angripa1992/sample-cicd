@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/environment_variables.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
-import '../../../../../app/di.dart';
-import '../../../../../resources/colors.dart';
-import '../../../../../resources/values.dart';
+import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/values.dart';
 
 class DeliveryPlatformItem extends StatefulWidget {
   final Provider provider;

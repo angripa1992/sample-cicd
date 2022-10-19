@@ -14,7 +14,7 @@ import '../../bloc/orders/new_order_cubit.dart';
 import '../../bloc/orders/order_action_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
-import 'action_dialogs.dart';
+import 'dialogs/action_dialogs.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'order_item/new_order_item.dart';
 

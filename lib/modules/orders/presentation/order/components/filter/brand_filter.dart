@@ -8,9 +8,9 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../../app/di.dart';
-import '../../../../../core/provider/order_information_provider.dart';
-import '../observer/filter_subject.dart';
+import '../../../../../../app/di.dart';
+import '../../../../../../core/provider/order_information_provider.dart';
+import '../../observer/filter_subject.dart';
 
 class BrandFilter extends StatefulWidget {
   final FilterSubject filterSubject;
