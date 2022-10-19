@@ -13,6 +13,7 @@ void _openBottomSheet({
   required BuildContext context,
   required Order order,
   required Widget actionView,
+  required GlobalKey<ScaffoldState> key,
 }) {
   showModalBottomSheet(
     context: context,
@@ -28,23 +29,29 @@ void _openBottomSheet({
       minChildSize: 0.65,
       maxChildSize: 0.85,
       expand: false,
-      builder: (_, controller) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          OrderDetailsHeaderView(order: order),
-          OrderItemDetails(order: order, controller: controller),
-          CommentView(comment: order.klikitComment),
-          PriceView(order: order),
-          actionView,
-        ],
+      builder: (_, controller) => Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBody: false,
+        key: key,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OrderDetailsHeaderView(order: order,modalKey: key),
+            OrderItemDetails(order: order, controller: controller),
+            CommentView(comment: order.klikitComment),
+            PriceView(order: order),
+            actionView,
+          ],
+        ),
       ),
     ),
   );
 }
 
-void showHistoryOrderDetails(BuildContext context, Order order) {
+void showHistoryOrderDetails({required BuildContext context,required Order order,required GlobalKey<ScaffoldState> key,}) {
   _openBottomSheet(
+    key: key,
     context: context,
     order: order,
     actionView: Padding(
@@ -65,8 +72,10 @@ void showOrderDetails({
   required Function(String) onAction,
   required Function(String) onCancel,
   required VoidCallback onPrint,
+  required GlobalKey<ScaffoldState> key,
 }) {
   _openBottomSheet(
+    key: key,
     context: context,
     order: order,
     actionView: Padding(

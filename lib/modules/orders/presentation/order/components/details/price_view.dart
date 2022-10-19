@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
@@ -32,6 +33,18 @@ class _PriceViewState extends State<PriceView> {
     super.dispose();
   }
 
+  String _subtotal(){
+    final order = widget.order;
+    late num subtotal;
+    if(order.providerId == ProviderID.FOOD_PANDA){
+     subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
+    }else{
+      subtotal = order.itemPrice;
+    }
+    print('======================subtotal $subtotal');
+    return '${order.currencySymbol}$subtotal';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,7 +65,7 @@ class _PriceViewState extends State<PriceView> {
             contentPadding: EdgeInsets.zero,
           ),
           trailing: Text(
-            '${widget.order.currencySymbol}${widget.order.finalPrice}',
+            _subtotal(),
             style: TextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,

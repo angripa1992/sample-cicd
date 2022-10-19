@@ -66,7 +66,7 @@ class OrderParameterProvider {
     }else if(orderStatus == OrderStatus.ACCEPTED){
       status = OrderStatus.READY;
     }else if(orderStatus == OrderStatus.READY){
-      if (((provider == Provider.FOOD_PANDA && order.isFoodpandaApiOrder) || provider == Provider.GRAB_FOOD) && order.type == OrderType.PICKUP) {
+      if (((provider == ProviderID.FOOD_PANDA && order.isFoodpandaApiOrder) || provider == ProviderID.GRAB_FOOD) && order.type == OrderType.PICKUP) {
         status = OrderStatus.PICKED_UP;
       } else {
         status = OrderStatus.DELIVERED;

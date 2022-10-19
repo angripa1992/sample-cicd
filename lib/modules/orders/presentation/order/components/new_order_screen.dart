@@ -30,6 +30,7 @@ class NewOrderScreen extends StatefulWidget {
 class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParameterProvider = getIt.get<OrderParameterProvider>();
+  final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
   Timer? _timer;
@@ -136,6 +137,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
             order: item,
             seeDetails: () {
               showOrderDetails(
+                key: _modelScaffoldKey,
                 context: context,
                 order: item,
                 onAction: (title) {

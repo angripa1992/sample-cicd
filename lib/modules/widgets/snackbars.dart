@@ -62,7 +62,7 @@ void showErrorSnackBar(BuildContext context, String message) {
 void showSuccessSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      behavior: SnackBarBehavior.floating,
+      //behavior: SnackBarBehavior.floating,
       content: Text(
         message,
         style: getRegularTextStyle(

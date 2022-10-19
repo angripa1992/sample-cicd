@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
@@ -17,7 +18,8 @@ class OrderItemView extends StatelessWidget {
   final VoidCallback seeDetails;
   final Order order;
 
-  OrderItemView({Key? key, required this.order, required this.seeDetails}) : super(key: key);
+  OrderItemView({Key? key, required this.order, required this.seeDetails})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,9 @@ class OrderItemView extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '# ${order.id}',
+                  (order.providerId == ProviderID.KLIKIT)
+                      ? '#${order.id}'
+                      : '#${order.shortId}',
                   style: getBoldTextStyle(
                     color: AppColors.purpleBlue,
                     fontSize: AppFontSize.s16.rSp,
@@ -55,8 +59,13 @@ class OrderItemView extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: order.shortId))
-                        .then((value) {
+                    Clipboard.setData(
+                      ClipboardData(
+                        text: (order.providerId == ProviderID.KLIKIT)
+                            ? order.id.toString()
+                            : order.shortId,
+                      ),
+                    ).then((value) {
                       showSuccessSnackBar(context, 'Order id copied');
                     });
                   },
@@ -77,7 +86,8 @@ class OrderItemView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                   primary: AppColors.canaryYellow,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppSize.s12.rSp), // <-- Radius
+                    borderRadius:
+                        BorderRadius.circular(AppSize.s12.rSp), // <-- Radius
                   ),
                 ),
                 child: Row(

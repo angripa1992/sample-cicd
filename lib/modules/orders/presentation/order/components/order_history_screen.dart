@@ -29,6 +29,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
+  final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
   Timer? _timer;
@@ -111,7 +112,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                 return HistoryOrderItemView(
                   order: item,
                   seeDetails: () {
-                    showHistoryOrderDetails(context, item);
+                    showHistoryOrderDetails(
+                      key: _modelScaffoldKey,
+                      context: context,
+                      order: item,
+                    );
                   },
                 );
               },

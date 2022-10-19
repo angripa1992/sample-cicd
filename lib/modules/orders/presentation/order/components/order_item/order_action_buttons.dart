@@ -233,7 +233,7 @@ Widget getActionButtons({
     );
   }
   if (orderStatus == OrderStatus.PICKED_UP &&
-      provider == Provider.GRAB_FOOD &&
+      provider == ProviderID.GRAB_FOOD &&
       orderType != OrderType.PICKUP) {
     return Row(
       children: [
@@ -252,7 +252,7 @@ Widget getActionButtons({
   }
   if (orderStatus == OrderStatus.ACCEPTED ||
       (orderStatus == OrderStatus.PICKED_UP &&
-          provider != Provider.FOOD_PANDA &&
+          provider != ProviderID.FOOD_PANDA &&
           orderType != OrderType.PICKUP)) {
     return Row(
       children: [
@@ -270,7 +270,7 @@ Widget getActionButtons({
     );
   }
   if (orderStatus == OrderStatus.READY &&
-      (provider == Provider.FOOD_PANDA || provider == Provider.GRAB_FOOD) &&
+      (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) &&
       orderType == OrderType.PICKUP) {
     return Row(
       children: [
@@ -334,7 +334,7 @@ Widget getExpandActionButtons({
     );
   }
   if (orderStatus == OrderStatus.PICKED_UP &&
-      provider == Provider.GRAB_FOOD &&
+      provider == ProviderID.GRAB_FOOD &&
       orderType != OrderType.PICKUP) {
     return Row(
       children: [
@@ -357,7 +357,7 @@ Widget getExpandActionButtons({
   }
   if (orderStatus == OrderStatus.ACCEPTED ||
       (orderStatus == OrderStatus.PICKED_UP &&
-          provider != Provider.FOOD_PANDA &&
+          provider != ProviderID.FOOD_PANDA &&
           orderType != OrderType.PICKUP)) {
     return Row(
       children: [
@@ -379,7 +379,7 @@ Widget getExpandActionButtons({
     );
   }
   if (orderStatus == OrderStatus.READY &&
-      (provider == Provider.FOOD_PANDA || provider == Provider.GRAB_FOOD) &&
+      (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) &&
       orderType == OrderType.PICKUP) {
     return Row(
       children: [

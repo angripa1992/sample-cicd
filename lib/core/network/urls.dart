@@ -12,4 +12,5 @@ class Urls{
   static const String printerSettings = '/printer/settings';
   static const String busy = '/brand-provider/busy';
   static const String updateStatus = '/oni/order/status';
+  static String comment(int orderID) => '/oni/order/$orderID/comment';
 }

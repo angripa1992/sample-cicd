@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -8,15 +9,18 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../../../app/constants.dart';
 import '../../../../../../app/di.dart';
 import '../../../../../../core/provider/order_information_provider.dart';
+import '../../../../../widgets/snackbars.dart';
 import '../../../../domain/entities/provider.dart';
 
 class OrderDetailsHeaderView extends StatelessWidget {
   final _infoProvider = getIt.get<OrderInformationProvider>();
+  final  GlobalKey<ScaffoldState> modalKey;
   final Order order;
 
-  OrderDetailsHeaderView({Key? key, required this.order}) : super(key: key);
+  OrderDetailsHeaderView({Key? key, required this.order, required this.modalKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +28,57 @@ class OrderDetailsHeaderView extends StatelessWidget {
       children: [
         Icon(
           Icons.remove,
-          color: Colors.grey[600],
+          color: AppColors.blackCow,
         ),
-        Text(
-          '# ${order.shortId}',
-          style: getBoldTextStyle(
-            color: AppColors.black,
-            fontSize: AppFontSize.s20.rSp,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              (order.providerId == ProviderID.KLIKIT)
+                  ? '#${order.id}'
+                  : '#${order.shortId}',
+              style: getBoldTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s20.rSp,
+              ),
+            ),
+            SizedBox(
+              width: AppSize.s32.rw,
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  Clipboard.setData(
+                    ClipboardData(
+                      text: (order.providerId == ProviderID.KLIKIT)
+                          ? order.id.toString()
+                          : order.shortId,
+                    ),
+                  ).then((value) {
+                    showSuccessSnackBar(modalKey.currentState!.context, 'Order id copied');
+                  });
+                },
+                icon: Icon(
+                  Icons.copy,
+                  size: AppSize.s18.rSp,
+                  color: AppColors.purpleBlue,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: AppSize.s24.rw,
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                },
+                icon: Icon(
+                  Icons.add_comment_outlined,
+                  size: AppSize.s18.rSp,
+                  color: AppColors.purpleBlue,
+                ),
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: AppSize.s2.rh),
         Text(
           DateTimeProvider.parseOrderCreatedDate(order.createdAt),
           style: getRegularTextStyle(
@@ -41,7 +86,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
             fontSize: AppFontSize.s20.rSp,
           ),
         ),
-        SizedBox(height: AppSize.s8.rh),
+        SizedBox(height: AppSize.s12.rh),
         Container(
           padding: EdgeInsets.symmetric(
             horizontal: AppSize.s24.rw,

@@ -31,6 +31,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
+  final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
   Timer? _timer;
@@ -137,6 +138,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
             order: item,
             seeDetails: () {
               showOrderDetails(
+                key: _modelScaffoldKey,
                 context: context,
                 order: item,
                 onAction: (title) {

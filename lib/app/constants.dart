@@ -36,7 +36,7 @@ class OrderType{
   static const int DELIVERY = 2;
 }
 
-class Provider{
+class ProviderID{
   static const int KLIKIT = 1;
   static const int GRAB_FOOD = 6;
   static const int FOOD_PANDA = 7;
