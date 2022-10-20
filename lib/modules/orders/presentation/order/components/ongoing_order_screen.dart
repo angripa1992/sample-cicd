@@ -206,4 +206,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     _providers = providersID;
     _refresh();
   }
+
+  @override
+  void applyStatusFilter(List<int> status) {}
 }

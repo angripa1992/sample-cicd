@@ -4,6 +4,7 @@ class FilterSubject {
   final Map<String,FilterObserver> _observers = {};
   List<int>? _providers;
   List<int>? _brands;
+  List<int>? _status;
 
   void addObserver(FilterObserver observer,String tag){
     if(_observers.containsKey(tag)){
@@ -22,12 +23,18 @@ class FilterSubject {
 
   List<int>? getProviders() => _providers;
 
+  List<int>? getStatus() => _status;
+
   void setBrands(List<int> brands){
     _brands = brands;
   }
 
   void setProviders(List<int> providers){
     _providers = providers;
+  }
+  
+ void setStatus(List<int> status){
+    _status = status;
   }
 
   void applyBrandsFilter(List<int> ids) {
@@ -41,6 +48,13 @@ class FilterSubject {
     _providers = ids;
     _observers.forEach((key, value) {
       value.applyProviderFilter(ids);
+    });
+  }
+
+  void applyStatusFilter(List<int> ids) {
+    _status = ids;
+    _observers.forEach((key, value) {
+      value.applyStatusFilter(ids);
     });
   }
 

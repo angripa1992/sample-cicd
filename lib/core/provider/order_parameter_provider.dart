@@ -18,12 +18,12 @@ class OrderParameterProvider {
     return _getParams(brandsID, providersID, status, pageSize: pageSize);
   }
 
-  Future<Map<String, dynamic>> getOrderHistoryParam(
-    List<int>? brandsID,
-    List<int>? providersID, {
+  Future<Map<String, dynamic>> getOrderHistoryParam({
     int? pageSize,
+    List<int>? brandsID,
+    List<int>? providersID,
+    List<int>? status,
   }) async {
-    final status = [OrderStatus.CANCELLED, OrderStatus.DELIVERED];
     return _getParams(brandsID, providersID, status, pageSize: pageSize);
   }
 
@@ -39,7 +39,7 @@ class OrderParameterProvider {
   Future<Map<String, dynamic>> _getParams(
     List<int>? brandsID,
     List<int>? providersID,
-    List<int> status, {
+    List<int>? status, {
     int? pageSize,
   }) async {
     final brands = brandsID ?? await _informationProvider.getBrandsIds();
@@ -51,30 +51,32 @@ class OrderParameterProvider {
       "filterByBranch": branch,
       "filterByBrand": ListParam<int>(brands, ListFormat.csv),
       "filterByProvider": ListParam<int>(providers, ListFormat.csv),
-      "filterByStatus": ListParam<int>(status, ListFormat.csv),
+      "filterByStatus": ListParam<int>(status ?? [], ListFormat.csv),
     };
   }
 
-  Map<String,dynamic> getOrderActionParams(Order order,bool willCancel){
+  Map<String, dynamic> getOrderActionParams(Order order, bool willCancel) {
     final orderStatus = order.status;
     final provider = order.providerId;
     late int status;
-    if(willCancel){
+    if (willCancel) {
       status = OrderStatus.CANCELLED;
-    }else if(orderStatus == OrderStatus.PLACED){
+    } else if (orderStatus == OrderStatus.PLACED) {
       status = OrderStatus.ACCEPTED;
-    }else if(orderStatus == OrderStatus.ACCEPTED){
+    } else if (orderStatus == OrderStatus.ACCEPTED) {
       status = OrderStatus.READY;
-    }else if(orderStatus == OrderStatus.READY){
-      if (((provider == ProviderID.FOOD_PANDA && order.isFoodpandaApiOrder) || provider == ProviderID.GRAB_FOOD) && order.type == OrderType.PICKUP) {
+    } else if (orderStatus == OrderStatus.READY) {
+      if (((provider == ProviderID.FOOD_PANDA && order.isFoodpandaApiOrder) ||
+              provider == ProviderID.GRAB_FOOD) &&
+          order.type == OrderType.PICKUP) {
         status = OrderStatus.PICKED_UP;
       } else {
         status = OrderStatus.DELIVERED;
       }
-    }else{
+    } else {
       status = OrderStatus.DELIVERED;
     }
-    return  {
+    return {
       'status': status,
       'id': order.id,
     };

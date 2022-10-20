@@ -35,6 +35,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   Timer? _timer;
   List<int>? _providers;
   List<int>? _brands;
+  List<int>? _status;
   PagingController<int, Order>? _pagingController;
 
   DateTimeRange _dateRange =
@@ -42,12 +43,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
 
   @override
   void initState() {
-    _pagingController =
-        PagingController(firstPageKey: _firstPageKey);
+    _pagingController = PagingController(firstPageKey: _firstPageKey);
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.ORDER_HISTORY);
     _providers = filterSubject?.getProviders();
     _brands = filterSubject?.getBrands();
+    _status = widget.subject.getStatus();
     _pagingController?.addPageRequestListener((pageKey) {
       _fetchOrderHistory(pageKey);
     });
@@ -56,8 +57,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
 
   void _fetchOrderHistory(int pageKey) async {
     final params = await _orderParamProvider.getOrderHistoryParam(
-      _brands,
-      _providers,
+      brandsID: _brands,
+      providersID: _providers,
+      status: _status,
       pageSize: _pageSize,
     );
     params['page'] = pageKey;
@@ -115,7 +117,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                     showHistoryOrderDetails(
                       key: _modelScaffoldKey,
                       context: context,
-                      order: item, onCommentActionSuccess: () {  },
+                      order: item,
+                      onCommentActionSuccess: () {
+                        _refresh();
+                      },
                     );
                   },
                 );
@@ -152,6 +157,12 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   @override
   void applyProviderFilter(List<int> providersID) {
     _providers = providersID;
+    _refresh();
+  }
+
+  @override
+  void applyStatusFilter(List<int> status) {
+    _status = status;
     _refresh();
   }
 }

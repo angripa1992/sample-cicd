@@ -204,4 +204,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     _providers = providersID;
     _refresh();
   }
+
+  @override
+  void applyStatusFilter(List<int> status) {}
 }

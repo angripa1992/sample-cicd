@@ -28,12 +28,12 @@ class OrdersScreen extends StatefulWidget {
   State<OrdersScreen> createState() => _OrdersScreenState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderStateMixin, FilterObserver {
+class _OrdersScreenState extends State<OrdersScreen>
+    with SingleTickerProviderStateMixin, FilterObserver {
   final _filterSubject = FilterSubject();
   TabController? _tabController;
   List<int>? _providers;
   List<int>? _brands;
-
 
   @override
   void initState() {
@@ -49,15 +49,15 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
 
   void _refreshOrderCount() {
     context.read<NewOrderCubit>().fetchNewOrder(
-      willShowLoading: false,
-      providersID: _providers,
-      brandsID: _brands,
-    );
+          willShowLoading: false,
+          providersID: _providers,
+          brandsID: _brands,
+        );
     context.read<OngoingOrderCubit>().fetchOngoingOrder(
-      willShowLoading: false,
-      providersID: _providers,
-      brandsID: _brands,
-    );
+          willShowLoading: false,
+          providersID: _providers,
+          brandsID: _brands,
+        );
   }
 
   @override
@@ -79,7 +79,10 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         headerSliverBuilder: (context, isScrolled) {
           return [
             SliverToBoxAdapter(
-              child: OrderHeaderView(subject: _filterSubject),
+              child: OrderHeaderView(
+                subject: _filterSubject,
+                tabController: _tabController!,
+              ),
             ),
             SliverPersistentHeader(
               delegate: MyDelegate(
@@ -155,7 +158,10 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
 
   @override
   void applyProviderFilter(List<int> providersID) {
-    _providers= providersID;
+    _providers = providersID;
     _refreshOrderCount();
   }
+
+  @override
+  void applyStatusFilter(List<int> status) {}
 }

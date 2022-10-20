@@ -184,4 +184,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
     _providers = providersID;
     _fetchOrders(true);
   }
+
+  @override
+  void applyStatusFilter(List<int> status) {}
 }
