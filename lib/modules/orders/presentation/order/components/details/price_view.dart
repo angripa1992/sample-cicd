@@ -41,7 +41,6 @@ class _PriceViewState extends State<PriceView> {
     }else{
       subtotal = order.itemPrice;
     }
-    print('======================subtotal $subtotal');
     return '${order.currencySymbol}$subtotal';
   }
 

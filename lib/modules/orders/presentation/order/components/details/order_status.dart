@@ -17,31 +17,51 @@ class OrderStatusView extends StatelessWidget {
     fontSize: AppFontSize.s14.rSp,
   );
 
+  String _getStatus() {
+    switch (order.status) {
+      case OrderStatus.ACCEPTED:
+        return 'Accepted';
+      case OrderStatus.PLACED:
+        return 'Placed';
+      case OrderStatus.CANCELLED:
+        return 'Canceled';
+      case OrderStatus.DELIVERED:
+        return 'Delivered';
+      case OrderStatus.PICKED_UP:
+        return 'Picked Up';
+      case OrderStatus.READY:
+        return 'Ready';
+      case OrderStatus.SCHEDULED:
+        return 'Scheduled';
+      case OrderStatus.DRIVER_ARRIVED:
+        return 'Driver Arrived';
+        case OrderStatus.DRIVER_ASSIGNED:
+        return 'Driver Assigned';
+      default:
+        return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Visibility(
-          visible: (order.isManualOrder || order.type == OrderType.PICKUP),
-          child: Padding(
-            padding: EdgeInsets.only(top: AppSize.s12.rh),
-            child: Text('<Status>', style: _style),
-          ),
+        Padding(
+          padding: EdgeInsets.only(top: AppSize.s12.rh),
+          child: Text(_getStatus(), style: _style),
         ),
-        SizedBox(width: AppSize.s24.rw),
         Visibility(
           visible: (order.isManualOrder),
           child: Padding(
-            padding: EdgeInsets.only(left: AppSize.s24.rw,top: AppSize.s12.rh),
+            padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
             child: Text('Manual', style: _style),
           ),
         ),
-        SizedBox(width: AppSize.s24.rw),
         Visibility(
           visible: (order.type == OrderType.PICKUP),
           child: Padding(
-            padding: EdgeInsets.only(left: AppSize.s24.rw,top: AppSize.s12.rh),
+            padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
             child: Text('Pickup', style: _style),
           ),
         ),

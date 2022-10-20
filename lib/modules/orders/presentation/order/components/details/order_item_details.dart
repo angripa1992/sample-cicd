@@ -191,8 +191,8 @@ class OrderItemDetails extends StatelessWidget {
       children: [
         Text('${cartV2.quantity}x', style: _itemTextStyle),
         SizedBox(width: AppSize.s8.rw),
-        Text(cartV2.name, style: _itemTextStyle),
-        const Spacer(),
+        Expanded(child: Text(cartV2.name, style: _itemTextStyle)),
+        SizedBox(width: AppSize.s12.rw),
         Text(
           '$currencySymbol${cartV2.price}',
           style: TextStyle(
@@ -209,7 +209,7 @@ class OrderItemDetails extends StatelessWidget {
       children: [
         Text('${modifiers.quantity}x', style: _modifiersTextStyle),
         SizedBox(width: AppSize.s12.rw),
-        Text(modifiers.name, style: _modifiersTextStyle),
+        Expanded(child: Text(modifiers.name, style: _modifiersTextStyle)),
       ],
     );
   }

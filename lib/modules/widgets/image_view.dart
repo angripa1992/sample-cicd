@@ -18,18 +18,12 @@ class ImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height ?? AppSize.s40.rh,
-      width: width ?? AppSize.s40.rw,
-      child: CachedNetworkImage(
-        imageUrl: ImageUrlProvider.getUrl(path),
-        placeholder: (context, url) => SizedBox(
-          height: AppSize.s12.rh,
-          width: AppSize.s12.rw,
-          child: const CircularProgressIndicator(strokeWidth: 1,),
-        ),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+    return CachedNetworkImage(
+      imageUrl: ImageUrlProvider.getUrl(path),
+      placeholder: (context, url) => Center(
+        child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
       ),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }

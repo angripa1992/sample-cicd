@@ -39,7 +39,11 @@ class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
           ),
           child: Row(
             children: [
-              ImageView(path: widget.provider.logo),
+              SizedBox(
+                height: AppSize.s40.rh,
+                width: AppSize.s40.rw,
+                child: ImageView(path: widget.provider.logo),
+              ),
               SizedBox(width: AppSize.s16.rw),
               Text(
                 widget.provider.title,

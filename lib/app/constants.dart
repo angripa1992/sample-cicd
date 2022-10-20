@@ -45,12 +45,12 @@ class ProviderID{
 
 class OrderStatus{
   static const PLACED = 1;
-  static final ACCEPTED = 2;
-  static final CANCELLED = 3;
-  static final READY = 4;
-  static final DELIVERED = 5;
-  static final SCHEDULED = 6;
-  static final DRIVER_ASSIGNED = 7;
-  static final DRIVER_ARRIVED = 8;
-  static final PICKED_UP = 9;
+  static const ACCEPTED = 2;
+  static const CANCELLED = 3;
+  static const READY = 4;
+  static const DELIVERED = 5;
+  static const SCHEDULED = 6;
+  static const DRIVER_ASSIGNED = 7;
+  static const DRIVER_ARRIVED = 8;
+  static const PICKED_UP = 9;
 }

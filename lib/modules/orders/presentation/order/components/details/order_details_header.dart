@@ -63,8 +63,9 @@ class OrderDetailsHeaderView extends StatelessWidget {
                     ),
                   ).then((value) {
                     showSuccessSnackBar(
-                        RoutesGenerator.navigatorKey.currentState!.context,
-                        'Order id copied');
+                      RoutesGenerator.navigatorKey.currentState!.context,
+                      'Order id copied',
+                    );
                   });
                 },
                 icon: Icon(
@@ -87,7 +88,9 @@ class OrderDetailsHeaderView extends StatelessWidget {
                   );
                 },
                 icon: Icon(
-                  order.klikitComment.isEmpty ? Icons.add_comment_outlined : Icons.comment_outlined,
+                  order.klikitComment.isEmpty
+                      ? Icons.add_comment_outlined
+                      : Icons.comment_outlined,
                   size: AppSize.s18.rSp,
                   color: AppColors.purpleBlue,
                 ),

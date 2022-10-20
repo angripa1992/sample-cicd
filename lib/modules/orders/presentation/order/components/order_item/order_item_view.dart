@@ -25,24 +25,22 @@ class OrderItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
-          height: AppSize.s40.rh,
-          width: AppSize.s40.rw,
+        Padding(
+          padding: const EdgeInsets.only(right: AppSize.s8),
           child: FutureBuilder<Provider>(
             future: _infoProvider.getProviderById(order.providerId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return ImageView(path: snapshot.data!.logo);
+                return SizedBox(
+                  height: AppSize.s40.rh,
+                  width: AppSize.s40.rw,
+                  child: ImageView(path: snapshot.data!.logo),
+                );
               }
-              return SizedBox(
-                height: AppSize.s12.rh,
-                width: AppSize.s12.rw,
-                child: const CircularProgressIndicator(),
-              );
+              return const SizedBox();
             },
           ),
         ),
-        SizedBox(width: AppSize.s10.rw),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
