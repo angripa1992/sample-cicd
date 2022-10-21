@@ -167,7 +167,10 @@ void showAccessDeniedDialog({
     builder: (context) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          borderRadius: BorderRadius.all(
+            Radius.circular(AppSize.s16.rSp),
+          ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +196,8 @@ void showAccessDeniedDialog({
             ),
             RichText(
               text: TextSpan(
-                text: '${AppStrings.access_denied_message_middle_part_one.tr()} ',
+                text:
+                    '${AppStrings.access_denied_message_middle_part_one.tr()} ',
                 style: regularStyle,
                 children: <TextSpan>[
                   TextSpan(
