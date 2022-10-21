@@ -33,12 +33,12 @@ class _PriceViewState extends State<PriceView> {
     super.dispose();
   }
 
-  String _subtotal(){
+  String _subtotal() {
     final order = widget.order;
     late num subtotal;
-    if(order.providerId == ProviderID.FOOD_PANDA){
-     subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
-    }else{
+    if (order.providerId == ProviderID.FOOD_PANDA) {
+      subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
+    } else {
       subtotal = order.itemPrice;
     }
     return '${order.currencySymbol}$subtotal';
@@ -80,14 +80,26 @@ class _PriceViewState extends State<PriceView> {
             ),
             child: Column(
               children: [
-                _getSubtotalItem('Vat', widget.order.vat.toString()),
+                _getSubtotalItem(
+                  'Vat',
+                  widget.order.vat.toString(),
+                ),
                 SizedBox(height: AppSize.s2.rh),
-                _getSubtotalItem('Delivery Fee', widget.order.deliveryFee.toString()),
+                _getSubtotalItem(
+                  'Delivery Fee',
+                  widget.order.deliveryFee.toString(),
+                ),
                 SizedBox(height: AppSize.s2.rh),
-                _getSubtotalItem('Additional Fee', widget.order.additionalFee.toString()),
+                _getSubtotalItem(
+                  'Additional Fee',
+                  widget.order.additionalFee.toString(),
+                ),
                 SizedBox(height: AppSize.s2.rh),
-                _getSubtotalItem('Discount', widget.order.discount.toString(),
-                    color: AppColors.red),
+                _getSubtotalItem(
+                  'Discount',
+                  widget.order.discount.toString(),
+                  color: AppColors.red,
+                ),
               ],
             ),
           ),
@@ -186,8 +198,11 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
         ),
         Visibility(
           visible: !_isExpanded!,
-          child: Icon(Icons.keyboard_arrow_down,
-              color: AppColors.black, size: AppSize.s24.rSp),
+          child: Icon(
+            Icons.keyboard_arrow_down,
+            color: AppColors.black,
+            size: AppSize.s24.rSp,
+          ),
         ),
       ],
     );

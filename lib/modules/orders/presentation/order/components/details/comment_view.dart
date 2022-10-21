@@ -12,14 +12,14 @@ class CommentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: AppSize.s8.rh,
-        horizontal: AppSize.s12.rw,
-      ),
-      child: Center(
-        child: Visibility(
-          visible: comment.isNotEmpty,
+    return Visibility(
+      visible: comment.isNotEmpty,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: AppSize.s8.rh,
+          horizontal: AppSize.s12.rw,
+        ),
+        child: Center(
           child: Text(
             'Note: $comment',
             style: getBoldTextStyle(

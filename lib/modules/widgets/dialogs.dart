@@ -150,6 +150,17 @@ void showAccessDeniedDialog({
   required BuildContext context,
   required String role,
 }) {
+
+  final regularStyle = getRegularTextStyle(
+    color: AppColors.black,
+    fontSize: AppFontSize.s14.rSp,
+  );
+
+  final boldStyle = getBoldTextStyle(
+    color: AppColors.black,
+    fontSize: AppFontSize.s14.rSp,
+  );
+
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -175,10 +186,7 @@ void showAccessDeniedDialog({
             Text(
               '${AppStrings.access_denied_message_header_part_one.tr()} $role ${AppStrings.access_denied_message_header_part_two.tr()}',
               textAlign: TextAlign.start,
-              style: getRegularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
-              ),
+              style: regularStyle,
             ),
             SizedBox(
               height: AppSize.s10.rh,
@@ -186,17 +194,11 @@ void showAccessDeniedDialog({
             RichText(
               text: TextSpan(
                 text: '${AppStrings.access_denied_message_middle_part_one.tr()} ',
-                style: getRegularTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
+                style: regularStyle,
                 children: <TextSpan>[
                   TextSpan(
                     text: AppStrings.access_denied_message_middle_part_two.tr(),
-                    style: getBoldTextStyle(
-                      color: AppColors.black,
-                      fontSize: AppFontSize.s14.rSp,
-                    ),
+                    style: boldStyle,
                   ),
                 ],
               ),
@@ -207,10 +209,7 @@ void showAccessDeniedDialog({
             Text(
               AppStrings.access_denied_message_footer.tr(),
               textAlign: TextAlign.start,
-              style: getRegularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
-              ),
+              style: regularStyle,
             ),
             SizedBox(
               height: AppSize.s32.rh,
