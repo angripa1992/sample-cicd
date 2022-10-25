@@ -150,7 +150,6 @@ void showAccessDeniedDialog({
   required BuildContext context,
   required String role,
 }) {
-
   final regularStyle = getRegularTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s14.rSp,
@@ -195,6 +194,7 @@ void showAccessDeniedDialog({
               height: AppSize.s10.rh,
             ),
             RichText(
+              textScaleFactor: MediaQuery.of(context).textScaleFactor,
               text: TextSpan(
                 text:
                     '${AppStrings.access_denied_message_middle_part_one.tr()} ',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/modules/widgets/dialogs.dart';
 
 class StockScreen extends StatelessWidget {
   const StockScreen({Key? key}) : super(key: key);
@@ -7,7 +8,12 @@ class StockScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Stock Screen'),
+        child: InkWell(
+          onTap: (){
+            showAccessDeniedDialog(context: context, role: 'Manager');
+          },
+          child: Text('Stock Screen'),
+        ),
       ),
     );
   }
