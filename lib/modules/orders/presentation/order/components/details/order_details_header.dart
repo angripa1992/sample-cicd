@@ -92,7 +92,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
                       ? Icons.add_comment_outlined
                       : Icons.comment_outlined,
                   size: AppSize.s18.rSp,
-                  color: AppColors.purpleBlue,
+                  color: order.klikitComment.isEmpty ? AppColors.purpleBlue : AppColors.green,
                 ),
               ),
             ),

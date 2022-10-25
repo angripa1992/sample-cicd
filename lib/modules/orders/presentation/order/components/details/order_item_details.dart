@@ -15,12 +15,12 @@ class OrderItemDetails extends StatelessWidget {
   OrderItemDetails({Key? key, required this.order, required this.controller})
       : super(key: key);
 
-  final _itemTextStyle = getRegularTextStyle(
-    color: AppColors.blueViolet,
+  final _itemTextStyle = getMediumTextStyle(
+    color: AppColors.purpleBlue,
     fontSize: AppFontSize.s16.rSp,
   );
   final _modifiersTextStyle = getRegularTextStyle(
-    color: AppColors.lightViolet,
+    color: AppColors.blueViolet,
     fontSize: AppFontSize.s16.rSp,
   );
 
