@@ -44,74 +44,85 @@ class OrderItemView extends StatelessWidget {
           ),
         ),
         SizedBox(width: AppSize.s8.rw),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  (order.providerId == ProviderID.KLIKIT)
-                      ? '#${order.id}'
-                      : '#${order.shortId}',
-                  style: getBoldTextStyle(
-                    color: AppColors.purpleBlue,
-                    fontSize: AppFontSize.s16.rSp,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                        text: (order.providerId == ProviderID.KLIKIT)
-                            ? order.id.toString()
-                            : order.shortId,
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: AppSize.s2.rh),
+                      child: Text(
+                        (order.providerId == ProviderID.KLIKIT)
+                            ? '#${order.id}'
+                            : '#${order.shortId}',
+                        style: getBoldTextStyle(
+                          color: AppColors.purpleBlue,
+                          fontSize: AppFontSize.s16.rSp,
+                        ),
                       ),
-                    ).then((value) {
-                      showSuccessSnackBar(context, 'Order id copied');
-                    });
-                  },
-                  icon: Icon(
-                    Icons.copy,
-                    size: AppSize.s14.rSp,
-                    color: AppColors.purpleBlue,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: AppSize.s20.rh,
-              child: ElevatedButton(
-                onPressed: seeDetails,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size.zero,
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-                  primary: AppColors.canaryYellow,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(AppSize.s12.rSp), // <-- Radius
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'See Details',
-                      style: getMediumTextStyle(
+                  Flexible(
+                    child: IconButton(
+                      onPressed: () {
+                        Clipboard.setData(
+                          ClipboardData(
+                            text: (order.providerId == ProviderID.KLIKIT)
+                                ? order.id.toString()
+                                : order.shortId,
+                          ),
+                        ).then((value) {
+                          showSuccessSnackBar(context, 'Order id copied');
+                        });
+                      },
+                      icon: Icon(
+                        Icons.copy,
+                        size: AppSize.s14.rSp,
                         color: AppColors.purpleBlue,
-                        fontSize: AppFontSize.s12.rSp,
                       ),
                     ),
-                    Icon(
-                      Icons.arrow_forward,
-                      color: AppColors.purpleBlue,
-                      size: AppSize.s14.rSp,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: AppSize.s20.rh,
+                width: AppSize.s100.rw,
+                child: ElevatedButton(
+                  onPressed: seeDetails,
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                    primary: AppColors.canaryYellow,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(AppSize.s12.rSp), // <-- Radius
                     ),
-                  ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'See Details',
+                        style: getMediumTextStyle(
+                          color: AppColors.purpleBlue,
+                          fontSize: AppFontSize.s12.rSp,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: AppColors.purpleBlue,
+                        size: AppSize.s14.rSp,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: AppSize.s8.rh)
-          ],
+              SizedBox(height: AppSize.s8.rh)
+            ],
+          ),
         ),
       ],
     );

@@ -17,7 +17,8 @@ class OngoingOrderItemView extends StatelessWidget {
     required this.order,
     required this.seeDetails,
     required this.onAction,
-    required this.onPrint, required this.onCancel,
+    required this.onPrint,
+    required this.onCancel,
   }) : super(key: key);
 
   @override
@@ -27,7 +28,9 @@ class OngoingOrderItemView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            OrderItemView(order: order, seeDetails: seeDetails),
+            Expanded(
+              child: OrderItemView(order: order, seeDetails: seeDetails),
+            ),
             getActionButtons(
               order: order,
               onAction: onAction,
