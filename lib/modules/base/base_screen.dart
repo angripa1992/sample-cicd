@@ -40,7 +40,7 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   void initState() {
-    webSocketClient.initWebSocketConnection();
+   // webSocketClient.initWebSocketConnection();
     super.initState();
   }
 

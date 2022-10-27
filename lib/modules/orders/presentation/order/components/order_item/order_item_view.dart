@@ -37,10 +37,13 @@ class OrderItemView extends StatelessWidget {
                   child: ImageView(path: snapshot.data!.logo),
                 );
               }
-              return const SizedBox();
+              return Center(
+                child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
+              );
             },
           ),
         ),
+        SizedBox(width: AppSize.s8.rw),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

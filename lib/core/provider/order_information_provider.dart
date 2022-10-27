@@ -9,8 +9,8 @@ import '../../modules/orders/domain/entities/brand.dart';
 class OrderInformationProvider {
   final OrderRepository _orderRepository;
   final AppPreferences _preferences;
-  static Brands _brands = Brands([]);
-  static List<Provider> _providers = [];
+  List<Brand> _brands = [];
+  List<Provider> _providers = [];
 
   OrderInformationProvider(this._orderRepository, this._preferences);
 
@@ -18,17 +18,17 @@ class OrderInformationProvider {
     return _preferences.getUser().userInfo.branchId;
   }
 
-  Future<Brands> getBrands() async {
-    if (_brands.brands.isEmpty) {
+  Future<List<Brand>> getBrands() async {
+    if (_brands.isEmpty) {
       final requestModel = BrandRequestModel(
           filterByBranch: _preferences.getUser().userInfo.branchId);
       final response = await _orderRepository.fetchBrand(requestModel);
       if (response.isRight()) {
         final brands = response.getOrElse(() => Brands([]));
-        _brands = brands;
+        _brands = brands.brands;
         return _brands;
       } else {
-        return Brands([]);
+        return [];
       }
     } else {
       return _brands;
@@ -36,11 +36,11 @@ class OrderInformationProvider {
   }
 
   Future<List<int>> getBrandsIds() async {
-    if (_brands.brands.isEmpty) {
+    if (_brands.isEmpty) {
       final brands = await getBrands();
-      return await extractBrandsIds(brands.brands);
+      return await extractBrandsIds(brands);
     } else {
-      return await extractBrandsIds(_brands.brands);
+      return await extractBrandsIds(_brands);
     }
   }
 
@@ -82,6 +82,7 @@ class OrderInformationProvider {
   Future<Provider> getProviderById(int id) async {
     if (_providers.isEmpty) {
       final providers = await getProviders();
+      _providers = providers;
       return extractProviderById(providers, id);
     } else {
       return extractProviderById(_providers, id);
@@ -98,5 +99,10 @@ class OrderInformationProvider {
 
   Future<Provider> extractProviderById(List<Provider> providers, int id) async {
     return providers.firstWhere((element) => element.id == id);
+  }
+
+  void clearData(){
+    _brands.clear();
+    _providers.clear();
   }
 }

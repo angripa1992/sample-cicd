@@ -23,6 +23,7 @@ class NewOrderCubit extends Cubit<ResponseState> {
     List<int>? providersID,
     List<int>? brandsID,
   }) async {
+    print('=====$providersID=========$brandsID');
     if (willShowLoading) {
       emit(Loading());
     }

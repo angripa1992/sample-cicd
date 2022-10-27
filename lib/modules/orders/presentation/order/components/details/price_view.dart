@@ -41,7 +41,11 @@ class _PriceViewState extends State<PriceView> {
     } else {
       subtotal = order.itemPrice;
     }
-    return '${order.currencySymbol}$subtotal';
+    return '${order.currencySymbol}${_convertPrice(subtotal)}';
+  }
+
+  String _convertPrice(num price){
+    return (price/100).toStringAsFixed(2);
   }
 
   @override
@@ -82,22 +86,22 @@ class _PriceViewState extends State<PriceView> {
               children: [
                 _getSubtotalItem(
                   'Vat',
-                  widget.order.vat.toString(),
+                  widget.order.vat,
                 ),
                 SizedBox(height: AppSize.s2.rh),
                 _getSubtotalItem(
                   'Delivery Fee',
-                  widget.order.deliveryFee.toString(),
+                  widget.order.deliveryFee,
                 ),
                 SizedBox(height: AppSize.s2.rh),
                 _getSubtotalItem(
                   'Additional Fee',
-                  widget.order.additionalFee.toString(),
+                  widget.order.additionalFee,
                 ),
                 SizedBox(height: AppSize.s2.rh),
                 _getSubtotalItem(
                   'Discount',
-                  widget.order.discount.toString(),
+                  widget.order.discount,
                   color: AppColors.red,
                 ),
               ],
@@ -123,7 +127,7 @@ class _PriceViewState extends State<PriceView> {
                 ),
               ),
               Text(
-                '${widget.order.currencySymbol}${widget.order.finalPrice}',
+                '${widget.order.currencySymbol}${_convertPrice(widget.order.finalPrice)}',
                 style: TextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s20.rSp,
@@ -137,7 +141,7 @@ class _PriceViewState extends State<PriceView> {
     );
   }
 
-  Widget _getSubtotalItem(String name, String price, {Color? color}) {
+  Widget _getSubtotalItem(String name, num price, {Color? color}) {
     final textStyle = TextStyle(
       color: color ?? AppColors.black,
       fontSize: AppFontSize.s14.rSp,
@@ -151,7 +155,7 @@ class _PriceViewState extends State<PriceView> {
           style: textStyle,
         ),
         Text(
-          '${widget.order.currencySymbol}$price',
+          '${widget.order.currencySymbol}${_convertPrice(price)}',
           style: textStyle,
         ),
       ],

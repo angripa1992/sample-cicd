@@ -73,11 +73,11 @@ class _BrandFilterState extends State<BrandFilter> {
       content: MediaQuery.removePadding(
         context: context,
         removeTop: true,
-        child: FutureBuilder<Brands>(
+        child: FutureBuilder<List<Brand>>(
           future: _orderInfoProvider.getBrands(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              _copyDataToLocalVariable(snapshot.data!.brands);
+              _copyDataToLocalVariable(snapshot.data!);
               return ListView.builder(
                 itemCount: _brands.length,
                 physics: const NeverScrollableScrollPhysics(),

@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _appPreferences.saveLoginEmail(user.userInfo.email);
     _appPreferences.insertAccessToken(user.accessToken);
     _appPreferences.insertRefreshToken(user.refreshToken);
-    _tokenProvider.loadTokenFromPreference();
+    //_tokenProvider.loadTokenFromPreference();
     _appPreferences.saveUser(user).then((_) {
       Navigator.of(context).pushReplacementNamed(Routes.base);
     });

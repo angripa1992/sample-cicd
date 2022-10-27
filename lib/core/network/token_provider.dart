@@ -14,8 +14,8 @@ class TokenProvider {
   final Dio _tokenDio = Dio();
   final DioLogger _dioLogger = DioLogger();
   final AppPreferences _appPreferences;
-  static String? _accessToken;
-  static String? _refreshToken;
+  //static String? _accessToken;
+  //static String? _refreshToken;
 
   TokenProvider(this._appPreferences) {
     _initInterceptor();
@@ -49,27 +49,31 @@ class TokenProvider {
   }
 
   void loadTokenFromPreference() {
-    _accessToken = _appPreferences.retrieveAccessToken();
-    _refreshToken = _appPreferences.retrieveRefreshToken();
+    // _accessToken = _appPreferences.retrieveAccessToken();
+    // _refreshToken = _appPreferences.retrieveRefreshToken();
+
+    // print('======after login======');
+    // print('======access token -> $_accessToken======');
+    // print('======refresh token -> $_refreshToken======');
   }
 
   void saveAccessToken(String? token) {
-    _accessToken = token;
+    //_accessToken = token;
     _appPreferences.insertAccessToken(token);
   }
 
   void saveRefreshToken(String? token) {
-    _refreshToken = token;
+    //_refreshToken = token;
     _appPreferences.insertRefreshToken(token);
   }
 
-  String? get accessToken => _accessToken;
+  String? getAccessToken() => _appPreferences.retrieveAccessToken();
 
-  String? get refreshToken => _accessToken;
+  String? getRefreshToken() => _appPreferences.retrieveRefreshToken();
 
   Future<Either<String, int>> fetchTokenFromServer() async {
     try {
-      final response = await _tokenDio.post(Urls.refreshToken, data: {"refresh_token": _refreshToken});
+      final response = await _tokenDio.post(Urls.refreshToken, data: {"refresh_token": getRefreshToken()});
       final accessToken = response.data['access_token'];
       final refreshToken = response.data['refresh_token'];
       saveAccessToken(accessToken);

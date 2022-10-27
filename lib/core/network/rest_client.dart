@@ -32,18 +32,19 @@ class RestClient {
               options.path == Urls.forgetPassword) {
             handler.next(options);
           } else {
-            if (_tokenProvider.accessToken == null) {
+            if (_tokenProvider.getAccessToken() == null) {
               final tokenResponse = await _tokenProvider.fetchTokenFromServer();
               tokenResponse.fold(
                 (accessToken) {
                   options.headers[_AUTHORIZATION] = _token(accessToken);
                   handler.next(options);
                 },
-                (errorCode) {},
+                (errorCode) {
+
+                },
               );
             } else {
-              options.headers[_AUTHORIZATION] =
-                  _token(_tokenProvider.accessToken);
+              options.headers[_AUTHORIZATION] = _token(_tokenProvider.getAccessToken());
               handler.next(options);
             }
           }
@@ -61,10 +62,8 @@ class RestClient {
             return handler.next(error);
           } else {
             if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-              if (_token(_tokenProvider.accessToken) !=
-                  options.headers[_AUTHORIZATION]) {
-                options.headers[_AUTHORIZATION] =
-                    _token(_tokenProvider.accessToken);
+              if (_token(_tokenProvider.getAccessToken()) != options.headers[_AUTHORIZATION]) {
+                options.headers[_AUTHORIZATION] = _token(_tokenProvider.getAccessToken());
                 _dio.fetch(options).then(
                   (r) => handler.resolve(r),
                   onError: (e) {

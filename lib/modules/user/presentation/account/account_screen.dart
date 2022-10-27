@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
@@ -37,6 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
   final _emailNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _appPreferences = getIt.get<AppPreferences>();
+  final _orderInfoProvider = getIt.get<OrderInformationProvider>();
   late User _user;
 
   @override
@@ -200,6 +202,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         showErrorSnackBar(context, state.failure.message);
                       } else if (state is Success<SuccessResponse>) {
                         showSuccessSnackBar(context, state.data.message);
+                        _orderInfoProvider.clearData();
                         getIt.get<AppPreferences>().clearPreferences().then(
                           (value) {
                             Navigator.pushNamedAndRemoveUntil(
