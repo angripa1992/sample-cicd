@@ -3,7 +3,7 @@ description: Kilkit Enterprise App
 
 publish_to: 'none'
 
-version: 0.7.0+1
+version: 0.8.0+1
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
