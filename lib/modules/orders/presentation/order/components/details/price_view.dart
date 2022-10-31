@@ -200,13 +200,10 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
-        Visibility(
-          visible: !_isExpanded!,
-          child: Icon(
-            Icons.keyboard_arrow_down,
-            color: AppColors.black,
-            size: AppSize.s24.rSp,
-          ),
+        Icon(
+          _isExpanded! ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+          color: AppColors.black,
+          size: AppSize.s24.rSp,
         ),
       ],
     );

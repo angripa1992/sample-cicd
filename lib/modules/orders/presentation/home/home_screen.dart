@@ -85,10 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  var horizontalOffset = 150.0;
-  var verticalOffset = 150.0;
-  static const clickableArea = 100.0;
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
