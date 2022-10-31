@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:defer_pointer/defer_pointer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  var horizontalOffset = 150.0;
+  var verticalOffset = 150.0;
+  static const clickableArea = 100.0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -96,28 +101,32 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    HomeHeaderView(
-                      userInfo: _user.userInfo,
-                    ),
-                    Positioned(
-                      bottom: -55.rh,
-                      left: AppSize.s20.rw,
-                      right: AppSize.s20.rw,
-                      child: HomeTotalOrdersCard(
-                        onTap: () {
-                          context.read<BaseScreenCubit>().changeIndex(
-                                NavigationData(
-                                  BottomNavItem.ORDER,
-                                  OrderTab.History,
-                                ),
-                              );
-                        },
+                DeferredPointerHandler(
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      HomeHeaderView(
+                        userInfo: _user.userInfo,
                       ),
-                    )
-                  ],
+                      Positioned(
+                        bottom: -55.rh,
+                        left: AppSize.s20.rw,
+                        right: AppSize.s20.rw,
+                        child: DeferPointer(
+                          child: HomeTotalOrdersCard(
+                            onTap: () {
+                              context.read<BaseScreenCubit>().changeIndex(
+                                    NavigationData(
+                                      BottomNavItem.ORDER,
+                                      OrderTab.History,
+                                    ),
+                                  );
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(height: AppSize.s70.rh),
                 Padding(
@@ -223,11 +232,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         textColor: AppColors.white,
                         onTap: () {
                           context.read<BaseScreenCubit>().changeIndex(
-                            NavigationData(
-                              BottomNavItem.ORDER,
-                              OrderTab.NEW,
-                            ),
-                          );
+                                NavigationData(
+                                  BottomNavItem.ORDER,
+                                  OrderTab.NEW,
+                                ),
+                              );
                         },
                         text: AppStrings.new_orders.tr(),
                       );
@@ -264,11 +273,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         textColor: AppColors.blueViolet,
                         onTap: () {
                           context.read<BaseScreenCubit>().changeIndex(
-                            NavigationData(
-                              BottomNavItem.ORDER,
-                              OrderTab.ONGOING,
-                            ),
-                          );
+                                NavigationData(
+                                  BottomNavItem.ORDER,
+                                  OrderTab.ONGOING,
+                                ),
+                              );
                         },
                         text: AppStrings.ongoing_orders.tr(),
                       );

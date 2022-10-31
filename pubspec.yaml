@@ -32,6 +32,7 @@ dependencies:
   flutter_expanded_tile: ^0.3.6
   infinite_scroll_pagination: ^3.2.0
   cached_network_image: ^3.2.1
+  defer_pointer: ^0.0.2
 
 dev_dependencies:
   flutter_test:

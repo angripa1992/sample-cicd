@@ -37,7 +37,7 @@ class DateTimeProvider{
 
   static String parseOrderCreatedDate (String createdAt){
     final formatter = DateFormat('d MMM yy h:mm a');
-    final dateTime = DateTime.parse(createdAt);
+    final dateTime = DateTime.parse(createdAt).toLocal();
     return formatter.format(dateTime);
   }
 
