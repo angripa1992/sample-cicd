@@ -8,14 +8,29 @@ part 'busy_mode_model.g.dart';
 class BusyModeGetResponseModel {
   @JsonKey(name: 'is_busy')
   bool? isBusy;
+  @JsonKey(name: 'busy_mode_updated_at')
+  String? updatedAt;
+  @JsonKey(name: 'time_left')
+  int? timeLeft;
+  int? duration;
 
-  BusyModeGetResponseModel({this.isBusy});
+  BusyModeGetResponseModel({
+    this.isBusy,
+    this.updatedAt,
+    this.duration,
+    this.timeLeft,
+  });
 
   factory BusyModeGetResponseModel.fromJson(Map<String, dynamic> json) =>
       _$BusyModeGetResponseModelFromJson(json);
 
   BusyModeGetResponse toEntity() {
-    return BusyModeGetResponse(isBusy: isBusy ?? false);
+    return BusyModeGetResponse(
+      isBusy: isBusy ?? false,
+      updatedAt: updatedAt.orEmpty(),
+      timeLeft: timeLeft.orZero(),
+      duration: duration.orZero(),
+    );
   }
 }
 
@@ -23,8 +38,16 @@ class BusyModeGetResponseModel {
 class BusyModePostResponseModel {
   String? message;
   List<String>? warning;
+  @JsonKey(name: 'time_left')
+  int? timeLeft;
+  int? duration;
 
-  BusyModePostResponseModel({this.message, this.warning});
+  BusyModePostResponseModel({
+    this.message,
+    this.warning,
+    this.duration,
+    this.timeLeft,
+  });
 
   factory BusyModePostResponseModel.fromJson(Map<String, dynamic> json) =>
       _$BusyModePostResponseModelFromJson(json);
@@ -33,6 +56,8 @@ class BusyModePostResponseModel {
     return BusyModePostResponse(
       message: message.orEmpty(),
       warning: warning ?? [],
+      duration: duration.orZero(),
+      timeLeft: timeLeft.orZero(),
     );
   }
 }

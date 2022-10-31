@@ -27,9 +27,11 @@ class NewOrderItemView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            OrderItemView(
-              order: order,
-              seeDetails: seeDetails,
+            Expanded(
+              child: OrderItemView(
+                order: order,
+                seeDetails: seeDetails,
+              ),
             ),
             getActionButtons(
               order: order,

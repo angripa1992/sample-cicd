@@ -23,7 +23,10 @@ class BusyModeCubit extends Cubit<BusyModeState> {
       (failure) {},
       (data) {
         if (data.isBusy) {
-          changeToOffline();
+          changeToOffline(
+            duration: data.duration,
+            timeLeft: data.timeLeft,
+          );
         } else {
           changeToAvailable();
         }
@@ -31,9 +34,12 @@ class BusyModeCubit extends Cubit<BusyModeState> {
     );
   }
 
-  void changeToOffline() {
-    emit(Offline(0));
-    _startTimer();
+  void changeToOffline({required int timeLeft,required int duration}) {
+    emit(Offline(timeLeft));
+    _startTimer(
+      duration: duration,
+      timeLeft: timeLeft,
+    );
   }
 
   void changeToAvailable() {
@@ -41,12 +47,12 @@ class BusyModeCubit extends Cubit<BusyModeState> {
     emit(Available());
   }
 
-  void _startTimer() {
+  void _startTimer({required int timeLeft,required int duration}) {
     _timer = Timer.periodic(
       const Duration(minutes: 1),
       (timer) {
-        emit(Offline(timer.tick));
-        if(timer.tick == AppConstant.busyTimeInMin){
+        emit(Offline(timeLeft - timer.tick));
+        if(timer.tick == timeLeft){
           _cancelTimer();
         }
       },
@@ -55,5 +61,11 @@ class BusyModeCubit extends Cubit<BusyModeState> {
 
   void _cancelTimer() {
     _timer?.cancel();
+  }
+
+  @override
+  Future<void> close() {
+    _cancelTimer();
+    return super.close();
   }
 }

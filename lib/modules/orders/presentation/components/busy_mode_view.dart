@@ -32,7 +32,7 @@ class _BusyModeViewState extends State<BusyModeView> {
         BlocListener<BusyModeCubit, BusyModeState>(
           listener: (context, state) {
             if (state is Offline) {
-              if (state.minute == AppConstant.busyTimeInMin) {
+              if (state.minute == 0) {
                 context.read<UpdateBusyModeCubit>().updateStatus(false);
               }
             }
@@ -42,7 +42,10 @@ class _BusyModeViewState extends State<BusyModeView> {
           listener: (context, state) {
             if (state is Success<BusyModePostResponse>) {
               if (state.data.isBusy) {
-                context.read<BusyModeCubit>().changeToOffline();
+                context.read<BusyModeCubit>().changeToOffline(
+                  duration: state.data.duration,
+                  timeLeft: state.data.timeLeft,
+                );
               } else {
                 context.read<BusyModeCubit>().changeToAvailable();
               }
@@ -64,9 +67,7 @@ class _BusyModeViewState extends State<BusyModeView> {
             children: [
               (state is Available)
                   ? _getAvailableIcon()
-                  : _getOfflineIcon(
-                      (AppConstant.busyTimeInMin - (state as Offline).minute)
-                          .toString()),
+                  : _getOfflineIcon((state as Offline).minute.toString()),
               SizedBox(width: AppSize.s12.rw),
               Text(
                 AppStrings.busy_mode.tr(),
