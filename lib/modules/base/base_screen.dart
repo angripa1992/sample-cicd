@@ -40,18 +40,21 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   void initState() {
-   // webSocketClient.initWebSocketConnection();
+    // webSocketClient.initWebSocketConnection();
     super.initState();
   }
 
-  Widget _getWidget(NavigationData navigationData){
-    if(navigationData.index == BottomNavItem.HOME){
+  Widget _getWidget(NavigationData navigationData) {
+    if (navigationData.index == BottomNavItem.HOME) {
       return const HomeScreen();
-    }else if(navigationData.index == BottomNavItem.ORDER){
-      return OrdersScreen(tabIndex: (navigationData.data ?? OrderTab.NEW));
-    }else if(navigationData.index == BottomNavItem.STOCK){
+    } else if (navigationData.index == BottomNavItem.ORDER) {
+      return OrdersScreen(
+        tabIndex: (navigationData.subTabIndex ?? OrderTab.NEW),
+        data: navigationData.data,
+      );
+    } else if (navigationData.index == BottomNavItem.STOCK) {
       return const StockScreen();
-    }else{
+    } else {
       return const AccountScreen();
     }
   }
@@ -79,10 +82,16 @@ class _BaseScreenState extends State<BaseScreen> {
       ],
       child: WillPopScope(
         onWillPop: () {
-          if (context.read<BaseScreenCubit>().state.index == BottomNavItem.HOME) {
+          if (context.read<BaseScreenCubit>().state.index ==
+              BottomNavItem.HOME) {
             return Future.value(true);
           } else {
-            context.read<BaseScreenCubit>().changeIndex(NavigationData(BottomNavItem.HOME, null));
+            context.read<BaseScreenCubit>().changeIndex(
+                  NavigationData(
+                    index: BottomNavItem.HOME,
+                    data: null,
+                  ),
+                );
             return Future.value(false);
           }
         },
@@ -94,7 +103,13 @@ class _BaseScreenState extends State<BaseScreen> {
                 items: _navigationItems(),
                 currentIndex: context.read<BaseScreenCubit>().state.index,
                 onTap: (index) {
-                  context.read<BaseScreenCubit>().changeIndex(NavigationData(index, null));
+                  context.read<BaseScreenCubit>().changeIndex(
+                        NavigationData(
+                          index: index,
+                          subTabIndex: null,
+                          data: null,
+                        ),
+                      );
                 },
                 backgroundColor: AppColors.whiteSmoke,
                 type: BottomNavigationBarType.fixed,

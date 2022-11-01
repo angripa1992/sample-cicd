@@ -16,26 +16,27 @@ import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 
 class HomeTotalOrdersCard extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback onToday;
+  final VoidCallback onYesterday;
 
-  const HomeTotalOrdersCard({Key? key, required this.onTap}) : super(key: key);
+  const HomeTotalOrdersCard({Key? key,required this.onToday, required this.onYesterday}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        shadowColor: AppColors.smokeyGrey,
-        elevation: 4,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s20.rw,
-            vertical: AppSize.s20.rh,
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              BlocConsumer<TotalOrderCubit,ResponseState>(
+    return Card(
+      shadowColor: AppColors.smokeyGrey,
+      elevation: 4,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s20.rw,
+          vertical: AppSize.s20.rh,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: onToday,
+              child: BlocConsumer<TotalOrderCubit,ResponseState>(
                 listener: (context,state){
                   if(state is Failed){
                     showErrorSnackBar(context, state.failure.message);
@@ -66,46 +67,53 @@ class HomeTotalOrdersCard extends StatelessWidget {
                   );
                 },
               ),
-              const Spacer(),
-              BlocConsumer<YesterdayTotalOrderCubit,ResponseState>(
-                listener: (context,state){
-                  if(state is Failed){
-                    showErrorSnackBar(context, state.failure.message);
-                  }
-                },
-                builder: (context, state) {
-                  if(state is Loading){
-                    return yesterdayTotalOrderShimmer();
-                  }
-                  return  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        AppStrings.yesterday.tr(),
-                        style: getRegularTextStyle(
-                          color: AppColors.coolGrey,
-                          fontSize: AppFontSize.s14.rSp,
-                        ),
-                      ),
-                      Text(
-                        (state is Success<Orders>) ? state.data.total.toString() : '0',
-                        style: getRegularTextStyle(
-                          color: AppColors.coolGrey,
-                          fontSize: AppFontSize.s17.rSp,
-                        ),
-                      ),
-                    ],
-                  );
-                },
+            ),
+            const Spacer(),
+            InkWell(
+              onTap: onYesterday,
+              child: Row(
+                children: [
+                  BlocConsumer<YesterdayTotalOrderCubit,ResponseState>(
+                    listener: (context,state){
+                      if(state is Failed){
+                        showErrorSnackBar(context, state.failure.message);
+                      }
+                    },
+                    builder: (context, state) {
+                      if(state is Loading){
+                        return yesterdayTotalOrderShimmer();
+                      }
+                      return  Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            AppStrings.yesterday.tr(),
+                            style: getRegularTextStyle(
+                              color: AppColors.coolGrey,
+                              fontSize: AppFontSize.s14.rSp,
+                            ),
+                          ),
+                          Text(
+                            (state is Success<Orders>) ? state.data.total.toString() : '0',
+                            style: getRegularTextStyle(
+                              color: AppColors.coolGrey,
+                              fontSize: AppFontSize.s17.rSp,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  SizedBox(width: AppSize.s8.rw),
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: AppColors.coolGrey,
+                    size: AppSize.s20.rSp,
+                  ),
+                ],
               ),
-              SizedBox(width: AppSize.s8.rw),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: AppColors.coolGrey,
-                size: AppSize.s20.rSp,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

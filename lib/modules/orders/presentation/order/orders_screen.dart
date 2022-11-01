@@ -21,8 +21,10 @@ import 'components/tabbar_delegate.dart';
 
 class OrdersScreen extends StatefulWidget {
   final int tabIndex;
+  final Map<String, dynamic>? data;
 
-  const OrdersScreen({Key? key, required this.tabIndex}) : super(key: key);
+  const OrdersScreen({Key? key, required this.tabIndex, required this.data})
+      : super(key: key);
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();
@@ -137,11 +139,10 @@ class _OrdersScreenState extends State<OrdersScreen>
             controller: _tabController,
             children: [
               NewOrderScreen(subject: _filterSubject),
-              OngoingOrderScreen(
-                subject: _filterSubject,
-              ),
+              OngoingOrderScreen(subject: _filterSubject),
               OrderHistoryScreen(
                 subject: _filterSubject,
+                data: widget.data,
               ),
             ],
           ),

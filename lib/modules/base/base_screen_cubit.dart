@@ -1,17 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 
-class NavigationData{
+class NavigationData {
   final int index;
-  final dynamic data;
+  final int? subTabIndex;
+  final Map<String, dynamic>? data;
 
-  NavigationData(this.index, this.data);
+  NavigationData({
+    required this.index,
+    this.data,
+    this.subTabIndex,
+  });
 }
 
-class BaseScreenCubit extends Cubit<NavigationData>{
-  BaseScreenCubit() : super(NavigationData(BottomNavItem.HOME, null));
+class BaseScreenCubit extends Cubit<NavigationData> {
+  BaseScreenCubit()
+      : super(NavigationData(
+            index: BottomNavItem.HOME, data: null, subTabIndex: null));
 
-  void changeIndex(NavigationData data){
+  void changeIndex(NavigationData data) {
     emit(data);
   }
 }
