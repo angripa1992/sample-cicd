@@ -21,6 +21,7 @@ void showCommentDialog({
   required BuildContext context,
   required Order order,
   required VoidCallback onCommentActionSuccess,
+  required Function(String) changeCommentAction,
 }) {
   showDialog(
     context: context,
@@ -40,6 +41,7 @@ void showCommentDialog({
           content: CommentDialogBody(
             order: order,
             onCommentActionSuccess: onCommentActionSuccess,
+            changeCommentAction: changeCommentAction,
           ),
         ),
       );
@@ -50,11 +52,13 @@ void showCommentDialog({
 class CommentDialogBody extends StatefulWidget {
   final Order order;
   final VoidCallback onCommentActionSuccess;
+  final Function(String) changeCommentAction;
 
   const CommentDialogBody({
     Key? key,
     required this.order,
     required this.onCommentActionSuccess,
+    required this.changeCommentAction,
   }) : super(key: key);
 
   @override
@@ -154,9 +158,11 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                 child: BlocConsumer<DeleteCommentCubit, ResponseState>(
                   listener: (context, state) {
                     if (state is Success<ActionSuccess>) {
+                      widget.changeCommentAction('');
                       widget.onCommentActionSuccess();
                       _pop();
-                      showSuccessSnackBar(context, state.data.message.orEmpty());
+                      showSuccessSnackBar(
+                          context, state.data.message.orEmpty());
                     } else if (state is Failed) {
                       showErrorSnackBar(context, state.failure.message);
                     }
@@ -186,6 +192,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
               child: BlocConsumer<AddCommentCubit, ResponseState>(
                 listener: (context, state) {
                   if (state is Success<ActionSuccess>) {
+                    widget.changeCommentAction(_controller.text);
                     widget.onCommentActionSuccess();
                     _pop();
                     showSuccessSnackBar(context, state.data.message.orEmpty());

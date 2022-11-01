@@ -4,6 +4,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/presentation/order/components/details/comment_action_view.dart';
 import 'package:klikit/modules/orders/presentation/order/components/details/order_status.dart';
 import 'package:klikit/modules/orders/presentation/order/components/dialogs/comment_dialog.dart';
 import 'package:klikit/resources/colors.dart';
@@ -75,26 +76,9 @@ class OrderDetailsHeaderView extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: AppSize.s24.rw,
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  showCommentDialog(
-                    context: context,
-                    order: order,
-                    onCommentActionSuccess: onCommentActionSuccess,
-                  );
-                },
-                icon: Icon(
-                  order.klikitComment.isEmpty
-                      ? Icons.add_comment_outlined
-                      : Icons.comment_outlined,
-                  size: AppSize.s18.rSp,
-                  color: order.klikitComment.isEmpty ? AppColors.purpleBlue : AppColors.green,
-                ),
-              ),
+            CommentActionView(
+              onCommentActionSuccess: onCommentActionSuccess,
+              order: order,
             ),
           ],
         ),
