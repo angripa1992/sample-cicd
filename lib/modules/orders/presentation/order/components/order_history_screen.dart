@@ -17,9 +17,10 @@ import '../observer/filter_subject.dart';
 import 'date_range_picker.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
+  final Map<String,dynamic>? data;
   final FilterSubject subject;
 
-  const OrderHistoryScreen({Key? key, required this.subject}) : super(key: key);
+  const OrderHistoryScreen({Key? key, required this.subject, this.data}) : super(key: key);
 
   @override
   State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
@@ -37,13 +38,16 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   List<int>? _brands;
   List<int>? _status;
   PagingController<int, Order>? _pagingController;
-
-  DateTimeRange _dateRange =
-      DateTimeRange(start: DateTime.now(), end: DateTime.now());
+  DateTimeRange? _dateRange;
 
   @override
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
+    if(widget.data == null){
+      _dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
+    }else{
+      _dateRange = widget.data![HistoryNavData.HISTORY_NAV_DATA];
+    }
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.ORDER_HISTORY);
     _providers = filterSubject?.getProviders();
@@ -63,9 +67,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
       pageSize: _pageSize,
     );
     params['page'] = pageKey;
-    params['start'] = DateTimeProvider.getDate(_dateRange.start);
-    params['end'] =
-        DateTimeProvider.getDate(_dateRange.end.add(const Duration(days: 1)));
+    params['start'] = DateTimeProvider.getDate(_dateRange!.start);
+    params['end'] = DateTimeProvider.getDate(_dateRange!.end.add(const Duration(days: 1)));
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
@@ -97,7 +100,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
           flex: 1,
           child: Center(
             child: DateSelector(
-              dateTimeRange: _dateRange,
+              dateTimeRange: _dateRange!,
               onPick: (dateRange) {
                 _dateRange = dateRange;
                 _refresh();

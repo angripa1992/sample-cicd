@@ -110,13 +110,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         right: AppSize.s20.rw,
                         child: DeferPointer(
                           child: HomeTotalOrdersCard(
-                            onTap: () {
+                            onYesterday: () {
                               context.read<BaseScreenCubit>().changeIndex(
-                                    NavigationData(
-                                      BottomNavItem.ORDER,
-                                      OrderTab.History,
-                                    ),
-                                  );
+                                NavigationData(
+                                  index: BottomNavItem.ORDER,
+                                  subTabIndex: OrderTab.History,
+                                  data: {
+                                    HistoryNavData.HISTORY_NAV_DATA : HistoryNavData.yesterday(),
+                                  },
+                                ),
+                              );
+                            },
+                            onToday: () {
+                              context.read<BaseScreenCubit>().changeIndex(
+                                NavigationData(
+                                  index: BottomNavItem.ORDER,
+                                  subTabIndex: OrderTab.History,
+                                  data: {
+                                    HistoryNavData.HISTORY_NAV_DATA : HistoryNavData.today(),
+                                  },
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -229,8 +243,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           context.read<BaseScreenCubit>().changeIndex(
                                 NavigationData(
-                                  BottomNavItem.ORDER,
-                                  OrderTab.NEW,
+                                  index: BottomNavItem.ORDER,
+                                  subTabIndex: OrderTab.NEW,
+                                  data: null,
                                 ),
                               );
                         },
@@ -270,8 +285,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () {
                           context.read<BaseScreenCubit>().changeIndex(
                                 NavigationData(
-                                  BottomNavItem.ORDER,
-                                  OrderTab.ONGOING,
+                                  index: BottomNavItem.ORDER,
+                                  subTabIndex: OrderTab.ONGOING,
+                                  data: null,
                                 ),
                               );
                         },

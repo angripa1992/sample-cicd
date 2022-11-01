@@ -79,7 +79,7 @@ class _BusyModeViewState extends State<BusyModeView> {
               Switch(
                 onChanged: (isAvailable) {
                   showBusyModeConfirmDialog(
-                    isBusy: isAvailable ? false : true,
+                    isBusy: isAvailable ? true : false,
                     title: isAvailable
                         ? AppStrings.online_title.tr()
                         : AppStrings.offline_title.tr(),
@@ -93,10 +93,10 @@ class _BusyModeViewState extends State<BusyModeView> {
                     busyBLoc: context.read<BusyModeCubit>(),
                   );
                 },
-                value: state is Available,
-                activeColor: AppColors.purpleBlue,
+                value: state is Offline,
+                activeColor: AppColors.black,
                 activeTrackColor: AppColors.smokeyGrey,
-                inactiveThumbColor: AppColors.black,
+                inactiveThumbColor: AppColors.purpleBlue,
                 inactiveTrackColor: AppColors.smokeyGrey,
               ),
             ],

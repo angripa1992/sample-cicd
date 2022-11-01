@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
+
 class AppConstant {
-  static const String signUpUrl = "https://www.klikit.io/contact?__hstc=140989165.3e68213999864dc1ab0072336446cdf8.1660889383375.1661919284520.1661927239769.12&__hssc=140989165.1.1661927239769&__hsfp=2812450310";
+  static const String signUpUrl =
+      "https://www.klikit.io/contact?__hstc=140989165.3e68213999864dc1ab0072336446cdf8.1660889383375.1661919284520.1661927239769.12&__hssc=140989165.1.1661927239769&__hsfp=2812450310";
   static const String roleBranchManger = "branch_manager";
   static const String roleAdmin = "admin";
   static const String roleBrandManager = "brand_manager";
@@ -10,7 +13,7 @@ class AppConstant {
   static const int busyTimeInMin = 60;
 }
 
-class ObserverTag{
+class ObserverTag {
   static const TOTAL_ORDER = "total_order";
   static const NEW_ORDER = "new_order";
   static const ONGOING_ORDER = "ongoing_order";
@@ -18,32 +21,32 @@ class ObserverTag{
   static const ORDER_SCREEN = "order_screen";
 }
 
-class BottomNavItem{
+class BottomNavItem {
   static const int HOME = 0;
   static const int ORDER = 1;
   static const int STOCK = 2;
   static const int ACCOUNT = 3;
 }
 
-class OrderTab{
+class OrderTab {
   static const int NEW = 0;
   static const int ONGOING = 1;
   static const int History = 2;
 }
 
-class OrderType{
+class OrderType {
   static const int PICKUP = 1;
   static const int DELIVERY = 2;
 }
 
-class ProviderID{
+class ProviderID {
   static const int KLIKIT = 1;
   static const int GRAB_FOOD = 6;
   static const int FOOD_PANDA = 7;
   static const int SHOPEE = 11;
 }
 
-class OrderStatus{
+class OrderStatus {
   static const PLACED = 1;
   static const ACCEPTED = 2;
   static const CANCELLED = 3;
@@ -53,4 +56,21 @@ class OrderStatus{
   static const DRIVER_ASSIGNED = 7;
   static const DRIVER_ARRIVED = 8;
   static const PICKED_UP = 9;
+}
+
+class HistoryNavData {
+  static const String HISTORY_NAV_DATA = 'history_nav_data';
+  static DateTimeRange today() => DateTimeRange(
+        start: DateTime.now(),
+        end: DateTime.now(),
+      );
+
+  static DateTimeRange yesterday() => DateTimeRange(
+        start: DateTime.now().subtract(
+          const Duration(days: 1),
+        ),
+        end: DateTime.now().subtract(
+          const Duration(days: 1),
+        ),
+      );
 }
