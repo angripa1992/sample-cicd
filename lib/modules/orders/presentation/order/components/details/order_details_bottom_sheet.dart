@@ -32,6 +32,7 @@ void _openBottomSheet({
       expand: false,
       builder: (_, controller) => Scaffold(
         backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: false,
         extendBody: false,
         key: key,
         body: Column(
