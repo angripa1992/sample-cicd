@@ -11,6 +11,7 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
+import '../../bloc/orders/new_order_cubit.dart';
 import '../../bloc/orders/ongoing_order_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
@@ -53,24 +54,6 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     super.initState();
   }
 
-  void _startTimer() {
-    _timer = Timer.periodic(
-      const Duration(seconds: AppConstant.refreshTime),
-      (timer) {
-        _refreshOrderCount();
-        _refresh(willBackground: true);
-      },
-    );
-  }
-
-  void _refreshOrderCount() {
-    context.read<OngoingOrderCubit>().fetchOngoingOrder(
-          willShowLoading: false,
-          providersID: _providers,
-          brandsID: _brands,
-        );
-  }
-
   void _fetchOngoingOrder(int pageKey) async {
     final params = await _orderParamProvider.getOngoingOrderParams(
       _brands,
@@ -80,10 +63,10 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     params['page'] = pageKey;
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
-      (failure) {
+          (failure) {
         _pagingController?.error = failure;
       },
-      (orders) {
+          (orders) {
         final isLastPage = orders.total < (pageKey * _pageSize);
         if (isLastPage) {
           _pagingController?.appendLastPage(orders.data);
@@ -95,8 +78,26 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     );
   }
 
+  void _startTimer() {
+    _timer = Timer.periodic(
+      const Duration(seconds: AppConstant.refreshTime),
+      (timer) {
+        _refreshOngoingOrderCount();
+        _refresh(willBackground: true);
+      },
+    );
+  }
+
+  void _refreshOngoingOrderCount() {
+    context.read<OngoingOrderCubit>().fetchOngoingOrder(
+      willShowLoading: false,
+      providersID: _providers,
+      brandsID: _brands,
+    );
+  }
+
   void _refresh({bool willBackground = false}) {
-    _refreshOrderCount();
+    _refreshOngoingOrderCount();
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);

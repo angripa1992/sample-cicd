@@ -11,6 +11,7 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../bloc/orders/new_order_cubit.dart';
+import '../../bloc/orders/ongoing_order_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
@@ -51,24 +52,6 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     super.initState();
   }
 
-  void _refreshOrderCount() {
-    context.read<NewOrderCubit>().fetchNewOrder(
-          willShowLoading: false,
-          providersID: _providers,
-          brandsID: _brands,
-        );
-  }
-
-  void _startTimer() {
-    _timer = Timer.periodic(
-      const Duration(seconds: AppConstant.refreshTime),
-      (timer) {
-        _refreshOrderCount();
-        _refresh(willBackground: true);
-      },
-    );
-  }
-
   void _fetchNewOrder(int pageKey) async {
     final params = await _orderParameterProvider.getNewOrderParams(
       _brands,
@@ -78,10 +61,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     params['page'] = pageKey;
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
-      (failure) {
+          (failure) {
         _pagingController?.error = failure;
       },
-      (orders) {
+          (orders) {
         final isLastPage = orders.total < (pageKey * _pageSize);
         if (isLastPage) {
           _pagingController?.appendLastPage(orders.data);
@@ -93,8 +76,37 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
-  void _refresh({bool willBackground = false}) {
-    _refreshOrderCount();
+  void _refreshNewOrderCount() {
+    context.read<NewOrderCubit>().fetchNewOrder(
+          willShowLoading: false,
+          providersID: _providers,
+          brandsID: _brands,
+        );
+  }
+
+  void _refreshOngoingOrderCount() {
+    context.read<OngoingOrderCubit>().fetchOngoingOrder(
+      willShowLoading: false,
+      providersID: _providers,
+      brandsID: _brands,
+    );
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(
+      const Duration(seconds: AppConstant.refreshTime),
+      (timer) {
+        _refreshNewOrderCount();
+        _refresh(willBackground: true);
+      },
+    );
+  }
+
+  void _refresh({bool willBackground = false,bool isFromAction = false}) {
+    _refreshNewOrderCount();
+    if(isFromAction){
+      _refreshOngoingOrderCount();
+    }
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);
@@ -113,7 +125,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
       params: _orderParameterProvider.getOrderActionParams(order, willCancel),
       context: context,
       onSuccess: () {
-        _refresh(willBackground: true);
+        _refresh(willBackground: true,isFromAction: true);
         if (isFromDetails) {
           Navigator.of(context).pop();
         }
