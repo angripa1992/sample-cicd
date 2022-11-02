@@ -10,7 +10,6 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
-import '../../../../app/constants.dart';
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/values.dart';
 import '../../../widgets/loading_button.dart';
@@ -43,9 +42,9 @@ class _BusyModeViewState extends State<BusyModeView> {
             if (state is Success<BusyModePostResponse>) {
               if (state.data.isBusy) {
                 context.read<BusyModeCubit>().changeToOffline(
-                  duration: state.data.duration,
-                  timeLeft: state.data.timeLeft,
-                );
+                      duration: state.data.duration,
+                      timeLeft: state.data.timeLeft,
+                    );
               } else {
                 context.read<BusyModeCubit>().changeToAvailable();
               }
@@ -77,18 +76,18 @@ class _BusyModeViewState extends State<BusyModeView> {
                 ),
               ),
               Switch(
-                onChanged: (isAvailable) {
+                onChanged: (willGoOffline) {
                   showBusyModeConfirmDialog(
-                    isBusy: isAvailable ? true : false,
-                    title: isAvailable
-                        ? AppStrings.online_title.tr()
-                        : AppStrings.offline_title.tr(),
-                    message: isAvailable
-                        ? AppStrings.online_message.tr()
-                        : AppStrings.offline_message.tr(),
-                    buttonText: isAvailable
-                        ? AppStrings.go_online.tr()
-                        : AppStrings.go_offline.tr(),
+                    isBusy: willGoOffline,
+                    title: willGoOffline
+                        ? AppStrings.offline_title.tr()
+                        : AppStrings.online_title.tr(),
+                    message: willGoOffline
+                        ? AppStrings.offline_message.tr()
+                        : AppStrings.online_message.tr(),
+                    buttonText: willGoOffline
+                        ? AppStrings.go_offline.tr()
+                        : AppStrings.go_online.tr(),
                     updateBLoc: context.read<UpdateBusyModeCubit>(),
                     busyBLoc: context.read<BusyModeCubit>(),
                   );
