@@ -35,10 +35,10 @@ class BusyModeCubit extends Cubit<BusyModeState> {
   }
 
   void changeToOffline({required int timeLeft,required int duration}) {
-    emit(Offline(timeLeft));
+    emit(Offline(timeLeft-1));
     _startTimer(
       duration: duration,
-      timeLeft: timeLeft,
+      timeLeft: timeLeft-1,
     );
   }
 
