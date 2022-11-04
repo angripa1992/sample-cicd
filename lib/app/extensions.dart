@@ -1,6 +1,7 @@
 const String EMPTY = '';
 const int ZERO = 0;
 const double ZERO_DECIMAL = 0.0;
+const bool FALSE = false;
 
 extension NonNullString on String? {
   String orEmpty() {
@@ -31,19 +32,8 @@ extension NonNullDouble on double? {
     }
   }
 }
-extension MapQueryParameterExtension on Map<String, dynamic> {
-  Map<String, dynamic> addParameterWithArray({
-    required String parameterName,
-    required List<dynamic> elements,
-  }) {
-    final currentParameters = this;
-    Map<String, dynamic> newValues = {};
-
-    elements.asMap().forEach((index, element) {
-      newValues[parameterName[index]] = element;
-    });
-
-    currentParameters.addAll(newValues);
-    return currentParameters;
-  }
+extension NonNullBoolean on bool? {
+ bool orFalse(){
+   return this ?? FALSE;
+ }
 }

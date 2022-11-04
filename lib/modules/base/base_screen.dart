@@ -6,6 +6,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/network/web_socket_client.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
@@ -16,7 +17,6 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubi
 import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
-import 'package:klikit/modules/stock/presentation/pages/stock_screen.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -25,6 +25,7 @@ import 'package:klikit/resources/values.dart';
 import '../../app/constants.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
+import '../menu/presentation/pages/stock_screen.dart';
 import '../orders/presentation/home/home_screen.dart';
 import '../user/presentation/account/account_screen.dart';
 

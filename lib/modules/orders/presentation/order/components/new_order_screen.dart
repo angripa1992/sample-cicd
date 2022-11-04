@@ -65,7 +65,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         _pagingController?.error = failure;
       },
           (orders) {
-        final isLastPage = orders.total < (pageKey * _pageSize);
+        final isLastPage = orders.total <= (pageKey * _pageSize);
         if (isLastPage) {
           _pagingController?.appendLastPage(orders.data);
         } else {

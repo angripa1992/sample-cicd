@@ -4,6 +4,11 @@ import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/core/network/web_socket_client.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
+import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
+import 'package:klikit/modules/menu/data/repository/menu_repository_impl.dart';
+import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
+import 'package:klikit/modules/menu/domain/usecase/fetch_menu_brands.dart';
+import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
 import 'package:klikit/modules/orders/data/repository/orders_repository_impl.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -112,4 +117,10 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => UpdateBusyModeStatus(getIt()));
   getIt.registerFactory(() => BusyModeCubit(getIt(), getIt(),));
   getIt.registerFactory(() => UpdateBusyModeCubit(getIt(), getIt(),));
+
+  ///menu mgt
+  getIt.registerLazySingleton<MenuRemoteDatasource>(() => MenuRemoteDatasourceImpl(getIt.get()));
+  getIt.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(getIt.get(),getIt.get()));
+  getIt.registerLazySingleton(() => FetchMenuBrands(getIt.get()));
+  getIt.registerFactory(() => MenuBrandsCubit(getIt.get(), getIt.get()));
 }
