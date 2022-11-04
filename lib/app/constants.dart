@@ -58,6 +58,11 @@ class OrderStatus {
   static const PICKED_UP = 9;
 }
 
+class MenuTabIndex{
+  static const MENU = 1;
+  static const MODIFIER = 2;
+}
+
 class HistoryNavData {
   static const String HISTORY_NAV_DATA = 'history_nav_data';
   static DateTimeRange today() => DateTimeRange(

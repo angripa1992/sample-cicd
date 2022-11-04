@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/filter_by_brands_view.dart';
+import 'package:klikit/modules/menu/presentation/pages/menu_tabbar_view.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../domain/entities/brand.dart';
@@ -21,7 +22,13 @@ class MenuMgtBody extends StatelessWidget {
         children: [
           FilterByBrandsView(
             brands: brands,
-            onChanged: (brand) {},
+            onChanged: (brand) {
+
+            },
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSize.s20.rh),
+            child: MenuTabBarView(),
           ),
         ],
       ),
