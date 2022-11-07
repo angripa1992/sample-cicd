@@ -1,4 +1,6 @@
-class MenuBrand {
+import 'package:equatable/equatable.dart';
+
+class MenuBrand extends Equatable {
   final int id;
   final int businessId;
   final String title;
@@ -11,7 +13,7 @@ class MenuBrand {
   final List<int> branchIds;
   final List<String> branchTitles;
 
-  MenuBrand({
+  const MenuBrand({
     required this.id,
     required this.businessId,
     required this.title,
@@ -24,4 +26,7 @@ class MenuBrand {
     required this.branchIds,
     required this.branchTitles,
   });
+
+  @override
+  List<Object?> get props => [id];
 }

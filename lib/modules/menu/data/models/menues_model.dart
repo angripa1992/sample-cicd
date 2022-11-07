@@ -9,18 +9,17 @@ part 'menues_model.g.dart';
 
 @JsonSerializable()
 class MenusDataModel {
-  @JsonKey(name: 'branch_info')
-  BranchInfoModel? branchInfo;
+  // @JsonKey(name: 'branch_info')
+  // BranchInfoModel? branchInfo;
   List<SectionsModel>? sections;
 
-  MenusDataModel({this.branchInfo, this.sections});
+  MenusDataModel({this.sections});
 
   factory MenusDataModel.fromJson(Map<String, dynamic> json) =>
       _$MenusDataModelFromJson(json);
 
   MenusData toEntity() {
     return MenusData(
-      branchInfo: branchInfo?.toEntity() ?? BranchInfoModel().toEntity(),
       sections: _sections(),
     );
   }

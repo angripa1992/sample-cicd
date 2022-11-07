@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_mgt_screen.dart';
 
 import '../../../../app/di.dart';
@@ -18,8 +21,10 @@ class _StockScreenState extends State<StockScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<MenuBrandsCubit>(
-            create: (_) => getIt.get<MenuBrandsCubit>()),
+        BlocProvider<MenuBrandsCubit>(create: (_) => getIt.get()),
+        BlocProvider<BrandSelectionCubit>(create: (_) => getIt.get()),
+        BlocProvider<TabSelectionCubit>(create: (_) => getIt.get()),
+        BlocProvider<MenusCubit>(create: (_) => getIt.get()),
       ],
       child: Scaffold(
         appBar: AppBar(

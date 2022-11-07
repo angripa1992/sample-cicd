@@ -12,6 +12,7 @@ class Urls{
   static const String printerSettings = '/v1/printer/settings';
   static const String busy = '/v1/brand-provider/busy';
   static const String updateStatus = '/v1/oni/order/status';
-  static String comment(int orderID) => '/oni/order/$orderID/comment';
+  static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
+  static String menus(int brandID) => '/v2/menu/brand/$brandID/default/menus';
   static const String menuBrands = '/v1/brand';
 }

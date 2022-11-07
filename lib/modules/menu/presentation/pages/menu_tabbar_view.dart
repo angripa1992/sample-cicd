@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_tab.dart';
 
 import '../../../../resources/values.dart';
@@ -15,6 +17,9 @@ class MenuTabBarView extends StatefulWidget {
 class _MenuTabBarViewState extends State<MenuTabBarView> {
   int selectedTab = MenuTabIndex.MENU;
 
+  void changeIndex(int index) =>
+    context.read<TabSelectionCubit>().changeTab(index);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -25,6 +30,7 @@ class _MenuTabBarViewState extends State<MenuTabBarView> {
           onTabChanged: () {
             setState(() {
               selectedTab = MenuTabIndex.MENU;
+              changeIndex(selectedTab);
             });
           },
         ),
@@ -35,6 +41,7 @@ class _MenuTabBarViewState extends State<MenuTabBarView> {
           onTabChanged: () {
             setState(() {
               selectedTab = MenuTabIndex.MODIFIER;
+              changeIndex(selectedTab);
             });
           },
         ),
