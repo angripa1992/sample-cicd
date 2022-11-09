@@ -63,6 +63,12 @@ class MenuTabIndex{
   static const MODIFIER = 2;
 }
 
+class MenuType{
+  static const SECTION = 1;
+  static const SUB_SECTION = 2;
+  static const ITEM = 3;
+}
+
 class HistoryNavData {
   static const String HISTORY_NAV_DATA = 'history_nav_data';
   static DateTimeRange today() => DateTimeRange(

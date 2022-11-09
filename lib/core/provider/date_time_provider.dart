@@ -45,4 +45,8 @@ class DateTimeProvider{
     final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     return currentTimeZone;
   }
+
+  static int timeZoneOffset(){
+    return DateTime.now().timeZoneOffset.inMinutes;
+  }
 }

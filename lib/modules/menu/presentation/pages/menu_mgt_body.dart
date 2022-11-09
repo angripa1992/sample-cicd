@@ -20,9 +20,10 @@ class MenuMgtBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s20.rw,
-        vertical: AppSize.s20.rh,
+      padding: EdgeInsets.only(
+        left: AppSize.s20.rw,
+        right: AppSize.s20.rw,
+        top: AppSize.s20.rh,
       ),
       child: Column(
         children: [

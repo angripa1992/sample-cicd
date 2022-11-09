@@ -10,12 +10,11 @@ class Sections {
   final int endTime;
   final AvailableTimes availableTimes;
   final String days;
-  final bool enabled;
   final bool hidden;
   final List<Statuses> statuses;
   final int sequence;
-  final List<SubSections> subSections;
-  bool isExpanded;
+  bool enabled;
+  List<SubSections> subSections;
 
   Sections({
     required this.id,
@@ -29,6 +28,5 @@ class Sections {
     required this.statuses,
     required this.sequence,
     required this.subSections,
-    this.isExpanded = false,
   });
 }

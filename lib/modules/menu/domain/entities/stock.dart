@@ -1,5 +1,5 @@
 class Stock {
-  final bool available;
+  bool available;
   final Snooze snooze;
 
   Stock({required this.available, required this.snooze});

@@ -1,3 +1,5 @@
+import 'package:klikit/app/constants.dart';
+
 class Urls{
   static const String refreshToken = '/v1/token/refresh';
   static const String login = '/v1/login';
@@ -13,6 +15,8 @@ class Urls{
   static const String busy = '/v1/brand-provider/busy';
   static const String updateStatus = '/v1/oni/order/status';
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
-  static String menus(int brandID) => '/v2/menu/brand/$brandID/default/menus';
+  static String menus(int branchId) => '/v2/menu/branch/$branchId/menus';
   static const String menuBrands = '/v1/brand';
+  static String updateItem(int id) => '/v2/menu/item/$id/stock/status';
+  static String updateMenu(int id,int type) => '/v1/menu/${type == MenuType.SECTION ? 'section' : 'sub_section'}/$id/enabled';
 }

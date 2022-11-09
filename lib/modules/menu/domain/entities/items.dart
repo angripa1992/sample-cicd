@@ -17,7 +17,7 @@ class Items {
   final List<Statuses> statuses;
   final int sequence;
   final int defaultItemId;
-  final Stock stock;
+  Stock stock;
   final TitleV2 titleV2;
   final DescriptionV2 descriptionV2;
 

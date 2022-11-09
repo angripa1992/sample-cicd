@@ -6,4 +6,5 @@ class Routes {
   static const String webView = '/webview';
   static const String forget = '/forget';
   static const String changePassword = '/change_password';
+  static const String manageItems = '/manage_items';
 }

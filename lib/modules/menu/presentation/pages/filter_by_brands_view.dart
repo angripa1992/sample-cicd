@@ -34,14 +34,16 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'Filter by brand',
-          style: getRegularTextStyle(
-            color: AppColors.purpleBlue,
-            fontSize: AppFontSize.s16.rSp,
+        Padding(
+          padding: EdgeInsets.only(left: AppSize.s4.rw,bottom: AppSize.s10.rh),
+          child: Text(
+            'Filter by brand',
+            style: getRegularTextStyle(
+              color: AppColors.purpleBlue,
+              fontSize: AppFontSize.s16.rSp,
+            ),
           ),
         ),
-        SizedBox(height: AppSize.s8.rh),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),

@@ -7,14 +7,14 @@ class SubSections {
   final int id;
   final String title;
   final String description;
-  final bool enabled;
   final bool hidden;
   final bool alcBeverages;
   final List<Statuses> statuses;
   final int sequence;
   final TitleV2 titleV2;
   final DescriptionV2 descriptionV2;
-  final List<Items> items;
+  bool enabled;
+  List<Items> items;
 
   SubSections({
     required this.id,

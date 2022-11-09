@@ -5,8 +5,13 @@ import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart'
 import 'package:klikit/modules/menu/domain/entities/brands.dart';
 import 'package:klikit/modules/menu/domain/entities/menues.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
+import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../core/network/network_connectivity.dart';
+import '../../domain/entities/stock.dart';
+import '../../domain/usecase/fetch_menus.dart';
 
 class MenuRepositoryImpl extends MenuRepository {
   final MenuRemoteDatasource _datasource;
@@ -30,11 +35,40 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, MenusData>> fetchMenus(int brandID) async {
+  Future<Either<Failure, MenusData>> fetchMenus(FetchMenuParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchMenus(brandID);
+        final response = await _datasource.fetchMenus(params);
         return Right(response.toEntity());
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, Stock>> updateItem(UpdateItemParam params) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.updateItem(params);
+        return Right(response.toEntity());
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> updateMenu(
+      UpdateMenuParams params) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.updateMenu(params);
+        return Right(response);
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
