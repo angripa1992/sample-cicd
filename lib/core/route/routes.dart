@@ -7,4 +7,5 @@ class Routes {
   static const String forget = '/forget';
   static const String changePassword = '/change_password';
   static const String manageItems = '/manage_items';
+  static const String manageModifiers = '/manage_modifiers';
 }

@@ -19,4 +19,5 @@ class Urls{
   static const String menuBrands = '/v1/brand';
   static String updateItem(int id) => '/v2/menu/item/$id/stock/status';
   static String updateMenu(int id,int type) => '/v1/menu/${type == MenuType.SECTION ? 'section' : 'sub_section'}/$id/enabled';
+  static const String modifiersGroup = '/v1/menu/groups/modifiers';
 }

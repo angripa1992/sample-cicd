@@ -50,7 +50,7 @@ class MenuMgtBody extends StatelessWidget {
                 return BlocBuilder<TabSelectionCubit, int>(
                   builder: (context, state) {
                     if(state == MenuTabIndex.MODIFIER){
-                      return const ModifierScreen();
+                      return ModifierScreen(brandId: brandState.id);
                     }else{
                       return MenuScreen(brandID: brandState.id);
                     }

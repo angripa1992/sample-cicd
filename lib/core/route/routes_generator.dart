@@ -6,6 +6,7 @@ import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/manage_items_screen.dart';
+import 'package:klikit/modules/menu/presentation/pages/modifier/manage_modifiers_screen.dart';
 import 'package:klikit/modules/onboarding/onboarding_screen.dart';
 import 'package:klikit/modules/user/presentation/chnage_password/change_password_screen.dart';
 import 'package:klikit/modules/user/presentation/forget/forget_screen.dart';
@@ -58,9 +59,14 @@ class RoutesGenerator {
           builder: (_) => const ChangePasswordScreen(),
           settings: routeSettings,
         );
-        case Routes.manageItems:
+      case Routes.manageItems:
         return MaterialPageRoute(
           builder: (_) => const ManageItemsScreen(),
+          settings: routeSettings,
+        );
+      case Routes.manageModifiers:
+        return MaterialPageRoute(
+          builder: (_) => const ManageModifiersScreen(),
           settings: routeSettings,
         );
       default:

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/core/network/rest_client.dart';
 import 'package:klikit/modules/menu/data/models/menues_model.dart';
+import 'package:klikit/modules/menu/data/models/modifiers_group_model.dart';
 import 'package:klikit/modules/menu/data/models/stock_model.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
@@ -19,6 +20,9 @@ abstract class MenuRemoteDatasource {
   Future<StockModel> updateItem(UpdateItemParam params);
 
   Future<ActionSuccess> updateMenu(UpdateMenuParams params);
+
+  Future<List<ModifiersGroupModel>> fetchModifiersGroup(
+      Map<String, dynamic> params);
 }
 
 class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
@@ -87,6 +91,17 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         },
       );
       return ActionSuccess.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<ModifiersGroupModel>> fetchModifiersGroup(
+      Map<String, dynamic> params) async {
+    try {
+      final List<dynamic> response = await _restClient.request(Urls.modifiersGroup, Method.GET, params);
+      return response.map((e) => ModifiersGroupModel.fromJson(e)).toList();
     } on DioError {
       rethrow;
     }

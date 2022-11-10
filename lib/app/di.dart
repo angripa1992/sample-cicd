@@ -9,11 +9,13 @@ import 'package:klikit/modules/menu/data/repository/menu_repository_impl.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menu_brands.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
+import 'package:klikit/modules/menu/domain/usecase/ftech_modifier_groups.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
 import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/modifier_groups_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_item_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_menu_cubit.dart';
@@ -139,4 +141,6 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => UpdateItemCubit(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateMenu(getIt.get()));
   getIt.registerFactory(() => UpdateMenuCubit(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton(() => FetchModifierGroups(getIt.get()));
+  getIt.registerFactory(() => ModifierGroupsCubit(getIt.get(), getIt.get()));
 }
