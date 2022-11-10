@@ -18,7 +18,7 @@ class MenuScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is Success<MenusData>) {
             if (state.data.sections.isEmpty) {
-              return const SizedBox();
+              return const Center(child: Text('No menus found!'),);
             }
             return MenuListView(
               sections: state.data.sections,
