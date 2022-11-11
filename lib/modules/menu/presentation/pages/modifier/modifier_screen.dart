@@ -72,7 +72,10 @@ class ModifierScreen extends StatelessWidget {
                       child: Text('No modifier group found!'),
                     );
                   }
-                  return ModifierGroupsListView(modifierGroups: state.data);
+                  return ModifierGroupsListView(
+                    modifierGroups: state.data,
+                    brandId: brandId,
+                  );
                 } else if (state is Failed) {
                   return Center(
                     child: Text(state.failure.message),

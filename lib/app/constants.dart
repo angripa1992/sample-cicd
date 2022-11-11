@@ -69,6 +69,11 @@ class MenuType{
   static const ITEM = 3;
 }
 
+class ModifierType{
+  static const GROUP = 1;
+  static const MODIFIER = 2;
+}
+
 class HistoryNavData {
   static const String HISTORY_NAV_DATA = 'history_nav_data';
   static DateTimeRange today() => DateTimeRange(

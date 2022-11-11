@@ -2,8 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
+import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
 import 'package:klikit/modules/menu/domain/entities/brands.dart';
 import 'package:klikit/modules/menu/domain/entities/menues.dart';
+import 'package:klikit/modules/menu/domain/entities/modifier_disabled_response.dart';
 import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
@@ -85,6 +87,34 @@ class MenuRepositoryImpl extends MenuRepository {
       try {
         final response = await _datasource.fetchModifiersGroup(params);
         return Right(response.map((e) => e.toEntity()).toList());
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ModifierDisabledResponse>> disableModifier(ModifierRequestModel params) async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.disableModifier(params);
+        return Right(response.toEntity());
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> enableModifier(ModifierRequestModel params) async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.enableModifier(params);
+        return Right(response);
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

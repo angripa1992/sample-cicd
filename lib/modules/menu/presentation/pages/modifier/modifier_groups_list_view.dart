@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifer_switch_view.dart';
@@ -10,9 +11,11 @@ import '../../../../../resources/styles.dart';
 import '../../../domain/entities/modifiers_group.dart';
 
 class ModifierGroupsListView extends StatefulWidget {
+  final int brandId;
   final List<ModifiersGroup> modifierGroups;
 
-  const ModifierGroupsListView({Key? key, required this.modifierGroups})
+  const ModifierGroupsListView(
+      {Key? key, required this.modifierGroups, required this.brandId})
       : super(key: key);
 
   @override
@@ -26,6 +29,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
       itemCount: widget.modifierGroups.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
+        final group = widget.modifierGroups[index];
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -36,14 +40,14 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                     context,
                     Routes.manageModifiers,
                     arguments: {
-                      'group': widget.modifierGroups[index],
+                      'group': group,
                     },
                   );
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                   child: Text(
-                    widget.modifierGroups[index].title,
+                    group.title,
                     style: getRegularTextStyle(
                       color: AppColors.black,
                       fontSize: AppFontSize.s14.rSp,
@@ -52,7 +56,18 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                 ),
               ),
             ),
-            ModifierSwitchView(),
+            ModifierSwitchView(
+              brandId: widget.brandId,
+              groupId: group.groupId,
+              enabled: group.statuses.isEmpty ? false : group.statuses[0].enabled,
+              type: ModifierType.GROUP,
+              onSuccess: (enabled) {
+                print('called ====================$enabled');
+                setState(() {
+                  widget.modifierGroups[index].statuses[0].enabled = enabled;
+                });
+              },
+            ),
           ],
         );
       },

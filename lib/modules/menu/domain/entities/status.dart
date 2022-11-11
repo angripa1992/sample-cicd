@@ -1,7 +1,7 @@
 class Statuses {
   final int providerId;
   final bool hidden;
-  final bool enabled;
+  bool enabled;
 
   Statuses({
     required this.providerId,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
 import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/modifier_groups_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
@@ -32,6 +33,7 @@ class _StockScreenState extends State<StockScreen> {
         BlocProvider<UpdateItemCubit>(create: (_) => getIt.get()),
         BlocProvider<UpdateMenuCubit>(create: (_) => getIt.get()),
         BlocProvider<ModifierGroupsCubit>(create: (_) => getIt.get()),
+        BlocProvider<CheckAffectedCubit>(create: (_) => getIt.get()),
       ],
       child: Scaffold(
         appBar: AppBar(

@@ -33,7 +33,7 @@ class ModifierGroupInfoView extends StatelessWidget {
                 ),
               ),
             ),
-            ModifierSwitchView(),
+           // ModifierSwitchView(),
           ],
         ),
         Container(

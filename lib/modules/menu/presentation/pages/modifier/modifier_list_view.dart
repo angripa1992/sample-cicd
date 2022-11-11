@@ -41,7 +41,7 @@ class _ModifierListViewState extends State<ModifierListView> {
                   ),
                 ),
               ),
-              ModifierSwitchView(),
+              //ModifierSwitchView(),
             ],
           );
         },

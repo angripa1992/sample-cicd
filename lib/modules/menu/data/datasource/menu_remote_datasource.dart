@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/core/network/rest_client.dart';
 import 'package:klikit/modules/menu/data/models/menues_model.dart';
+import 'package:klikit/modules/menu/data/models/modifier_disabled_response_model.dart';
+import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
 import 'package:klikit/modules/menu/data/models/modifiers_group_model.dart';
 import 'package:klikit/modules/menu/data/models/stock_model.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
@@ -23,6 +26,11 @@ abstract class MenuRemoteDatasource {
 
   Future<List<ModifiersGroupModel>> fetchModifiersGroup(
       Map<String, dynamic> params);
+
+  Future<ModifierDisabledResponseModel> disableModifier(
+      ModifierRequestModel param);
+
+  Future<ActionSuccess> enableModifier(ModifierRequestModel param);
 }
 
 class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
@@ -100,8 +108,48 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   Future<List<ModifiersGroupModel>> fetchModifiersGroup(
       Map<String, dynamic> params) async {
     try {
-      final List<dynamic> response = await _restClient.request(Urls.modifiersGroup, Method.GET, params);
+      final List<dynamic> response =
+          await _restClient.request(Urls.modifiersGroup, Method.GET, params);
       return response.map((e) => ModifiersGroupModel.fromJson(e)).toList();
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ModifierDisabledResponseModel> disableModifier(
+      ModifierRequestModel param) async {
+    try {
+      final response = await _restClient.request(
+        Urls.modifiersDisabled(
+          param.type == ModifierType.MODIFIER
+              ? param.modifierId!
+              : param.groupId,
+          param.type,
+        ),
+        Method.PATCH,
+        param.toJson(),
+      );
+      return ModifierDisabledResponseModel.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> enableModifier(ModifierRequestModel param) async {
+    try {
+      final response = await _restClient.request(
+        Urls.modifiersEnabled(
+          param.type == ModifierType.MODIFIER
+              ? param.modifierId!
+              : param.groupId,
+          param.type,
+        ),
+        Method.PATCH,
+        param.toJson(),
+      );
+      return ActionSuccess.fromJson(response);
     } on DioError {
       rethrow;
     }

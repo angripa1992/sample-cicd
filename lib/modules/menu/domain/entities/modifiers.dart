@@ -5,10 +5,10 @@ class Modifiers {
   final int modifierId;
   final String title;
   final int sequence;
-  final bool defaultData;
   final List<Prices> prices;
   final List<Statuses> statuses;
   dynamic meta;
+  bool defaultData;
 
   Modifiers({
     required this.modifierId,

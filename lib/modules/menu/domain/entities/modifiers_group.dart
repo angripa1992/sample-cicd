@@ -5,9 +5,9 @@ import 'modifiers.dart';
 class ModifiersGroup {
   final int groupId;
   final String title;
-  final bool defaultData;
-  final List<Statuses> statuses;
-  final List<Modifiers> modifiers;
+  List<Statuses> statuses;
+  List<Modifiers> modifiers;
+  bool defaultData;
 
   ModifiersGroup({
     required this.groupId,
