@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/action_dialogs.dart';
+import 'package:klikit/modules/widgets/snackbars.dart';
 
 import '../../../../../resources/colors.dart';
+import '../../../domain/entities/modifier_disabled_response.dart';
 
 class ModifierSwitchView extends StatefulWidget {
   final int type;
@@ -42,10 +46,54 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
       type: widget.type,
       modifierId: widget.modifierId,
       onSuccess: () {
-       setState(() {
-         _enabled = enabled;
-         widget.onSuccess(enabled);
-       });
+        setState(() {
+          _enabled = enabled;
+          widget.onSuccess(enabled);
+        });
+      },
+    );
+  }
+
+  void _checkAffect(bool enabled) async {
+    showLoadingSnackBar(context);
+    final response = await context.read<CheckAffectedCubit>().checkAffect(
+          type: widget.type,
+          enabled: enabled,
+          brandId: widget.brandId,
+          groupId: widget.groupId,
+          modifierId: widget.modifierId,
+        );
+    response.fold(
+      (failure) {
+        dismissCurrentSnackBar(context);
+        showErrorSnackBar(context, failure.message);
+      },
+      (data) {
+        dismissCurrentSnackBar(context);
+        _disableModifier(data);
+      },
+    );
+  }
+
+  String _extractItemsNames(List<DisabledItem> items) {
+    String names = items.map((e) => e.title).toList().join(",");
+    return names;
+  }
+
+  void _disableModifier(ModifierDisabledResponse response) {
+    showDisableModifierDialog(
+      context: context,
+      brandId: widget.brandId,
+      groupId: widget.groupId,
+      type: widget.type,
+      affected: response.affected,
+      modifierId: widget.modifierId,
+      items: response.affected ? _extractItemsNames(response.items) : '',
+      onSuccess: () {
+        setState(() {
+          _enabled = false;
+          widget.onSuccess(false);
+        });
       },
     );
   }
@@ -62,9 +110,7 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
         if (enabled) {
           _handleEnableAction(enabled);
         } else {
-          setState(() {
-            _enabled = enabled;
-          });
+          _checkAffect(enabled);
         }
       },
     );

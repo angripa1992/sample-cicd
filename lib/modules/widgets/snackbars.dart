@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../resources/fonts.dart';
 import '../../resources/styles.dart';
@@ -30,13 +31,14 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
             ),
           ),
           Icon(
-            isOnline ? Icons.wifi :Icons.wifi_off,
+            isOnline ? Icons.wifi : Icons.wifi_off,
             color: AppColors.white,
           ),
         ],
       ),
-      duration: isOnline ? const Duration(seconds: 3) : const Duration(hours: 1),
-      backgroundColor: isOnline ? AppColors.green :AppColors.red,
+      duration:
+          isOnline ? const Duration(seconds: 3) : const Duration(hours: 1),
+      backgroundColor: isOnline ? AppColors.green : AppColors.red,
     ),
   );
 }
@@ -69,6 +71,35 @@ void showSuccessSnackBar(BuildContext context, String message) {
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,
         ),
+      ),
+      duration: const Duration(seconds: 3),
+      backgroundColor: AppColors.purpleBlue,
+    ),
+  );
+}
+
+void showLoadingSnackBar(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      behavior: SnackBarBehavior.floating,
+      content: Row(
+        children: [
+          SizedBox(
+            height: AppSize.s18.rh,
+            width: AppSize.s20.rw,
+            child: CircularProgressIndicator(
+              color: AppColors.white,
+            ),
+          ),
+          SizedBox(width: AppSize.s14.rw),
+          Text(
+            'Please wait...',
+            style: getRegularTextStyle(
+              color: AppColors.white,
+              fontSize: AppFontSize.s15.rSp,
+            ),
+          ),
+        ],
       ),
       duration: const Duration(seconds: 3),
       backgroundColor: AppColors.purpleBlue,

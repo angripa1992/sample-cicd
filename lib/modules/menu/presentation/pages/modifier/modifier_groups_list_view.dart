@@ -23,26 +23,39 @@ class ModifierGroupsListView extends StatefulWidget {
 }
 
 class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
+  var _modifiableModifierGroups = <ModifiersGroup>[];
+
+  @override
+  void initState() {
+    _modifiableModifierGroups = widget.modifierGroups;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: widget.modifierGroups.length,
+      key: UniqueKey(),
+      itemCount: _modifiableModifierGroups.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        final group = widget.modifierGroups[index];
+        final group = _modifiableModifierGroups[index];
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(
+                onTap: () async{
+                  final modifiedModifierGroup = await Navigator.pushNamed(
                     context,
                     Routes.manageModifiers,
                     arguments: {
                       'group': group,
+                      'brand_id': widget.brandId,
                     },
-                  );
+                  ) as ModifiersGroup;
+                  setState(() {
+                    _modifiableModifierGroups.removeAt(index);
+                    _modifiableModifierGroups.insert(index, modifiedModifierGroup);
+                  });
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
@@ -59,12 +72,12 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
             ModifierSwitchView(
               brandId: widget.brandId,
               groupId: group.groupId,
-              enabled: group.statuses.isEmpty ? false : group.statuses[0].enabled,
+              enabled:
+                  group.statuses.isEmpty ? false : group.statuses[0].enabled,
               type: ModifierType.GROUP,
               onSuccess: (enabled) {
-                print('called ====================$enabled');
                 setState(() {
-                  widget.modifierGroups[index].statuses[0].enabled = enabled;
+                  _modifiableModifierGroups[index].statuses[0].enabled = enabled;
                 });
               },
             ),

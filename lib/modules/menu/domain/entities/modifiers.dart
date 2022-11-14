@@ -6,8 +6,8 @@ class Modifiers {
   final String title;
   final int sequence;
   final List<Prices> prices;
-  final List<Statuses> statuses;
   dynamic meta;
+  List<Statuses> statuses;
   bool defaultData;
 
   Modifiers({

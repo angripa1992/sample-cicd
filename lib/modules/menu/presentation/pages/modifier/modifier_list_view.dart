@@ -4,14 +4,19 @@ import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
+import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
+import '../../../domain/entities/modifiers.dart';
 import 'modifer_switch_view.dart';
 
 class ModifierListView extends StatefulWidget {
+  final int brandId;
   final ModifiersGroup modifiersGroup;
+  final Function(List<Modifiers>) onChanged;
 
-  const ModifierListView({Key? key, required this.modifiersGroup})
+  const ModifierListView(
+      {Key? key, required this.modifiersGroup, required this.brandId, required this.onChanged})
       : super(key: key);
 
   @override
@@ -23,6 +28,7 @@ class _ModifierListViewState extends State<ModifierListView> {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.separated(
+        key: UniqueKey(),
         itemCount: widget.modifiersGroup.modifiers.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
@@ -41,7 +47,22 @@ class _ModifierListViewState extends State<ModifierListView> {
                   ),
                 ),
               ),
-              //ModifierSwitchView(),
+              ModifierSwitchView(
+                brandId: widget.brandId,
+                groupId: widget.modifiersGroup.groupId,
+                modifierId: widget.modifiersGroup.modifiers[index].modifierId,
+                enabled: widget.modifiersGroup.modifiers[index].statuses.isEmpty
+                    ? false
+                    : widget
+                        .modifiersGroup.modifiers[index].statuses[0].enabled,
+                type: ModifierType.MODIFIER,
+                onSuccess: (enabled) {
+                  setState(() {
+                    widget.modifiersGroup.modifiers[index].statuses[0].enabled = enabled;
+                    widget.onChanged(widget.modifiersGroup.modifiers);
+                  });
+                },
+              ),
             ],
           );
         },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 
+import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
@@ -9,9 +10,15 @@ import '../../../../../resources/values.dart';
 import 'modifer_switch_view.dart';
 
 class ModifierGroupInfoView extends StatelessWidget {
+  final int brandId;
   final ModifiersGroup modifiersGroup;
+  final Function(ModifiersGroup) onChanged;
 
-  const ModifierGroupInfoView({Key? key, required this.modifiersGroup})
+  const ModifierGroupInfoView(
+      {Key? key,
+      required this.modifiersGroup,
+      required this.brandId,
+      required this.onChanged})
       : super(key: key);
 
   @override
@@ -33,7 +40,18 @@ class ModifierGroupInfoView extends StatelessWidget {
                 ),
               ),
             ),
-           // ModifierSwitchView(),
+            ModifierSwitchView(
+              brandId: brandId,
+              groupId: modifiersGroup.groupId,
+              enabled: modifiersGroup.statuses.isEmpty
+                  ? false
+                  : modifiersGroup.statuses[0].enabled,
+              type: ModifierType.GROUP,
+              onSuccess: (enabled) {
+                modifiersGroup.statuses[0].enabled = enabled;
+                onChanged(modifiersGroup);
+              },
+            ),
           ],
         ),
         Container(
