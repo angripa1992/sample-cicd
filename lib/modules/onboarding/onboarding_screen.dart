@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
 
 import '../../app/size_config.dart';
 import '../../core/route/routes.dart';
+import '../../notification/local_notification_service.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -32,14 +35,33 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        if (mounted) {
+          final NotificationAppLaunchDetails? notificationAppLaunchDetails =
+              await flutterLocalNotificationsPlugin
+                  .getNotificationAppLaunchDetails();
+          if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+            NotificationHandler().handleBackgroundNotification(
+                notificationAppLaunchDetails?.notificationResponse?.payload);
+          } else {
+            _gotoNextScreen();
+          }
+        }
+      },
+    );
+    super.initState();
+  }
+
+  void _gotoNextScreen() {
     Timer(const Duration(seconds: 3), () {
       if (_appPreferences.isLoggedIn()) {
-        Navigator.of(context).pushReplacementNamed(Routes.base);
+        Navigator.of(context)
+            .pushReplacementNamed(Routes.base, arguments: null);
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);
       }
     });
-    super.initState();
   }
 
   @override

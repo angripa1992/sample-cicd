@@ -32,8 +32,19 @@ extension NonNullDouble on double? {
     }
   }
 }
+
 extension NonNullBoolean on bool? {
  bool orFalse(){
    return this ?? FALSE;
  }
+}
+
+extension StringToInteger on String? {
+  int toInt() {
+    if (this == null) {
+      return ZERO;
+    } else {
+      return int.parse(this!);
+    }
+  }
 }

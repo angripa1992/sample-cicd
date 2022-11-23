@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/core/network/web_socket_client.dart';
+import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
@@ -39,8 +40,8 @@ import 'package:klikit/modules/orders/domain/usecases/update_busy_mode_status.da
 import 'package:klikit/modules/orders/domain/usecases/update_order_status.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/add_comment_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/delete_comment_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
@@ -59,6 +60,7 @@ import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart
 import 'package:klikit/modules/user/presentation/account/cubit/update_user_info_cubit.dart';
 import 'package:klikit/modules/user/presentation/chnage_password/cubit/change_password_cubit.dart';
 import 'package:klikit/modules/user/presentation/forget/cubit/forget_cubit.dart';
+import 'package:klikit/notification/fcm_token_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/network/rest_client.dart';
@@ -67,6 +69,7 @@ import '../core/provider/order_parameter_provider.dart';
 import '../environment_variables.dart';
 import '../modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
+import '../notification/inapp/notification_count_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -80,6 +83,10 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
   getIt.registerSingleton<WebSocketClient>(WebSocketClient(getIt()));
+  getIt.registerSingleton<DeviceInformationProvider>(
+      DeviceInformationProvider());
+  getIt.registerSingleton<FcmTokenManager>(
+      FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
 
   ///base
   getIt.registerFactory(() => BaseScreenCubit());
@@ -129,18 +136,20 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   ///busy mode
   getIt.registerLazySingleton(() => CheckBusyMode(getIt()));
   getIt.registerLazySingleton(() => UpdateBusyModeStatus(getIt()));
-  getIt.registerFactory(() => BusyModeCubit(getIt(), getIt(),));
-  getIt.registerFactory(() => UpdateBusyModeCubit(getIt(), getIt(),));
+  getIt.registerFactory(() => BusyModeCubit(getIt(), getIt()));
+  getIt.registerFactory(() => UpdateBusyModeCubit(getIt(), getIt()));
 
   ///menu mgt
-  getIt.registerLazySingleton<MenuRemoteDatasource>(() => MenuRemoteDatasourceImpl(getIt.get()));
-  getIt.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(getIt.get(),getIt.get()));
+  getIt.registerLazySingleton<MenuRemoteDatasource>(
+      () => MenuRemoteDatasourceImpl(getIt.get()));
+  getIt.registerLazySingleton<MenuRepository>(
+      () => MenuRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => FetchMenuBrands(getIt.get()));
   getIt.registerFactory(() => MenuBrandsCubit(getIt.get(), getIt.get()));
   getIt.registerFactory(() => BrandSelectionCubit());
   getIt.registerFactory(() => TabSelectionCubit());
   getIt.registerLazySingleton(() => FetchMenus(getIt.get()));
-  getIt.registerFactory(() => MenusCubit(getIt.get(),getIt.get()));
+  getIt.registerFactory(() => MenusCubit(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateItem(getIt.get()));
   getIt.registerFactory(() => UpdateItemCubit(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateMenu(getIt.get()));
@@ -148,7 +157,13 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => FetchModifierGroups(getIt.get()));
   getIt.registerFactory(() => ModifierGroupsCubit(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => CheckAffected(getIt.get()));
-  getIt.registerFactory(() => CheckAffectedCubit(getIt.get(), getIt.get(),getIt.get()));
+  getIt.registerFactory(
+      () => CheckAffectedCubit(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateModifier(getIt.get()));
-  getIt.registerFactory(() => UpdateModifierCubit(getIt.get(), getIt.get(),getIt.get()));
+  getIt.registerFactory(
+      () => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
+
+  ///notification
+  getIt.registerFactory(() => NewNotificationCountCubit());
+  getIt.registerFactory(() => CancelNotificationCountCubit());
 }

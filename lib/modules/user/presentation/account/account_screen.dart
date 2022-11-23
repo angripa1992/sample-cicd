@@ -16,6 +16,7 @@ import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart
 import 'package:klikit/modules/user/presentation/account/cubit/update_user_info_cubit.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/url_text_button.dart';
+import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
@@ -203,6 +204,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       } else if (state is Success<SuccessResponse>) {
                         showSuccessSnackBar(context, state.data.message);
                         _orderInfoProvider.clearData();
+                        InAppNotificationHandler().dismissInAppNotification();
                         getIt.get<AppPreferences>().clearPreferences().then(
                           (value) {
                             Navigator.pushNamedAndRemoveUntil(

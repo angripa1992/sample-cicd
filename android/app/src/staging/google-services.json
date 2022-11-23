@@ -1,0 +1,170 @@
+{
+  "project_info": {
+    "project_number": "66358437380",
+    "firebase_url": "https://shining-insight-276211.firebaseio.com",
+    "project_id": "shining-insight-276211",
+    "storage_bucket": "shining-insight-276211.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66358437380:android:ed185c2a66907302f1b751",
+        "android_client_info": {
+          "package_name": "co.shadowchef.consumer.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66358437380-4vuodvuf370k2nqcr2cf7tjjlsduj5eh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.consumer.staging",
+            "certificate_hash": "f1c6258cead025ea0b69ca9fd5a99180f7d953f5"
+          }
+        },
+        {
+          "client_id": "66358437380-9phk4fdkpb0aotpo4p53iib12a5gru77.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.consumer.staging",
+            "certificate_hash": "b56cb7783b4a2fd44494dadde734b5544bc23692"
+          }
+        },
+        {
+          "client_id": "66358437380-cs9abue449ed7ihbo559vlp94fooja5f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.consumer.staging",
+            "certificate_hash": "769a116e0c0bc936a9080c5651095250336191e4"
+          }
+        },
+        {
+          "client_id": "66358437380-deitmgta1vclb8jtt35p0us70a5fjaeg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.consumer.staging",
+            "certificate_hash": "5d5e32bb43a166c5f0c321a57a122c1a21049201"
+          }
+        },
+        {
+          "client_id": "66358437380-dvqjs29abov22a2soorr9f4t9tot0cg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7be4t05sQiYcrP7kv3xEUPoMAg2ASyug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66358437380-dvqjs29abov22a2soorr9f4t9tot0cg5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66358437380-62il4j34eusdaddn8ph2h1fl4bm5u32o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.shadowchef.consumer.staging",
+                "app_store_id": "1534309530"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66358437380:android:e43d381079b88056f1b751",
+        "android_client_info": {
+          "package_name": "co.shadowchef.enterprise.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66358437380-722emcu3mmsffunblka4g5bjff7ro7gp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.enterprise.staging",
+            "certificate_hash": "769a116e0c0bc936a9080c5651095250336191e4"
+          }
+        },
+        {
+          "client_id": "66358437380-v9nk6v2ghobd1a99qmrllfkps6bgv230.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.enterprise.staging",
+            "certificate_hash": "b56cb7783b4a2fd44494dadde734b5544bc23692"
+          }
+        },
+        {
+          "client_id": "66358437380-dvqjs29abov22a2soorr9f4t9tot0cg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7be4t05sQiYcrP7kv3xEUPoMAg2ASyug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66358437380-dvqjs29abov22a2soorr9f4t9tot0cg5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66358437380-62il4j34eusdaddn8ph2h1fl4bm5u32o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.shadowchef.consumer.staging",
+                "app_store_id": "1534309530"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66358437380:android:a803febb188a1367f1b751",
+        "android_client_info": {
+          "package_name": "io.klikit.enterprise.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66358437380-dvqjs29abov22a2soorr9f4t9tot0cg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7be4t05sQiYcrP7kv3xEUPoMAg2ASyug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66358437380-dvqjs29abov22a2soorr9f4t9tot0cg5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66358437380-62il4j34eusdaddn8ph2h1fl4bm5u32o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.shadowchef.consumer.staging",
+                "app_store_id": "1534309530"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

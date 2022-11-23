@@ -1,0 +1,150 @@
+{
+  "project_info": {
+    "project_number": "8620886409",
+    "project_id": "shadowchef-dev",
+    "storage_bucket": "shadowchef-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8620886409:android:8fc3769110aa41af277958",
+        "android_client_info": {
+          "package_name": "co.shadowchef.consumer.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8620886409-ftcg2m91ojr26e6h14bq90ka0s0ovivi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.consumer.dev",
+            "certificate_hash": "769a116e0c0bc936a9080c5651095250336191e4"
+          }
+        },
+        {
+          "client_id": "8620886409-hqf8a5o6vsastn19tjdmbqqa5pmdavn4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.consumer.dev",
+            "certificate_hash": "f1c6258cead025ea0b69ca9fd5a99180f7d953f5"
+          }
+        },
+        {
+          "client_id": "8620886409-obo1mr8r8ruobp5dqahkba9la03bnk0n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.consumer.dev",
+            "certificate_hash": "5d5e32bb43a166c5f0c321a57a122c1a21049201"
+          }
+        },
+        {
+          "client_id": "8620886409-p5li88pn1n4pqd1sj9vo89qqqe1fqoe9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.shadowchef.consumer.dev",
+            "certificate_hash": "b56cb7783b4a2fd44494dadde734b5544bc23692"
+          }
+        },
+        {
+          "client_id": "8620886409-5qdgt72t13c6ibo2bsqu12f3h6stssd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJnU98NP-GA3oaQOcWJvo-l8f95hJpffA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8620886409-5qdgt72t13c6ibo2bsqu12f3h6stssd5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "8620886409-gqlcsps13jfl43abe460kindt8a5u2cs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.shadowchef.consumer.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8620886409:android:591cba237b8ba706277958",
+        "android_client_info": {
+          "package_name": "co.shadowchef.enterprise.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8620886409-5qdgt72t13c6ibo2bsqu12f3h6stssd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJnU98NP-GA3oaQOcWJvo-l8f95hJpffA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8620886409-5qdgt72t13c6ibo2bsqu12f3h6stssd5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "8620886409-gqlcsps13jfl43abe460kindt8a5u2cs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.shadowchef.consumer.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8620886409:android:3c8b6e6f2841f2c1277958",
+        "android_client_info": {
+          "package_name": "io.klikit.enterprise.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8620886409-5qdgt72t13c6ibo2bsqu12f3h6stssd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJnU98NP-GA3oaQOcWJvo-l8f95hJpffA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8620886409-5qdgt72t13c6ibo2bsqu12f3h6stssd5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "8620886409-gqlcsps13jfl43abe460kindt8a5u2cs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.shadowchef.consumer.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

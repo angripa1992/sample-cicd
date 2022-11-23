@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/network/web_socket_client.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
-import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
@@ -37,11 +35,23 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-  final webSocketClient = getIt.get<WebSocketClient>();
 
   @override
   void initState() {
-    // webSocketClient.initWebSocketConnection();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async{
+        if (mounted) {
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+          if (args != null) {
+            if (args['is_notification']) {
+              context
+                  .read<BaseScreenCubit>()
+                  .changeIndex(args['navigation_data']);
+            }
+          }
+        }
+      },
+    );
     super.initState();
   }
 

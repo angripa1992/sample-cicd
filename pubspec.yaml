@@ -33,6 +33,14 @@ dependencies:
   infinite_scroll_pagination: ^3.2.0
   cached_network_image: ^3.2.1
   defer_pointer: ^0.0.2
+  firebase_core: ^1.10.0
+  firebase_messaging: ^13.1.0
+  flutter_local_notifications: ^12.0.0
+  device_info_plus: ^8.0.0
+  audioplayers: ^1.1.1
+
+dependency_overrides:
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +54,7 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/sounds/
     - assets/translations/
     - assets/images/
     - assets/images/1.5x/

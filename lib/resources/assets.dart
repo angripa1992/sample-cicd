@@ -22,4 +22,12 @@ class AppIcons {
   static const String stock = "$ICON_PATH/ic_stock.svg";
   static const String stockActive = "$ICON_PATH/ic_stock_active.svg";
   static const String canceled = "$ICON_PATH/ic_canceled.svg";
+  static const String notificationIcon = '@mipmap/ic_launcher';
+}
+
+class AppSounds{
+  static const String newOrder = "new_order";
+  static const String cancelOrder = "cancel_order";
+  static const String aNewOrder = "sounds/new_order.wav";
+  static const String aCancelOrder = "sounds/cancel_order.wav";
 }

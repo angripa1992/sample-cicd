@@ -6,7 +6,6 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
@@ -17,6 +16,9 @@ import 'package:klikit/modules/widgets/dialogs.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/modules/widgets/url_text_button.dart';
+import 'package:klikit/notification/fcm_service.dart';
+import 'package:klikit/notification/fcm_token_manager.dart';
+import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -38,8 +40,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _appPreferences = getIt.get<AppPreferences>();
-  final _tokenProvider = getIt.get<TokenProvider>();
+  final _fcmTokenManager = getIt.get<FcmTokenManager>();
   final _formKey = GlobalKey<FormState>();
+  late Map<String, dynamic>? args;
 
   @override
   void initState() {
@@ -58,17 +61,17 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _checkRole(User user, BuildContext context) {
+  void _checkRole(User user) {
     var role = user.userInfo.roles.firstWhere(
       (role) => role == AppConstant.roleBranchManger,
       orElse: () => EMPTY,
     );
-    if(role == EMPTY && user.userInfo.roles.isNotEmpty){
+    if (role == EMPTY && user.userInfo.roles.isNotEmpty) {
       role = user.userInfo.roles[0];
     }
     switch (role) {
       case AppConstant.roleBranchManger:
-        _saveUserDataAndNavigateToBase(user, context);
+        _saveUserData(user);
         break;
       case AppConstant.roleAdmin:
         showAccessDeniedDialog(context: context, role: AppStrings.admin.tr());
@@ -84,18 +87,39 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _saveUserDataAndNavigateToBase(User user, BuildContext context) {
+  void _saveUserData(User user) {
     _appPreferences.saveLoginEmail(user.userInfo.email);
     _appPreferences.insertAccessToken(user.accessToken);
     _appPreferences.insertRefreshToken(user.refreshToken);
-    //_tokenProvider.loadTokenFromPreference();
     _appPreferences.saveUser(user).then((_) {
-      Navigator.of(context).pushReplacementNamed(Routes.base);
+      _registerFcmToken();
     });
+  }
+
+  void _registerFcmToken() async {
+    final fcmToken = await FcmService().getFcmToken();
+    final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
+    response.fold(
+      (failure) {
+        showErrorSnackBar(context, failure.message);
+      },
+      (success) {
+        _navigate();
+      },
+    );
+  }
+
+  void _navigate(){
+    if (args == null) {
+      Navigator.of(context).pushReplacementNamed(Routes.base);
+    } else {
+      NotificationHandler().navigateToOrderScreen(args!['notification_data']);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     return BlocProvider(
       create: (BuildContext context) => getIt.get<LoginBloc>(),
       child: SafeArea(
@@ -180,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (state is LoginStateError) {
                               showErrorSnackBar(context, state.failure.message);
                             } else if (state is LoginStateSuccess) {
-                              _checkRole(state.user, context);
+                              _checkRole(state.user);
                             }
                           },
                           builder: (context, state) {
