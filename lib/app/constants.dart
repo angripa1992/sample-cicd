@@ -13,6 +13,23 @@ class AppConstant {
   static const int busyTimeInMin = 60;
 }
 
+class HistoryNavData {
+  static const String HISTORY_NAV_DATA = 'history_nav_data';
+  static DateTimeRange today() => DateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now(),
+  );
+
+  static DateTimeRange yesterday() => DateTimeRange(
+    start: DateTime.now().subtract(
+      const Duration(days: 1),
+    ),
+    end: DateTime.now().subtract(
+      const Duration(days: 1),
+    ),
+  );
+}
+
 class ObserverTag {
   static const TOTAL_ORDER = "total_order";
   static const NEW_ORDER = "new_order";
@@ -79,19 +96,8 @@ class NotificationType{
   static const CANCEL = 2;
 }
 
-class HistoryNavData {
-  static const String HISTORY_NAV_DATA = 'history_nav_data';
-  static DateTimeRange today() => DateTimeRange(
-        start: DateTime.now(),
-        end: DateTime.now(),
-      );
-
-  static DateTimeRange yesterday() => DateTimeRange(
-        start: DateTime.now().subtract(
-          const Duration(days: 1),
-        ),
-        end: DateTime.now().subtract(
-          const Duration(days: 1),
-        ),
-      );
+class PrinterConnectionType{
+  static const BLUETOOTH = 1;
+  static const USB = 2;
 }
+

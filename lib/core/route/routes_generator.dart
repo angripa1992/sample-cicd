@@ -12,6 +12,7 @@ import 'package:klikit/modules/user/presentation/chnage_password/change_password
 import 'package:klikit/modules/user/presentation/forget/forget_screen.dart';
 import 'package:klikit/modules/user/presentation/login/login_page.dart';
 import 'package:klikit/modules/widgets/web_view_screen.dart';
+import 'package:klikit/printer/printer_connection_settings_page.dart';
 
 import '../../modules/orders/presentation/support/contact_support.dart';
 import '../../resources/strings.dart';
@@ -67,6 +68,11 @@ class RoutesGenerator {
       case Routes.manageModifiers:
         return MaterialPageRoute(
           builder: (_) => const ManageModifiersScreen(),
+          settings: routeSettings,
+        );
+        case Routes.printerSettings:
+        return MaterialPageRoute(
+          builder: (_) => const PrinterConnectionSettingPage(),
           settings: routeSettings,
         );
       default:

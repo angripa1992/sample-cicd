@@ -174,70 +174,106 @@ class _AccountScreenState extends State<AccountScreen> {
                   SizedBox(
                     height: AppSize.s32.rh,
                   ),
-                  BlocConsumer<UpdateUserInfoCubit, CubitState>(
-                    listener: (context, state) {
-                      if (state is Failed) {
-                        showErrorSnackBar(context, state.failure.message);
-                      } else if (state is Success<SuccessResponse>) {
-                        showSuccessSnackBar(context, state.data.message);
-                        _saveUpdatedUserInfo();
-                      }
-                    },
-                    builder: (context, state) {
-                      return LoadingButton(
-                        isLoading: (state is Loading),
-                        text: AppStrings.update.tr(),
-                        verticalPadding: AppSize.s8.rh,
-                        onTap: () {
-                          _validateAndUpdate(context);
-                        },
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: AppSize.s20.rh,
-                  ),
-                  BlocConsumer<LogoutCubit, CubitState>(
-                    listener: (context, state) {
-                      if (state is Failed) {
-                        showErrorSnackBar(context, state.failure.message);
-                      } else if (state is Success<SuccessResponse>) {
-                        showSuccessSnackBar(context, state.data.message);
-                        _orderInfoProvider.clearData();
-                        InAppNotificationHandler().dismissInAppNotification();
-                        getIt.get<AppPreferences>().clearPreferences().then(
-                          (value) {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, Routes.login, (route) => false);
+                  Row(
+                    children: [
+                      Expanded(
+                        child: BlocConsumer<UpdateUserInfoCubit, CubitState>(
+                          listener: (context, state) {
+                            if (state is Failed) {
+                              showErrorSnackBar(context, state.failure.message);
+                            } else if (state is Success<SuccessResponse>) {
+                              showSuccessSnackBar(context, state.data.message);
+                              _saveUpdatedUserInfo();
+                            }
                           },
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      return LoadingButton(
-                        isLoading: (state is Loading),
-                        text: AppStrings.logout.tr(),
-                        verticalPadding: AppSize.s8.rh,
-                        onTap: () {
-                          showLogoutDialog(
-                            context: context,
-                            onLogout: () {
-                              context.read<LogoutCubit>().logout();
-                            },
-                          );
-                        },
-                      );
-                    },
+                          builder: (context, state) {
+                            return LoadingButton(
+                              isLoading: (state is Loading),
+                              text: AppStrings.update.tr(),
+                              verticalPadding: AppSize.s8.rh,
+                              onTap: () {
+                                _validateAndUpdate(context);
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: AppSize.s20.rw,
+                      ),
+                      Expanded(
+                        child: BlocConsumer<LogoutCubit, CubitState>(
+                          listener: (context, state) {
+                            if (state is Failed) {
+                              showErrorSnackBar(context, state.failure.message);
+                            } else if (state is Success<SuccessResponse>) {
+                              showSuccessSnackBar(context, state.data.message);
+                              _orderInfoProvider.clearData();
+                              InAppNotificationHandler().dismissInAppNotification();
+                              getIt.get<AppPreferences>().clearPreferences().then(
+                                    (value) {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, Routes.login, (route) => false);
+                                },
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            return LoadingButton(
+                              isLoading: (state is Loading),
+                              text: AppStrings.logout.tr(),
+                              verticalPadding: AppSize.s8.rh,
+                              onTap: () {
+                                showLogoutDialog(
+                                  context: context,
+                                  onLogout: () {
+                                    context.read<LogoutCubit>().logout();
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: AppSize.s20.rh,
                   ),
-                  UrlTextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(Routes.changePassword);
-                    },
-                    color: AppColors.black,
-                    text: AppStrings.change_your_password.tr(),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: UrlTextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(Routes.changePassword);
+                          },
+                          color: AppColors.purpleBlue,
+                          text: AppStrings.change_your_password.tr(),
+                        ),
+                      ),
+                      SizedBox(
+                        width: AppSize.s20.rw,
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Icon(Icons.print,color: AppColors.purpleBlue),
+                            SizedBox(
+                              width: AppSize.s8.rw,
+                            ),
+                            Expanded(
+                              child: UrlTextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(Routes.printerSettings);
+                                },
+                                color: AppColors.purpleBlue,
+                                text: AppStrings.printer_settings.tr(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

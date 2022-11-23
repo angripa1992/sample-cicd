@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ class AppPreferences{
   final String _kUser = "user";
   final String _kLoggedIn = "logged_in";
   final String _kLoginEmail = "login_email";
+  final String _kPrinterConnectionType = "printer_connection_type";
 
   AppPreferences(this._preferences);
 
@@ -51,6 +53,14 @@ class AppPreferences{
 
   String getLoginEmail() {
     return _preferences.getString(_kLoginEmail) ?? EMPTY;
+  }
+
+  Future<void> savePrinterConnectionType(int connectionType) async{
+    await _preferences.setInt(_kPrinterConnectionType, connectionType);
+  }
+
+  int getPrinterConnectionType(){
+    return _preferences.getInt(_kPrinterConnectionType) ?? PrinterConnectionType.BLUETOOTH;
   }
 
   Future<void> clearPreferences() async{

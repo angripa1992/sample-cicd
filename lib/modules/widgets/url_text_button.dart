@@ -42,7 +42,7 @@ class UrlTextButton extends StatelessWidget {
           color: color ?? AppColors.purpleBlue,
           fontSize: textSize ?? AppSize.s16.rSp,
           fontStyle: FontStyle.normal,
-          fontWeight: fontWeight ?? AppFontWeight.regular,
+          fontWeight: fontWeight ?? AppFontWeight.medium,
           decoration: TextDecoration.underline,
         ),
       ),

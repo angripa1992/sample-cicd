@@ -99,4 +99,22 @@ class AppStrings {
   static const String go_offline = "go_offline";
   static const String not_now = "not_now";
 
+  ///printer
+  static const String printer_settings = "printer_settings";
+  static const String printer_connection_settings = "printer_connection_settings";
+  static const String set_printer_connection_type = "set_printer_connection_type";
+  static const String bluetooth = "bluetooth";
+  static const String bluetooth_devices = "bluetooth_devices";
+  static const String no_bluetooth_devices = "no_bluetooth_devices";
+  static const String no_bluetooth_devices_message = "no_bluetooth_devices_message";
+  static const String usb = "usb";
+  static const String usb_devices = "usb_devices";
+  static const String no_usb_devices = "no_usb_devices";
+  static const String no_usb_devices_message = "no_usb_devices_message";
+  static const String no_usb_devicsavees_message = "no_usb_devices_message";
+  static const String connect = "connect";
+  static const String disconnect = "disconnect";
+  static const String save = "save";
+  static const String successfully_saved = "successfully_saved";
+
 }

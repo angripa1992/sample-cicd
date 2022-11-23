@@ -80,5 +80,21 @@
   "offline_title": "Would You Like To Go Offline?",
   "offline_message": "If You Go Offline, You Will Not Receive Any Order. Would You Like To Go Offline?",
   "go_offline": "GO Offline",
-  "not_now": "Not Now"
+  "not_now": "Not Now",
+
+  "printer_settings" : "Printer Settings",
+  "printer_connection_settings" : "Printer Connection Settings",
+  "set_printer_connection_type" : "Set Printer Connection Type",
+  "bluetooth" : "Bluetooth",
+  "bluetooth_devices" : "Bluetooth Devices",
+  "no_bluetooth_devices" : "No Bluetooth Devices",
+  "no_bluetooth_devices_message" : "To ensure your klikit printer is ready for printing, kindly allow location permission and enable Bluetooth in the klikit device.\n\n\nAfter selecting your docket printer from the Devices pop-up, your klikit printer & device should be successfully connected.",
+  "usb" : "USB",
+  "usb_devices" : "USB Devices",
+  "no_usb_devices" : "No USB Devices",
+  "no_usb_devices_message" : "To ensure your klikit printer is ready for printing, kindly allow location permission and enable Bluetooth in the klikit device.\n\n\nAfter selecting your docket printer from the Devices pop-up, your klikit printer & device should be successfully connected.",
+  "save" : "Save",
+  "connect" : "Connect",
+  "disconnect" : "Disconnect",
+  "successfully_saved" : "Successfully Saved"
 }

@@ -8,4 +8,5 @@ class Routes {
   static const String changePassword = '/change_password';
   static const String manageItems = '/manage_items';
   static const String manageModifiers = '/manage_modifiers';
+  static const String printerSettings = '/printer_settings';
 }
