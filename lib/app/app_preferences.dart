@@ -59,8 +59,8 @@ class AppPreferences{
     await _preferences.setInt(_kPrinterConnectionType, connectionType);
   }
 
-  int getPrinterConnectionType(){
-    return _preferences.getInt(_kPrinterConnectionType) ?? PrinterConnectionType.BLUETOOTH;
+  int connectionType(){
+    return _preferences.getInt(_kPrinterConnectionType) ?? ConnectionType.BLUETOOTH;
   }
 
   Future<void> clearPreferences() async{

@@ -12,7 +12,9 @@ import 'package:klikit/modules/user/presentation/chnage_password/change_password
 import 'package:klikit/modules/user/presentation/forget/forget_screen.dart';
 import 'package:klikit/modules/user/presentation/login/login_page.dart';
 import 'package:klikit/modules/widgets/web_view_screen.dart';
-import 'package:klikit/printer/printer_connection_settings_page.dart';
+import 'package:klikit/printer/presentation/printer_connection_settings_page.dart';
+import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
+import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 
 import '../../modules/orders/presentation/support/contact_support.dart';
 import '../../resources/strings.dart';
@@ -34,8 +36,11 @@ class RoutesGenerator {
         );
       case Routes.base:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => getIt.get<BaseScreenCubit>(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => getIt.get<BaseScreenCubit>()),
+              BlocProvider(create: (_) => getIt.get<PrinterSettingCubit>()),
+            ],
             child: const BaseScreen(),
           ),
           settings: routeSettings,
@@ -70,9 +75,12 @@ class RoutesGenerator {
           builder: (_) => const ManageModifiersScreen(),
           settings: routeSettings,
         );
-        case Routes.printerSettings:
+      case Routes.printerSettings:
         return MaterialPageRoute(
-          builder: (_) => const PrinterConnectionSettingPage(),
+          builder: (_) => BlocProvider(
+            create: (_) => getIt.get<UpdatePrinterSettingCubit>(),
+            child: const PrinterConnectionSettingPage(),
+          ),
           settings: routeSettings,
         );
       default:

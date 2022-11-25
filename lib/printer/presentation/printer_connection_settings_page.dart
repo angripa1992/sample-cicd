@@ -1,17 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
+import 'package:klikit/printer/printing_handler.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../app/di.dart';
-import '../resources/strings.dart';
-import '../resources/styles.dart';
+import '../../app/di.dart';
+import '../../core/utils/response_state.dart';
+import '../../resources/strings.dart';
+import '../../resources/styles.dart';
 
 class PrinterConnectionSettingPage extends StatefulWidget {
   const PrinterConnectionSettingPage({Key? key}) : super(key: key);
@@ -24,11 +29,12 @@ class PrinterConnectionSettingPage extends StatefulWidget {
 class _PrinterConnectionSettingPageState
     extends State<PrinterConnectionSettingPage> {
   final _appPreferences = getIt.get<AppPreferences>();
+  final _printingHandler = getIt.get<PrintingHandler>();
   late int _connectionType;
 
   @override
   void initState() {
-    _connectionType = _appPreferences.getPrinterConnectionType();
+    _connectionType = _appPreferences.connectionType();
     super.initState();
   }
 
@@ -38,10 +44,20 @@ class _PrinterConnectionSettingPageState
     });
   }
 
-  void _save() {
-    _appPreferences.savePrinterConnectionType(_connectionType).then((value){
-      showSuccessSnackBar(context, AppStrings.successfully_saved);
-    });
+  void _saveConnectionTypeToPreferences() async {
+    await _appPreferences.savePrinterConnectionType(_connectionType);
+  }
+
+  void _updateConnectionType() {
+    context
+        .read<UpdatePrinterSettingCubit>()
+        .updatePrintSetting(_connectionType);
+  }
+
+  void _showDeviceListView() {
+    if (_connectionType == ConnectionType.BLUETOOTH) {
+      _printingHandler.showBleDeviceList();
+    }
   }
 
   @override
@@ -82,7 +98,7 @@ class _PrinterConnectionSettingPageState
             leading: Radio(
               fillColor: MaterialStateColor.resolveWith(
                   (states) => AppColors.purpleBlue),
-              value: PrinterConnectionType.BLUETOOTH,
+              value: ConnectionType.BLUETOOTH,
               groupValue: _connectionType,
               onChanged: (int? type) => _changePrinterConnectionType(type!),
             ),
@@ -98,7 +114,7 @@ class _PrinterConnectionSettingPageState
             leading: Radio(
               fillColor: MaterialStateColor.resolveWith(
                   (states) => AppColors.purpleBlue),
-              value: PrinterConnectionType.USB,
+              value: ConnectionType.USB,
               groupValue: _connectionType,
               onChanged: (int? type) => _changePrinterConnectionType(type!),
             ),
@@ -108,13 +124,62 @@ class _PrinterConnectionSettingPageState
               horizontal: AppSize.s24.rw,
               vertical: AppSize.s24.rh,
             ),
-            child: LoadingButton(
-              isLoading: false,
-              verticalPadding: AppSize.s8.rh,
-              onTap: _save,
-              text: AppStrings.save.tr(),
+            child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
+              listener: (context, state) {
+                if (state is Failed) {
+                  showErrorSnackBar(context, state.failure.message);
+                } else if (state is Success<ActionSuccess>) {
+                  _saveConnectionTypeToPreferences();
+                  showSuccessSnackBar(context, state.data.message ?? '');
+                }
+              },
+              builder: (context, state) {
+                return LoadingButton(
+                  isLoading: state is Loading,
+                  verticalPadding: AppSize.s10.rh,
+                  onTap: _updateConnectionType,
+                  text: AppStrings.save.tr(),
+                );
+              },
             ),
-          )
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSize.s24.rw,
+            ),
+            child: ElevatedButton(
+              onPressed: _showDeviceListView,
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+                primary: AppColors.purpleBlue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      _connectionType == ConnectionType.BLUETOOTH
+                          ? Icons.bluetooth
+                          : Icons.usb,
+                      color: AppColors.white,
+                    ),
+                    Text(
+                      'Show Devices',
+                      style: getMediumTextStyle(
+                        color: AppColors.white,
+                        fontSize: AppFontSize.s16.rSp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

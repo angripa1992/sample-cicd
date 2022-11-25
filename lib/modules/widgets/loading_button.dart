@@ -14,6 +14,7 @@ class LoadingButton extends StatelessWidget {
   final double? textSize;
   final double? progressHeight;
   final double? progressWidth;
+  final double? borderRadius;
   final Color? borderColor;
   final Color? loadingBorderColor;
   final Color? bgColor;
@@ -37,6 +38,7 @@ class LoadingButton extends StatelessWidget {
     this.loadingBorderColor,
     this.textColor,
     this.loaderColor,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class LoadingButton extends StatelessWidget {
           color: isLoading
               ? (loadingBgColor ?? AppColors.lightViolet)
               : (bgColor ?? AppColors.purpleBlue),
-          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+          borderRadius: BorderRadius.circular(borderRadius ?? AppSize.s8.rSp),
           border: Border.all(
             color: isLoading
                 ? (loadingBorderColor ?? AppColors.lightViolet)
@@ -65,8 +67,8 @@ class LoadingButton extends StatelessWidget {
                 ? SizedBox(
                     height: progressHeight ?? AppSize.s16.rh,
                     width: progressWidth ?? AppSize.s18.rw,
-                    child:
-                        CircularProgressIndicator(color: loaderColor ?? AppColors.purpleBlue),
+                    child: CircularProgressIndicator(
+                        color: loaderColor ?? AppColors.purpleBlue),
                   )
                 : Text(
                     text,

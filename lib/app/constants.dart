@@ -96,7 +96,7 @@ class NotificationType{
   static const CANCEL = 2;
 }
 
-class PrinterConnectionType{
+class ConnectionType{
   static const BLUETOOTH = 1;
   static const USB = 2;
 }

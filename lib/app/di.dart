@@ -61,6 +61,11 @@ import 'package:klikit/modules/user/presentation/account/cubit/update_user_info_
 import 'package:klikit/modules/user/presentation/chnage_password/cubit/change_password_cubit.dart';
 import 'package:klikit/modules/user/presentation/forget/cubit/forget_cubit.dart';
 import 'package:klikit/notification/fcm_token_manager.dart';
+import 'package:klikit/printer/bluetooth_printer_handler.dart';
+import 'package:klikit/printer/data/printer_setting_repo.dart';
+import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
+import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
+import 'package:klikit/printer/printing_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/network/rest_client.dart';
@@ -166,4 +171,11 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   ///notification
   getIt.registerFactory(() => NewNotificationCountCubit());
   getIt.registerFactory(() => CancelNotificationCountCubit());
+
+  ///printer
+  getIt.registerLazySingleton(() => BluetoothPrinterHandler());
+  getIt.registerLazySingleton(() => PrintingHandler(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton<PrinterSettingRepository>(() => PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => PrinterSettingCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => UpdatePrinterSettingCubit(getIt.get(), getIt.get()));
 }

@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
@@ -15,12 +19,16 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubi
 import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
+import 'package:klikit/printer/data/printer_setting.dart';
+import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
+import 'package:klikit/printer/printing_handler.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../app/constants.dart';
+import '../../core/utils/response_state.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
 import '../menu/presentation/pages/stock_screen.dart';
@@ -35,13 +43,17 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
+  final _appPreferences = getIt.get<AppPreferences>();
+  final _printingHandler = getIt.get<PrintingHandler>();
 
   @override
   void initState() {
+    context.read<PrinterSettingCubit>().getPrinterSetting();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) async{
+      (_) async {
         if (mounted) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>?;
           if (args != null) {
             if (args['is_notification']) {
               context
@@ -53,6 +65,15 @@ class _BaseScreenState extends State<BaseScreen> {
       },
     );
     super.initState();
+  }
+
+  void _handlePrinterSetting(PrinterSetting setting) {
+    if (setting.typeId > 0) {
+      _appPreferences.savePrinterConnectionType(setting.typeId);
+      _printingHandler.verifyConnection();
+    } else {
+      Navigator.pushNamed(context, Routes.printerSettings);
+    }
   }
 
   Widget _getWidget(NavigationData navigationData) {
@@ -92,53 +113,51 @@ class _BaseScreenState extends State<BaseScreen> {
             create: (_) => getIt.get<OrderActionCubit>()),
       ],
       child: WillPopScope(
-        onWillPop: () {
-          if (context.read<BaseScreenCubit>().state.index ==
-              BottomNavItem.HOME) {
-            return Future.value(true);
-          } else {
-            context.read<BaseScreenCubit>().changeIndex(
-                  NavigationData(
-                    index: BottomNavItem.HOME,
-                    data: null,
+          onWillPop: () {
+            if (context.read<BaseScreenCubit>().state.index ==
+                BottomNavItem.HOME) {
+              return Future.value(true);
+            } else {
+              context.read<BaseScreenCubit>().changeIndex(
+                  NavigationData(index: BottomNavItem.HOME, data: null));
+              return Future.value(false);
+            }
+          },
+          child: BlocListener<PrinterSettingCubit, ResponseState>(
+            listener: (context, state) {
+              if (state is Success<PrinterSetting>) {
+                _handlePrinterSetting(state.data);
+              }
+            },
+            child: BlocBuilder<BaseScreenCubit, NavigationData>(
+              builder: (context, data) {
+                return Scaffold(
+                  body: Center(child: _getWidget(data)),
+                  bottomNavigationBar: BottomNavigationBar(
+                    items: _navigationItems(),
+                    currentIndex: context.read<BaseScreenCubit>().state.index,
+                    onTap: (index) {
+                      context.read<BaseScreenCubit>().changeIndex(
+                          NavigationData(
+                              index: index, subTabIndex: null, data: null));
+                    },
+                    backgroundColor: AppColors.whiteSmoke,
+                    type: BottomNavigationBarType.fixed,
+                    selectedItemColor: AppColors.purpleBlue,
+                    unselectedItemColor: AppColors.smokeyGrey,
+                    selectedLabelStyle: getRegularTextStyle(
+                      color: AppColors.purpleBlue,
+                      fontSize: AppFontSize.s14.rSp,
+                    ),
+                    unselectedLabelStyle: getRegularTextStyle(
+                      color: AppColors.smokeyGrey,
+                      fontSize: AppFontSize.s14.rSp,
+                    ),
                   ),
                 );
-            return Future.value(false);
-          }
-        },
-        child: BlocBuilder<BaseScreenCubit, NavigationData>(
-          builder: (context, data) {
-            return Scaffold(
-              body: Center(child: _getWidget(data)),
-              bottomNavigationBar: BottomNavigationBar(
-                items: _navigationItems(),
-                currentIndex: context.read<BaseScreenCubit>().state.index,
-                onTap: (index) {
-                  context.read<BaseScreenCubit>().changeIndex(
-                        NavigationData(
-                          index: index,
-                          subTabIndex: null,
-                          data: null,
-                        ),
-                      );
-                },
-                backgroundColor: AppColors.whiteSmoke,
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: AppColors.purpleBlue,
-                unselectedItemColor: AppColors.smokeyGrey,
-                selectedLabelStyle: getRegularTextStyle(
-                  color: AppColors.purpleBlue,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-                unselectedLabelStyle: getRegularTextStyle(
-                  color: AppColors.smokeyGrey,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+              },
+            ),
+          )),
     );
   }
 
