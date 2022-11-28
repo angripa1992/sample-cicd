@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -68,5 +70,14 @@ class BluetoothPrinterHandler {
       debugPrint('*****************************BLE ERROR $e***********************');
     }
     return _connected;
+  }
+
+  void printDocket(Uint8List bytes){
+    _bluetooth.isConnected.then((isConnected){
+      if(isConnected!){
+        _bluetooth.writeBytes(bytes);
+        _bluetooth.paperCut();
+      }
+    });
   }
 }

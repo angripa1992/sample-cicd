@@ -41,6 +41,18 @@ class DateTimeProvider{
     return formatter.format(dateTime);
   }
 
+  static String orderCreatedDate (String createdAt){
+    final formatter = DateFormat('MMMM d');
+    final dateTime = DateTime.parse(createdAt).toLocal();
+    return formatter.format(dateTime);
+  }
+
+  static String orderCreatedTime (String createdAt){
+    final formatter = DateFormat('h:mm a');
+    final dateTime = DateTime.parse(createdAt).toLocal();
+    return formatter.format(dateTime);
+  }
+
   static Future<String> timeZone () async{
     final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     return currentTimeZone;

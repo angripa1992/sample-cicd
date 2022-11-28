@@ -37,7 +37,7 @@ class OrderItemDetails extends StatelessWidget {
           itemCount: order.cartV2.length,
           itemBuilder: (_, index) {
             return Padding(
-              padding: EdgeInsets.only(bottom: AppSize.s16.rh),
+              padding: EdgeInsets.only(bottom: AppSize.s8.rh),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -59,117 +59,95 @@ class OrderItemDetails extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               ///level 1 modifiers group
-                              Text(
-                                '• ${modifiersGroup.name}',
-                                style: _itemTextStyle,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: AppSize.s8.rw),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: modifiersGroup.modifiers.map(
-                                    (modifiers) {
-                                      return Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: AppSize.s8.rw,
-                                          vertical: AppSize.s2.rh,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            ///level 1 modifiers
-                                            _modifierItemView(modifiers),
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: AppSize.s8.rw,
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.stretch,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: modifiers
-                                                    .modifierGroups
-                                                    .map(
-                                                  (modifierGroups) {
-                                                    return Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                        horizontal:
-                                                            AppSize.s8.rw,
-                                                        vertical: AppSize.s8.rh,
-                                                      ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .stretch,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          ///level 2 modifiers group
-                                                          Text(
-                                                            '• ${modifierGroups.name}',
-                                                            style:
-                                                                _itemTextStyle,
-                                                          ),
-                                                          Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                              horizontal:
-                                                                  AppSize.s8.rw,
-                                                              vertical:
-                                                                  AppSize.s2.rh,
-                                                            ),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .stretch,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children:
-                                                                  modifierGroups
-                                                                      .modifiers
-                                                                      .map(
-                                                                (modifiers) {
-                                                                  return Padding(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .symmetric(
-                                                                      horizontal:
-                                                                          AppSize
-                                                                              .s8
-                                                                              .rw,
-                                                                    ),
-
-                                                                    ///level 2 modifiers
-                                                                    child: _modifierItemView(
-                                                                        modifiers),
-                                                                  );
-                                                                },
-                                                              ).toList(),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                ).toList(),
-                                              ),
+                              Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: modifiersGroup.modifiers.map(
+                                  (modifiers) {
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: AppSize.s8.rw,
+                                        vertical: AppSize.s2.rh,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          ///level 1 modifiers
+                                          _modifierItemView(modifiers),
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: AppSize.s8.rw,
                                             ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
-                                ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: modifiers
+                                                  .modifierGroups
+                                                  .map(
+                                                (modifierGroups) {
+                                                  return Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          AppSize.s8.rw,
+                                                      vertical: AppSize.s8.rh,
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .stretch,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        ///level 2 modifiers group
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .stretch,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children:
+                                                              modifierGroups
+                                                                  .modifiers
+                                                                  .map(
+                                                            (modifiers) {
+                                                              return Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .symmetric(
+                                                                  horizontal:
+                                                                      AppSize
+                                                                          .s8
+                                                                          .rw,
+                                                                ),
+
+                                                                ///level 2 modifiers
+                                                                child: _modifierItemView(
+                                                                    modifiers),
+                                                              );
+                                                            },
+                                                          ).toList(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ).toList(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
                               ),
                             ],
                           );

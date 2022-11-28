@@ -7,6 +7,7 @@ import 'package:klikit/core/provider/order_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/order/components/progress_indicator.dart';
+import 'package:klikit/printer/printing_handler.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
@@ -30,6 +31,7 @@ class NewOrderScreen extends StatefulWidget {
 class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParameterProvider = getIt.get<OrderParameterProvider>();
+  final _printingHandler = getIt.get<PrintingHandler>();
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
@@ -61,10 +63,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     params['page'] = pageKey;
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
-          (failure) {
+      (failure) {
         _pagingController?.error = failure;
       },
-          (orders) {
+      (orders) {
         final isLastPage = orders.total <= (pageKey * _pageSize);
         if (isLastPage) {
           _pagingController?.appendLastPage(orders.data);
@@ -86,10 +88,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
 
   void _refreshOngoingOrderCount() {
     context.read<OngoingOrderCubit>().fetchOngoingOrder(
-      willShowLoading: false,
-      providersID: _providers,
-      brandsID: _brands,
-    );
+          willShowLoading: false,
+          providersID: _providers,
+          brandsID: _brands,
+        );
   }
 
   void _startTimer() {
@@ -102,9 +104,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
-  void _refresh({bool willBackground = false,bool isFromAction = false}) {
+  void _refresh({bool willBackground = false, bool isFromAction = false}) {
     _refreshNewOrderCount();
-    if(isFromAction){
+    if (isFromAction) {
       _refreshOngoingOrderCount();
     }
     if (willBackground) {
@@ -125,7 +127,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
       params: _orderParameterProvider.getOrderActionParams(order, willCancel),
       context: context,
       onSuccess: () {
-        _refresh(willBackground: true,isFromAction: true);
+        _refresh(willBackground: true, isFromAction: true);
         if (isFromDetails) {
           Navigator.of(context).pop();
         }
@@ -134,7 +136,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
-  void _onPrint() {}
+  void _onPrint(Order order) {
+    _printingHandler.printDocket(order);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +160,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                     isFromDetails: true,
                   );
                 },
-                onPrint: _onPrint,
+                onPrint: () {
+                  _onPrint(item);
+                },
                 onCancel: (title) {
                   _onAction(
                     title: title,
@@ -176,7 +182,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 order: item,
               );
             },
-            onPrint: _onPrint,
+            onPrint: () {
+              _onPrint(item);
+            },
             onCancel: (title) {
               _onAction(
                 title: title,
