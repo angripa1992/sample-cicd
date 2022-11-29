@@ -11,6 +11,7 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
+import '../../../../../printer/printing_handler.dart';
 import '../../bloc/orders/new_order_cubit.dart';
 import '../../bloc/orders/ongoing_order_cubit.dart';
 import '../observer/filter_observer.dart';
@@ -31,6 +32,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
+  final _printingHandler = getIt.get<PrintingHandler>();
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
@@ -125,7 +127,9 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     );
   }
 
-  void _onPrint() {}
+  void _onPrint(Order order) {
+    _printingHandler.printDocket(order);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +151,9 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                     isFromDetails: true,
                   );
                 },
-                onPrint: _onPrint,
+                onPrint: (){
+                  _onPrint(item);
+                },
                 onCancel: (title) {
                   _onAction(
                     title: title,
@@ -167,7 +173,9 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 order: item,
               );
             },
-            onPrint: _onPrint,
+            onPrint: (){
+              _onPrint(item);
+            },
             onCancel: (title) {
               _onAction(
                 title: title,

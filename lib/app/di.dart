@@ -66,6 +66,7 @@ import 'package:klikit/printer/data/printer_setting_repo.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
+import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/network/rest_client.dart';
@@ -174,7 +175,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
 
   ///printer
   getIt.registerLazySingleton(() => BluetoothPrinterHandler());
-  getIt.registerLazySingleton(() => PrintingHandler(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton(() => UsbPrinterHandler());
+  getIt.registerLazySingleton(() => PrintingHandler(getIt.get(), getIt.get(),getIt.get()));
   getIt.registerLazySingleton<PrinterSettingRepository>(() => PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => PrinterSettingCubit(getIt.get(), getIt.get()));
   getIt.registerFactory(() => UpdatePrinterSettingCubit(getIt.get(), getIt.get()));

@@ -8,9 +8,13 @@ import 'order_action_buttons.dart';
 class HistoryOrderItemView extends StatelessWidget {
   final Order order;
   final VoidCallback seeDetails;
+  final VoidCallback onPrint;
 
   const HistoryOrderItemView(
-      {Key? key, required this.order, required this.seeDetails})
+      {Key? key,
+      required this.order,
+      required this.seeDetails,
+      required this.onPrint})
       : super(key: key);
 
   @override
@@ -28,7 +32,7 @@ class HistoryOrderItemView extends StatelessWidget {
               ),
             ),
             PrintButton(
-              onPrint: () {},
+              onPrint: onPrint,
             ),
           ],
         ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
+import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/printer/presentation/docket_separator.dart';
+import 'package:klikit/resources/assets.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../app/constants.dart';
 import '../../app/di.dart';
@@ -28,68 +31,102 @@ class DocketDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: AppBar(),
-    //   body: SingleChildScrollView(
-    //     child: SizedBox(
-    //       width: 300,
-    //       child: Column(
-    //         children: [
-    //           _headerWidget(),
-    //           const DocketSeparator(),
-    //           _deliveryInfo(),
-    //           order.orderComment.isEmpty
-    //               ? const DocketSeparator()
-    //               : _commentView(order.orderComment),
-    //           Padding(
-    //             padding: const EdgeInsets.symmetric(vertical: 2.0),
-    //             child: _itemsDetails(context),
-    //           ),
-    //           const DocketSeparator(),
-    //           Padding(
-    //             padding: const EdgeInsets.symmetric(vertical: 2.0),
-    //             child: _priceView(),
-    //           ),
-    //           const DocketSeparator(),
-    //           Padding(
-    //             padding: const EdgeInsets.symmetric(vertical: 2.0),
-    //             child: _totalPriceView(),
-    //           ),
-    //           const DocketSeparator(),
-    //           _internalIdView(),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
-    return  SingleChildScrollView(
+    return SingleChildScrollView(
       child: SizedBox(
         width: 250,
         child: Column(
           children: [
             _headerWidget(),
             const DocketSeparator(),
-            _deliveryInfo(),
-            order.orderComment.isEmpty
-                ? const DocketSeparator()
-                : _commentView(order.orderComment),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child: _itemsDetails(context),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _deliveryInfo(),
             ),
             const DocketSeparator(),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: const EdgeInsets.only(top: 8.0),
+              child: _commentView('Test comment',true),
+            ),
+            // order.orderComment.isEmpty
+            //     ? const DocketSeparator()
+            //     : _commentView(order.orderComment,true),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _itemsDetails(),
+            ),
+            const DocketSeparator(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: _priceView(),
             ),
             const DocketSeparator(),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: _totalPriceView(),
             ),
             const DocketSeparator(),
-            _internalIdView(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _internalIdView(),
+            ),
+            const DocketSeparator(),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: _qrCode(),
+            ),
+            _footerWidget(),
           ],
+        ),
+      ),
+    );
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          width: 250,
+          child: Column(
+            children: [
+              _headerWidget(),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _deliveryInfo(),
+              ),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: _commentView('Test comment',true),
+              ),
+              // order.orderComment.isEmpty
+              //     ? const DocketSeparator()
+              //     : _commentView(order.orderComment,true),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _itemsDetails(),
+              ),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _priceView(),
+              ),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _totalPriceView(),
+              ),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _internalIdView(),
+              ),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: _qrCode(),
+              ),
+              _footerWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -105,7 +142,7 @@ class DocketDesign extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Text(
-              'Order by ${DateTimeProvider.orderCreatedDate(order.createdAt)} at ${DateTimeProvider.orderCreatedTime(order.createdAt)}',
+              'Order Date: ${DateTimeProvider.orderCreatedDate(order.createdAt)} at ${DateTimeProvider.orderCreatedTime(order.createdAt)}',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 14,
@@ -115,9 +152,10 @@ class DocketDesign extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: (order.userFirstName.isNotEmpty || order.userLastName.isNotEmpty),
+          visible:
+              (order.userFirstName.isNotEmpty || order.userLastName.isNotEmpty),
           child: Padding(
-            padding: const EdgeInsets.only(top: 4.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               '${order.userFirstName} ${order.userLastName}',
               style: const TextStyle(
@@ -129,18 +167,30 @@ class DocketDesign extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: FutureBuilder<Provider>(
             future: _infoProvider.getProviderById(order.providerId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(
-                  '${snapshot.data!.title}  ${(order.providerId == ProviderID.KLIKIT) ? '#${order.id}' : '#${order.shortId}'}',
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      snapshot.data!.title,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),                    Text(
+                      (order.providerId == ProviderID.KLIKIT) ? '#${order.id}' : '#${order.shortId}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 );
               }
               return const SizedBox();
@@ -151,71 +201,40 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _commentView(String comment) {
-    return Visibility(
-      visible: comment.isNotEmpty,
-      child: Container(
-        color: Colors.black,
-        padding: const EdgeInsets.all(4),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'ORDER NOTE:',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Text(
-              comment,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _deliveryInfo() {
     const textStyle = TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       color: Colors.black,
     );
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Visibility(
-            visible: order.brandName.isNotEmpty,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Visibility(
+          visible: order.brandName.isNotEmpty,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 2.0),
             child: Text(
               order.brandName,
               style: textStyle,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '${order.cartV2.length} item${order.cartV2.length > 1 ? '(s)' : ''}',
-                style: textStyle,
-              ),
-              Text(
-                order.type == OrderType.DELIVERY ? 'Delivery':'Pickup',
-                style: textStyle,
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '${order.itemCount} item${order.itemCount > 1 ? '(s)' : ''}',
+              style: textStyle,
+            ),
+            Text(
+              order.type == OrderType.DELIVERY ? 'Delivery' : 'Pickup',
+              style: textStyle,
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -225,25 +244,22 @@ class DocketDesign extends StatelessWidget {
       fontWeight: FontWeight.w500,
       color: Colors.black,
     );
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text(
-            'INTERNAL ID',
-            style: textStyle,
-          ),
-          Text(
-            '#${order.id}',
-            style: textStyle,
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          'INTERNAL ID',
+          style: textStyle,
+        ),
+        Text(
+          '#${order.id}',
+          style: textStyle,
+        ),
+      ],
     );
   }
 
-  Widget _itemsDetails(BuildContext context) {
+  Widget _itemsDetails() {
     return ListView.builder(
       itemCount: order.cartV2.length,
       shrinkWrap: true,
@@ -352,11 +368,46 @@ class DocketDesign extends StatelessWidget {
                 ).toList(),
               ),
             ),
+
             ///comment
-            _commentView('order.cartV2[index].comment'),
+            _commentView(order.cartV2[index].comment,false),
           ],
         );
       },
+    );
+  }
+
+  Widget _commentView(String comment,bool isOrderComment) {
+    return Visibility(
+      visible: comment.isNotEmpty,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: Container(
+          color: Colors.black,
+          padding: const EdgeInsets.all(4),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+               Text(
+                '${isOrderComment ? 'ORDER' : 'ITEM'} NOTE:',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                comment,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -412,7 +463,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _totalPriceView(){
+  Widget _totalPriceView() {
     const textStyle = TextStyle(
       color: Colors.black,
       fontSize: 12,
@@ -465,5 +516,67 @@ class DocketDesign extends StatelessWidget {
 
   String _convertPrice(num price) {
     return (price / 100).toStringAsFixed(2);
+  }
+
+  Widget _qrCode() {
+    return FutureBuilder<Brand>(
+      future: _infoProvider.getBrandById(order.brandId),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Column(
+            children: [
+              Text(
+                snapshot.data!.qrLabel,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4,bottom: 4),
+                child: QrImage(
+                  data: snapshot.data!.qrContent,
+                  version: QrVersions.auto,
+                  size: 100,
+                ),
+              ),
+            ],
+          );
+        }
+        return const SizedBox();
+      },
+    );
+  }
+
+  Widget _footerWidget() {
+    return Column(
+      children: [
+        const Text(
+          'Powered by',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 12,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 2,bottom: 2),
+          child: Image.asset(
+            AppImages.splashLogo,
+            color: Colors.black,
+            height: 24,
+            width: 24,
+          ),
+        ),
+        const Text(
+          'klikit',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
   }
 }

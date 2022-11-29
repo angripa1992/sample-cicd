@@ -44,6 +44,15 @@ class OrderInformationProvider {
     }
   }
 
+  Future<Brand> getBrandById(int id) async {
+    if (_brands.isEmpty) {
+      final brands = await getBrands();
+      return brands.firstWhere((element) => element.id == id);
+    } else {
+      return _brands.firstWhere((element) => element.id == id);
+    }
+  }
+
   Future<List<int>> extractBrandsIds(List<Brand> brands) async {
     final ids = <int>[];
     for (var brand in brands) {

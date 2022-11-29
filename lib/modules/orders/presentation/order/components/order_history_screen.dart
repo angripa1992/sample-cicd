@@ -11,16 +11,18 @@ import 'package:klikit/modules/orders/presentation/order/observer/filter_observe
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
+import '../../../../../printer/printing_handler.dart';
 import '../../../domain/entities/order.dart';
 import '../../../domain/repository/orders_repository.dart';
 import '../observer/filter_subject.dart';
 import 'date_range_picker.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
-  final Map<String,dynamic>? data;
+  final Map<String, dynamic>? data;
   final FilterSubject subject;
 
-  const OrderHistoryScreen({Key? key, required this.subject, this.data}) : super(key: key);
+  const OrderHistoryScreen({Key? key, required this.subject, this.data})
+      : super(key: key);
 
   @override
   State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
@@ -30,6 +32,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
+  final _printingHandler = getIt.get<PrintingHandler>();
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
@@ -43,9 +46,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   @override
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
-    if(widget.data == null){
+    if (widget.data == null) {
       _dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
-    }else{
+    } else {
       _dateRange = widget.data![HistoryNavData.HISTORY_NAV_DATA];
     }
     filterSubject = widget.subject;
@@ -68,7 +71,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     );
     params['page'] = pageKey;
     params['start'] = DateTimeProvider.getDate(_dateRange!.start);
-    params['end'] = DateTimeProvider.getDate(_dateRange!.end.add(const Duration(days: 1)));
+    params['end'] =
+        DateTimeProvider.getDate(_dateRange!.end.add(const Duration(days: 1)));
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
@@ -90,6 +94,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     //_pagingController.itemList?.clear();
     //_pagingController.notifyPageRequestListeners(_firstPageKey);
     _pagingController?.refresh();
+  }
+
+  void _onPrint(Order order) {
+    _printingHandler.printDocket(order);
   }
 
   @override
@@ -124,7 +132,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                       onCommentActionSuccess: () {
                         _refresh();
                       },
+                      onPrint: () {
+                        _onPrint(item);
+                      },
                     );
+                  },
+                  onPrint: () {
+                    _onPrint(item);
                   },
                 );
               },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DocketSeparator extends StatelessWidget {
-  const DocketSeparator({Key? key, this.height = 0.5, this.color = Colors.black})
+  const DocketSeparator({Key? key, this.height = 0.50, this.color = Colors.black})
       : super(key: key);
   final double height;
   final Color color;

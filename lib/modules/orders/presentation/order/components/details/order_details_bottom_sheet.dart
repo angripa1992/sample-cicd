@@ -61,6 +61,7 @@ void showHistoryOrderDetails({
   required Order order,
   required GlobalKey<ScaffoldState> key,
   required VoidCallback onCommentActionSuccess,
+  required VoidCallback onPrint,
 }) {
   _openBottomSheet(
     key: key,
@@ -73,7 +74,7 @@ void showHistoryOrderDetails({
         horizontal: AppSize.s12.rw,
       ),
       child: PrintButton(
-        onPrint: () {},
+        onPrint: onPrint,
       ),
     ),
   );

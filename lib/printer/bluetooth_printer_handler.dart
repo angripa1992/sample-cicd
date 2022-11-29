@@ -73,11 +73,6 @@ class BluetoothPrinterHandler {
   }
 
   void printDocket(Uint8List bytes){
-    _bluetooth.isConnected.then((isConnected){
-      if(isConnected!){
-        _bluetooth.writeBytes(bytes);
-        _bluetooth.paperCut();
-      }
-    });
+    _bluetooth.writeBytes(bytes);
   }
 }
