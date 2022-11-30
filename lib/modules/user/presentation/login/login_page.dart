@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (args == null) {
       Navigator.of(context).pushReplacementNamed(Routes.base);
     } else {
-      NotificationHandler().navigateToOrderScreen(args!['notification_data']);
+      NotificationHandler().navigateToOrderScreen(args![ArgumentKey.kNOTIFICATION_DATA]);
     }
   }
 

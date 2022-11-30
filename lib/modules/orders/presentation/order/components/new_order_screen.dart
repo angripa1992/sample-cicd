@@ -131,12 +131,15 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         if (isFromDetails) {
           Navigator.of(context).pop();
         }
+        if(!willCancel){
+          _printDocket(order);
+        }
       },
       title: title,
     );
   }
 
-  void _onPrint(Order order) {
+  void _printDocket(Order order) {
     _printingHandler.printDocket(order);
   }
 
@@ -161,7 +164,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                   );
                 },
                 onPrint: () {
-                  _onPrint(item);
+                  _printDocket(item);
                 },
                 onCancel: (title) {
                   _onAction(
@@ -183,7 +186,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
               );
             },
             onPrint: () {
-              _onPrint(item);
+              _printDocket(item);
             },
             onCancel: (title) {
               _onAction(

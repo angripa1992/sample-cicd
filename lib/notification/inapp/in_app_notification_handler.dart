@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/notification/inapp/notification_sound.dart';
@@ -9,16 +10,19 @@ import 'package:klikit/notification/notification_handler.dart';
 
 import '../../core/route/routes_generator.dart';
 import '../../modules/widgets/loading_button.dart';
+import '../../printer/printing_handler.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../resources/styles.dart';
 import '../../resources/values.dart';
+import '../notification_data_handler.dart';
 import 'notification_count_cubit.dart';
 
 class InAppNotificationHandler {
   static bool _isShowing = false;
   static final _instance = InAppNotificationHandler._internal();
   final _notificationSound = NotificationSound();
+  final _printingHandler = getIt.get<PrintingHandler>();
   BuildContext? _currentContext;
 
   factory InAppNotificationHandler() => _instance;
@@ -63,6 +67,14 @@ class InAppNotificationHandler {
       final cubit = NotificationCountCubit(notificationCountData);
       _showDialog(data, cubit);
       _isShowing = true;
+    }
+    _handleDocketPrinting(data);
+  }
+
+  void _handleDocketPrinting(NotificationData notificationData) async{
+    final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
+    if(order != null && order.status == OrderStatus.ACCEPTED){
+      _printingHandler.verifyConnection(order: order);
     }
   }
 

@@ -42,8 +42,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               await flutterLocalNotificationsPlugin
                   .getNotificationAppLaunchDetails();
           if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-            NotificationHandler().handleBackgroundNotification(
-                notificationAppLaunchDetails?.notificationResponse?.payload);
+            print('==================================onboard noti ${notificationAppLaunchDetails?.notificationResponse?.payload}');
+            NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
           } else {
             _gotoNextScreen();
           }

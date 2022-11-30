@@ -23,6 +23,8 @@ abstract class OrderRemoteDatasource {
 
   Future<OrdersModel> fetchOrder(Map<String, dynamic> params);
 
+  Future<OrderModel> fetchOrderById(int id);
+
   Future<BusyModeGetResponseModel> isBusy(Map<String, dynamic> params);
 
   Future<BusyModePostResponseModel> updateBusyMode(Map<String, dynamic> params);
@@ -147,6 +149,16 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response =
           await _restClient.request(Urls.comment(orderID), Method.DELETE, null);
       return ActionSuccess.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<OrderModel> fetchOrderById(int id) async{
+    try {
+      final response = await _restClient.request('${Urls.order}/$id', Method.GET, null);
+      return OrderModel.fromJson(response);
     } on DioError {
       rethrow;
     }

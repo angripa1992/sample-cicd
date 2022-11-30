@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/route/routes_generator.dart';
-import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/notification/notification_data.dart';
 
 import '../../app/constants.dart';
@@ -37,27 +35,20 @@ class NotificationHandler {
       Routes.base,
       (Route<dynamic> route) => false,
       arguments: {
-        'is_notification': true,
-        'navigation_data': notificationData.type.toInt() == NotificationType.NEW
-            ? NavigationData(
-                index: BottomNavItem.ORDER,
-                subTabIndex: OrderTab.NEW,
-                data: null,
-              )
-            : NavigationData(
-                index: BottomNavItem.ORDER,
-                subTabIndex: OrderTab.History,
-                data: {
-                  HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.today(),
-                },
-              ),
+        ArgumentKey.kIS_NOTIFICATION: true,
+        ArgumentKey.kNOTIFICATION_DATA: notificationData,
       },
     );
   }
 
   void _navigateToLoginScreen(NotificationData notificationData) {
     Navigator.of(RoutesGenerator.navigatorKey.currentState!.context)
-        .pushNamedAndRemoveUntil(Routes.login, (Route<dynamic> route) => false,
-            arguments: {'notification_data': notificationData});
+        .pushNamedAndRemoveUntil(
+      Routes.login,
+      (Route<dynamic> route) => false,
+      arguments: {
+        ArgumentKey.kNOTIFICATION_DATA: notificationData,
+      },
+    );
   }
 }

@@ -111,7 +111,6 @@ class AppStrings {
   static const String usb_devices = "usb_devices";
   static const String no_usb_devices = "no_usb_devices";
   static const String no_usb_devices_message = "no_usb_devices_message";
-  static const String no_usb_devicsavees_message = "no_usb_devices_message";
   static const String connect = "connect";
   static const String disconnect = "disconnect";
   static const String save = "save";

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
@@ -19,6 +20,8 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubi
 import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
+import 'package:klikit/notification/notification_data.dart';
+import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
@@ -55,10 +58,11 @@ class _BaseScreenState extends State<BaseScreen> {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>?;
           if (args != null) {
-            if (args['is_notification']) {
+            if (args[ArgumentKey.kIS_NOTIFICATION]) {
+              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
               context
                   .read<BaseScreenCubit>()
-                  .changeIndex(args['navigation_data']);
+                  .changeIndex(navData);
             }
           }
         }
@@ -67,10 +71,21 @@ class _BaseScreenState extends State<BaseScreen> {
     super.initState();
   }
 
-  void _handlePrinterSetting(PrinterSetting setting) {
+  void _handlePrinterSetting(PrinterSetting setting) async{
     if (setting.typeId > 0) {
       _appPreferences.savePrinterConnectionType(setting.typeId);
-      _printingHandler.verifyConnection();
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      if(args != null && args[ArgumentKey.kIS_NOTIFICATION]){
+        final NotificationData notificationData = args[ArgumentKey.kNOTIFICATION_DATA];
+        final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
+        if(order != null && order.status == OrderStatus.ACCEPTED){
+          _printingHandler.verifyConnection(order: order);
+        }else{
+          _printingHandler.verifyConnection();
+        }
+      }else{
+        _printingHandler.verifyConnection();
+      }
     } else {
       Navigator.pushNamed(context, Routes.printerSettings);
     }

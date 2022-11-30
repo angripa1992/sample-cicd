@@ -4,7 +4,7 @@ import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/data/models/order_status_model.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
-import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
 
@@ -20,7 +20,9 @@ abstract class OrderRepository {
 
   Future<Either<Failure, Settings>> fetchSettings(int id);
 
-  Future<Either<Failure, Orders>> fetchOrder(Map<String, dynamic> params);
+  Future<Either<Failure, order.Orders>> fetchOrder(Map<String, dynamic> params);
+
+  Future<order.Order?> fetchOrderById(int id);
 
   Future<Either<Failure, BusyModeGetResponse>> isBusy(
       Map<String, dynamic> params);

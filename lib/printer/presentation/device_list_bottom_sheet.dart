@@ -20,8 +20,11 @@ void showBleDeviceListView({
     title: 'Bluetooth Devices',
     deviceList: Expanded(
       child: devices.isEmpty
-          ? const Center(
-              child: Text('No Devices Found!'),
+          ? Center(
+              child: Text(
+                AppStrings.no_bluetooth_devices_message.tr(),
+                textAlign: TextAlign.center,
+              ),
             )
           : ListView.builder(
               itemCount: devices.length,
@@ -47,8 +50,11 @@ void showUsbDeviceListView({
     title: 'USB Devices',
     deviceList: Expanded(
       child: devices.isEmpty
-          ? const Center(
-              child: Text('No Devices Found!'),
+          ? Center(
+              child: Text(
+                AppStrings.no_usb_devices_message.tr(),
+                textAlign: TextAlign.center,
+              ),
             )
           : ListView.builder(
               itemCount: devices.length,
@@ -189,7 +195,9 @@ void showNoDeviceConnectedDialog({
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              connectionType == ConnectionType.BLUETOOTH ? 'No Bluetooth Devices' : 'No USB Devices',
+              connectionType == ConnectionType.BLUETOOTH
+                  ? 'No Bluetooth Devices'
+                  : 'No USB Devices',
               style: getMediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s18.rSp,
@@ -199,7 +207,9 @@ void showNoDeviceConnectedDialog({
               height: AppSize.s16.rh,
             ),
             Text(
-              connectionType == ConnectionType.BLUETOOTH ? AppStrings.no_bluetooth_devices_message.tr() : AppStrings.no_usb_devicsavees_message.tr() ,
+              connectionType == ConnectionType.BLUETOOTH
+                  ? AppStrings.no_bluetooth_devices_message.tr()
+                  : AppStrings.no_usb_devices_message.tr(),
               textAlign: TextAlign.center,
               style: getRegularTextStyle(
                 color: AppColors.black,

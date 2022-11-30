@@ -33,19 +33,21 @@ class PrintingHandler {
     }
   }
 
-  void verifyConnection() async {
+  void verifyConnection({Order? order}) async {
     if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
-      _verifyBleConnection();
+      _verifyBleConnection(order: order);
     } else {
-      _verifyUsbConnection();
+      _verifyUsbConnection(order: order);
     }
   }
 
-  void _verifyBleConnection() async {
+  void _verifyBleConnection({Order? order}) async {
     if (await _isPermissionGranted()) {
       if (await _bluetoothPrinterHandler.isBluetoothOn()) {
         if (!await _bluetoothPrinterHandler.isConnected()) {
-          showBleDeviceList();
+          showBleDevices(order: order);
+        }else if (order != null){
+          printDocket(order);
         }
       } else {
         showErrorSnackBar(
@@ -56,7 +58,7 @@ class PrintingHandler {
     }
   }
 
-  void showBleDeviceList() async {
+  void showBleDevices({Order? order}) async {
     final devices = await _bluetoothPrinterHandler.getDevices();
     showBleDeviceListView(
       devices: devices,
@@ -67,6 +69,9 @@ class PrintingHandler {
             RoutesGenerator.navigatorKey.currentState!.context,
             'Bluetooth Successfully Connected',
           );
+          if(order != null){
+            printDocket(order);
+          }
         } else {
           showErrorSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
@@ -77,24 +82,28 @@ class PrintingHandler {
     );
   }
 
-  void _verifyUsbConnection() {
+  void _verifyUsbConnection({Order? order}) {
     if (!_usbPrinterHandler.isConnected()) {
-      showUsbDevices();
+      showUsbDevices(order: order);
+    }else if (order != null){
+      printDocket(order);
     }
   }
 
-  void showUsbDevices() async {
+  void showUsbDevices({Order? order}) async {
     final devices = await _usbPrinterHandler.getDevices();
     showUsbDeviceListView(
       devices: devices,
       onConnect: (device) async {
-        final isSuccessfullyConnected =
-            await _usbPrinterHandler.connect(device);
+        final isSuccessfullyConnected = await _usbPrinterHandler.connect(device);
         if (isSuccessfullyConnected) {
           showSuccessSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
             'USB Successfully Connected',
           );
+          if(order != null){
+            printDocket(order);
+          }
         } else {
           showErrorSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
@@ -115,19 +124,21 @@ class PrintingHandler {
       if (await _bluetoothPrinterHandler.isConnected()) {
         _bluetoothPrinterHandler.printDocket(Uint8List.fromList(rawBytes!));
       } else {
-        showNoDeviceConnectedDialog(
-          connectionType: ConnectionType.BLUETOOTH,
-          onOK: () {},
-        );
+        // showNoDeviceConnectedDialog(
+        //   connectionType: ConnectionType.BLUETOOTH,
+        //   onOK: () {},
+        // );
+        showBleDevices(order: order);
       }
     } else {
       if (_usbPrinterHandler.isConnected()) {
         _usbPrinterHandler.print(rawBytes!);
       } else {
-        showNoDeviceConnectedDialog(
-          connectionType: ConnectionType.USB,
-          onOK: () {},
-        );
+        // showNoDeviceConnectedDialog(
+        //   connectionType: ConnectionType.USB,
+        //   onOK: () {},
+        // );
+        showUsbDevices(order: order);
       }
     }
   }

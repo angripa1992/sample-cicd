@@ -56,7 +56,7 @@ class _PrinterConnectionSettingPageState
 
   void _showDeviceListView() {
     if (_appPreferences.connectionType() == ConnectionType.BLUETOOTH) {
-      _printingHandler.showBleDeviceList();
+      _printingHandler.showBleDevices();
     }else{
       _printingHandler.showUsbDevices();
     }

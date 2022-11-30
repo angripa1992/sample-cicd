@@ -43,13 +43,12 @@ class DocketDesign extends StatelessWidget {
               child: _deliveryInfo(),
             ),
             const DocketSeparator(),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: _commentView('Test comment',true),
-            ),
-            // order.orderComment.isEmpty
-            //     ? const DocketSeparator()
-            //     : _commentView(order.orderComment,true),
+            order.orderComment.isEmpty
+                ? const DocketSeparator()
+                : Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: _commentView(order.orderComment, true),
+                  ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: _itemsDetails(),
@@ -95,7 +94,7 @@ class DocketDesign extends StatelessWidget {
               const DocketSeparator(),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: _commentView('Test comment',true),
+                child: _commentView('Test comment', true),
               ),
               // order.orderComment.isEmpty
               //     ? const DocketSeparator()
@@ -182,8 +181,11 @@ class DocketDesign extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),                    Text(
-                      (order.providerId == ProviderID.KLIKIT) ? '#${order.id}' : '#${order.shortId}',
+                    ),
+                    Text(
+                      (order.providerId == ProviderID.KLIKIT)
+                          ? '#${order.id}'
+                          : '#${order.shortId}',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -370,14 +372,14 @@ class DocketDesign extends StatelessWidget {
             ),
 
             ///comment
-            _commentView(order.cartV2[index].comment,false),
+            _commentView(order.cartV2[index].comment, false),
           ],
         );
       },
     );
   }
 
-  Widget _commentView(String comment,bool isOrderComment) {
+  Widget _commentView(String comment, bool isOrderComment) {
     return Visibility(
       visible: comment.isNotEmpty,
       child: Padding(
@@ -389,7 +391,7 @@ class DocketDesign extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-               Text(
+              Text(
                 '${isOrderComment ? 'ORDER' : 'ITEM'} NOTE:',
                 style: const TextStyle(
                   color: Colors.white,
@@ -534,7 +536,7 @@ class DocketDesign extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 4,bottom: 4),
+                padding: const EdgeInsets.only(top: 4, bottom: 4),
                 child: QrImage(
                   data: snapshot.data!.qrContent,
                   version: QrVersions.auto,
@@ -560,7 +562,7 @@ class DocketDesign extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 2,bottom: 2),
+          padding: const EdgeInsets.only(top: 2, bottom: 2),
           child: Image.asset(
             AppImages.splashLogo,
             color: Colors.black,

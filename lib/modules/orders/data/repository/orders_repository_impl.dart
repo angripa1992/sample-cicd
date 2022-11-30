@@ -8,7 +8,7 @@ import 'package:klikit/modules/orders/data/models/order_status_model.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
-import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -35,7 +35,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, Orders>> fetchOrder(
+  Future<Either<Failure, order.Orders>> fetchOrder(
       Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
@@ -168,6 +168,20 @@ class OrderRepositoryImpl extends OrderRepository {
       }
     } else {
       return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<order.Order?> fetchOrderById(int id) async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchOrderById(id);
+        return response.toEntity();
+      } on DioError {
+        return null;
+      }
+    } else {
+      return null;
     }
   }
 }
