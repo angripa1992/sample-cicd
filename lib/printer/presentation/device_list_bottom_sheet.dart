@@ -1,4 +1,3 @@
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
@@ -11,6 +10,8 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
+
+import '../bluetooth_printer_handler.dart';
 
 void showBleDeviceListView({
   required Function(BluetoothDevice) onConnect,
@@ -31,7 +32,7 @@ void showBleDeviceListView({
               itemBuilder: (context, index) {
                 return deviceItemView(
                   icon: Icons.bluetooth,
-                  name: devices[index].name ?? 'Unknown Device',
+                  name: devices[index].deviceName ?? 'Unknown Device',
                   onConnect: () {
                     onConnect(devices[index]);
                   },

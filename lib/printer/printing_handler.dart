@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:image/image.dart' as im;
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
@@ -43,17 +42,10 @@ class PrintingHandler {
 
   void _verifyBleConnection({Order? order}) async {
     if (await _isPermissionGranted()) {
-      if (await _bluetoothPrinterHandler.isBluetoothOn()) {
-        if (!await _bluetoothPrinterHandler.isConnected()) {
-          showBleDevices(order: order);
-        }else if (order != null){
-          printDocket(order);
-        }
-      } else {
-        showErrorSnackBar(
-          RoutesGenerator.navigatorKey.currentState!.context,
-          'Please switch On your bluetooth',
-        );
+      if (!_bluetoothPrinterHandler.isConnected()) {
+        showBleDevices(order: order);
+      } else if (order != null) {
+        printDocket(order);
       }
     }
   }
@@ -69,7 +61,7 @@ class PrintingHandler {
             RoutesGenerator.navigatorKey.currentState!.context,
             'Bluetooth Successfully Connected',
           );
-          if(order != null){
+          if (order != null) {
             printDocket(order);
           }
         } else {
@@ -85,7 +77,7 @@ class PrintingHandler {
   void _verifyUsbConnection({Order? order}) {
     if (!_usbPrinterHandler.isConnected()) {
       showUsbDevices(order: order);
-    }else if (order != null){
+    } else if (order != null) {
       printDocket(order);
     }
   }
@@ -95,13 +87,14 @@ class PrintingHandler {
     showUsbDeviceListView(
       devices: devices,
       onConnect: (device) async {
-        final isSuccessfullyConnected = await _usbPrinterHandler.connect(device);
+        final isSuccessfullyConnected =
+            await _usbPrinterHandler.connect(device);
         if (isSuccessfullyConnected) {
           showSuccessSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
             'USB Successfully Connected',
           );
-          if(order != null){
+          if (order != null) {
             printDocket(order);
           }
         } else {
@@ -121,8 +114,8 @@ class PrintingHandler {
     Uint8List? bytes = await _capturePng(order);
     List<int>? rawBytes = await _ticket(bytes!);
     if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
-      if (await _bluetoothPrinterHandler.isConnected()) {
-        _bluetoothPrinterHandler.printDocket(Uint8List.fromList(rawBytes!));
+      if (_bluetoothPrinterHandler.isConnected()) {
+        _bluetoothPrinterHandler.printDocket(rawBytes!);
       } else {
         // showNoDeviceConnectedDialog(
         //   connectionType: ConnectionType.BLUETOOTH,
@@ -132,7 +125,7 @@ class PrintingHandler {
       }
     } else {
       if (_usbPrinterHandler.isConnected()) {
-        _usbPrinterHandler.print(rawBytes!);
+        _usbPrinterHandler.printDocket(rawBytes!);
       } else {
         // showNoDeviceConnectedDialog(
         //   connectionType: ConnectionType.USB,

@@ -102,7 +102,7 @@ class InAppNotificationHandler {
 
   void _navigateToOrderScreen(NotificationData data) {
     dismissInAppNotification();
-    NotificationHandler().navigateToOrderScreen(data);
+    NotificationHandler().navigateToOrderScreen(data,isNotification: false);
   }
 
   void _showDialog(NotificationData data, NotificationCountCubit cubit) {

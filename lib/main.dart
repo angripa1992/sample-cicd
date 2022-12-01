@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:klikit/app/klikit.dart';
 import 'package:klikit/environment_variables.dart';
 import 'package:klikit/resources/assets.dart';
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 
 import 'app/di.dart';
 import 'notification/fcm_service.dart';
@@ -24,6 +25,9 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
   FcmService().registerRefreshTokenListener();
   await FcmService().getFcmToken();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  final fid = await FirebaseInstallations.instance.getId();
+  print('==========================fid $fid');
 
   SystemChrome.setPreferredOrientations(
     [

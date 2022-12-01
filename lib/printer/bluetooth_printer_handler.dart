@@ -1,78 +1,83 @@
-import 'dart:typed_data';
-
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 
 class BluetoothPrinterHandler {
-  final _bluetooth = BlueThermalPrinter.instance;
-  bool _connected = false;
+  final _printerManager = PrinterManager.instance;
+  bool _isConnected = false;
   BluetoothDevice? _currentConnectedDevice;
 
-  BluetoothPrinterHandler(){
+  BluetoothPrinterHandler() {
     _initListener();
   }
 
+  bool isConnected() => _isConnected;
+
   void _initListener() {
-    _bluetooth.onStateChanged().listen((state) {
-      debugPrint('*****************************BLE STATE $state***********************');
-      switch(state){
-        case BlueThermalPrinter.CONNECTED:
-          _connected = true;
+    _printerManager.stateBluetooth.listen((status) {
+      debugPrint(
+          '*****************************BLE STATE $status***********************');
+      switch (status) {
+        case BTStatus.connected:
+          _isConnected = true;
           break;
         default:
-          _connected = false;
+          _isConnected = false;
           break;
       }
     });
   }
 
-  Future<bool> isBluetoothOn() async{
-   final result =  await _bluetooth.isOn;
-   if(result == null || !result){
-     return false;
-   }else{
-     return true;
-   }
-  }
-
   Future<List<BluetoothDevice>> getDevices() async {
-    try {
-      return await _bluetooth.getBondedDevices();
-    } on PlatformException {
-      return [];
+    final results =
+        await _printerManager.discovery(type: PrinterType.bluetooth).toList();
+    final devices = <BluetoothDevice>[];
+    for (var device in results) {
+      devices.add(
+        BluetoothDevice(
+          deviceName: device.name,
+          address: device.address,
+        ),
+      );
     }
+    return devices;
   }
 
-  Future<bool> isConnected() async{
-    bool? isConnected = await _bluetooth.isConnected;
-    if(isConnected != null){
-      if(isConnected && _connected){
-        return true;
+  Future<bool> connect(BluetoothDevice device) async {
+    if (_currentConnectedDevice != null) {
+      if (device.address != _currentConnectedDevice!.address) {
+        await PrinterManager.instance.disconnect(type: PrinterType.bluetooth);
       }
     }
-    debugPrint('*****************************BLE IS CONNECTED $isConnected***********************');
-    return false;
-  }
-
-  Future<bool> connect(BluetoothDevice device) async{
-    bool? isConnected = await _bluetooth.isConnected;
-    if(isConnected!){
-      await _bluetooth.disconnect();
-    }
-    try{
-      await _bluetooth.connect(device).timeout(const Duration(seconds: 4));
+    try {
+      await _printerManager.connect(
+        type: PrinterType.bluetooth,
+        model: BluetoothPrinterInput(address: device.address!),
+      );
       _currentConnectedDevice = device;
-      _connected = true;
-      debugPrint('*****************************BLE CONNECTED***********************');
-    }on PlatformException catch(e){
-      _connected == false;
-      debugPrint('*****************************BLE ERROR $e***********************');
+      _isConnected = true;
+    } on Exception {
+      //ignored
+      _isConnected = false;
     }
-    return _connected;
+    return _isConnected;
   }
 
-  void printDocket(Uint8List bytes){
-    _bluetooth.writeBytes(bytes);
+  void printDocket(List<int> data) async {
+    try {
+      await _printerManager.send(type: PrinterType.bluetooth, bytes: data);
+    } on PlatformException {
+      //ignored
+    }
   }
+}
+
+class BluetoothDevice {
+  String? deviceName;
+  String? address;
+
+  BluetoothDevice({
+    this.deviceName,
+    this.address,
+  });
 }
