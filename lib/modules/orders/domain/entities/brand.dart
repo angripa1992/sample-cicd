@@ -16,7 +16,7 @@ class Brand {
   final List<int> branchIds;
   final List<String> branchTitles;
   final List<int> brandCuisines;
-  final bool isChecked;
+  bool isChecked;
 
   Brand({
     required this.id,

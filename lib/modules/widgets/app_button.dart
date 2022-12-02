@@ -20,6 +20,7 @@ class AppButton extends StatelessWidget {
   final Color? enableTextColor;
   final Color? disableTextColor;
   final IconData? icon;
+  final double? iconSize;
 
   const AppButton({
     Key? key,
@@ -37,6 +38,7 @@ class AppButton extends StatelessWidget {
     this.disableTextColor,
     this.borderRadius,
     this.icon,
+    this.iconSize,
   }) : super(key: key);
 
   @override
@@ -66,11 +68,15 @@ class AppButton extends StatelessWidget {
                 children: [
                   Visibility(
                     visible: icon != null,
-                    child: Icon(
-                      icon,
-                      color: enable
-                          ? (enableTextColor ?? AppColors.white)
-                          : (disableTextColor ?? AppColors.white),
+                    child: Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                      child: Icon(
+                        icon,
+                        color: enable
+                            ? (enableTextColor ?? AppColors.white)
+                            : (disableTextColor ?? AppColors.white),
+                        size: iconSize ?? AppSize.s20,
+                      ),
                     ),
                   ),
                   Text(

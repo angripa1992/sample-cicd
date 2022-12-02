@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
+import 'package:klikit/modules/widgets/app_button.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -25,24 +26,34 @@ class _BrandFilterState extends State<BrandFilter> {
   final _controller = ExpandedTileController(isExpanded: false);
   final _orderInfoProvider = getIt.get<OrderInformationProvider>();
   final List<Brand> _brands = [];
+  final List<Brand> _applyingBrands = [];
 
-  void _changeSelectedStatus(bool isChecked, Brand value) async {
-    final brand = value.copyWith(isChecked: isChecked);
-    _brands[_brands.indexWhere((element) => element.id == brand.id)] = brand;
+  void _changeSelectedStatus(bool isChecked, Brand brand) async {
+    brand.isChecked = isChecked;
+    _applyingBrands.removeWhere((element) => element.id == brand.id);
+    _applyingBrands.add(brand);
+  }
+
+  void _apply() async{
+    for(var brand in _applyingBrands){
+      _brands[_brands.indexWhere((element) => element.id == brand.id)] = brand;
+    }
     widget.filterSubject.applyBrandsFilter(
-      await _orderInfoProvider.extractBrandsIds(
+        await _orderInfoProvider.extractBrandsIds(
         _brands.where((element) => element.isChecked).toList(),
-      ),
+    ),
     );
   }
 
-  void _copyDataToLocalVariable(List<Brand> brands) async{
+  void _copyDataToLocalVariable(List<Brand> brands) async {
+    _applyingBrands.clear();
     if (_brands.isEmpty) {
       for (var brand in brands) {
         _brands.add(brand.copy());
       }
       widget.filterSubject.setBrands(await _orderInfoProvider.extractBrandsIds(_brands));
     }
+    _applyingBrands.addAll(_brands);
   }
 
   @override
@@ -51,7 +62,7 @@ class _BrandFilterState extends State<BrandFilter> {
       theme: ExpandedTileThemeData(
         headerColor: AppColors.lightVioletTwo,
         headerPadding: EdgeInsets.symmetric(
-          horizontal: AppSize.s20.rw,
+          horizontal: AppSize.s12.rw,
           vertical: AppSize.s8.rh,
         ),
         headerSplashColor: AppColors.lightViolet,
@@ -78,18 +89,34 @@ class _BrandFilterState extends State<BrandFilter> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _copyDataToLocalVariable(snapshot.data!);
-              return ListView.builder(
-                itemCount: _brands.length,
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return BrandFilterItem(
-                    brand: _brands[index],
-                    onChanged: (isChecked, brand) {
-                      _changeSelectedStatus(isChecked, brand);
+              return Column(
+                children: [
+                  ListView.builder(
+                    itemCount: _brands.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return BrandFilterItem(
+                        brand: _brands[index],
+                        onChanged: (isChecked, brand) {
+                          _changeSelectedStatus(isChecked, brand);
+                        },
+                      );
                     },
-                  );
-                },
+                  ),
+                  AppButton(
+                    enable: true,
+                    onTap: () {
+                      _apply();
+                    },
+                    text: 'Apply',
+                    enableColor: AppColors.purpleBlue,
+                    verticalPadding: AppSize.s6.rh,
+                    icon: Icons.search,
+                    textSize: AppFontSize.s14,
+                    enableBorderColor: AppColors.purpleBlue,
+                  ),
+                ],
               );
             }
             return const SizedBox();

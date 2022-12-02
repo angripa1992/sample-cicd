@@ -29,7 +29,6 @@ class BluetoothPrinterHandler {
 
   Stream<PrinterDevice> getDevices() => _printerManager.discovery(type: PrinterType.bluetooth);
 
-
   Future<bool> connect(PrinterDevice device) async {
     if (_currentConnectedDevice != null) {
       if (device.address != _currentConnectedDevice!.address) {

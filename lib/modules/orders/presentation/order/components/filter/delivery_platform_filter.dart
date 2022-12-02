@@ -50,9 +50,9 @@ class _DeliveryPlatformFilterState extends State<DeliveryPlatformFilter> {
   Widget build(BuildContext context) {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
-        headerColor: AppColors.purpleBlue,
+        headerColor: AppColors.lightVioletTwo,
         headerPadding: EdgeInsets.symmetric(
-          horizontal: AppSize.s20.rw,
+          horizontal: AppSize.s12.rw,
           vertical: AppSize.s8.rh,
         ),
         headerSplashColor: AppColors.lightViolet,
@@ -61,13 +61,13 @@ class _DeliveryPlatformFilterState extends State<DeliveryPlatformFilter> {
       ),
       trailing: Icon(
         Icons.keyboard_arrow_down_rounded,
-        color: AppColors.white,
+        color: AppColors.purpleBlue,
       ),
       trailingRotation: 180,
       title: Text(
         'Aggregators',
         style: getRegularTextStyle(
-          color: AppColors.white,
+          color: AppColors.purpleBlue,
           fontSize: AppFontSize.s14.rSp,
         ),
       ),

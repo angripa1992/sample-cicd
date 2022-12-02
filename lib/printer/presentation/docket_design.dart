@@ -78,57 +78,6 @@ class DocketDesign extends StatelessWidget {
         ),
       ),
     );
-    return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: 250,
-          child: Column(
-            children: [
-              _headerWidget(),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _deliveryInfo(),
-              ),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: _commentView('Test comment', true),
-              ),
-              // order.orderComment.isEmpty
-              //     ? const DocketSeparator()
-              //     : _commentView(order.orderComment,true),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _itemsDetails(),
-              ),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _priceView(),
-              ),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _totalPriceView(),
-              ),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _internalIdView(),
-              ),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: _qrCode(),
-              ),
-              _footerWidget(),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _headerWidget() {
@@ -456,6 +405,7 @@ class DocketDesign extends StatelessWidget {
         _getSubtotalItem(
           'Discount:',
           order.discount,
+          isDiscount: true,
         ),
         _getSubtotalItem(
           'Additional Fee:',
@@ -486,7 +436,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _getSubtotalItem(String name, num price) {
+  Widget _getSubtotalItem(String name, num price,{bool isDiscount = false}) {
     const textStyle = TextStyle(
       color: Colors.black,
       fontSize: 12,
@@ -499,7 +449,7 @@ class DocketDesign extends StatelessWidget {
           style: textStyle,
         ),
         Text(
-          '${order.currencySymbol}${_convertPrice(price)}',
+          '${isDiscount ? '-':''}${order.currencySymbol}${_convertPrice(price)}',
           style: textStyle,
         ),
       ],
