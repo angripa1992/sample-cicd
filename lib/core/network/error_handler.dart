@@ -64,6 +64,7 @@ class ResponseCode {
   static const int UNAUTHORISED = 401;
   static const int RESPONSE = 401;
   static const int NOT_FOUND = 404;
+  static const int UPDATE_REQUIRED = 418;
   static const int INTERNAL_SERVER_ERROR = 500;
   // local status code
   static const int DEFAULT = -1;

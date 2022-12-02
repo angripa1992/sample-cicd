@@ -1,17 +1,29 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/network/urls.dart';
 
+import '../../app/app_config.dart';
+import '../../app/app_preferences.dart';
 import '../../app/di.dart';
 import '../../app/enums.dart';
 import '../../environment_variables.dart';
+import '../provider/device_information_provider.dart';
+import '../provider/order_information_provider.dart';
+import '../route/routes.dart';
+import '../route/routes_generator.dart';
+import '../utils/app_update_manager.dart';
 import 'dio_logger.dart';
 import 'error_handler.dart';
 
 class RestClient {
-  static const String _CONTENT_TYPE = 'Content-Type';
-  static const String _AUTHORIZATION = 'Authorization';
+  static const String contentType = 'Content-Type';
+  static const String authorization = 'Authorization';
+  static const String deviceAgent = 'Device-Agent';
+  static const String appAgent = 'App-Agent';
+  static const String appVersion = 'App-Version';
+  static const String appVersionName = 'App-Version-Name';
   final TokenProvider _tokenProvider;
   final DioLogger _dioLogger = DioLogger();
   final Dio _dio = Dio();
@@ -22,9 +34,31 @@ class RestClient {
 
   String _token(String? accessToken) => 'Bearer $accessToken';
 
+  void _logout(){
+    getIt.get<OrderInformationProvider>().clearData();
+    getIt.get<AppPreferences>().clearPreferences().then(
+          (value) {
+        Navigator.pushNamedAndRemoveUntil(RoutesGenerator.navigatorKey.currentState!.context, Routes.login, (route) => false);
+      },
+    );
+  }
+
+  void _addHeader() async{
+    final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
+    final versionCode = await  deviceInfoProvider.versionCode();
+    final versionName = await  deviceInfoProvider.versionName();
+    _dio.options.headers[contentType] = 'application/json';
+    // _dio.options.headers[deviceAgent] = AppConfig.appUserAgent;
+    // _dio.options.headers[appAgent] = 'enterprise/${AppConfig.appAgent}/$versionCode';
+    // _dio.options.headers[appVersion] = versionCode;
+    // _dio.options.headers[appVersionName] = versionName;
+    debugPrint('==========version code $versionCode');
+    debugPrint('==========version name $versionName');
+  }
+
   void _initInterceptor() {
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
-    _dio.options.headers[_CONTENT_TYPE] = 'application/json';
+    _addHeader();
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -36,15 +70,15 @@ class RestClient {
               final tokenResponse = await _tokenProvider.fetchTokenFromServer();
               tokenResponse.fold(
                 (accessToken) {
-                  options.headers[_AUTHORIZATION] = _token(accessToken);
+                  options.headers[authorization] = _token(accessToken);
                   handler.next(options);
                 },
                 (errorCode) {
-
+                  _logout();
                 },
               );
             } else {
-              options.headers[_AUTHORIZATION] = _token(_tokenProvider.getAccessToken());
+              options.headers[authorization] = _token(_tokenProvider.getAccessToken());
               handler.next(options);
             }
           }
@@ -62,8 +96,8 @@ class RestClient {
             return handler.next(error);
           } else {
             if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-              if (_token(_tokenProvider.getAccessToken()) != options.headers[_AUTHORIZATION]) {
-                options.headers[_AUTHORIZATION] = _token(_tokenProvider.getAccessToken());
+              if (_token(_tokenProvider.getAccessToken()) != options.headers[authorization]) {
+                options.headers[authorization] = _token(_tokenProvider.getAccessToken());
                 _dio.fetch(options).then(
                   (r) => handler.resolve(r),
                   onError: (e) {
@@ -75,7 +109,7 @@ class RestClient {
               final tokenResponse = await _tokenProvider.fetchTokenFromServer();
               tokenResponse.fold(
                 (accessToken) {
-                  options.headers[_AUTHORIZATION] = _token(accessToken);
+                  options.headers[authorization] = _token(accessToken);
                   _dio.fetch(options).then(
                     (r) => handler.resolve(r),
                     onError: (e) {
@@ -88,6 +122,9 @@ class RestClient {
                 },
               );
               return;
+            }else if(error.response?.statusCode == ResponseCode.UPDATE_REQUIRED){
+              AppUpdateManager().showAppUpdateDialog();
+              return handler.reject(error);
             }
           }
           return handler.next(error);

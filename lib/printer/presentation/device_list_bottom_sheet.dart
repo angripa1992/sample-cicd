@@ -1,80 +1,62 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
-import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../bluetooth_printer_handler.dart';
+// void showBleDeviceListView({
+//   required Function(PrinterDevice) onConnect,
+//   required Stream<PrinterDevice> devices,
+// }) {
+//   final items = <PrinterDevice>[];
+//   showDeviceListBottomSheet(
+//     title: 'Bluetooth Devices',
+//     deviceList: Expanded(
+//         child: StreamBuilder<PrinterDevice>(
+//       stream: devices,
+//       builder: (context, snapshot) {
+//         if (snapshot.hasData) {
+//           items.add(snapshot.data!);
+//           return ListView.builder(
+//             itemCount: items.length,
+//             itemBuilder: (context, index) {
+//               return deviceItemView(
+//                 icon: Icons.bluetooth,
+//                 name: items[index].name,
+//                 onConnect: () {},
+//               );
+//             },
+//           );
+//         } else if (snapshot.connectionState == ConnectionState.waiting) {
+//           return Text('Looking for device');
+//         } else if (snapshot.connectionState == ConnectionState.done) {
+//           if (items.isEmpty) {
+//             return Center(
+//               child: Text(
+//                 AppStrings.no_bluetooth_devices_message.tr(),
+//                 textAlign: TextAlign.center,
+//               ),
+//             );
+//           }
+//         }
+//         return CircularProgressIndicator();
+//       },
+//     )),
+//   );
+// }
 
-void showBleDeviceListView({
-  required Function(BluetoothDevice) onConnect,
-  required List<BluetoothDevice> devices,
+void showDeviceListBottomSheet({
+  required Function(PrinterDevice) onConnect,
+  required Stream<PrinterDevice> devicesStream,
 }) {
-  showDeviceListBottomSheet(
-    title: 'Bluetooth Devices',
-    deviceList: Expanded(
-      child: devices.isEmpty
-          ? Center(
-              child: Text(
-                AppStrings.no_bluetooth_devices_message.tr(),
-                textAlign: TextAlign.center,
-              ),
-            )
-          : ListView.builder(
-              itemCount: devices.length,
-              itemBuilder: (context, index) {
-                return deviceItemView(
-                  icon: Icons.bluetooth,
-                  name: devices[index].deviceName ?? 'Unknown Device',
-                  onConnect: () {
-                    onConnect(devices[index]);
-                  },
-                );
-              },
-            ),
-    ),
-  );
-}
-
-void showUsbDeviceListView({
-  required Function(UsbDevice) onConnect,
-  required List<UsbDevice> devices,
-}) {
-  showDeviceListBottomSheet(
-    title: 'USB Devices',
-    deviceList: Expanded(
-      child: devices.isEmpty
-          ? Center(
-              child: Text(
-                AppStrings.no_usb_devices_message.tr(),
-                textAlign: TextAlign.center,
-              ),
-            )
-          : ListView.builder(
-              itemCount: devices.length,
-              itemBuilder: (context, index) {
-                return deviceItemView(
-                  icon: Icons.usb,
-                  name: devices[index].name,
-                  onConnect: () {
-                    onConnect(devices[index]);
-                  },
-                );
-              },
-            ),
-    ),
-  );
-}
-
-void showDeviceListBottomSheet(
-    {required String title, required Widget deviceList}) {
+  final items = <PrinterDevice>[];
   showModalBottomSheet<void>(
     context: RoutesGenerator.navigatorKey.currentState!.context,
     isScrollControlled: true,
@@ -89,43 +71,73 @@ void showDeviceListBottomSheet(
       minChildSize: 0.65,
       maxChildSize: 0.65,
       expand: false,
-      builder: (_, controller) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.purpleBlue,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(AppSize.s16),
-                topRight: Radius.circular(AppSize.s16),
-              ),
-            ),
-            child: Center(
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.remove,
-                    color: AppColors.lightGrey,
+      builder: (_, controller) => StreamBuilder<PrinterDevice>(
+        stream: devicesStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            items.add(snapshot.data!);
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.purpleBlue,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(AppSize.s16),
+                    topRight: Radius.circular(AppSize.s16),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: AppSize.s12.rh, top: AppSize.s4.rh),
-                    child: Text(
-                      title,
-                      style: getBoldTextStyle(
-                        color: AppColors.white,
-                        fontSize: AppSize.s18.rSp,
+                ),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.remove,
+                        color: AppColors.lightGrey,
                       ),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: AppSize.s12.rh, top: AppSize.s4.rh),
+                        child: Text(
+                          AppStrings.bluetooth_devices.tr(),
+                          style: getBoldTextStyle(
+                            color: AppColors.white,
+                            fontSize: AppSize.s18.rSp,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          deviceList,
-        ],
+              if (snapshot.hasData) ...[
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      return deviceItemView(
+                        icon: Icons.bluetooth,
+                        name: items[index].name,
+                        onConnect: () {},
+                      );
+                    },
+                  ),
+                ),
+              ]else if (snapshot.connectionState == ConnectionState.waiting)...[
+                Expanded(child: Text('Looking for devices')),
+              ]else if (snapshot.connectionState == ConnectionState.done)...[
+                Center(
+                  child: Text(
+                    AppStrings.no_bluetooth_devices_message.tr(),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ]
+            ],
+          );
+        },
       ),
     ),
   );

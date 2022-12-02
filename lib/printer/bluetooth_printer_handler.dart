@@ -5,7 +5,7 @@ import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 class BluetoothPrinterHandler {
   final _printerManager = PrinterManager.instance;
   bool _isConnected = false;
-  BluetoothDevice? _currentConnectedDevice;
+  PrinterDevice? _currentConnectedDevice;
 
   BluetoothPrinterHandler() {
     _initListener();
@@ -28,22 +28,10 @@ class BluetoothPrinterHandler {
     });
   }
 
-  Future<List<BluetoothDevice>> getDevices() async {
-    final results =
-        await _printerManager.discovery(type: PrinterType.bluetooth).toList();
-    final devices = <BluetoothDevice>[];
-    for (var device in results) {
-      devices.add(
-        BluetoothDevice(
-          deviceName: device.name,
-          address: device.address,
-        ),
-      );
-    }
-    return devices;
-  }
+  Stream<PrinterDevice> getDevices() => _printerManager.discovery(type: PrinterType.bluetooth);
 
-  Future<bool> connect(BluetoothDevice device) async {
+
+  Future<bool> connect(PrinterDevice device) async {
     if (_currentConnectedDevice != null) {
       if (device.address != _currentConnectedDevice!.address) {
         await PrinterManager.instance.disconnect(type: PrinterType.bluetooth);
@@ -70,14 +58,4 @@ class BluetoothPrinterHandler {
       //ignored
     }
   }
-}
-
-class BluetoothDevice {
-  String? deviceName;
-  String? address;
-
-  BluetoothDevice({
-    this.deviceName,
-    this.address,
-  });
 }

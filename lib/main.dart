@@ -26,8 +26,6 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
   await FcmService().getFcmToken();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  final fid = await FirebaseInstallations.instance.getId();
-  print('==========================fid $fid');
 
   SystemChrome.setPreferredOrientations(
     [

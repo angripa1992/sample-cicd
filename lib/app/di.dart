@@ -82,15 +82,13 @@ final getIt = GetIt.instance;
 Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
   getIt.registerSingleton<SharedPreferences>(
-    await SharedPreferences.getInstance(),
-  );
+      await SharedPreferences.getInstance());
+  getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider(getIt()));
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
   getIt.registerSingleton<WebSocketClient>(WebSocketClient(getIt()));
-  getIt.registerSingleton<DeviceInformationProvider>(
-      DeviceInformationProvider());
   getIt.registerSingleton<FcmTokenManager>(
       FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
 
@@ -176,8 +174,11 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   ///printer
   getIt.registerLazySingleton(() => BluetoothPrinterHandler());
   getIt.registerLazySingleton(() => UsbPrinterHandler());
-  getIt.registerLazySingleton(() => PrintingHandler(getIt.get(), getIt.get(),getIt.get()));
-  getIt.registerLazySingleton<PrinterSettingRepository>(() => PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton(
+      () => PrintingHandler(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerLazySingleton<PrinterSettingRepository>(
+      () => PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => PrinterSettingCubit(getIt.get(), getIt.get()));
-  getIt.registerFactory(() => UpdatePrinterSettingCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(
+      () => UpdatePrinterSettingCubit(getIt.get(), getIt.get()));
 }

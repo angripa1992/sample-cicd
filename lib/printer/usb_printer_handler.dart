@@ -4,7 +4,7 @@ import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 class UsbPrinterHandler {
   final _printerManager = PrinterManager.instance;
   bool _isConnected = false;
-  UsbDevice? _currentConnectedDevice;
+  PrinterDevice? _currentConnectedDevice;
 
   UsbPrinterHandler() {
     _initListener();
@@ -25,23 +25,9 @@ class UsbPrinterHandler {
 
   bool isConnected() => _isConnected;
 
-  Future<List<UsbDevice>> getDevices() async {
-    final results =
-        await _printerManager.discovery(type: PrinterType.usb).toList();
-    final devices = <UsbDevice>[];
-    for (var device in results) {
-      devices.add(
-        UsbDevice(
-          vendorId: device.vendorId ?? '',
-          productId: device.productId ?? '',
-          name: device.name,
-        ),
-      );
-    }
-    return devices;
-  }
+  Stream<PrinterDevice> getDevices() => _printerManager.discovery(type: PrinterType.usb);
 
-  Future<bool> connect(UsbDevice device) async {
+  Future<bool> connect(PrinterDevice device) async {
     if (_currentConnectedDevice != null) {
       if (device.vendorId != _currentConnectedDevice!.vendorId) {
         await PrinterManager.instance.disconnect(type: PrinterType.usb);
@@ -72,13 +58,4 @@ class UsbPrinterHandler {
       //ignored
     }
   }
-}
-
-class UsbDevice {
-  final String vendorId;
-  final String productId;
-  final String name;
-
-  UsbDevice(
-      {required this.vendorId, required this.productId, required this.name});
 }

@@ -51,9 +51,9 @@ class PrintingHandler {
   }
 
   void showBleDevices({Order? order}) async {
-    final devices = await _bluetoothPrinterHandler.getDevices();
-    showBleDeviceListView(
-      devices: devices,
+    final devices =  _bluetoothPrinterHandler.getDevices();
+    showDeviceListBottomSheet(
+      devicesStream: devices,
       onConnect: (device) async {
         final isConnected = await _bluetoothPrinterHandler.connect(device);
         if (isConnected) {
@@ -83,9 +83,9 @@ class PrintingHandler {
   }
 
   void showUsbDevices({Order? order}) async {
-    final devices = await _usbPrinterHandler.getDevices();
-    showUsbDeviceListView(
-      devices: devices,
+    final devices = _usbPrinterHandler.getDevices();
+    showDeviceListBottomSheet(
+      devicesStream: devices,
       onConnect: (device) async {
         final isSuccessfullyConnected =
             await _usbPrinterHandler.connect(device);

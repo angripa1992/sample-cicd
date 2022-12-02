@@ -212,8 +212,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               InAppNotificationHandler().dismissInAppNotification();
                               getIt.get<AppPreferences>().clearPreferences().then(
                                     (value) {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context, Routes.login, (route) => false);
+                                  Navigator.pushNamedAndRemoveUntil(context, Routes.login, (route) => false);
                                 },
                               );
                             }
