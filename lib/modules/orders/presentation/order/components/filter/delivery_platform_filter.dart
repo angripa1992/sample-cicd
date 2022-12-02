@@ -65,7 +65,7 @@ class _DeliveryPlatformFilterState extends State<DeliveryPlatformFilter> {
       ),
       trailingRotation: 180,
       title: Text(
-        'Delivery Platforms',
+        'Aggregators',
         style: getRegularTextStyle(
           color: AppColors.white,
           fontSize: AppFontSize.s14.rSp,

@@ -60,19 +60,19 @@ android {
             dimension "app"
             applicationId "io.klikit.enterprise.staging"
             versionCode 1
-            versionName "0.12.0"
+            versionName "0.13.0"
         }
         dev{
             dimension "app"
             applicationId "io.klikit.enterprise.dev"
             versionCode 1
-            versionName "0.12.0"
+            versionName "0.13.0"
         }
         live{
             dimension "app"
             applicationId "io.klikit.enterprise"
             versionCode 1
-            versionName "0.12.0"
+            versionName "0.13.0"
         }
     }
 
