@@ -241,6 +241,10 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   Row(
                     children: [
+                      Icon(Icons.edit,color: AppColors.purpleBlue),
+                      SizedBox(
+                        width: AppSize.s8.rw,
+                      ),
                       Expanded(
                         child: UrlTextButton(
                           onPressed: () {
@@ -250,26 +254,20 @@ class _AccountScreenState extends State<AccountScreen> {
                           text: AppStrings.change_your_password.tr(),
                         ),
                       ),
+                    ],
+                  ),                  Row(
+                    children: [
+                      Icon(Icons.print,color: AppColors.purpleBlue),
                       SizedBox(
-                        width: AppSize.s20.rw,
+                        width: AppSize.s8.rw,
                       ),
                       Expanded(
-                        child: Row(
-                          children: [
-                            Icon(Icons.print,color: AppColors.purpleBlue),
-                            SizedBox(
-                              width: AppSize.s8.rw,
-                            ),
-                            Expanded(
-                              child: UrlTextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(Routes.printerSettings);
-                                },
-                                color: AppColors.purpleBlue,
-                                text: AppStrings.printer_settings.tr(),
-                              ),
-                            ),
-                          ],
+                        child: UrlTextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(Routes.printerSettings);
+                          },
+                          color: AppColors.purpleBlue,
+                          text: AppStrings.printer_settings.tr(),
                         ),
                       ),
                     ],

@@ -15,8 +15,7 @@ class BluetoothPrinterHandler {
 
   void _initListener() {
     _printerManager.stateBluetooth.listen((status) {
-      debugPrint(
-          '*****************************BLE STATE $status***********************');
+      debugPrint('*****************************BLE STATE $status***********************');
       switch (status) {
         case BTStatus.connected:
           _isConnected = true;

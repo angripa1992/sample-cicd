@@ -15,6 +15,7 @@ import 'package:klikit/resources/values.dart';
 
 import '../../app/di.dart';
 import '../../core/utils/response_state.dart';
+import '../../modules/widgets/app_button.dart';
 import '../../resources/strings.dart';
 import '../../resources/styles.dart';
 
@@ -46,6 +47,7 @@ class _PrinterConnectionSettingPageState
 
   void _saveConnectionTypeToPreferences() async {
     await _appPreferences.savePrinterConnectionType(_connectionType);
+    setState(() {});
   }
 
   void _updateConnectionType() {
@@ -147,50 +149,14 @@ class _PrinterConnectionSettingPageState
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s24.rw),
-            child: LoadingButton(
-              isLoading: false,
+            child: AppButton(
+              enable: _appPreferences.connectionType() == _connectionType,
               verticalPadding: AppSize.s10.rh,
               onTap: _showDeviceListView,
               text: 'Show Devices',
+              icon: _appPreferences.connectionType() == ConnectionType.BLUETOOTH ? Icons.bluetooth : Icons.usb,
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(
-          //     horizontal: AppSize.s24.rw,
-          //   ),
-          //   child: ElevatedButton(
-          //     onPressed: _showDeviceListView,
-          //     style: ElevatedButton.styleFrom(
-          //       minimumSize: Size.zero,
-          //       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          //       primary: AppColors.purpleBlue,
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-          //       ),
-          //     ),
-          //     child: Padding(
-          //       padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [
-          //           Icon(
-          //             _connectionType == ConnectionType.BLUETOOTH
-          //                 ? Icons.bluetooth
-          //                 : Icons.usb,
-          //             color: AppColors.white,
-          //           ),
-          //           Text(
-          //             'Show Devices',
-          //             style: getMediumTextStyle(
-          //               color: AppColors.white,
-          //               fontSize: AppFontSize.s16.rSp,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

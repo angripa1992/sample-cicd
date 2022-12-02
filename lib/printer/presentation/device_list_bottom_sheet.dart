@@ -27,9 +27,9 @@ void showDeviceListBottomSheet({
       ),
     ),
     builder: (context) => DraggableScrollableSheet(
-      initialChildSize: 0.65,
-      minChildSize: 0.65,
-      maxChildSize: 0.65,
+      initialChildSize: 0.5,
+      minChildSize: 0.5,
+      maxChildSize: 0.5,
       expand: false,
       builder: (_, controller) => StreamBuilder<PrinterDevice>(
         stream: devicesStream,
