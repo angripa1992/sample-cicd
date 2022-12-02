@@ -53,6 +53,7 @@ class PrintingHandler {
   void showBleDevices({Order? order}) async {
     final devices =  _bluetoothPrinterHandler.getDevices();
     showDeviceListBottomSheet(
+      type: ConnectionType.BLUETOOTH,
       devicesStream: devices,
       onConnect: (device) async {
         final isConnected = await _bluetoothPrinterHandler.connect(device);
@@ -85,6 +86,7 @@ class PrintingHandler {
   void showUsbDevices({Order? order}) async {
     final devices = _usbPrinterHandler.getDevices();
     showDeviceListBottomSheet(
+      type: ConnectionType.USB,
       devicesStream: devices,
       onConnect: (device) async {
         final isSuccessfullyConnected =
@@ -117,20 +119,12 @@ class PrintingHandler {
       if (_bluetoothPrinterHandler.isConnected()) {
         _bluetoothPrinterHandler.printDocket(rawBytes!);
       } else {
-        // showNoDeviceConnectedDialog(
-        //   connectionType: ConnectionType.BLUETOOTH,
-        //   onOK: () {},
-        // );
         showBleDevices(order: order);
       }
     } else {
       if (_usbPrinterHandler.isConnected()) {
         _usbPrinterHandler.printDocket(rawBytes!);
       } else {
-        // showNoDeviceConnectedDialog(
-        //   connectionType: ConnectionType.USB,
-        //   onOK: () {},
-        // );
         showUsbDevices(order: order);
       }
     }

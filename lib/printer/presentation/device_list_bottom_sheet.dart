@@ -11,48 +11,8 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-// void showBleDeviceListView({
-//   required Function(PrinterDevice) onConnect,
-//   required Stream<PrinterDevice> devices,
-// }) {
-//   final items = <PrinterDevice>[];
-//   showDeviceListBottomSheet(
-//     title: 'Bluetooth Devices',
-//     deviceList: Expanded(
-//         child: StreamBuilder<PrinterDevice>(
-//       stream: devices,
-//       builder: (context, snapshot) {
-//         if (snapshot.hasData) {
-//           items.add(snapshot.data!);
-//           return ListView.builder(
-//             itemCount: items.length,
-//             itemBuilder: (context, index) {
-//               return deviceItemView(
-//                 icon: Icons.bluetooth,
-//                 name: items[index].name,
-//                 onConnect: () {},
-//               );
-//             },
-//           );
-//         } else if (snapshot.connectionState == ConnectionState.waiting) {
-//           return Text('Looking for device');
-//         } else if (snapshot.connectionState == ConnectionState.done) {
-//           if (items.isEmpty) {
-//             return Center(
-//               child: Text(
-//                 AppStrings.no_bluetooth_devices_message.tr(),
-//                 textAlign: TextAlign.center,
-//               ),
-//             );
-//           }
-//         }
-//         return CircularProgressIndicator();
-//       },
-//     )),
-//   );
-// }
-
 void showDeviceListBottomSheet({
+  required int type,
   required Function(PrinterDevice) onConnect,
   required Stream<PrinterDevice> devicesStream,
 }) {
@@ -75,7 +35,9 @@ void showDeviceListBottomSheet({
         stream: devicesStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            items.add(snapshot.data!);
+            if (!items.contains(snapshot.data)) {
+              items.add(snapshot.data!);
+            }
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,7 +63,17 @@ void showDeviceListBottomSheet({
                         padding: EdgeInsets.only(
                             bottom: AppSize.s12.rh, top: AppSize.s4.rh),
                         child: Text(
-                          AppStrings.bluetooth_devices.tr(),
+                          type == ConnectionType.USB
+                              ? ((snapshot.connectionState ==
+                                          ConnectionState.done &&
+                                      items.isEmpty)
+                                  ? AppStrings.no_usb_devices.tr()
+                                  : AppStrings.usb_devices.tr())
+                              : ((snapshot.connectionState ==
+                                          ConnectionState.done &&
+                                      items.isEmpty)
+                                  ? AppStrings.no_bluetooth_devices.tr()
+                                  : AppStrings.bluetooth_devices.tr()),
                           style: getBoldTextStyle(
                             color: AppColors.white,
                             fontSize: AppSize.s18.rSp,
@@ -118,20 +90,44 @@ void showDeviceListBottomSheet({
                     itemCount: items.length,
                     itemBuilder: (context, index) {
                       return deviceItemView(
-                        icon: Icons.bluetooth,
+                        icon: type == ConnectionType.BLUETOOTH ? Icons.bluetooth : Icons.usb,
                         name: items[index].name,
-                        onConnect: () {},
+                        onConnect: () {
+                          onConnect(items[index]);
+                        },
                       );
                     },
                   ),
                 ),
-              ]else if (snapshot.connectionState == ConnectionState.waiting)...[
-                Expanded(child: Text('Looking for devices')),
-              ]else if (snapshot.connectionState == ConnectionState.done)...[
-                Center(
-                  child: Text(
-                    AppStrings.no_bluetooth_devices_message.tr(),
-                    textAlign: TextAlign.center,
+              ] else if (snapshot.connectionState ==
+                  ConnectionState.waiting) ...[
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Looking for Devices...',
+                      style: getRegularTextStyle(
+                        color: AppColors.black,
+                        fontSize: AppFontSize.s18.rSp,
+                      ),
+                    ),
+                  ),
+                ),
+              ] else if (snapshot.connectionState == ConnectionState.done) ...[
+                Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        type == ConnectionType.BLUETOOTH
+                            ? AppStrings.no_bluetooth_devices_message.tr()
+                            : AppStrings.no_usb_devices_message.tr(),
+                        textAlign: TextAlign.center,
+                        style: getRegularTextStyle(
+                          color: AppColors.black,
+                          fontSize: AppFontSize.s16.rSp,
+                        ),
+                      ),
+                    ),
                   ),
                 )
               ]
@@ -190,67 +186,5 @@ Widget deviceItemView({
       ),
       const Divider(),
     ],
-  );
-}
-
-void showNoDeviceConnectedDialog({
-  required int connectionType,
-  required VoidCallback onOK,
-}) {
-  showDialog(
-    context: RoutesGenerator.navigatorKey.currentState!.context,
-    barrierDismissible: false,
-    builder: (context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              connectionType == ConnectionType.BLUETOOTH
-                  ? 'No Bluetooth Devices'
-                  : 'No USB Devices',
-              style: getMediumTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s18.rSp,
-              ),
-            ),
-            SizedBox(
-              height: AppSize.s16.rh,
-            ),
-            Text(
-              connectionType == ConnectionType.BLUETOOTH
-                  ? AppStrings.no_bluetooth_devices_message.tr()
-                  : AppStrings.no_usb_devices_message.tr(),
-              textAlign: TextAlign.center,
-              style: getRegularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
-              ),
-            ),
-            SizedBox(
-              height: AppSize.s16.rh,
-            ),
-            const Divider(),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onOK();
-              },
-              child: Center(
-                child: Text(
-                  AppStrings.ok.tr(),
-                  style: getRegularTextStyle(
-                    color: AppColors.purpleBlue,
-                    fontSize: AppFontSize.s16.rSp,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
   );
 }
