@@ -38,7 +38,7 @@ class _StockScreenState extends State<StockScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: const SizedBox(),
-          title: Text('Manage Menus'),
+          title: const Text('Manage Menus'),
           titleTextStyle: getAppBarTextStyle(),
           centerTitle: true,
           flexibleSpace: getAppBarBackground(),

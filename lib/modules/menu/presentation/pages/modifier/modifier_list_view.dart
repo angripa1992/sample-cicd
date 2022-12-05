@@ -27,48 +27,53 @@ class _ModifierListViewState extends State<ModifierListView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.separated(
-        key: UniqueKey(),
-        itemCount: widget.modifiersGroup.modifiers.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-                  child: Text(
-                    widget.modifiersGroup.modifiers[index].title,
-                    style: getRegularTextStyle(
-                      color: AppColors.black,
-                      fontSize: AppFontSize.s14.rSp,
+      child: Padding(
+        padding: EdgeInsets.only(top: AppSize.s8.rh),
+        child: ListView.builder(
+          key: UniqueKey(),
+          itemCount: widget.modifiersGroup.modifiers.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Card(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                        child: Text(
+                          widget.modifiersGroup.modifiers[index].title,
+                          style: getRegularTextStyle(
+                            color: AppColors.black,
+                            fontSize: AppFontSize.s14.rSp,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    ModifierSwitchView(
+                      brandId: widget.brandId,
+                      groupId: widget.modifiersGroup.groupId,
+                      modifierId: widget.modifiersGroup.modifiers[index].modifierId,
+                      enabled: widget.modifiersGroup.modifiers[index].statuses.isEmpty
+                          ? false
+                          : widget
+                              .modifiersGroup.modifiers[index].statuses[0].enabled,
+                      type: ModifierType.MODIFIER,
+                      onSuccess: (enabled) {
+                        setState(() {
+                          widget.modifiersGroup.modifiers[index].statuses[0].enabled = enabled;
+                          widget.onChanged(widget.modifiersGroup.modifiers);
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
-              ModifierSwitchView(
-                brandId: widget.brandId,
-                groupId: widget.modifiersGroup.groupId,
-                modifierId: widget.modifiersGroup.modifiers[index].modifierId,
-                enabled: widget.modifiersGroup.modifiers[index].statuses.isEmpty
-                    ? false
-                    : widget
-                        .modifiersGroup.modifiers[index].statuses[0].enabled,
-                type: ModifierType.MODIFIER,
-                onSuccess: (enabled) {
-                  setState(() {
-                    widget.modifiersGroup.modifiers[index].statuses[0].enabled = enabled;
-                    widget.onChanged(widget.modifiersGroup.modifiers);
-                  });
-                },
-              ),
-            ],
-          );
-        },
-        separatorBuilder: (_, __) {
-          return const Divider();
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -37,7 +37,7 @@ class ModifierScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+                  padding: EdgeInsets.symmetric(vertical: AppSize.s12.rh),
                   child: Text(
                     'MODIFIER GROUPS',
                     style: getRegularTextStyle(
@@ -48,8 +48,9 @@ class ModifierScreen extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      color: AppColors.lightGrey,
-                      borderRadius: BorderRadius.circular(AppSize.s4.rSp)),
+                    color: AppColors.lightGrey,
+                    borderRadius: BorderRadius.circular(AppSize.s4.rSp),
+                  ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: AppSize.s8.rh,
@@ -82,7 +83,7 @@ class ModifierScreen extends StatelessWidget {
                       if (state is Success<List<ModifiersGroup>>) {
                         if (state.data.isEmpty) {
                           return const Center(
-                            child: Text('No modifier group found!'),
+                            child: Text('No modifier groups found!'),
                           );
                         }
                         return ModifierGroupsListView(

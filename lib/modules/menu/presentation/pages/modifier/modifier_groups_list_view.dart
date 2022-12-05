@@ -32,61 +32,66 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
   }
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      key: UniqueKey(),
-      itemCount: _modifiableModifierGroups.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        final group = _modifiableModifierGroups[index];
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: InkWell(
-                onTap: () async{
-                  final modifiedModifierGroup = await Navigator.pushNamed(
-                    context,
-                    Routes.manageModifiers,
-                    arguments: {
-                      'group': group,
-                      'brand_id': widget.brandId,
-                    },
-                  ) as ModifiersGroup;
-                  setState(() {
-                    _modifiableModifierGroups.removeAt(index);
-                    _modifiableModifierGroups.insert(index, modifiedModifierGroup);
-                  });
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-                  child: Text(
-                    group.title,
-                    style: getRegularTextStyle(
-                      color: AppColors.black,
-                      fontSize: AppFontSize.s14.rSp,
+    return Padding(
+      padding: EdgeInsets.only(top: AppSize.s8.rh),
+      child: ListView.builder(
+        key: UniqueKey(),
+        itemCount: _modifiableModifierGroups.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          final group = _modifiableModifierGroups[index];
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () async{
+                        final modifiedModifierGroup = await Navigator.pushNamed(
+                          context,
+                          Routes.manageModifiers,
+                          arguments: {
+                            'group': group,
+                            'brand_id': widget.brandId,
+                          },
+                        ) as ModifiersGroup;
+                        setState(() {
+                          _modifiableModifierGroups.removeAt(index);
+                          _modifiableModifierGroups.insert(index, modifiedModifierGroup);
+                        });
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                        child: Text(
+                          group.title,
+                          style: getRegularTextStyle(
+                            color: AppColors.black,
+                            fontSize: AppFontSize.s14.rSp,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  ModifierSwitchView(
+                    brandId: widget.brandId,
+                    groupId: group.groupId,
+                    enabled:
+                        group.statuses.isEmpty ? false : group.statuses[0].enabled,
+                    type: ModifierType.GROUP,
+                    onSuccess: (enabled) {
+                      setState(() {
+                        _modifiableModifierGroups[index].statuses[0].enabled = enabled;
+                      });
+                    },
+                  ),
+                ],
               ),
             ),
-            ModifierSwitchView(
-              brandId: widget.brandId,
-              groupId: group.groupId,
-              enabled:
-                  group.statuses.isEmpty ? false : group.statuses[0].enabled,
-              type: ModifierType.GROUP,
-              onSuccess: (enabled) {
-                setState(() {
-                  _modifiableModifierGroups[index].statuses[0].enabled = enabled;
-                });
-              },
-            ),
-          ],
-        );
-      },
-      separatorBuilder: (_, __) {
-        return const Divider();
-      },
+          );
+        },
+      ),
     );
   }
 }
