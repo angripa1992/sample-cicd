@@ -75,30 +75,36 @@ class _DateSelectorState extends State<DateSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: InkWell(
+        onTap: _pickDateRange,
+        child: Container(
           padding: const EdgeInsets.all(AppSize.s8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             color: AppColors.lightVioletTwo,
           ),
-          child: Text(
-            DateTimeProvider.dateRangeString(_dateTimeRange!),
-            style: getRegularTextStyle(
-              color: AppColors.purpleBlue,
-              fontSize: AppFontSize.s13.rSp,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.date_range,
+                color: AppColors.purpleBlue,
+                size: AppSize.s18.rSp,
+              ),
+              SizedBox(width: AppSize.s8.rw),
+              Text(
+                DateTimeProvider.dateRangeString(_dateTimeRange!),
+                style: getRegularTextStyle(
+                  color: AppColors.purpleBlue,
+                  fontSize: AppFontSize.s13.rSp,
+                ),
+              ),
+            ],
           ),
         ),
-        IconButton(
-          onPressed: () {
-            _pickDateRange();
-          },
-          icon: Icon(Icons.date_range,color: AppColors.lightViolet,),
-        )
-      ],
+      ),
     );
   }
 }

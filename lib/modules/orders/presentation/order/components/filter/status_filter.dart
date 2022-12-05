@@ -73,9 +73,9 @@ class _StatusFilterState extends State<StatusFilter> {
         ),
         child: ExpandedTile(
           theme: ExpandedTileThemeData(
-            headerColor: AppColors.blackCow,
+            headerColor: AppColors.lightVioletTwo,
             headerPadding: EdgeInsets.symmetric(
-              horizontal: AppSize.s20.rw,
+              horizontal: AppSize.s12.rw,
               vertical: AppSize.s8.rh,
             ),
             headerSplashColor: AppColors.lightViolet,
@@ -84,13 +84,13 @@ class _StatusFilterState extends State<StatusFilter> {
           ),
           trailing: Icon(
             Icons.keyboard_arrow_down_rounded,
-            color: AppColors.white,
+            color: AppColors.purpleBlue,
           ),
           trailingRotation: 180,
           title: Text(
             'Status',
             style: getRegularTextStyle(
-              color: AppColors.white,
+              color: AppColors.purpleBlue,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
