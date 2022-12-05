@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
@@ -75,6 +76,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         title: const Text('Order Dashboard'),
         titleTextStyle: getAppBarTextStyle(),
         flexibleSpace: getAppBarBackground(),
+        centerTitle: true,
       ),
       body: NestedScrollView(
         physics: const NeverScrollableScrollPhysics(),

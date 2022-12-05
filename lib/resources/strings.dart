@@ -83,6 +83,7 @@ class AppStrings {
 
   ///home
   static const String total_orders_today = "total_orders_today";
+  static const String total_orders_yesterday = "total_orders_yesterday";
   static const String yesterday = "yesterday";
   static const String completed_orders = "completed_orders";
   static const String cancelled_orders = "cancelled_orders";

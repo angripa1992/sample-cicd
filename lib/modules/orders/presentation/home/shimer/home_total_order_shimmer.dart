@@ -10,14 +10,14 @@ import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../widgets/shimmer/container_shimmer.dart';
 
-Widget todayTotalOrderShimmer() {
+Widget totalOrderShimmer(String text) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       TextShimmer(
         baseColor: AppColors.blackCow,
         highlightColor: AppColors.whiteSmoke,
-        text: AppStrings.total_orders_today.tr(),
+        text: text,
         textStyle: getRegularTextStyle(
           color: AppColors.blackCow,
           fontSize: AppFontSize.s14.rSp,

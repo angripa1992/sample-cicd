@@ -16,11 +16,11 @@ class HomeHeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.black,
-      height: 23.h,
+      height: AppSize.s20.h,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s24.rw,
-          vertical: AppSize.s24.rh,
+          vertical: AppSize.s8.rh,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

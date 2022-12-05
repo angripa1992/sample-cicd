@@ -67,6 +67,7 @@
   "go_back": "Go Back",
 
   "total_orders_today": "Total Orders Today",
+  "total_orders_yesterday": "Total Orders Yesterday",
   "yesterday": "Yesterday",
   "completed_orders": "Completed Orders",
   "cancelled_orders": "Cancelled Orders",

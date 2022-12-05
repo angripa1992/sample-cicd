@@ -34,10 +34,15 @@ class OrdersCard extends StatelessWidget {
     return SizedBox(
       height: height,
       width: width,
-      child: Card(
-        color: bgColor ?? AppColors.white,
-        shadowColor: AppColors.smokeyGrey,
-        elevation: 4,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+          color: bgColor ?? AppColors.white,
+            border: Border.all(
+              color: AppColors.whiteSmoke,
+              width: 2
+            ),
+        ),
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: AppSize.s12.rw,
