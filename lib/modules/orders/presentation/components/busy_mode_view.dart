@@ -9,6 +9,7 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/values.dart';
@@ -66,7 +67,7 @@ class _BusyModeViewState extends State<BusyModeView> {
             children: [
               (state is Available)
                   ? _getAvailableIcon()
-                  : _getOfflineIcon((state as Offline).minute.toString()),
+                  : _getOfflineIcon((state as Offline).minute),
               SizedBox(width: AppSize.s12.rw),
               Text(
                 AppStrings.busy_mode.tr(),
@@ -79,15 +80,6 @@ class _BusyModeViewState extends State<BusyModeView> {
                 onChanged: (willGoOffline) {
                   showBusyModeConfirmDialog(
                     isBusy: willGoOffline,
-                    title: willGoOffline
-                        ? AppStrings.offline_title.tr()
-                        : AppStrings.online_title.tr(),
-                    message: willGoOffline
-                        ? AppStrings.offline_message.tr()
-                        : AppStrings.online_message.tr(),
-                    buttonText: willGoOffline
-                        ? AppStrings.go_offline.tr()
-                        : AppStrings.go_online.tr(),
                     updateBLoc: context.read<UpdateBusyModeCubit>(),
                     busyBLoc: context.read<BusyModeCubit>(),
                   );
@@ -124,30 +116,18 @@ class _BusyModeViewState extends State<BusyModeView> {
     );
   }
 
-  Widget _getOfflineIcon(String minute) {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.lightSalmon.withOpacity(0.5),
-          shape: BoxShape.circle,
-          border: Border.all(color: AppColors.warmRed)),
-      child: Padding(
-        padding: EdgeInsets.all(AppSize.s10.rSp),
-        child: Text(
-          minute,
-          style: getRegularTextStyle(
-            color: AppColors.warmRed,
-            fontSize: AppFontSize.s15.rSp,
-          ),
-        ),
-      ),
+  Widget _getOfflineIcon(int minute) {
+    return CircularPercentIndicator(
+      radius: 20.0,
+      lineWidth: 4.0,
+      percent: (60 - minute) / 60,
+      center: Text("$minute"),
+      progressColor: AppColors.green,
     );
   }
 
   void showBusyModeConfirmDialog({
     required bool isBusy,
-    required String title,
-    required String message,
-    required String buttonText,
     required UpdateBusyModeCubit updateBLoc,
     required BusyModeCubit busyBLoc,
   }) {
@@ -167,7 +147,9 @@ class _BusyModeViewState extends State<BusyModeView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  title,
+                  isBusy
+                      ? AppStrings.offline_title.tr()
+                      : AppStrings.online_title.tr(),
                   textAlign: TextAlign.center,
                   style: getMediumTextStyle(
                     color: AppColors.black,
@@ -178,7 +160,9 @@ class _BusyModeViewState extends State<BusyModeView> {
                   height: AppSize.s16.rh,
                 ),
                 Text(
-                  message,
+                  isBusy
+                      ? AppStrings.offline_message.tr()
+                      : AppStrings.online_message.tr(),
                   textAlign: TextAlign.center,
                   style: getRegularTextStyle(
                     color: AppColors.black,
@@ -207,8 +191,14 @@ class _BusyModeViewState extends State<BusyModeView> {
                                 updateBLoc.updateStatus(isBusy);
                               },
                               isLoading: (state is Loading),
-                              text: buttonText,
-                              textSize: AppFontSize.s12.rSp,
+                              text: isBusy
+                                  ? AppStrings.go_offline.tr()
+                                  : AppStrings.go_online.tr(),
+                              bgColor:
+                                  isBusy ? AppColors.warmRed : AppColors.green,
+                              borderColor:
+                                  isBusy ? AppColors.warmRed : AppColors.green,
+                              textSize: AppFontSize.s14.rSp,
                               verticalPadding: AppSize.s8.rh,
                             );
                           },
@@ -222,8 +212,8 @@ class _BusyModeViewState extends State<BusyModeView> {
                           child: Center(
                             child: Text(
                               AppStrings.not_now.tr(),
-                              style: getBoldTextStyle(
-                                color: AppColors.red,
+                              style: getMediumTextStyle(
+                                color: AppColors.purpleBlue,
                                 fontSize: AppFontSize.s16.rSp,
                               ),
                             ),

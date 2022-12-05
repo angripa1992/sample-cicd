@@ -44,6 +44,7 @@ dependencies:
   qr_flutter: ^4.0.0
   flutter_pos_printer_platform: ^1.0.12
   firebase_app_installations: ^0.1.1+10
+  percent_indicator: ^4.2.2
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
