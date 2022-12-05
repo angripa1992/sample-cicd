@@ -8,7 +8,7 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import 'filter/brand_filter.dart';
-import 'filter/delivery_platform_filter.dart';
+import 'filter/aggregator_filter.dart';
 import 'filter/status_filter.dart';
 
 class OrderHeaderView extends StatelessWidget {
@@ -39,7 +39,7 @@ class OrderHeaderView extends StatelessWidget {
             right: AppSize.s12.rw,
             left: AppSize.s12.rw,
           ),
-          child: DeliveryPlatformFilter(filterSubject: subject),
+          child: AggregatorsFilter(filterSubject: subject),
         ),
         StatusFilter(
           subject: subject,

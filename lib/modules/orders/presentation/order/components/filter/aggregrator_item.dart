@@ -8,19 +8,19 @@ import 'package:klikit/resources/styles.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
 
-class DeliveryPlatformItem extends StatefulWidget {
+class AggregatorItem extends StatefulWidget {
   final Provider provider;
   final Function(bool, Provider) onChange;
 
-  const DeliveryPlatformItem(
+  const AggregatorItem(
       {Key? key, required this.provider, required this.onChange})
       : super(key: key);
 
   @override
-  State<DeliveryPlatformItem> createState() => _DeliveryPlatformItemState();
+  State<AggregatorItem> createState() => _AggregatorItemState();
 }
 
-class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
+class _AggregatorItemState extends State<AggregatorItem> {
   bool? _isSelected;
 
   @override
@@ -53,23 +53,33 @@ class _DeliveryPlatformItemState extends State<DeliveryPlatformItem> {
                 ),
               ),
               const Spacer(),
-              Switch(
-                onChanged: (isSelected) {
+              Checkbox(
+                checkColor: AppColors.white,
+                fillColor: MaterialStateProperty.resolveWith(getCheckboxColor),
+                value: _isSelected,
+                onChanged: (bool? value) {
                   setState(() {
-                    _isSelected = isSelected;
+                    _isSelected = value!;
                     widget.onChange(_isSelected!, widget.provider);
                   });
                 },
-                value: _isSelected!,
-                activeColor: AppColors.purpleBlue,
-                activeTrackColor: AppColors.smokeyGrey,
-                inactiveThumbColor: AppColors.black,
-                inactiveTrackColor: AppColors.smokeyGrey,
               ),
+              // Switch(
+              //   onChanged: (isSelected) {
+              //     setState(() {
+              //       _isSelected = isSelected;
+              //       widget.onChange(_isSelected!, widget.provider);
+              //     });
+              //   },
+              //   value: _isSelected!,
+              //   activeColor: AppColors.purpleBlue,
+              //   activeTrackColor: AppColors.smokeyGrey,
+              //   inactiveThumbColor: AppColors.black,
+              //   inactiveTrackColor: AppColors.smokeyGrey,
+              // ),
             ],
           ),
         ),
-        const Divider(),
       ],
     );
   }

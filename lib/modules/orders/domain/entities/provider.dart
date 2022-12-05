@@ -3,7 +3,7 @@ class Provider{
   final String title;
   final String value;
   final String logo;
-  final bool isSelected;
+  bool isSelected;
 
   Provider(this.id, this.title, this.value, this.logo,{this.isSelected = true});
 

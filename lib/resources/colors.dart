@@ -21,3 +21,15 @@ class AppColors {
   static Color warmRed = const Color(0xFFFF2E00);
   static Color pearl = const Color(0xFFF3F1F1);
 }
+
+Color getCheckboxColor(Set<MaterialState> states) {
+  const Set<MaterialState> interactiveStates = <MaterialState>{
+    MaterialState.pressed,
+    MaterialState.hovered,
+    MaterialState.focused,
+  };
+  if (states.any(interactiveStates.contains)) {
+    return AppColors.purpleBlue;
+  }
+  return AppColors.purpleBlue;
+}
