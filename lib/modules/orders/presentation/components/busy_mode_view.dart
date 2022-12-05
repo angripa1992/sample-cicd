@@ -122,7 +122,7 @@ class _BusyModeViewState extends State<BusyModeView> {
       lineWidth: 4.0,
       percent: (60 - minute) / 60,
       center: Text("$minute"),
-      progressColor: AppColors.green,
+      progressColor: AppColors.purpleBlue,
     );
   }
 

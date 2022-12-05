@@ -106,7 +106,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                                 label: AppStrings.email.tr(),
                                 controller: _emailController,
                                 inputType: TextInputType.emailAddress,
-                                obscureText: false,
+                                isPasswordField: false,
                                 hintText: AppStrings.type_your_email_here.tr(),
                                 labelColor: AppColors.smokeyGrey,
                                 textColor: AppColors.smokeyGrey,
