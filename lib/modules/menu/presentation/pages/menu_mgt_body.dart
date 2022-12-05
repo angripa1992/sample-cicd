@@ -33,31 +33,21 @@ class MenuMgtBody extends StatelessWidget {
               context.read<BrandSelectionCubit>().changeBrand(brand);
             },
           ),
-          BlocBuilder<BrandSelectionCubit, MenuBrand?>(
-            builder: (context, state) {
-              if (state != null) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSize.s20.rh),
-                  child: const MenuTabBarView(),
-                );
-              }
-              return const SizedBox();
-            },
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSize.s20.rh),
+            child: const MenuTabBarView(),
           ),
           BlocBuilder<BrandSelectionCubit, MenuBrand?>(
             builder: (context, brandState) {
-              if (brandState != null) {
-                return BlocBuilder<TabSelectionCubit, int>(
-                  builder: (context, state) {
-                    if(state == MenuTabIndex.MODIFIER){
-                      return ModifierScreen(brandId: brandState.id);
-                    }else{
-                      return MenuScreen(brandID: brandState.id);
-                    }
-                  },
-                );
-              }
-              return const SizedBox();
+              return BlocBuilder<TabSelectionCubit, int>(
+                builder: (context, state) {
+                  if(state == MenuTabIndex.MODIFIER){
+                    return ModifierScreen(brand: brandState);
+                  }else{
+                    return MenuScreen(brand: brandState);
+                  }
+                },
+              );
             },
           ),
         ],
