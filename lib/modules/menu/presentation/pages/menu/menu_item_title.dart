@@ -85,7 +85,7 @@ class MenuItemTitle extends StatelessWidget {
               child: Icon(
                 controller.isExpanded
                     ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_right,
+                    : Icons.keyboard_arrow_down,
                 color: controller.isExpanded
                     ? AppColors.white
                     : AppColors.purpleBlue,
