@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/widgets/shimmer/order_item_shimmer.dart';
+import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:shimmer/shimmer.dart';
 
-Widget getNewPageProgressIndicator() {
+Widget getNewPageProgressIndicator(BuildContext context) {
   return Center(
     child: Padding(
       padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
@@ -19,9 +20,9 @@ Widget getNewPageProgressIndicator() {
   );
 }
 
-final shimmers = ['1', '2', '3', '4','5','6','7','8','9','10'];
+final shimmers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-Widget getFirstPageProgressIndicator() {
+Widget getFirstPageProgressIndicator(BuildContext context) {
   return Shimmer.fromColors(
     baseColor: Colors.grey[300]!,
     highlightColor: Colors.grey[100]!,
@@ -63,6 +64,28 @@ Widget getPageErrorIndicator(VoidCallback onRetry) {
             ],
           ),
         )
+      ],
+    ),
+  );
+}
+
+Widget noItemsFoundIndicator(BuildContext context) {
+  return Center(
+    child: Column(
+      children: [
+        SizedBox(height: AppSize.s50.rh),
+        Image.asset(
+          AppImages.emptyCart,
+          height: AppSize.s65.rh,
+          width: AppSize.s65.rw,
+        ),
+        Text(
+          'No Orders Found!',
+          style: getMediumTextStyle(
+            color: AppColors.black,
+            fontSize: AppFontSize.s18.rSp,
+          ),
+        ),
       ],
     ),
   );

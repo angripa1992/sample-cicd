@@ -10,6 +10,7 @@ class AppImages {
   static const String splashLogo = "$IMAGE_PATH/splash_logo.png";
   static const String klikit = "$IMAGE_PATH/klikit.png";
   static const String loginBG = "$IMAGE_PATH/login_bg.png";
+  static const String emptyCart = "$IMAGE_PATH/empty_cart.png";
 }
 
 class AppIcons {

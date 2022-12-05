@@ -185,9 +185,9 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
             },
           );
         },
-        firstPageProgressIndicatorBuilder: (_) =>
-            getFirstPageProgressIndicator(),
-        newPageProgressIndicatorBuilder: (_) => getNewPageProgressIndicator(),
+        firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
+        newPageProgressIndicatorBuilder: getNewPageProgressIndicator,
+        noItemsFoundIndicatorBuilder: noItemsFoundIndicator,
         newPageErrorIndicatorBuilder: (_) =>
             getPageErrorIndicator(() => _refresh()),
         firstPageErrorIndicatorBuilder: (_) =>

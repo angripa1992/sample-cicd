@@ -10,7 +10,10 @@ import '../../domain/entities/brand.dart';
 class FilterByBrandsView extends StatefulWidget {
   final List<MenuBrand> brands;
   final Function(MenuBrand) onChanged;
-  const FilterByBrandsView({Key? key, required this.brands, required this.onChanged}) : super(key: key);
+
+  const FilterByBrandsView(
+      {Key? key, required this.brands, required this.onChanged})
+      : super(key: key);
 
   @override
   State<FilterByBrandsView> createState() => _FilterByBrandsViewState();
@@ -35,7 +38,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: AppSize.s4.rw,bottom: AppSize.s10.rh),
+          padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
           child: Text(
             'Filter by brand',
             style: getRegularTextStyle(
@@ -54,22 +57,46 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
             child: DropdownButton<MenuBrand>(
               value: dropDownValue,
               isExpanded: true,
-              underline: SizedBox(),
+              underline: const SizedBox(),
               icon: Icon(
                 Icons.keyboard_arrow_down,
                 color: AppColors.purpleBlue,
               ),
-              hint: Text(
-                'Select Brand',
-                style: dropDownTextStyle,
+              hint: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Select Brand',
+                  style: dropDownTextStyle,
+                ),
               ),
-              items: widget.brands.map<DropdownMenuItem<MenuBrand>>(
-                (value) {
-                  return DropdownMenuItem<MenuBrand>(
-                    value: value,
+              selectedItemBuilder: (BuildContext context) {
+                return widget.brands.map<Widget>((MenuBrand item) {
+                  return Container(
+                    alignment: Alignment.centerLeft,
                     child: Text(
-                      value.title,
+                      item.title,
                       style: dropDownTextStyle,
+                    ),
+                  );
+                }).toList();
+              },
+              items: widget.brands.map<DropdownMenuItem<MenuBrand>>(
+                (menu) {
+                  return DropdownMenuItem<MenuBrand>(
+                    value: menu,
+                    child: Row(
+                      children: [
+                        Radio(
+                          value: menu,
+                          groupValue: dropDownValue,
+                          onChanged: (value){},
+                          activeColor: AppColors.purpleBlue,
+                        ),
+                        Text(
+                          menu.title,
+                          style: dropDownTextStyle,
+                        ),
+                      ],
                     ),
                   );
                 },

@@ -12,8 +12,9 @@ class MenuBrand extends Equatable {
   final String businessTitle;
   final List<int> branchIds;
   final List<String> branchTitles;
+  bool isSelected;
 
-  const MenuBrand({
+  MenuBrand({
     required this.id,
     required this.businessId,
     required this.title,
@@ -25,6 +26,7 @@ class MenuBrand extends Equatable {
     required this.businessTitle,
     required this.branchIds,
     required this.branchTitles,
+    this.isSelected = false,
   });
 
   @override

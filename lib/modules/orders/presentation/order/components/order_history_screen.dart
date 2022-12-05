@@ -142,10 +142,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                   },
                 );
               },
-              firstPageProgressIndicatorBuilder: (_) =>
-                  getFirstPageProgressIndicator(),
-              newPageProgressIndicatorBuilder: (_) =>
-                  getNewPageProgressIndicator(),
+              firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
+              newPageProgressIndicatorBuilder: getNewPageProgressIndicator,
+              noItemsFoundIndicatorBuilder: noItemsFoundIndicator,
               newPageErrorIndicatorBuilder: (_) =>
                   getPageErrorIndicator(() => _refresh()),
               firstPageErrorIndicatorBuilder: (_) =>

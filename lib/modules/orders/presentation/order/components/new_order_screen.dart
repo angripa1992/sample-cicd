@@ -197,9 +197,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
             },
           );
         },
-        firstPageProgressIndicatorBuilder: (_) =>
-            getFirstPageProgressIndicator(),
-        newPageProgressIndicatorBuilder: (_) => getNewPageProgressIndicator(),
+        firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
+        newPageProgressIndicatorBuilder: getNewPageProgressIndicator,
+        noItemsFoundIndicatorBuilder: noItemsFoundIndicator,
         newPageErrorIndicatorBuilder: (_) =>
             getPageErrorIndicator(() => _refresh()),
         firstPageErrorIndicatorBuilder: (_) =>
