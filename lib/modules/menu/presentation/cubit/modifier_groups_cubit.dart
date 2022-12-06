@@ -12,13 +12,17 @@ class ModifierGroupsCubit extends Cubit<ResponseState> {
   ModifierGroupsCubit(this._fetchModifierGroups, this._preferences)
       : super(Empty());
 
-  void fetchModifierGroups(int brandId) async {
+  void fetchModifierGroups(int brandId,int? providerId) async {
     emit(Loading());
+    final params = {
+      'brand_id': brandId,
+      'branch_id': _preferences.getUser().userInfo.branchId,
+    };
+    if(providerId != null){
+      params['provider_id'] = providerId;
+    }
     final response = await _fetchModifierGroups(
-      {
-        'brand_id': brandId,
-        'branch_id': _preferences.getUser().userInfo.branchId,
-      },
+      params
     );
     response.fold(
       (failure) {

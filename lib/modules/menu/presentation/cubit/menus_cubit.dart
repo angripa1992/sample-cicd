@@ -11,12 +11,13 @@ class MenusCubit extends Cubit<ResponseState> {
 
   MenusCubit(this._fetchMenus, this._appPreferences) : super(Empty());
 
-  void fetchMenu(int brandId) async {
+  void fetchMenu(int brandId,int? providerId) async {
     emit(Loading());
     final response = await _fetchMenus(
       FetchMenuParams(
         branchId: _appPreferences.getUser().userInfo.branchId,
         brandId: brandId,
+        providerID: providerId?.toString() ?? 'undefine',
       ),
     );
     response.fold(

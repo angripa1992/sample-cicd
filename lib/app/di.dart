@@ -73,6 +73,7 @@ import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
 import '../core/provider/order_parameter_provider.dart';
 import '../environment_variables.dart';
+import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
 import '../notification/inapp/notification_count_cubit.dart';
@@ -164,8 +165,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(
       () => CheckAffectedCubit(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateModifier(getIt.get()));
-  getIt.registerFactory(
-      () => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerFactory(() => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerFactory(() => AggregatorSelectionCubit());
 
   ///notification
   getIt.registerFactory(() => NewNotificationCountCubit());

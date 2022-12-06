@@ -13,13 +13,14 @@ import '../../../domain/entities/brand.dart';
 
 class MenuScreen extends StatelessWidget {
   final MenuBrand? brand;
+  final int? providerId;
 
-  const MenuScreen({Key? key, required this.brand}) : super(key: key);
+  const MenuScreen({Key? key, required this.brand, this.providerId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (brand != null) {
-      context.read<MenusCubit>().fetchMenu(brand!.id);
+      context.read<MenusCubit>().fetchMenu(brand!.id,providerId);
     }
     return Expanded(
       child: brand == null
