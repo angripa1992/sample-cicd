@@ -319,7 +319,6 @@ class DocketDesign extends StatelessWidget {
                 ).toList(),
               ),
             ),
-
             ///comment
             _commentView(order.cartV2[index].comment, false),
           ],

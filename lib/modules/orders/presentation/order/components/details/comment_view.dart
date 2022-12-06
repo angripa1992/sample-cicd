@@ -23,8 +23,8 @@ class CommentView extends StatelessWidget {
           child: Text(
             'Note: $comment',
             style: getBoldTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s12.rSp,
+              color: AppColors.blueViolet,
+              fontSize: AppFontSize.s14.rSp,
             ),
           ),
         ),

@@ -16,11 +16,11 @@ class OrderItemDetails extends StatelessWidget {
       : super(key: key);
 
   final _itemTextStyle = getMediumTextStyle(
-    color: AppColors.purpleBlue,
+    color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
   final _modifiersTextStyle = getRegularTextStyle(
-    color: AppColors.blueViolet,
+    color: AppColors.blackCow,
     fontSize: AppFontSize.s16.rSp,
   );
 
@@ -47,7 +47,7 @@ class OrderItemDetails extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: AppSize.s32.rw,
-                      vertical: AppSize.s8.rh,
+                      vertical: AppSize.s4.rh,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -96,7 +96,7 @@ class OrderItemDetails extends StatelessWidget {
                                                         EdgeInsets.symmetric(
                                                       horizontal:
                                                           AppSize.s8.rw,
-                                                      vertical: AppSize.s8.rh,
+                                                      vertical: AppSize.s4.rh,
                                                     ),
                                                     child: Column(
                                                       crossAxisAlignment:
@@ -155,6 +155,8 @@ class OrderItemDetails extends StatelessWidget {
                       ).toList(),
                     ),
                   ),
+                  ///comment
+                  _itemComment(order.cartV2[index].comment),
                 ],
               ),
             );
@@ -189,6 +191,26 @@ class OrderItemDetails extends StatelessWidget {
         SizedBox(width: AppSize.s12.rw),
         Expanded(child: Text(modifiers.name, style: _modifiersTextStyle)),
       ],
+    );
+  }
+
+  Widget _itemComment(String comment) {
+    return Visibility(
+      visible: comment.isNotEmpty,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: AppSize.s2.rh,
+        ),
+        child: Center(
+          child: Text(
+            'Note: $comment',
+            style: getBoldTextStyle(
+              color: AppColors.blueViolet,
+              fontSize: AppFontSize.s14.rSp,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

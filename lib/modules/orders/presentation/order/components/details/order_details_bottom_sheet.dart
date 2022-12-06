@@ -26,8 +26,8 @@ void _openBottomSheet({
       ),
     ),
     builder: (context) => DraggableScrollableSheet(
-      initialChildSize: 0.65,
-      minChildSize: 0.65,
+      initialChildSize: 0.85,
+      minChildSize: 0.85,
       maxChildSize: 0.85,
       expand: false,
       builder: (_, controller) => Scaffold(

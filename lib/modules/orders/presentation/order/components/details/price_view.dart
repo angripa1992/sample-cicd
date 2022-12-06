@@ -23,7 +23,7 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   void initState() {
-    _controller = ExpandedTileController(isExpanded: false);
+    _controller = ExpandedTileController(isExpanded: true);
     super.initState();
   }
 
@@ -103,6 +103,7 @@ class _PriceViewState extends State<PriceView> {
                   'Discount',
                   widget.order.discount,
                   color: AppColors.red,
+                  isDiscount: true,
                 ),
               ],
             ),
@@ -141,7 +142,7 @@ class _PriceViewState extends State<PriceView> {
     );
   }
 
-  Widget _getSubtotalItem(String name, num price, {Color? color}) {
+  Widget _getSubtotalItem(String name, num price, {Color? color,bool isDiscount = false}) {
     final textStyle = TextStyle(
       color: color ?? AppColors.black,
       fontSize: AppFontSize.s14.rSp,
@@ -155,7 +156,7 @@ class _PriceViewState extends State<PriceView> {
           style: textStyle,
         ),
         Text(
-          '${widget.order.currencySymbol}${_convertPrice(price)}',
+          '${isDiscount ? '-':''}${widget.order.currencySymbol}${_convertPrice(price)}',
           style: textStyle,
         ),
       ],
