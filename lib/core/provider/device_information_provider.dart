@@ -7,9 +7,7 @@ import 'package:firebase_app_installations/firebase_app_installations.dart';
 class DeviceInfoProvider{
 
   Future<String> FID() async{
-    final fid = await FirebaseInstallations.instance.getId();
-    print('==========================fid $fid');
-    return fid;
+    return await FirebaseInstallations.instance.getId();
   }
 
   String platformName(){
@@ -26,7 +24,7 @@ class DeviceInfoProvider{
   }
 
   Future<String> packageName() async{
-    final packageInfo = await PackageInfo.fromPlatform();
+    final packageInfo = await PackageInfo.fromPlatform(); 
     return packageInfo.packageName;
   }
 

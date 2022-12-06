@@ -82,10 +82,10 @@ class LocalNotificationService {
       notificationData.message,
       NotificationDetails(
         android: AndroidNotificationDetails(
-          notificationType == NotificationType.NEW
+          notificationType == NotificationOrderType.NEW
               ? newOrderNotificationChanel.id
               : cancelOrderNotificationChanel.id,
-          notificationType == NotificationType.NEW
+          notificationType == NotificationOrderType.NEW
               ? newOrderNotificationChanel.name
               : cancelOrderNotificationChanel.name,
           importance: Importance.max,
@@ -93,7 +93,7 @@ class LocalNotificationService {
           color: Colors.white,
           playSound: true,
           sound: RawResourceAndroidNotificationSound(
-            notificationType == NotificationType.NEW
+            notificationType == NotificationOrderType.NEW
                 ? AppSounds.newOrder
                 : AppSounds.cancelOrder,
           ),

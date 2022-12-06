@@ -24,6 +24,7 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
+import 'component/app_version_info.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -116,10 +117,10 @@ class _AccountScreenState extends State<AccountScreen> {
           centerTitle: true,
           flexibleSpace: getAppBarBackground(),
         ),
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
-            width: ScreenSizes.screenWidth,
+        body: SizedBox(
+          height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
+          width: ScreenSizes.screenWidth,
+          child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(
                 vertical: AppSize.s18.rh,
@@ -209,10 +210,15 @@ class _AccountScreenState extends State<AccountScreen> {
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
                               _orderInfoProvider.clearData();
-                              InAppNotificationHandler().dismissInAppNotification();
-                              getIt.get<AppPreferences>().clearPreferences().then(
-                                    (value) {
-                                  Navigator.pushNamedAndRemoveUntil(context, Routes.login, (route) => false);
+                              InAppNotificationHandler()
+                                  .dismissInAppNotification();
+                              getIt
+                                  .get<AppPreferences>()
+                                  .clearPreferences()
+                                  .then(
+                                (value) {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context, Routes.login, (route) => false);
                                 },
                               );
                             }
@@ -241,36 +247,43 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   Row(
                     children: [
-                      Icon(Icons.edit,color: AppColors.purpleBlue),
+                      Icon(Icons.edit, color: AppColors.purpleBlue),
                       SizedBox(
                         width: AppSize.s8.rw,
                       ),
                       Expanded(
                         child: UrlTextButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed(Routes.changePassword);
+                            Navigator.of(context)
+                                .pushNamed(Routes.changePassword);
                           },
                           color: AppColors.purpleBlue,
                           text: AppStrings.change_your_password.tr(),
                         ),
                       ),
                     ],
-                  ),                  Row(
+                  ),
+                  Row(
                     children: [
-                      Icon(Icons.print,color: AppColors.purpleBlue),
+                      Icon(Icons.print, color: AppColors.purpleBlue),
                       SizedBox(
                         width: AppSize.s8.rw,
                       ),
                       Expanded(
                         child: UrlTextButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed(Routes.printerSettings);
+                            Navigator.of(context)
+                                .pushNamed(Routes.printerSettings);
                           },
                           color: AppColors.purpleBlue,
                           text: AppStrings.printer_settings.tr(),
                         ),
                       ),
                     ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: AppSize.s16.rh),
+                    child: AppVersionInfo(),
                   ),
                 ],
               ),

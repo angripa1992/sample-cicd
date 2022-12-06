@@ -34,7 +34,7 @@ class InAppNotificationHandler {
       final currentNotificationCountData =
           _currentContext?.read<NotificationCountCubit>().state;
       late NotificationCountData notificationCountData;
-      if (data.type.toInt() == NotificationType.NEW) {
+      if (data.type.toInt() == NotificationOrderType.NEW) {
         notificationCountData = NotificationCountData(
           numOfNewOrders: currentNotificationCountData!.numOfNewOrders + 1,
           numOfCancelOrders: currentNotificationCountData.numOfCancelOrders,
@@ -46,7 +46,7 @@ class InAppNotificationHandler {
         );
       }
       if (currentNotificationCountData.numOfNewOrders > 0 ||
-          data.type.toInt() == NotificationType.NEW) {
+          data.type.toInt() == NotificationOrderType.NEW) {
         _stopSound();
         _playNewSound();
       }
@@ -55,7 +55,7 @@ class InAppNotificationHandler {
           .update(notificationCountData);
     } else {
       late NotificationCountData notificationCountData;
-      if (data.type.toInt() == NotificationType.NEW) {
+      if (data.type.toInt() == NotificationOrderType.NEW) {
         notificationCountData =
             NotificationCountData(numOfNewOrders: 1, numOfCancelOrders: 0);
         _playNewSound();
@@ -102,7 +102,7 @@ class InAppNotificationHandler {
 
   void _navigateToOrderScreen(NotificationData data) {
     dismissInAppNotification();
-    NotificationHandler().navigateToOrderScreen(data,isNotification: false);
+    NotificationHandler().navigateToOrderScreen(data,notificationType: NotificationType.IN_APP);
   }
 
   void _showDialog(NotificationData data, NotificationCountCubit cubit) {

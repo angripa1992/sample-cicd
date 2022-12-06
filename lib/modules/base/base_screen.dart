@@ -59,10 +59,9 @@ class _BaseScreenState extends State<BaseScreen> {
               as Map<String, dynamic>?;
           if (args != null) {
             if (args[ArgumentKey.kIS_NOTIFICATION]) {
-              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
-              context
-                  .read<BaseScreenCubit>()
-                  .changeIndex(navData);
+              final navData = NotificationDataHandler()
+                  .getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
+              context.read<BaseScreenCubit>().changeIndex(navData);
             }
           }
         }
@@ -71,19 +70,25 @@ class _BaseScreenState extends State<BaseScreen> {
     super.initState();
   }
 
-  void _handlePrinterSetting(PrinterSetting setting) async{
+  void _handlePrinterSetting(PrinterSetting setting) async {
     if (setting.typeId > 0) {
       _appPreferences.savePrinterConnectionType(setting.typeId);
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-      if(args != null && args[ArgumentKey.kIS_NOTIFICATION]){
-        final NotificationData notificationData = args[ArgumentKey.kNOTIFICATION_DATA];
-        final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
-        if(order != null && order.status == OrderStatus.ACCEPTED){
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+      if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
+        if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
+          return;
+        }
+        final NotificationData notificationData =
+            args[ArgumentKey.kNOTIFICATION_DATA];
+        final order = await NotificationDataHandler()
+            .getOrderById(notificationData.orderId.toInt());
+        if (order != null && order.status == OrderStatus.ACCEPTED) {
           _printingHandler.verifyConnection(order: order);
-        }else{
+        } else {
           _printingHandler.verifyConnection();
         }
-      }else{
+      } else {
         _printingHandler.verifyConnection();
       }
     } else {

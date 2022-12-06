@@ -91,9 +91,15 @@ class ModifierType{
   static const MODIFIER = 2;
 }
 
-class NotificationType{
+class NotificationOrderType{
   static const NEW = 1;
   static const CANCEL = 2;
+}
+
+class NotificationType{
+  static const BACKGROUD = 1;
+  static const IN_APP = 2;
+  static const TERMINATED = 3;
 }
 
 class ConnectionType{
@@ -104,5 +110,6 @@ class ConnectionType{
 class ArgumentKey{
   static const String kIS_NOTIFICATION = 'is_notification';
   static const String kNOTIFICATION_DATA = 'notification_data';
+  static const String kNOTIFICATION_TYPE = 'notification_type';
 }
 

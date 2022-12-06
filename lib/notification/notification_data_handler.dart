@@ -38,7 +38,7 @@ class NotificationDataHandler {
   }
 
   NavigationData getNavData(NotificationData notificationData) {
-    if (notificationData.type.toInt() == NotificationType.NEW) {
+    if (notificationData.type.toInt() == NotificationOrderType.NEW) {
       return NavigationData(
           index: BottomNavItem.ORDER, subTabIndex: OrderTab.NEW, data: null);
     } else {

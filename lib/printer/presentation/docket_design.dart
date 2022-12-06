@@ -116,36 +116,36 @@ class DocketDesign extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: FutureBuilder<Provider>(
-            future: _infoProvider.getProviderById(order.providerId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FutureBuilder<Provider>(
+                future: _infoProvider.getProviderById(order.providerId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
                       snapshot.data!.title,
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    Text(
-                      (order.providerId == ProviderID.KLIKIT)
-                          ? '#${order.id}'
-                          : '#${order.shortId}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                );
-              }
-              return const SizedBox();
-            },
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+              Text(
+                (order.providerId == ProviderID.KLIKIT)
+                    ? '#${order.id}'
+                    : '#${order.shortId}',
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ],
