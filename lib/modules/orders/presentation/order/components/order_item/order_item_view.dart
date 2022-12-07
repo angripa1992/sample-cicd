@@ -13,6 +13,8 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../domain/entities/source.dart';
+
 class OrderItemView extends StatelessWidget {
   final _infoProvider = getIt.get<OrderInformationProvider>();
   final VoidCallback seeDetails;
@@ -21,26 +23,51 @@ class OrderItemView extends StatelessWidget {
   OrderItemView({Key? key, required this.order, required this.seeDetails})
       : super(key: key);
 
+  final _providerTextStyle = getRegularTextStyle(
+    color: AppColors.blackCow,
+    fontSize: AppFontSize.s14.rSp,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: AppSize.s8),
-          child: FutureBuilder<Provider>(
-            future: _infoProvider.getProviderById(order.providerId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SizedBox(
-                  height: AppSize.s40.rh,
-                  width: AppSize.s40.rw,
-                  child: ImageView(path: snapshot.data!.logo),
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
-              );
-            },
+          padding: const EdgeInsets.only(right: AppSize.s20),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              FutureBuilder<Provider>(
+                future: _infoProvider.findProviderById(order.providerId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SizedBox(
+                      height: AppSize.s40.rh,
+                      width: AppSize.s40.rw,
+                      child: ImageView(path: snapshot.data!.logo),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+              Positioned(
+                top: -35,
+                right: -15,
+                child:  FutureBuilder<Source>(
+                  future: _infoProvider.findSourceById(order.source),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return SizedBox(
+                        height: AppSize.s40.rh,
+                        width: AppSize.s40.rw,
+                        child: ImageView(path: snapshot.data!.image),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(width: AppSize.s8.rw),
@@ -87,40 +114,66 @@ class OrderItemView extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: AppSize.s20.rh,
-                width: AppSize.s100.rw,
-                child: ElevatedButton(
-                  onPressed: seeDetails,
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-                    primary: AppColors.canaryYellow,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(AppSize.s12.rSp), // <-- Radius
+              FutureBuilder<Source>(
+                future: _infoProvider.findSourceById(order.source),
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data!.name,
+                      style: _providerTextStyle,
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+              FutureBuilder<Provider>(
+                future: _infoProvider.findProviderById(order.providerId),
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data!.title,
+                      style: _providerTextStyle,
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+                child: SizedBox(
+                  height: AppSize.s20.rh,
+                  width: AppSize.s100.rw,
+                  child: ElevatedButton(
+                    onPressed: seeDetails,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                      primary: AppColors.canaryYellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            AppSize.s12.rSp), // <-- Radius
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'See Details',
-                        style: getMediumTextStyle(
-                          color: AppColors.purpleBlue,
-                          fontSize: AppFontSize.s12.rSp,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'See Details',
+                          style: getMediumTextStyle(
+                            color: AppColors.purpleBlue,
+                            fontSize: AppFontSize.s12.rSp,
+                          ),
                         ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: AppColors.purpleBlue,
-                        size: AppSize.s14.rSp,
-                      ),
-                    ],
+                        Icon(
+                          Icons.arrow_forward,
+                          color: AppColors.purpleBlue,
+                          size: AppSize.s14.rSp,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              SizedBox(height: AppSize.s8.rh)
             ],
           ),
         ),

@@ -26,20 +26,26 @@ class AppVersionInfo extends StatelessWidget {
         FutureBuilder<String>(
           future: _deviceInfoProvider.appName(),
           builder: (_, name) {
-            return Text(
-              name.data!,
-              style: _textStyle,
-            );
+           if(name.hasData){
+             return Text(
+               name.data!,
+               style: _textStyle,
+             );
+           }
+           return const SizedBox();
           },
         ),
         SizedBox(width: AppSize.s4.rw),
         FutureBuilder<String>(
           future: _deviceInfoProvider.versionName(),
           builder: (_, version) {
-            return Text(
-              version.data!,
-              style: _textStyle,
-            );
+            if(version.hasData){
+              return Text(
+                version.data!,
+                style: _textStyle,
+              );
+            }
+            return const SizedBox();
           },
         ),
       ],

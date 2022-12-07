@@ -18,9 +18,9 @@ class YesterdayTotalOrderCubit extends Cubit<ResponseState> {
   void fetchTotalOrder() async {
     emit(Loading());
     final status = [OrderStatus.CANCELLED, OrderStatus.DELIVERED];
-    final brands = await _informationProvider.getBrandsIds();
-    final providers = await _informationProvider.getProvidersIds();
-    final branch = await _informationProvider.getBranchId();
+    final brands = await _informationProvider.findBrandsIds();
+    final providers = await _informationProvider.findProvidersIds();
+    final branch = await _informationProvider.findBranchId();
     final timeZone = await DateTimeProvider.timeZone();
     final params = {
       "start": DateTimeProvider.yesterday(),

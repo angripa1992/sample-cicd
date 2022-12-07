@@ -120,7 +120,7 @@ class DocketDesign extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FutureBuilder<Provider>(
-                future: _infoProvider.getProviderById(order.providerId),
+                future: _infoProvider.findProviderById(order.providerId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Text(
@@ -471,7 +471,7 @@ class DocketDesign extends StatelessWidget {
 
   Widget _qrCode() {
     return FutureBuilder<Brand>(
-      future: _infoProvider.getBrandById(order.brandId),
+      future: _infoProvider.findBrandById(order.brandId),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Column(

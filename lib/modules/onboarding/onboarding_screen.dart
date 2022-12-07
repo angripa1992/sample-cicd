@@ -19,8 +19,7 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen>
-    with TickerProviderStateMixin {
+class _OnboardingScreenState extends State<OnboardingScreen> with TickerProviderStateMixin {
   final _appPreferences = getIt.get<AppPreferences>();
 
   late final AnimationController _controller = AnimationController(

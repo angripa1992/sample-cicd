@@ -31,7 +31,7 @@ class UpdateModifierCubit extends Cubit<ResponseState> {
       branchId: _preferences.getUser().userInfo.branchId,
       groupId: groupId,
       modifierId: modifierId,
-      providerIds: await _informationProvider.getProvidersIds(),
+      providerIds: await _informationProvider.findProvidersIds(),
     );
     final response = await _updateModifier(param);
     response.fold(

@@ -46,7 +46,7 @@ class MenuMgtBody extends StatelessWidget {
                 return const SizedBox();
               }
               return FutureBuilder<List<Provider>>(
-                future: _informationProvider.getProviders(),
+                future: _informationProvider.fetchProviders(),
                 builder: (_, snapshot) {
                   if (snapshot.hasData) {
                     return Padding(

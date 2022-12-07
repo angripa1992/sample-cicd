@@ -88,7 +88,7 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
         context: context,
         removeTop: true,
         child: FutureBuilder<List<Provider>>(
-          future: _orderInfoProvider.getProviders(),
+          future: _orderInfoProvider.fetchProviders(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _copyDataToLocalVariable(snapshot.data!);

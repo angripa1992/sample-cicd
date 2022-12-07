@@ -8,6 +8,7 @@ import 'package:klikit/modules/orders/data/models/busy_mode_model.dart';
 import 'package:klikit/modules/orders/data/models/orders_model.dart';
 import 'package:klikit/modules/orders/data/models/provider_model.dart';
 import 'package:klikit/modules/orders/data/models/settings_model.dart';
+import 'package:klikit/modules/orders/data/models/source_model.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
 
 import '../models/order_status_model.dart';
@@ -18,6 +19,8 @@ abstract class OrderRemoteDatasource {
   Future<BrandModel> fetchBrand(BrandRequestModel requestModel);
 
   Future<List<ProviderModel>> fetchProvider(Map<String, dynamic> param);
+
+  Future<List<SourcesModel>> fetchSources();
 
   Future<SettingsModel> fetchSettings(int id);
 
@@ -159,6 +162,17 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
     try {
       final response = await _restClient.request('${Urls.order}/$id', Method.GET, null);
       return OrderModel.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<SourcesModel>> fetchSources() async{
+    try {
+      final List<dynamic> response = await _restClient.request(Urls.sources, Method.GET, null);
+      final data = response.map((e) => SourcesModel.fromJson(e)).toList();
+      return data;
     } on DioError {
       rethrow;
     }

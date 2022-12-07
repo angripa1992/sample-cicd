@@ -26,18 +26,15 @@ class PrintButton extends StatelessWidget {
         onPressed: onPrint,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: padding.rw),
+          //padding: EdgeInsets.symmetric(horizontal: padding.rw),
           primary: AppColors.purpleBlue,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s24.rSp), // <-- Radius
           ),
         ),
-        child: Text(
-          'Print',
-          style: getMediumTextStyle(
-            color: AppColors.white,
-            fontSize: AppFontSize.s14.rSp,
-          ),
+        child: Icon(
+          Icons.print,
+          color: AppColors.white,
         ),
       ),
     );

@@ -42,10 +42,10 @@ class OrderParameterProvider {
     List<int>? status, {
     int? pageSize,
   }) async {
-    final brands = brandsID ?? await _informationProvider.getBrandsIds();
+    final brands = brandsID ?? await _informationProvider.findBrandsIds();
     final providers =
-        providersID ?? await _informationProvider.getProvidersIds();
-    final branch = await _informationProvider.getBranchId();
+        providersID ?? await _informationProvider.findProvidersIds();
+    final branch = await _informationProvider.findBranchId();
     return {
       "size": pageSize ?? 1,
       "filterByBranch": branch,

@@ -85,7 +85,7 @@ class _BrandFilterState extends State<BrandFilter> {
         context: context,
         removeTop: true,
         child: FutureBuilder<List<Brand>>(
-          future: _orderInfoProvider.getBrands(),
+          future: _orderInfoProvider.fetchBrands(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _copyDataToLocalVariable(snapshot.data!);

@@ -45,6 +45,10 @@ void _openBottomSheet({
               modalKey: key,
               onCommentActionSuccess: onCommentActionSuccess,
             ),
+            Padding(
+              padding: EdgeInsets.only(top: AppSize.s4.rh),
+              child: const Divider(),
+            ),
             OrderItemDetails(order: order, controller: controller),
             CommentView(comment: order.orderComment),
             PriceView(order: order),

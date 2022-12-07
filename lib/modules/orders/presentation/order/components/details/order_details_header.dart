@@ -110,7 +110,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
                 ),
               ),
               FutureBuilder<Provider>(
-                future: _infoProvider.getProviderById(order.providerId),
+                future: _infoProvider.findProviderById(order.providerId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Text(

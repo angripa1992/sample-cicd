@@ -11,6 +11,7 @@ import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
+import 'package:klikit/modules/orders/domain/entities/source.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 
 class OrderRepositoryImpl extends OrderRepository {
@@ -172,7 +173,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<order.Order?> fetchOrderById(int id) async{
+  Future<order.Order?> fetchOrderById(int id) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchOrderById(id);
@@ -182,6 +183,21 @@ class OrderRepositoryImpl extends OrderRepository {
       }
     } else {
       return null;
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Sources>>> fetchSources() async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchSources();
+        final data = response.map((e) => e.toEntity()).toList();
+        return Right(data);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
     }
   }
 }

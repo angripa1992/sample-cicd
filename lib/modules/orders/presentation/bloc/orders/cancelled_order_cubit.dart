@@ -17,8 +17,8 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
 
   void fetchTodayCancelledOrder({required bool willShowLoading}) async {
     final timeZone = await DateTimeProvider.timeZone();
-    final brands = await _informationProvider.getBrandsIds();
-    final providers = await _informationProvider.getProvidersIds();
+    final brands = await _informationProvider.findBrandsIds();
+    final providers = await _informationProvider.findProvidersIds();
     final Map<String, dynamic> params = {};
     params["start"] = DateTimeProvider.today();
     params["end"] = DateTimeProvider.nextDay();
@@ -33,9 +33,9 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
     List<int>? providersID,
     List<int>? brandsID,
   }) async {
-    final brands = brandsID ?? await _informationProvider.getBrandsIds();
+    final brands = brandsID ?? await _informationProvider.findBrandsIds();
     final providers =
-        providersID ?? await _informationProvider.getProvidersIds();
+        providersID ?? await _informationProvider.findProvidersIds();
     final Map<String, dynamic> params = {};
     if (brands.isNotEmpty) {
       params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
@@ -54,7 +54,7 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
       emit(Loading());
     }
     final status = [OrderStatus.CANCELLED];
-    final branch = await _informationProvider.getBranchId();
+    final branch = await _informationProvider.findBranchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;
     final response = await _fetchCancelledOrder(params);
