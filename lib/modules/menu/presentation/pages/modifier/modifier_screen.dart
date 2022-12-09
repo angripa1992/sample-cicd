@@ -16,12 +16,15 @@ class ModifierScreen extends StatelessWidget {
   final MenuBrand? brand;
   final int? providerId;
 
-  const ModifierScreen({Key? key, required this.brand, this.providerId}) : super(key: key);
+  const ModifierScreen({Key? key, required this.brand, this.providerId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (brand != null) {
-      context.read<ModifierGroupsCubit>().fetchModifierGroups(brand!.id,providerId);
+      context
+          .read<ModifierGroupsCubit>()
+          .fetchModifierGroups(brand!.id, providerId);
     }
     return Expanded(
       child: brand == null
@@ -38,7 +41,10 @@ class ModifierScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSize.s4.rh,
+                    horizontal: AppSize.s4.rw,
+                  ),
                   child: Text(
                     'MODIFIER GROUPS',
                     style: getRegularTextStyle(
