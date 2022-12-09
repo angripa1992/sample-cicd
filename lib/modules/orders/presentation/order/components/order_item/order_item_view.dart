@@ -33,7 +33,7 @@ class OrderItemView extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: AppSize.s20),
+          padding: const EdgeInsets.only(right: AppSize.s10),
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -51,8 +51,8 @@ class OrderItemView extends StatelessWidget {
                 },
               ),
               Positioned(
-                top: -35,
-                right: -15,
+                top: -40,
+
                 child:  FutureBuilder<Source>(
                   future: _infoProvider.findSourceById(order.source),
                   builder: (context, snapshot) {

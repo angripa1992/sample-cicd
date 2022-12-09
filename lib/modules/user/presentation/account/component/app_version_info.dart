@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
+import 'package:klikit/resources/assets.dart';
 
 import '../../../../../app/di.dart';
 import '../../../../../resources/colors.dart';
@@ -13,8 +14,8 @@ class AppVersionInfo extends StatelessWidget {
 
   AppVersionInfo({Key? key}) : super(key: key);
 
-  final _textStyle = getBoldTextStyle(
-    color: AppColors.black,
+  final _textStyle = getMediumTextStyle(
+    color: AppColors.darkViolet,
     fontSize: AppFontSize.s16.rSp,
   );
 
@@ -23,23 +24,30 @@ class AppVersionInfo extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Image.asset(
+          AppImages.splashLogo,
+          color: AppColors.darkViolet,
+          height: AppSize.s24.rh,
+          width: AppSize.s24.rw,
+        ),
+        SizedBox(width: AppSize.s8.rw),
         FutureBuilder<String>(
           future: _deviceInfoProvider.appName(),
           builder: (_, name) {
-           if(name.hasData){
-             return Text(
-               name.data!,
-               style: _textStyle,
-             );
-           }
-           return const SizedBox();
+            if (name.hasData) {
+              return Text(
+                name.data!,
+                style: _textStyle,
+              );
+            }
+            return const SizedBox();
           },
         ),
         SizedBox(width: AppSize.s4.rw),
         FutureBuilder<String>(
           future: _deviceInfoProvider.versionName(),
           builder: (_, version) {
-            if(version.hasData){
+            if (version.hasData) {
               return Text(
                 version.data!,
                 style: _textStyle,

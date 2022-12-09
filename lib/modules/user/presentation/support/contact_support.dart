@@ -19,9 +19,14 @@ class ContactSupportScreen extends StatefulWidget {
 
 class _ContactSupportScreenState extends State<ContactSupportScreen> {
   Future<void> _callSupport() async {
-    if (!await launchUrl(Uri.parse('tel:${AppConstant.supportNumber}'))) {
+    if (!await launchUrl(Uri.parse('tel:${AppConstant.whatappSupportNumber}'))) {
       showErrorSnackBar(context, 'Could not call on this number');
     }
+  }
+
+  Future<void> _launchWhatsapp() async {
+    final whatsappAndroid =Uri.parse("whatsapp://send?phone=${AppConstant.whatappSupportNumber}");
+    await launchUrl(whatsappAndroid);
   }
 
   Future<void> _mailSupport() async {
@@ -46,21 +51,12 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
         child: Column(
           children: [
             ContactItem(
-              iconData: Icons.phone,
-              title: AppConstant.supportNumber,
-              description: 'Available 9am - 12am',
+              iconData: Icons.whatsapp,
+              title: 'WhatsApp',
+              description: 'We are there for you from 9am - 12am',
               onTap: () async {
-                await _callSupport();
+                await _launchWhatsapp();
               },
-            ),
-            SizedBox(
-              height: AppSize.s12.rh,
-            ),
-            ContactItem(
-              iconData: Icons.chat,
-              title: 'Live Chat',
-              description: 'Available 9am - 12am',
-              onTap: () {},
             ),
             SizedBox(
               height: AppSize.s12.rh,
@@ -68,7 +64,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
             ContactItem(
               iconData: Icons.email_outlined,
               title: 'Email Support',
-              description: 'Available 24/7',
+              description: 'We are there for you from 9am - 12am',
               onTap: () async {
                 await _mailSupport();
               },

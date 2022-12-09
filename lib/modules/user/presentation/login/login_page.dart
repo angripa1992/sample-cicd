@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: ScreenSizes.screenWidth,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(AppImages.loginBG),
+                  image: AssetImage(AppImages.loginBgModified),
                   fit: BoxFit.cover,
                 ),
               ),

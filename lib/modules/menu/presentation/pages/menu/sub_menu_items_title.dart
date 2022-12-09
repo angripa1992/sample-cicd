@@ -16,7 +16,7 @@ class SubMenuItemsTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppColors.purpleBlue,
+      color: AppColors.darkViolet,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s20.rw,

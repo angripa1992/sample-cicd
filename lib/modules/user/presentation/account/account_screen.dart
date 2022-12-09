@@ -18,6 +18,7 @@ import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/url_text_button.dart';
 import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
@@ -173,7 +174,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: AppSize.s32.rh,
+                    height: AppSize.s20.rh,
                   ),
                   Row(
                     children: [
@@ -200,7 +201,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                       ),
                       SizedBox(
-                        width: AppSize.s20.rw,
+                        width: AppSize.s16.rw,
                       ),
                       Expanded(
                         child: BlocConsumer<LogoutCubit, CubitState>(
@@ -243,7 +244,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ],
                   ),
                   SizedBox(
-                    height: AppSize.s20.rh,
+                    height: AppSize.s12.rh,
                   ),
                   Row(
                     children: [
@@ -253,6 +254,8 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       Expanded(
                         child: UrlTextButton(
+                          fontWeight: AppFontWeight.regular,
+                          textSize: AppFontSize.s14.rSp,
                           onPressed: () {
                             Navigator.of(context)
                                 .pushNamed(Routes.changePassword);
@@ -271,12 +274,34 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       Expanded(
                         child: UrlTextButton(
+                          fontWeight: AppFontWeight.regular,
+                          textSize: AppFontSize.s14.rSp,
                           onPressed: () {
                             Navigator.of(context)
                                 .pushNamed(Routes.printerSettings);
                           },
                           color: AppColors.purpleBlue,
                           text: AppStrings.printer_settings.tr(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.help, color: AppColors.purpleBlue),
+                      SizedBox(
+                        width: AppSize.s8.rw,
+                      ),
+                      Expanded(
+                        child: UrlTextButton(
+                          fontWeight: AppFontWeight.regular,
+                          textSize: AppFontSize.s14.rSp,
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(Routes.contactSupport);
+                          },
+                          color: AppColors.purpleBlue,
+                          text: AppStrings.contact_support.tr(),
                         ),
                       ),
                     ],

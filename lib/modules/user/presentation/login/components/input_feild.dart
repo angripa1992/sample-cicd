@@ -35,7 +35,13 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  bool _obscureText = true;
+  bool? _obscureText;
+
+  @override
+  void initState() {
+    _obscureText = widget.isPasswordField;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +57,7 @@ class _InputFieldState extends State<InputField> {
         ),
         TextFormField(
           controller: widget.controller,
-          obscureText: _obscureText,
+          obscureText: _obscureText!,
           keyboardType: widget.inputType,
           cursorColor: widget.textColor ?? AppColors.black,
           style: getMediumTextStyle(
@@ -64,11 +70,11 @@ class _InputFieldState extends State<InputField> {
                 ? IconButton(
                     onPressed: () {
                       setState(() {
-                        _obscureText = !_obscureText;
+                        _obscureText = !_obscureText!;
                       });
                     },
                     icon: Icon(
-                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      _obscureText! ? Icons.visibility_off : Icons.visibility,
                       color: AppColors.white,
                     ),
                   )

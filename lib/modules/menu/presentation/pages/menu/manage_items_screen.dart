@@ -11,8 +11,7 @@ class ManageItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final subSections = args['sections'];
     final parentEnabled = args['enabled'];
     final brandId = args['brand_id'];
