@@ -67,7 +67,7 @@ class MenuMgtBody extends StatelessWidget {
             },
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSize.s20.rh),
+            padding: EdgeInsets.symmetric(vertical: AppSize.s16.rh),
             child: const MenuTabBarView(),
           ),
           BlocBuilder<BrandSelectionCubit, MenuBrand?>(

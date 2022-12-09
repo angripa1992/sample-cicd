@@ -38,7 +38,7 @@ class ModifierScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSize.s12.rh),
+                  padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
                   child: Text(
                     'MODIFIER GROUPS',
                     style: getRegularTextStyle(
@@ -47,37 +47,37 @@ class ModifierScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.lightGrey,
-                    borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSize.s8.rh,
-                      horizontal: AppSize.s12.rw,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Title',
-                          style: getRegularTextStyle(
-                            color: AppColors.black,
-                            fontSize: AppFontSize.s16.rSp,
-                          ),
-                        ),
-                        Text(
-                          'Action',
-                          style: getRegularTextStyle(
-                            color: AppColors.black,
-                            fontSize: AppFontSize.s16.rSp,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: AppColors.lightGrey,
+                //     borderRadius: BorderRadius.circular(AppSize.s4.rSp),
+                //   ),
+                //   child: Padding(
+                //     padding: EdgeInsets.symmetric(
+                //       vertical: AppSize.s8.rh,
+                //       horizontal: AppSize.s12.rw,
+                //     ),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Text(
+                //           'Title',
+                //           style: getRegularTextStyle(
+                //             color: AppColors.black,
+                //             fontSize: AppFontSize.s16.rSp,
+                //           ),
+                //         ),
+                //         Text(
+                //           'Action',
+                //           style: getRegularTextStyle(
+                //             color: AppColors.black,
+                //             fontSize: AppFontSize.s16.rSp,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Expanded(
                   child: BlocBuilder<ModifierGroupsCubit, ResponseState>(
                     builder: (context, state) {

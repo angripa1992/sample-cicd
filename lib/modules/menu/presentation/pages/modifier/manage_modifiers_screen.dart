@@ -41,6 +41,8 @@ class ManageModifiersScreen extends StatelessWidget {
             horizontal: AppSize.s16.rw,
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ModifierGroupInfoView(
                 modifiersGroup: modifierGroup,
@@ -49,38 +51,51 @@ class ManageModifiersScreen extends StatelessWidget {
                   modifierGroup.statuses[0] = modifiedGroup.statuses[0];
                 },
               ),
-              SizedBox(height: AppSize.s32.rh),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.lightGrey,
-                  borderRadius: BorderRadius.circular(AppSize.s4.rSp),
+              SizedBox(height: AppSize.s16.rh),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.s4.rh,
+                  horizontal: AppSize.s4.rw,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: AppSize.s8.rh,
-                    horizontal: AppSize.s12.rw,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Title',
-                        style: getRegularTextStyle(
-                          color: AppColors.black,
-                          fontSize: AppFontSize.s16.rSp,
-                        ),
-                      ),
-                      Text(
-                        'Action',
-                        style: getRegularTextStyle(
-                          color: AppColors.black,
-                          fontSize: AppFontSize.s16.rSp,
-                        ),
-                      ),
-                    ],
+                child: Text(
+                  'MODIFIERS',
+                  style: getRegularTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s16.rSp,
                   ),
                 ),
               ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     color: AppColors.lightGrey,
+              //     borderRadius: BorderRadius.circular(AppSize.s4.rSp),
+              //   ),
+              //   child: Padding(
+              //     padding: EdgeInsets.symmetric(
+              //       vertical: AppSize.s8.rh,
+              //       horizontal: AppSize.s12.rw,
+              //     ),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text(
+              //           'Title',
+              //           style: getRegularTextStyle(
+              //             color: AppColors.black,
+              //             fontSize: AppFontSize.s16.rSp,
+              //           ),
+              //         ),
+              //         Text(
+              //           'Action',
+              //           style: getRegularTextStyle(
+              //             color: AppColors.black,
+              //             fontSize: AppFontSize.s16.rSp,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               ModifierListView(
                 modifiersGroup: modifierGroup,
                 brandId: brandId,
