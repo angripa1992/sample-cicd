@@ -288,7 +288,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   Row(
                     children: [
-                      Icon(Icons.help, color: AppColors.purpleBlue),
+                      Icon(Icons.support_agent_sharp, color: AppColors.purpleBlue),
                       SizedBox(
                         width: AppSize.s8.rw,
                       ),

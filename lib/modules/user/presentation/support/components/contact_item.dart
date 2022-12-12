@@ -10,13 +10,15 @@ class ContactItem extends StatelessWidget {
   final String title;
   final String description;
   final VoidCallback onTap;
+  final Color? iconColor;
 
   const ContactItem(
       {Key? key,
       required this.iconData,
       required this.title,
       required this.description,
-      required this.onTap})
+      required this.onTap,
+      this.iconColor})
       : super(key: key);
 
   @override
@@ -35,12 +37,6 @@ class ContactItem extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(
-                iconData,
-                color: AppColors.purpleBlue,
-                size: AppSize.s32.rSp,
-              ),
-              SizedBox(width: AppSize.s28.rw),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +58,13 @@ class ContactItem extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(width: AppSize.s28.rw),
+              Icon(
+                iconData,
+                color: iconColor ?? AppColors.purpleBlue,
+                size: AppSize.s32.rSp,
+              ),
             ],
           ),
         ),

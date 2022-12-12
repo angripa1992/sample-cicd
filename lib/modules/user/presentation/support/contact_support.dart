@@ -9,6 +9,7 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../resources/colors.dart';
 import 'components/contact_item.dart';
 
 class ContactSupportScreen extends StatefulWidget {
@@ -58,8 +59,9 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
           children: [
             ContactItem(
               iconData: Icons.whatsapp,
+              iconColor: AppColors.green,
               title: 'WhatsApp',
-              description: 'We are there for you from 9am - 12am',
+              description: 'Let us know what’s up',
               onTap: () async {
                 await _launchWhatsapp();
               },
@@ -70,7 +72,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
             ContactItem(
               iconData: Icons.email_outlined,
               title: 'Email Support',
-              description: 'We are there for you from 9am - 12am',
+              description: 'You can also email us about anything',
               onTap: () async {
                 await _mailSupport();
               },
