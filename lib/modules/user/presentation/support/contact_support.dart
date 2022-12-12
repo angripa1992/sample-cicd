@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -18,6 +19,7 @@ class ContactSupportScreen extends StatefulWidget {
 }
 
 class _ContactSupportScreenState extends State<ContactSupportScreen> {
+
   Future<void> _callSupport() async {
     if (!await launchUrl(Uri.parse('tel:${AppConstant.whatappSupportNumber}'))) {
       showErrorSnackBar(context, 'Could not call on this number');
@@ -26,7 +28,11 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
 
   Future<void> _launchWhatsapp() async {
     final whatsappAndroid =Uri.parse("whatsapp://send?phone=${AppConstant.whatappSupportNumber}");
-    await launchUrl(whatsappAndroid);
+    try{
+      await launchUrl(whatsappAndroid);
+    } on PlatformException catch(e){
+      showErrorSnackBar(context, 'Whatsapp not installed in your device');
+    }
   }
 
   Future<void> _mailSupport() async {

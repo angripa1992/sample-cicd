@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:flutter/material.dart';
 import 'package:image/image.dart' as im;
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
@@ -52,7 +53,7 @@ class PrintingHandler {
 
   void showBleDevices({Order? order}) async {
     final devices =  _bluetoothPrinterHandler.getDevices();
-    showDeviceListBottomSheet(
+    DeviceListBottomSheetManager().showBottomSheet(
       type: ConnectionType.BLUETOOTH,
       devicesStream: devices,
       onConnect: (device) async {
@@ -85,12 +86,12 @@ class PrintingHandler {
 
   void showUsbDevices({Order? order}) async {
     final devices = _usbPrinterHandler.getDevices();
-    showDeviceListBottomSheet(
+    DeviceListBottomSheetManager().showBottomSheet(
       type: ConnectionType.USB,
       devicesStream: devices,
       onConnect: (device) async {
         final isSuccessfullyConnected =
-            await _usbPrinterHandler.connect(device);
+        await _usbPrinterHandler.connect(device);
         if (isSuccessfullyConnected) {
           showSuccessSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,

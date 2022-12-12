@@ -47,13 +47,15 @@ class RestClient {
     final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
     final versionCode = await  deviceInfoProvider.versionCode();
     final versionName = await  deviceInfoProvider.versionName();
+    print('Content-Type = application/json');
+    print('App-Agent = enterprise/${deviceInfoProvider.platformName()}/$versionCode');
+    print('App-Version = $versionCode');
+    print('App-Version-Name = $versionName');
     _dio.options.headers[contentType] = 'application/json';
     // _dio.options.headers[deviceAgent] = AppConfig.appUserAgent;
-    // _dio.options.headers[appAgent] = 'enterprise/${AppConfig.appAgent}/$versionCode';
+    // _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
     // _dio.options.headers[appVersion] = versionCode;
     // _dio.options.headers[appVersionName] = versionName;
-    debugPrint('==========version code $versionCode');
-    debugPrint('==========version name $versionName');
   }
 
   void _initInterceptor() {

@@ -12,9 +12,9 @@ class DeviceInfoProvider{
 
   String platformName(){
     if(Platform.isIOS){
-      return 'IOS';
+      return 'ios';
     }else{
-      return 'ANDROID';
+      return 'android';
     }
   }
 

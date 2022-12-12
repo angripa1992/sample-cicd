@@ -34,26 +34,8 @@ class OrderItemView extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(right: AppSize.s10),
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              FutureBuilder<Provider>(
-                future: _infoProvider.findProviderById(order.providerId),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return SizedBox(
-                      height: AppSize.s40.rh,
-                      width: AppSize.s40.rw,
-                      child: ImageView(path: snapshot.data!.logo),
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ),
-              Positioned(
-                top: -40,
-
-                child:  FutureBuilder<Source>(
+          child: order.source > 0
+              ? FutureBuilder<Source>(
                   future: _infoProvider.findSourceById(order.source),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
@@ -65,10 +47,20 @@ class OrderItemView extends StatelessWidget {
                     }
                     return const SizedBox();
                   },
+                )
+              : FutureBuilder<Provider>(
+                  future: _infoProvider.findProviderById(order.providerId),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return SizedBox(
+                        height: AppSize.s40.rh,
+                        width: AppSize.s40.rw,
+                        child: ImageView(path: snapshot.data!.logo),
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
-              ),
-            ],
-          ),
         ),
         SizedBox(width: AppSize.s8.rw),
         Flexible(

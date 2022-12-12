@@ -46,9 +46,9 @@ class DocketDesign extends StatelessWidget {
             order.orderComment.isEmpty
                 ? const DocketSeparator()
                 : Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: _commentView(order.orderComment, true),
-                  ),
+              padding: const EdgeInsets.only(top: 8.0),
+              child: _commentView(order.orderComment, true),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: _itemsDetails(),
@@ -69,6 +69,8 @@ class DocketDesign extends StatelessWidget {
               child: _internalIdView(),
             ),
             const DocketSeparator(),
+            if (order.klikitComment.isNotEmpty) _klikitComment(order.klikitComment),
+            if (order.klikitComment.isNotEmpty)  const DocketSeparator(),
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: _qrCode(),
@@ -319,6 +321,7 @@ class DocketDesign extends StatelessWidget {
                 ).toList(),
               ),
             ),
+
             ///comment
             _commentView(order.cartV2[index].comment, false),
           ],
@@ -435,7 +438,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _getSubtotalItem(String name, num price,{bool isDiscount = false}) {
+  Widget _getSubtotalItem(String name, num price, {bool isDiscount = false}) {
     const textStyle = TextStyle(
       color: Colors.black,
       fontSize: 12,
@@ -448,7 +451,7 @@ class DocketDesign extends StatelessWidget {
           style: textStyle,
         ),
         Text(
-          '${isDiscount ? '-':''}${order.currencySymbol}${_convertPrice(price)}',
+          '${isDiscount ? '-' : ''}${order.currencySymbol}${_convertPrice(price)}',
           style: textStyle,
         ),
       ],
@@ -528,6 +531,37 @@ class DocketDesign extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _klikitComment(String comment) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Container(
+        color: Colors.black,
+        padding: const EdgeInsets.all(4),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              'KLIKIT NOTE:',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              comment,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
