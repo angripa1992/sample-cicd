@@ -106,30 +106,31 @@ class OrderItemView extends StatelessWidget {
                   ),
                 ],
               ),
-              FutureBuilder<Source>(
-                future: _infoProvider.findSourceById(order.source),
-                builder: (_, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(
-                      snapshot.data!.name,
-                      style: _providerTextStyle,
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ),
-              FutureBuilder<Provider>(
-                future: _infoProvider.findProviderById(order.providerId),
-                builder: (_, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(
-                      snapshot.data!.title,
-                      style: _providerTextStyle,
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ),
+              order.source > 0
+                  ? FutureBuilder<Source>(
+                      future: _infoProvider.findSourceById(order.source),
+                      builder: (_, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!.name,
+                            style: _providerTextStyle,
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    )
+                  : FutureBuilder<Provider>(
+                      future: _infoProvider.findProviderById(order.providerId),
+                      builder: (_, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!.title,
+                            style: _providerTextStyle,
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                 child: SizedBox(
