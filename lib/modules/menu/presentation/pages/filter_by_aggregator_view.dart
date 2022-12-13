@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/resources/colors.dart';
@@ -8,7 +9,7 @@ import 'package:klikit/resources/values.dart';
 
 class FilterByAggregatorView extends StatefulWidget {
   final List<Provider> providers;
-  final Function(Provider) onChanged;
+  final Function(Provider?) onChanged;
 
   const FilterByAggregatorView(
       {Key? key, required this.providers, required this.onChanged})
@@ -24,6 +25,16 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
+
+  final _providers = <Provider>[];
+
+  @override
+  void initState() {
+    _providers.clear();
+    _providers.add(Provider(ZERO, 'All', EMPTY, EMPTY));
+    _providers.addAll(widget.providers);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +77,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                     ),
                   ),
                   selectedItemBuilder: (BuildContext context) {
-                    return widget.providers.map<Widget>((Provider item) {
+                    return _providers.map<Widget>((Provider item) {
                       return Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -76,7 +87,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                       );
                     }).toList();
                   },
-                  items: widget.providers.map<DropdownMenuItem<Provider>>(
+                  items: _providers.map<DropdownMenuItem<Provider>>(
                     (provider) {
                       return DropdownMenuItem<Provider>(
                         value: provider,
@@ -100,7 +111,11 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                   onChanged: (value) {
                     setState(() {
                       dropDownValue = value;
-                      widget.onChanged(value!);
+                      if(value!.id == ZERO){
+                        widget.onChanged(null);
+                      }else{
+                        widget.onChanged(value);
+                      }
                     });
                   },
                 );

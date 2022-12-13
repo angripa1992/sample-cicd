@@ -56,7 +56,7 @@ class MenuMgtBody extends StatelessWidget {
                         onChanged: (provider) {
                           context
                               .read<AggregatorSelectionCubit>()
-                              .changeAggregator(provider.id);
+                              .changeAggregator(provider?.id);
                         },
                       ),
                     );
