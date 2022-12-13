@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
@@ -19,6 +18,7 @@ import 'package:klikit/resources/values.dart';
 import '../../../../app/constants.dart';
 import '../../../../resources/styles.dart';
 import 'components/tabbar_delegate.dart';
+import 'order_screen_navigate_data.dart';
 
 class OrdersScreen extends StatefulWidget {
   final int tabIndex;
@@ -40,7 +40,9 @@ class _OrdersScreenState extends State<OrdersScreen>
 
   @override
   void initState() {
+    print('OrdersScreen===================init');
     _tabController = TabController(length: 3, vsync: this);
+    OrderScreenNavigateDataHandler().setData(widget.data);
     _tabController!.index = widget.tabIndex;
     filterSubject = _filterSubject;
     filterSubject?.addObserver(this, ObserverTag.ORDER_SCREEN);
@@ -49,6 +51,7 @@ class _OrdersScreenState extends State<OrdersScreen>
     _refreshOrderCount();
     super.initState();
   }
+
 
   void _refreshOrderCount() {
     context.read<NewOrderCubit>().fetchNewOrder(
@@ -142,10 +145,7 @@ class _OrdersScreenState extends State<OrdersScreen>
             children: [
               NewOrderScreen(subject: _filterSubject),
               OngoingOrderScreen(subject: _filterSubject),
-              OrderHistoryScreen(
-                subject: _filterSubject,
-                data: widget.data,
-              ),
+              OrderHistoryScreen(subject: _filterSubject),
             ],
           ),
         ),

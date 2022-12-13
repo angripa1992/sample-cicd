@@ -120,6 +120,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   void _onAction({
     required String title,
     required Order order,
+    required int status,
     bool willCancel = false,
     bool isFromDetails = false,
   }) {
@@ -131,7 +132,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         if (isFromDetails) {
           Navigator.of(context).pop();
         }
-        if(!willCancel){
+        if(!willCancel && status == OrderStatus.ACCEPTED){
           _printDocket(order);
         }
       },
@@ -156,11 +157,12 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 key: _modelScaffoldKey,
                 context: context,
                 order: item,
-                onAction: (title) {
+                onAction: (title,status) {
                   _onAction(
                     title: title,
                     order: item,
                     isFromDetails: true,
+                    status: status,
                   );
                 },
                 onPrint: () {
@@ -172,6 +174,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                     order: item,
                     isFromDetails: true,
                     willCancel: true,
+                    status: OrderStatus.CANCELLED,
                   );
                 },
                 onCommentActionSuccess: () {
@@ -179,10 +182,11 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 },
               );
             },
-            onAction: (title) {
+            onAction: (title,status) {
               _onAction(
                 title: title,
                 order: item,
+                status: status,
               );
             },
             onPrint: () {
@@ -193,6 +197,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 title: title,
                 order: item,
                 willCancel: true,
+                status: OrderStatus.CANCELLED,
               );
             },
           );

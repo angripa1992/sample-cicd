@@ -161,8 +161,7 @@ class _BaseScreenState extends State<BaseScreen> {
                     currentIndex: context.read<BaseScreenCubit>().state.index,
                     onTap: (index) {
                       context.read<BaseScreenCubit>().changeIndex(
-                          NavigationData(
-                              index: index, subTabIndex: null, data: null));
+                          NavigationData(index: index, subTabIndex: null, data: null));
                     },
                     backgroundColor: AppColors.whiteSmoke,
                     type: BottomNavigationBarType.fixed,

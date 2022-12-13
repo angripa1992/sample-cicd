@@ -59,6 +59,7 @@ class RestClient {
   }
 
   void _initInterceptor() {
+    _dioLogger.setLogStatus(LogStatus.CLOSE);
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
     _addHeader();
     _dio.interceptors.add(
@@ -84,14 +85,10 @@ class RestClient {
               handler.next(options);
             }
           }
-          if (!kReleaseMode) {
-            _dioLogger.logRequest(options);
-          }
+          _dioLogger.logRequest(options);
         },
         onError: (error, handler) async {
-          if (!kReleaseMode) {
-            _dioLogger.logError(error);
-          }
+          _dioLogger.logError(error);
           var options = error.response!.requestOptions;
           if (options.path == Urls.login ||
               options.path == Urls.forgetPassword) {
@@ -132,9 +129,7 @@ class RestClient {
           return handler.next(error);
         },
         onResponse: (response, handler) {
-          if (!kReleaseMode) {
-            _dioLogger.logResponse(response);
-          }
+          _dioLogger.logResponse(response);
           handler.next(response);
         },
       ),

@@ -87,7 +87,7 @@ void showHistoryOrderDetails({
 void showOrderDetails({
   required BuildContext context,
   required Order order,
-  required Function(String) onAction,
+  required Function(String,int) onAction,
   required Function(String) onCancel,
   required VoidCallback onPrint,
   required GlobalKey<ScaffoldState> key,

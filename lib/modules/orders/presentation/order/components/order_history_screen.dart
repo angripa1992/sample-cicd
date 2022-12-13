@@ -15,13 +15,14 @@ import '../../../../../printer/printing_handler.dart';
 import '../../../domain/entities/order.dart';
 import '../../../domain/repository/orders_repository.dart';
 import '../observer/filter_subject.dart';
+import '../order_screen_navigate_data.dart';
 import 'date_range_picker.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
-  final Map<String, dynamic>? data;
+ // final Map<String, dynamic>? data;
   final FilterSubject subject;
 
-  const OrderHistoryScreen({Key? key, required this.subject, this.data})
+  const OrderHistoryScreen({Key? key, required this.subject})
       : super(key: key);
 
   @override
@@ -46,11 +47,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   @override
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
-    if (widget.data == null) {
-      _dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
-    } else {
-      _dateRange = widget.data![HistoryNavData.HISTORY_NAV_DATA];
-    }
+    _initDatRange();
     filterSubject = widget.subject;
     filterSubject?.addObserver(this, ObserverTag.ORDER_HISTORY);
     _providers = filterSubject?.getProviders();
@@ -98,6 +95,16 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
 
   void _onPrint(Order order) {
     _printingHandler.printDocket(order);
+  }
+
+  void _initDatRange(){
+    final navData = OrderScreenNavigateDataHandler().getData();
+    if (navData == null) {
+      _dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
+    } else {
+      _dateRange = navData[HistoryNavData.HISTORY_NAV_DATA];
+      OrderScreenNavigateDataHandler().clearData();
+    }
   }
 
   @override

@@ -205,7 +205,7 @@ class CanceledButton extends StatelessWidget {
 
 Widget getActionButtons({
   required Order order,
-  required Function(String) onAction,
+  required Function(String, int) onAction,
   required Function(String) onCancel,
   required VoidCallback onPrint,
 }) {
@@ -217,7 +217,7 @@ Widget getActionButtons({
       children: [
         AcceptButton(
           onAccept: () {
-            onAction('Accept Order #${order.id}');
+            onAction('Accept Order #${order.id}', OrderStatus.ACCEPTED);
           },
         ),
         SizedBox(width: AppSize.s8.rw),
@@ -241,7 +241,7 @@ Widget getActionButtons({
         SizedBox(width: AppSize.s8.rw),
         DeliverButton(
           onDeliver: () {
-            onAction('Deliver Order #${order.id}');
+            onAction('Deliver Order #${order.id}', OrderStatus.DELIVERED);
           },
         ),
       ],
@@ -260,7 +260,7 @@ Widget getActionButtons({
         SizedBox(width: AppSize.s8.rw),
         ReadyButton(
           onReady: () {
-            onAction('Ready Order #${order.id}');
+            onAction('Ready Order #${order.id}', OrderStatus.READY);
           },
         ),
       ],
@@ -278,7 +278,7 @@ Widget getActionButtons({
         SizedBox(width: AppSize.s8.rw),
         PickedUpButton(
           onPickedUp: () {
-            onAction('PickUp Order #${order.id}');
+            onAction('PickUp Order #${order.id}', OrderStatus.PICKED_UP);
           },
         ),
       ],
@@ -293,7 +293,7 @@ Widget getActionButtons({
       SizedBox(width: AppSize.s8.rw),
       DeliverButton(
         onDeliver: () {
-          onAction('Deliver Order #${order.id}');
+          onAction('Deliver Order #${order.id}', OrderStatus.DELIVERED);
         },
       ),
     ],
@@ -302,7 +302,7 @@ Widget getActionButtons({
 
 Widget getExpandActionButtons({
   required Order order,
-  required Function(String) onAction,
+  required Function(String, int) onAction,
   required Function(String) onCancel,
   required VoidCallback onPrint,
 }) {
@@ -315,7 +315,10 @@ Widget getExpandActionButtons({
         Expanded(
           child: AcceptButton(
             onAccept: () {
-              onAction('Accept Order #${order.id}');
+              onAction(
+                'Accept Order #${order.id}',
+                OrderStatus.ACCEPTED,
+              );
             },
           ),
         ),
@@ -345,7 +348,10 @@ Widget getExpandActionButtons({
         Expanded(
           child: DeliverButton(
             onDeliver: () {
-              onAction('Deliver Order #${order.id}');
+              onAction(
+                'Deliver Order #${order.id}',
+                OrderStatus.DELIVERED,
+              );
             },
           ),
         ),
@@ -368,7 +374,10 @@ Widget getExpandActionButtons({
         Expanded(
           child: ReadyButton(
             onReady: () {
-              onAction('Ready Order #${order.id}');
+              onAction(
+                'Ready Order #${order.id}',
+                OrderStatus.READY,
+              );
             },
           ),
         ),
@@ -390,7 +399,10 @@ Widget getExpandActionButtons({
         Expanded(
           child: PickedUpButton(
             onPickedUp: () {
-              onAction('PickUp Order #${order.id}');
+              onAction(
+                'PickUp Order #${order.id}',
+                OrderStatus.PICKED_UP,
+              );
             },
           ),
         ),
@@ -409,7 +421,10 @@ Widget getExpandActionButtons({
       Expanded(
         child: DeliverButton(
           onDeliver: () {
-            onAction('Deliver Order #${order.id}');
+            onAction(
+              'Deliver Order #${order.id}',
+              OrderStatus.DELIVERED,
+            );
           },
         ),
       ),

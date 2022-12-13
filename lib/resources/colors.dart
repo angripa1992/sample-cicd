@@ -8,7 +8,7 @@ class AppColors {
   static Color lightVioletTwo = const Color(0xFFF0E7FE);
   static Color white = const Color(0xFFFFFFFF);
   static Color red = const Color(0xFFF44336);
-  static Color green = const Color(0xFF5C9E1E);
+  static Color green = const Color(0xFF25D366);
   static Color black = const Color(0xFF000000);
   static Color canaryYellow = const Color(0xFFFAF84F);
   static Color manilla = const Color(0xFFFBFA92);

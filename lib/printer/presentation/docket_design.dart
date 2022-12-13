@@ -31,52 +31,55 @@ class DocketDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        width: 250,
-        child: Column(
-          children: [
-            _headerWidget(),
-            const DocketSeparator(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: _deliveryInfo(),
-            ),
-            const DocketSeparator(),
-            order.orderComment.isEmpty
-                ? const DocketSeparator()
-                : Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: _commentView(order.orderComment, true),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: _itemsDetails(),
-            ),
-            const DocketSeparator(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: _priceView(),
-            ),
-            const DocketSeparator(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: _totalPriceView(),
-            ),
-            const DocketSeparator(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: _internalIdView(),
-            ),
-            const DocketSeparator(),
-            if (order.klikitComment.isNotEmpty) _klikitComment(order.klikitComment),
-            if (order.klikitComment.isNotEmpty)  const DocketSeparator(),
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: _qrCode(),
-            ),
-            _footerWidget(),
-          ],
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          width: 250,
+          child: Column(
+            children: [
+              _headerWidget(),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _deliveryInfo(),
+              ),
+              const DocketSeparator(),
+              order.orderComment.isEmpty
+                  ? const DocketSeparator()
+                  : Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: _commentView(order.orderComment, true),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _itemsDetails(),
+              ),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _priceView(),
+              ),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _totalPriceView(),
+              ),
+              const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: _internalIdView(),
+              ),
+              const DocketSeparator(),
+              if (order.klikitComment.isNotEmpty) _klikitComment(order.klikitComment),
+              if (order.klikitComment.isNotEmpty)  const DocketSeparator(),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: _qrCode(),
+              ),
+              _footerWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -154,6 +157,31 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
+  String _getStatus() {
+    switch (order.status) {
+      case OrderStatus.ACCEPTED:
+        return 'Accepted';
+      case OrderStatus.PLACED:
+        return 'Placed';
+      case OrderStatus.CANCELLED:
+        return 'Canceled';
+      case OrderStatus.DELIVERED:
+        return 'Delivered';
+      case OrderStatus.PICKED_UP:
+        return 'Picked Up';
+      case OrderStatus.READY:
+        return 'Ready';
+      case OrderStatus.SCHEDULED:
+        return 'Scheduled';
+      case OrderStatus.DRIVER_ARRIVED:
+        return 'Driver Arrived';
+      case OrderStatus.DRIVER_ASSIGNED:
+        return 'Driver Assigned';
+      default:
+        return '';
+    }
+  }
+
   Widget _deliveryInfo() {
     const textStyle = TextStyle(
       fontSize: 12,
@@ -182,7 +210,7 @@ class DocketDesign extends StatelessWidget {
               style: textStyle,
             ),
             Text(
-              order.type == OrderType.DELIVERY ? 'Delivery' : 'Pickup',
+              _getStatus(),
               style: textStyle,
             ),
           ],

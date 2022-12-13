@@ -144,7 +144,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 key: _modelScaffoldKey,
                 context: context,
                 order: item,
-                onAction: (title) {
+                onAction: (title,status) {
                   _onAction(
                     title: title,
                     order: item,
@@ -167,7 +167,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 },
               );
             },
-            onAction: (title) {
+            onAction: (title,status) {
               _onAction(
                 title: title,
                 order: item,
