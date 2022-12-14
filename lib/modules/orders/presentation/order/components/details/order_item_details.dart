@@ -46,7 +46,7 @@ class OrderItemDetails extends StatelessWidget {
                   ///cart item
                   _cartItemView(order.cartV2[index], order.currencySymbol),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: AppSize.s32.rw, vertical: AppSize.s4.rh),
+                    padding: EdgeInsets.only(left: AppSize.s32.rw, top: AppSize.s4.rh,bottom: AppSize.s4.rh),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -62,21 +62,21 @@ class OrderItemDetails extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: modifiersGroup.modifiers.map((modifiers) {
                                     return Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+                                      padding: EdgeInsets.only(left: AppSize.s8.rw, top: AppSize.s2.rh,bottom: AppSize.s2.rh),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.stretch,
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           ///level 1 modifiers
-                                          _modifierItemView(modifiers),
+                                          _modifierItemView(modifiers: modifiers,prevQuantity: modifiers.quantity,itemQuantity: order.cartV2[index].quantity),
                                           Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                                            padding: EdgeInsets.only(left: AppSize.s8.rw),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.stretch,
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               children: modifiers.modifierGroups.map((modifierGroups) {
                                                   return Padding(
-                                                    padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s4.rh),
+                                                    padding: EdgeInsets.only(left: AppSize.s8.rw, top: AppSize.s4.rh,bottom: AppSize.s4.rh),
                                                     child: Column(
                                                       crossAxisAlignment:CrossAxisAlignment.stretch,
                                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -85,11 +85,11 @@ class OrderItemDetails extends StatelessWidget {
                                                         Column(
                                                           crossAxisAlignment: CrossAxisAlignment.stretch,
                                                           mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: modifierGroups.modifiers.map((modifiers) {
+                                                          children: modifierGroups.modifiers.map((secondModifier) {
                                                               return Padding(
-                                                                padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                                                                padding: EdgeInsets.only(left: AppSize.s8.rw),
                                                                 ///level 2 modifiers
-                                                                child: _modifierItemView(modifiers),
+                                                                child: _modifierItemView(modifiers: secondModifier,prevQuantity: secondModifier.quantity,itemQuantity: order.cartV2[index].quantity),
                                                               );
                                                             },
                                                           ).toList(),
@@ -124,6 +124,7 @@ class OrderItemDetails extends StatelessWidget {
     );
   }
 
+
   Widget _cartItemView(CartV2 cartV2, String currencySymbol) {
     return Row(
       children: [
@@ -132,23 +133,36 @@ class OrderItemDetails extends StatelessWidget {
         Expanded(child: Text(cartV2.name, style: _itemTextStyle)),
         SizedBox(width: AppSize.s12.rw),
         Text(
-          '$currencySymbol${cartV2.price}',
+          '$currencySymbol${getItemPrice(cartV2)}',
           style: TextStyle(
-            fontWeight: FontWeight.w700,
+            fontWeight: AppFontWeight.medium,
             fontSize: AppFontSize.s16.rSp,
+            color: AppColors.black,
           ),
         ),
       ],
     );
   }
 
-  Widget _modifierItemView(Modifiers modifiers) {
+  Widget _modifierItemView({
+    required Modifiers modifiers,
+    required int prevQuantity,
+    required int itemQuantity,
+  }) {
     return Row(
       children: [
-        Text('${modifiers.quantity}x', style: _modifiersTextStyle),
-        SizedBox(width: AppSize.s12.rw),
+        Text('• ${modifiers.quantity}x', style: _modifiersTextStyle),
+        SizedBox(width: AppSize.s8.rw),
         Expanded(child: Text(modifiers.name, style: _modifiersTextStyle)),
-        Expanded(child: Text(modifiers.unitPrice, style: _modifiersTextStyle)),
+        SizedBox(width: AppSize.s8.rw),
+        Text(
+          '${order.currencySymbol}${getModifierPrice(modifiers, prevQuantity, itemQuantity)}',
+          style: TextStyle(
+            fontWeight: AppFontWeight.regular,
+            fontSize: AppFontSize.s16.rSp,
+            color: AppColors.blackCow,
+          ),
+        ),
       ],
     );
   }
@@ -173,17 +187,21 @@ class OrderItemDetails extends StatelessWidget {
     );
   }
 
-  String getModifierPrice(Modifiers modifiers, int prevQuantity, int itemQuantity ) {
-    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
+  String getModifierPrice(
+      Modifiers modifiers, int prevQuantity, int itemQuantity) {
+    if (!order.isInterceptorOrder &&
+        order.providerId != ProviderID.FOOD_PANDA) {
       double unitPrice = double.parse(modifiers.unitPrice);
-      double modifierTotalPrice = unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
+      double modifierTotalPrice =
+          unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
       return modifierTotalPrice.toString();
     }
     return modifiers.price;
   }
 
   String getItemPrice(CartV2 cartV2) {
-    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
+    if (!order.isInterceptorOrder &&
+        order.providerId != ProviderID.FOOD_PANDA) {
       double unitPrice = double.parse(cartV2.unitPrice);
       double itemTotalPrice = unitPrice * cartV2.quantity;
       return itemTotalPrice.toString();

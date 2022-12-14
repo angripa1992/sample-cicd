@@ -11,6 +11,7 @@ import '../../core/provider/order_information_provider.dart';
 import '../../modules/orders/domain/entities/cart.dart';
 import '../../modules/orders/domain/entities/order.dart';
 import '../../modules/orders/domain/entities/provider.dart';
+import '../../modules/orders/domain/entities/source.dart';
 
 class DocketDesign extends StatelessWidget {
   final _infoProvider = getIt.get<OrderInformationProvider>();
@@ -48,9 +49,9 @@ class DocketDesign extends StatelessWidget {
               order.orderComment.isEmpty
                   ? const DocketSeparator()
                   : Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: _commentView(order.orderComment, true),
-              ),
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: _commentView(order.orderComment, true),
+                    ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: _itemsDetails(),
@@ -71,8 +72,9 @@ class DocketDesign extends StatelessWidget {
                 child: _internalIdView(),
               ),
               const DocketSeparator(),
-              if (order.klikitComment.isNotEmpty) _klikitComment(order.klikitComment),
-              if (order.klikitComment.isNotEmpty)  const DocketSeparator(),
+              if (order.klikitComment.isNotEmpty)
+                _klikitComment(order.klikitComment),
+              if (order.klikitComment.isNotEmpty) const DocketSeparator(),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: _qrCode(),
@@ -105,8 +107,7 @@ class DocketDesign extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible:
-              (order.userFirstName.isNotEmpty || order.userLastName.isNotEmpty),
+          visible: (order.userFirstName.isNotEmpty || order.userLastName.isNotEmpty),
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
@@ -124,7 +125,22 @@ class DocketDesign extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FutureBuilder<Provider>(
+              order.source > 0 ? FutureBuilder<Source>(
+                future: _infoProvider.findSourceById(order.source),
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data!.name,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ) : FutureBuilder<Provider>(
                 future: _infoProvider.findProviderById(order.providerId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -158,11 +174,11 @@ class DocketDesign extends StatelessWidget {
   }
 
   String _getType() {
-    if(order.type == OrderType.DELIVERY){
+    if (order.type == OrderType.DELIVERY) {
       return 'Delivery';
-    }else if(order.type == OrderType.PICKUP){
+    } else if (order.type == OrderType.PICKUP) {
       return 'Pickup';
-    }else{
+    } else {
       return 'Manual';
     }
   }
@@ -238,8 +254,8 @@ class DocketDesign extends StatelessWidget {
             ///cart item
             _cartItemView(order.cartV2[index], order.currencySymbol),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
+              padding: const EdgeInsets.only(
+                left: 16,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -257,8 +273,8 @@ class DocketDesign extends StatelessWidget {
                           children: modifiersGroup.modifiers.map(
                             (modifiers) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
+                                padding: const EdgeInsets.only(
+                                  left: 8,
                                 ),
                                 child: Column(
                                   crossAxisAlignment:
@@ -266,10 +282,10 @@ class DocketDesign extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     ///level 1 modifiers
-                                    _modifierItemView(modifiers),
+                                    _modifierItemView(modifiers: modifiers,prevQuantity: modifiers.quantity,itemQuantity: order.cartV2[index].quantity),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
+                                      padding: const EdgeInsets.only(
+                                        left: 8,
                                       ),
                                       child: Column(
                                         crossAxisAlignment:
@@ -279,9 +295,8 @@ class DocketDesign extends StatelessWidget {
                                         children: modifiers.modifierGroups.map(
                                           (modifierGroups) {
                                             return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 8,
+                                              padding: const EdgeInsets.only(
+                                                left: 8,
                                               ),
                                               child: Column(
                                                 crossAxisAlignment:
@@ -299,18 +314,11 @@ class DocketDesign extends StatelessWidget {
                                                     children: modifierGroups
                                                         .modifiers
                                                         .map(
-                                                      (modifiers) {
+                                                      (secondModifier) {
                                                         return Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .symmetric(
-                                                            horizontal: 8,
-                                                          ),
-
+                                                          padding: const EdgeInsets.only(left: 8),
                                                           ///level 2 modifiers
-                                                          child:
-                                                              _modifierItemView(
-                                                                  modifiers),
+                                                          child: _modifierItemView(modifiers: secondModifier,prevQuantity: secondModifier.quantity,itemQuantity: order.cartV2[index].quantity),
                                                         );
                                                       },
                                                     ).toList(),
@@ -385,19 +393,28 @@ class DocketDesign extends StatelessWidget {
         Expanded(child: Text(cartV2.name, style: _itemTextStyle)),
         const SizedBox(width: 8),
         Text(
-          '$currencySymbol${cartV2.price}',
+          '$currencySymbol${getItemPrice(cartV2)}',
           style: _itemTextStyle,
         ),
       ],
     );
   }
 
-  Widget _modifierItemView(Modifiers modifiers) {
+  Widget _modifierItemView({
+    required Modifiers modifiers,
+    required int prevQuantity,
+    required int itemQuantity,
+  }) {
     return Row(
       children: [
         Text('• ${modifiers.quantity}x', style: _modifiersTextStyle),
         const SizedBox(width: 8),
         Expanded(child: Text(modifiers.name, style: _modifiersTextStyle)),
+        const SizedBox(width: 8),
+        Text(
+          '${order.currencySymbol}${getModifierPrice(modifiers, prevQuantity, itemQuantity)}',
+          style: _modifiersTextStyle,
+        ),
       ],
     );
   }
@@ -576,5 +593,27 @@ class DocketDesign extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getModifierPrice(
+      Modifiers modifiers, int prevQuantity, int itemQuantity) {
+    if (!order.isInterceptorOrder &&
+        order.providerId != ProviderID.FOOD_PANDA) {
+      double unitPrice = double.parse(modifiers.unitPrice);
+      double modifierTotalPrice =
+          unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
+      return modifierTotalPrice.toString();
+    }
+    return modifiers.price;
+  }
+
+  String getItemPrice(CartV2 cartV2) {
+    if (!order.isInterceptorOrder &&
+        order.providerId != ProviderID.FOOD_PANDA) {
+      double unitPrice = double.parse(cartV2.unitPrice);
+      double itemTotalPrice = unitPrice * cartV2.quantity;
+      return itemTotalPrice.toString();
+    }
+    return cartV2.price;
   }
 }
