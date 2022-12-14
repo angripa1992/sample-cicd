@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/domain/usecases/add_comment.dart';
@@ -162,7 +161,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                       widget.onCommentActionSuccess();
                       _pop();
                       showSuccessSnackBar(
-                          context, state.data.message.orEmpty());
+                          context, 'Comment deleted successfully');
                     } else if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
                     }
@@ -195,7 +194,12 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                     widget.changeCommentAction(_controller.text);
                     widget.onCommentActionSuccess();
                     _pop();
-                    showSuccessSnackBar(context, state.data.message.orEmpty());
+                    showSuccessSnackBar(
+                      context,
+                      widget.order.klikitComment.isEmpty
+                          ? 'Comment added successfully'
+                          : 'Comment updated successfully',
+                    );
                   } else if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
                   }

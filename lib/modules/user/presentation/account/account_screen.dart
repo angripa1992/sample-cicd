@@ -258,8 +258,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           fontWeight: AppFontWeight.regular,
                           textSize: AppFontSize.s14.rSp,
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(Routes.changePassword);
+                            Navigator.of(context).pushNamed(Routes.changePassword);
                           },
                           color: AppColors.purpleBlue,
                           text: AppStrings.change_your_password.tr(),

@@ -45,9 +45,18 @@ class ErrorHandler implements Exception {
     }
   }
 
+
   Failure _handleResponseError(DioError error){
     try{
-      final message = error.response?.data['message'];
+      String message = ResponseMessage.DEFAULT;
+      final dataMap = error.response?.data as Map<String,dynamic>?;
+      if(dataMap != null){
+        if(dataMap.containsKey('validation_error')){
+          message = dataMap['validation_error']['comment'];
+        }else if(dataMap.containsKey('message')){
+          message = dataMap['message'];
+        }
+      }
       return Failure(ResponseCode.RESPONSE, message);
     }catch(error){
       return Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
