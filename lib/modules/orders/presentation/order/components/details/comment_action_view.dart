@@ -37,7 +37,7 @@ class _CommentActionViewState extends State<CommentActionView> {
             onCommentActionSuccess: widget.onCommentActionSuccess,
             changeCommentAction: (klikitComment) {
               setState(() {
-                _currentOrder = _currentOrder!.copyWithComment(klikitComment);
+                _currentOrder!.klikitComment = klikitComment;
               });
             },
           );

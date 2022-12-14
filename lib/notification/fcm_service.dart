@@ -40,7 +40,7 @@ class FcmService {
 
   void registerRefreshTokenListener() {
     messaging.onTokenRefresh.listen((fcmToken) {
-      _fcmTokenManager.registerToken(fcmToken);
+      //_fcmTokenManager.registerToken(fcmToken);
     }).onError((error) {});
   }
 }

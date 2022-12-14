@@ -50,7 +50,6 @@ class Order {
   final String orderComment;
   final String deliveryComment;
   final String foodpandaToken;
-  final String klikitComment;
   final bool isManualOrder;
   final int source;
   final int paymentMethod;
@@ -58,6 +57,7 @@ class Order {
   final bool autoAccept;
   final bool autoPilot;
   final int autoPilotTime;
+  String klikitComment;
 
   Order({
     required this.id,
@@ -105,53 +105,4 @@ class Order {
     required this.autoPilot,
     required this.autoPilotTime,
   });
-
-  Order copyWithComment(String klikitComment) {
-    return Order(
-      id: id,
-      externalId: externalId,
-      shortId: shortId,
-      providerId: providerId,
-      brandId: brandId,
-      brandName: brandName,
-      branchId: branchId,
-      status: status,
-      itemPrice: itemPrice,
-      finalPrice: finalPrice,
-      discount: discount,
-      merchantDiscount: merchantDiscount,
-      providerDiscount: providerDiscount,
-      deliveryFee: deliveryFee,
-      additionalFee: additionalFee,
-      vat: vat,
-      currency: currency,
-      currencySymbol: currencySymbol,
-      itemCount: itemCount,
-      uniqueItemCount: uniqueItemCount,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      userId: userId,
-      userFirstName: userFirstName,
-      userLastName: userLastName,
-      userProfilePic: userProfilePic,
-      userPhone: userPhone,
-      userEmail: userEmail,
-      cartV2: cartV2,
-      klikitStoreId: klikitStoreId,
-      type: type,
-      isFake: isFake,
-      isFoodpandaApiOrder: isFoodpandaApiOrder,
-      orderComment: orderComment,
-      deliveryComment: deliveryComment,
-      foodpandaToken: foodpandaToken,
-      klikitComment: klikitComment,
-      isManualOrder: isManualOrder,
-      source: source,
-      paymentMethod: paymentMethod,
-      paymentStatus: paymentStatus,
-      autoAccept: autoAccept,
-      autoPilot: autoPilot,
-      autoPilotTime: autoPilotTime,
-    );
-  }
 }
