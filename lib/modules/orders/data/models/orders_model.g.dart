@@ -70,7 +70,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       autoAccept: json['auto_accept'] as bool?,
       autoPilot: json['auto_pilot'] as bool?,
       autoPilotTime: json['auto_pilot_time'] as int?,
-    );
+    )..isInterceptorOrder = json['is_interceptor_order'] as bool?;
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     <String, dynamic>{
@@ -108,6 +108,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'klikit_store_id': instance.klikitStoreId,
       'is_fake': instance.isFake,
       'is_foodpanda_api_order': instance.isFoodpandaApiOrder,
+      'is_interceptor_order': instance.isInterceptorOrder,
       'order_comment': instance.orderComment,
       'delivery_comment': instance.deliveryComment,
       'foodpanda_token': instance.foodpandaToken,

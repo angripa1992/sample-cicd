@@ -106,6 +106,8 @@ class OrderModel {
   bool? isFake;
   @JsonKey(name: 'is_foodpanda_api_order')
   bool? isFoodpandaApiOrder;
+  @JsonKey(name: 'is_interceptor_order')
+  bool? isInterceptorOrder;
   @JsonKey(name: 'order_comment')
   String? orderComment;
   @JsonKey(name: 'delivery_comment')
@@ -224,6 +226,7 @@ class OrderModel {
       autoPilot: autoPilot ?? false,
       autoPilotTime: autoPilotTime.orZero(),
       klikitComment: klikitComment.orEmpty(),
+      isInterceptorOrder: isInterceptorOrder.orFalse(),
     );
   }
 

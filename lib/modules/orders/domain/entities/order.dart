@@ -47,6 +47,7 @@ class Order {
   final int type;
   final bool isFake;
   final bool isFoodpandaApiOrder;
+  final bool isInterceptorOrder;
   final String orderComment;
   final String deliveryComment;
   final String foodpandaToken;
@@ -93,6 +94,7 @@ class Order {
     required this.type,
     required this.isFake,
     required this.isFoodpandaApiOrder,
+    required this.isInterceptorOrder,
     required this.orderComment,
     required this.deliveryComment,
     required this.foodpandaToken,

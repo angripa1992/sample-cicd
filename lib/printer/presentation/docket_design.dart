@@ -157,28 +157,13 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  String _getStatus() {
-    switch (order.status) {
-      case OrderStatus.ACCEPTED:
-        return 'Accepted';
-      case OrderStatus.PLACED:
-        return 'Placed';
-      case OrderStatus.CANCELLED:
-        return 'Canceled';
-      case OrderStatus.DELIVERED:
-        return 'Delivered';
-      case OrderStatus.PICKED_UP:
-        return 'Picked Up';
-      case OrderStatus.READY:
-        return 'Ready';
-      case OrderStatus.SCHEDULED:
-        return 'Scheduled';
-      case OrderStatus.DRIVER_ARRIVED:
-        return 'Driver Arrived';
-      case OrderStatus.DRIVER_ASSIGNED:
-        return 'Driver Assigned';
-      default:
-        return '';
+  String _getType() {
+    if(order.type == OrderType.DELIVERY){
+      return 'Delivery';
+    }else if(order.type == OrderType.PICKUP){
+      return 'Pickup';
+    }else{
+      return 'Manual';
     }
   }
 
@@ -210,7 +195,7 @@ class DocketDesign extends StatelessWidget {
               style: textStyle,
             ),
             Text(
-              _getStatus(),
+              _getType(),
               style: textStyle,
             ),
           ],

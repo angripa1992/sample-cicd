@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -170,5 +171,23 @@ class OrderItemDetails extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getModifierPrice(Modifiers modifiers, int prevQuantity, int itemQuantity ) {
+    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
+      double unitPrice = double.parse(modifiers.unitPrice);
+      double modifierTotalPrice = unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
+      return modifierTotalPrice.toString();
+    }
+    return modifiers.price;
+  }
+
+  String getItemPrice(CartV2 cartV2) {
+    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
+      double unitPrice = double.parse(cartV2.unitPrice);
+      double itemTotalPrice = unitPrice * cartV2.quantity;
+      return itemTotalPrice.toString();
+    }
+    return cartV2.price;
   }
 }
