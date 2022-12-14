@@ -107,7 +107,8 @@ class DocketDesign extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: (order.userFirstName.isNotEmpty || order.userLastName.isNotEmpty),
+          visible:
+              (order.userFirstName.isNotEmpty || order.userLastName.isNotEmpty),
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(
@@ -125,37 +126,39 @@ class DocketDesign extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              order.source > 0 ? FutureBuilder<Source>(
-                future: _infoProvider.findSourceById(order.source),
-                builder: (_, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(
-                      snapshot.data!.name,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ) : FutureBuilder<Provider>(
-                future: _infoProvider.findProviderById(order.providerId),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(
-                      snapshot.data!.title,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ),
+              order.source > 0
+                  ? FutureBuilder<Source>(
+                      future: _infoProvider.findSourceById(order.source),
+                      builder: (_, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!.name,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    )
+                  : FutureBuilder<Provider>(
+                      future: _infoProvider.findProviderById(order.providerId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!.title,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
               Text(
                 (order.providerId == ProviderID.KLIKIT)
                     ? '#${order.id}'
@@ -282,7 +285,11 @@ class DocketDesign extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     ///level 1 modifiers
-                                    _modifierItemView(modifiers: modifiers,prevQuantity: modifiers.quantity,itemQuantity: order.cartV2[index].quantity),
+                                    _modifierItemView(
+                                        modifiers: modifiers,
+                                        prevQuantity: modifiers.quantity,
+                                        itemQuantity:
+                                            order.cartV2[index].quantity),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                         left: 8,
@@ -316,9 +323,21 @@ class DocketDesign extends StatelessWidget {
                                                         .map(
                                                       (secondModifier) {
                                                         return Padding(
-                                                          padding: const EdgeInsets.only(left: 8),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8),
+
                                                           ///level 2 modifiers
-                                                          child: _modifierItemView(modifiers: secondModifier,prevQuantity: secondModifier.quantity,itemQuantity: order.cartV2[index].quantity),
+                                                          child: _modifierItemView(
+                                                              modifiers:
+                                                                  secondModifier,
+                                                              prevQuantity:
+                                                                  secondModifier
+                                                                      .quantity,
+                                                              itemQuantity: order
+                                                                  .cartV2[index]
+                                                                  .quantity),
                                                         );
                                                       },
                                                     ).toList(),

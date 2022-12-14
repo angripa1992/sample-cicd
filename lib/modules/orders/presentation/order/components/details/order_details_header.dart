@@ -6,7 +6,6 @@ import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/order/components/details/comment_action_view.dart';
 import 'package:klikit/modules/orders/presentation/order/components/details/order_status.dart';
-import 'package:klikit/modules/orders/presentation/order/components/dialogs/comment_dialog.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -17,6 +16,7 @@ import '../../../../../../app/di.dart';
 import '../../../../../../core/provider/order_information_provider.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../../domain/entities/provider.dart';
+import '../../../../domain/entities/source.dart';
 
 class OrderDetailsHeaderView extends StatelessWidget {
   final _infoProvider = getIt.get<OrderInformationProvider>();
@@ -109,25 +109,45 @@ class OrderDetailsHeaderView extends StatelessWidget {
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),
-              FutureBuilder<Provider>(
-                future: _infoProvider.findProviderById(order.providerId),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(
-                      ' ${snapshot.data!.title}',
-                      style: getBoldTextStyle(
-                        color: AppColors.white,
-                        fontSize: AppFontSize.s14.rSp,
-                      ),
-                    );
-                  }
-                  return SizedBox(
-                    height: AppSize.s12.rh,
-                    width: AppSize.s12.rw,
-                    child: const CircularProgressIndicator(),
-                  );
-                },
-              ),
+              order.source > 0
+                  ? FutureBuilder<Source>(
+                      future: _infoProvider.findSourceById(order.source),
+                      builder: (_, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            ' ${snapshot.data!.name}',
+                            style: getBoldTextStyle(
+                              color: AppColors.white,
+                              fontSize: AppFontSize.s14.rSp,
+                            ),
+                          );
+                        }
+                        return SizedBox(
+                          height: AppSize.s12.rh,
+                          width: AppSize.s12.rw,
+                          child: const CircularProgressIndicator(),
+                        );
+                      },
+                    )
+                  : FutureBuilder<Provider>(
+                      future: _infoProvider.findProviderById(order.providerId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            ' ${snapshot.data!.title}',
+                            style: getBoldTextStyle(
+                              color: AppColors.white,
+                              fontSize: AppFontSize.s14.rSp,
+                            ),
+                          );
+                        }
+                        return SizedBox(
+                          height: AppSize.s12.rh,
+                          width: AppSize.s12.rw,
+                          child: const CircularProgressIndicator(),
+                        );
+                      },
+                    ),
             ],
           ),
         ),
