@@ -127,8 +127,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                               },
                               listener: (context, state) {
                                 if (state is Failed) {
-                                  showErrorSnackBar(
-                                      context, state.failure.message);
+                                  showApiErrorSnackBar(context, state.failure);
                                 } else if (state is Success<SuccessResponse>) {
                                   showSuccessSnackBar(
                                       context, state.data.message);

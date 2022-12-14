@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:klikit/app/extensions.dart';
 
 import '../../resources/strings.dart';
 
@@ -34,12 +35,11 @@ class ErrorHandler implements Exception {
       case DioErrorType.sendTimeout:
         return Failure(ResponseCode.SEND_TIMEOUT, ResponseMessage.SEND_TIMEOUT);
       case DioErrorType.receiveTimeout:
-        return Failure(
-            ResponseCode.RECEIVE_TIMEOUT, ResponseMessage.RECEIVE_TIMEOUT);
+        return Failure(ResponseCode.RECEIVE_TIMEOUT, ResponseMessage.RECEIVE_TIMEOUT);
       case DioErrorType.cancel:
         return Failure(ResponseCode.CANCEL, ResponseMessage.CANCEL);
       case DioErrorType.other:
-        return Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
+        return Failure(error.response?.statusCode ?? ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
       case DioErrorType.response:
         return _handleResponseError(error);
     }

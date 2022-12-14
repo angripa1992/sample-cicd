@@ -23,6 +23,7 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../core/utils/app_update_manager.dart';
 import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
 import 'component/app_version_info.dart';
@@ -182,7 +183,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         child: BlocConsumer<UpdateUserInfoCubit, CubitState>(
                           listener: (context, state) {
                             if (state is Failed) {
-                              showErrorSnackBar(context, state.failure.message);
+                              showApiErrorSnackBar(context, state.failure);
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
                               _saveUpdatedUserInfo();
@@ -207,7 +208,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         child: BlocConsumer<LogoutCubit, CubitState>(
                           listener: (context, state) {
                             if (state is Failed) {
-                              showErrorSnackBar(context, state.failure.message);
+                              showApiErrorSnackBar(context, state.failure);
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
                               _orderInfoProvider.clearData();

@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
     response.fold(
       (failure) {
-        showErrorSnackBar(context, failure.message);
+        showApiErrorSnackBar(context, failure);
       },
       (success) {
         _navigate();
@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         BlocConsumer<LoginBloc, LoginState>(
                           listener: (context, state) {
                             if (state is LoginStateError) {
-                              showErrorSnackBar(context, state.failure.message);
+                              showApiErrorSnackBar(context, state.failure);
                             } else if (state is LoginStateSuccess) {
                               _checkRole(state.user);
                             }

@@ -21,6 +21,7 @@ class AppColors {
   static Color lightSalmon = const Color(0xFFFBA592);
   static Color warmRed = const Color(0xFFFF2E00);
   static Color pearl = const Color(0xFFF3F1F1);
+  static Color pink = const Color(0xFFE83CF7);
 }
 
 Color getCheckboxColor(Set<MaterialState> states) {

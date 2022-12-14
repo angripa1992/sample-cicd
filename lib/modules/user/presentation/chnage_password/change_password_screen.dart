@@ -128,7 +128,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         showSuccessSnackBar(context, state.data.message);
                         _clearPreferencesANdGotoLoginPage();
                       } else if (state is Failed) {
-                        showErrorSnackBar(context, state.failure.message);
+                        showApiErrorSnackBar(context, state.failure);
                       }
                     },
                   ),

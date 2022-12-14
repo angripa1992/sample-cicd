@@ -66,7 +66,7 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
     response.fold(
       (failure) {
         dismissCurrentSnackBar(context);
-        showErrorSnackBar(context, failure.message);
+        showApiErrorSnackBar(context, failure);
       },
       (data) {
         dismissCurrentSnackBar(context);

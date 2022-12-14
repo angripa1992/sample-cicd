@@ -60,7 +60,7 @@ void showMenuItemActionDialog({
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
-                          showErrorSnackBar(context, state.failure.message);
+                          showApiErrorSnackBar(context, state.failure);
                         }
                       },
                       builder: (context, state) {
@@ -161,7 +161,7 @@ void showMenuActionDialog({
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
-                          showErrorSnackBar(context, state.failure.message);
+                          showApiErrorSnackBar(context, state.failure);
                         }
                       },
                       builder: (context, state) {

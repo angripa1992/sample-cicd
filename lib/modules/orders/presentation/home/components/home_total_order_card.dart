@@ -40,7 +40,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                 child: BlocConsumer<TotalOrderCubit,ResponseState>(
                   listener: (context,state){
                     if(state is Failed){
-                      showErrorSnackBar(context, state.failure.message);
+                      showApiErrorSnackBar(context, state.failure);
                     }
                   },
                   builder: (context, state) {
@@ -87,7 +87,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                 child: BlocConsumer<YesterdayTotalOrderCubit,ResponseState>(
                   listener: (context,state){
                     if(state is Failed){
-                      showErrorSnackBar(context, state.failure.message);
+                      showApiErrorSnackBar(context, state.failure);
                     }
                   },
                   builder: (context, state) {

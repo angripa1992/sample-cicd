@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/network/urls.dart';
 
@@ -47,19 +48,19 @@ class RestClient {
     final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
     final versionCode = await  deviceInfoProvider.versionCode();
     final versionName = await  deviceInfoProvider.versionName();
-    print('Content-Type = application/json');
+    _dio.options.headers[contentType] = 'application/json';
+    //_dio.options.headers[deviceAgent] = AppConfig.appUserAgent;
+    _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
+    _dio.options.headers[appVersion] = versionCode;
+    _dio.options.headers[appVersionName] = versionName.removeDot();
+
     print('App-Agent = enterprise/${deviceInfoProvider.platformName()}/$versionCode');
     print('App-Version = $versionCode');
-    print('App-Version-Name = $versionName');
-    _dio.options.headers[contentType] = 'application/json';
-    // _dio.options.headers[deviceAgent] = AppConfig.appUserAgent;
-    // _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
-    // _dio.options.headers[appVersion] = versionCode;
-    // _dio.options.headers[appVersionName] = versionName;
+    print('App-Version-Name = ${versionName.removeDot()}');
   }
 
   void _initInterceptor() {
-    _dioLogger.setLogStatus(LogStatus.OPEN);
+    _dioLogger.setLogStatus(LogStatus.CLOSE);
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
     _addHeader();
     _dio.interceptors.add(

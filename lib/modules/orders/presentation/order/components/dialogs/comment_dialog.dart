@@ -164,7 +164,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                       showSuccessSnackBar(
                           context, state.data.message.orEmpty());
                     } else if (state is Failed) {
-                      showErrorSnackBar(context, state.failure.message);
+                      showApiErrorSnackBar(context, state.failure);
                     }
                   },
                   builder: (context, state) {
@@ -197,7 +197,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                     _pop();
                     showSuccessSnackBar(context, state.data.message.orEmpty());
                   } else if (state is Failed) {
-                    showErrorSnackBar(context, state.failure.message);
+                    showApiErrorSnackBar(context, state.failure);
                   }
                 },
                 builder: (context, state) {

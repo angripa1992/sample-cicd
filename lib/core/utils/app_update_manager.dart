@@ -7,27 +7,28 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../app/di.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
-import '../../resources/strings.dart';
 import '../../resources/styles.dart';
 import '../../resources/values.dart';
 import '../provider/device_information_provider.dart';
 import '../route/routes_generator.dart';
 
-class AppUpdateManager{
+class AppUpdateManager {
   static final _instance = AppUpdateManager._internal();
+
   factory AppUpdateManager() => _instance;
+
   AppUpdateManager._internal();
 
   bool _isDialogAlreadyShowing = false;
 
-  void showAppUpdateDialog(){
-    if(!_isDialogAlreadyShowing){
+  void showAppUpdateDialog() {
+    if (!_isDialogAlreadyShowing) {
       _isDialogAlreadyShowing = true;
       _showDialog();
     }
   }
 
-  void _gotoPlayStore() async{
+  void _gotoPlayStore() async {
     final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
     final packageName = await deviceInfoProvider.packageName();
     if (Platform.isAndroid || Platform.isIOS) {
@@ -44,7 +45,7 @@ class AppUpdateManager{
     }
   }
 
-  void _showDialog(){
+  void _showDialog() {
     showDialog(
       context: RoutesGenerator.navigatorKey.currentState!.context,
       barrierDismissible: false,
@@ -55,28 +56,29 @@ class AppUpdateManager{
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Icon(
+                Icons.system_update,
+                color: AppColors.purpleBlue,
+              ),
+              const SizedBox(height: AppSize.s8),
               Text(
                 'Update Required',
                 style: getMediumTextStyle(
                   color: AppColors.black,
-                  fontSize: AppFontSize.s20.rSp,
+                  fontSize: AppFontSize.s18.rSp,
                 ),
               ),
-              SizedBox(
-                height: AppSize.s16.rh,
-              ),
-              Text(
-                'Please update app',
-                textAlign: TextAlign.center,
-                style: getRegularTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSize.s10),
+                child: Text(
+                  'A critical update is required for you to use Klikit App smoothly',
+                  textAlign: TextAlign.center,
+                  style: getRegularTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
                 ),
               ),
-              SizedBox(
-                height: AppSize.s16.rh,
-              ),
-              const Divider(),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -86,8 +88,8 @@ class AppUpdateManager{
                   child: Text(
                     'Update App',
                     style: getRegularTextStyle(
-                      color: AppColors.purpleBlue,
-                      fontSize: AppFontSize.s18.rSp,
+                      color: AppColors.pink,
+                      fontSize: AppFontSize.s14.rSp,
                     ),
                   ),
                 ),

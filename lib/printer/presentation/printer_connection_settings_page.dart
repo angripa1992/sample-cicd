@@ -131,7 +131,7 @@ class _PrinterConnectionSettingPageState
             child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
               listener: (context, state) {
                 if (state is Failed) {
-                  showErrorSnackBar(context, state.failure.message);
+                  showApiErrorSnackBar(context, state.failure);
                 } else if (state is Success<ActionSuccess>) {
                   _saveConnectionTypeToPreferences();
                   showSuccessSnackBar(context, state.data.message ?? '');

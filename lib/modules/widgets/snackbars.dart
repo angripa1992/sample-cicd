@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
@@ -50,6 +51,29 @@ void showErrorSnackBar(BuildContext context, String message) {
       behavior: SnackBarBehavior.floating,
       content: Text(
         message,
+        style: getRegularTextStyle(
+          color: AppColors.white,
+          fontSize: AppFontSize.s15.rSp,
+        ),
+      ),
+      duration: const Duration(seconds: 5),
+      backgroundColor: AppColors.red,
+    ),
+  );
+}
+
+
+void showApiErrorSnackBar(BuildContext context, Failure failure) {
+  print('status code======================== ${failure.code}');
+  if(failure.code == ResponseCode.UPDATE_REQUIRED) {
+    return;
+  }
+  dismissCurrentSnackBar(context);
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        failure.message,
         style: getRegularTextStyle(
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,

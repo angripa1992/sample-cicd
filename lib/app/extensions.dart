@@ -48,3 +48,9 @@ extension StringToInteger on String? {
     }
   }
 }
+
+extension RemoveDotFromString on String {
+  String removeDot() {
+    return this.replaceAll('.', '');
+  }
+}

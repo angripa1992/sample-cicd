@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: BlocConsumer<CompletedOrderCubit, ResponseState>(
                       listener: (context, state) {
                         if (state is Failed) {
-                          showErrorSnackBar(context, state.failure.message);
+                          showApiErrorSnackBar(context, state.failure);
                         }
                       },
                       builder: (context, state) {
@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: BlocConsumer<CancelledOrderCubit, ResponseState>(
                       listener: (context, state) {
                         if (state is Failed) {
-                          showErrorSnackBar(context, state.failure.message);
+                          showApiErrorSnackBar(context, state.failure);
                         }
                       },
                       builder: (context, state) {
@@ -224,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: BlocConsumer<NewOrderCubit, ResponseState>(
                 listener: (context, state) {
                   if (state is Failed) {
-                    showErrorSnackBar(context, state.failure.message);
+                    showApiErrorSnackBar(context, state.failure);
                   }
                 },
                 builder: (context, state) {
@@ -266,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: BlocConsumer<OngoingOrderCubit, ResponseState>(
                 listener: (context, state) {
                   if (state is Failed) {
-                    showErrorSnackBar(context, state.failure.message);
+                    showApiErrorSnackBar(context, state.failure);
                   }
                 },
                 builder: (context, state) {

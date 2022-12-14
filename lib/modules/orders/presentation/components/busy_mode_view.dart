@@ -54,7 +54,7 @@ class _BusyModeViewState extends State<BusyModeView> {
               }
             } else if (state is Failed) {
               if (mounted) {
-                showErrorSnackBar(context, state.failure.message);
+                showApiErrorSnackBar(context, state.failure);
               }
             }
           },
