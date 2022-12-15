@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
@@ -23,6 +24,7 @@ class InAppNotificationHandler {
   static final _instance = InAppNotificationHandler._internal();
   final _notificationSound = NotificationSound();
   final _printingHandler = getIt.get<PrintingHandler>();
+  final _appPreferences = getIt.get<AppPreferences>();
   BuildContext? _currentContext;
 
   factory InAppNotificationHandler() => _instance;
@@ -30,6 +32,9 @@ class InAppNotificationHandler {
   InAppNotificationHandler._internal();
 
   void handleNotification(NotificationData data) {
+    if(!_appPreferences.isLoggedIn()){
+      return;
+    }
     if (_isShowing) {
       final currentNotificationCountData =
           _currentContext?.read<NotificationCountCubit>().state;
@@ -108,7 +113,7 @@ class InAppNotificationHandler {
   void _showDialog(NotificationData data, NotificationCountCubit cubit) {
     showDialog(
       context: RoutesGenerator.navigatorKey.currentState!.context,
-      barrierDismissible: true,
+      barrierDismissible: false,
       builder: (context) {
         return BlocProvider(
           create: (_) => cubit,

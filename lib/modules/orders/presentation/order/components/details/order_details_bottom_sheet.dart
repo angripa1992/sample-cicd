@@ -26,34 +26,35 @@ void _openBottomSheet({
       ),
     ),
     builder: (context) => DraggableScrollableSheet(
-      initialChildSize: 0.85,
-      minChildSize: 0.85,
-      maxChildSize: 0.85,
+      initialChildSize: 0.90,
+      maxChildSize: 0.90,
       expand: false,
       builder: (_, controller) => Scaffold(
         backgroundColor: Colors.transparent,
         resizeToAvoidBottomInset: false,
         extendBody: false,
         key: key,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            OrderDetailsHeaderView(
-              order: order,
-              modalKey: key,
-              onCommentActionSuccess: onCommentActionSuccess,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: AppSize.s4.rh),
-              child: const Divider(),
-            ),
-            OrderItemDetails(order: order, controller: controller),
-            CommentView(comment: order.orderComment),
-            PriceView(order: order),
-            actionView,
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              OrderDetailsHeaderView(
+                order: order,
+                modalKey: key,
+                onCommentActionSuccess: onCommentActionSuccess,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: AppSize.s4.rh),
+                child: const Divider(),
+              ),
+              OrderItemDetails(order: order, controller: controller),
+              CommentView(comment: order.orderComment),
+              PriceView(order: order),
+              actionView,
+            ],
+          ),
         ),
       ),
     ),

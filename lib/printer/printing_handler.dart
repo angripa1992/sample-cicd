@@ -9,6 +9,7 @@ import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
+import 'package:klikit/printer/presentation/capture_image_preview.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/presentation/docket_design.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
@@ -52,7 +53,7 @@ class PrintingHandler {
   }
 
   void showBleDevices({Order? order}) async {
-    final devices =  _bluetoothPrinterHandler.getDevices();
+    final devices = _bluetoothPrinterHandler.getDevices();
     DeviceListBottomSheetManager().showBottomSheet(
       type: ConnectionType.BLUETOOTH,
       devicesStream: devices,
@@ -91,7 +92,7 @@ class PrintingHandler {
       devicesStream: devices,
       onConnect: (device) async {
         final isSuccessfullyConnected =
-        await _usbPrinterHandler.connect(device);
+            await _usbPrinterHandler.connect(device);
         if (isSuccessfullyConnected) {
           showSuccessSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
@@ -111,10 +112,16 @@ class PrintingHandler {
   }
 
   void printDocket(Order order) async {
-    Navigator.push(RoutesGenerator.navigatorKey.currentState!.context,
-        MaterialPageRoute(builder: (context) => DocketDesign(order: order)));
+    // Navigator.push(RoutesGenerator.navigatorKey.currentState!.context,
+    //     MaterialPageRoute(builder: (context) => DocketDesign(order: order)));
 
-    // Uint8List? bytes = await _capturePng(order);
+    Uint8List? bytes = await _capturePng(order);
+    Navigator.push(
+        RoutesGenerator.navigatorKey.currentState!.context,
+        MaterialPageRoute(
+            builder: (context) => CaptureImagePrivew(
+                  capturedImage: bytes,
+                )));
     // List<int>? rawBytes = await _ticket(bytes!);
     // if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
     //   if (_bluetoothPrinterHandler.isConnected()) {
@@ -133,7 +140,7 @@ class PrintingHandler {
 
   Future<Uint8List?> _capturePng(Order order) async {
     try {
-      Uint8List pngBytes = await _screenshotController.captureFromWidget(
+      Uint8List? pngBytes = await _screenshotController.captureFromWidget(
         DocketDesign(order: order),
         pixelRatio: 2.0,
       );

@@ -89,7 +89,7 @@ class LocalNotificationService {
               ? newOrderNotificationChanel.name
               : cancelOrderNotificationChanel.name,
           importance: Importance.max,
-          priority: Priority.max,
+          priority: Priority.high,
           color: Colors.white,
           playSound: true,
           sound: RawResourceAndroidNotificationSound(

@@ -16,7 +16,7 @@ class OrderItemDetails extends StatelessWidget {
   OrderItemDetails({Key? key, required this.order, required this.controller})
       : super(key: key);
 
-  final _itemTextStyle = getMediumTextStyle(
+  final _itemTextStyle = getBoldTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
@@ -31,7 +31,7 @@ class OrderItemDetails extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s18.rw,
-          vertical: AppSize.s14.rh,
+          vertical: AppSize.s4.rh,
         ),
         child: ListView.builder(
           controller: controller,
@@ -57,6 +57,7 @@ class OrderItemDetails extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               ///level 1 modifiers group
+                              _showModifierGroupName(modifiersGroup.name),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -82,6 +83,7 @@ class OrderItemDetails extends StatelessWidget {
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       children: [
                                                         ///level 2 modifiers group
+                                                        _showModifierGroupName(modifiersGroup.name),
                                                         Column(
                                                           crossAxisAlignment: CrossAxisAlignment.stretch,
                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -135,7 +137,7 @@ class OrderItemDetails extends StatelessWidget {
         Text(
           '$currencySymbol${getItemPrice(cartV2)}',
           style: TextStyle(
-            fontWeight: AppFontWeight.medium,
+            fontWeight: AppFontWeight.bold,
             fontSize: AppFontSize.s16.rSp,
             color: AppColors.black,
           ),
@@ -182,6 +184,23 @@ class OrderItemDetails extends StatelessWidget {
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _showModifierGroupName(String name){
+    if(name.isEmpty){
+      return const SizedBox();
+    }
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+      child: Text(
+        name,
+        style: TextStyle(
+          fontWeight: AppFontWeight.medium,
+          fontSize: AppFontSize.s16.rSp,
+          color: AppColors.black,
         ),
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
-import 'package:klikit/printer/presentation/docket_separator.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -12,6 +11,7 @@ import '../../modules/orders/domain/entities/cart.dart';
 import '../../modules/orders/domain/entities/order.dart';
 import '../../modules/orders/domain/entities/provider.dart';
 import '../../modules/orders/domain/entities/source.dart';
+import 'docket_separator.dart';
 
 class DocketDesign extends StatelessWidget {
   final _infoProvider = getIt.get<OrderInformationProvider>();
@@ -32,62 +32,59 @@ class DocketDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: 250,
-          child: Column(
-            children: [
-              _headerWidget(),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _deliveryInfo(),
-              ),
-              const DocketSeparator(),
-              order.orderComment.isEmpty
-                  ? const DocketSeparator()
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: _commentView(order.orderComment, true),
-                    ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _itemsDetails(),
-              ),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _priceView(),
-              ),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _totalPriceView(),
-              ),
-              const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: _internalIdView(),
-              ),
-              const DocketSeparator(),
-              if (order.klikitComment.isNotEmpty)
-                _klikitComment(order.klikitComment),
-              if (order.klikitComment.isNotEmpty) const DocketSeparator(),
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: _qrCode(),
-              ),
-              _footerWidget(),
-            ],
-          ),
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: 250,
+        child: Column(
+          children: [
+            _headerWidget(order),
+            const DocketSeparator(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _deliveryInfo(order),
+            ),
+            const DocketSeparator(),
+            order.orderComment.isEmpty
+                ? const DocketSeparator()
+                : Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: _commentView(order.orderComment, true),
+                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _itemsDetails(order),
+            ),
+            const DocketSeparator(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _priceView(order),
+            ),
+            const DocketSeparator(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _totalPriceView(order),
+            ),
+            const DocketSeparator(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _internalIdView(order),
+            ),
+            const DocketSeparator(),
+            if (order.klikitComment.isNotEmpty)
+              _klikitComment(order.klikitComment),
+            if (order.klikitComment.isNotEmpty) const DocketSeparator(),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: _qrCode(order),
+            ),
+            _footerWidget(),
+          ],
         ),
       ),
     );
   }
 
-  Widget _headerWidget() {
+  Widget _headerWidget(Order order) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -176,7 +173,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  String _getType() {
+  String _getType(Order order) {
     if (order.type == OrderType.DELIVERY) {
       return 'Delivery';
     } else if (order.type == OrderType.PICKUP) {
@@ -186,7 +183,7 @@ class DocketDesign extends StatelessWidget {
     }
   }
 
-  Widget _deliveryInfo() {
+  Widget _deliveryInfo(Order order) {
     const textStyle = TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
@@ -214,7 +211,7 @@ class DocketDesign extends StatelessWidget {
               style: textStyle,
             ),
             Text(
-              _getType(),
+              _getType(order),
               style: textStyle,
             ),
           ],
@@ -223,7 +220,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _internalIdView() {
+  Widget _internalIdView(Order order) {
     const textStyle = TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w500,
@@ -244,7 +241,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _itemsDetails() {
+  Widget _itemsDetails(Order order) {
     return ListView.builder(
       itemCount: order.cartV2.length,
       shrinkWrap: true,
@@ -255,7 +252,7 @@ class DocketDesign extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ///cart item
-            _cartItemView(order.cartV2[index], order.currencySymbol),
+            _cartItemView(order, order.cartV2[index], order.currencySymbol),
             Padding(
               padding: const EdgeInsets.only(
                 left: 16,
@@ -270,6 +267,7 @@ class DocketDesign extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ///level 1 modifiers group
+                        _showModifierGroupName(modifiersGroup.name),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -286,10 +284,12 @@ class DocketDesign extends StatelessWidget {
                                   children: [
                                     ///level 1 modifiers
                                     _modifierItemView(
-                                        modifiers: modifiers,
-                                        prevQuantity: modifiers.quantity,
-                                        itemQuantity:
-                                            order.cartV2[index].quantity),
+                                      modifiers: modifiers,
+                                      prevQuantity: modifiers.quantity,
+                                      itemQuantity:
+                                          order.cartV2[index].quantity,
+                                      order: order,
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                         left: 8,
@@ -312,6 +312,8 @@ class DocketDesign extends StatelessWidget {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   ///level 2 modifiers group
+                                                  _showModifierGroupName(
+                                                      modifiersGroup.name),
                                                   Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -329,15 +331,18 @@ class DocketDesign extends StatelessWidget {
                                                                   left: 8),
 
                                                           ///level 2 modifiers
-                                                          child: _modifierItemView(
-                                                              modifiers:
-                                                                  secondModifier,
-                                                              prevQuantity:
-                                                                  secondModifier
-                                                                      .quantity,
-                                                              itemQuantity: order
-                                                                  .cartV2[index]
-                                                                  .quantity),
+                                                          child:
+                                                              _modifierItemView(
+                                                            modifiers:
+                                                                secondModifier,
+                                                            prevQuantity:
+                                                                secondModifier
+                                                                    .quantity,
+                                                            itemQuantity: order
+                                                                .cartV2[index]
+                                                                .quantity,
+                                                            order: order,
+                                                          ),
                                                         );
                                                       },
                                                     ).toList(),
@@ -404,7 +409,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _cartItemView(CartV2 cartV2, String currencySymbol) {
+  Widget _cartItemView(Order order, CartV2 cartV2, String currencySymbol) {
     return Row(
       children: [
         Text('${cartV2.quantity}x', style: _itemTextStyle),
@@ -412,7 +417,7 @@ class DocketDesign extends StatelessWidget {
         Expanded(child: Text(cartV2.name, style: _itemTextStyle)),
         const SizedBox(width: 8),
         Text(
-          '$currencySymbol${getItemPrice(cartV2)}',
+          '$currencySymbol${getItemPrice(cartV2, order)}',
           style: _itemTextStyle,
         ),
       ],
@@ -423,6 +428,7 @@ class DocketDesign extends StatelessWidget {
     required Modifiers modifiers,
     required int prevQuantity,
     required int itemQuantity,
+    required Order order,
   }) {
     return Row(
       children: [
@@ -431,34 +437,52 @@ class DocketDesign extends StatelessWidget {
         Expanded(child: Text(modifiers.name, style: _modifiersTextStyle)),
         const SizedBox(width: 8),
         Text(
-          '${order.currencySymbol}${getModifierPrice(modifiers, prevQuantity, itemQuantity)}',
+          '${order.currencySymbol}${getModifierPrice(modifiers, prevQuantity, itemQuantity, order)}',
           style: _modifiersTextStyle,
         ),
       ],
     );
   }
 
-  Widget _priceView() {
+  Widget _showModifierGroupName(String name) {
+    if (name.isEmpty) {
+      return const SizedBox();
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Text(
+        name,
+        style: _itemTextStyle,
+      ),
+    );
+  }
+
+  Widget _priceView(Order order) {
     return Column(
       children: [
         _getSubtotalItem(
+          order,
           'Subtotal:',
-          _subtotal(),
+          _subtotal(order),
         ),
         _getSubtotalItem(
+          order,
           'Vat:',
           order.vat,
         ),
         _getSubtotalItem(
+          order,
           'Delivery Fee:',
           order.deliveryFee,
         ),
         _getSubtotalItem(
+          order,
           'Discount:',
           order.discount,
           isDiscount: true,
         ),
         _getSubtotalItem(
+          order,
           'Additional Fee:',
           order.additionalFee,
         ),
@@ -466,7 +490,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _totalPriceView() {
+  Widget _totalPriceView(Order order) {
     const textStyle = TextStyle(
       color: Colors.black,
       fontSize: 12,
@@ -487,7 +511,8 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  Widget _getSubtotalItem(String name, num price, {bool isDiscount = false}) {
+  Widget _getSubtotalItem(Order order, String name, num price,
+      {bool isDiscount = false}) {
     const textStyle = TextStyle(
       color: Colors.black,
       fontSize: 12,
@@ -507,7 +532,7 @@ class DocketDesign extends StatelessWidget {
     );
   }
 
-  num _subtotal() {
+  num _subtotal(Order order) {
     late num subtotal;
     if (order.providerId == ProviderID.FOOD_PANDA) {
       subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
@@ -521,7 +546,7 @@ class DocketDesign extends StatelessWidget {
     return (price / 100).toStringAsFixed(2);
   }
 
-  Widget _qrCode() {
+  Widget _qrCode(Order order) {
     return FutureBuilder<Brand>(
       future: _infoProvider.findBrandById(order.brandId),
       builder: (context, snapshot) {
@@ -615,7 +640,7 @@ class DocketDesign extends StatelessWidget {
   }
 
   String getModifierPrice(
-      Modifiers modifiers, int prevQuantity, int itemQuantity) {
+      Modifiers modifiers, int prevQuantity, int itemQuantity, Order order) {
     if (!order.isInterceptorOrder &&
         order.providerId != ProviderID.FOOD_PANDA) {
       double unitPrice = double.parse(modifiers.unitPrice);
@@ -626,7 +651,7 @@ class DocketDesign extends StatelessWidget {
     return modifiers.price;
   }
 
-  String getItemPrice(CartV2 cartV2) {
+  String getItemPrice(CartV2 cartV2, Order order) {
     if (!order.isInterceptorOrder &&
         order.providerId != ProviderID.FOOD_PANDA) {
       double unitPrice = double.parse(cartV2.unitPrice);
