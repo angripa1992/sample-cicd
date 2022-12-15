@@ -16,7 +16,6 @@ class HomeHeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.black,
-      // height: AppSize.s20.h,
       child: Padding(
         padding: EdgeInsets.only(
           left: AppSize.s24.rw,
