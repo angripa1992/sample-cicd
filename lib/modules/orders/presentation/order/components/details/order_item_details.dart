@@ -11,16 +11,20 @@ import '../../../../../../resources/styles.dart';
 
 class OrderItemDetails extends StatelessWidget {
   final Order order;
-  final ScrollController controller;
 
-  OrderItemDetails({Key? key, required this.order, required this.controller})
+  OrderItemDetails({Key? key, required this.order})
       : super(key: key);
 
-  final _itemTextStyle = getBoldTextStyle(
+  final _itemTextStyle = getMediumTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
   final _modifiersTextStyle = getRegularTextStyle(
+    color: AppColors.black,
+    fontSize: AppFontSize.s16.rSp,
+  );
+
+  final _modifiersItemTextStyle = getRegularTextStyle(
     color: AppColors.blackCow,
     fontSize: AppFontSize.s16.rSp,
   );
@@ -34,7 +38,7 @@ class OrderItemDetails extends StatelessWidget {
           vertical: AppSize.s4.rh,
         ),
         child: ListView.builder(
-          controller: controller,
+          //controller: controller,
           itemCount: order.cartV2.length,
           itemBuilder: (_, index) {
             return Padding(
@@ -153,9 +157,9 @@ class OrderItemDetails extends StatelessWidget {
   }) {
     return Row(
       children: [
-        Text('• ${modifiers.quantity}x', style: _modifiersTextStyle),
+        Text('• ${modifiers.quantity}x', style: _modifiersItemTextStyle),
         SizedBox(width: AppSize.s8.rw),
-        Expanded(child: Text(modifiers.name, style: _modifiersTextStyle)),
+        Expanded(child: Text(modifiers.name, style: _modifiersItemTextStyle)),
         SizedBox(width: AppSize.s8.rw),
         Text(
           '${order.currencySymbol}${getModifierPrice(modifiers, prevQuantity, itemQuantity)}',
@@ -197,11 +201,7 @@ class OrderItemDetails extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
       child: Text(
         name,
-        style: TextStyle(
-          fontWeight: AppFontWeight.medium,
-          fontSize: AppFontSize.s16.rSp,
-          color: AppColors.black,
-        ),
+        style: _modifiersTextStyle,
       ),
     );
   }

@@ -28,33 +28,32 @@ void _openBottomSheet({
     builder: (context) => DraggableScrollableSheet(
       initialChildSize: 0.90,
       maxChildSize: 0.90,
+      minChildSize: 0.90,
       expand: false,
       builder: (_, controller) => Scaffold(
         backgroundColor: Colors.transparent,
         resizeToAvoidBottomInset: false,
         extendBody: false,
         key: key,
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              OrderDetailsHeaderView(
-                order: order,
-                modalKey: key,
-                onCommentActionSuccess: onCommentActionSuccess,
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: AppSize.s4.rh),
-                child: const Divider(),
-              ),
-              OrderItemDetails(order: order, controller: controller),
-              CommentView(comment: order.orderComment),
-              PriceView(order: order),
-              actionView,
-            ],
-          ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            OrderDetailsHeaderView(
+              order: order,
+              modalKey: key,
+              onCommentActionSuccess: onCommentActionSuccess,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: AppSize.s4.rh),
+              child: const Divider(),
+            ),
+            OrderItemDetails(order: order),
+            CommentView(comment: order.orderComment),
+            PriceView(order: order),
+            actionView,
+          ],
         ),
       ),
     ),
@@ -88,7 +87,7 @@ void showHistoryOrderDetails({
 void showOrderDetails({
   required BuildContext context,
   required Order order,
-  required Function(String,int) onAction,
+  required Function(String, int) onAction,
   required Function(String) onCancel,
   required VoidCallback onPrint,
   required GlobalKey<ScaffoldState> key,
