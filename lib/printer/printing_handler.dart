@@ -116,26 +116,26 @@ class PrintingHandler {
     //     MaterialPageRoute(builder: (context) => DocketDesign(order: order)));
 
     Uint8List? bytes = await _capturePng(order);
-    Navigator.push(
-        RoutesGenerator.navigatorKey.currentState!.context,
-        MaterialPageRoute(
-            builder: (context) => CaptureImagePrivew(
-                  capturedImage: bytes,
-                )));
-    // List<int>? rawBytes = await _ticket(bytes!);
-    // if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
-    //   if (_bluetoothPrinterHandler.isConnected()) {
-    //     _bluetoothPrinterHandler.printDocket(rawBytes!);
-    //   } else {
-    //     showBleDevices(order: order);
-    //   }
-    // } else {
-    //   if (_usbPrinterHandler.isConnected()) {
-    //     _usbPrinterHandler.printDocket(rawBytes!);
-    //   } else {
-    //     showUsbDevices(order: order);
-    //   }
-    // }
+    // Navigator.push(
+    //     RoutesGenerator.navigatorKey.currentState!.context,
+    //     MaterialPageRoute(
+    //         builder: (context) => CaptureImagePrivew(
+    //               capturedImage: bytes,
+    //             )));
+    List<int>? rawBytes = await _ticket(bytes!);
+    if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
+      if (_bluetoothPrinterHandler.isConnected()) {
+        _bluetoothPrinterHandler.printDocket(rawBytes!);
+      } else {
+        showBleDevices(order: order);
+      }
+    } else {
+      if (_usbPrinterHandler.isConnected()) {
+        _usbPrinterHandler.printDocket(rawBytes!);
+      } else {
+        showUsbDevices(order: order);
+      }
+    }
   }
 
   Future<Uint8List?> _capturePng(Order order) async {
