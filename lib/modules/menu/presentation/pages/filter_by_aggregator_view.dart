@@ -20,12 +20,12 @@ class FilterByAggregatorView extends StatefulWidget {
 }
 
 class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
-
   final dropDownTextStyle = getRegularTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
 
+  late GlobalKey _dropdownKey;
   final _providers = <Provider>[];
 
   @override
@@ -33,6 +33,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
     _providers.clear();
     _providers.add(Provider(ZERO, 'All', EMPTY, EMPTY));
     _providers.addAll(widget.providers);
+    _dropdownKey = GlobalKey();
     super.initState();
   }
 
@@ -62,6 +63,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
             child: StatefulBuilder(
               builder: (_, setState) {
                 return DropdownButton<Provider>(
+                  key: _dropdownKey,
                   value: dropDownValue,
                   isExpanded: true,
                   underline: const SizedBox(),
@@ -91,33 +93,27 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                     (provider) {
                       return DropdownMenuItem<Provider>(
                         value: provider,
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: provider,
-                              groupValue: dropDownValue,
-                              onChanged: (value) {},
-                              activeColor: AppColors.purpleBlue,
-                            ),
-                            Text(
-                              provider.title,
-                              style: dropDownTextStyle,
-                            ),
-                          ],
+                        child: RadioListTile<Provider>(
+                          title: Text(provider.title,style: dropDownTextStyle),
+                          value: provider,
+                          groupValue: dropDownValue,
+                          activeColor: AppColors.purpleBlue,
+                          onChanged: (value) {
+                            Navigator.pop(_dropdownKey.currentContext!);
+                            setState(() {
+                              dropDownValue = value;
+                              if (value!.id == ZERO) {
+                                widget.onChanged(null);
+                              } else {
+                                widget.onChanged(value);
+                              }
+                            });
+                          },
                         ),
                       );
                     },
                   ).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      dropDownValue = value;
-                      if(value!.id == ZERO){
-                        widget.onChanged(null);
-                      }else{
-                        widget.onChanged(value);
-                      }
-                    });
-                  },
+                  onChanged: (value) {},
                 );
               },
             ),

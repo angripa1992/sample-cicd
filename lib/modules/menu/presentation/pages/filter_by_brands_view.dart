@@ -21,9 +21,10 @@ class FilterByBrandsView extends StatefulWidget {
 
 class _FilterByBrandsViewState extends State<FilterByBrandsView> {
   MenuBrand? dropDownValue;
-
+  late GlobalKey _dropdownKey;
   @override
   void initState() {
+    _dropdownKey = GlobalKey();
     super.initState();
   }
 
@@ -55,6 +56,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
             child: DropdownButton<MenuBrand>(
+              key: _dropdownKey,
               value: dropDownValue,
               isExpanded: true,
               underline: const SizedBox(),
@@ -84,29 +86,25 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
                 (menu) {
                   return DropdownMenuItem<MenuBrand>(
                     value: menu,
-                    child: Row(
-                      children: [
-                        Radio(
-                          value: menu,
-                          groupValue: dropDownValue,
-                          onChanged: (value){},
-                          activeColor: AppColors.purpleBlue,
-                        ),
-                        Text(
-                          menu.title,
-                          style: dropDownTextStyle,
-                        ),
-                      ],
+                    child: RadioListTile<MenuBrand>(
+                      title: Text(menu.title,style: dropDownTextStyle),
+                      value: menu,
+                      groupValue: dropDownValue,
+                      activeColor: AppColors.purpleBlue,
+                      onChanged: (value) {
+                        Navigator.pop(_dropdownKey.currentContext!);
+                        setState(() {
+                          setState(() {
+                            dropDownValue = value;
+                            widget.onChanged(value!);
+                          });
+                        });
+                      },
                     ),
                   );
                 },
               ).toList(),
-              onChanged: (value) {
-                setState(() {
-                  dropDownValue = value;
-                  widget.onChanged(value!);
-                });
-              },
+              onChanged: (value) {},
             ),
           ),
         ),
