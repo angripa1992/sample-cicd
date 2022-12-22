@@ -70,7 +70,7 @@ android {
         }
         live{
             dimension "app"
-            applicationId "io.klikit.enterprise"
+            applicationId "io.klikit.cloud"
             versionCode 1
             versionName "0.1.0"
         }

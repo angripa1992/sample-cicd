@@ -41,10 +41,12 @@ dependencies:
   permission_handler: ^10.2.0
   esc_pos_utils: ^1.1.0
   screenshot: ^1.2.3
-  qr_flutter: ^4.0.0
   flutter_pos_printer_platform: ^1.0.12
   firebase_app_installations: ^0.1.1+10
   percent_indicator: ^4.2.2
+  printing: ^5.9.3
+  pdfx: ^2.3.0
+  path_provider: ^2.0.11
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
@@ -68,6 +70,7 @@ flutter:
     - assets/images/2.0x/
     - assets/images/3.0x/
     - assets/images/4.0x/
+    - assets/docket_fonts/
 
   fonts:
     - family: Aeonik

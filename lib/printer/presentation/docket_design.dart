@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/resources/assets.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../app/constants.dart';
 import '../../app/di.dart';
@@ -561,14 +560,14 @@ class DocketDesign extends StatelessWidget {
                   fontSize: 12,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4, bottom: 4),
-                child: QrImage(
-                  data: snapshot.data!.qrContent,
-                  version: QrVersions.auto,
-                  size: 100,
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 4, bottom: 4),
+              //   child: QrImage(
+              //     data: snapshot.data!.qrContent,
+              //     version: QrVersions.auto,
+              //     size: 100,
+              //   ),
+              // ),
             ],
           );
         }
