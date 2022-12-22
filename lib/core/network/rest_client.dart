@@ -59,14 +59,13 @@ class RestClient {
   }
 
   void _initInterceptor() {
-    _dioLogger.setLogStatus(LogStatus.CLOSE);
+    _dioLogger.setLogStatus(LogStatus.OPEN);
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
     _addHeader();
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
-          if (options.path == Urls.login ||
-              options.path == Urls.forgetPassword) {
+          if (options.path == Urls.login || options.path == Urls.forgetPassword) {
             handler.next(options);
           } else {
             if (_tokenProvider.getAccessToken() == null) {
@@ -90,8 +89,11 @@ class RestClient {
         onError: (error, handler) async {
           _dioLogger.logError(error);
           var options = error.response!.requestOptions;
-          if (options.path == Urls.login ||
-              options.path == Urls.forgetPassword) {
+         if(error.response?.statusCode == ResponseCode.UPDATE_REQUIRED){
+          AppUpdateManager().showAppUpdateDialog();
+          return handler.reject(error);
+          }
+          if (options.path == Urls.login || options.path == Urls.forgetPassword) {
             return handler.next(error);
           } else {
             if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
@@ -121,9 +123,6 @@ class RestClient {
                 },
               );
               return;
-            }else if(error.response?.statusCode == ResponseCode.UPDATE_REQUIRED){
-              AppUpdateManager().showAppUpdateDialog();
-              return handler.reject(error);
             }
           }
           return handler.next(error);
