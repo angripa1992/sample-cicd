@@ -47,6 +47,9 @@ class ErrorHandler implements Exception {
 
 
   Failure _handleResponseError(DioError error){
+    if(error.response?.statusCode == ResponseCode.UPDATE_REQUIRED){
+      return Failure(ResponseCode.UPDATE_REQUIRED, ResponseMessage.DEFAULT);
+    }
     try{
       String message = ResponseMessage.DEFAULT;
       final dataMap = error.response?.data as Map<String,dynamic>?;
