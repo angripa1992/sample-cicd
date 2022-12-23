@@ -10,6 +10,7 @@ import 'package:printing/printing.dart';
 import '../../app/di.dart';
 import '../../core/provider/date_time_provider.dart';
 import '../../core/provider/order_information_provider.dart';
+import '../../core/utils/price_calculator.dart';
 import '../../modules/orders/domain/entities/cart.dart';
 import '../../modules/orders/domain/entities/order.dart';
 
@@ -77,14 +78,26 @@ class DocketDesignPdf {
     fontSemiBoldChinese = await fontFromAssetBundle(
         'assets/docket_fonts/AlibabaPuHuiTi-2-85-Bold.ttf');
 
-    fontRegularFallback = [fontRegular, fontRegularThai, fontRegularChinese];
-    fontBoldFallback = [fontBold, fontBoldThai, fontBoldChinese];
+    fontRegularFallback = [
+      fontRegular,
+      fontRegularThai,
+      fontRegularChinese,
+    ];
+    fontBoldFallback = [
+      fontBold,
+      fontBoldThai,
+      fontBoldChinese,
+    ];
     fontSemiBoldFallback = [
       fontSemiBold,
       fontSemiBoldThai,
-      fontSemiBoldChinese
+      fontSemiBoldChinese,
     ];
-    fontMediumFallback = [fontMedium, fontMediumThai, fontMediumChinese];
+    fontMediumFallback = [
+      fontMedium,
+      fontMediumThai,
+      fontMediumChinese,
+    ];
 
     _itemTextStyle = pw.TextStyle(
       color: PdfColors.black,
@@ -196,10 +209,11 @@ class DocketDesignPdf {
         _docketSeparator(),
         if (order.klikitComment.isNotEmpty) _klikitComment(order.klikitComment),
         if (order.klikitComment.isNotEmpty) _docketSeparator(),
-        pw.Padding(
-          padding: const pw.EdgeInsets.only(top: 8),
-          child: _qrCode(order),
-        ),
+        if (_brand!.qrLabel.isNotEmpty && _brand!.qrContent.isNotEmpty)
+          pw.Padding(
+            padding: const pw.EdgeInsets.only(top: 8),
+            child: _qrCode(order),
+          ),
         _footerWidget(),
       ],
     );
@@ -319,6 +333,267 @@ class DocketDesignPdf {
           style: _internalIdTextStyle,
         ),
       ],
+    );
+  }
+
+  pw.Widget _commentView(String comment, bool isOrderComment) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 4.0),
+      child: pw.Container(
+        color: PdfColors.black,
+        padding: const pw.EdgeInsets.all(4),
+        child: pw.Column(
+          mainAxisAlignment: pw.MainAxisAlignment.start,
+          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+          children: [
+            pw.Text(
+              '${isOrderComment ? 'ORDER' : 'ITEM'} NOTE:',
+              style: pw.TextStyle(
+                color: PdfColors.white,
+                fontSize: 11,
+                font: fontMedium,
+                fontFallback: fontMediumFallback,
+              ),
+            ),
+            pw.Text(
+              comment,
+              style: pw.TextStyle(
+                color: PdfColors.white,
+                fontSize: 11,
+                font: fontRegular,
+                fontFallback: fontRegularFallback,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  pw.Widget _cartItemView(
+    Order order,
+    CartV2 cartV2,
+    String currencySymbol,
+  ) {
+    return pw.Row(
+      children: [
+        pw.Text('${cartV2.quantity}x', style: _itemTextStyle),
+        pw.SizedBox(width: 4),
+        pw.Expanded(child: pw.Text(cartV2.name, style: _itemTextStyle)),
+        pw.SizedBox(width: 8),
+        pw.Text(
+          '$currencySymbol${PriceCalculator.calculateItemPrice(order, cartV2)}',
+          style: _itemTextStyle,
+        ),
+      ],
+    );
+  }
+
+  pw.Widget _modifierItemView(
+    Order order,
+    Modifiers modifiers,
+    int prevQuantity,
+    int itemQuantity,
+  ) {
+    return pw.Row(
+      children: [
+        pw.Text('• ${modifiers.quantity}x', style: _modifiersTextStyle),
+        pw.SizedBox(width: 8),
+        pw.Expanded(child: pw.Text(modifiers.name, style: _modifiersTextStyle)),
+        pw.SizedBox(width: 8),
+        pw.Text(
+          '${order.currencySymbol}${PriceCalculator.calculateModifierPrice(order, modifiers, prevQuantity, itemQuantity)}',
+          style: _itemTextStyle,
+        ),
+      ],
+    );
+  }
+
+  pw.Widget _showModifierGroupName(String name) {
+    if (name.isEmpty) {
+      return pw.SizedBox();
+    }
+    return pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 2),
+      child: pw.Text(
+        name,
+        style: _itemTextStyle,
+      ),
+    );
+  }
+
+  pw.Widget _priceView(Order order) {
+    return pw.Column(
+      children: [
+        _getSubtotalItem(
+          order,
+          'Subtotal:',
+          PriceCalculator.calculateSubtotal(order),
+        ),
+        _getSubtotalItem(
+          order,
+          'Vat:',
+          order.vat,
+        ),
+        _getSubtotalItem(
+          order,
+          'Delivery Fee:',
+          order.deliveryFee,
+        ),
+        _getSubtotalItem(
+          order,
+          'Discount:',
+          order.discount,
+          isDiscount: true,
+        ),
+        _getSubtotalItem(
+          order,
+          'Additional Fee:',
+          order.additionalFee,
+        ),
+      ],
+    );
+  }
+
+  pw.Widget _totalPriceView(Order order) {
+    return pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+      children: [
+        pw.Text(
+          'Total:',
+          style: _totalPriceTextStyle,
+        ),
+        pw.Text(
+          '${order.currencySymbol}${PriceCalculator.convertPrice(order.finalPrice)}',
+          style: _totalPriceTextStyle,
+        ),
+      ],
+    );
+  }
+
+  pw.Widget _getSubtotalItem(
+    Order order,
+    String name,
+    num price, {
+    bool isDiscount = false,
+  }) {
+    return pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+      children: [
+        pw.Text(
+          name,
+          style: _subTotalTextStyle,
+        ),
+        pw.Text(
+          '${isDiscount ? '-' : ''}${order.currencySymbol}${PriceCalculator.convertPrice(price)}',
+          style: _subTotalTextStyle,
+        ),
+      ],
+    );
+  }
+
+  pw.Widget _qrCode(Order order) {
+    return pw.Column(
+      children: [
+        pw.Text(
+          _brand?.qrLabel ?? '',
+          textAlign: pw.TextAlign.center,
+          style: pw.TextStyle(
+            color: PdfColors.black,
+            fontSize: 11,
+            font: fontRegular,
+            fontFallback: fontRegularFallback,
+          ),
+        ),
+        pw.Padding(
+          padding: const pw.EdgeInsets.only(top: 4, bottom: 4),
+          child: pw.BarcodeWidget(
+            color: PdfColor.fromHex("#000000"),
+            barcode: pw.Barcode.qrCode(),
+            data: _brand?.qrContent ?? '',
+            height: 80,
+            width: 80,
+          ),
+        ),
+      ],
+    );
+  }
+
+  pw.Widget _footerWidget() {
+    return pw.Column(
+      children: [
+        pw.Text(
+          'Powered by',
+          style: pw.TextStyle(
+            color: PdfColors.black,
+            fontSize: 11,
+            font: fontRegular,
+            fontFallback: fontRegularFallback,
+          ),
+        ),
+        pw.Padding(
+          padding: const pw.EdgeInsets.only(top: 2, bottom: 2),
+          child: pw.Image(
+            _footerImage,
+            width: 30,
+            height: 30,
+          ),
+        ),
+        pw.Text(
+          'klikit',
+          style: pw.TextStyle(
+            color: PdfColors.black,
+            fontSize: 11,
+            font: fontRegular,
+            fontFallback: fontRegularFallback,
+          ),
+        ),
+      ],
+    );
+  }
+
+  pw.Widget _klikitComment(String comment) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 4.0),
+      child: pw.Container(
+        color: PdfColors.black,
+        padding: const pw.EdgeInsets.all(4),
+        child: pw.Column(
+          mainAxisAlignment: pw.MainAxisAlignment.start,
+          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+          children: [
+            pw.Text(
+              'KLIKIT NOTE:',
+              style: pw.TextStyle(
+                color: PdfColors.white,
+                fontSize: 11,
+                font: fontMedium,
+                fontFallback: fontMediumFallback,
+              ),
+            ),
+            pw.Text(
+              comment,
+              style: pw.TextStyle(
+                  color: PdfColors.white,
+                  fontSize: 11,
+                  font: fontRegular,
+                  fontFallback: fontRegularFallback),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  pw.Widget _docketSeparator() {
+    return pw.Container(
+      width: double.infinity,
+      decoration: const pw.BoxDecoration(
+        border: pw.Border(
+          bottom: pw.BorderSide(
+              color: PdfColors.black, width: 1.0, style: pw.BorderStyle.dotted),
+        ),
+      ),
     );
   }
 
@@ -444,302 +719,5 @@ class DocketDesignPdf {
         );
       },
     );
-  }
-
-  pw.Widget _commentView(String comment, bool isOrderComment) {
-    return pw.Padding(
-      padding: const pw.EdgeInsets.symmetric(vertical: 4.0),
-      child: pw.Container(
-        color: PdfColors.black,
-        padding: const pw.EdgeInsets.all(4),
-        child: pw.Column(
-          mainAxisAlignment: pw.MainAxisAlignment.start,
-          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-          children: [
-            pw.Text(
-              '${isOrderComment ? 'ORDER' : 'ITEM'} NOTE:',
-              style: pw.TextStyle(
-                color: PdfColors.white,
-                fontSize: 11,
-                font: fontMedium,
-                fontFallback: fontMediumFallback,
-              ),
-            ),
-            pw.Text(
-              comment,
-              style: pw.TextStyle(
-                color: PdfColors.white,
-                fontSize: 11,
-                font: fontRegular,
-                fontFallback: fontRegularFallback,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  pw.Widget _cartItemView(
-    Order order,
-    CartV2 cartV2,
-    String currencySymbol,
-  ) {
-    return pw.Row(
-      children: [
-        pw.Text('${cartV2.quantity}x', style: _itemTextStyle),
-        pw.SizedBox(width: 4),
-        pw.Expanded(child: pw.Text(cartV2.name, style: _itemTextStyle)),
-        pw.SizedBox(width: 8),
-        pw.Text(
-          '$currencySymbol${getItemPrice(order, cartV2)}',
-          style: _itemTextStyle,
-        ),
-      ],
-    );
-  }
-
-  pw.Widget _modifierItemView(
-    Order order,
-    Modifiers modifiers,
-    int prevQuantity,
-    int itemQuantity,
-  ) {
-    return pw.Row(
-      children: [
-        pw.Text('• ${modifiers.quantity}x', style: _modifiersTextStyle),
-        pw.SizedBox(width: 8),
-        pw.Expanded(child: pw.Text(modifiers.name, style: _modifiersTextStyle)),
-        pw.SizedBox(width: 8),
-        pw.Text(
-          '${order.currencySymbol}${getModifierPrice(order, modifiers, prevQuantity, itemQuantity)}',
-          style: _itemTextStyle,
-        ),
-      ],
-    );
-  }
-
-  pw.Widget _showModifierGroupName(String name) {
-    if (name.isEmpty) {
-      return pw.SizedBox();
-    }
-    return pw.Padding(
-      padding: const pw.EdgeInsets.symmetric(vertical: 2),
-      child: pw.Text(
-        name,
-        style: _itemTextStyle,
-      ),
-    );
-  }
-
-  pw.Widget _priceView(Order order) {
-    return pw.Column(
-      children: [
-        _getSubtotalItem(
-          order,
-          'Subtotal:',
-          _subtotal(order),
-        ),
-        _getSubtotalItem(
-          order,
-          'Vat:',
-          order.vat,
-        ),
-        _getSubtotalItem(
-          order,
-          'Delivery Fee:',
-          order.deliveryFee,
-        ),
-        _getSubtotalItem(
-          order,
-          'Discount:',
-          order.discount,
-          isDiscount: true,
-        ),
-        _getSubtotalItem(
-          order,
-          'Additional Fee:',
-          order.additionalFee,
-        ),
-      ],
-    );
-  }
-
-  pw.Widget _totalPriceView(Order order) {
-    return pw.Row(
-      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-      children: [
-        pw.Text(
-          'Total:',
-          style: _totalPriceTextStyle,
-        ),
-        pw.Text(
-          '${order.currencySymbol}${_convertPrice(order.finalPrice)}',
-          style: _totalPriceTextStyle,
-        ),
-      ],
-    );
-  }
-
-  pw.Widget _getSubtotalItem(
-    Order order,
-    String name,
-    num price, {
-    bool isDiscount = false,
-  }) {
-    return pw.Row(
-      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-      children: [
-        pw.Text(
-          name,
-          style: _subTotalTextStyle,
-        ),
-        pw.Text(
-          '${isDiscount ? '-' : ''}${order.currencySymbol}${_convertPrice(price)}',
-          style: _subTotalTextStyle,
-        ),
-      ],
-    );
-  }
-
-  num _subtotal(Order order) {
-    num subtotal;
-    if (order.providerId == ProviderID.FOOD_PANDA) {
-      subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
-    } else {
-      subtotal = order.itemPrice;
-    }
-    return subtotal;
-  }
-
-  String _convertPrice(num price) {
-    return (price / 100).toStringAsFixed(2);
-  }
-
-  pw.Widget _qrCode(Order order) {
-    return pw.Column(
-      children: [
-        pw.Text(
-          _brand?.qrLabel ?? '',
-          textAlign: pw.TextAlign.center,
-          style: pw.TextStyle(
-            color: PdfColors.black,
-            fontSize: 11,
-            font: fontRegular,
-            fontFallback: fontRegularFallback,
-          ),
-        ),
-        pw.Padding(
-          padding: const pw.EdgeInsets.only(top: 4, bottom: 4),
-          child: pw.BarcodeWidget(
-            color: PdfColor.fromHex("#000000"),
-            barcode: pw.Barcode.qrCode(),
-            data: _brand?.qrContent ?? '',
-            height: 80,
-            width: 80,
-          ),
-        ),
-      ],
-    );
-  }
-
-  pw.Widget _footerWidget() {
-    return pw.Column(
-      children: [
-        pw.Text(
-          'Powered by',
-          style: pw.TextStyle(
-            color: PdfColors.black,
-            fontSize: 11,
-            font: fontRegular,
-            fontFallback: fontRegularFallback,
-          ),
-        ),
-        pw.Padding(
-          padding: const pw.EdgeInsets.only(top: 2, bottom: 2),
-          child: pw.Image(
-            _footerImage,
-            width: 30,
-            height: 30,
-          ),
-        ),
-        pw.Text(
-          'klikit',
-          style: pw.TextStyle(
-            color: PdfColors.black,
-            fontSize: 11,
-            font: fontRegular,
-            fontFallback: fontRegularFallback,
-          ),
-        ),
-      ],
-    );
-  }
-
-  pw.Widget _klikitComment(String comment) {
-    return pw.Padding(
-      padding: const pw.EdgeInsets.symmetric(vertical: 4.0),
-      child: pw.Container(
-        color: PdfColors.black,
-        padding: const pw.EdgeInsets.all(4),
-        child: pw.Column(
-          mainAxisAlignment: pw.MainAxisAlignment.start,
-          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-          children: [
-            pw.Text(
-              'KLIKIT NOTE:',
-              style: pw.TextStyle(
-                color: PdfColors.white,
-                fontSize: 11,
-                font: fontMedium,
-                fontFallback: fontMediumFallback,
-              ),
-            ),
-            pw.Text(
-              comment,
-              style: pw.TextStyle(
-                  color: PdfColors.white,
-                  fontSize: 11,
-                  font: fontRegular,
-                  fontFallback: fontRegularFallback),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  pw.Widget _docketSeparator() {
-    return pw.Container(
-      width: double.infinity,
-      decoration: const pw.BoxDecoration(
-        border: pw.Border(
-          bottom: pw.BorderSide(
-              color: PdfColors.black, width: 1.0, style: pw.BorderStyle.dotted),
-        ),
-      ),
-    );
-  }
-
-  String getItemPrice(Order order, CartV2 cartV2) {
-    if (!order.isInterceptorOrder &&
-        order.providerId != ProviderID.FOOD_PANDA) {
-      double unitPrice = double.parse(cartV2.unitPrice);
-      double itemTotalPrice = unitPrice * cartV2.quantity;
-      return itemTotalPrice.toString();
-    }
-    return cartV2.price;
-  }
-
-  String getModifierPrice(
-      Order order, Modifiers modifiers, int prevQuantity, int itemQuantity) {
-    if (!order.isInterceptorOrder &&
-        order.providerId != ProviderID.FOOD_PANDA) {
-      double unitPrice = double.parse(modifiers.unitPrice);
-      double modifierTotalPrice =
-          unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
-      return modifierTotalPrice.toString();
-    }
-    return modifiers.price;
   }
 }

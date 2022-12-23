@@ -7,6 +7,7 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/styles.dart';
 
 class OrderItemDetails extends StatelessWidget {
@@ -19,6 +20,7 @@ class OrderItemDetails extends StatelessWidget {
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
+
   final _modifiersTextStyle = getRegularTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
@@ -139,7 +141,7 @@ class OrderItemDetails extends StatelessWidget {
         Expanded(child: Text(cartV2.name, style: _itemTextStyle)),
         SizedBox(width: AppSize.s12.rw),
         Text(
-          '$currencySymbol${getItemPrice(cartV2)}',
+          '$currencySymbol${PriceCalculator.calculateItemPrice(order, cartV2)}',
           style: TextStyle(
             fontWeight: AppFontWeight.bold,
             fontSize: AppFontSize.s16.rSp,
@@ -162,7 +164,7 @@ class OrderItemDetails extends StatelessWidget {
         Expanded(child: Text(modifiers.name, style: _modifiersItemTextStyle)),
         SizedBox(width: AppSize.s8.rw),
         Text(
-          '${order.currencySymbol}${getModifierPrice(modifiers, prevQuantity, itemQuantity)}',
+          '${order.currencySymbol}${PriceCalculator.calculateModifierPrice(order, modifiers, prevQuantity, itemQuantity)}',
           style: TextStyle(
             fontWeight: AppFontWeight.regular,
             fontSize: AppFontSize.s16.rSp,
@@ -204,27 +206,5 @@ class OrderItemDetails extends StatelessWidget {
         style: _modifiersTextStyle,
       ),
     );
-  }
-
-  String getModifierPrice(
-      Modifiers modifiers, int prevQuantity, int itemQuantity) {
-    if (!order.isInterceptorOrder &&
-        order.providerId != ProviderID.FOOD_PANDA) {
-      double unitPrice = double.parse(modifiers.unitPrice);
-      double modifierTotalPrice =
-          unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
-      return modifierTotalPrice.toString();
-    }
-    return modifiers.price;
-  }
-
-  String getItemPrice(CartV2 cartV2) {
-    if (!order.isInterceptorOrder &&
-        order.providerId != ProviderID.FOOD_PANDA) {
-      double unitPrice = double.parse(cartV2.unitPrice);
-      double itemTotalPrice = unitPrice * cartV2.quantity;
-      return itemTotalPrice.toString();
-    }
-    return cartV2.price;
   }
 }

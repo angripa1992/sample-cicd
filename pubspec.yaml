@@ -40,7 +40,6 @@ dependencies:
   audioplayers: ^1.1.1
   permission_handler: ^10.2.0
   esc_pos_utils: ^1.1.0
-  screenshot: ^1.2.3
   flutter_pos_printer_platform: ^1.0.12
   firebase_app_installations: ^0.1.1+10
   percent_indicator: ^4.2.2

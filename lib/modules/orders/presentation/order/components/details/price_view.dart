@@ -4,6 +4,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
+import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
@@ -33,21 +34,6 @@ class _PriceViewState extends State<PriceView> {
     super.dispose();
   }
 
-  String _subtotal() {
-    final order = widget.order;
-    late num subtotal;
-    if (order.providerId == ProviderID.FOOD_PANDA) {
-      subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
-    } else {
-      subtotal = order.itemPrice;
-    }
-    return '${order.currencySymbol}${_convertPrice(subtotal)}';
-  }
-
-  String _convertPrice(num price){
-    return (price/100).toStringAsFixed(2);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -68,7 +54,7 @@ class _PriceViewState extends State<PriceView> {
             contentPadding: EdgeInsets.zero,
           ),
           trailing: Text(
-            _subtotal(),
+            '${widget.order.currencySymbol}${PriceCalculator.calculateSubtotal(widget.order)}',
             style: TextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
@@ -128,7 +114,7 @@ class _PriceViewState extends State<PriceView> {
                 ),
               ),
               Text(
-                '${widget.order.currencySymbol}${_convertPrice(widget.order.finalPrice)}',
+                '${widget.order.currencySymbol}${PriceCalculator.convertPrice(widget.order.finalPrice)}',
                 style: TextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s20.rSp,
@@ -156,7 +142,7 @@ class _PriceViewState extends State<PriceView> {
           style: textStyle,
         ),
         Text(
-          '${isDiscount ? '-':''}${widget.order.currencySymbol}${_convertPrice(price)}',
+          '${isDiscount ? '-':''}${widget.order.currencySymbol}${PriceCalculator.convertPrice(price)}',
           style: textStyle,
         ),
       ],

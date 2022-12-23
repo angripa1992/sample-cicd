@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:flutter/material.dart';
 import 'package:image/image.dart' as im;
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
@@ -10,14 +8,11 @@ import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
-import 'package:klikit/printer/presentation/capture_image_preview.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
-import 'package:klikit/printer/presentation/docket_design.dart';
 import 'package:klikit/printer/presentation/docket_design_pdf.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdfx/pdfx.dart';
-import 'package:screenshot/screenshot.dart';
 
 import '../modules/orders/domain/entities/order.dart';
 
@@ -25,7 +20,6 @@ class PrintingHandler {
   final AppPreferences _preferences;
   final BluetoothPrinterHandler _bluetoothPrinterHandler;
   final UsbPrinterHandler _usbPrinterHandler;
-  final _screenshotController = ScreenshotController();
 
   PrintingHandler(this._preferences, this._bluetoothPrinterHandler,
       this._usbPrinterHandler);
