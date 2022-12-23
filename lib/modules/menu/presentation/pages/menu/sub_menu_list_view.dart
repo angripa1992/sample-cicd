@@ -34,23 +34,23 @@ class SubMenuListView extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (_, index) {
-          return Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () async {
-                    final modifiedSubsections = await Navigator.pushNamed(
-                      context,
-                      Routes.manageItems,
-                      arguments: {
-                        'sections': subSections[index],
-                        'enabled': parentEnabled,
-                        'brand_id': brandID,
-                      },
-                    ) as SubSections;
-                    subSections[index] = modifiedSubsections;
-                    onChanged(subSections);
-                  },
+          return InkWell(
+            onTap: () async {
+              final modifiedSubsections = await Navigator.pushNamed(
+                context,
+                Routes.manageItems,
+                arguments: {
+                  'sections': subSections[index],
+                  'enabled': parentEnabled,
+                  'brand_id': brandID,
+                },
+              ) as SubSections;
+              subSections[index] = modifiedSubsections;
+              onChanged(subSections);
+            },
+            child: Row(
+              children: [
+                Expanded(
                   child: Row(
                     children: [
                       Padding(
@@ -76,22 +76,22 @@ class SubMenuListView extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
-                child: MenuSwitchView(
-                  enabled: subSections[index].enabled,
-                  parentEnabled: parentEnabled,
-                  id: subSections[index].id,
-                  brandId: brandID,
-                  type: MenuType.SUB_SECTION,
-                  onChanged: (enabled) {
-                    subSections[index].enabled = enabled;
-                    onChanged(subSections);
-                  },
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+                  child: MenuSwitchView(
+                    enabled: subSections[index].enabled,
+                    parentEnabled: parentEnabled,
+                    id: subSections[index].id,
+                    brandId: brandID,
+                    type: MenuType.SUB_SECTION,
+                    onChanged: (enabled) {
+                      subSections[index].enabled = enabled;
+                      onChanged(subSections);
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
         separatorBuilder: (_, __) {
