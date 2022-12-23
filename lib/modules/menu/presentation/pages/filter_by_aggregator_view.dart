@@ -46,7 +46,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
         Padding(
           padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
           child: Text(
-            'Aggregator',
+            'Delivery Aggregator',
             style: getRegularTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s16.rSp,

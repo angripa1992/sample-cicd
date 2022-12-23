@@ -159,7 +159,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(height: AppSize.s23.rh),
                         EditProfileTextField(
                           currentValue: _user.userInfo.phone,
-                          label: AppStrings.phone.tr(),
+                          label: AppStrings.contact_number.tr(),
                           editingController: _phoneNameController,
                           enabled: true,
                           inputType: TextInputType.phone,
@@ -167,7 +167,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         SizedBox(height: AppSize.s23.rh),
                         EditProfileTextField(
                           currentValue: _user.userInfo.email,
-                          label: AppStrings.email.tr(),
+                          label: AppStrings.email_address.tr(),
                           editingController: _emailNameController,
                           enabled: false,
                         ),

@@ -19,6 +19,7 @@ class AppStrings {
   static const String existing_account = "existing_account";
   static const String dont_have_account = "dont_have_account";
   static const String email = "email";
+  static const String email_address = "email_address";
   static const String password = "password";
   static const String forgot_password = "forgot_password";
   static const String change_your_password = "change_your_password";
@@ -27,7 +28,7 @@ class AppStrings {
   static const String login_as_manager = "login_as_manager";
   static const String home = "home";
   static const String orders = "orders";
-  static const String stock = "stock";
+  static const String menu = "menu";
   static const String account = "account";
   static const String contact_support = "contact_support";
   static const String available = "available";
@@ -37,7 +38,7 @@ class AppStrings {
   static const String name = "name";
   static const String title = "title";
   static const String company_name = "company_name";
-  static const String phone = "phone";
+  static const String contact_number = "contact_number";
   static const String update = "update";
   static const String field_required = "field_required";
   static const String enter_valid_email = "enter_valid_email";

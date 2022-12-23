@@ -432,7 +432,7 @@ class DocketDesignPdf {
         ),
         _getSubtotalItem(
           order,
-          'Vat:',
+          'VAT:',
           order.vat,
         ),
         _getSubtotalItem(

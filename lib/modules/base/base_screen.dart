@@ -198,7 +198,7 @@ class _BaseScreenState extends State<BaseScreen> {
       BottomNavigationBarItem(
         icon: _generateNavIcon(AppIcons.stock),
         activeIcon: _generateNavIcon(AppIcons.stockActive),
-        label: AppStrings.stock.tr(),
+        label: AppStrings.menu.tr(),
       ),
       BottomNavigationBarItem(
         icon: _generateNavIcon(AppIcons.account),

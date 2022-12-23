@@ -71,7 +71,7 @@ class _PriceViewState extends State<PriceView> {
             child: Column(
               children: [
                 _getSubtotalItem(
-                  'Vat',
+                  'VAT',
                   widget.order.vat,
                 ),
                 SizedBox(height: AppSize.s2.rh),

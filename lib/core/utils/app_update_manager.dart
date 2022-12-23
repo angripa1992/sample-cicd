@@ -71,7 +71,7 @@ class AppUpdateManager {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSize.s10),
                 child: Text(
-                  'A critical update is required for you to use Klikit App smoothly',
+                  'Update your klikit Cloud to the latest version to keep the app running smoothly.',
                   textAlign: TextAlign.center,
                   style: getRegularTextStyle(
                     color: AppColors.black,

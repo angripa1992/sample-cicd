@@ -78,7 +78,7 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
       ),
       trailingRotation: 180,
       title: Text(
-        'Aggregators',
+        'Delivery Aggregators',
         style: getRegularTextStyle(
           color: AppColors.purpleBlue,
           fontSize: AppFontSize.s14.rSp,
