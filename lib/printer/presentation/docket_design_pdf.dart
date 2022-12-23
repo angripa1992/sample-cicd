@@ -22,23 +22,23 @@ class DocketDesignPdf {
 
   DocketDesignPdf._internal();
 
-  List<pw.TtfFont> fontRegularFallback = [];
-  List<pw.TtfFont> fontBoldFallback = [];
-  List<pw.TtfFont> fontSemiBoldFallback = [];
-  List<pw.TtfFont> fontMediumFallback = [];
+  List<pw.Font> fontRegularFallback = [];
+  List<pw.Font> fontBoldFallback = [];
+  List<pw.Font> fontSemiBoldFallback = [];
+  List<pw.Font> fontMediumFallback = [];
 
-  late pw.TtfFont fontRegular;
-  late pw.TtfFont fontRegularThai;
-  late pw.TtfFont fontRegularChinese;
-  late pw.TtfFont fontBold;
-  late pw.TtfFont fontBoldThai;
-  late pw.TtfFont fontBoldChinese;
-  late pw.TtfFont fontMedium;
-  late pw.TtfFont fontMediumThai;
-  late pw.TtfFont fontMediumChinese;
-  late pw.TtfFont fontSemiBold;
-  late pw.TtfFont fontSemiBoldThai;
-  late pw.TtfFont fontSemiBoldChinese;
+  late pw.Font fontRegular;
+  late pw.Font fontRegularThai;
+  late pw.Font fontRegularChinese;
+  late pw.Font fontBold;
+  late pw.Font fontBoldThai;
+  late pw.Font fontBoldChinese;
+  late pw.Font fontMedium;
+  late pw.Font fontMediumThai;
+  late pw.Font fontMediumChinese;
+  late pw.Font fontSemiBold;
+  late pw.Font fontSemiBoldThai;
+  late pw.Font fontSemiBoldChinese;
 
   late pw.MemoryImage _footerImage;
   late pw.TextStyle _itemTextStyle;
@@ -53,30 +53,21 @@ class DocketDesignPdf {
   Provider? _provider;
 
   Future _initResources() async {
-    fontRegular =
-        await fontFromAssetBundle('assets/docket_fonts/NotoSans-Regular.ttf');
-    fontRegularThai = await fontFromAssetBundle(
-        'assets/docket_fonts/NotoSansThai-Regular.ttf');
-    fontRegularChinese = await fontFromAssetBundle(
-        'assets/docket_fonts/AlibabaPuHuiTi-2-55-Regular.ttf');
-    fontBold =
-        await fontFromAssetBundle('assets/docket_fonts/NotoSans-Bold.ttf');
-    fontBoldThai =
-        await fontFromAssetBundle('assets/docket_fonts/NotoSansThai-Bold.ttf');
-    fontBoldChinese = await fontFromAssetBundle(
-        'assets/docket_fonts/AlibabaPuHuiTi-2-85-Bold.ttf');
-    fontMedium =
-        await fontFromAssetBundle('assets/docket_fonts/NotoSans-Medium.ttf');
-    fontMediumThai = await fontFromAssetBundle(
-        'assets/docket_fonts/NotoSansThai-Medium.ttf');
-    fontMediumChinese = await fontFromAssetBundle(
-        'assets/docket_fonts/AlibabaPuHuiTi-2-55-Regular.ttf');
-    fontSemiBold =
-        await fontFromAssetBundle('assets/docket_fonts/NotoSans-SemiBold.ttf');
-    fontSemiBoldThai = await fontFromAssetBundle(
-        'assets/docket_fonts/NotoSansThai-SemiBold.ttf');
-    fontSemiBoldChinese = await fontFromAssetBundle(
-        'assets/docket_fonts/AlibabaPuHuiTi-2-85-Bold.ttf');
+    fontRegular = await PdfGoogleFonts.notoSansRegular();
+    fontMedium = await fontFromAssetBundle('assets/docket_fonts/NotoSans-Medium.ttf');
+    fontSemiBold = await fontFromAssetBundle('assets/docket_fonts/NotoSans-SemiBold.ttf');
+    fontBold = await PdfGoogleFonts.notoSansBold();
+
+
+    fontRegularThai = await PdfGoogleFonts.notoSansThaiRegular();
+    fontMediumThai = await PdfGoogleFonts.notoSansThaiMedium();
+    fontSemiBoldThai = await PdfGoogleFonts.notoSansThaiSemiBold();
+    fontBoldThai = await PdfGoogleFonts.notoSansThaiBold();
+
+    fontRegularChinese = await PdfGoogleFonts.zCOOLQingKeHuangYouRegular();
+    fontBoldChinese = await PdfGoogleFonts.zCOOLQingKeHuangYouRegular();
+    fontMediumChinese = await PdfGoogleFonts.zCOOLQingKeHuangYouRegular();
+    fontSemiBoldChinese = await PdfGoogleFonts.zCOOLQingKeHuangYouRegular();
 
     fontRegularFallback = [
       fontRegular,
