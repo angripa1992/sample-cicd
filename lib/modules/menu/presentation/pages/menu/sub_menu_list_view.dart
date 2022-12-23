@@ -40,9 +40,9 @@ class SubMenuListView extends StatelessWidget {
                 context,
                 Routes.manageItems,
                 arguments: {
-                  'sections': subSections[index],
-                  'enabled': parentEnabled,
-                  'brand_id': brandID,
+                  ArgumentKey.kSECTIONS: subSections[index],
+                  ArgumentKey.kENABLED: parentEnabled,
+                  ArgumentKey.kBRAND_ID: brandID,
                 },
               ) as SubSections;
               subSections[index] = modifiedSubsections;

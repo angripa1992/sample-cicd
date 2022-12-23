@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/sub_menu_items_list_view.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/sub_menu_items_title.dart';
@@ -12,9 +13,9 @@ class ManageItemsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final subSections = args['sections'];
-    final parentEnabled = args['enabled'];
-    final brandId = args['brand_id'];
+    final subSections = args[ArgumentKey.kSECTIONS];
+    final parentEnabled = args[ArgumentKey.kENABLED];
+    final brandId = args[ArgumentKey.kBRAND_ID];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

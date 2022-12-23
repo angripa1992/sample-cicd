@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
@@ -19,8 +20,8 @@ class ManageModifiersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    ModifiersGroup modifierGroup = args['group'];
-    final brandId = args['brand_id'];
+    ModifiersGroup modifierGroup = args[ArgumentKey.kGROUP];
+    final brandId = args[ArgumentKey.kBRAND_ID];
     return BlocProvider(
       create: (_) => getIt.get<CheckAffectedCubit>(),
       child: Scaffold(
@@ -65,37 +66,6 @@ class ManageModifiersScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     color: AppColors.lightGrey,
-              //     borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-              //   ),
-              //   child: Padding(
-              //     padding: EdgeInsets.symmetric(
-              //       vertical: AppSize.s8.rh,
-              //       horizontal: AppSize.s12.rw,
-              //     ),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         Text(
-              //           'Title',
-              //           style: getRegularTextStyle(
-              //             color: AppColors.black,
-              //             fontSize: AppFontSize.s16.rSp,
-              //           ),
-              //         ),
-              //         Text(
-              //           'Action',
-              //           style: getRegularTextStyle(
-              //             color: AppColors.black,
-              //             fontSize: AppFontSize.s16.rSp,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
               ModifierListView(
                 modifiersGroup: modifierGroup,
                 brandId: brandId,

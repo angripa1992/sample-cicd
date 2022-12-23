@@ -30,6 +30,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
     _modifiableModifierGroups = widget.modifierGroups;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -41,13 +42,13 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
         itemBuilder: (context, index) {
           final group = _modifiableModifierGroups[index];
           return InkWell(
-            onTap: () async{
+            onTap: () async {
               final modifiedModifierGroup = await Navigator.pushNamed(
                 context,
                 Routes.manageModifiers,
                 arguments: {
-                  'group': group,
-                  'brand_id': widget.brandId,
+                  ArgumentKey.kGROUP: group,
+                  ArgumentKey.kBRAND_ID: widget.brandId,
                 },
               ) as ModifiersGroup;
               setState(() {
@@ -63,7 +64,8 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                         child: Text(
                           group.title,
                           style: getRegularTextStyle(
@@ -76,12 +78,14 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                     ModifierSwitchView(
                       brandId: widget.brandId,
                       groupId: group.groupId,
-                      enabled:
-                          group.statuses.isEmpty ? false : group.statuses[0].enabled,
+                      enabled: group.statuses.isEmpty
+                          ? false
+                          : group.statuses[0].enabled,
                       type: ModifierType.GROUP,
                       onSuccess: (enabled) {
                         setState(() {
-                          _modifiableModifierGroups[index].statuses[0].enabled = enabled;
+                          _modifiableModifierGroups[index].statuses[0].enabled =
+                              enabled;
                         });
                       },
                     ),
