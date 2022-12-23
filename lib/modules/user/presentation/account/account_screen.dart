@@ -23,7 +23,6 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../core/utils/app_update_manager.dart';
 import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
 import 'component/app_version_info.dart';
@@ -258,7 +257,8 @@ class _AccountScreenState extends State<AccountScreen> {
                           fontWeight: AppFontWeight.regular,
                           textSize: AppFontSize.s14.rSp,
                           onPressed: () {
-                            Navigator.of(context).pushNamed(Routes.changePassword);
+                            Navigator.of(context)
+                                .pushNamed(Routes.changePassword);
                           },
                           color: AppColors.purpleBlue,
                           text: AppStrings.change_your_password.tr(),
@@ -288,7 +288,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   Row(
                     children: [
-                      Icon(Icons.support_agent_sharp, color: AppColors.purpleBlue),
+                      Icon(Icons.support_agent_sharp,
+                          color: AppColors.purpleBlue),
                       SizedBox(
                         width: AppSize.s8.rw,
                       ),
