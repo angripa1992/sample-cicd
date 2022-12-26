@@ -3,7 +3,7 @@ import 'package:klikit/main.dart';
 
 void main() {
   final environmentVariables = EnvironmentVariables(
-    baseUrl: 'https://api.dev.shadowchef.co',
+    baseUrl: 'https://gateway-enterprise.klikit.io',
     cdnUrl: 'https://assets.klikit.io',
   );
   mainCommon(environmentVariables);
