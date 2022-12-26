@@ -98,5 +98,13 @@
   "save" : "Save",
   "connect" : "Connect",
   "disconnect" : "Disconnect",
-  "successfully_saved" : "Successfully Saved"
+  "successfully_saved" : "Successfully Saved",
+
+  "whatsapp" : "WhatsApp",
+  "whatsapp_tile" : "Let us know if something's up!",
+  "email_tile" : "Get in touch with us via email.",
+  "whatsapp_not_installed_msg" : "Whatsapp not installed in your device",
+  "could_not_email_msg" : "Could not email on this email",
+
+  "modifiers" : "Modifiers"
 }

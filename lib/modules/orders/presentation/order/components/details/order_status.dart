@@ -28,7 +28,7 @@ class OrderStatusView extends StatelessWidget {
       case OrderStatus.DELIVERED:
         return 'Delivered';
       case OrderStatus.PICKED_UP:
-        return 'Picked Up';
+        return 'Picked-Up';
       case OrderStatus.READY:
         return 'Ready';
       case OrderStatus.SCHEDULED:
@@ -62,7 +62,7 @@ class OrderStatusView extends StatelessWidget {
           visible: (order.type == OrderType.PICKUP),
           child: Padding(
             padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
-            child: Text('Pickup', style: _style),
+            child: Text('Pick-up', style: _style),
           ),
         ),
       ],

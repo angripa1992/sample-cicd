@@ -118,4 +118,11 @@ class AppStrings {
   static const String save = "save";
   static const String successfully_saved = "successfully_saved";
 
+  ///contact support
+  static const String whatsapp_tile = "whatsapp_tile";
+  static const String email_tile = "email_tile";
+  static const String whatsapp = "whatsapp";
+  static const String whatsapp_not_installed_msg = "whatsapp_not_installed_msg";
+  static const String could_not_email_msg = "could_not_email_msg";
+
 }

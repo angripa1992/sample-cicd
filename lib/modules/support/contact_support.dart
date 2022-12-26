@@ -20,25 +20,19 @@ class ContactSupportScreen extends StatefulWidget {
 }
 
 class _ContactSupportScreenState extends State<ContactSupportScreen> {
-
-  Future<void> _callSupport() async {
-    if (!await launchUrl(Uri.parse('tel:${AppConstant.whatappSupportNumber}'))) {
-      showErrorSnackBar(context, 'Could not call on this number');
-    }
-  }
-
   Future<void> _launchWhatsapp() async {
-    final whatsappAndroid =Uri.parse("whatsapp://send?phone=${AppConstant.whatappSupportNumber}");
-    try{
+    final whatsappAndroid =
+        Uri.parse("whatsapp://send?phone=${AppConstant.whatappSupportNumber}");
+    try {
       await launchUrl(whatsappAndroid);
-    } on PlatformException catch(e){
-      showErrorSnackBar(context, 'Whatsapp not installed in your device');
+    } on PlatformException catch (e) {
+      showErrorSnackBar(context, AppStrings.whatsapp_not_installed_msg.tr());
     }
   }
 
   Future<void> _mailSupport() async {
     if (!await launchUrl(Uri.parse('mailto:${AppConstant.supportMail}'))) {
-      showErrorSnackBar(context, 'Could not email on this email');
+      showErrorSnackBar(context, AppStrings.could_not_email_msg.tr());
     }
   }
 
@@ -60,8 +54,8 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
             ContactItem(
               iconData: Icons.whatsapp,
               iconColor: AppColors.green,
-              title: 'WhatsApp',
-              description: 'Let us know what’s up',
+              title: AppStrings.whatsapp.tr(),
+              description: AppStrings.whatsapp_tile.tr(),
               onTap: () async {
                 await _launchWhatsapp();
               },
@@ -71,8 +65,8 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
             ),
             ContactItem(
               iconData: Icons.email_outlined,
-              title: 'Email Support',
-              description: 'You can also email us about anything',
+              title: AppStrings.email_support.tr(),
+              description: AppStrings.email_tile.tr(),
               onTap: () async {
                 await _mailSupport();
               },

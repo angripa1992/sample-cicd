@@ -302,7 +302,7 @@ class DocketDesignPdf {
             pw.Text(
               order.type == OrderType.DELIVERY
                   ? 'Delivery'
-                  : (order.type == OrderType.PICKUP ? 'Pickup' : "Manual"),
+                  : (order.type == OrderType.PICKUP ? 'Pick-up' : "Manual"),
               style: _deliveryInfoTextStyle,
             ),
           ],

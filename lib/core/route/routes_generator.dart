@@ -16,7 +16,7 @@ import 'package:klikit/printer/presentation/printer_connection_settings_page.dar
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 
-import '../../modules/user/presentation/support/contact_support.dart';
+import '../../modules/support/contact_support.dart';
 import '../../resources/strings.dart';
 
 class RoutesGenerator {
