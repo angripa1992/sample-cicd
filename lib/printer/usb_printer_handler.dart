@@ -25,7 +25,8 @@ class UsbPrinterHandler {
 
   bool isConnected() => _isConnected;
 
-  Stream<PrinterDevice> getDevices() => _printerManager.discovery(type: PrinterType.usb);
+  Stream<PrinterDevice> getDevices() =>
+      _printerManager.discovery(type: PrinterType.usb);
 
   Future<bool> connect(PrinterDevice device) async {
     if (_currentConnectedDevice != null) {

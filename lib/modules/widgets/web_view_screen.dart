@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:webview_flutter/webview_flutter.dart';

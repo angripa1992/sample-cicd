@@ -4,6 +4,7 @@
   "no_internet_connection" : "No Internet Connection",
   "internet_connection_reestablished" : "Connection Re-established",
   "cloud" : "cloud",
+  "please_wait" : "Please Wait...",
   "existing_account" : "Log in to Existing Account",
   "dont_have_account" : "Don’t have an Account?",
   "email" : "Email",
@@ -99,6 +100,11 @@
   "connect" : "Connect",
   "disconnect" : "Disconnect",
   "successfully_saved" : "Successfully Saved",
+  "usb_successfully_connected" : "USB Successfully Connected",
+  "bluetooth_successfully_connected" : "Bluetooth Successfully Connected",
+  "can_not_connect_device" : "Can not connect to this device",
+  "show_devices" : "Show Devices",
+  "looking_for_devices" : "Looking for Devices...",
 
   "whatsapp" : "WhatsApp",
   "whatsapp_tile" : "Let us know if something's up!",
@@ -158,6 +164,9 @@
   "comment_deleted_successfully": "Comment deleted successfully",
   "comment_added_successfully": "Comment added successfully",
   "comment_updated_successfully": "Comment updated successfully",
+  "orders_has_been_canceled": "orders has been canceled",
+  "you_have_received": "You have received",
+  "view_orders": "View Orders",
   "vat": "VAT",
   "delivery_fee": "Delivery Fee",
   "additional_fee": "Additional Fee",
@@ -177,4 +186,5 @@
   "driver_assigned": "Driver Assigned",
   "pickup": "Pick-Up",
   "manual": "Manual"
+
 }

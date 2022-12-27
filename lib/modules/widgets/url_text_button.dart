@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
-import '../../resources/styles.dart';
 import '../../resources/values.dart';
 
 class UrlTextButton extends StatelessWidget {

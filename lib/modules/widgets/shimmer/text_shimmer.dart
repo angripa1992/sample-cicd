@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../resources/colors.dart';
-import '../../../resources/fonts.dart';
-import '../../../resources/strings.dart';
-import '../../../resources/styles.dart';
-
 class TextShimmer extends StatelessWidget {
   final Color baseColor;
   final Color highlightColor;

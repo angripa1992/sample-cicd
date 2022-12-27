@@ -62,10 +62,8 @@ void showErrorSnackBar(BuildContext context, String message) {
   );
 }
 
-
 void showApiErrorSnackBar(BuildContext context, Failure failure) {
-  print('status code======================== ${failure.code}');
-  if(failure.code == ResponseCode.UPDATE_REQUIRED) {
+  if (failure.code == ResponseCode.UPDATE_REQUIRED) {
     return;
   }
   dismissCurrentSnackBar(context);
@@ -117,7 +115,7 @@ void showLoadingSnackBar(BuildContext context) {
           ),
           SizedBox(width: AppSize.s14.rw),
           Text(
-            'Please wait...',
+            AppStrings.please_wait.tr(),
             style: getRegularTextStyle(
               color: AppColors.white,
               fontSize: AppFontSize.s15.rSp,

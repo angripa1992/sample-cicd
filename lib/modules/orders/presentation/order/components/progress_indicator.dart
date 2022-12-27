@@ -78,14 +78,14 @@ Widget noItemsFoundIndicator(BuildContext context) {
         SizedBox(height: AppSize.s50.rh),
         Image.asset(
           AppImages.emptyCart,
-          height: AppSize.s65.rh,
-          width: AppSize.s65.rw,
+          height: AppSize.s50.rh,
+          width: AppSize.s50.rw,
         ),
         Text(
           AppStrings.no_orders_found.tr(),
           style: getMediumTextStyle(
             color: AppColors.black,
-            fontSize: AppFontSize.s18.rSp,
+            fontSize: AppFontSize.s14.rSp,
           ),
         ),
       ],
