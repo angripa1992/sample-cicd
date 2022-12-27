@@ -31,6 +31,7 @@ class PasswordField extends StatefulWidget {
 
 class _PasswordFieldState extends State<PasswordField> {
   String newPassword = '';
+
   @override
   void initState() {
     widget.newPasswordController.addListener(() {
@@ -38,6 +39,7 @@ class _PasswordFieldState extends State<PasswordField> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -81,17 +83,17 @@ class _PasswordFieldState extends State<PasswordField> {
           ),
           validator: (value) {
             if (widget.type == PasswordFieldType.CURRENT) {
-              if(value == null || value.isEmpty){
+              if (value == null || value.isEmpty) {
                 return AppStrings.current_password_required.tr();
               }
-            }else if (widget.type == PasswordFieldType.NEW) {
-              if(value == null || value.isEmpty){
+            } else if (widget.type == PasswordFieldType.NEW) {
+              if (value == null || value.isEmpty) {
                 return AppStrings.please_enter_new_password.tr();
               }
-            }else{
-              if(value == null || value.isEmpty ){
+            } else {
+              if (value == null || value.isEmpty) {
                 return AppStrings.please_enter_password_again.tr();
-              }else if(value != newPassword){
+              } else if (value != newPassword) {
                 return AppStrings.new_and_confirm_not_match.tr();
               }
             }

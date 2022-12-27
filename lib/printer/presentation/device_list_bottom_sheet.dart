@@ -130,7 +130,7 @@ class DeviceListBottomSheetManager {
                   Expanded(
                     child: Center(
                       child: Text(
-                        'Looking for Devices...',
+                        AppStrings.looking_for_devices.tr(),
                         style: getRegularTextStyle(
                           color: AppColors.black,
                           fontSize: AppFontSize.s18.rSp,
@@ -206,7 +206,7 @@ class DeviceListBottomSheetManager {
                       RoutesGenerator.navigatorKey.currentState!.context);
                   onConnect();
                 },
-                text: 'Connect',
+                text: AppStrings.connect.tr(),
               ),
             ],
           ),

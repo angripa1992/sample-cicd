@@ -16,6 +16,7 @@ class AppStrings {
 
   //app strings
   static const String cloud = "cloud";
+  static const String please_wait = "please_wait";
   static const String existing_account = "existing_account";
   static const String dont_have_account = "dont_have_account";
   static const String email = "email";
@@ -117,6 +118,11 @@ class AppStrings {
   static const String disconnect = "disconnect";
   static const String save = "save";
   static const String successfully_saved = "successfully_saved";
+  static const String usb_successfully_connected = "usb_successfully_connected";
+  static const String bluetooth_successfully_connected = "bluetooth_successfully_connected";
+  static const String can_not_connect_device = "can_not_connect_device";
+  static const String show_devices = "show_devices";
+  static const String looking_for_devices = "looking_for_devices";
 
   ///contact support
   static const String whatsapp_tile = "whatsapp_tile";
@@ -180,6 +186,9 @@ class AppStrings {
   static const String comment_deleted_successfully = "comment_deleted_successfully";
   static const String comment_added_successfully = "comment_added_successfully";
   static const String comment_updated_successfully = "comment_updated_successfully";
+  static const String view_orders = "view_orders";
+  static const String orders_has_been_canceled = "orders_has_been_canceled";
+  static const String you_have_received = "you_have_received";
   static const String vat = "vat";
   static const String delivery_fee = "delivery_fee";
   static const String additional_fee = "additional_fee";

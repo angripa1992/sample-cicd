@@ -109,11 +109,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _navigate(){
+  void _navigate() {
     if (args == null) {
       Navigator.of(context).pushReplacementNamed(Routes.base);
     } else {
-      NotificationHandler().navigateToOrderScreen(args![ArgumentKey.kNOTIFICATION_DATA],notificationType: NotificationType.BACKGROUD);
+      NotificationHandler().navigateToOrderScreen(
+          args![ArgumentKey.kNOTIFICATION_DATA],
+          notificationType: NotificationType.BACKGROUD);
     }
   }
 

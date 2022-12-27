@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
@@ -8,6 +9,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/notification/inapp/notification_sound.dart';
 import 'package:klikit/notification/notification_data.dart';
 import 'package:klikit/notification/notification_handler.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../core/route/routes_generator.dart';
 import '../../modules/widgets/loading_button.dart';
@@ -32,7 +34,7 @@ class InAppNotificationHandler {
   InAppNotificationHandler._internal();
 
   void handleNotification(NotificationData data) {
-    if(!_appPreferences.isLoggedIn()){
+    if (!_appPreferences.isLoggedIn()) {
       return;
     }
     if (_isShowing) {
@@ -76,9 +78,10 @@ class InAppNotificationHandler {
     _handleDocketPrinting(data);
   }
 
-  void _handleDocketPrinting(NotificationData notificationData) async{
-    final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
-    if(order != null && order.status == OrderStatus.ACCEPTED){
+  void _handleDocketPrinting(NotificationData notificationData) async {
+    final order = await NotificationDataHandler()
+        .getOrderById(notificationData.orderId.toInt());
+    if (order != null && order.status == OrderStatus.ACCEPTED) {
       _printingHandler.verifyConnection(order: order);
     }
   }
@@ -107,7 +110,8 @@ class InAppNotificationHandler {
 
   void _navigateToOrderScreen(NotificationData data) {
     dismissInAppNotification();
-    NotificationHandler().navigateToOrderScreen(data,notificationType: NotificationType.IN_APP);
+    NotificationHandler()
+        .navigateToOrderScreen(data, notificationType: NotificationType.IN_APP);
   }
 
   void _showDialog(NotificationData data, NotificationCountCubit cubit) {
@@ -134,7 +138,7 @@ class InAppNotificationHandler {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: AppSize.s24),
                         child: Text(
-                          '${state.numOfCancelOrders} order${state.numOfCancelOrders > 1 ? 's' : ''} has been canceled',
+                          '${state.numOfCancelOrders} ${AppStrings.orders_has_been_canceled.tr()}',
                           style: getRegularTextStyle(
                             color: AppColors.lightSalmon,
                             fontSize: AppFontSize.s18.rSp,
@@ -153,7 +157,7 @@ class InAppNotificationHandler {
                           onTap: () {
                             _navigateToOrderScreen(data);
                           },
-                          text: 'View Orders',
+                          text: AppStrings.view_orders.tr(),
                         ),
                       ),
                     ),
@@ -170,7 +174,7 @@ class InAppNotificationHandler {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: AppSize.s24),
                         child: Text(
-                          'You have received ${state.numOfNewOrders} new order${state.numOfNewOrders > 1 ? 's' : ''} ',
+                          '${AppStrings.you_have_received.tr()} ${state.numOfNewOrders} ${AppStrings.new_orders.tr()}',
                           style: getRegularTextStyle(
                             color: AppColors.black,
                             fontSize: AppFontSize.s18.rSp,
@@ -189,7 +193,7 @@ class InAppNotificationHandler {
                           onTap: () {
                             _navigateToOrderScreen(data);
                           },
-                          text: 'View Orders',
+                          text: AppStrings.view_orders.tr(),
                         ),
                       ),
                     ),

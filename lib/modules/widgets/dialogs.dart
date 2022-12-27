@@ -8,9 +8,6 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../app/constants.dart';
-import '../../core/route/routes_generator.dart';
-
 void showLogoutDialog(
     {required BuildContext context, required VoidCallback onLogout}) {
   showDialog(
@@ -227,69 +224,6 @@ void showAccessDeniedDialog({
               onTap: () {
                 Navigator.of(context).pop();
               },
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-
-void showNoDeviceConnectedDialog({
-  required int connectionType,
-  required VoidCallback onOK,
-}) {
-  showDialog(
-    context: RoutesGenerator.navigatorKey.currentState!.context,
-    barrierDismissible: false,
-    builder: (context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              connectionType == ConnectionType.BLUETOOTH
-                  ? 'No Bluetooth Devices'
-                  : 'No USB Devices',
-              style: getMediumTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s18.rSp,
-              ),
-            ),
-            SizedBox(
-              height: AppSize.s16.rh,
-            ),
-            Text(
-              connectionType == ConnectionType.BLUETOOTH
-                  ? AppStrings.no_bluetooth_devices_message.tr()
-                  : AppStrings.no_usb_devices_message.tr(),
-              textAlign: TextAlign.center,
-              style: getRegularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
-              ),
-            ),
-            SizedBox(
-              height: AppSize.s16.rh,
-            ),
-            const Divider(),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onOK();
-              },
-              child: Center(
-                child: Text(
-                  AppStrings.ok.tr(),
-                  style: getRegularTextStyle(
-                    color: AppColors.purpleBlue,
-                    fontSize: AppFontSize.s16.rSp,
-                  ),
-                ),
-              ),
             ),
           ],
         ),

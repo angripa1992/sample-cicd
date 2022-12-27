@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:klikit/app/constants.dart';
-import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
 
@@ -74,7 +73,8 @@ class LocalNotificationService {
   }
 
   void showNotification({required Map<String, dynamic> payload}) async {
-    final notificationData = NotificationDataHandler().getNotificationData(payload);
+    final notificationData =
+        NotificationDataHandler().getNotificationData(payload);
     final notificationType = int.parse(notificationData.type);
     flutterLocalNotificationsPlugin.show(
       notificationType,

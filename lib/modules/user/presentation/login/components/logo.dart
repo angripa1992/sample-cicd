@@ -4,7 +4,6 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';

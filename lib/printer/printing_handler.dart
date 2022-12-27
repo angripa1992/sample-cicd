@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
 import 'package:image/image.dart' as im;
 import 'package:klikit/app/app_preferences.dart';
@@ -11,6 +12,7 @@ import 'package:klikit/printer/bluetooth_printer_handler.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/presentation/docket_design_pdf.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdfx/pdfx.dart';
 
@@ -60,7 +62,7 @@ class PrintingHandler {
         if (isConnected) {
           showSuccessSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
-            'Bluetooth Successfully Connected',
+            AppStrings.bluetooth_successfully_connected.tr(),
           );
           if (order != null) {
             printDocket(order);
@@ -68,7 +70,7 @@ class PrintingHandler {
         } else {
           showErrorSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
-            'Can not connect to this device',
+            AppStrings.can_not_connect_device.tr(),
           );
         }
       },
@@ -94,7 +96,7 @@ class PrintingHandler {
         if (isSuccessfullyConnected) {
           showSuccessSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
-            'USB Successfully Connected',
+            AppStrings.usb_successfully_connected.tr(),
           );
           if (order != null) {
             printDocket(order);
@@ -102,7 +104,7 @@ class PrintingHandler {
         } else {
           showErrorSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
-            'Can not connect to this device',
+            AppStrings.can_not_connect_device.tr(),
           );
         }
       },
@@ -187,14 +189,6 @@ class PrintingHandler {
     );
 
     var headerBytes = pageImage?.bytes;
-    //
-    // Navigator.push(
-    //     RoutesGenerator.navigatorKey.currentState!.context,
-    //     MaterialPageRoute(
-    //         builder: (context) => CaptureImagePrivew(
-    //           capturedImage: headerBytes,
-    //         )));
-
     final im.Image? headerImg = im.decodeImage(headerBytes!);
 
     bytes += generator.image(headerImg!);

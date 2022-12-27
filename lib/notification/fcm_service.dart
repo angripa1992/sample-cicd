@@ -26,13 +26,11 @@ class FcmService {
 
   Future<String?> getFcmToken() async {
     final fcmToken = await messaging.getToken();
-    print('FCM token => $fcmToken');
     return fcmToken;
   }
 
   void registerForegroundListener() async {
     FirebaseMessaging.onMessage.listen((message) {
-      print('================${message.data}');
       InAppNotificationHandler().handleNotification(
           NotificationDataHandler().getNotificationData(message.data));
     });
@@ -47,7 +45,6 @@ class FcmService {
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('================${message.data}');
   LocalNotificationService().showNotification(
     payload: message.data,
   );

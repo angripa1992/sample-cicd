@@ -59,7 +59,7 @@ class _PrinterConnectionSettingPageState
   void _showDeviceListView() {
     if (_appPreferences.connectionType() == ConnectionType.BLUETOOTH) {
       _printingHandler.showBleDevices();
-    }else{
+    } else {
       _printingHandler.showUsbDevices();
     }
   }
@@ -153,8 +153,10 @@ class _PrinterConnectionSettingPageState
               enable: _appPreferences.connectionType() == _connectionType,
               verticalPadding: AppSize.s10.rh,
               onTap: _showDeviceListView,
-              text: 'Show Devices',
-              icon: _appPreferences.connectionType() == ConnectionType.BLUETOOTH ? Icons.bluetooth : Icons.usb,
+              text: AppStrings.show_devices.tr(),
+              icon: _appPreferences.connectionType() == ConnectionType.BLUETOOTH
+                  ? Icons.bluetooth
+                  : Icons.usb,
             ),
           ),
         ],

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 
@@ -15,7 +14,6 @@ class BluetoothPrinterHandler {
 
   void _initListener() {
     _printerManager.stateBluetooth.listen((status) {
-      debugPrint('*****************************BLE STATE $status***********************');
       switch (status) {
         case BTStatus.connected:
           _isConnected = true;
@@ -27,7 +25,8 @@ class BluetoothPrinterHandler {
     });
   }
 
-  Stream<PrinterDevice> getDevices() => _printerManager.discovery(type: PrinterType.bluetooth);
+  Stream<PrinterDevice> getDevices() =>
+      _printerManager.discovery(type: PrinterType.bluetooth);
 
   Future<bool> connect(PrinterDevice device) async {
     if (_currentConnectedDevice != null) {

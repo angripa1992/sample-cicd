@@ -23,13 +23,15 @@ class NotificationHandler {
     final notificationData = NotificationDataHandler().getNotificationData(
         NotificationDataHandler().convertStringToMap(payload));
     if (_appPreference.isLoggedIn()) {
-      navigateToOrderScreen(notificationData,notificationType: NotificationType.BACKGROUD);
+      navigateToOrderScreen(notificationData,
+          notificationType: NotificationType.BACKGROUD);
     } else {
       _navigateToLoginScreen(notificationData);
     }
   }
 
-  void navigateToOrderScreen(NotificationData notificationData,{bool isNotification = true,required int notificationType}) {
+  void navigateToOrderScreen(NotificationData notificationData,
+      {bool isNotification = true, required int notificationType}) {
     Navigator.of(RoutesGenerator.navigatorKey.currentState!.context)
         .pushNamedAndRemoveUntil(
       Routes.base,
