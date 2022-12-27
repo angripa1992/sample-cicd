@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../app/size_config.dart';
 import '../../../../../resources/styles.dart';
@@ -27,7 +29,7 @@ class OrderAppBar extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s18.rw),
           child: Text(
-            'Order Dashboard',
+            AppStrings.order_dashboard.tr(),
             style: getAppBarTextStyle(),
           ),
         ),

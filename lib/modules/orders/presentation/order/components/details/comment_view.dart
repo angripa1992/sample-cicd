@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
+
+import '../../../../../../resources/strings.dart';
 
 class CommentView extends StatelessWidget {
   final String comment;
@@ -21,7 +24,7 @@ class CommentView extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            'Note: $comment',
+            '${AppStrings.note.tr()}: $comment',
             style: getBoldTextStyle(
               color: AppColors.blueViolet,
               fontSize: AppFontSize.s14.rSp,

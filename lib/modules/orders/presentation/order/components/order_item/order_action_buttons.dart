@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/assets.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
@@ -26,7 +28,6 @@ class PrintButton extends StatelessWidget {
         onPressed: onPrint,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          //padding: EdgeInsets.symmetric(horizontal: padding.rw),
           primary: AppColors.purpleBlue,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s24.rSp), // <-- Radius
@@ -65,7 +66,7 @@ class ReadyButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          'Ready',
+          AppStrings.ready.tr(),
           style: getMediumTextStyle(
             color: AppColors.purpleBlue,
             fontSize: AppFontSize.s14.rSp,
@@ -100,7 +101,7 @@ class DeliverButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          'Deliver',
+          AppStrings.deliver.tr(),
           style: getMediumTextStyle(
             color: AppColors.purpleBlue,
             fontSize: AppFontSize.s14.rSp,
@@ -135,7 +136,7 @@ class PickedUpButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          'Picked Up',
+          AppStrings.picked_up.tr(),
           style: getMediumTextStyle(
             color: AppColors.purpleBlue,
             fontSize: AppFontSize.s14.rSp,
@@ -217,13 +218,14 @@ Widget getActionButtons({
       children: [
         AcceptButton(
           onAccept: () {
-            onAction('Accept Order #${order.id}', OrderStatus.ACCEPTED);
+            onAction('${AppStrings.accept_order.tr()} #${order.id}',
+                OrderStatus.ACCEPTED);
           },
         ),
         SizedBox(width: AppSize.s8.rw),
         CanceledButton(
           onCanceled: () {
-            onCancel('Cancel Order #${order.id}');
+            onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
           },
         ),
       ],
@@ -241,7 +243,8 @@ Widget getActionButtons({
         SizedBox(width: AppSize.s8.rw),
         DeliverButton(
           onDeliver: () {
-            onAction('Deliver Order #${order.id}', OrderStatus.DELIVERED);
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}',
+                OrderStatus.DELIVERED);
           },
         ),
       ],
@@ -260,7 +263,8 @@ Widget getActionButtons({
         SizedBox(width: AppSize.s8.rw),
         ReadyButton(
           onReady: () {
-            onAction('Ready Order #${order.id}', OrderStatus.READY);
+            onAction('${AppStrings.ready_order.tr()} #${order.id}',
+                OrderStatus.READY);
           },
         ),
       ],
@@ -278,7 +282,8 @@ Widget getActionButtons({
         SizedBox(width: AppSize.s8.rw),
         PickedUpButton(
           onPickedUp: () {
-            onAction('PickUp Order #${order.id}', OrderStatus.PICKED_UP);
+            onAction('${AppStrings.pickup_order.tr()} #${order.id}',
+                OrderStatus.PICKED_UP);
           },
         ),
       ],
@@ -293,7 +298,8 @@ Widget getActionButtons({
       SizedBox(width: AppSize.s8.rw),
       DeliverButton(
         onDeliver: () {
-          onAction('Deliver Order #${order.id}', OrderStatus.DELIVERED);
+          onAction('${AppStrings.deliver_order.tr()} #${order.id}',
+              OrderStatus.DELIVERED);
         },
       ),
     ],
@@ -316,7 +322,7 @@ Widget getExpandActionButtons({
           child: AcceptButton(
             onAccept: () {
               onAction(
-                'Accept Order #${order.id}',
+                '${AppStrings.accept_order.tr()} #${order.id}',
                 OrderStatus.ACCEPTED,
               );
             },
@@ -326,7 +332,7 @@ Widget getExpandActionButtons({
         Expanded(
           child: CanceledButton(
             onCanceled: () {
-              onCancel('Cancel Order #${order.id}');
+              onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
             },
           ),
         ),
@@ -349,7 +355,7 @@ Widget getExpandActionButtons({
           child: DeliverButton(
             onDeliver: () {
               onAction(
-                'Deliver Order #${order.id}',
+                '${AppStrings.deliver_order.tr()} #${order.id}',
                 OrderStatus.DELIVERED,
               );
             },
@@ -375,7 +381,7 @@ Widget getExpandActionButtons({
           child: ReadyButton(
             onReady: () {
               onAction(
-                'Ready Order #${order.id}',
+                '${AppStrings.ready_order.tr()} #${order.id}',
                 OrderStatus.READY,
               );
             },
@@ -400,7 +406,7 @@ Widget getExpandActionButtons({
           child: PickedUpButton(
             onPickedUp: () {
               onAction(
-                'PickUp Order #${order.id}',
+                '${AppStrings.pickup_order.tr()} #${order.id}',
                 OrderStatus.PICKED_UP,
               );
             },
@@ -422,7 +428,7 @@ Widget getExpandActionButtons({
         child: DeliverButton(
           onDeliver: () {
             onAction(
-              'Deliver Order #${order.id}',
+              '${AppStrings.deliver_order.tr()} #${order.id}',
               OrderStatus.DELIVERED,
             );
           },

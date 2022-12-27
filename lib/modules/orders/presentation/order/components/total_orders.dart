@@ -67,7 +67,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
     _timer = Timer.periodic(
       const Duration(seconds: AppConstant.refreshTime),
       (timer) {
-        // _fetchCompletedOrder(false);
+        _fetchOrders(false);
       },
     );
   }
@@ -92,7 +92,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
                 return TotalOrderCardShimmer(
                   height: AppSize.s96.rh,
                   width: AppSize.s107.rw,
-                  text: 'Total Orders',
+                  text: AppStrings.total_order.tr(),
                   orders: "0",
                   orderColor: AppColors.purpleBlue,
                   fontSize: AppFontSize.s14.rSp,
@@ -102,7 +102,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
               return OrdersCard(
                 height: AppSize.s96.rh,
                 width: AppSize.s107.rw,
-                text: 'Total Orders',
+                text: AppStrings.total_order.tr(),
                 orders: (state is Success<Orders>)
                     ? state.data.total.toString()
                     : "0",
@@ -118,7 +118,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
                 return TotalOrderCardShimmer(
                   height: AppSize.s96.rh,
                   width: AppSize.s107.rw,
-                  text: 'Completed Orders',
+                  text: AppStrings.completed_orders.tr(),
                   orders: '',
                   orderColor: AppColors.white,
                   textColor: AppColors.white,
@@ -130,7 +130,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
               return OrdersCard(
                 height: AppSize.s96.rh,
                 width: AppSize.s107.rw,
-                text: 'Completed Orders',
+                text: AppStrings.completed_orders.tr(),
                 orders: (state is Success<Orders>)
                     ? state.data.total.toString()
                     : "0",

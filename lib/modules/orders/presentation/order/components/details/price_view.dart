@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/colors.dart';
@@ -71,22 +72,22 @@ class _PriceViewState extends State<PriceView> {
             child: Column(
               children: [
                 _getSubtotalItem(
-                  'VAT',
+                  AppStrings.vat.tr(),
                   widget.order.vat,
                 ),
                 SizedBox(height: AppSize.s2.rh),
                 _getSubtotalItem(
-                  'Delivery Fee',
+                  AppStrings.delivery_fee.tr(),
                   widget.order.deliveryFee,
                 ),
                 SizedBox(height: AppSize.s2.rh),
                 _getSubtotalItem(
-                  'Additional Fee',
+                  AppStrings.additional_fee.tr(),
                   widget.order.additionalFee,
                 ),
                 SizedBox(height: AppSize.s2.rh),
                 _getSubtotalItem(
-                  'Discount',
+                  AppStrings.discount.tr(),
                   widget.order.discount,
                   color: AppColors.red,
                   isDiscount: true,
@@ -106,7 +107,7 @@ class _PriceViewState extends State<PriceView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Total',
+                AppStrings.total.tr(),
                 style: TextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s20.rSp,
@@ -128,7 +129,8 @@ class _PriceViewState extends State<PriceView> {
     );
   }
 
-  Widget _getSubtotalItem(String name, num price, {Color? color,bool isDiscount = false}) {
+  Widget _getSubtotalItem(String name, num price,
+      {Color? color, bool isDiscount = false}) {
     final textStyle = TextStyle(
       color: color ?? AppColors.black,
       fontSize: AppFontSize.s14.rSp,
@@ -142,7 +144,7 @@ class _PriceViewState extends State<PriceView> {
           style: textStyle,
         ),
         Text(
-          '${isDiscount ? '-':''}${widget.order.currencySymbol}${PriceCalculator.convertPrice(price)}',
+          '${isDiscount ? '-' : ''}${widget.order.currencySymbol}${PriceCalculator.convertPrice(price)}',
           style: textStyle,
         ),
       ],
@@ -181,7 +183,7 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
     return Row(
       children: [
         Text(
-          'Subtotal',
+          AppStrings.sub_total.tr(),
           style: getBoldTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,

@@ -7,7 +7,9 @@ import '../../../../../../resources/values.dart';
 import '../dialogs/comment_dialog.dart';
 
 class CommentActionView extends StatefulWidget {
-  const CommentActionView({Key? key, required this.onCommentActionSuccess, required this.order}) : super(key: key);
+  const CommentActionView(
+      {Key? key, required this.onCommentActionSuccess, required this.order})
+      : super(key: key);
 
   final VoidCallback onCommentActionSuccess;
   final Order order;
@@ -24,6 +26,7 @@ class _CommentActionViewState extends State<CommentActionView> {
     _currentOrder = widget.order;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -47,7 +50,9 @@ class _CommentActionViewState extends State<CommentActionView> {
               ? Icons.add_comment_outlined
               : Icons.comment_outlined,
           size: AppSize.s18.rSp,
-          color: _currentOrder!.klikitComment.isEmpty ? AppColors.purpleBlue : AppColors.green,
+          color: _currentOrder!.klikitComment.isEmpty
+              ? AppColors.purpleBlue
+              : AppColors.green,
         ),
       ),
     );

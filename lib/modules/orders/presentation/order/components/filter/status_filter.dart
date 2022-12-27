@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/presentation/order/components/filter/status_filter_item.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
@@ -26,8 +28,8 @@ class _StatusFilterState extends State<StatusFilter> {
   final _controller = ExpandedTileController(isExpanded: false, key: 1);
   late int _currentTabIndex;
   final List<StatusItem> _statusItems = [
-    StatusItem(OrderStatus.DELIVERED, 'Delivered'),
-    StatusItem(OrderStatus.CANCELLED, 'Canceled'),
+    StatusItem(OrderStatus.DELIVERED, AppStrings.delivered.tr()),
+    StatusItem(OrderStatus.CANCELLED, AppStrings.canceled.tr()),
   ];
 
   @override
@@ -88,7 +90,7 @@ class _StatusFilterState extends State<StatusFilter> {
           ),
           trailingRotation: 180,
           title: Text(
-            'Status',
+            AppStrings.status.tr(),
             style: getRegularTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s14.rSp,

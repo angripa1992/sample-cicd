@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/constants.dart';
@@ -10,6 +11,7 @@ import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -94,7 +96,8 @@ class OrderItemView extends StatelessWidget {
                                 : order.shortId,
                           ),
                         ).then((value) {
-                          showSuccessSnackBar(context, 'Order id copied');
+                          showSuccessSnackBar(
+                              context, AppStrings.order_id_copied.tr());
                         });
                       },
                       icon: Icon(
@@ -151,7 +154,7 @@ class OrderItemView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'See Details',
+                          AppStrings.see_details.tr(),
                           style: getMediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s12.rSp,

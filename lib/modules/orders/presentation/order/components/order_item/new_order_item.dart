@@ -7,7 +7,7 @@ import 'order_action_buttons.dart';
 
 class NewOrderItemView extends StatelessWidget {
   final VoidCallback seeDetails;
-  final Function(String,int) onAction;
+  final Function(String, int) onAction;
   final Function(String) onCancel;
   final VoidCallback onPrint;
   final Order order;
@@ -17,7 +17,8 @@ class NewOrderItemView extends StatelessWidget {
     required this.order,
     required this.seeDetails,
     required this.onAction,
-    required this.onPrint, required this.onCancel,
+    required this.onPrint,
+    required this.onCancel,
   }) : super(key: key);
 
   @override

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
@@ -5,6 +6,7 @@ import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/widgets/app_button.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -34,14 +36,14 @@ class _BrandFilterState extends State<BrandFilter> {
     _applyingBrands.add(brand);
   }
 
-  void _apply() async{
-    for(var brand in _applyingBrands){
+  void _apply() async {
+    for (var brand in _applyingBrands) {
       _brands[_brands.indexWhere((element) => element.id == brand.id)] = brand;
     }
     widget.filterSubject.applyBrandsFilter(
-        await _orderInfoProvider.extractBrandsIds(
+      await _orderInfoProvider.extractBrandsIds(
         _brands.where((element) => element.isChecked).toList(),
-    ),
+      ),
     );
   }
 
@@ -51,7 +53,8 @@ class _BrandFilterState extends State<BrandFilter> {
       for (var brand in brands) {
         _brands.add(brand.copy());
       }
-      widget.filterSubject.setBrands(await _orderInfoProvider.extractBrandsIds(_brands));
+      widget.filterSubject
+          .setBrands(await _orderInfoProvider.extractBrandsIds(_brands));
     }
     _applyingBrands.addAll(_brands);
   }
@@ -75,7 +78,7 @@ class _BrandFilterState extends State<BrandFilter> {
       ),
       trailingRotation: 180,
       title: Text(
-        'Filter by brand',
+        AppStrings.filter_by_brand.tr(),
         style: getRegularTextStyle(
           color: AppColors.purpleBlue,
           fontSize: AppFontSize.s14.rSp,
@@ -109,7 +112,7 @@ class _BrandFilterState extends State<BrandFilter> {
                     onTap: () {
                       _apply();
                     },
-                    text: 'Apply',
+                    text: AppStrings.apply.tr(),
                     enableColor: AppColors.purpleBlue,
                     verticalPadding: AppSize.s6.rh,
                     icon: Icons.search,

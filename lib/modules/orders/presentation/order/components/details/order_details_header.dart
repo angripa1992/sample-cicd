@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/size_config.dart';
@@ -8,6 +9,7 @@ import 'package:klikit/modules/orders/presentation/order/components/details/comm
 import 'package:klikit/modules/orders/presentation/order/components/details/order_status.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -65,7 +67,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
                   ).then((value) {
                     showSuccessSnackBar(
                       RoutesGenerator.navigatorKey.currentState!.context,
-                      'Order id copied',
+                      AppStrings.order_id_copied.tr(),
                     );
                   });
                 },
@@ -103,7 +105,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Placed on',
+                AppStrings.placed_on.tr(),
                 style: getRegularTextStyle(
                   color: AppColors.white,
                   fontSize: AppFontSize.s14.rSp,

@@ -1,14 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/presentation/components/busy_mode_view.dart';
 import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import 'filter/brand_filter.dart';
 import 'filter/aggregator_filter.dart';
+import 'filter/brand_filter.dart';
 import 'filter/status_filter.dart';
 
 class OrderHeaderView extends StatelessWidget {
@@ -55,7 +57,7 @@ class OrderHeaderView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Orders',
+                AppStrings.orders.tr(),
                 style: getRegularTextStyle(
                   color: AppColors.purpleBlue,
                   fontSize: AppFontSize.s14.rSp,

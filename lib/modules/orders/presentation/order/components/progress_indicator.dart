@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/widgets/shimmer/order_item_shimmer.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:shimmer/shimmer.dart';
@@ -13,7 +15,7 @@ Widget getNewPageProgressIndicator(BuildContext context) {
     child: Padding(
       padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
       child: Text(
-        'Loading...',
+        AppStrings.loading.tr(),
         style: getMediumTextStyle(color: AppColors.purpleBlue),
       ),
     ),
@@ -40,7 +42,7 @@ Widget getPageErrorIndicator(VoidCallback onRetry) {
     child: Column(
       children: [
         Text(
-          'Something Went Wrong',
+          AppStrings.defaultError.tr(),
           style: getMediumTextStyle(
             color: AppColors.blackCow,
             fontSize: AppFontSize.s16.rSp,
@@ -58,9 +60,9 @@ Widget getPageErrorIndicator(VoidCallback onRetry) {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Try Again'),
-              Icon(Icons.refresh),
+            children: [
+              Text(AppStrings.try_again.tr()),
+              const Icon(Icons.refresh),
             ],
           ),
         )
@@ -80,7 +82,7 @@ Widget noItemsFoundIndicator(BuildContext context) {
           width: AppSize.s65.rw,
         ),
         Text(
-          'No Orders Found!',
+          AppStrings.no_orders_found.tr(),
           style: getMediumTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s18.rSp,
