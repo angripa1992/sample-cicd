@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/sections.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -66,7 +68,7 @@ class MenuItemTitle extends StatelessWidget {
             ),
             controller.isExpanded
                 ? Text(
-                    '${sections.subSections.length} items',
+                    '${sections.subSections.length} ${AppStrings.items.tr()}',
                     style: getRegularTextStyle(
                       color: AppColors.white,
                       fontSize: AppFontSize.s15.rSp,

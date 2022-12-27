@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
@@ -7,6 +8,7 @@ import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_list_view.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../domain/entities/brand.dart';
@@ -15,18 +17,19 @@ class MenuScreen extends StatelessWidget {
   final MenuBrand? brand;
   final int? providerId;
 
-  const MenuScreen({Key? key, required this.brand, this.providerId}) : super(key: key);
+  const MenuScreen({Key? key, required this.brand, this.providerId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (brand != null) {
-      context.read<MenusCubit>().fetchMenu(brand!.id,providerId);
+      context.read<MenusCubit>().fetchMenu(brand!.id, providerId);
     }
     return Expanded(
       child: brand == null
           ? Center(
               child: Text(
-                'Please select a brand',
+                AppStrings.please_select_a_brand.tr(),
                 style: getRegularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -37,8 +40,8 @@ class MenuScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state is Success<MenusData>) {
                   if (state.data.sections.isEmpty) {
-                    return const Center(
-                      child: Text('No menus found!'),
+                    return Center(
+                      child: Text(AppStrings.no_menus_found.tr()),
                     );
                   }
                   return MenuListView(

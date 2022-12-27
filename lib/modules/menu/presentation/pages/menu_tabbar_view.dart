@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_tab.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../resources/values.dart';
 
@@ -25,7 +27,7 @@ class _MenuTabBarViewState extends State<MenuTabBarView> {
     return Row(
       children: [
         MenuTab(
-          name: 'MENU',
+          name: AppStrings.menu.tr().toUpperCase(),
           isSelected: selectedTab == MenuTabIndex.MENU,
           onTabChanged: () {
             setState(() {
@@ -36,7 +38,7 @@ class _MenuTabBarViewState extends State<MenuTabBarView> {
         ),
         SizedBox(width: AppSize.s20.rw),
         MenuTab(
-          name: 'MODIFIERS',
+          name: AppStrings.modifiers.tr().toUpperCase(),
           isSelected: selectedTab == MenuTabIndex.MODIFIER,
           onTabChanged: () {
             setState(() {

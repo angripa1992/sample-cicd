@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_modifier_cubit.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../app/di.dart';
 import '../../../../../core/utils/response_state.dart';
@@ -35,7 +37,7 @@ void showEnableModifierDialog({
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Do you want to enable this ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
+                '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -54,7 +56,7 @@ void showEnableModifierDialog({
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? 'Modifier group' : 'Modifier'} enabled successfully');
+                              '${type == ModifierType.GROUP ? 'Modifier group' : 'Modifier'} ${AppStrings.enabled_success.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
@@ -74,7 +76,7 @@ void showEnableModifierDialog({
                                   modifierId: modifierId,
                                 );
                           },
-                          text: 'Enable',
+                          text: AppStrings.enable.tr(),
                         );
                       },
                     ),
@@ -98,7 +100,7 @@ void showEnableModifierDialog({
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
-                          'Discard',
+                          AppStrings.discard.tr(),
                           style: getMediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,
@@ -141,8 +143,8 @@ void showDisableModifierDialog({
             children: [
               Text(
                 affected
-                    ? 'This modifier is required. Turning this off would mark linked items as out of stock. Would you still like to disable this modifier?'
-                    : 'Do you want to disable this ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
+                    ? AppStrings.modifier_required_msg.tr()
+                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -152,10 +154,10 @@ void showDisableModifierDialog({
                   ? Padding(
                       padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                       child: ConstrainedBox(
-                       constraints: BoxConstraints(
-                         maxHeight: AppSize.s250.rh,
-                         minHeight: AppSize.s24.rh,
-                       ),
+                        constraints: BoxConstraints(
+                          maxHeight: AppSize.s250.rh,
+                          minHeight: AppSize.s24.rh,
+                        ),
                         child: SingleChildScrollView(
                           child: Text(
                             items!,
@@ -181,7 +183,7 @@ void showDisableModifierDialog({
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? 'Modifier group' : 'Modifier'} disabled successfully');
+                              '${type == ModifierType.GROUP ? 'Modifier group' : 'Modifier'} ${AppStrings.disabled_success.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
@@ -201,7 +203,7 @@ void showDisableModifierDialog({
                                   modifierId: modifierId,
                                 );
                           },
-                          text: 'Disable',
+                          text: AppStrings.disable.tr(),
                         );
                       },
                     ),
@@ -225,7 +227,7 @@ void showDisableModifierDialog({
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
-                          'Discard',
+                          AppStrings.discard.tr(),
                           style: getMediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/sub_section.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -35,7 +37,7 @@ class SubMenuItemsTitle extends StatelessWidget {
               ),
             ),
             Text(
-              '${subSections.items.length} items',
+              '${subSections.items.length} ${AppStrings.items.tr()}',
               style: getRegularTextStyle(
                 color: AppColors.white,
                 fontSize: AppFontSize.s15.rSp,

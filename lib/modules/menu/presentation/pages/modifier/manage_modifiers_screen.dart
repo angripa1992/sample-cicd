@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
@@ -5,6 +6,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -18,7 +20,8 @@ class ManageModifiersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     ModifiersGroup modifierGroup = args[ArgumentKey.kGROUP];
     final brandId = args[ArgumentKey.kBRAND_ID];
     return BlocProvider(
@@ -31,7 +34,7 @@ class ManageModifiersScreen extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back_outlined),
           ),
-          title: const Text('Modifiers'),
+          title: Text(AppStrings.modifiers.tr()),
           titleTextStyle: getAppBarTextStyle(),
           flexibleSpace: getAppBarBackground(),
         ),
@@ -58,7 +61,7 @@ class ManageModifiersScreen extends StatelessWidget {
                   horizontal: AppSize.s4.rw,
                 ),
                 child: Text(
-                  'MODIFIERS',
+                  AppStrings.modifiers.tr().toUpperCase(),
                   style: getRegularTextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s16.rSp,

@@ -10,7 +10,10 @@ import 'package:klikit/resources/colors.dart';
 
 import '../../app/size_config.dart';
 import '../../core/route/routes.dart';
+import '../../notification/fcm_service.dart';
+import '../../notification/fcm_token_manager.dart';
 import '../../notification/local_notification_service.dart';
+import '../widgets/snackbars.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -19,8 +22,10 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> with TickerProviderStateMixin {
+class _OnboardingScreenState extends State<OnboardingScreen>
+    with TickerProviderStateMixin {
   final _appPreferences = getIt.get<AppPreferences>();
+  final _fcmTokenManager = getIt.get<FcmTokenManager>();
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 2),
@@ -41,8 +46,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
               await flutterLocalNotificationsPlugin
                   .getNotificationAppLaunchDetails();
           if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-            print('==================================onboard noti ${notificationAppLaunchDetails?.notificationResponse?.payload}');
-            NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
+            NotificationHandler().handleBackgroundNotification(
+                notificationAppLaunchDetails?.notificationResponse?.payload);
           } else {
             _gotoNextScreen();
           }
@@ -53,14 +58,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
   }
 
   void _gotoNextScreen() {
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 2), () {
       if (_appPreferences.isLoggedIn()) {
-        Navigator.of(context)
-            .pushReplacementNamed(Routes.base, arguments: null);
+        _registerFcmToken().then((value) {
+          Navigator.of(context)
+              .pushReplacementNamed(Routes.base, arguments: null);
+        });
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);
       }
     });
+  }
+
+  Future _registerFcmToken() async {
+    final fcmToken = await FcmService().getFcmToken();
+    final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
+    response.fold(
+      (failure) {
+        showApiErrorSnackBar(context, failure);
+      },
+      (success) {},
+    );
   }
 
   @override

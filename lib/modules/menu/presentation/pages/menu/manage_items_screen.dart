@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/sub_menu_items_list_view.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/sub_menu_items_title.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../resources/styles.dart';
@@ -12,7 +14,8 @@ class ManageItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final subSections = args[ArgumentKey.kSECTIONS];
     final parentEnabled = args[ArgumentKey.kENABLED];
     final brandId = args[ArgumentKey.kBRAND_ID];
@@ -24,7 +27,7 @@ class ManageItemsScreen extends StatelessWidget {
           },
           icon: const Icon(Icons.arrow_back_outlined),
         ),
-        title: const Text('Manage Items'),
+        title: Text(AppStrings.manage_items.tr()),
         titleTextStyle: getAppBarTextStyle(),
         flexibleSpace: getAppBarBackground(),
       ),

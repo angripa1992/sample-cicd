@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -22,6 +24,7 @@ class FilterByBrandsView extends StatefulWidget {
 class _FilterByBrandsViewState extends State<FilterByBrandsView> {
   MenuBrand? dropDownValue;
   late GlobalKey _dropdownKey;
+
   @override
   void initState() {
     _dropdownKey = GlobalKey();
@@ -41,7 +44,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
         Padding(
           padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
           child: Text(
-            'Filter by brand',
+            AppStrings.filter_by_brand.tr(),
             style: getRegularTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s16.rSp,
@@ -67,7 +70,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
               hint: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Select Brand',
+                  AppStrings.select_brand.tr(),
                   style: dropDownTextStyle,
                 ),
               ),
@@ -87,7 +90,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
                   return DropdownMenuItem<MenuBrand>(
                     value: menu,
                     child: RadioListTile<MenuBrand>(
-                      title: Text(menu.title,style: dropDownTextStyle),
+                      title: Text(menu.title, style: dropDownTextStyle),
                       value: menu,
                       groupValue: dropDownValue,
                       activeColor: AppColors.purpleBlue,

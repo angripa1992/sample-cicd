@@ -106,5 +106,25 @@
   "whatsapp_not_installed_msg" : "Whatsapp not installed in your device",
   "could_not_email_msg" : "Could not email on this email",
 
-  "modifiers" : "Modifiers"
+  "modifiers" : "Modifiers",
+  "filter_by_brand" : "Filter by brand",
+  "select_brand" : "Select Brand",
+  "delivery_aggregator" : "Delivery Aggregator",
+  "select_aggregator" : "Select Aggregator",
+  "please_select_a_brand" : "Please select a brand",
+  "modifiers_group" : "Modifiers Groups",
+  "no_modifiers_group_found" : "No modifier groups found!",
+  "no_menus_found" : "No menus found!",
+  "enable_confirmation" : "Do you want to enable this",
+  "disable_confirmation" : "Do you want to disable this",
+  "enabled_success" : "enabled successfully",
+  "disabled_success" : "disabled successfully",
+  "modifier_required_msg": "This modifier is required. Turning this off would mark linked items as out of stock. Would you still like to disable this modifier?",
+  "enable": "Enable",
+  "disable": "Disable",
+  "discard": "Discard",
+  "items": "items",
+  "manage_items": "Manage Items",
+  "successful": "Successful",
+  "do_you_want_to": "Do you want to"
 }

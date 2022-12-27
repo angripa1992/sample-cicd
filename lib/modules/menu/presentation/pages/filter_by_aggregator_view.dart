@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -46,7 +48,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
         Padding(
           padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
           child: Text(
-            'Delivery Aggregator',
+            AppStrings.delivery_aggregator.tr(),
             style: getRegularTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s16.rSp,
@@ -74,7 +76,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                   hint: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Select Aggregator',
+                      AppStrings.select_aggregator.tr(),
                       style: dropDownTextStyle,
                     ),
                   ),
@@ -94,7 +96,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                       return DropdownMenuItem<Provider>(
                         value: provider,
                         child: RadioListTile<Provider>(
-                          title: Text(provider.title,style: dropDownTextStyle),
+                          title: Text(provider.title, style: dropDownTextStyle),
                           value: provider,
                           groupValue: dropDownValue,
                           activeColor: AppColors.purpleBlue,
