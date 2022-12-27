@@ -12,7 +12,6 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../../../printer/printing_handler.dart';
-import '../../bloc/orders/new_order_cubit.dart';
 import '../../bloc/orders/ongoing_order_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
@@ -65,10 +64,10 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     params['page'] = pageKey;
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
-          (failure) {
+      (failure) {
         _pagingController?.error = failure;
       },
-          (orders) {
+      (orders) {
         final isLastPage = orders.total <= (pageKey * _pageSize);
         if (isLastPage) {
           _pagingController?.appendLastPage(orders.data);
@@ -92,10 +91,10 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
 
   void _refreshOngoingOrderCount() {
     context.read<OngoingOrderCubit>().fetchOngoingOrder(
-      willShowLoading: false,
-      providersID: _providers,
-      brandsID: _brands,
-    );
+          willShowLoading: false,
+          providersID: _providers,
+          brandsID: _brands,
+        );
   }
 
   void _refresh({bool willBackground = false}) {
@@ -144,14 +143,14 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 key: _modelScaffoldKey,
                 context: context,
                 order: item,
-                onAction: (title,status) {
+                onAction: (title, status) {
                   _onAction(
                     title: title,
                     order: item,
                     isFromDetails: true,
                   );
                 },
-                onPrint: (){
+                onPrint: () {
                   _onPrint(item);
                 },
                 onCancel: (title) {
@@ -167,13 +166,13 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 },
               );
             },
-            onAction: (title,status) {
+            onAction: (title, status) {
               _onAction(
                 title: title,
                 order: item,
               );
             },
-            onPrint: (){
+            onPrint: () {
               _onPrint(item);
             },
             onCancel: (title) {

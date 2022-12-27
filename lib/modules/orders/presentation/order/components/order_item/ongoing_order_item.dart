@@ -7,7 +7,7 @@ import '../../../../domain/entities/order.dart';
 
 class OngoingOrderItemView extends StatelessWidget {
   final VoidCallback seeDetails;
-  final Function(String,int) onAction;
+  final Function(String, int) onAction;
   final Function(String) onCancel;
   final VoidCallback onPrint;
   final Order order;

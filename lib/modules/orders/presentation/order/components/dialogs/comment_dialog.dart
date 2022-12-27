@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
@@ -7,6 +8,7 @@ import 'package:klikit/modules/orders/domain/usecases/add_comment.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/add_comment_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/delete_comment_cubit.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../../resources/colors.dart';
 import '../../../../../../../resources/fonts.dart';
@@ -105,7 +107,9 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          widget.order.klikitComment.isEmpty ? 'Add Comment' : 'Edit Comment',
+          widget.order.klikitComment.isEmpty
+              ? AppStrings.add_comment.tr()
+              : AppStrings.edit_comment.tr(),
           style: getMediumTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
@@ -125,7 +129,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                 fontSize: AppFontSize.s14.rSp,
               ),
               decoration: InputDecoration(
-                hintText: 'Order comment',
+                hintText: AppStrings.order_comment.tr(),
                 hintStyle: getRegularTextStyle(
                   color: AppColors.blackCow,
                   fontSize: AppFontSize.s14.rSp,
@@ -142,7 +146,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Order comment is required';
+                  return AppStrings.comment_validation_msg.tr();
                 }
                 return null;
               },
@@ -160,8 +164,8 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                       widget.changeCommentAction('');
                       widget.onCommentActionSuccess();
                       _pop();
-                      showSuccessSnackBar(
-                          context, 'Comment deleted successfully');
+                      showSuccessSnackBar(context,
+                          AppStrings.comment_deleted_successfully.tr());
                     } else if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
                     }
@@ -170,7 +174,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                     return LoadingButton(
                       isLoading: (state is Loading),
                       verticalPadding: AppSize.s8.rh,
-                      text: 'Delete',
+                      text: AppStrings.delete.tr(),
                       borderColor: AppColors.black,
                       bgColor: AppColors.black,
                       textColor: AppColors.white,
@@ -197,8 +201,8 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                     showSuccessSnackBar(
                       context,
                       widget.order.klikitComment.isEmpty
-                          ? 'Comment added successfully'
-                          : 'Comment updated successfully',
+                          ? AppStrings.comment_added_successfully.tr()
+                          : AppStrings.comment_updated_successfully.tr(),
                     );
                   } else if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
@@ -211,7 +215,9 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                     onTap: () {
                       _validate(context);
                     },
-                    text: widget.order.klikitComment.isEmpty ? 'Add' : 'Save',
+                    text: widget.order.klikitComment.isEmpty
+                        ? AppStrings.add.tr()
+                        : AppStrings.save.tr(),
                     textSize: AppFontSize.s12.rSp,
                   );
                 },
@@ -222,7 +228,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
               child: LoadingButton(
                 isLoading: false,
                 verticalPadding: AppSize.s8.rh,
-                text: 'Cancel',
+                text: AppStrings.cancel.tr(),
                 borderColor: AppColors.black,
                 bgColor: AppColors.white,
                 textColor: AppColors.black,

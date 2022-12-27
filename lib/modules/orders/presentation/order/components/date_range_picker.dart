@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
@@ -37,7 +39,7 @@ class _DateSelectorState extends State<DateSelector> {
         widget.onPick(_dateTimeRange!);
       });
     } else {
-      showErrorSnackBar(context, 'Date range should up to 7 days');
+      showErrorSnackBar(context, AppStrings.date_range_validation_msg.tr());
     }
   }
 
@@ -52,18 +54,9 @@ class _DateSelectorState extends State<DateSelector> {
             data: ThemeData.light().copyWith(
               primaryColor: AppColors.blueViolet,
               dividerColor: AppColors.white,
-              //Non selected days of the month color
-              // textTheme: TextTheme(
-              //   bodyText2:
-              //   TextStyle(color:AppColors.smokeyGrey),
-              // ),
               colorScheme: ColorScheme.fromSwatch().copyWith(
-                //Selected dates background color
                 primary: AppColors.blueViolet,
-                //Month title and week days color
                 onSurface: AppColors.blueViolet,
-                //Header elements and selected dates text color
-                //onPrimary: Colors.white,
               ),
             ),
             child: child!,

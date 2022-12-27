@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
@@ -13,6 +14,7 @@ import 'package:klikit/modules/orders/presentation/order/observer/filter_observe
 import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../app/constants.dart';
@@ -40,7 +42,6 @@ class _OrdersScreenState extends State<OrdersScreen>
 
   @override
   void initState() {
-    print('OrdersScreen===================init');
     _tabController = TabController(length: 3, vsync: this);
     OrderScreenNavigateDataHandler().setData(widget.data);
     _tabController!.index = widget.tabIndex;
@@ -51,7 +52,6 @@ class _OrdersScreenState extends State<OrdersScreen>
     _refreshOrderCount();
     super.initState();
   }
-
 
   void _refreshOrderCount() {
     context.read<NewOrderCubit>().fetchNewOrder(
@@ -76,7 +76,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order Dashboard'),
+        title: Text(AppStrings.order_dashboard.tr()),
         titleTextStyle: getAppBarTextStyle(),
         flexibleSpace: getAppBarBackground(),
         centerTitle: true,
@@ -100,19 +100,20 @@ class _OrdersScreenState extends State<OrdersScreen>
                       builder: (context, state) {
                         return Tab(
                             text: (state is Success<Orders>)
-                                ? 'New (${state.data.total})'
-                                : 'New');
+                                ? '${AppStrings.newOrder.tr()} (${state.data.total})'
+                                : AppStrings.newOrder.tr());
                       },
                     ),
                     BlocBuilder<OngoingOrderCubit, ResponseState>(
                       builder: (context, state) {
                         return Tab(
-                            text: (state is Success<Orders>)
-                                ? 'Ready (${state.data.total})'
-                                : 'Ready');
+                          text: (state is Success<Orders>)
+                              ? '${AppStrings.ready.tr()} (${state.data.total})'
+                              : AppStrings.ready.tr(),
+                        );
                       },
                     ),
-                    const Tab(text: 'Order History'),
+                    Tab(text: AppStrings.order_history.tr()),
                   ],
                   labelPadding:
                       EdgeInsets.symmetric(horizontal: AppSize.s10.rw),

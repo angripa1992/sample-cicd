@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -20,23 +22,23 @@ class OrderStatusView extends StatelessWidget {
   String _getStatus() {
     switch (order.status) {
       case OrderStatus.ACCEPTED:
-        return 'Accepted';
+        return AppStrings.accepted.tr();
       case OrderStatus.PLACED:
-        return 'Placed';
+        return AppStrings.placed.tr();
       case OrderStatus.CANCELLED:
-        return 'Canceled';
+        return AppStrings.canceled.tr();
       case OrderStatus.DELIVERED:
-        return 'Delivered';
+        return AppStrings.delivered.tr();
       case OrderStatus.PICKED_UP:
-        return 'Picked-Up';
+        return AppStrings.picked_up.tr();
       case OrderStatus.READY:
-        return 'Ready';
+        return AppStrings.ready.tr();
       case OrderStatus.SCHEDULED:
-        return 'Scheduled';
+        return AppStrings.scheduled.tr();
       case OrderStatus.DRIVER_ARRIVED:
-        return 'Driver Arrived';
-        case OrderStatus.DRIVER_ASSIGNED:
-        return 'Driver Assigned';
+        return AppStrings.driver_arrived.tr();
+      case OrderStatus.DRIVER_ASSIGNED:
+        return AppStrings.driver_assigned.tr();
       default:
         return '';
     }
@@ -55,14 +57,14 @@ class OrderStatusView extends StatelessWidget {
           visible: (order.isManualOrder),
           child: Padding(
             padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
-            child: Text('Manual', style: _style),
+            child: Text(AppStrings.manual.tr(), style: _style),
           ),
         ),
         Visibility(
           visible: (order.type == OrderType.PICKUP),
           child: Padding(
             padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
-            child: Text('Pick-up', style: _style),
+            child: Text(AppStrings.pickup.tr(), style: _style),
           ),
         ),
       ],

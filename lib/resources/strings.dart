@@ -148,4 +148,55 @@ class AppStrings {
   static const String do_you_want_to = "do_you_want_to";
   static const String successful = "successful";
 
+  ///order
+  static const String order_dashboard = "order_dashboard";
+  static const String newOrder = "new";
+  static const String accept_order = "accept_order";
+  static const String cancel_order = "cancel_order";
+  static const String deliver_order = "deliver_order";
+  static const String ready_order = "ready_order";
+  static const String pickup_order = "pickup_order";
+  static const String order_history = "order_history";
+  static const String total_order = "total_order";
+  static const String loading = "loading";
+  static const String try_again = "try_again";
+  static const String no_orders_found = "no_orders_found";
+  static const String date_range_validation_msg = "date_range_validation_msg";
+  static const String see_details = "see_details";
+  static const String order_id_copied = "order_id_copied";
+  static const String placed_on = "placed_on";
+  static const String status = "status";
+  static const String apply = "apply";
+  static const String add = "add";
+  static const String delete = "delete";
+  static const String yes = "yes";
+  static const String no = "no";
+  static const String note = "note";
+  static const String add_comment = "add_comment";
+  static const String edit_comment = "edit_comment";
+  static const String order_comment = "order_comment";
+  static const String comment_validation_msg = "comment_validation_msg";
+  static const String comment_deleted_successfully = "comment_deleted_successfully";
+  static const String comment_added_successfully = "comment_added_successfully";
+  static const String comment_updated_successfully = "comment_updated_successfully";
+  static const String vat = "vat";
+  static const String delivery_fee = "delivery_fee";
+  static const String additional_fee = "additional_fee";
+  static const String discount = "discount";
+  static const String total = "total";
+  static const String sub_total = "sub_total";
+
+  static const String delivered = "delivered";
+  static const String canceled = "canceled";
+  static const String ready = "ready";
+  static const String deliver = "deliver";
+  static const String picked_up = "picked_up";
+  static const String accepted = "accepted";
+  static const String placed = "placed";
+  static const String scheduled = "scheduled";
+  static const String driver_arrived = "driver_arrived";
+  static const String driver_assigned = "driver_assigned";
+  static const String pickup = "pickup";
+  static const String manual = "manual";
+
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/di.dart';
@@ -9,6 +10,7 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../../../resources/strings.dart';
 import '../../../../../widgets/app_button.dart';
 import '../../../../domain/entities/provider.dart';
 import 'aggregrator_item.dart';
@@ -35,9 +37,10 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
     _applyingProvider.add(provider);
   }
 
-  void _apply() async{
-    for(var provider in _applyingProvider){
-      _providers[_providers.indexWhere((element) => element.id == provider.id)] = provider;
+  void _apply() async {
+    for (var provider in _applyingProvider) {
+      _providers[_providers
+          .indexWhere((element) => element.id == provider.id)] = provider;
     }
     widget.filterSubject.applyProviderFilter(
       await _orderInfoProvider.extractProvidersIds(
@@ -45,7 +48,6 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
       ),
     );
   }
-
 
   void _copyDataToLocalVariable(List<Provider> providers) async {
     _applyingProvider.clear();
@@ -78,7 +80,7 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
       ),
       trailingRotation: 180,
       title: Text(
-        'Delivery Aggregators',
+        AppStrings.delivery_aggregator.tr(),
         style: getRegularTextStyle(
           color: AppColors.purpleBlue,
           fontSize: AppFontSize.s14.rSp,
@@ -105,7 +107,9 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
                           _changeSelectedStatus(isSelected, provider);
                         },
                       );
-                    }, separatorBuilder: (BuildContext context, int index) =>   const Divider(),
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: AppSize.s12.rh),
@@ -114,7 +118,7 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
                       onTap: () {
                         _apply();
                       },
-                      text: 'Apply',
+                      text: AppStrings.apply.tr(),
                       enableColor: AppColors.purpleBlue,
                       verticalPadding: AppSize.s6.rh,
                       icon: Icons.search,

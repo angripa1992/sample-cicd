@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/presentation/order/components/filter/status_filter.dart';
 
@@ -9,8 +8,11 @@ import '../../../../../../resources/styles.dart';
 
 class StatusFilterItem extends StatefulWidget {
   final StatusItem statusItem;
-  final Function(bool,StatusItem) onCheckedChanged;
-  const StatusFilterItem({Key? key, required this.statusItem, required this.onCheckedChanged}) : super(key: key);
+  final Function(bool, StatusItem) onCheckedChanged;
+
+  const StatusFilterItem(
+      {Key? key, required this.statusItem, required this.onCheckedChanged})
+      : super(key: key);
 
   @override
   State<StatusFilterItem> createState() => _StatusFilterItemState();
@@ -48,7 +50,7 @@ class _StatusFilterItemState extends State<StatusFilterItem> {
           onChanged: (bool? value) {
             setState(() {
               _isChecked = value!;
-              widget.onCheckedChanged(_isChecked,widget.statusItem);
+              widget.onCheckedChanged(_isChecked, widget.statusItem);
             });
           },
         ),

@@ -19,11 +19,9 @@ import '../order_screen_navigate_data.dart';
 import 'date_range_picker.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
- // final Map<String, dynamic>? data;
   final FilterSubject subject;
 
-  const OrderHistoryScreen({Key? key, required this.subject})
-      : super(key: key);
+  const OrderHistoryScreen({Key? key, required this.subject}) : super(key: key);
 
   @override
   State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
@@ -88,8 +86,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   }
 
   void _refresh() {
-    //_pagingController.itemList?.clear();
-    //_pagingController.notifyPageRequestListeners(_firstPageKey);
     _pagingController?.refresh();
   }
 
@@ -97,7 +93,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     _printingHandler.printDocket(order);
   }
 
-  void _initDatRange(){
+  void _initDatRange() {
     final navData = OrderScreenNavigateDataHandler().getData();
     if (navData == null) {
       _dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
