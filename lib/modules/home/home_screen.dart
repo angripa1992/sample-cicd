@@ -8,6 +8,8 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/home/shimer/home_order_nav_card_shimmer.dart';
+import 'package:klikit/modules/home/shimer/order_card_shimmer.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
@@ -17,10 +19,6 @@ import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/components/busy_mode_view.dart';
 import 'package:klikit/modules/orders/presentation/components/orders_card.dart';
-import 'package:klikit/modules/orders/presentation/home/components/home_header_view.dart';
-import 'package:klikit/modules/orders/presentation/home/components/home_total_order_card.dart';
-import 'package:klikit/modules/orders/presentation/home/shimer/home_order_nav_card_shimmer.dart';
-import 'package:klikit/modules/orders/presentation/home/shimer/order_card_shimmer.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -29,8 +27,10 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../app/app_preferences.dart';
 import '../../../../resources/styles.dart';
-import '../../../base/base_screen_cubit.dart';
+import '../base/base_screen_cubit.dart';
+import 'components/home_header_view.dart';
 import 'components/home_order_nav_card.dart';
+import 'components/home_total_order_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

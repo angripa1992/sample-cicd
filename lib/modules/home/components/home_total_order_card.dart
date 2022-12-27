@@ -6,7 +6,6 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/home/shimer/home_total_order_shimmer.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/values.dart';
@@ -14,6 +13,7 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
+import '../shimer/home_total_order_shimmer.dart';
 
 class HomeTotalOrdersCard extends StatelessWidget {
   final VoidCallback onToday;

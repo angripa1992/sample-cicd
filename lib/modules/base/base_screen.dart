@@ -35,8 +35,8 @@ import '../../core/provider/order_information_provider.dart';
 import '../../core/utils/response_state.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
+import '../home/home_screen.dart';
 import '../menu/presentation/pages/stock_screen.dart';
-import '../orders/presentation/home/home_screen.dart';
 import '../user/presentation/account/account_screen.dart';
 
 class BaseScreen extends StatefulWidget {
