@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
 import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
@@ -11,6 +11,7 @@ import 'package:klikit/modules/menu/presentation/cubit/update_menu_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_mgt_screen.dart';
 
 import '../../../../app/di.dart';
+import '../../../../resources/strings.dart';
 import '../../../../resources/styles.dart';
 import '../cubit/aggregator_selection_cubit.dart';
 import '../cubit/menu_brands_cubit.dart';
@@ -40,7 +41,7 @@ class _StockScreenState extends State<StockScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: const SizedBox(),
-          title: const Text('Menu'),
+          title: Text(AppStrings.menu.tr()),
           titleTextStyle: getAppBarTextStyle(),
           centerTitle: true,
           flexibleSpace: getAppBarBackground(),

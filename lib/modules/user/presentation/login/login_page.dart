@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _registerFcmToken() async {
+  Future _registerFcmToken() async {
     final fcmToken = await FcmService().getFcmToken();
     final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
     response.fold(

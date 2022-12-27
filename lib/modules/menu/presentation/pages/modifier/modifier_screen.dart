@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
@@ -6,6 +7,7 @@ import 'package:klikit/modules/menu/presentation/cubit/modifier_groups_cubit.dar
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_groups_list_view.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../resources/values.dart';
@@ -30,7 +32,7 @@ class ModifierScreen extends StatelessWidget {
       child: brand == null
           ? Center(
               child: Text(
-                'Please select a brand',
+                AppStrings.please_select_a_brand.tr(),
                 style: getRegularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -46,7 +48,7 @@ class ModifierScreen extends StatelessWidget {
                     horizontal: AppSize.s4.rw,
                   ),
                   child: Text(
-                    'MODIFIER GROUPS',
+                    AppStrings.modifiers_group.tr().toUpperCase(),
                     style: getRegularTextStyle(
                       color: AppColors.black,
                       fontSize: AppFontSize.s16.rSp,
@@ -58,8 +60,10 @@ class ModifierScreen extends StatelessWidget {
                     builder: (context, state) {
                       if (state is Success<List<ModifiersGroup>>) {
                         if (state.data.isEmpty) {
-                          return const Center(
-                            child: Text('No modifier groups found!'),
+                          return Center(
+                            child: Text(
+                              AppStrings.no_modifiers_group_found.tr(),
+                            ),
                           );
                         }
                         return ModifierGroupsListView(

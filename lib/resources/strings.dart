@@ -29,7 +29,6 @@ class AppStrings {
   static const String login_as_manager = "login_as_manager";
   static const String home = "home";
   static const String orders = "orders";
-  static const String menu = "menu";
   static const String account = "account";
   static const String contact_support = "contact_support";
   static const String available = "available";
@@ -125,5 +124,29 @@ class AppStrings {
   static const String whatsapp = "whatsapp";
   static const String whatsapp_not_installed_msg = "whatsapp_not_installed_msg";
   static const String could_not_email_msg = "could_not_email_msg";
+
+  ///menu
+  static const String menu = "menu";
+  static const String modifiers = "modifiers";
+  static const String filter_by_brand = "filter_by_brand";
+  static const String select_brand = "select_brand";
+  static const String delivery_aggregator = "delivery_aggregator";
+  static const String select_aggregator = "select_aggregator";
+  static const String please_select_a_brand = "please_select_a_brand";
+  static const String modifiers_group = "modifiers_group";
+  static const String no_modifiers_group_found = "no_modifiers_group_found";
+  static const String no_menus_found = "no_menus_found";
+  static const String enable_confirmation = "enable_confirmation";
+  static const String disable_confirmation = "disable_confirmation";
+  static const String enabled_success = "enabled_success";
+  static const String disabled_success = "disabled_success";
+  static const String modifier_required_msg = "modifier_required_msg";
+  static const String enable = "enable";
+  static const String disable = "disable";
+  static const String discard = "discard";
+  static const String items = "items";
+  static const String manage_items = "manage_items";
+  static const String do_you_want_to = "do_you_want_to";
+  static const String successful = "successful";
 
 }

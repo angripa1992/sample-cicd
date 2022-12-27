@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/sub_section.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_switch_view.dart';
-import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';

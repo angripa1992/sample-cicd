@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import '../../../../../app/di.dart';
 import '../../../../../core/utils/response_state.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../widgets/loading_button.dart';
@@ -37,7 +39,7 @@ void showMenuItemActionDialog({
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Do you want to ${enabled ? 'enable' : 'disable'} this menu item?',
+                '${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this menu item?',
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -56,7 +58,7 @@ void showMenuItemActionDialog({
                         if (state is Success<Stock>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              'Menu ${enabled ? 'enabled' : 'disabled'} successfully');
+                              'Menu ${enabled ? 'enabled' : 'disabled'} ${AppStrings.successful.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
@@ -74,7 +76,9 @@ void showMenuItemActionDialog({
                                   enabled: enabled,
                                 );
                           },
-                          text: enabled ? 'Enable' : 'Disable',
+                          text: enabled
+                              ? AppStrings.enable.tr()
+                              : AppStrings.disable.tr(),
                         );
                       },
                     ),
@@ -98,7 +102,7 @@ void showMenuItemActionDialog({
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
-                          'Discard',
+                          AppStrings.discard.tr(),
                           style: getMediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,
@@ -138,7 +142,7 @@ void showMenuActionDialog({
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Do you want to ${enabled ? 'enable' : 'disable'} this ${type == MenuType.SECTION ? 'entire menu' : 'category'}?',
+                '${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this ${type == MenuType.SECTION ? 'entire menu' : 'category'}?',
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -157,7 +161,7 @@ void showMenuActionDialog({
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              '${type == MenuType.SECTION ? 'Menu' : 'Category'} ${enabled ? 'enabled' : 'disabled'} successfully');
+                              '${type == MenuType.SECTION ? 'Menu' : 'Category'} ${enabled ? 'enabled' : 'disabled'} ${AppStrings.successful.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
@@ -176,7 +180,9 @@ void showMenuActionDialog({
                                   type: type,
                                 );
                           },
-                          text: enabled ? 'Enable' : 'Disable',
+                          text: enabled
+                              ? AppStrings.enable.tr()
+                              : AppStrings.disable.tr(),
                         );
                       },
                     ),
@@ -200,7 +206,7 @@ void showMenuActionDialog({
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
-                          'Discard',
+                          AppStrings.discard.tr(),
                           style: getMediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,
