@@ -37,8 +37,7 @@ class RestClient {
 
   void _logout(){
     getIt.get<OrderInformationProvider>().clearData();
-    getIt.get<AppPreferences>().clearPreferences().then(
-          (value) {
+    getIt.get<AppPreferences>().clearPreferences().then((value) {
         Navigator.pushNamedAndRemoveUntil(RoutesGenerator.navigatorKey.currentState!.context, Routes.login, (route) => false);
       },
     );
