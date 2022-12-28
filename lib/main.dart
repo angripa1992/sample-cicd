@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/klikit.dart';
+import 'package:klikit/core/utils/smart_asset_loader.dart';
 import 'package:klikit/environment_variables.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
@@ -38,6 +39,7 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
         path: AppAssets.translations,
         supportedLocales: const [Locale('en', 'US')],
         fallbackLocale: const Locale('en', 'US'),
+        assetLoader: SmartAssetLoader(),
         child: const Klikit(),
       ),
     ),
