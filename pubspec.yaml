@@ -46,6 +46,8 @@ dependencies:
   printing: ^5.9.3
   pdfx: ^2.3.0
   path_provider: ^2.0.11
+  firebase_remote_config: ^2.0.20
+  firebase_analytics: ^9.3.8
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1

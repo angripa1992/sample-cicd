@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
+import 'package:klikit/language/language_setting_view.dart';
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
@@ -298,8 +299,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           fontWeight: AppFontWeight.regular,
                           textSize: AppFontSize.s14.rSp,
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(Routes.contactSupport);
+                            // Navigator.of(context)
+                            //     .pushNamed(Routes.contactSupport);
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => LanguageSettingView()));
                           },
                           color: AppColors.purpleBlue,
                           text: AppStrings.contact_support.tr(),
