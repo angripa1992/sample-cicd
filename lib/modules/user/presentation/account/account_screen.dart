@@ -28,6 +28,7 @@ import 'package:klikit/segments/event_manager.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
+import 'component/account_action_header.dart';
 import 'component/app_version_info.dart';
 
 class AccountScreen extends StatefulWidget {

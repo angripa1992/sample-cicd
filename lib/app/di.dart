@@ -84,10 +84,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
   getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
-  getIt.registerSingleton<LocationProvider>(LocationProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
-  getIt.registerSingleton<SegmentDataProvider>(
-      SegmentDataProvider(getIt(), getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider(getIt()));
@@ -169,8 +166,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(
       () => CheckAffectedCubit(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateModifier(getIt.get()));
-  getIt.registerFactory(
-      () => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerFactory(() => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerFactory(() => AggregatorSelectionCubit());
 
   ///notification
@@ -181,7 +177,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => BluetoothPrinterHandler());
   getIt.registerLazySingleton(() => UsbPrinterHandler());
   getIt.registerLazySingleton(
-      () => PrintingHandler(getIt.get(), getIt.get(), getIt.get(), getIt.get()));
+      () => PrintingHandler(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton<PrinterSettingRepository>(
       () => PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => PrinterSettingCubit(getIt.get(), getIt.get()));
