@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
+import 'package:klikit/language/language_setting_view.dart';
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
@@ -15,8 +16,10 @@ import 'package:klikit/modules/user/presentation/account/component/edit_profile_
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/update_user_info_cubit.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
+import 'package:klikit/modules/widgets/url_text_button.dart';
 import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
@@ -25,7 +28,6 @@ import 'package:klikit/segments/event_manager.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
-import 'component/account_action_header.dart';
 import 'component/app_version_info.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -133,15 +135,11 @@ class _AccountScreenState extends State<AccountScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const AccountActionHeader(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
-                    child: Text(
-                      AppStrings.edit_profile.tr(),
-                      style: getMediumTextStyle(
-                        color: AppColors.black,
-                        fontSize: AppSize.s20.rSp,
-                      ),
+                  Text(
+                    AppStrings.edit_profile.tr(),
+                    style: getMediumTextStyle(
+                      color: AppColors.purpleBlue,
+                      fontSize: AppSize.s20.rSp,
                     ),
                   ),
                   Form(
@@ -185,6 +183,31 @@ class _AccountScreenState extends State<AccountScreen> {
                   Row(
                     children: [
                       Expanded(
+                        child: BlocConsumer<UpdateUserInfoCubit, CubitState>(
+                          listener: (context, state) {
+                            if (state is Failed) {
+                              showApiErrorSnackBar(context, state.failure);
+                            } else if (state is Success<SuccessResponse>) {
+                              showSuccessSnackBar(context, state.data.message);
+                              _saveUpdatedUserInfo();
+                            }
+                          },
+                          builder: (context, state) {
+                            return LoadingButton(
+                              isLoading: (state is Loading),
+                              text: AppStrings.update.tr(),
+                              verticalPadding: AppSize.s8.rh,
+                              onTap: () {
+                                _validateAndUpdate(context);
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: AppSize.s16.rw,
+                      ),
+                      Expanded(
                         child: BlocConsumer<LogoutCubit, CubitState>(
                           listener: (context, state) {
                             if (state is Failed) {
@@ -200,7 +223,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   .get<AppPreferences>()
                                   .clearPreferences()
                                   .then(
-                                    (value) {
+                                (value) {
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, Routes.login, (route) => false);
                                 },
@@ -230,29 +253,69 @@ class _AccountScreenState extends State<AccountScreen> {
                           },
                         ),
                       ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: AppSize.s12.rh,
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.edit, color: AppColors.purpleBlue),
                       SizedBox(
-                        width: AppSize.s16.rw,
+                        width: AppSize.s8.rw,
                       ),
                       Expanded(
-                        child: BlocConsumer<UpdateUserInfoCubit, CubitState>(
-                          listener: (context, state) {
-                            if (state is Failed) {
-                              showApiErrorSnackBar(context, state.failure);
-                            } else if (state is Success<SuccessResponse>) {
-                              showSuccessSnackBar(context, state.data.message);
-                              _saveUpdatedUserInfo();
-                            }
+                        child: UrlTextButton(
+                          fontWeight: AppFontWeight.regular,
+                          textSize: AppFontSize.s14.rSp,
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(Routes.changePassword);
                           },
-                          builder: (context, state) {
-                            return LoadingButton(
-                              isLoading: (state is Loading),
-                              text: AppStrings.update.tr(),
-                              verticalPadding: AppSize.s8.rh,
-                              onTap: () {
-                                _validateAndUpdate(context);
-                              },
-                            );
+                          color: AppColors.purpleBlue,
+                          text: AppStrings.change_your_password.tr(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.print, color: AppColors.purpleBlue),
+                      SizedBox(
+                        width: AppSize.s8.rw,
+                      ),
+                      Expanded(
+                        child: UrlTextButton(
+                          fontWeight: AppFontWeight.regular,
+                          textSize: AppFontSize.s14.rSp,
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(Routes.printerSettings);
                           },
+                          color: AppColors.purpleBlue,
+                          text: AppStrings.printer_settings.tr(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.support_agent_sharp,
+                          color: AppColors.purpleBlue),
+                      SizedBox(
+                        width: AppSize.s8.rw,
+                      ),
+                      Expanded(
+                        child: UrlTextButton(
+                          fontWeight: AppFontWeight.regular,
+                          textSize: AppFontSize.s14.rSp,
+                          onPressed: () {
+                            // Navigator.of(context)
+                            //     .pushNamed(Routes.contactSupport);
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => LanguageSettingView()));
+                          },
+                          color: AppColors.purpleBlue,
+                          text: AppStrings.contact_support.tr(),
                         ),
                       ),
                     ],
