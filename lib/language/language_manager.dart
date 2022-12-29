@@ -20,8 +20,8 @@ class LanguageManager {
       final remoteConfig = FirebaseRemoteConfig.instance;
       await remoteConfig.setConfigSettings(
         RemoteConfigSettings(
-          fetchTimeout: const Duration(seconds: 30),
-          minimumFetchInterval: const Duration(seconds: 0),
+          fetchTimeout: const Duration(minutes: 1),
+          minimumFetchInterval: const Duration(hours: 1),
         ),
       );
       await remoteConfig.fetchAndActivate();
@@ -63,6 +63,12 @@ class LanguageManager {
     } catch (e) {
       return _fallbackLocale;
     }
+    return _languages.map((e) => makeLocaleFromLanguage(e)).toList();
+  }
+
+  Future<Locale> getStartLocale() async {
+    final currentLanguage = _languages.firstWhere((element) => element.code == _appPreferences.languageCode());
+    return makeLocaleFromLanguage(currentLanguage);
   }
 
   String currentLanguageCode() {

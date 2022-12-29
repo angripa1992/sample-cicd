@@ -24,10 +24,13 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
   await FcmService().initApp();
   FcmService().registerForegroundListener();
   FcmService().registerRefreshTokenListener();
+  await FcmService().getFcmToken();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   final supportedLocale =
       await getIt.get<LanguageManager>().getSupportedLocale();
+  final startLocale = await getIt.get<LanguageManager>().getStartLocale();
+  final supportedLocale = await getIt.get<LanguageManager>().getSupportedLocale();
   final startLocale = await getIt.get<LanguageManager>().getStartLocale();
 
   SystemChrome.setPreferredOrientations(
@@ -36,6 +39,17 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
       DeviceOrientation.portraitDown,
     ],
   ).then(
+        (_) =>
+        runApp(
+          EasyLocalization(
+            path: AppAssets.translations,
+            supportedLocales: supportedLocale,
+            fallbackLocale: const Locale('en', 'US'),
+            startLocale: startLocale,
+            assetLoader: SmartAssetLoader(),
+            child: const Klikit(),
+          ),
+        ),
     (_) => runApp(
       EasyLocalization(
         path: AppAssets.translations,

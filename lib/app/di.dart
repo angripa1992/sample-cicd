@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
+import 'package:klikit/core/network/web_socket_client.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
@@ -70,31 +71,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
-import '../core/provider/location_provider.dart';
 import '../core/provider/order_parameter_provider.dart';
 import '../environment_variables.dart';
-import '../language/language_manager.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
 import '../notification/inapp/notification_count_cubit.dart';
-import '../segments/segemnt_data_provider.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
-  getIt.registerSingleton<SharedPreferences>(
-      await SharedPreferences.getInstance());
+  getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
   getIt.registerSingleton<LocationProvider>(LocationProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
   getIt.registerSingleton<SegmentDataProvider>(
       SegmentDataProvider(getIt(), getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
+  getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider(getIt()));
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
+  getIt.registerSingleton<WebSocketClient>(WebSocketClient(getIt()));
   getIt.registerSingleton<FcmTokenManager>(
       FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
 

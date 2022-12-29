@@ -108,6 +108,8 @@ class ConnectionType {
   static const USB = 2;
 }
 
+
+class ArgumentKey{
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
   static const String kNOTIFICATION_DATA = 'notification_data';
@@ -118,3 +120,4 @@ class ArgumentKey {
   static const String kSECTIONS = 'sections';
   static const String kENABLED = 'enabled';
 }
+

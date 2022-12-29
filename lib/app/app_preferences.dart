@@ -5,6 +5,9 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../language/language.dart';
+
+class AppPreferences {
 class AppPreferences {
   final SharedPreferences _preferences;
   final String _kAccessToken = "access_token";
@@ -60,6 +63,17 @@ class AppPreferences {
     await _preferences.setInt(_kPrinterConnectionType, connectionType);
   }
 
+  int connectionType() {
+    return _preferences.getInt(_kPrinterConnectionType) ??
+        ConnectionType.BLUETOOTH;
+  }
+
+  Future<void> saveLanguageCode(String languageCode) {
+    return _preferences.setString(_kLanguage,languageCode);
+  }
+
+  String languageCode() {
+    return _preferences.getString(_kLanguage) ?? 'en';
   int connectionType() {
     return _preferences.getInt(_kPrinterConnectionType) ??
         ConnectionType.BLUETOOTH;
