@@ -200,7 +200,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                   .get<AppPreferences>()
                                   .clearPreferences()
                                   .then(
-                                (value) {
+                                    (value) {
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, Routes.login, (route) => false);
                                 },
