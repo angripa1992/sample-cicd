@@ -23,6 +23,7 @@ class AppStrings {
   static const String password = "password";
   static const String forgot_password = "forgot_password";
   static const String change_your_password = "change_your_password";
+  static const String change_language = "change_language";
   static const String login = "login";
   static const String logout = "logout";
   static const String login_as_manager = "login_as_manager";
