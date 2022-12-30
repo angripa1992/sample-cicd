@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/language/language_setting_page.dart';
 import 'package:klikit/modules/user/presentation/account/component/account_action_item.dart';
 
 import '../../../../../core/route/routes.dart';
@@ -17,7 +16,6 @@ class AccountActionHeader extends StatelessWidget {
           title: AppStrings.change_language.tr(),
           iconData: Icons.language,
           onTap: () {
-            showLanguageSettingDialog(context: context);
           },
         ),
         AccountActionItem(
