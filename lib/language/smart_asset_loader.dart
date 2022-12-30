@@ -14,7 +14,7 @@ import '../environment_variables.dart';
 
 class SmartAssetLoader extends AssetLoader {
   final _envVariables = getIt.get<EnvironmentVariables>();
-  final _localCacheDuration = const Duration(days: 1);
+  final _localCacheDuration = const Duration(seconds: 1);
 
   @override
   Future<Map<String, dynamic>?> load(String path, Locale locale) async {
@@ -61,7 +61,7 @@ class SmartAssetLoader extends AssetLoader {
   }
 
   Future<String> _loadFromNetwork(String localeName) async {
-    final url = '${_envVariables.cdnUrl}/language/nma/$localeName.json';
+    final url = '${_envVariables.cdnUrl}/language/nma/$localeName.jsoncdc';
     try {
       Response<List<int>> response = await Dio().get(
         url,

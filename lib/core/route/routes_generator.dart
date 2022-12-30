@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/core/route/routes.dart';
+import 'package:klikit/language/language_setting_page.dart';
 import 'package:klikit/modules/base/base_screen.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/manage_items_screen.dart';
@@ -73,6 +74,11 @@ class RoutesGenerator {
       case Routes.manageModifiers:
         return MaterialPageRoute(
           builder: (_) => const ManageModifiersScreen(),
+          settings: routeSettings,
+        );
+      case Routes.languageSettings:
+        return MaterialPageRoute(
+          builder: (_) => const LanguageSettingPage(),
           settings: routeSettings,
         );
       case Routes.printerSettings:
