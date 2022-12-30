@@ -16,6 +16,7 @@ class AccountActionHeader extends StatelessWidget {
           title: AppStrings.change_language.tr(),
           iconData: Icons.language,
           onTap: () {
+            Navigator.of(context).pushNamed(Routes.languageSettings);
           },
         ),
         AccountActionItem(
