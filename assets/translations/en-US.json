@@ -161,6 +161,7 @@
   "no": "No",
   "note": "Note",
   "add_comment": "Add Comment",
+  "see_comment": "See Comment",
   "edit_comment": "Edit Comment",
   "order_comment": "Order Comment",
   "comment_validation_msg": "Order comment is required",
@@ -188,6 +189,10 @@
   "driver_arrived": "Driver Arrived",
   "driver_assigned": "Driver Assigned",
   "pickup": "Pick-Up",
-  "manual": "Manual"
+  "manual": "Manual",
+
+  "brand": "Brand",
+  "id": "ID",
+  "time": "Time"
 
 }

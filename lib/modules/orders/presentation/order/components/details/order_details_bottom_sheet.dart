@@ -7,6 +7,7 @@ import 'package:klikit/modules/orders/presentation/order/components/details/orde
 import 'package:klikit/modules/orders/presentation/order/components/details/price_view.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../../../resources/colors.dart';
 import '../order_item/order_action_buttons.dart';
 
 void _openBottomSheet({
@@ -40,6 +41,11 @@ void _openBottomSheet({
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+            Icon(
+              Icons.remove,
+              size: AppSize.s18.rSp,
+              color: AppColors.blackCow,
+            ),
             OrderDetailsHeaderView(
               order: order,
               modalKey: key,

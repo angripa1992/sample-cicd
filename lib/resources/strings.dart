@@ -182,6 +182,7 @@ class AppStrings {
   static const String no = "no";
   static const String note = "note";
   static const String add_comment = "add_comment";
+  static const String see_comment = "see_comment";
   static const String edit_comment = "edit_comment";
   static const String order_comment = "order_comment";
   static const String comment_validation_msg = "comment_validation_msg";
@@ -210,5 +211,9 @@ class AppStrings {
   static const String driver_assigned = "driver_assigned";
   static const String pickup = "pickup";
   static const String manual = "manual";
+
+  static const String brand = "brand";
+  static const String id = "id";
+  static const String time = "time";
 
 }
