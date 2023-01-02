@@ -48,49 +48,52 @@ class SubMenuListView extends StatelessWidget {
               subSections[index] = modifiedSubsections;
               onChanged(subSections);
             },
-            child: Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: AppSize.s20.rw, right: AppSize.s4.rw),
-                        child: Text(
-                          '${index + 1}.',
-                          style: getRegularTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s15.rSp,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: AppSize.s20.rw, right: AppSize.s4.rw),
+                          child: Text(
+                            '${index + 1}.',
+                            style: getRegularTextStyle(
+                              color: AppColors.purpleBlue,
+                              fontSize: AppFontSize.s15.rSp,
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          subSections[index].title,
-                          style: getRegularTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s15.rSp,
+                        Expanded(
+                          child: Text(
+                            subSections[index].title,
+                            style: getRegularTextStyle(
+                              color: AppColors.purpleBlue,
+                              fontSize: AppFontSize.s15.rSp,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
-                  child: MenuSwitchView(
-                    enabled: subSections[index].enabled,
-                    parentEnabled: parentEnabled,
-                    id: subSections[index].id,
-                    brandId: brandID,
-                    type: MenuType.SUB_SECTION,
-                    onChanged: (enabled) {
-                      subSections[index].enabled = enabled;
-                      onChanged(subSections);
-                    },
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+                    child: MenuSwitchView(
+                      enabled: subSections[index].enabled,
+                      parentEnabled: parentEnabled,
+                      id: subSections[index].id,
+                      brandId: brandID,
+                      type: MenuType.SUB_SECTION,
+                      onChanged: (enabled) {
+                        subSections[index].enabled = enabled;
+                        onChanged(subSections);
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

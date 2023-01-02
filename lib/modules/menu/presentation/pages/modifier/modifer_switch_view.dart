@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
@@ -100,19 +101,20 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Switch(
-      value: _enabled,
-      activeColor: AppColors.purpleBlue,
-      activeTrackColor: AppColors.lightViolet,
-      inactiveThumbColor: AppColors.black,
-      inactiveTrackColor: AppColors.smokeyGrey,
-      onChanged: (enabled) {
-        if (enabled) {
-          _handleEnableAction(enabled);
-        } else {
-          _checkAffect(enabled);
-        }
-      },
+    return Transform.scale(
+      scale: 0.7,
+      child: CupertinoSwitch(
+        value: _enabled,
+        activeColor: AppColors.purpleBlue,
+        trackColor: AppColors.blackCow,
+        onChanged: (enabled) {
+          if (enabled) {
+            _handleEnableAction(enabled);
+          } else {
+            _checkAffect(enabled);
+          }
+        },
+      ),
     );
   }
 }

@@ -20,7 +20,7 @@ class _MenuTabBarViewState extends State<MenuTabBarView> {
   int selectedTab = MenuTabIndex.MENU;
 
   void changeIndex(int index) =>
-    context.read<TabSelectionCubit>().changeTab(index);
+      context.read<TabSelectionCubit>().changeTab(index);
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +35,11 @@ class _MenuTabBarViewState extends State<MenuTabBarView> {
               changeIndex(selectedTab);
             });
           },
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(AppSize.s4.rSp),
+            bottomLeft: Radius.circular(AppSize.s4.rSp),
+          ),
         ),
-        SizedBox(width: AppSize.s20.rw),
         MenuTab(
           name: AppStrings.modifiers.tr().toUpperCase(),
           isSelected: selectedTab == MenuTabIndex.MODIFIER,
@@ -46,6 +49,10 @@ class _MenuTabBarViewState extends State<MenuTabBarView> {
               changeIndex(selectedTab);
             });
           },
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(AppSize.s4.rSp),
+            bottomRight: Radius.circular(AppSize.s4.rSp),
+          ),
         ),
       ],
     );
