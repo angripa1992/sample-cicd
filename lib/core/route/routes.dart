@@ -9,5 +9,4 @@ class Routes {
   static const String manageItems = '/manage_items';
   static const String manageModifiers = '/manage_modifiers';
   static const String printerSettings = '/printer_settings';
-  static const String languageSettings = '/language_settings';
 }

@@ -76,11 +76,6 @@ class RoutesGenerator {
           builder: (_) => const ManageModifiersScreen(),
           settings: routeSettings,
         );
-      case Routes.languageSettings:
-        return MaterialPageRoute(
-          builder: (_) => const LanguageSettingPage(),
-          settings: routeSettings,
-        );
       case Routes.printerSettings:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
