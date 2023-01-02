@@ -1,14 +1,30 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/app/size_config.dart';
 import 'package:klikit/language/language_manager.dart';
+import 'package:klikit/modules/widgets/app_button.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../resources/colors.dart';
+import '../resources/fonts.dart';
 import '../resources/strings.dart';
 import '../resources/styles.dart';
 import 'language.dart';
+
+void showLanguageSettingDialog({required BuildContext context}) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return const AlertDialog(
+        contentPadding: EdgeInsets.all(AppSize.ZERO),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
+        content: LanguageSettingPage(),
+      );
+    },
+  );
+}
 
 class LanguageSettingPage extends StatefulWidget {
   const LanguageSettingPage({Key? key}) : super(key: key);
@@ -19,100 +35,107 @@ class LanguageSettingPage extends StatefulWidget {
 
 class _LanguageSettingPageState extends State<LanguageSettingPage> {
   final _languageManager = getIt.get<LanguageManager>();
-  late GlobalKey _dropdownKey;
-  String? _dropDownValue;
+  String? _currentLanguageCode;
+  Language? _currentLanguage;
 
   @override
   void initState() {
-    _dropdownKey = GlobalKey();
-    _dropDownValue = _languageManager.currentLanguageCode();
+    _currentLanguageCode = _languageManager.currentLanguageCode();
     super.initState();
   }
 
-  void _changeLocale(Language language){
-    context.setLocale(_languageManager.makeLocaleFromLanguage(language));
-    _languageManager.saveCurrentLanguageCode(language.code!);
+  void _changeLocale() {
+    if (_currentLanguage != null) {
+      context.setLocale(
+          _languageManager.makeLocaleFromLanguage(_currentLanguage!));
+      _languageManager.saveCurrentLanguageCode(_currentLanguage!.code!);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.change_language.tr()),
-        titleTextStyle: getAppBarTextStyle(),
-        centerTitle: true,
-        flexibleSpace: getAppBarBackground(),
-      ),
-      body: Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSize.s20),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSize.s20.rh,
-              horizontal: AppSize.s20.rw,
+            padding: const EdgeInsets.only(
+              top: AppSize.s16,
+              bottom: AppSize.s8,
             ),
-            child: const Text('Select Language'),
+            child: Text(
+              AppStrings.select_language.tr(),
+              style: getMediumTextStyle(
+                color: AppColors.purpleBlue,
+                fontSize: AppFontSize.s16,
+              ),
+            ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw),
-            child: FutureBuilder<List<Language>>(
-              future: _languageManager.getSupportedLanguages(),
-              builder: (_, snapshot) {
-                if (snapshot.hasData) {
-                  final languages = snapshot.data!;
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                      color: AppColors.lightVioletTwo,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-                      child: DropdownButton<String>(
-                        key: _dropdownKey,
-                        value: _dropDownValue,
-                        isExpanded: true,
-                        underline: const SizedBox(),
-                        icon: Icon(
-                          Icons.keyboard_arrow_down,
-                          color: AppColors.purpleBlue,
-                        ),
-                        selectedItemBuilder: (BuildContext context) {
-                          return languages.map<Widget>((item) {
-                            return Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                item.title!,
-                              ),
-                            );
-                          }).toList();
-                        },
-                        items: languages.map<DropdownMenuItem<String>>(
-                          (language) {
-                            return DropdownMenuItem<String>(
-                              value: language.code,
-                              child: RadioListTile<String>(
-                                title: Text(language.title!),
-                                value: language.code!,
-                                groupValue: _dropDownValue,
-                                activeColor: AppColors.purpleBlue,
-                                onChanged: (value) {
-                                  Navigator.pop(_dropdownKey.currentContext!);
-                                  setState(() {
-                                    _dropDownValue = value;
-                                    _changeLocale(languages.firstWhere((element) => element.code == value));
-                                  });
-                                },
-                              ),
-                            );
-                          },
-                        ).toList(),
-                        onChanged: (value) {},
+          FutureBuilder<List<Language>>(
+            future: _languageManager.getSupportedLanguages(),
+            builder: (_, snapshot) {
+              if (snapshot.hasData) {
+                final languages = snapshot.data!;
+                return ListView.builder(
+                  itemCount: languages.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Theme(
+                      data: ThemeData(
+                        unselectedWidgetColor: AppColors.pink,
                       ),
+                      child: RadioListTile<String>(
+                        contentPadding: const EdgeInsets.all(AppSize.ZERO),
+                        title: Text(languages[index].title!),
+                        value: languages[index].code!,
+                        groupValue: _currentLanguageCode,
+                        activeColor: AppColors.pink,
+                        onChanged: (value) {
+                          setState(() {
+                            _currentLanguageCode = value;
+                            _currentLanguage = languages
+                                .firstWhere((element) => element.code == value);
+                          });
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
+              return const SizedBox();
+            },
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSize.s8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    AppStrings.cancel.tr(),
+                    style: getRegularTextStyle(
+                      color: AppColors.purpleBlue,
+                      fontSize: AppFontSize.s16,
                     ),
-                  );
-                }
-                return const SizedBox();
-              },
+                  ),
+                ),
+                const SizedBox(width: AppSize.s16),
+                AppButton(
+                  enable: true,
+                  onTap: () {
+                    _changeLocale();
+                    Navigator.pop(context);
+                  },
+                  text: AppStrings.select.tr(),
+                  verticalPadding: AppSize.s8,
+                ),
+              ],
             ),
           ),
         ],
