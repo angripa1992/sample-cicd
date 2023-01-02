@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/action_dialogs.dart';
 
@@ -72,21 +73,22 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Switch(
-      value: _enabled,
-      activeColor: AppColors.purpleBlue,
-      activeTrackColor: AppColors.lightViolet,
-      inactiveThumbColor: AppColors.black,
-      inactiveTrackColor: AppColors.smokeyGrey,
-      onChanged: !widget.parentEnabled
-          ? null
-          : (value) {
-              if (widget.type == MenuType.ITEM) {
-                _handleItem(value);
-              } else {
-                _handleMenu(value);
-              }
-            },
+    return Transform.scale(
+      scale: 0.7,
+      child: CupertinoSwitch(
+        value: _enabled,
+        activeColor: AppColors.purpleBlue,
+        trackColor: AppColors.blackCow,
+        onChanged: !widget.parentEnabled
+            ? null
+            : (value) {
+                if (widget.type == MenuType.ITEM) {
+                  _handleItem(value);
+                } else {
+                  _handleMenu(value);
+                }
+              },
+      ),
     );
   }
 }

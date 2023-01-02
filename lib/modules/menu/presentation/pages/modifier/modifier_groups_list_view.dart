@@ -35,7 +35,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: AppSize.s8.rh),
-      child: ListView.builder(
+      child: ListView.separated(
         key: UniqueKey(),
         itemCount: _modifiableModifierGroups.length,
         shrinkWrap: true,
@@ -93,6 +93,11 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                 ),
               ),
             ),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return SizedBox(
+            height: AppSize.s12.rh,
           );
         },
       ),

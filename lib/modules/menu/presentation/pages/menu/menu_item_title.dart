@@ -39,6 +39,16 @@ class MenuItemTitle extends StatelessWidget {
         ),
         child: Row(
           children: [
+            if (!controller.isExpanded)
+              MenuSwitchView(
+                enabled: sections.enabled,
+                parentEnabled: true,
+                onChanged: onChanged,
+                id: sections.id,
+                brandId: brandId,
+                type: MenuType.SECTION,
+              ),
+            if (!controller.isExpanded) SizedBox(width: AppSize.s12.rw),
             Expanded(
               child: Row(
                 children: [
@@ -66,22 +76,14 @@ class MenuItemTitle extends StatelessWidget {
                 ],
               ),
             ),
-            controller.isExpanded
-                ? Text(
-                    '${sections.subSections.length} ${AppStrings.items.tr()}',
-                    style: getRegularTextStyle(
-                      color: AppColors.white,
-                      fontSize: AppFontSize.s15.rSp,
-                    ),
-                  )
-                : MenuSwitchView(
-                    enabled: sections.enabled,
-                    parentEnabled: true,
-                    onChanged: onChanged,
-                    id: sections.id,
-                    brandId: brandId,
-                    type: MenuType.SECTION,
-                  ),
+            if (controller.isExpanded)
+              Text(
+                '${sections.subSections.length} ${AppStrings.items.tr()}',
+                style: getRegularTextStyle(
+                  color: AppColors.white,
+                  fontSize: AppFontSize.s15.rSp,
+                ),
+              ),
             Padding(
               padding: EdgeInsets.only(left: AppSize.s12.rw),
               child: Icon(
