@@ -14,11 +14,6 @@ class OrderStatusView extends StatelessWidget {
 
   OrderStatusView({Key? key, required this.order}) : super(key: key);
 
-  final _style = getBoldTextStyle(
-    color: AppColors.black,
-    fontSize: AppFontSize.s14.rSp,
-  );
-
   String _getStatus() {
     switch (order.status) {
       case OrderStatus.ACCEPTED:
@@ -51,23 +46,45 @@ class OrderStatusView extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(top: AppSize.s12.rh),
-          child: Text(_getStatus(), style: _style),
+          child: _statusItem(_getStatus()),
         ),
         Visibility(
           visible: (order.isManualOrder),
           child: Padding(
             padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
-            child: Text(AppStrings.manual.tr(), style: _style),
+            child: _statusItem(AppStrings.manual.tr()),
           ),
         ),
         Visibility(
           visible: (order.type == OrderType.PICKUP),
           child: Padding(
             padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
-            child: Text(AppStrings.pickup.tr(), style: _style),
+            child: _statusItem(AppStrings.pickup.tr()),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _statusItem(String text) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+        color: AppColors.purpleBlue,
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: AppSize.s4.rh,
+          horizontal: AppSize.s12.rw,
+        ),
+        child: Text(
+          text.toUpperCase(),
+          style: getBoldTextStyle(
+            color: AppColors.white,
+            fontSize: AppFontSize.s12.rSp,
+          ),
+        ),
+      ),
     );
   }
 }

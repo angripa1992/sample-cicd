@@ -20,16 +20,28 @@ class CommentView extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(
           vertical: AppSize.s8.rh,
-          horizontal: AppSize.s12.rw,
         ),
-        child: Center(
-          child: Text(
-            '${AppStrings.note.tr()}: $comment',
-            style: getBoldTextStyle(
-              color: AppColors.blueViolet,
-              fontSize: AppFontSize.s14.rSp,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Divider(color: AppColors.lightViolet),
+            Text(
+              AppStrings.order_instruction.tr(),
+              style: getRegularTextStyle(
+                color: AppColors.smokeyGrey,
+                fontSize: AppFontSize.s14.rSp,
+              ),
             ),
-          ),
+            SizedBox(height: AppSize.s4.rh),
+            Text(
+              comment,
+              style: getRegularTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+          ],
         ),
       ),
     );
