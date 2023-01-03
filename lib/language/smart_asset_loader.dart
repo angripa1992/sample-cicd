@@ -21,20 +21,22 @@ class SmartAssetLoader extends AssetLoader {
     String localeName = '${locale.languageCode}-${locale.countryCode}';
     String content = EMPTY;
 
-    if (await _localTranslationExists(localeName)) {
-      content = await _loadFromLocalFile(localeName);
-      debugPrint('translations loaded from local');
-    }
+    // if (await _localTranslationExists(localeName)) {
+    //   content = await _loadFromLocalFile(localeName);
+    //   debugPrint('translations loaded from local');
+    // }
+    //
+    // if (content.isEmpty) {
+    //   content = await _loadFromNetwork(localeName);
+    //   debugPrint('translations loaded from network');
+    // }
+    //
+    // if (content.isEmpty) {
+    //   content = await _loadFromAsset(path);
+    //   debugPrint('translations loaded from assets');
+    // }
 
-    if (content.isEmpty) {
-      content = await _loadFromNetwork(localeName);
-      debugPrint('translations loaded from network');
-    }
-
-    if (content.isEmpty) {
-      content = await _loadFromAsset(path);
-      debugPrint('translations loaded from assets');
-    }
+    content = await _loadFromAsset(path);
 
     return _decodeJson(content);
   }

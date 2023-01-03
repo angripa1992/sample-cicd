@@ -5,6 +5,7 @@ import 'package:klikit/modules/orders/presentation/order/components/filter/statu
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
+import '../../../../../../resources/values.dart';
 
 class StatusFilterItem extends StatefulWidget {
   final StatusItem statusItem;
@@ -41,27 +42,34 @@ class _StatusFilterItemState extends State<StatusFilterItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(
-          checkColor: AppColors.white,
-          fillColor: MaterialStateProperty.resolveWith(getColor),
-          value: _isChecked,
-          onChanged: (bool? value) {
-            setState(() {
-              _isChecked = value!;
-              widget.onCheckedChanged(_isChecked, widget.statusItem);
-            });
-          },
-        ),
-        Text(
-          widget.statusItem.name,
-          style: getRegularTextStyle(
-            color: AppColors.blueViolet,
-            fontSize: AppFontSize.s14.rSp,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: AppSize.s8.rw),
+            child: Text(
+              widget.statusItem.name,
+              style: getRegularTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
           ),
-        ),
-      ],
+          Checkbox(
+            checkColor: AppColors.white,
+            fillColor: MaterialStateProperty.resolveWith(getColor),
+            value: _isChecked,
+            onChanged: (bool? value) {
+              setState(() {
+                _isChecked = value!;
+                widget.onCheckedChanged(_isChecked, widget.statusItem);
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 }

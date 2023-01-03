@@ -216,5 +216,8 @@ class AppStrings {
   static const String id = "id";
   static const String time = "time";
   static const String order_instruction = "order_instruction";
+  static const String select_all = "select_all";
+  static const String aggregators_selected = "aggregators_selected";
+  static const String brands_selected = "brands_selected";
 
 }

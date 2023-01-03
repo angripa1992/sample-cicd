@@ -5,6 +5,8 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
+import '../../../../../../resources/values.dart';
+
 class BrandFilterItem extends StatefulWidget {
   final Brand brand;
   final Function(bool, Brand) onChanged;
@@ -26,6 +28,12 @@ class _BrandFilterItemState extends State<BrandFilterItem> {
     super.initState();
   }
 
+ @override
+  void didUpdateWidget(covariant BrandFilterItem oldWidget) {
+   _isChecked = widget.brand.isChecked;
+    super.didUpdateWidget(oldWidget);
+  }
+
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -40,27 +48,36 @@ class _BrandFilterItemState extends State<BrandFilterItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(
-          checkColor: AppColors.white,
-          fillColor: MaterialStateProperty.resolveWith(getColor),
-          value: _isChecked,
-          onChanged: (bool? value) {
-            setState(() {
-              _isChecked = value!;
-              widget.onChanged(_isChecked!, widget.brand);
-            });
-          },
-        ),
-        Text(
-          widget.brand.title,
-          style: getRegularTextStyle(
-            color: AppColors.blueViolet,
-            fontSize: AppFontSize.s14.rSp,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s8.rw,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: AppSize.s8.rw),
+            child: Text(
+              widget.brand.title,
+              style: getRegularTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
           ),
-        ),
-      ],
+          Checkbox(
+            checkColor: AppColors.white,
+            fillColor: MaterialStateProperty.resolveWith(getColor),
+            value: _isChecked,
+            onChanged: (bool? value) {
+              setState(() {
+                _isChecked = value!;
+                widget.onChanged(_isChecked!, widget.brand);
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 }

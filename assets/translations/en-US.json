@@ -194,6 +194,8 @@
   "brand": "Brand",
   "id": "ID",
   "time": "Time",
-  "order_instruction": "Order Instruction"
+  "select_all": "Select All",
+  "aggregators_selected": "Aggregators Selected",
+  "brands_selected": "Brands Selected"
 
 }

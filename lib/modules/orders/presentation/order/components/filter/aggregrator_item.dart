@@ -30,6 +30,12 @@ class _AggregatorItemState extends State<AggregatorItem> {
   }
 
   @override
+  void didUpdateWidget(covariant AggregatorItem oldWidget) {
+    _isSelected = widget.provider.isSelected;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -48,7 +54,7 @@ class _AggregatorItemState extends State<AggregatorItem> {
               Text(
                 widget.provider.title,
                 style: getRegularTextStyle(
-                  color: AppColors.blueViolet,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),
@@ -64,19 +70,6 @@ class _AggregatorItemState extends State<AggregatorItem> {
                   });
                 },
               ),
-              // Switch(
-              //   onChanged: (isSelected) {
-              //     setState(() {
-              //       _isSelected = isSelected;
-              //       widget.onChange(_isSelected!, widget.provider);
-              //     });
-              //   },
-              //   value: _isSelected!,
-              //   activeColor: AppColors.purpleBlue,
-              //   activeTrackColor: AppColors.smokeyGrey,
-              //   inactiveThumbColor: AppColors.black,
-              //   inactiveTrackColor: AppColors.smokeyGrey,
-              // ),
             ],
           ),
         ),
