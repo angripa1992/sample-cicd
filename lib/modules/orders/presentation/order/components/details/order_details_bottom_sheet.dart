@@ -36,30 +36,39 @@ void _openBottomSheet({
         resizeToAvoidBottomInset: false,
         extendBody: false,
         key: key,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.remove,
-              size: AppSize.s18.rSp,
-              color: AppColors.blackCow,
-            ),
-            OrderDetailsHeaderView(
-              order: order,
-              modalKey: key,
-              onCommentActionSuccess: onCommentActionSuccess,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: AppSize.s4.rh),
-              child: const Divider(),
-            ),
-            OrderItemDetails(order: order),
-            CommentView(comment: order.orderComment),
-            PriceView(order: order),
-            actionView,
-          ],
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSize.s16.rw,
+            vertical: AppSize.s8.rh,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.remove,
+                size: AppSize.s18.rSp,
+                color: AppColors.blackCow,
+              ),
+              OrderDetailsHeaderView(
+                order: order,
+                modalKey: key,
+                onCommentActionSuccess: onCommentActionSuccess,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: AppSize.s8.rh),
+                child: Divider(color: AppColors.lightViolet),
+              ),
+              OrderItemDetails(order: order),
+              CommentView(comment: order.orderComment),
+              PriceView(order: order),
+              Padding(
+                padding: EdgeInsets.only(top: AppSize.s8.rh),
+                child: actionView,
+              ),
+            ],
+          ),
         ),
       ),
     ),
@@ -78,14 +87,8 @@ void showHistoryOrderDetails({
     context: context,
     order: order,
     onCommentActionSuccess: onCommentActionSuccess,
-    actionView: Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: AppSize.s12.rh,
-        horizontal: AppSize.s12.rw,
-      ),
-      child: PrintButton(
-        onPrint: onPrint,
-      ),
+    actionView: PrintButton(
+      onPrint: onPrint,
     ),
   );
 }
@@ -104,17 +107,11 @@ void showOrderDetails({
     context: context,
     onCommentActionSuccess: onCommentActionSuccess,
     order: order,
-    actionView: Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: AppSize.s12.rh,
-        horizontal: AppSize.s12.rw,
-      ),
-      child: getExpandActionButtons(
-        order: order,
-        onAction: onAction,
-        onCancel: onCancel,
-        onPrint: onPrint,
-      ),
+    actionView: getExpandActionButtons(
+      order: order,
+      onAction: onAction,
+      onCancel: onCancel,
+      onPrint: onPrint,
     ),
   );
 }

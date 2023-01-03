@@ -215,5 +215,6 @@ class AppStrings {
   static const String brand = "brand";
   static const String id = "id";
   static const String time = "time";
+  static const String order_instruction = "order_instruction";
 
 }

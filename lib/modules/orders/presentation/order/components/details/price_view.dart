@@ -25,7 +25,7 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   void initState() {
-    _controller = ExpandedTileController(isExpanded: true);
+    _controller = ExpandedTileController(isExpanded: false);
     super.initState();
   }
 
@@ -39,14 +39,11 @@ class _PriceViewState extends State<PriceView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Divider(),
+        Divider(color: AppColors.lightViolet),
         ExpandedTile(
           theme: ExpandedTileThemeData(
             headerColor: Colors.transparent,
-            headerPadding: EdgeInsets.symmetric(
-              horizontal: AppSize.s12.rw,
-              vertical: AppSize.ZERO,
-            ),
+            headerPadding: EdgeInsets.zero,
             leadingPadding: EdgeInsets.zero,
             trailingPadding: EdgeInsets.zero,
             titlePadding: EdgeInsets.zero,
@@ -67,7 +64,6 @@ class _PriceViewState extends State<PriceView> {
           content: Padding(
             padding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,
-              horizontal: AppSize.s12.rw,
             ),
             child: Column(
               children: [
@@ -97,11 +93,10 @@ class _PriceViewState extends State<PriceView> {
           ),
           controller: _controller!,
         ),
-        const Divider(),
+        Divider(color: AppColors.lightViolet),
         Padding(
           padding: EdgeInsets.symmetric(
             vertical: AppSize.s8.rh,
-            horizontal: AppSize.s12.rw,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -110,7 +105,7 @@ class _PriceViewState extends State<PriceView> {
                 AppStrings.total.tr(),
                 style: TextStyle(
                   color: AppColors.black,
-                  fontSize: AppFontSize.s20.rSp,
+                  fontSize: AppFontSize.s18.rSp,
                   fontWeight: AppFontWeight.bold,
                 ),
               ),
@@ -118,7 +113,7 @@ class _PriceViewState extends State<PriceView> {
                 '${widget.order.currencySymbol}${PriceCalculator.convertPrice(widget.order.finalPrice)}',
                 style: TextStyle(
                   color: AppColors.black,
-                  fontSize: AppFontSize.s20.rSp,
+                  fontSize: AppFontSize.s18.rSp,
                   fontWeight: AppFontWeight.bold,
                 ),
               ),

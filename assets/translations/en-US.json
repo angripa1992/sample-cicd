@@ -193,6 +193,7 @@
 
   "brand": "Brand",
   "id": "ID",
-  "time": "Time"
+  "time": "Time",
+  "order_instruction": "Order Instruction"
 
 }
