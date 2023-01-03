@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
-import 'package:klikit/modules/widgets/app_button.dart';
+import 'package:klikit/modules/orders/presentation/order/components/filter/select_all_view.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -12,6 +12,7 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/di.dart';
 import '../../../../../../core/provider/order_information_provider.dart';
+import '../../../../../widgets/app_button.dart';
 import '../../observer/filter_subject.dart';
 import 'brand_filter_item.dart';
 
@@ -29,6 +30,27 @@ class _BrandFilterState extends State<BrandFilter> {
   final _orderInfoProvider = getIt.get<OrderInformationProvider>();
   final List<Brand> _brands = [];
   final List<Brand> _applyingBrands = [];
+  String _title = AppStrings.filter_by_brand.tr();
+
+  @override
+  void initState() {
+    _controller.addListener(_onToggle);
+    super.initState();
+  }
+
+  void _onToggle() {
+    String title = AppStrings.filter_by_brand.tr();
+    if (!_controller.isExpanded) {
+      final selectedAggregator =
+          _applyingBrands.where((element) => element.isChecked).toList().length;
+      if (selectedAggregator > 0) {
+        title = '$selectedAggregator  ${AppStrings.brands_selected.tr()}';
+      }
+    }
+    setState(() {
+      _title = title;
+    });
+  }
 
   void _changeSelectedStatus(bool isChecked, Brand brand) async {
     brand.isChecked = isChecked;
@@ -45,6 +67,7 @@ class _BrandFilterState extends State<BrandFilter> {
         _brands.where((element) => element.isChecked).toList(),
       ),
     );
+    _controller.toggle();
   }
 
   void _copyDataToLocalVariable(List<Brand> brands) async {
@@ -59,11 +82,30 @@ class _BrandFilterState extends State<BrandFilter> {
     _applyingBrands.addAll(_brands);
   }
 
+  void _changeAllSelection(bool isChecked) {
+    _applyingBrands.clear();
+    for (var brand in _brands) {
+      brand.isChecked = isChecked;
+    }
+    _applyingBrands.addAll(_brands);
+  }
+
+  bool _isAllSelected() {
+    bool allSelected = true;
+    for (var brand in _brands) {
+      if (!brand.isChecked) {
+        allSelected = false;
+        break;
+      }
+    }
+    return allSelected;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
-        headerColor: AppColors.lightVioletTwo,
+        headerColor: AppColors.lightViolet,
         headerPadding: EdgeInsets.symmetric(
           horizontal: AppSize.s12.rw,
           vertical: AppSize.s8.rh,
@@ -74,13 +116,13 @@ class _BrandFilterState extends State<BrandFilter> {
       ),
       trailing: Icon(
         Icons.keyboard_arrow_down_rounded,
-        color: AppColors.purpleBlue,
+        color: AppColors.black,
       ),
       trailingRotation: 180,
       title: Text(
-        AppStrings.filter_by_brand.tr(),
-        style: getRegularTextStyle(
-          color: AppColors.purpleBlue,
+        _title,
+        style: getMediumTextStyle(
+          color: AppColors.black,
           fontSize: AppFontSize.s14.rSp,
         ),
       ),
@@ -92,34 +134,49 @@ class _BrandFilterState extends State<BrandFilter> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _copyDataToLocalVariable(snapshot.data!);
-              return Column(
-                children: [
-                  ListView.builder(
-                    itemCount: _brands.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return BrandFilterItem(
-                        brand: _brands[index],
-                        onChanged: (isChecked, brand) {
-                          _changeSelectedStatus(isChecked, brand);
+              return StatefulBuilder(
+                builder: (_, setState) {
+                  return Column(
+                    children: [
+                      SelectAllView(
+                        isAllSelected: _isAllSelected(),
+                        onSelectChange: (isAllSelected) {
+                          _changeAllSelection(isAllSelected);
+                          setState(() {});
                         },
-                      );
-                    },
-                  ),
-                  AppButton(
-                    enable: true,
-                    onTap: () {
-                      _apply();
-                    },
-                    text: AppStrings.apply.tr(),
-                    enableColor: AppColors.purpleBlue,
-                    verticalPadding: AppSize.s6.rh,
-                    icon: Icons.search,
-                    textSize: AppFontSize.s14,
-                    enableBorderColor: AppColors.purpleBlue,
-                  ),
-                ],
+                      ),
+                      const Divider(),
+                      ListView.separated(
+                        itemCount: _brands.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return BrandFilterItem(
+                            brand: _brands[index],
+                            onChanged: (isChecked, brand) {
+                              _changeSelectedStatus(isChecked, brand);
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Divider();
+                        },
+                      ),
+                      AppButton(
+                        enable: true,
+                        onTap: () {
+                          _apply();
+                        },
+                        text: AppStrings.apply.tr(),
+                        enableColor: AppColors.purpleBlue,
+                        verticalPadding: AppSize.s6.rh,
+                        icon: Icons.search,
+                        textSize: AppFontSize.s14,
+                        enableBorderColor: AppColors.purpleBlue,
+                      ),
+                    ],
+                  );
+                },
               );
             }
             return const SizedBox();

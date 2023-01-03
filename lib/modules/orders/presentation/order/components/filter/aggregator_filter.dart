@@ -4,6 +4,7 @@ import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
+import 'package:klikit/modules/orders/presentation/order/components/filter/select_all_view.dart';
 import 'package:klikit/modules/orders/presentation/order/observer/filter_subject.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -30,6 +31,26 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
   final _orderInfoProvider = getIt.get<OrderInformationProvider>();
   final List<Provider> _providers = [];
   final List<Provider> _applyingProvider = [];
+  String _title = AppStrings.delivery_aggregator.tr();
+
+  @override
+  void initState() {
+    _controller.addListener(_onToggle);
+    super.initState();
+  }
+
+  void _onToggle(){
+    String title = AppStrings.delivery_aggregator.tr();
+    if(!_controller.isExpanded){
+      final selectedAggregator = _applyingProvider.where((element) => element.isSelected).toList().length;
+      if(selectedAggregator > 0){
+        title = '$selectedAggregator  ${AppStrings.aggregators_selected.tr()}';
+      }
+    }
+    setState(() {
+      _title = title;
+    });
+  }
 
   void _changeSelectedStatus(bool isSelected, Provider provider) async {
     provider.isSelected = isSelected;
@@ -39,14 +60,14 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
 
   void _apply() async {
     for (var provider in _applyingProvider) {
-      _providers[_providers
-          .indexWhere((element) => element.id == provider.id)] = provider;
+      _providers[_providers.indexWhere((element) => element.id == provider.id)] = provider;
     }
     widget.filterSubject.applyProviderFilter(
       await _orderInfoProvider.extractProvidersIds(
         _providers.where((element) => element.isSelected).toList(),
       ),
     );
+    _controller.toggle();
   }
 
   void _copyDataToLocalVariable(List<Provider> providers) async {
@@ -56,7 +77,27 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
         _providers.add(provider.copy());
       }
       widget.filterSubject.setProviders(
-          await _orderInfoProvider.extractProvidersIds(_providers));
+        await _orderInfoProvider.extractProvidersIds(_providers),
+      );
+    }
+    _applyingProvider.addAll(_providers);
+  }
+
+  bool _isAllSelected() {
+    bool allSelected = true;
+    for (var provider in _providers) {
+      if (!provider.isSelected) {
+        allSelected = false;
+        break;
+      }
+    }
+    return allSelected;
+  }
+
+  void _changeAllSelection(bool isSelected) {
+    _applyingProvider.clear();
+    for (var provider in _providers) {
+      provider.isSelected = isSelected;
     }
     _applyingProvider.addAll(_providers);
   }
@@ -65,7 +106,7 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
   Widget build(BuildContext context) {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
-        headerColor: AppColors.lightVioletTwo,
+        headerColor: AppColors.lightViolet,
         headerPadding: EdgeInsets.symmetric(
           horizontal: AppSize.s12.rw,
           vertical: AppSize.s8.rh,
@@ -76,13 +117,13 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
       ),
       trailing: Icon(
         Icons.keyboard_arrow_down_rounded,
-        color: AppColors.purpleBlue,
+        color: AppColors.black,
       ),
       trailingRotation: 180,
       title: Text(
-        AppStrings.delivery_aggregator.tr(),
-        style: getRegularTextStyle(
-          color: AppColors.purpleBlue,
+        _title,
+        style: getMediumTextStyle(
+          color: AppColors.black,
           fontSize: AppFontSize.s14.rSp,
         ),
       ),
@@ -94,39 +135,51 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _copyDataToLocalVariable(snapshot.data!);
-              return Column(
-                children: [
-                  ListView.separated(
-                    itemCount: _providers.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return AggregatorItem(
-                        provider: _providers[index],
-                        onChange: (isSelected, provider) {
-                          _changeSelectedStatus(isSelected, provider);
+              return StatefulBuilder(
+                builder: (_, setState) {
+                  return Column(
+                    children: [
+                      SelectAllView(
+                        isAllSelected: _isAllSelected(),
+                        onSelectChange: (isAllSelected) {
+                          _changeAllSelection(isAllSelected);
+                          setState(() {});
                         },
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: AppSize.s12.rh),
-                    child: AppButton(
-                      enable: true,
-                      onTap: () {
-                        _apply();
-                      },
-                      text: AppStrings.apply.tr(),
-                      enableColor: AppColors.purpleBlue,
-                      verticalPadding: AppSize.s6.rh,
-                      icon: Icons.search,
-                      textSize: AppFontSize.s14,
-                      enableBorderColor: AppColors.purpleBlue,
-                    ),
-                  ),
-                ],
+                      ),
+                      const Divider(),
+                      ListView.separated(
+                        itemCount: _providers.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return AggregatorItem(
+                            provider: _providers[index],
+                            onChange: (isSelected, provider) {
+                              _changeSelectedStatus(isSelected, provider);
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: AppSize.s12.rh),
+                        child: AppButton(
+                          enable: true,
+                          onTap: () {
+                            _apply();
+                          },
+                          text: AppStrings.apply.tr(),
+                          enableColor: AppColors.purpleBlue,
+                          verticalPadding: AppSize.s6.rh,
+                          icon: Icons.search,
+                          textSize: AppFontSize.s14,
+                          enableBorderColor: AppColors.purpleBlue,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               );
             }
             return const SizedBox();
