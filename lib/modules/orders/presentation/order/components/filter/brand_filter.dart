@@ -30,7 +30,7 @@ class _BrandFilterState extends State<BrandFilter> {
   final _orderInfoProvider = getIt.get<OrderInformationProvider>();
   final List<Brand> _brands = [];
   final List<Brand> _applyingBrands = [];
-  String _title = AppStrings.filter_by_brand.tr();
+  String _title = AppStrings.brand.tr();
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _BrandFilterState extends State<BrandFilter> {
   }
 
   void _onToggle() {
-    String title = AppStrings.filter_by_brand.tr();
+    String title = AppStrings.brand.tr();
     if (!_controller.isExpanded) {
       final selectedAggregator =
           _applyingBrands.where((element) => element.isChecked).toList().length;
@@ -105,9 +105,9 @@ class _BrandFilterState extends State<BrandFilter> {
   Widget build(BuildContext context) {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
-        headerColor: AppColors.lightViolet,
+        headerColor: AppColors.lightVioletTwo,
         headerPadding: EdgeInsets.symmetric(
-          horizontal: AppSize.s12.rw,
+          horizontal: AppSize.s8.rw,
           vertical: AppSize.s8.rh,
         ),
         headerSplashColor: AppColors.lightViolet,
@@ -121,7 +121,7 @@ class _BrandFilterState extends State<BrandFilter> {
       trailingRotation: 180,
       title: Text(
         _title,
-        style: getMediumTextStyle(
+        style: getRegularTextStyle(
           color: AppColors.black,
           fontSize: AppFontSize.s14.rSp,
         ),

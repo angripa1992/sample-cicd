@@ -37,6 +37,7 @@ class OrderItemDetails extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(
           vertical: AppSize.s4.rh,
+          horizontal: AppSize.s16.rw,
         ),
         child: ListView.separated(
           itemCount: order.cartV2.length,

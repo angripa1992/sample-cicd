@@ -106,9 +106,9 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
   Widget build(BuildContext context) {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
-        headerColor: AppColors.lightViolet,
+        headerColor: AppColors.lightVioletTwo,
         headerPadding: EdgeInsets.symmetric(
-          horizontal: AppSize.s12.rw,
+          horizontal: AppSize.s8.rw,
           vertical: AppSize.s8.rh,
         ),
         headerSplashColor: AppColors.lightViolet,
@@ -117,12 +117,12 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
       ),
       trailing: Icon(
         Icons.keyboard_arrow_down_rounded,
-        color: AppColors.black,
+        color: AppColors.black ,
       ),
       trailingRotation: 180,
       title: Text(
         _title,
-        style: getMediumTextStyle(
+        style: getRegularTextStyle(
           color: AppColors.black,
           fontSize: AppFontSize.s14.rSp,
         ),

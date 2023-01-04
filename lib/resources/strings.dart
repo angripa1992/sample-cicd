@@ -137,6 +137,8 @@ class AppStrings {
   static const String menu = "menu";
   static const String modifiers = "modifiers";
   static const String filter_by_brand = "filter_by_brand";
+  static const String filter_by_aggregator = "filter_by_aggregator";
+  static const String filter_by_status = "filter_by_status";
   static const String select_brand = "select_brand";
   static const String delivery_aggregator = "delivery_aggregator";
   static const String select_aggregator = "select_aggregator";
@@ -216,6 +218,7 @@ class AppStrings {
   static const String id = "id";
   static const String time = "time";
   static const String order_instruction = "order_instruction";
+  static const String order_details = "order_details";
   static const String select_all = "select_all";
   static const String aggregators_selected = "aggregators_selected";
   static const String brands_selected = "brands_selected";

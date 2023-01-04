@@ -20,6 +20,15 @@ class ImageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: ImageUrlProvider.getUrl(path),
+      imageBuilder: (context, imageProvider) => Container(
+        width: width ??  AppSize.s40.rw,
+        height: height ?? AppSize.s40.rh,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(AppSize.s8.rSp)),
+          //shape: BoxShape.rectangle,
+          image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+        ),
+      ),
       placeholder: (context, url) => Center(
         child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
       ),

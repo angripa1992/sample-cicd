@@ -67,51 +67,63 @@ class _StatusFilterState extends State<StatusFilter> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: _currentTabIndex == OrderTab.History,
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: AppSize.s16.rh,
-          right: AppSize.s12.rw,
-          left: AppSize.s12.rw,
-        ),
-        child: ExpandedTile(
-          theme: ExpandedTileThemeData(
-            headerColor: AppColors.lightViolet,
-            headerPadding: EdgeInsets.symmetric(
-              horizontal: AppSize.s12.rw,
-              vertical: AppSize.s8.rh,
-            ),
-            headerSplashColor: AppColors.lightViolet,
-            contentBackgroundColor: AppColors.pearl,
-            contentPadding: EdgeInsets.zero,
-          ),
-          trailing: Icon(
-            Icons.keyboard_arrow_down_rounded,
-            color: AppColors.black,
-          ),
-          trailingRotation: 180,
-          title: Text(
-            AppStrings.status.tr(),
-            style: getMediumTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s14.rSp,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s14.rw, vertical: AppSize.s12.rh),
+            child: Text(
+              AppStrings.filter_by_aggregator.tr(),
+              style: getRegularTextStyle(
+                color: AppColors.purpleBlue,
+                fontSize: AppFontSize.s14.rSp,
+              ),
             ),
           ),
-          content: MediaQuery.removePadding(
-            context: context,
-            removeTop: true,
-            child: ListView.builder(
-              itemCount: _statusItems.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return StatusFilterItem(
-                  statusItem: _statusItems[index],
-                  onCheckedChanged: _changeSelectedStatus,
-                );
-              },
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+            child: ExpandedTile(
+              theme: ExpandedTileThemeData(
+                headerColor: AppColors.lightVioletTwo,
+                headerPadding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s8.rw,
+                  vertical: AppSize.s8.rh,
+                ),
+                headerSplashColor: AppColors.lightViolet,
+                contentBackgroundColor: AppColors.pearl,
+                contentPadding: EdgeInsets.zero,
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: AppColors.black,
+              ),
+              trailingRotation: 180,
+              title: Text(
+                AppStrings.status.tr(),
+                style: getRegularTextStyle(
+                  color: AppColors.black,
+                  fontSize: AppFontSize.s14.rSp,
+                ),
+              ),
+              content: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: ListView.builder(
+                  itemCount: _statusItems.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return StatusFilterItem(
+                      statusItem: _statusItems[index],
+                      onCheckedChanged: _changeSelectedStatus,
+                    );
+                  },
+                ),
+              ),
+              controller: _controller,
             ),
           ),
-          controller: _controller,
-        ),
+        ],
       ),
     );
   }

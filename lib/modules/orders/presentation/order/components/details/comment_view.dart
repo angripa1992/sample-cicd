@@ -20,6 +20,7 @@ class CommentView extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(
           vertical: AppSize.s8.rh,
+          horizontal: AppSize.s16.rw,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

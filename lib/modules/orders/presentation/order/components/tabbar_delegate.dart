@@ -13,10 +13,9 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      margin: EdgeInsets.only(
-        right: AppSize.s12.rw,
-        left: AppSize.s12.rw,
-        top: AppSize.s12.rh,
+      margin: EdgeInsets.symmetric(
+        horizontal: AppSize.s12.rw,
+        vertical: AppSize.s4.rh,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s4.rSp),

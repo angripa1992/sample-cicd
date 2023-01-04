@@ -115,8 +115,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                     ),
                     Tab(text: AppStrings.order_history.tr()),
                   ],
-                  labelPadding:
-                      EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+                  labelPadding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
                   unselectedLabelColor: AppColors.lightViolet,
                   labelColor: AppColors.white,
                   labelStyle: TextStyle(
