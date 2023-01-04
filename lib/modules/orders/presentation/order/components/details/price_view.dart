@@ -37,90 +37,93 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Divider(color: AppColors.lightViolet),
-        ExpandedTile(
-          theme: ExpandedTileThemeData(
-            headerColor: Colors.transparent,
-            headerPadding: EdgeInsets.zero,
-            leadingPadding: EdgeInsets.zero,
-            trailingPadding: EdgeInsets.zero,
-            titlePadding: EdgeInsets.zero,
-            headerSplashColor: AppColors.lightGrey,
-            contentBackgroundColor: Colors.transparent,
-            contentPadding: EdgeInsets.zero,
-          ),
-          trailing: Text(
-            '${widget.order.currencySymbol}${PriceCalculator.calculateSubtotal(widget.order)}',
-            style: TextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s14.rSp,
-              fontWeight: AppFontWeight.bold,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+      child: Column(
+        children: [
+          Divider(color: AppColors.lightViolet),
+          ExpandedTile(
+            theme: ExpandedTileThemeData(
+              headerColor: Colors.transparent,
+              headerPadding: EdgeInsets.zero,
+              leadingPadding: EdgeInsets.zero,
+              trailingPadding: EdgeInsets.zero,
+              titlePadding: EdgeInsets.zero,
+              headerSplashColor: AppColors.lightGrey,
+              contentBackgroundColor: Colors.transparent,
+              contentPadding: EdgeInsets.zero,
             ),
+            trailing: Text(
+              '${widget.order.currencySymbol}${PriceCalculator.calculateSubtotal(widget.order)}',
+              style: TextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s14.rSp,
+                fontWeight: AppFontWeight.bold,
+              ),
+            ),
+            trailingRotation: 0,
+            title: SubtotalExpandHeader(controller: _controller!),
+            content: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: AppSize.s8.rh,
+              ),
+              child: Column(
+                children: [
+                  _getSubtotalItem(
+                    AppStrings.vat.tr(),
+                    widget.order.vat,
+                  ),
+                  SizedBox(height: AppSize.s2.rh),
+                  _getSubtotalItem(
+                    AppStrings.delivery_fee.tr(),
+                    widget.order.deliveryFee,
+                  ),
+                  SizedBox(height: AppSize.s2.rh),
+                  _getSubtotalItem(
+                    AppStrings.additional_fee.tr(),
+                    widget.order.additionalFee,
+                  ),
+                  SizedBox(height: AppSize.s2.rh),
+                  _getSubtotalItem(
+                    AppStrings.discount.tr(),
+                    widget.order.discount,
+                    color: AppColors.red,
+                    isDiscount: true,
+                  ),
+                ],
+              ),
+            ),
+            controller: _controller!,
           ),
-          trailingRotation: 0,
-          title: SubtotalExpandHeader(controller: _controller!),
-          content: Padding(
+          Divider(color: AppColors.lightViolet),
+          Padding(
             padding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,
             ),
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _getSubtotalItem(
-                  AppStrings.vat.tr(),
-                  widget.order.vat,
+                Text(
+                  AppStrings.total.tr(),
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s18.rSp,
+                    fontWeight: AppFontWeight.bold,
+                  ),
                 ),
-                SizedBox(height: AppSize.s2.rh),
-                _getSubtotalItem(
-                  AppStrings.delivery_fee.tr(),
-                  widget.order.deliveryFee,
-                ),
-                SizedBox(height: AppSize.s2.rh),
-                _getSubtotalItem(
-                  AppStrings.additional_fee.tr(),
-                  widget.order.additionalFee,
-                ),
-                SizedBox(height: AppSize.s2.rh),
-                _getSubtotalItem(
-                  AppStrings.discount.tr(),
-                  widget.order.discount,
-                  color: AppColors.red,
-                  isDiscount: true,
+                Text(
+                  '${widget.order.currencySymbol}${PriceCalculator.convertPrice(widget.order.finalPrice)}',
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s18.rSp,
+                    fontWeight: AppFontWeight.bold,
+                  ),
                 ),
               ],
             ),
           ),
-          controller: _controller!,
-        ),
-        Divider(color: AppColors.lightViolet),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: AppSize.s8.rh,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppStrings.total.tr(),
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s18.rSp,
-                  fontWeight: AppFontWeight.bold,
-                ),
-              ),
-              Text(
-                '${widget.order.currencySymbol}${PriceCalculator.convertPrice(widget.order.finalPrice)}',
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s18.rSp,
-                  fontWeight: AppFontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

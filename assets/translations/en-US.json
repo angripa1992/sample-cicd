@@ -116,7 +116,9 @@
   "could_not_email_msg" : "Could not email on this email",
 
   "modifiers" : "Modifiers",
-  "filter_by_brand" : "Filter by brand",
+  "filter_by_brand" : "Filter by Brand",
+  "filter_by_aggregator" : "Filter by Aggregator",
+  "filter_by_status" : "Filter by Status",
   "select_brand" : "Select Brand",
   "delivery_aggregator" : "Delivery Aggregator",
   "select_aggregator" : "Select Aggregator",
@@ -196,6 +198,8 @@
   "time": "Time",
   "select_all": "Select All",
   "aggregators_selected": "Aggregators Selected",
-  "brands_selected": "Brands Selected"
+  "brands_selected": "Brands Selected",
+  "order_instruction": "Order Instruction",
+  "order_details": "Order Details"
 
 }

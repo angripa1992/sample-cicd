@@ -35,29 +35,35 @@ class OrderDetailsHeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: AppSize.s16.rh,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s16.rw,
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: AppSize.s8.rh,
+              bottom: AppSize.s16.rh,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: _idView()),
+                SizedBox(width: AppSize.s8.rw),
+                _placedOnView(),
+              ],
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(child: _idView()),
-              SizedBox(width: AppSize.s8.rw),
-              _placedOnView(),
-            ],
-          ),
-        ),
-        _externalIdView(),
-        SizedBox(height: AppSize.s8.rh),
-        _timeView(),
-        SizedBox(height: AppSize.s8.rh),
-        _brandAndCommentView(),
-        SizedBox(height: AppSize.s8.rh),
-        OrderStatusView(order: order),
-      ],
+          _externalIdView(),
+          SizedBox(height: AppSize.s8.rh),
+          _timeView(),
+          SizedBox(height: AppSize.s8.rh),
+          _brandAndCommentView(),
+          SizedBox(height: AppSize.s8.rh),
+          OrderStatusView(order: order),
+        ],
+      ),
     );
   }
 
@@ -127,22 +133,22 @@ class OrderDetailsHeaderView extends StatelessWidget {
           ),
           order.source > 0
               ? FutureBuilder<Source>(
-                future: _infoProvider.findSourceById(order.source),
-                builder: (_, snapshot) {
-                  if (snapshot.hasData) {
-                    return Flexible(
-                      child: Text(
-                        ' ${snapshot.data!.name}',
-                        style: getBoldTextStyle(
-                          color: AppColors.purpleBlue,
-                          fontSize: AppFontSize.s14.rSp,
+                  future: _infoProvider.findSourceById(order.source),
+                  builder: (_, snapshot) {
+                    if (snapshot.hasData) {
+                      return Flexible(
+                        child: Text(
+                          ' ${snapshot.data!.name}',
+                          style: getBoldTextStyle(
+                            color: AppColors.purpleBlue,
+                            fontSize: AppFontSize.s14.rSp,
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                  return SizedBox();
-                },
-              )
+                      );
+                    }
+                    return SizedBox();
+                  },
+                )
               : FutureBuilder<Provider>(
                   future: _infoProvider.findProviderById(order.providerId),
                   builder: (context, snapshot) {

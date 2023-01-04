@@ -28,18 +28,36 @@ class OrderHeaderView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s14.rw, vertical: AppSize.s12.rh),
+          child: Text(
+            AppStrings.filter_by_brand.tr(),
+            style: getRegularTextStyle(
+              color: AppColors.purpleBlue,
+              fontSize: AppFontSize.s14.rSp,
+            ),
+          ),
+        ),
+        Padding(
           padding: EdgeInsets.symmetric(
             horizontal: AppSize.s12.rw,
-            vertical: AppSize.s16.rh,
           ),
           child: BrandFilter(
             filterSubject: subject,
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
-            right: AppSize.s12.rw,
-            left: AppSize.s12.rw,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s14.rw, vertical: AppSize.s12.rh),
+          child: Text(
+            AppStrings.filter_by_aggregator.tr(),
+            style: getRegularTextStyle(
+              color: AppColors.purpleBlue,
+              fontSize: AppFontSize.s14.rSp,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSize.s12.rw,
           ),
           child: AggregatorsFilter(filterSubject: subject),
         ),
@@ -52,6 +70,7 @@ class OrderHeaderView extends StatelessWidget {
             right: AppSize.s12.rw,
             left: AppSize.s16.rw,
             top: AppSize.s12.rw,
+            bottom: AppSize.s8.rw,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

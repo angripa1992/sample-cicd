@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -8,6 +9,9 @@ import 'package:klikit/modules/orders/presentation/order/components/details/pric
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
+import '../../../../../../resources/styles.dart';
 import '../order_item/order_action_buttons.dart';
 
 void _openBottomSheet({
@@ -36,39 +40,60 @@ void _openBottomSheet({
         resizeToAvoidBottomInset: false,
         extendBody: false,
         key: key,
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s16.rw,
-            vertical: AppSize.s8.rh,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.remove,
-                size: AppSize.s18.rSp,
-                color: AppColors.blackCow,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+                  child: Text(
+                    AppStrings.order_details.tr(),
+                    style: getRegularTextStyle(
+                      color: AppColors.blackCow,
+                      fontSize: AppFontSize.s14.rSp,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.cancel_rounded,
+                    size: AppSize.s18.rSp,
+                    color: AppColors.blackCow,
+                  ),
+                )
+              ],
+            ),
+            OrderDetailsHeaderView(
+              order: order,
+              modalKey: key,
+              onCommentActionSuccess: onCommentActionSuccess,
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: AppSize.s8.rh,
+                left: AppSize.s16.rw,
+                right: AppSize.s16.rw,
               ),
-              OrderDetailsHeaderView(
-                order: order,
-                modalKey: key,
-                onCommentActionSuccess: onCommentActionSuccess,
+              child: Divider(color: AppColors.lightViolet),
+            ),
+            OrderItemDetails(order: order),
+            CommentView(comment: order.orderComment),
+            PriceView(order: order),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: AppSize.s8.rh,
+                horizontal: AppSize.s16.rw,
               ),
-              Padding(
-                padding: EdgeInsets.only(top: AppSize.s8.rh),
-                child: Divider(color: AppColors.lightViolet),
-              ),
-              OrderItemDetails(order: order),
-              CommentView(comment: order.orderComment),
-              PriceView(order: order),
-              Padding(
-                padding: EdgeInsets.only(top: AppSize.s8.rh),
-                child: actionView,
-              ),
-            ],
-          ),
+              child: actionView,
+            ),
+          ],
         ),
       ),
     ),

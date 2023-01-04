@@ -65,7 +65,7 @@ class OrderItemView extends StatelessWidget {
                 ),
         ),
         SizedBox(width: AppSize.s8.rw),
-        Flexible(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -86,25 +86,24 @@ class OrderItemView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Flexible(
-                    child: IconButton(
-                      onPressed: () {
-                        Clipboard.setData(
-                          ClipboardData(
-                            text: (order.providerId == ProviderID.KLIKIT)
-                                ? order.id.toString()
-                                : order.shortId,
-                          ),
-                        ).then((value) {
-                          showSuccessSnackBar(
-                              context, AppStrings.order_id_copied.tr());
-                        });
-                      },
-                      icon: Icon(
-                        Icons.copy,
-                        size: AppSize.s14.rSp,
-                        color: AppColors.purpleBlue,
-                      ),
+                  SizedBox(width: AppSize.s8.rw),
+                  InkWell(
+                    onTap: (){
+                      Clipboard.setData(
+                        ClipboardData(
+                          text: (order.providerId == ProviderID.KLIKIT)
+                              ? order.id.toString()
+                              : order.shortId,
+                        ),
+                      ).then((value) {
+                        showSuccessSnackBar(
+                            context, AppStrings.order_id_copied.tr());
+                      });
+                    },
+                    child: Icon(
+                      Icons.copy,
+                      size: AppSize.s14.rSp,
+                      color: AppColors.purpleBlue,
                     ),
                   ),
                 ],
@@ -136,36 +135,25 @@ class OrderItemView extends StatelessWidget {
                     ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                child: SizedBox(
-                  height: AppSize.s20.rh,
-                  width: AppSize.s100.rw,
-                  child: ElevatedButton(
-                    onPressed: seeDetails,
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size.zero,
-                      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-                      primary: AppColors.canaryYellow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            AppSize.s12.rSp), // <-- Radius
-                      ),
+                child: InkWell(
+                  onTap: seeDetails,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                      border: Border.all(color: AppColors.purpleBlue),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          AppStrings.see_details.tr(),
-                          style: getMediumTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s12.rSp,
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppSize.s4.rh,
+                        horizontal: AppSize.s16.rw,
+                      ),
+                      child: Text(
+                        AppStrings.see_details.tr(),
+                        style: getMediumTextStyle(
                           color: AppColors.purpleBlue,
-                          size: AppSize.s14.rSp,
+                          fontSize: AppFontSize.s12.rSp,
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
