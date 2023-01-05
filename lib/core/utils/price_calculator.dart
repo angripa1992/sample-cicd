@@ -8,7 +8,7 @@ class PriceCalculator {
         order.providerId != ProviderID.FOOD_PANDA) {
       double unitPrice = double.parse(cartV2.unitPrice);
       double itemTotalPrice = unitPrice * cartV2.quantity;
-      return itemTotalPrice.toString();
+      return itemTotalPrice.toStringAsFixed(2);
     }
     return cartV2.price;
   }
@@ -20,7 +20,7 @@ class PriceCalculator {
       double unitPrice = double.parse(modifiers.unitPrice);
       double modifierTotalPrice =
           unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
-      return modifierTotalPrice.toString();
+      return modifierTotalPrice.toStringAsFixed(2);
     }
     return modifiers.price;
   }
