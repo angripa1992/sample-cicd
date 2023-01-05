@@ -73,11 +73,10 @@ class LocalNotificationService {
   }
 
   void showNotification({required Map<String, dynamic> payload}) async {
-    final notificationData =
-        NotificationDataHandler().getNotificationData(payload);
+    final notificationData = NotificationDataHandler().getNotificationData(payload);
     final notificationType = int.parse(notificationData.type);
     flutterLocalNotificationsPlugin.show(
-      notificationType,
+      DateTime.now().millisecondsSinceEpoch.remainder(100000),
       notificationData.title,
       notificationData.message,
       NotificationDetails(

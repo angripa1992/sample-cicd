@@ -26,6 +26,7 @@ class FcmService {
 
   Future<String?> getFcmToken() async {
     final fcmToken = await messaging.getToken();
+    print('fcm token => $fcmToken');
     return fcmToken;
   }
 
