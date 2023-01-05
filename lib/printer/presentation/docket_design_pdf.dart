@@ -419,7 +419,7 @@ class DocketDesignPdf {
         _getSubtotalItem(
           order,
           'Subtotal:',
-          PriceCalculator.calculateSubtotal(order),
+          num.parse(PriceCalculator.calculateSubtotal(order)),
         ),
         _getSubtotalItem(
           order,
