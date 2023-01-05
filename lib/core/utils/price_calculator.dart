@@ -25,14 +25,14 @@ class PriceCalculator {
     return modifiers.price;
   }
 
-  static num calculateSubtotal(Order order) {
+  static String calculateSubtotal(Order order) {
     num subtotal;
     if (order.providerId == ProviderID.FOOD_PANDA) {
       subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
     } else {
       subtotal = order.itemPrice;
     }
-    return subtotal;
+    return convertPrice(subtotal);
   }
 
   static String convertPrice(num price) {
