@@ -47,10 +47,15 @@ class RestClient {
     final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
     final versionCode = await  deviceInfoProvider.versionCode();
     final versionName = await  deviceInfoProvider.versionName();
+    final model = await  deviceInfoProvider.getDeviceModel();
+    final osversion = await  deviceInfoProvider.getVersionInfo();
     _dio.options.headers[contentType] = 'application/json';
     // _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
     // _dio.options.headers[appVersion] = versionCode;
     // _dio.options.headers[appVersionName] = versionName.removeDot();
+
+    print('device info =============== $model  ****  $osversion');
+
   }
 
   void _initInterceptor() {
