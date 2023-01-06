@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:klikit/app/extensions.dart';
 
 import '../../resources/strings.dart';
-
 
 class Failure {
   int code;
@@ -24,7 +22,8 @@ class ErrorHandler implements Exception {
   }
 
   ErrorHandler.handleInternetConnection() {
-    failure = Failure(ResponseCode.NO_INTERNET_CONNECTION,ResponseMessage.NO_INTERNET_CONNECTION);
+    failure = Failure(ResponseCode.NO_INTERNET_CONNECTION,
+        ResponseMessage.NO_INTERNET_CONNECTION);
   }
 
   Failure _handleError(DioError error) {
@@ -35,38 +34,38 @@ class ErrorHandler implements Exception {
       case DioErrorType.sendTimeout:
         return Failure(ResponseCode.SEND_TIMEOUT, ResponseMessage.SEND_TIMEOUT);
       case DioErrorType.receiveTimeout:
-        return Failure(ResponseCode.RECEIVE_TIMEOUT, ResponseMessage.RECEIVE_TIMEOUT);
+        return Failure(
+            ResponseCode.RECEIVE_TIMEOUT, ResponseMessage.RECEIVE_TIMEOUT);
       case DioErrorType.cancel:
         return Failure(ResponseCode.CANCEL, ResponseMessage.CANCEL);
       case DioErrorType.other:
-        return Failure(error.response?.statusCode ?? ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
+        return Failure(error.response?.statusCode ?? ResponseCode.DEFAULT,
+            ResponseMessage.DEFAULT);
       case DioErrorType.response:
         return _handleResponseError(error);
     }
   }
 
-
-  Failure _handleResponseError(DioError error){
-    if(error.response?.statusCode == ResponseCode.UPDATE_REQUIRED){
+  Failure _handleResponseError(DioError error) {
+    if (error.response?.statusCode == ResponseCode.UPDATE_REQUIRED) {
       return Failure(ResponseCode.UPDATE_REQUIRED, ResponseMessage.DEFAULT);
     }
-    try{
+    try {
       String message = ResponseMessage.DEFAULT;
-      final dataMap = error.response?.data as Map<String,dynamic>?;
-      if(dataMap != null){
-        if(dataMap.containsKey('validation_error')){
+      final dataMap = error.response?.data as Map<String, dynamic>?;
+      if (dataMap != null) {
+        if (dataMap.containsKey('validation_error')) {
           message = dataMap['validation_error']['comment'];
-        }else if(dataMap.containsKey('message')){
+        } else if (dataMap.containsKey('message')) {
           message = dataMap['message'];
         }
       }
       return Failure(ResponseCode.RESPONSE, message);
-    }catch(error){
+    } catch (error) {
       return Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
     }
   }
 }
-
 
 class ResponseCode {
   static const int SUCCESS = 200;
@@ -78,6 +77,7 @@ class ResponseCode {
   static const int NOT_FOUND = 404;
   static const int UPDATE_REQUIRED = 418;
   static const int INTERNAL_SERVER_ERROR = 500;
+
   // local status code
   static const int DEFAULT = -1;
   static const int CONNECT_TIMEOUT = -2;

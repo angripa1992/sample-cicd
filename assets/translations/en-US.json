@@ -21,7 +21,7 @@
   "menu" : "Menu",
   "account" : "Account",
   "contact_support" : "Contact Support",
-  "available" : "Available",
+  "available" : "Available", 
   "live_chat" : "Live Chat",
   "email_support" : "Email Support",
   "edit_profile" : "Edit Profile",
@@ -200,5 +200,4 @@
   "brands_selected": "Brands Selected",
   "order_instruction": "Order Instruction",
   "order_details": "Order Details"
-
 }
