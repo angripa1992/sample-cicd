@@ -14,6 +14,7 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
+import 'package:klikit/segments/event_manager.dart';
 
 import '../../../../domain/entities/source.dart';
 

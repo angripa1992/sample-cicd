@@ -13,6 +13,8 @@ import 'package:klikit/modules/menu/presentation/pages/menu_mgt_screen.dart';
 import '../../../../app/di.dart';
 import '../../../../resources/strings.dart';
 import '../../../../resources/styles.dart';
+import '../../../../segments/event_manager.dart';
+import '../../../../segments/segemnt_data_provider.dart';
 import '../cubit/aggregator_selection_cubit.dart';
 import '../cubit/menu_brands_cubit.dart';
 
@@ -24,6 +26,13 @@ class StockScreen extends StatefulWidget {
 }
 
 class _StockScreenState extends State<StockScreen> {
+
+  @override
+  void initState() {
+    SegmentManager().screen(event: SegmentEvents.MENU_TAB, name: 'Menu Tab');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

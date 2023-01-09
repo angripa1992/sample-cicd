@@ -25,7 +25,9 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
+import 'package:klikit/segments/event_manager.dart';
 
+import '../../../../segments/segemnt_data_provider.dart';
 import 'bloc/login_event.dart';
 import 'bloc/login_state.dart';
 
@@ -93,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _appPreferences.insertRefreshToken(user.refreshToken);
     _appPreferences.saveUser(user).then((_) {
       _registerFcmToken();
+      SegmentManager().identify(event: SegmentEvents.USER_LOGGED_IN);
     });
   }
 

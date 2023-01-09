@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/network/urls.dart';
 
-import '../../app/app_config.dart';
 import '../../app/app_preferences.dart';
 import '../../app/di.dart';
 import '../../app/enums.dart';
@@ -35,37 +33,38 @@ class RestClient {
 
   String _token(String? accessToken) => 'Bearer $accessToken';
 
-  void _logout(){
+  void _logout() {
     getIt.get<OrderInformationProvider>().clearData();
-    getIt.get<AppPreferences>().clearPreferences().then((value) {
-        Navigator.pushNamedAndRemoveUntil(RoutesGenerator.navigatorKey.currentState!.context, Routes.login, (route) => false);
+    getIt.get<AppPreferences>().clearPreferences().then(
+      (value) {
+        Navigator.pushNamedAndRemoveUntil(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            Routes.login,
+            (route) => false);
       },
     );
   }
 
-  void _addHeader() async{
+  void _addHeader() async {
     final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
-    final versionCode = await  deviceInfoProvider.versionCode();
-    final versionName = await  deviceInfoProvider.versionName();
-    final model = await  deviceInfoProvider.getDeviceModel();
-    final osversion = await  deviceInfoProvider.getVersionInfo();
+    final versionCode = await deviceInfoProvider.versionCode();
+    final versionName = await deviceInfoProvider.versionName();
     _dio.options.headers[contentType] = 'application/json';
-    // _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
-    // _dio.options.headers[appVersion] = versionCode;
-    // _dio.options.headers[appVersionName] = versionName.removeDot();
-
-    print('device info =============== $model  ****  $osversion');
-
+    _dio.options.headers[appAgent] =
+        'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
+    _dio.options.headers[appVersion] = versionCode;
+    _dio.options.headers[appVersionName] = versionName.removeDot();
   }
 
   void _initInterceptor() {
-    _dioLogger.setLogStatus(LogStatus.OPEN);
+    _dioLogger.setLogStatus(LogStatus.CLOSE);
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
     _addHeader();
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
-          if (options.path == Urls.login || options.path == Urls.forgetPassword) {
+          if (options.path == Urls.login ||
+              options.path == Urls.forgetPassword) {
             handler.next(options);
           } else {
             if (_tokenProvider.getAccessToken() == null) {
@@ -74,17 +73,15 @@ class RestClient {
                 (accessToken) {
                   options.headers[authorization] = _token(accessToken);
                   handler.next(options);
-                  print('=====================here 0');
                 },
                 (errorCode) {
-                  print('=====================here 1');
                   _logout();
                 },
               );
             } else {
-              options.headers[authorization] = _token(_tokenProvider.getAccessToken());
+              options.headers[authorization] =
+                  _token(_tokenProvider.getAccessToken());
               handler.next(options);
-              print('=====================here 2');
             }
           }
           _dioLogger.logRequest(options);
@@ -92,16 +89,19 @@ class RestClient {
         onError: (error, handler) async {
           _dioLogger.logError(error);
           var options = error.response!.requestOptions;
-         if(error.response?.statusCode == ResponseCode.UPDATE_REQUIRED){
-          AppUpdateManager().showAppUpdateDialog();
-          return handler.reject(error);
+          if (error.response?.statusCode == ResponseCode.UPDATE_REQUIRED) {
+            AppUpdateManager().showAppUpdateDialog();
+            return handler.reject(error);
           }
-          if (options.path == Urls.login || options.path == Urls.forgetPassword) {
+          if (options.path == Urls.login ||
+              options.path == Urls.forgetPassword) {
             return handler.next(error);
           } else {
             if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-              if (_token(_tokenProvider.getAccessToken()) != options.headers[authorization]) {
-                options.headers[authorization] = _token(_tokenProvider.getAccessToken());
+              if (_token(_tokenProvider.getAccessToken()) !=
+                  options.headers[authorization]) {
+                options.headers[authorization] =
+                    _token(_tokenProvider.getAccessToken());
                 _dio.fetch(options).then(
                   (r) => handler.resolve(r),
                   onError: (e) {
@@ -122,7 +122,7 @@ class RestClient {
                   );
                 },
                 (errorCode) {
-                  if(errorCode == ResponseCode.UNAUTHORISED){
+                  if (errorCode == ResponseCode.UNAUTHORISED) {
                     return;
                   }
                   handler.reject(error);
@@ -131,7 +131,6 @@ class RestClient {
               return;
             }
           }
-          print('=====================here 5');
           return handler.next(error);
         },
         onResponse: (response, handler) {

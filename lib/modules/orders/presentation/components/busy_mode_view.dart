@@ -14,6 +14,8 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/values.dart';
+import '../../../../segments/event_manager.dart';
+import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/loading_button.dart';
 import '../../../widgets/snackbars.dart';
 import '../../domain/entities/busy_mode.dart';
@@ -52,6 +54,12 @@ class _BusyModeViewState extends State<BusyModeView> {
               }
               if (mounted) {
                 showSuccessSnackBar(context, state.data.message);
+                SegmentManager().track(
+                  event: SegmentEvents.BUSY_MODE,
+                  properties: {
+                    'state_of_busy_mode': state.data.isBusy ? "On" : "Off",
+                  },
+                );
               }
             } else if (state is Failed) {
               if (mounted) {

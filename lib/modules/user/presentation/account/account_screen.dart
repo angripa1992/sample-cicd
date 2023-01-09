@@ -20,7 +20,9 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
+import 'package:klikit/segments/event_manager.dart';
 
+import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
 import 'component/account_action_header.dart';
@@ -50,6 +52,7 @@ class _AccountScreenState extends State<AccountScreen> {
     _lastNameController.text = _user.userInfo.lastName;
     _phoneNameController.text = _user.userInfo.phone;
     _emailNameController.text = _user.userInfo.email;
+    SegmentManager().screen(event: SegmentEvents.ACCOUNT_TAB, name: 'Account Tab');
     super.initState();
   }
 
@@ -188,8 +191,8 @@ class _AccountScreenState extends State<AccountScreen> {
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
                               _orderInfoProvider.clearData();
-                              InAppNotificationHandler()
-                                  .dismissInAppNotification();
+                              InAppNotificationHandler().dismissInAppNotification();
+                              SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
                               getIt
                                   .get<AppPreferences>()
                                   .clearPreferences()
