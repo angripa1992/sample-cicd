@@ -27,6 +27,8 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../app/app_preferences.dart';
 import '../../../../resources/styles.dart';
+import '../../segments/event_manager.dart';
+import '../../segments/segemnt_data_provider.dart';
 import '../base/base_screen_cubit.dart';
 import 'components/home_header_view.dart';
 import 'components/home_order_nav_card.dart';
@@ -47,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _fetchOrder(true);
     _startTimer();
+    SegmentManager().screen(event: SegmentEvents.HOME_TAB, name: 'Home Tab');
     super.initState();
   }
 

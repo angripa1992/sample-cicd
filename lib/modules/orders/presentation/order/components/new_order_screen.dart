@@ -11,6 +11,8 @@ import 'package:klikit/printer/printing_handler.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../bloc/orders/new_order_cubit.dart';
 import '../../bloc/orders/ongoing_order_cubit.dart';
 import '../observer/filter_observer.dart';
@@ -132,7 +134,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         if (isFromDetails) {
           Navigator.of(context).pop();
         }
-        if(!willCancel && status == OrderStatus.ACCEPTED){
+        if (!willCancel && status == OrderStatus.ACCEPTED) {
           _printDocket(order);
         }
       },
@@ -142,6 +144,14 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
 
   void _printDocket(Order order) {
     _printingHandler.printDocket(order);
+  }
+
+  void _sendEvent() {
+    SegmentManager().screen(
+      event: SegmentEvents.SEE_DETAILS,
+      name: 'See Details',
+      properties: {'source_tab': 'New Order'},
+    );
   }
 
   @override
@@ -157,7 +167,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 key: _modelScaffoldKey,
                 context: context,
                 order: item,
-                onAction: (title,status) {
+                onAction: (title, status) {
                   _onAction(
                     title: title,
                     order: item,
@@ -181,8 +191,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                   _refresh(willBackground: true);
                 },
               );
+              _sendEvent();
             },
-            onAction: (title,status) {
+            onAction: (title, status) {
               _onAction(
                 title: title,
                 order: item,

@@ -12,6 +12,8 @@ import 'package:klikit/modules/orders/presentation/order/components/progress_ind
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../../../printer/printing_handler.dart';
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../bloc/orders/ongoing_order_cubit.dart';
 import '../observer/filter_observer.dart';
 import '../observer/filter_subject.dart';
@@ -130,6 +132,14 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     _printingHandler.printDocket(order);
   }
 
+  void _sendEvent() {
+    SegmentManager().screen(
+      event: SegmentEvents.SEE_DETAILS,
+      name: 'See Details',
+      properties: {'source_tab': 'Ready Order'},
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, Order>(
@@ -165,6 +175,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                   _refresh(willBackground: true);
                 },
               );
+              _sendEvent();
             },
             onAction: (title, status) {
               _onAction(

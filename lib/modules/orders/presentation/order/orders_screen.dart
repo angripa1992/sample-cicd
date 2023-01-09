@@ -16,9 +16,11 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
+import 'package:klikit/segments/event_manager.dart';
 
 import '../../../../app/constants.dart';
 import '../../../../resources/styles.dart';
+import '../../../../segments/segemnt_data_provider.dart';
 import 'components/tabbar_delegate.dart';
 import 'order_screen_navigate_data.dart';
 
@@ -50,6 +52,7 @@ class _OrdersScreenState extends State<OrdersScreen>
     _providers = filterSubject?.getProviders();
     _brands = filterSubject?.getBrands();
     _refreshOrderCount();
+    SegmentManager().screen(event: SegmentEvents.ORDER_TAB, name: 'Order Tab');
     super.initState();
   }
 
@@ -115,7 +118,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                     ),
                     Tab(text: AppStrings.order_history.tr()),
                   ],
-                  labelPadding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+                  labelPadding:
+                      EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
                   unselectedLabelColor: AppColors.lightViolet,
                   labelColor: AppColors.white,
                   labelStyle: TextStyle(

@@ -12,6 +12,8 @@ import 'package:klikit/modules/orders/presentation/order/observer/filter_observe
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../../../printer/printing_handler.dart';
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/order.dart';
 import '../../../domain/repository/orders_repository.dart';
 import '../observer/filter_subject.dart';
@@ -103,6 +105,14 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     }
   }
 
+  void _sendEvent() {
+    SegmentManager().screen(
+      event: SegmentEvents.SEE_DETAILS,
+      name: 'See Details',
+      properties: {'source_tab': 'Order History'},
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -139,6 +149,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                         _onPrint(item);
                       },
                     );
+                    _sendEvent();
                   },
                   onPrint: () {
                     _onPrint(item);
