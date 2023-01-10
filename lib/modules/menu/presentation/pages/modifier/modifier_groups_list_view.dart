@@ -8,6 +8,8 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/modifiers_group.dart';
 
 class ModifierGroupsListView extends StatefulWidget {
@@ -43,6 +45,13 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
           final group = _modifiableModifierGroups[index];
           return InkWell(
             onTap: () async {
+              SegmentManager().track(
+                event: SegmentEvents.MODIFIER_CLICK,
+                properties: {
+                  'id': group.groupId,
+                  'group_name': group.title,
+                },
+              );
               final modifiedModifierGroup = await Navigator.pushNamed(
                 context,
                 Routes.manageModifiers,

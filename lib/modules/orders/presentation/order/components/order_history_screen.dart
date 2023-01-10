@@ -91,8 +91,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
     _pagingController?.refresh();
   }
 
-  void _onPrint(Order order) {
+  void _onPrint({required Order order,required bool isFromDetails}) {
     _printingHandler.printDocket(order);
+    SegmentManager().trackOrderSegment(
+      sourceTab: 'Order History',
+      isFromDetails: isFromDetails,
+      willPrint: true,
+    );
   }
 
   void _initDatRange() {
@@ -146,13 +151,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                         _refresh();
                       },
                       onPrint: () {
-                        _onPrint(item);
+                        _onPrint(order: item,isFromDetails: true);
                       },
                     );
                     _sendEvent();
                   },
                   onPrint: () {
-                    _onPrint(item);
+                    _onPrint(order: item,isFromDetails: false);
                   },
                 );
               },

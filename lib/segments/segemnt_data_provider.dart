@@ -139,4 +139,17 @@ class SegmentEvents {
   static const String HOME_TAB = 'home_tab_NMA';
   static const String ACCOUNT_TAB = 'account_tab_NMA';
   static const String SEE_DETAILS = 'see_details_NMA_order';
+  static const String ACCEPT_ORDER = 'accept_NMA_order';
+  static const String CANCEL_ORDER = 'cancel_NMA_order';
+  static const String PRINT_ORDER = 'print_NMA_order';
+  static const String READY_ORDER = 'ready_NMA_order';
+  static const String DELIVER_ORDER = 'deliver_NMA_order';
+  static const String PICKUP_ORDER = 'pickup_NMA_order';
+  static const String MENU_SCREEN = 'menu_screen_NMA';
+  static const String MODIFIER_SCREEN = 'modifier_screen_NMA';
+  static const String MENUE_CLICK = 'menu_click_NMA_menu';
+  static const String MENUE_TOGGLE = 'menu_toggle_NMA_menu';
+  static const String CATEGORY_TOGGLE = 'category_toggle_NMA_menu';
+  static const String ITEM_TOGGLE = 'item_toggle_NMA_menu';
+  static const String MODIFIER_CLICK = 'modifier_click_NMA_menu';
 }

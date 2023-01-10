@@ -16,7 +16,10 @@ class ModifierListView extends StatefulWidget {
   final Function(List<Modifiers>) onChanged;
 
   const ModifierListView(
-      {Key? key, required this.modifiersGroup, required this.brandId, required this.onChanged})
+      {Key? key,
+      required this.modifiersGroup,
+      required this.brandId,
+      required this.onChanged})
       : super(key: key);
 
   @override
@@ -42,7 +45,8 @@ class _ModifierListViewState extends State<ModifierListView> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                         child: Text(
                           widget.modifiersGroup.modifiers[index].title,
                           style: getRegularTextStyle(
@@ -55,15 +59,18 @@ class _ModifierListViewState extends State<ModifierListView> {
                     ModifierSwitchView(
                       brandId: widget.brandId,
                       groupId: widget.modifiersGroup.groupId,
-                      modifierId: widget.modifiersGroup.modifiers[index].modifierId,
-                      enabled: widget.modifiersGroup.modifiers[index].statuses.isEmpty
+                      modifierId:
+                          widget.modifiersGroup.modifiers[index].modifierId,
+                      enabled: widget
+                              .modifiersGroup.modifiers[index].statuses.isEmpty
                           ? false
-                          : widget
-                              .modifiersGroup.modifiers[index].statuses[0].enabled,
+                          : widget.modifiersGroup.modifiers[index].statuses[0]
+                              .enabled,
                       type: ModifierType.MODIFIER,
                       onSuccess: (enabled) {
                         setState(() {
-                          widget.modifiersGroup.modifiers[index].statuses[0].enabled = enabled;
+                          widget.modifiersGroup.modifiers[index].statuses[0]
+                              .enabled = enabled;
                           widget.onChanged(widget.modifiersGroup.modifiers);
                         });
                       },

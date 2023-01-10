@@ -112,6 +112,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
   void _onAction({
     required String title,
     required Order order,
+    required int status,
     bool willCancel = false,
     bool isFromDetails = false,
   }) {
@@ -123,13 +124,23 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
         if (isFromDetails) {
           Navigator.of(context).pop();
         }
+        SegmentManager().trackOrderSegment(
+          sourceTab: 'Ready Order',
+          status: status,
+          isFromDetails: isFromDetails,
+        );
       },
       title: title,
     );
   }
 
-  void _onPrint(Order order) {
+  void _onPrint({required Order order, required bool isFromDetails}) {
     _printingHandler.printDocket(order);
+    SegmentManager().trackOrderSegment(
+      sourceTab: 'Ready Order',
+      isFromDetails: isFromDetails,
+      willPrint: true,
+    );
   }
 
   void _sendEvent() {
@@ -157,16 +168,18 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                   _onAction(
                     title: title,
                     order: item,
+                    status: status,
                     isFromDetails: true,
                   );
                 },
                 onPrint: () {
-                  _onPrint(item);
+                  _onPrint(order: item, isFromDetails: true);
                 },
                 onCancel: (title) {
                   _onAction(
                     title: title,
                     order: item,
+                    status: OrderStatus.CANCELLED,
                     isFromDetails: true,
                     willCancel: true,
                   );
@@ -180,17 +193,19 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
             onAction: (title, status) {
               _onAction(
                 title: title,
+                status: status,
                 order: item,
               );
             },
             onPrint: () {
-              _onPrint(item);
+              _onPrint(order: item, isFromDetails: false);
             },
             onCancel: (title) {
               _onAction(
                 title: title,
                 order: item,
                 willCancel: true,
+                status: OrderStatus.CANCELLED,
               );
             },
           );
