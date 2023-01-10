@@ -3,6 +3,8 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/environment_variables.dart';
 import 'package:klikit/segments/segemnt_data_provider.dart';
 
+import '../app/constants.dart';
+
 class SegmentManager {
   static final _instance = SegmentManager._internal();
   final _eventParams = getIt.get<SegmentDataProvider>();
@@ -53,5 +55,34 @@ class SegmentManager {
     } on Exception {
       // ignored
     }
+  }
+
+  void trackOrderSegment({
+    required String sourceTab,
+    int status = -1,
+    bool willPrint = false,
+    bool isFromDetails = false,
+  }){
+    String eventName = '';
+    if(willPrint){
+      eventName = SegmentEvents.PRINT_ORDER;
+    }else if(status == OrderStatus.ACCEPTED){
+      eventName = SegmentEvents.ACCEPT_ORDER;
+    }else if(status == OrderStatus.CANCELLED){
+      eventName = SegmentEvents.CANCEL_ORDER;
+    }else if(status == OrderStatus.DELIVERED){
+      eventName = SegmentEvents.DELIVER_ORDER;
+    }else if(status == OrderStatus.READY){
+      eventName = SegmentEvents.READY_ORDER;
+    }else if(status == OrderStatus.PICKED_UP){
+      eventName = SegmentEvents.PICKUP_ORDER;
+    }
+    track(
+      event: eventName,
+      properties: {
+        'source_tab': sourceTab,
+        'source_screen': isFromDetails ? 'See Details Page' : 'Order Main Page',
+      },
+    );
   }
 }

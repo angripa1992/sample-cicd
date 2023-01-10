@@ -218,8 +218,10 @@ Widget getActionButtons({
       children: [
         AcceptButton(
           onAccept: () {
-            onAction('${AppStrings.accept_order.tr()} #${order.id}',
-                OrderStatus.ACCEPTED);
+            onAction(
+              '${AppStrings.accept_order.tr()} #${order.id}',
+              OrderStatus.ACCEPTED,
+            );
           },
         ),
         SizedBox(width: AppSize.s8.rw),

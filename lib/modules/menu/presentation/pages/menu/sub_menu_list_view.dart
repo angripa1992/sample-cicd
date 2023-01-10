@@ -8,6 +8,8 @@ import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/sub_section.dart';
 
 class SubMenuListView extends StatelessWidget {
@@ -89,6 +91,14 @@ class SubMenuListView extends StatelessWidget {
                       onChanged: (enabled) {
                         subSections[index].enabled = enabled;
                         onChanged(subSections);
+                        SegmentManager().track(
+                          event: SegmentEvents.CATEGORY_TOGGLE,
+                          properties: {
+                            'id': subSections[index].id,
+                            'name': subSections[index].title,
+                            'enabled': enabled ? 'Yes' : 'No',
+                          },
+                        );
                       },
                     ),
                   ),

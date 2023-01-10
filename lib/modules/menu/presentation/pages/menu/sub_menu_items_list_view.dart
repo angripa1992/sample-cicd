@@ -5,6 +5,8 @@ import 'package:klikit/modules/menu/presentation/pages/menu/menu_switch_view.dar
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/items.dart';
 
 class SubMenuItemsListView extends StatelessWidget {
@@ -56,6 +58,14 @@ class SubMenuItemsListView extends StatelessWidget {
                     onChanged: (enabled) {
                       subSections.items[index].stock.available = enabled;
                       onChanged(subSections.items);
+                      SegmentManager().track(
+                        event: SegmentEvents.ITEM_TOGGLE,
+                        properties: {
+                          'id': subSections.items[index].id,
+                          'name': subSections.items[index].title,
+                          'enabled': enabled ? 'Yes' : 'No',
+                        },
+                      );
                     },
                   ),
                 ],

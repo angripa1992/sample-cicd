@@ -135,18 +135,28 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
           Navigator.of(context).pop();
         }
         if (!willCancel && status == OrderStatus.ACCEPTED) {
-          _printDocket(order);
+          _printDocket(order: order,isFromDetails:  isFromDetails);
         }
+        SegmentManager().trackOrderSegment(
+          sourceTab: 'New Order',
+          status: status,
+          isFromDetails: isFromDetails,
+        );
       },
       title: title,
     );
   }
 
-  void _printDocket(Order order) {
+  void _printDocket({required Order order,required bool isFromDetails}) {
     _printingHandler.printDocket(order);
+    SegmentManager().trackOrderSegment(
+      sourceTab: 'New Order',
+      isFromDetails: isFromDetails,
+      willPrint: true,
+    );
   }
 
-  void _sendEvent() {
+  void _sendScreenEvent() {
     SegmentManager().screen(
       event: SegmentEvents.SEE_DETAILS,
       name: 'See Details',
@@ -176,7 +186,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                   );
                 },
                 onPrint: () {
-                  _printDocket(item);
+                  _printDocket(order: item,isFromDetails: true);
                 },
                 onCancel: (title) {
                   _onAction(
@@ -191,7 +201,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                   _refresh(willBackground: true);
                 },
               );
-              _sendEvent();
+              _sendScreenEvent();
             },
             onAction: (title, status) {
               _onAction(
@@ -201,7 +211,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
               );
             },
             onPrint: () {
-              _printDocket(item);
+              _printDocket(order: item,isFromDetails: false);
             },
             onCancel: (title) {
               _onAction(

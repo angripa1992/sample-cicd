@@ -6,6 +6,8 @@ import 'package:klikit/modules/menu/presentation/pages/menu/sub_menu_list_view.d
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/sections.dart';
 
 class MenuListView extends StatefulWidget {
@@ -53,6 +55,14 @@ class _MenuListViewState extends State<MenuListView> {
               setState(() {
                 widget.sections[index].enabled = enabled;
               });
+              SegmentManager().track(
+                event: SegmentEvents.MENUE_TOGGLE,
+                properties: {
+                  'id': widget.sections[index].id,
+                  'name': widget.sections[index].title,
+                  'enabled': enabled ? 'Yes' : 'No',
+                },
+              );
             },
             brandId: widget.brandID,
           ),

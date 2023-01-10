@@ -11,9 +11,11 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/brand.dart';
 
-class MenuScreen extends StatelessWidget {
+class MenuScreen extends StatefulWidget {
   final MenuBrand? brand;
   final int? providerId;
 
@@ -21,12 +23,24 @@ class MenuScreen extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<MenuScreen> createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  @override
+  void initState() {
+    SegmentManager()
+        .screen(event: SegmentEvents.MENU_SCREEN, name: 'Menu Screen');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (brand != null) {
-      context.read<MenusCubit>().fetchMenu(brand!.id, providerId);
+    if (widget.brand != null) {
+      context.read<MenusCubit>().fetchMenu(widget.brand!.id, widget.providerId);
     }
     return Expanded(
-      child: brand == null
+      child: widget.brand == null
           ? Center(
               child: Text(
                 AppStrings.please_select_a_brand.tr(),
@@ -46,7 +60,7 @@ class MenuScreen extends StatelessWidget {
                   }
                   return MenuListView(
                     sections: state.data.sections,
-                    brandID: brand!.id,
+                    brandID: widget.brand!.id,
                   );
                 } else if (state is Failed) {
                   return Center(child: Text(state.failure.message));

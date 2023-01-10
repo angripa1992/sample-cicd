@@ -11,10 +11,12 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../resources/values.dart';
+import '../../../../../segments/event_manager.dart';
+import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/brand.dart';
 import '../../../domain/entities/modifiers_group.dart';
 
-class ModifierScreen extends StatelessWidget {
+class ModifierScreen extends StatefulWidget {
   final MenuBrand? brand;
   final int? providerId;
 
@@ -22,14 +24,26 @@ class ModifierScreen extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<ModifierScreen> createState() => _ModifierScreenState();
+}
+
+class _ModifierScreenState extends State<ModifierScreen> {
+  @override
+  void initState() {
+    SegmentManager()
+        .screen(event: SegmentEvents.MODIFIER_SCREEN, name: 'Modifier Screen');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (brand != null) {
+    if (widget.brand != null) {
       context
           .read<ModifierGroupsCubit>()
-          .fetchModifierGroups(brand!.id, providerId);
+          .fetchModifierGroups(widget.brand!.id, widget.providerId);
     }
     return Expanded(
-      child: brand == null
+      child: widget.brand == null
           ? Center(
               child: Text(
                 AppStrings.please_select_a_brand.tr(),
@@ -68,7 +82,7 @@ class ModifierScreen extends StatelessWidget {
                         }
                         return ModifierGroupsListView(
                           modifierGroups: state.data,
-                          brandId: brand!.id,
+                          brandId: widget.brand!.id,
                         );
                       } else if (state is Failed) {
                         return Center(
