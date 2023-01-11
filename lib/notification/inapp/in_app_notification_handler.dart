@@ -79,10 +79,9 @@ class InAppNotificationHandler {
   }
 
   void _handleDocketPrinting(NotificationData notificationData) async {
-    final order = await NotificationDataHandler()
-        .getOrderById(notificationData.orderId.toInt());
+    final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
     if (order != null && order.status == OrderStatus.ACCEPTED) {
-      _printingHandler.verifyConnection(order: order);
+      _printingHandler.verifyConnection(fromNotification: true, order: order);
     }
   }
 

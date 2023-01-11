@@ -34,23 +34,46 @@ class PrintingHandler {
     }
   }
 
-  void verifyConnection({Order? order}) async {
+  void verifyConnection({required bool fromNotification, Order? order}) async {
     if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
-      _verifyBleConnection(order: order);
+      _verifyBleConnection(fromNotification: fromNotification, order: order);
     } else {
-      _verifyUsbConnection(order: order);
+      _verifyUsbConnection(fromNotification: fromNotification, order: order);
     }
   }
 
-  void _verifyBleConnection({Order? order}) async {
+  void _verifyBleConnection({required bool fromNotification, Order? order}) async {
     if (await _isPermissionGranted()) {
       if (!_bluetoothPrinterHandler.isConnected()) {
-        showBleDevices(order: order);
+        if(fromNotification){
+          showErrorSnackBar(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            AppStrings.bluetooth_not_connected.tr(),
+          );
+        }else{
+          showBleDevices(order: order);
+        }
       } else if (order != null) {
         printDocket(order);
       }
     }
   }
+
+  void _verifyUsbConnection({required bool fromNotification, Order? order}) {
+    if (!_usbPrinterHandler.isConnected()) {
+      if(fromNotification){
+        showErrorSnackBar(
+          RoutesGenerator.navigatorKey.currentState!.context,
+          AppStrings.usb_not_connected.tr(),
+        );
+      }else{
+        showUsbDevices(order: order);
+      }
+    } else if (order != null) {
+      printDocket(order);
+    }
+  }
+
 
   void showBleDevices({Order? order}) async {
     final devices = _bluetoothPrinterHandler.getDevices();
@@ -75,14 +98,6 @@ class PrintingHandler {
         }
       },
     );
-  }
-
-  void _verifyUsbConnection({Order? order}) {
-    if (!_usbPrinterHandler.isConnected()) {
-      showUsbDevices(order: order);
-    } else if (order != null) {
-      printDocket(order);
-    }
   }
 
   void showUsbDevices({Order? order}) async {
