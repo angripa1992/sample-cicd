@@ -110,8 +110,7 @@ class InAppNotificationHandler {
 
   void _navigateToOrderScreen(NotificationData data) {
     dismissInAppNotification();
-    NotificationHandler()
-        .navigateToOrderScreen(data, notificationType: NotificationType.IN_APP);
+    NotificationHandler().navigateToOrderScreen(data, notificationType: NotificationType.IN_APP);
   }
 
   void _showDialog(NotificationData data, NotificationCountCubit cubit) {
@@ -140,7 +139,7 @@ class InAppNotificationHandler {
                         child: Text(
                           '${state.numOfCancelOrders} ${AppStrings.orders_has_been_canceled.tr()}',
                           style: getRegularTextStyle(
-                            color: AppColors.lightSalmon,
+                            color: AppColors.warmRed,
                             fontSize: AppFontSize.s18.rSp,
                           ),
                         ),
