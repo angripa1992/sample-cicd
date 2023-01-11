@@ -111,7 +111,9 @@ class AppStrings {
   static const String bluetooth = "bluetooth";
   static const String bluetooth_devices = "bluetooth_devices";
   static const String no_bluetooth_devices = "no_bluetooth_devices";
+  static const String usb_not_connected = "usb_not_connected";
   static const String no_bluetooth_devices_message = "no_bluetooth_devices_message";
+  static const String bluetooth_not_connected = "bluetooth_not_connected";
   static const String usb = "usb";
   static const String usb_devices = "usb_devices";
   static const String no_usb_devices = "no_usb_devices";
