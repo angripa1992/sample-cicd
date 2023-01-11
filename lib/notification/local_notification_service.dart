@@ -89,8 +89,8 @@ class LocalNotificationService {
               : cancelOrderNotificationChanel.name,
           importance: Importance.max,
           priority: Priority.high,
-          color: Colors.white,
           playSound: true,
+          enableLights: true,
           sound: RawResourceAndroidNotificationSound(
             notificationType == NotificationOrderType.NEW
                 ? AppSounds.newOrder
@@ -102,7 +102,7 @@ class LocalNotificationService {
               await getImageBytes(notificationData.providerUrl),
             ),
           ),
-          additionalFlags: Int32List.fromList(<int>[4]),
+          additionalFlags: _flags(notificationType),
           actions: [
             const AndroidNotificationAction(
               '1',
@@ -115,5 +115,13 @@ class LocalNotificationService {
       ),
       payload: NotificationDataHandler().convertMapToString(payload),
     );
+  }
+
+  Int32List _flags(int type){
+    if(type == NotificationOrderType.NEW){
+      return Int32List.fromList(<int>[4,32]);
+    }else{
+      return Int32List.fromList(<int>[32]);
+    }
   }
 }

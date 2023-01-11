@@ -9,6 +9,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
+import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
@@ -58,18 +59,17 @@ class _BaseScreenState extends State<BaseScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (mounted) {
-          final args = ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>?;
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
           if (args != null) {
             if (args[ArgumentKey.kIS_NOTIFICATION]) {
-              final navData = NotificationDataHandler()
-                  .getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
+              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
               context.read<BaseScreenCubit>().changeIndex(navData);
             }
           }
         }
       },
     );
+    PermissionHandler().requestNotificationPermissions();
     super.initState();
   }
 

@@ -104,11 +104,12 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                             Navigator.pop(_dropdownKey.currentContext!);
                             setState(() {
                               dropDownValue = value;
-                              if (value!.id == ZERO) {
-                                widget.onChanged(null);
-                              } else {
-                                widget.onChanged(value);
-                              }
+                              widget.onChanged(value);
+                              // if (value!.id == ZERO) {
+                              //   widget.onChanged(null);
+                              // } else {
+                              //   widget.onChanged(value);
+                              // }
                             });
                           },
                         ),
