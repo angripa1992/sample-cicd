@@ -33,27 +33,25 @@ dependencies:
   infinite_scroll_pagination: ^3.2.0
   cached_network_image: ^3.2.1
   defer_pointer: ^0.0.2
-  firebase_core: ^1.10.0
-  firebase_messaging: ^13.1.0
   flutter_local_notifications: ^12.0.4
   package_info_plus: ^3.0.2
   audioplayers: ^1.1.1
   permission_handler: ^10.2.0
   esc_pos_utils: ^1.1.0
   flutter_pos_printer_platform: ^1.0.12
-  firebase_app_installations: ^0.1.1+10
   percent_indicator: ^4.2.2
   printing: ^5.9.3
   pdfx: ^2.3.0
   path_provider: ^2.0.11
-  firebase_remote_config: ^2.0.20
-  firebase_analytics: ^9.3.8
   device_info_plus: ^4.0.0
   geolocator: ^9.0.2
   geocoding: ^2.0.5
-
-dependency_overrides:
-  firebase_core_platform_interface: 4.5.1
+  # firebase
+  firebase_core: ^2.4.1
+  firebase_messaging: ^14.2.1
+  firebase_app_installations: ^0.2.1+8
+  firebase_remote_config: ^3.0.9
+  firebase_analytics: ^10.1.0
 
 dev_dependencies:
   flutter_test:

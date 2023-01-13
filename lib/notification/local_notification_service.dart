@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:klikit/app/constants.dart';
@@ -67,14 +66,17 @@ class LocalNotificationService {
 
   LocalNotificationService._internal();
 
-  Future<Uint8List> getImageBytes(String url) async {
+  Future<ByteArrayAndroidBitmap> getByteArrayAndroidBitmap(String url) async {
     http.Response response = await http.get(Uri.parse(url));
-    return response.bodyBytes;
+    final base64String = base64.encode(response.bodyBytes);
+    final bitmapImage = ByteArrayAndroidBitmap.fromBase64String(base64String);
+    return bitmapImage;
   }
 
   void showNotification({required Map<String, dynamic> payload}) async {
     final notificationData = NotificationDataHandler().getNotificationData(payload);
     final notificationType = int.parse(notificationData.type);
+    final providerByteArrayAndroidBitmap = await getByteArrayAndroidBitmap(notificationData.providerUrl);
     flutterLocalNotificationsPlugin.show(
       DateTime.now().millisecondsSinceEpoch.remainder(100000),
       notificationData.title,
@@ -97,11 +99,7 @@ class LocalNotificationService {
                 : AppSounds.cancelOrder,
           ),
           icon: AppIcons.notificationIcon,
-          largeIcon: ByteArrayAndroidBitmap.fromBase64String(
-            base64.encode(
-              await getImageBytes(notificationData.providerUrl),
-            ),
-          ),
+          largeIcon: providerByteArrayAndroidBitmap,
           additionalFlags: _flags(notificationType),
           actions: [
             const AndroidNotificationAction(
@@ -117,10 +115,10 @@ class LocalNotificationService {
     );
   }
 
-  Int32List _flags(int type){
-    if(type == NotificationOrderType.NEW){
-      return Int32List.fromList(<int>[4,32]);
-    }else{
+  Int32List _flags(int type) {
+    if (type == NotificationOrderType.NEW) {
+      return Int32List.fromList(<int>[4, 32]);
+    } else {
       return Int32List.fromList(<int>[32]);
     }
   }
