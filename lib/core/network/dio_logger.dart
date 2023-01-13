@@ -15,7 +15,8 @@ class DioLogger {
   }
 
   bool _canLog(){
-    return _logStatus == LogStatus.OPEN && (!kReleaseMode);
+    return _logStatus == LogStatus.OPEN;
+  //  return _logStatus == LogStatus.OPEN && (!kReleaseMode);
   }
 
   void logRequest(RequestOptions options) {

@@ -23,8 +23,11 @@ class PrintingHandler {
   final BluetoothPrinterHandler _bluetoothPrinterHandler;
   final UsbPrinterHandler _usbPrinterHandler;
 
-  PrintingHandler(this._preferences, this._bluetoothPrinterHandler,
-      this._usbPrinterHandler);
+  PrintingHandler(
+    this._preferences,
+    this._bluetoothPrinterHandler,
+    this._usbPrinterHandler,
+  );
 
   Future<bool> _isPermissionGranted() async {
     if (await PermissionHandler().isLocationPermissionGranted()) {
@@ -42,15 +45,16 @@ class PrintingHandler {
     }
   }
 
-  void _verifyBleConnection({required bool fromNotification, Order? order}) async {
+  void _verifyBleConnection(
+      {required bool fromNotification, Order? order}) async {
     if (await _isPermissionGranted()) {
       if (!_bluetoothPrinterHandler.isConnected()) {
-        if(fromNotification){
+        if (fromNotification) {
           showErrorSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
             AppStrings.bluetooth_not_connected.tr(),
           );
-        }else{
+        } else {
           showBleDevices(order: order);
         }
       } else if (order != null) {
@@ -61,19 +65,18 @@ class PrintingHandler {
 
   void _verifyUsbConnection({required bool fromNotification, Order? order}) {
     if (!_usbPrinterHandler.isConnected()) {
-      if(fromNotification){
+      if (fromNotification) {
         showErrorSnackBar(
           RoutesGenerator.navigatorKey.currentState!.context,
           AppStrings.usb_not_connected.tr(),
         );
-      }else{
+      } else {
         showUsbDevices(order: order);
       }
     } else if (order != null) {
       printDocket(order);
     }
   }
-
 
   void showBleDevices({Order? order}) async {
     final devices = _bluetoothPrinterHandler.getDevices();
@@ -220,7 +223,7 @@ class PrintingHandler {
       File file = File(filePath);
       await file.delete();
     } catch (e) {
-      print(e);
+      //ignored
     }
   }
 }
