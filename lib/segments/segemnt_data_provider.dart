@@ -63,15 +63,21 @@ class SegmentDataProvider {
 
   Future<SegmentLocation?> _getLocation() async {
     final position = await _locationProvider.currentPosition();
-    if (position == null) return null;
-    final placeMark = await _locationProvider.placeMarkFromCoordinates(
-        lat: position.latitude, lan: position.longitude);
-    if (placeMark == null) return null;
+    if (position == null) return _geCountryId();
+    final placeMark = await _locationProvider.placeMarkFromCoordinates(lat: position.latitude, lan: position.longitude);
+    if (placeMark == null) return _geCountryId();
     return SegmentLocation(
       city: placeMark.locality,
       country: placeMark.country,
       latitude: position.latitude.toString(),
       longitude: position.longitude.toString(),
+    );
+  }
+
+  SegmentLocation _geCountryId() {
+    final countryCode = _appPreferences.getUser().userInfo.countryCodes.first;
+    return SegmentLocation(
+      country: countryCode,
     );
   }
 
