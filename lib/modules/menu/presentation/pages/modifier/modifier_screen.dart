@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/menu/presentation/cubit/modifier_groups_cubit.dart';
@@ -83,6 +84,7 @@ class _ModifierScreenState extends State<ModifierScreen> {
                         return ModifierGroupsListView(
                           modifierGroups: state.data,
                           brandId: widget.brand!.id,
+                          providerId: widget.providerId.orZero(),
                         );
                       } else if (state is Failed) {
                         return Center(

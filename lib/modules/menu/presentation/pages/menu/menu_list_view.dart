@@ -13,9 +13,14 @@ import '../../../domain/entities/sections.dart';
 class MenuListView extends StatefulWidget {
   final List<Sections> sections;
   final int brandID;
+  final int providerID;
 
-  const MenuListView({Key? key, required this.sections, required this.brandID})
-      : super(key: key);
+  const MenuListView({
+    Key? key,
+    required this.sections,
+    required this.brandID,
+    required this.providerID,
+  }) : super(key: key);
 
   @override
   State<MenuListView> createState() => _MenuListViewState();
@@ -50,6 +55,7 @@ class _MenuListViewState extends State<MenuListView> {
           title: MenuItemTitle(
             controller: controller,
             index: index,
+            providerID: widget.providerID,
             sections: widget.sections[index],
             onChanged: (enabled) {
               setState(() {
@@ -77,6 +83,7 @@ class _MenuListViewState extends State<MenuListView> {
                 });
               },
               brandID: widget.brandID,
+              providerID: widget.providerID,
             ),
           ),
         );

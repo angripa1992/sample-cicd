@@ -20,10 +20,10 @@ class ManageModifiersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     ModifiersGroup modifierGroup = args[ArgumentKey.kGROUP];
     final brandId = args[ArgumentKey.kBRAND_ID];
+    final providerId = args[ArgumentKey.kPROVIDER_ID];
     return BlocProvider(
       create: (_) => getIt.get<CheckAffectedCubit>(),
       child: Scaffold(
@@ -50,6 +50,7 @@ class ManageModifiersScreen extends StatelessWidget {
               ModifierGroupInfoView(
                 modifiersGroup: modifierGroup,
                 brandId: brandId,
+                providerId: providerId,
                 onChanged: (modifiedGroup) {
                   modifierGroup.statuses[0] = modifiedGroup.statuses[0];
                 },
@@ -70,6 +71,7 @@ class ManageModifiersScreen extends StatelessWidget {
               ),
               ModifierListView(
                 modifiersGroup: modifierGroup,
+                providerId: providerId,
                 brandId: brandId,
                 onChanged: (changedModifiers) {
                   modifierGroup.modifiers = changedModifiers;

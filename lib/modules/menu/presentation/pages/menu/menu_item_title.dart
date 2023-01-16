@@ -18,17 +18,19 @@ class MenuItemTitle extends StatefulWidget {
   final ExpandedTileController controller;
   final int index;
   final int brandId;
+  final int providerID;
   final Sections sections;
   final Function(bool) onChanged;
 
-  const MenuItemTitle(
-      {Key? key,
-      required this.controller,
-      required this.index,
-      required this.sections,
-      required this.onChanged,
-      required this.brandId})
-      : super(key: key);
+  const MenuItemTitle({
+    Key? key,
+    required this.controller,
+    required this.index,
+    required this.sections,
+    required this.onChanged,
+    required this.brandId,
+    required this.providerID,
+  }) : super(key: key);
 
   @override
   State<MenuItemTitle> createState() => _MenuItemTitleState();
@@ -66,6 +68,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
               MenuSwitchView(
                 enabled: widget.sections.enabled,
                 parentEnabled: true,
+                providerId: widget.providerID,
                 onChanged: widget.onChanged,
                 id: widget.sections.id,
                 brandId: widget.brandId,

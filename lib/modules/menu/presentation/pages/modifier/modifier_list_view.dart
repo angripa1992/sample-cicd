@@ -12,6 +12,7 @@ import 'modifer_switch_view.dart';
 
 class ModifierListView extends StatefulWidget {
   final int brandId;
+  final int providerId;
   final ModifiersGroup modifiersGroup;
   final Function(List<Modifiers>) onChanged;
 
@@ -19,7 +20,8 @@ class ModifierListView extends StatefulWidget {
       {Key? key,
       required this.modifiersGroup,
       required this.brandId,
-      required this.onChanged})
+      required this.onChanged,
+      required this.providerId})
       : super(key: key);
 
   @override
@@ -57,6 +59,7 @@ class _ModifierListViewState extends State<ModifierListView> {
                       ),
                     ),
                     ModifierSwitchView(
+                      providerId: widget.providerId,
                       brandId: widget.brandId,
                       groupId: widget.modifiersGroup.groupId,
                       modifierId:

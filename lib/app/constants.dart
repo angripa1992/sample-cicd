@@ -114,6 +114,7 @@ class ArgumentKey{
   static const String kNOTIFICATION_TYPE = 'notification_type';
   static const String kGROUP = 'group';
   static const String kBRAND_ID = 'brand_id';
+  static const String kPROVIDER_ID = 'provider_id';
   static const String kSECTIONS = 'sections';
   static const String kENABLED = 'enabled';
 }
