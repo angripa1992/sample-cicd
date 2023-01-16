@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
 
@@ -66,14 +67,20 @@ class LocalNotificationService {
 
   LocalNotificationService._internal();
 
-  Future<ByteArrayAndroidBitmap> getByteArrayAndroidBitmap(String url) async {
-    http.Response response = await http.get(Uri.parse(url));
-    final base64String = base64.encode(response.bodyBytes);
-    final bitmapImage = ByteArrayAndroidBitmap.fromBase64String(base64String);
-    return bitmapImage;
+  Future<ByteArrayAndroidBitmap?> getByteArrayAndroidBitmap(String url) async {
+    if(url.orEmpty().isEmpty)return null;
+    try{
+      http.Response response = await http.get(Uri.parse(url));
+      final base64String = base64.encode(response.bodyBytes);
+      final bitmapImage = ByteArrayAndroidBitmap.fromBase64String(base64String);
+      return bitmapImage;
+    }catch (e){
+      return null;
+    }
   }
 
   void showNotification({required Map<String, dynamic> payload}) async {
+    print(payload);
     final notificationData = NotificationDataHandler().getNotificationData(payload);
     final notificationType = int.parse(notificationData.type);
     final providerByteArrayAndroidBitmap = await getByteArrayAndroidBitmap(notificationData.providerUrl);
