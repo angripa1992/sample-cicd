@@ -16,6 +16,11 @@ class OrderItemDetails extends StatelessWidget {
 
   OrderItemDetails({Key? key, required this.order}) : super(key: key);
 
+  final _tableHeaderStyle = getMediumTextStyle(
+    color: AppColors.black,
+    fontSize: AppFontSize.s14.rSp,
+  );
+
   final _itemTextStyle = getMediumTextStyle(
     color: AppColors.purpleBlue,
     fontSize: AppFontSize.s14.rSp,
@@ -39,152 +44,155 @@ class OrderItemDetails extends StatelessWidget {
           vertical: AppSize.s4.rh,
           horizontal: AppSize.s16.rw,
         ),
-        child: ListView.separated(
-          itemCount: order.cartV2.length,
-          itemBuilder: (_, index) {
-            return Padding(
-              padding: EdgeInsets.only(bottom: AppSize.s8.rh),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ///cart item
-                  _cartItemView(
-                    order.cartV2[index],
-                    order.currencySymbol,
+        child: Column(
+          children: [
+            Row(
+              children:  [
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'Items',
+                   // textAlign: TextAlign.start,
+                    style: _tableHeaderStyle,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: AppSize.s32.rw,
-                      top: AppSize.s4.rh,
-                      bottom: AppSize.s4.rh,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    'Qty',
+                    textAlign: TextAlign.center,
+                    style: _tableHeaderStyle,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    'Total Price',
+                    textAlign: TextAlign.center,
+                    style: _tableHeaderStyle,
+                  ),
+                ),
+              ],
+            ),
+            Divider(color: AppColors.lightViolet),
+            Expanded(
+              child: ListView.separated(
+                itemCount: order.cartV2.length,
+                itemBuilder: (_, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(width: 1.0, color: Colors.lightBlue.shade600),
+                        right: BorderSide(width: 1.0, color: Colors.lightBlue.shade900),
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: order.cartV2[index].modifierGroups.map(
-                        (firstModifiersGroup) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              ///level 1 modifiers group
-                              _showModifierGroupName(firstModifiersGroup.name),
-                              Column(
+                      children: [
+                        ///cart item
+                        _cartItemView(
+                          order.cartV2[index],
+                          order.currencySymbol,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: order.cartV2[index].modifierGroups.map(
+                            (modifiersGroup) {
+                              return Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: firstModifiersGroup.modifiers.map(
-                                  (firstModifiers) {
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                          left: AppSize.s8.rw,
-                                          top: AppSize.s2.rh,
-                                          bottom: AppSize.s2.rh),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          ///level 1 modifiers
-                                          _modifierItemView(
-                                              modifiers: firstModifiers,
-                                              prevQuantity:
-                                                  firstModifiers.quantity,
-                                              itemQuantity:
-                                                  order.cartV2[index].quantity),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                left: AppSize.s8.rw),
-                                            child: Column(
+                                children: [
+                                  ///level 1 modifiers group
+                                  _showModifierGroupName(modifiersGroup.name),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: modifiersGroup.modifiers.map(
+                                      (modifiers) {
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            ///level 1 modifiers
+                                            _modifierItemView(
+                                                modifiers: modifiers,
+                                                prevQuantity: modifiers.quantity,
+                                                itemQuantity:
+                                                    order.cartV2[index].quantity),
+                                            Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.stretch,
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
-                                              children: firstModifiers
-                                                  .modifierGroups
-                                                  .map(
-                                                (secondModifierGroups) {
-                                                  return Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: AppSize.s8.rw,
-                                                        top: AppSize.s4.rh,
-                                                        bottom: AppSize.s4.rh),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .stretch,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        ///level 2 modifiers group
-                                                        _showModifierGroupName(
-                                                            secondModifierGroups
-                                                                .name),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .stretch,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children:
-                                                              secondModifierGroups
-                                                                  .modifiers
-                                                                  .map(
-                                                            (secondModifier) {
-                                                              return Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left: AppSize
-                                                                            .s8
-                                                                            .rw),
-
-                                                                ///level 2 modifiers
-                                                                child: _modifierItemView(
-                                                                    modifiers:
-                                                                        secondModifier,
-                                                                    prevQuantity:
-                                                                        secondModifier
-                                                                            .quantity,
-                                                                    itemQuantity: order
-                                                                        .cartV2[
-                                                                            index]
-                                                                        .quantity),
-                                                              );
-                                                            },
-                                                          ).toList(),
-                                                        ),
-                                                      ],
-                                                    ),
+                                              children:
+                                                  modifiers.modifierGroups.map(
+                                                (modifierGroups) {
+                                                  return Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .stretch,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      ///level 2 modifiers group
+                                                      _showModifierGroupName(
+                                                          modifiersGroup.name),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .stretch,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: modifierGroups
+                                                            .modifiers
+                                                            .map(
+                                                          (secondModifier) {
+                                                            return _modifierItemView(
+                                                                modifiers:
+                                                                    secondModifier,
+                                                                prevQuantity:
+                                                                    secondModifier
+                                                                        .quantity,
+                                                                itemQuantity: order
+                                                                    .cartV2[index]
+                                                                    .quantity);
+                                                          },
+                                                        ).toList(),
+                                                      ),
+                                                    ],
                                                   );
                                                 },
                                               ).toList(),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ).toList(),
-                              ),
-                            ],
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),
+                                          ],
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                ],
+                              );
+                            },
+                          ).toList(),
+                        ),
 
-                  ///comment
-                  _itemComment(order.cartV2[index].comment),
-                ],
+                        ///comment
+                        _itemComment(order.cartV2[index].comment),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(color: AppColors.lightViolet);
+                },
               ),
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return Divider(color: AppColors.lightViolet);
-          },
+            ),
+          ],
         ),
       ),
     );
@@ -193,16 +201,33 @@ class OrderItemDetails extends StatelessWidget {
   Widget _cartItemView(CartV2 cartV2, String currencySymbol) {
     return Row(
       children: [
-        Text('${cartV2.quantity}x', style: _itemTextStyle),
-        SizedBox(width: AppSize.s8.rw),
-        Expanded(child: Text(cartV2.name, style: _itemTextStyle)),
-        SizedBox(width: AppSize.s12.rw),
-        Text(
-          '$currencySymbol${PriceCalculator.calculateItemPrice(order, cartV2)}',
-          style: TextStyle(
-            fontWeight: AppFontWeight.bold,
-            fontSize: AppFontSize.s14.rSp,
-            color: AppColors.black,
+        // Text('${cartV2.quantity}x', style: _itemTextStyle),
+        // SizedBox(width: AppSize.s8.rw),
+        Expanded(
+          flex: 3,
+          child: Text(cartV2.name, style: _itemTextStyle),
+        ),
+        Expanded(
+          flex: 1,
+          child: Text(
+            '${cartV2.quantity}',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: AppFontWeight.bold,
+              fontSize: AppFontSize.s14.rSp,
+              color: AppColors.black,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            textAlign: TextAlign.center,
+            '$currencySymbol${PriceCalculator.calculateItemPrice(order, cartV2)}',
+            style: TextStyle(
+              fontWeight: AppFontWeight.bold,
+              fontSize: AppFontSize.s14.rSp,
+              color: AppColors.black,
+            ),
           ),
         ),
       ],
@@ -216,16 +241,34 @@ class OrderItemDetails extends StatelessWidget {
   }) {
     return Row(
       children: [
-        Text('• ${modifiers.quantity}x', style: _modifiersItemTextStyle),
-        SizedBox(width: AppSize.s8.rw),
-        Expanded(child: Text(modifiers.name, style: _modifiersItemTextStyle)),
-        SizedBox(width: AppSize.s8.rw),
-        Text(
-          '${order.currencySymbol}${PriceCalculator.calculateModifierPrice(order, modifiers, prevQuantity, itemQuantity)}',
-          style: TextStyle(
-            fontWeight: AppFontWeight.regular,
-            fontSize: AppFontSize.s14.rSp,
-            color: AppColors.blackCow,
+        // Text('• ${modifiers.quantity}x', style: _modifiersItemTextStyle),
+        // SizedBox(width: AppSize.s8.rw),
+        Expanded(
+          flex: 3,
+          child: Text(modifiers.name, style: _modifiersItemTextStyle),
+        ),
+        Expanded(
+          flex: 1,
+          child: Text(
+            '${modifiers.quantity}',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: AppFontWeight.bold,
+              fontSize: AppFontSize.s14.rSp,
+              color: AppColors.black,
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Text(
+            '${order.currencySymbol}${PriceCalculator.calculateModifierPrice(order, modifiers, prevQuantity, itemQuantity)}',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: AppFontWeight.bold,
+              fontSize: AppFontSize.s14.rSp,
+              color: AppColors.black,
+            ),
           ),
         ),
       ],
