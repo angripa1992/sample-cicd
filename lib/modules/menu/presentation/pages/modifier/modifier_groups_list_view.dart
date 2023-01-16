@@ -14,11 +14,15 @@ import '../../../domain/entities/modifiers_group.dart';
 
 class ModifierGroupsListView extends StatefulWidget {
   final int brandId;
+  final int providerId;
   final List<ModifiersGroup> modifierGroups;
 
-  const ModifierGroupsListView(
-      {Key? key, required this.modifierGroups, required this.brandId})
-      : super(key: key);
+  const ModifierGroupsListView({
+    Key? key,
+    required this.modifierGroups,
+    required this.brandId,
+    required this.providerId,
+  }) : super(key: key);
 
   @override
   State<ModifierGroupsListView> createState() => _ModifierGroupsListViewState();
@@ -58,6 +62,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                 arguments: {
                   ArgumentKey.kGROUP: group,
                   ArgumentKey.kBRAND_ID: widget.brandId,
+                  ArgumentKey.kPROVIDER_ID: widget.providerId,
                 },
               ) as ModifiersGroup;
               setState(() {
@@ -86,6 +91,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                     ),
                     ModifierSwitchView(
                       brandId: widget.brandId,
+                      providerId: widget.providerId,
                       groupId: group.groupId,
                       enabled: group.statuses.isEmpty
                           ? false

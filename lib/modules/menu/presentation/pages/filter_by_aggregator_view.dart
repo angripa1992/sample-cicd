@@ -29,11 +29,12 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
 
   late GlobalKey _dropdownKey;
   final _providers = <Provider>[];
+  final _allProvider = Provider(ZERO, 'All', EMPTY, EMPTY);
 
   @override
   void initState() {
     _providers.clear();
-    _providers.add(Provider(ZERO, 'All', EMPTY, EMPTY));
+    _providers.add(_allProvider);
     _providers.addAll(widget.providers);
     _dropdownKey = GlobalKey();
     super.initState();
@@ -41,7 +42,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
 
   @override
   Widget build(BuildContext context) {
-    Provider? dropDownValue;
+    Provider? dropDownValue = _allProvider;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -73,13 +74,13 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                     Icons.keyboard_arrow_down,
                     color: AppColors.purpleBlue,
                   ),
-                  hint: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      AppStrings.select_aggregator.tr(),
-                      style: dropDownTextStyle,
-                    ),
-                  ),
+                  // hint: Container(
+                  //   alignment: Alignment.centerLeft,
+                  //   child: Text(
+                  //     AppStrings.select_aggregator.tr(),
+                  //     style: dropDownTextStyle,
+                  //   ),
+                  // ),
                   selectedItemBuilder: (BuildContext context) {
                     return _providers.map<Widget>((Provider item) {
                       return Container(
@@ -105,11 +106,6 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                             setState(() {
                               dropDownValue = value;
                               widget.onChanged(value);
-                              // if (value!.id == ZERO) {
-                              //   widget.onChanged(null);
-                              // } else {
-                              //   widget.onChanged(value);
-                              // }
                             });
                           },
                         ),

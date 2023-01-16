@@ -19,6 +19,7 @@ class ManageItemsScreen extends StatelessWidget {
     final subSections = args[ArgumentKey.kSECTIONS];
     final parentEnabled = args[ArgumentKey.kENABLED];
     final brandId = args[ArgumentKey.kBRAND_ID];
+    final providerId = args[ArgumentKey.kPROVIDER_ID];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -47,6 +48,7 @@ class ManageItemsScreen extends StatelessWidget {
               },
               parentEnabled: parentEnabled,
               brandID: brandId,
+              providerID: providerId,
             ),
           ],
         ),

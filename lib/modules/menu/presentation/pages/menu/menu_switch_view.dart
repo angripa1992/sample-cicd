@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/action_dialogs.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
+import '../../../../../resources/values.dart';
 
 class MenuSwitchView extends StatefulWidget {
   final bool enabled;
@@ -12,6 +15,7 @@ class MenuSwitchView extends StatefulWidget {
   final int brandId;
   final int id;
   final int type;
+  final int providerId;
 
   const MenuSwitchView({
     Key? key,
@@ -21,6 +25,7 @@ class MenuSwitchView extends StatefulWidget {
     required this.brandId,
     required this.id,
     required this.type,
+    required this.providerId,
   }) : super(key: key);
 
   @override
@@ -73,7 +78,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
+    return  widget.providerId == ZERO ? Transform.scale(
       scale: 0.7,
       child: CupertinoSwitch(
         value: _enabled,
@@ -89,6 +94,6 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
                 }
               },
       ),
-    );
+    ) : SizedBox(height: AppSize.s32.rh);
   }
 }

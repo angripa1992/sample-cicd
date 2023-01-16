@@ -1,17 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/action_dialogs.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 
 import '../../../../../resources/colors.dart';
+import '../../../../../resources/values.dart';
 import '../../../domain/entities/modifier_disabled_response.dart';
 
 class ModifierSwitchView extends StatefulWidget {
   final int type;
   final bool enabled;
   final int brandId;
+  final int providerId;
   final int groupId;
   final Function(bool) onSuccess;
   final int? modifierId;
@@ -24,6 +28,7 @@ class ModifierSwitchView extends StatefulWidget {
     required this.groupId,
     this.modifierId,
     required this.onSuccess,
+    required this.providerId,
   }) : super(key: key);
 
   @override
@@ -101,7 +106,7 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
+    return widget.providerId == ZERO ? Transform.scale(
       scale: 0.7,
       child: CupertinoSwitch(
         value: _enabled,
@@ -115,6 +120,6 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
           }
         },
       ),
-    );
+    ) : SizedBox(height: AppSize.s32.rh);
   }
 }

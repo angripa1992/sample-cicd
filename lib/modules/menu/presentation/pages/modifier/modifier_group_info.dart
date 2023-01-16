@@ -13,15 +13,17 @@ import 'modifer_switch_view.dart';
 
 class ModifierGroupInfoView extends StatelessWidget {
   final int brandId;
+  final int providerId;
   final ModifiersGroup modifiersGroup;
   final Function(ModifiersGroup) onChanged;
 
-  const ModifierGroupInfoView(
-      {Key? key,
-      required this.modifiersGroup,
-      required this.brandId,
-      required this.onChanged})
-      : super(key: key);
+  const ModifierGroupInfoView({
+    Key? key,
+    required this.modifiersGroup,
+    required this.brandId,
+    required this.onChanged,
+    required this.providerId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class ModifierGroupInfoView extends StatelessWidget {
               ),
             ),
             ModifierSwitchView(
+              providerId: providerId,
               brandId: brandId,
               groupId: modifiersGroup.groupId,
               enabled: modifiersGroup.statuses.isEmpty

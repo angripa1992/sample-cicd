@@ -13,15 +13,17 @@ class SubMenuItemsListView extends StatelessWidget {
   final SubSections subSections;
   final bool parentEnabled;
   final int brandID;
+  final int providerID;
   final Function(List<Items>) onChanged;
 
-  const SubMenuItemsListView(
-      {Key? key,
-      required this.subSections,
-      required this.onChanged,
-      required this.parentEnabled,
-      required this.brandID})
-      : super(key: key);
+  const SubMenuItemsListView({
+    Key? key,
+    required this.subSections,
+    required this.onChanged,
+    required this.parentEnabled,
+    required this.brandID,
+    required this.providerID,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class SubMenuItemsListView extends StatelessWidget {
                   MenuSwitchView(
                     id: subSections.items[index].id,
                     brandId: brandID,
+                    providerId: providerID,
                     type: MenuType.ITEM,
                     enabled: subSections.items[index].stock.available,
                     parentEnabled: parentEnabled && subSections.enabled,
