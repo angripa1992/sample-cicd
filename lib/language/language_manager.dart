@@ -9,25 +9,28 @@ import 'language.dart';
 class LanguageManager {
   final AppPreferences _appPreferences;
   final _languages = <Language>[];
+  final _fallbackLocale = const Locale('en','US');
 
   LanguageManager(this._appPreferences);
 
   Future<List<Language>> _fetchLanguages() async {
     try {
       final remoteConfig = FirebaseRemoteConfig.instance;
-      await remoteConfig.setConfigSettings(
-        RemoteConfigSettings(
-          fetchTimeout: const Duration(minutes: 1),
-          minimumFetchInterval: const Duration(hours: 1),
-        ),
-      );
+      // await remoteConfig.setConfigSettings(
+      //   RemoteConfigSettings(
+      //     fetchTimeout: const Duration(seconds: 30),
+      //     minimumFetchInterval: const Duration(seconds: 0),
+      //   ),
+      // );
       await remoteConfig.fetchAndActivate();
       final rawData = remoteConfig.getValue('languages').asString();
+      print(rawData);
       final List<dynamic> data = jsonDecode(rawData);
       final languages = data.map((e) => Language.fromJson(e)).toList();
       return languages;
     } catch (exception) {
       //ignored
+      print(exception);
     }
     return [];
   }
@@ -45,12 +48,21 @@ class LanguageManager {
       final remoteLanguages = await _fetchLanguages();
       _languages.addAll(remoteLanguages);
     }
-    return _languages.map((e) => makeLocaleFromLanguage(e)).toList();
+    final supportedLocales =  _languages.map((e) => makeLocaleFromLanguage(e)).toList();
+    if(supportedLocales.isEmpty){
+      return [_fallbackLocale];
+    }
+    return supportedLocales;
   }
 
   Future<Locale> getStartLocale() async {
-    final currentLanguage = _languages.firstWhere((element) => element.code == _appPreferences.languageCode());
-    return makeLocaleFromLanguage(currentLanguage);
+    print(_languages.length);
+   try{
+     final currentLanguage = _languages.firstWhere((element) => element.code == _appPreferences.languageCode());
+     return makeLocaleFromLanguage(currentLanguage);
+   }catch (e){
+     return _fallbackLocale;
+   }
   }
 
   String currentLanguageCode() {

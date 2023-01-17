@@ -245,8 +245,7 @@ Widget getActionButtons({
         SizedBox(width: AppSize.s8.rw),
         DeliverButton(
           onDeliver: () {
-            onAction('${AppStrings.deliver_order.tr()} #${order.id}',
-                OrderStatus.DELIVERED);
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
           },
         ),
       ],

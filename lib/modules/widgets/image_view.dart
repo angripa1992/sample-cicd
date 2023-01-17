@@ -21,12 +21,12 @@ class ImageView extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: ImageUrlProvider.getUrl(path),
       imageBuilder: (context, imageProvider) => Container(
-        width: width ??  AppSize.s40.rw,
+        width: width ??  AppSize.s48.rw,
         height: height ?? AppSize.s40.rh,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(AppSize.s8.rSp)),
           //shape: BoxShape.rectangle,
-          image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
         ),
       ),
       placeholder: (context, url) => Center(

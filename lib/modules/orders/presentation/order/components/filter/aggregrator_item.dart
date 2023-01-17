@@ -46,8 +46,6 @@ class _AggregatorItemState extends State<AggregatorItem> {
           child: Row(
             children: [
               SizedBox(
-                height: AppSize.s40.rh,
-                width: AppSize.s40.rw,
                 child: ImageView(path: widget.provider.logo),
               ),
               SizedBox(width: AppSize.s16.rw),
