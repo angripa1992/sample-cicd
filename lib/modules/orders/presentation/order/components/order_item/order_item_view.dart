@@ -43,8 +43,6 @@ class OrderItemView extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return SizedBox(
-                        height: AppSize.s40.rh,
-                        width: AppSize.s40.rw,
                         child: ImageView(path: snapshot.data!.image),
                       );
                     }
@@ -56,8 +54,6 @@ class OrderItemView extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return SizedBox(
-                        height: AppSize.s40.rh,
-                        width: AppSize.s40.rw,
                         child: ImageView(path: snapshot.data!.logo),
                       );
                     }

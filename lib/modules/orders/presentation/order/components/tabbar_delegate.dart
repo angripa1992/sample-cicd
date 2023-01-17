@@ -10,18 +10,19 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: AppSize.s12.rw,
-        vertical: AppSize.s4.rh,
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Align(
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: AppSize.s12.rw,
+          vertical: AppSize.s4.rh,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s4.rSp),
+          color: AppColors.lightVioletTwo,
+        ),
+        child: tabBar,
       ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-        color: AppColors.lightVioletTwo,
-      ),
-      child: tabBar,
     );
   }
 
