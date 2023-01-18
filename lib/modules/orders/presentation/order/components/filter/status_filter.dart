@@ -29,6 +29,7 @@ class _StatusFilterState extends State<StatusFilter> {
   late int _currentTabIndex;
   final List<StatusItem> _statusItems = [
     StatusItem(OrderStatus.DELIVERED, AppStrings.delivered.tr()),
+    StatusItem(OrderStatus.PICKED_UP, AppStrings.picked_up.tr()),
     StatusItem(OrderStatus.CANCELLED, AppStrings.canceled.tr()),
   ];
 
@@ -36,7 +37,7 @@ class _StatusFilterState extends State<StatusFilter> {
   void initState() {
     _currentTabIndex = widget.tabController.index;
     widget.tabController.addListener(_tabListener);
-    widget.subject.setStatus([OrderStatus.DELIVERED, OrderStatus.CANCELLED]);
+    widget.subject.setStatus([OrderStatus.DELIVERED,OrderStatus.PICKED_UP, OrderStatus.CANCELLED]);
     super.initState();
   }
 
@@ -52,8 +53,7 @@ class _StatusFilterState extends State<StatusFilter> {
 
   void _changeSelectedStatus(bool isChecked, StatusItem item) async {
     final statusItem = item.copyWith(isChecked: isChecked);
-    _statusItems[_statusItems
-        .indexWhere((element) => element.id == statusItem.id)] = statusItem;
+    _statusItems[_statusItems.indexWhere((element) => element.id == statusItem.id)] = statusItem;
     widget.subject.applyStatusFilter(
       _statusItems
           .where((element) => element.isChecked)

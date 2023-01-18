@@ -44,10 +44,12 @@ class PrintButton extends StatelessWidget {
 
 class ReadyButton extends StatelessWidget {
   final VoidCallback onReady;
+  final bool enabled;
 
   const ReadyButton({
     Key? key,
     required this.onReady,
+    required this.enabled,
   }) : super(key: key);
 
   @override
@@ -55,20 +57,22 @@ class ReadyButton extends StatelessWidget {
     return SizedBox(
       height: AppSize.s32.rh,
       child: ElevatedButton(
-        onPressed: onReady,
+        onPressed: enabled ? onReady : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-            side: BorderSide(color: AppColors.purpleBlue),
+            side: BorderSide(
+              color: enabled ? AppColors.purpleBlue : Colors.transparent,
+            ),
           ),
         ),
         child: Text(
           AppStrings.ready.tr(),
           style: getMediumTextStyle(
-            color: AppColors.purpleBlue,
+            color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
@@ -79,10 +83,12 @@ class ReadyButton extends StatelessWidget {
 
 class DeliverButton extends StatelessWidget {
   final VoidCallback onDeliver;
+  final bool enabled;
 
   const DeliverButton({
     Key? key,
     required this.onDeliver,
+    required this.enabled,
   }) : super(key: key);
 
   @override
@@ -90,20 +96,22 @@ class DeliverButton extends StatelessWidget {
     return SizedBox(
       height: AppSize.s32.rh,
       child: ElevatedButton(
-        onPressed: onDeliver,
+        onPressed: enabled ? onDeliver : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-            side: BorderSide(color: AppColors.purpleBlue),
+            side: BorderSide(
+              color: enabled ? AppColors.purpleBlue : Colors.transparent,
+            ),
           ),
         ),
         child: Text(
           AppStrings.deliver.tr(),
           style: getMediumTextStyle(
-            color: AppColors.purpleBlue,
+            color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
@@ -114,10 +122,12 @@ class DeliverButton extends StatelessWidget {
 
 class PickedUpButton extends StatelessWidget {
   final VoidCallback onPickedUp;
+  final bool enabled;
 
   const PickedUpButton({
     Key? key,
     required this.onPickedUp,
+    required this.enabled,
   }) : super(key: key);
 
   @override
@@ -125,20 +135,22 @@ class PickedUpButton extends StatelessWidget {
     return SizedBox(
       height: AppSize.s32.rh,
       child: ElevatedButton(
-        onPressed: onPickedUp,
+        onPressed: enabled ? onPickedUp : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-            side: BorderSide(color: AppColors.purpleBlue),
+            side: BorderSide(
+              color: enabled ? AppColors.purpleBlue : Colors.transparent,
+            ),
           ),
         ),
         child: Text(
           AppStrings.picked_up.tr(),
           style: getMediumTextStyle(
-            color: AppColors.purpleBlue,
+            color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
@@ -149,10 +161,12 @@ class PickedUpButton extends StatelessWidget {
 
 class AcceptButton extends StatelessWidget {
   final VoidCallback onAccept;
+  final bool enabled;
 
   const AcceptButton({
     Key? key,
     required this.onAccept,
+    required this.enabled,
   }) : super(key: key);
 
   @override
@@ -160,7 +174,7 @@ class AcceptButton extends StatelessWidget {
     return SizedBox(
       height: AppSize.s32.rh,
       child: ElevatedButton(
-        onPressed: onAccept,
+        onPressed: enabled ? onAccept : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
@@ -177,10 +191,12 @@ class AcceptButton extends StatelessWidget {
 
 class CanceledButton extends StatelessWidget {
   final VoidCallback onCanceled;
+  final bool enabled;
 
   const CanceledButton({
     Key? key,
     required this.onCanceled,
+    required this.enabled,
   }) : super(key: key);
 
   @override
@@ -188,17 +204,22 @@ class CanceledButton extends StatelessWidget {
     return SizedBox(
       height: AppSize.s32.rh,
       child: ElevatedButton(
-        onPressed: onCanceled,
+        onPressed: enabled ? onCanceled : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-            side: BorderSide(color: AppColors.black),
+            side: BorderSide(
+              color: enabled ? AppColors.black : Colors.transparent,
+            ),
           ),
         ),
-        child: SvgPicture.asset(AppIcons.canceled),
+        child: SvgPicture.asset(
+          AppIcons.canceled,
+          color: enabled ? AppColors.black : AppColors.smokeyGrey,
+        ),
       ),
     );
   }
@@ -223,12 +244,14 @@ Widget getActionButtons({
               OrderStatus.ACCEPTED,
             );
           },
+          enabled: !order.isInterceptorOrder,
         ),
         SizedBox(width: AppSize.s8.rw),
         CanceledButton(
           onCanceled: () {
             onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
           },
+          enabled: !order.isInterceptorOrder,
         ),
       ],
     );
@@ -245,8 +268,10 @@ Widget getActionButtons({
         SizedBox(width: AppSize.s8.rw),
         DeliverButton(
           onDeliver: () {
-            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}',
+                OrderStatus.DELIVERED);
           },
+          enabled: !order.isInterceptorOrder,
         ),
       ],
     );
@@ -267,6 +292,7 @@ Widget getActionButtons({
             onAction('${AppStrings.ready_order.tr()} #${order.id}',
                 OrderStatus.READY);
           },
+          enabled: !order.isInterceptorOrder,
         ),
       ],
     );
@@ -286,6 +312,7 @@ Widget getActionButtons({
             onAction('${AppStrings.pickup_order.tr()} #${order.id}',
                 OrderStatus.PICKED_UP);
           },
+          enabled: !order.isInterceptorOrder,
         ),
       ],
     );
@@ -302,6 +329,7 @@ Widget getActionButtons({
           onAction('${AppStrings.deliver_order.tr()} #${order.id}',
               OrderStatus.DELIVERED);
         },
+        enabled: !order.isInterceptorOrder,
       ),
     ],
   );
@@ -327,6 +355,7 @@ Widget getExpandActionButtons({
                 OrderStatus.ACCEPTED,
               );
             },
+            enabled: !order.isInterceptorOrder,
           ),
         ),
         SizedBox(width: AppSize.s8.rw),
@@ -335,6 +364,7 @@ Widget getExpandActionButtons({
             onCanceled: () {
               onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
             },
+            enabled: !order.isInterceptorOrder,
           ),
         ),
       ],
@@ -360,6 +390,7 @@ Widget getExpandActionButtons({
                 OrderStatus.DELIVERED,
               );
             },
+            enabled: !order.isInterceptorOrder,
           ),
         ),
       ],
@@ -386,6 +417,7 @@ Widget getExpandActionButtons({
                 OrderStatus.READY,
               );
             },
+            enabled: !order.isInterceptorOrder,
           ),
         ),
       ],
@@ -411,6 +443,7 @@ Widget getExpandActionButtons({
                 OrderStatus.PICKED_UP,
               );
             },
+            enabled: !order.isInterceptorOrder,
           ),
         ),
       ],
@@ -433,6 +466,7 @@ Widget getExpandActionButtons({
               OrderStatus.DELIVERED,
             );
           },
+          enabled: !order.isInterceptorOrder,
         ),
       ),
     ],

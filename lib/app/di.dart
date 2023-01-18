@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
-import 'package:klikit/core/network/web_socket_client.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
@@ -94,7 +93,6 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<TokenProvider>(TokenProvider(getIt()));
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
-  getIt.registerSingleton<WebSocketClient>(WebSocketClient(getIt()));
   getIt.registerSingleton<FcmTokenManager>(FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
 
   ///base

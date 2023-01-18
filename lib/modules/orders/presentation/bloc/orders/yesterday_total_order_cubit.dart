@@ -17,7 +17,7 @@ class YesterdayTotalOrderCubit extends Cubit<ResponseState> {
 
   void fetchTotalOrder() async {
     emit(Loading());
-    final status = [OrderStatus.CANCELLED, OrderStatus.DELIVERED];
+    final status = [OrderStatus.CANCELLED, OrderStatus.DELIVERED,OrderStatus.PICKED_UP];
     final brands = await _informationProvider.findBrandsIds();
     final providers = await _informationProvider.findProvidersIds();
     final branch = await _informationProvider.findBranchId();
