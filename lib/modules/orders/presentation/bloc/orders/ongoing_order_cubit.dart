@@ -12,10 +12,7 @@ class OngoingOrderCubit extends Cubit<ResponseState> {
   OngoingOrderCubit(this._fetchOngoingOrder, this._orderParameterProvider)
       : super(Empty());
 
-  void fetchOngoingOrder(
-      {required bool willShowLoading,
-      List<int>? providersID,
-      List<int>? brandsID}) async {
+  void fetchOngoingOrder({required bool willShowLoading, List<int>? providersID, List<int>? brandsID}) async {
     if (willShowLoading) {
       emit(Loading());
     }

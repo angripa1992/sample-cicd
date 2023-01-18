@@ -53,7 +53,7 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
     if (willShowLoading) {
       emit(Loading());
     }
-    final status = [OrderStatus.DELIVERED];
+    final status = [OrderStatus.DELIVERED,OrderStatus.PICKED_UP];
     final branch = await _informationProvider.findBranchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;

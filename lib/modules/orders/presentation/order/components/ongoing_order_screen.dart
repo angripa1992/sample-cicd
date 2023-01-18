@@ -242,5 +242,6 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
   }
 
   @override
-  void applyStatusFilter(List<int> status) {}
+  void applyStatusFilter(List<int> status) {
+  }
 }
