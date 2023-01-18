@@ -41,154 +41,147 @@ class OrderItemDetails extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(
-          vertical: AppSize.s4.rh,
+          //vertical: AppSize.s4.rh,
           horizontal: AppSize.s16.rw,
         ),
         child: Column(
           children: [
-            Row(
-              children:  [
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    'Items',
-                   // textAlign: TextAlign.start,
-                    style: _tableHeaderStyle,
-                  ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  left: BorderSide(
+                      width: 1.0, color: AppColors.lightViolet),
+                  right: BorderSide(
+                      width: 1.0, color: AppColors.lightViolet),
+                  top: BorderSide(width: 1.0, color: AppColors.lightViolet),
+                  bottom: BorderSide(width: 1.0, color: AppColors.lightViolet),
+                //  bottom: BorderSide(width: 1.0, color: AppColors.lightViolet),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    'Qty',
-                    textAlign: TextAlign.center,
-                    style: _tableHeaderStyle,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      'Items',
+                      // textAlign: TextAlign.start,
+                      style: _tableHeaderStyle,
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    'Total Price',
-                    textAlign: TextAlign.center,
-                    style: _tableHeaderStyle,
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'Quantity',
+                      textAlign: TextAlign.center,
+                      style: _tableHeaderStyle,
+                    ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      'Total Price',
+                      textAlign: TextAlign.center,
+                      style: _tableHeaderStyle,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Divider(color: AppColors.lightViolet),
+            // Divider(color: AppColors.lightViolet,endIndent: 0,indent: 0,),
             Expanded(
-              child: ListView.separated(
+              child: ListView.builder(
                 itemCount: order.cartV2.length,
                 itemBuilder: (_, index) {
                   return Container(
                     decoration: BoxDecoration(
                       border: Border(
-                        left: BorderSide(width: 1.0, color: Colors.lightBlue.shade600),
-                        right: BorderSide(width: 1.0, color: Colors.lightBlue.shade900),
+                        left: BorderSide(width: 1.0, color: AppColors.lightViolet),
+                        right: BorderSide(
+                            width: 1.0, color: AppColors.lightViolet),
+                        top: BorderSide(width: (index == 0) ? 0 : 1.0, color: AppColors.lightViolet),
+                        bottom: BorderSide(width: (order.cartV2.length == (index+1)) ? 1.0 : 0, color: AppColors.lightViolet),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        ///cart item
-                        _cartItemView(
-                          order.cartV2[index],
-                          order.currencySymbol,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: order.cartV2[index].modifierGroups.map(
-                            (modifiersGroup) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  ///level 1 modifiers group
-                                  _showModifierGroupName(modifiersGroup.name),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ///cart item
+                          _cartItemView(order.cartV2[index], order.currencySymbol,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: order.cartV2[index].modifierGroups.map((modifiersGroupOne) {
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    children: modifiersGroup.modifiers.map(
-                                      (modifiers) {
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            ///level 1 modifiers
-                                            _modifierItemView(
-                                                modifiers: modifiers,
-                                                prevQuantity: modifiers.quantity,
-                                                itemQuantity:
-                                                    order.cartV2[index].quantity),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.stretch,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children:
-                                                  modifiers.modifierGroups.map(
-                                                (modifierGroups) {
-                                                  return Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .stretch,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      ///level 2 modifiers group
-                                                      _showModifierGroupName(
-                                                          modifiersGroup.name),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .stretch,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: modifierGroups
-                                                            .modifiers
-                                                            .map(
-                                                          (secondModifier) {
-                                                            return _modifierItemView(
-                                                                modifiers:
-                                                                    secondModifier,
-                                                                prevQuantity:
-                                                                    secondModifier
-                                                                        .quantity,
-                                                                itemQuantity: order
-                                                                    .cartV2[index]
-                                                                    .quantity);
-                                                          },
-                                                        ).toList(),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ).toList(),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                ],
-                              );
-                            },
-                          ).toList(),
-                        ),
+                                    children: [
+                                      ///level 1 modifiers group
+                                      _showModifierGroupName(modifiersGroupOne.name),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: modifiersGroupOne.modifiers.map((modifiersOne) {
+                                              return Column(
+                                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  ///level 1 modifiers
+                                                  _modifierItemView(modifiers: modifiersOne, prevQuantity: modifiersOne.quantity, itemQuantity: order.cartV2[index].quantity),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 8.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: modifiersOne.modifierGroups.map((secondModifierGroups) {
+                                                          return Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            children: [
+                                                              ///level 2 modifiers group
+                                                              _showModifierGroupName(secondModifierGroups.name),
+                                                              Padding(
+                                                                padding: const EdgeInsets.only(left: 8.0),
+                                                                child: Column(
+                                                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                                  children: secondModifierGroups.modifiers.map((secondModifier) {
+                                                                      return _modifierItemView(modifiers: secondModifier, prevQuantity: secondModifier.quantity, itemQuantity: order.cartV2[index].quantity);
+                                                                    },
+                                                                  ).toList(),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      ).toList(),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ).toList(),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).toList(),
+                            ),
+                          ),
 
-                        ///comment
-                        _itemComment(order.cartV2[index].comment),
-                      ],
+                          ///comment
+                          _itemComment(order.cartV2[index].comment),
+                        ],
+                      ),
                     ),
                   );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(color: AppColors.lightViolet);
                 },
               ),
             ),
@@ -220,8 +213,9 @@ class OrderItemDetails extends StatelessWidget {
           ),
         ),
         Expanded(
+          flex: 1,
           child: Text(
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.end,
             '$currencySymbol${PriceCalculator.calculateItemPrice(order, cartV2)}',
             style: TextStyle(
               fontWeight: AppFontWeight.bold,
@@ -263,7 +257,7 @@ class OrderItemDetails extends StatelessWidget {
           flex: 1,
           child: Text(
             '${order.currencySymbol}${PriceCalculator.calculateModifierPrice(order, modifiers, prevQuantity, itemQuantity)}',
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.end,
             style: TextStyle(
               fontWeight: AppFontWeight.bold,
               fontSize: AppFontSize.s14.rSp,
