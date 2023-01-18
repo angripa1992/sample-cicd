@@ -45,8 +45,7 @@ class PrintingHandler {
     }
   }
 
-  void _verifyBleConnection(
-      {required bool fromNotification, Order? order}) async {
+  void _verifyBleConnection({required bool fromNotification, Order? order}) async {
     if (await _isPermissionGranted()) {
       if (!_bluetoothPrinterHandler.isConnected()) {
         if (fromNotification) {

@@ -75,14 +75,15 @@ void _openBottomSheet({
               modalKey: key,
               onCommentActionSuccess: onCommentActionSuccess,
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: AppSize.s8.rh,
-                left: AppSize.s16.rw,
-                right: AppSize.s16.rw,
-              ),
-              child: Divider(color: AppColors.lightViolet),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //     top: AppSize.s8.rh,
+            //     left: AppSize.s16.rw,
+            //     right: AppSize.s16.rw,
+            //   ),
+            //   child: Divider(color: AppColors.lightViolet),
+            // ),
+            SizedBox(height: 12,),
             OrderItemDetails(order: order),
             CommentView(comment: order.orderComment),
             PriceView(order: order),
