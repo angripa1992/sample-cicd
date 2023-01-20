@@ -24,60 +24,66 @@ class ManageModifiersScreen extends StatelessWidget {
     ModifiersGroup modifierGroup = args[ArgumentKey.kGROUP];
     final brandId = args[ArgumentKey.kBRAND_ID];
     final providerId = args[ArgumentKey.kPROVIDER_ID];
-    return BlocProvider(
-      create: (_) => getIt.get<CheckAffectedCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context, modifierGroup);
-            },
-            icon: const Icon(Icons.arrow_back_outlined),
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pop(context, modifierGroup);
+        return Future.value(false);
+      },
+      child: BlocProvider(
+        create: (_) => getIt.get<CheckAffectedCubit>(),
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context, modifierGroup);
+              },
+              icon: const Icon(Icons.arrow_back_outlined),
+            ),
+            title: Text(AppStrings.modifiers.tr()),
+            titleTextStyle: getAppBarTextStyle(),
+            flexibleSpace: getAppBarBackground(),
           ),
-          title: Text(AppStrings.modifiers.tr()),
-          titleTextStyle: getAppBarTextStyle(),
-          flexibleSpace: getAppBarBackground(),
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: AppSize.s10.rh,
-            horizontal: AppSize.s16.rw,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ModifierGroupInfoView(
-                modifiersGroup: modifierGroup,
-                brandId: brandId,
-                providerId: providerId,
-                onChanged: (modifiedGroup) {
-                  modifierGroup.statuses[0] = modifiedGroup.statuses[0];
-                },
-              ),
-              SizedBox(height: AppSize.s16.rh),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSize.s4.rh,
-                  horizontal: AppSize.s4.rw,
+          body: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: AppSize.s10.rh,
+              horizontal: AppSize.s16.rw,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ModifierGroupInfoView(
+                  modifiersGroup: modifierGroup,
+                  brandId: brandId,
+                  providerId: providerId,
+                  onChanged: (modifiedGroup) {
+                    modifierGroup.statuses[0] = modifiedGroup.statuses[0];
+                  },
                 ),
-                child: Text(
-                  AppStrings.modifiers.tr().toUpperCase(),
-                  style: getRegularTextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s16.rSp,
+                SizedBox(height: AppSize.s16.rh),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSize.s4.rh,
+                    horizontal: AppSize.s4.rw,
+                  ),
+                  child: Text(
+                    AppStrings.modifiers.tr().toUpperCase(),
+                    style: getRegularTextStyle(
+                      color: AppColors.black,
+                      fontSize: AppFontSize.s16.rSp,
+                    ),
                   ),
                 ),
-              ),
-              ModifierListView(
-                modifiersGroup: modifierGroup,
-                providerId: providerId,
-                brandId: brandId,
-                onChanged: (changedModifiers) {
-                  modifierGroup.modifiers = changedModifiers;
-                },
-              ),
-            ],
+                ModifierListView(
+                  modifiersGroup: modifierGroup,
+                  providerId: providerId,
+                  brandId: brandId,
+                  onChanged: (changedModifiers) {
+                    modifierGroup.modifiers = changedModifiers;
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

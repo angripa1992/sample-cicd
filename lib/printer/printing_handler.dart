@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:flutter/material.dart';
 import 'package:image/image.dart' as im;
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
@@ -9,6 +10,7 @@ import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
+import 'package:klikit/printer/presentation/capture_image_preview.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/presentation/docket_design_pdf.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
@@ -131,19 +133,19 @@ class PrintingHandler {
 
   void printDocket(Order order) async {
     List<int> rawBytes = await _ticket(order);
-    if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
-      if (_bluetoothPrinterHandler.isConnected()) {
-        _bluetoothPrinterHandler.printDocket(rawBytes);
-      } else {
-        showBleDevices(order: order);
-      }
-    } else {
-      if (_usbPrinterHandler.isConnected()) {
-        _usbPrinterHandler.printDocket(rawBytes);
-      } else {
-        showUsbDevices(order: order);
-      }
-    }
+    // if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
+    //   if (_bluetoothPrinterHandler.isConnected()) {
+    //     _bluetoothPrinterHandler.printDocket(rawBytes);
+    //   } else {
+    //     showBleDevices(order: order);
+    //   }
+    // } else {
+    //   if (_usbPrinterHandler.isConnected()) {
+    //     _usbPrinterHandler.printDocket(rawBytes);
+    //   } else {
+    //     showUsbDevices(order: order);
+    //   }
+    // }
   }
 
   // Future<Uint8List?> _capturePng(Order order) async {
@@ -207,6 +209,13 @@ class PrintingHandler {
     );
 
     var headerBytes = pageImage?.bytes;
+    Navigator.push(
+        RoutesGenerator.navigatorKey.currentState!.context,
+        MaterialPageRoute(
+            builder: (context) => CaptureImagePrivew(
+              capturedImage: headerBytes,
+            )));
+
     final im.Image? headerImg = im.decodeImage(headerBytes!);
 
     bytes += generator.image(headerImg!);

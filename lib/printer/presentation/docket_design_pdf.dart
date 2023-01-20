@@ -420,6 +420,7 @@ class DocketDesignPdf {
           order,
           'Subtotal:',
           num.parse(PriceCalculator.calculateSubtotal(order)),
+          isSubtotal: true,
         ),
         _getSubtotalItem(
           order,
@@ -467,6 +468,7 @@ class DocketDesignPdf {
     String name,
     num price, {
     bool isDiscount = false,
+    bool isSubtotal = false,
   }) {
     return pw.Row(
       mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
@@ -476,7 +478,7 @@ class DocketDesignPdf {
           style: _subTotalTextStyle,
         ),
         pw.Text(
-          '${isDiscount ? '-' : ''}${order.currencySymbol}${PriceCalculator.convertPrice(price)}',
+          '${isDiscount ? '-' : ''}${order.currencySymbol}${isSubtotal ? price : PriceCalculator.convertPrice(price)}',
           style: _subTotalTextStyle,
         ),
       ],
@@ -604,80 +606,47 @@ class DocketDesignPdf {
                 crossAxisAlignment: pw.CrossAxisAlignment.stretch,
                 mainAxisAlignment: pw.MainAxisAlignment.start,
                 children: order.cartV2[index].modifierGroups.map(
-                  (modifiersGroup) {
+                  (firstModifiersGroup) {
                     return pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.stretch,
                       mainAxisAlignment: pw.MainAxisAlignment.start,
                       children: [
                         ///level 1 modifiers group
-                        _showModifierGroupName(modifiersGroup.name),
+                        _showModifierGroupName(firstModifiersGroup.name),
                         pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
                           mainAxisAlignment: pw.MainAxisAlignment.start,
-                          children: modifiersGroup.modifiers.map(
-                            (modifiers) {
+                          children: firstModifiersGroup.modifiers.map((firstModifiers) {
                               return pw.Padding(
-                                padding: const pw.EdgeInsets.only(
-                                  left: 8,
-                                ),
+                                padding: const pw.EdgeInsets.only(left: 8),
                                 child: pw.Column(
-                                  crossAxisAlignment:
-                                      pw.CrossAxisAlignment.stretch,
+                                  crossAxisAlignment: pw.CrossAxisAlignment.stretch,
                                   mainAxisAlignment: pw.MainAxisAlignment.start,
                                   children: [
                                     ///level 1 modifiers
-                                    _modifierItemView(order, modifiers, 1,
-                                        order.cartV2[index].quantity),
+                                    _modifierItemView(order, firstModifiers,firstModifiers.quantity, order.cartV2[index].quantity),
                                     pw.Padding(
-                                      padding: const pw.EdgeInsets.only(
-                                        left: 8,
-                                      ),
+                                      padding: const pw.EdgeInsets.only(left: 8),
                                       child: pw.Column(
-                                        crossAxisAlignment:
-                                            pw.CrossAxisAlignment.stretch,
-                                        mainAxisAlignment:
-                                            pw.MainAxisAlignment.start,
-                                        children: modifiers.modifierGroups.map(
-                                          (modifierGroups) {
+                                        crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+                                        mainAxisAlignment: pw.MainAxisAlignment.start,
+                                        children: firstModifiers.modifierGroups.map((secondModifierGroups) {
                                             return pw.Padding(
-                                              padding: const pw.EdgeInsets.only(
-                                                left: 8,
-                                              ),
+                                              padding: const pw.EdgeInsets.only(left: 8),
                                               child: pw.Column(
-                                                crossAxisAlignment: pw
-                                                    .CrossAxisAlignment.stretch,
-                                                mainAxisAlignment:
-                                                    pw.MainAxisAlignment.start,
+                                                crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+                                                mainAxisAlignment: pw.MainAxisAlignment.start,
                                                 children: [
                                                   ///level 2 modifiers group
-                                                  _showModifierGroupName(
-                                                      modifiersGroup.name),
+                                                  _showModifierGroupName(secondModifierGroups.name),
                                                   pw.Column(
-                                                    crossAxisAlignment: pw
-                                                        .CrossAxisAlignment
-                                                        .stretch,
-                                                    mainAxisAlignment: pw
-                                                        .MainAxisAlignment
-                                                        .start,
-                                                    children: modifierGroups
-                                                        .modifiers
-                                                        .map(
-                                                      (secondModifiers) {
+                                                    crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+                                                    mainAxisAlignment: pw.MainAxisAlignment.start,
+                                                    children: secondModifierGroups.modifiers.map((secondModifiers) {
                                                         return pw.Padding(
-                                                          padding: const pw
-                                                              .EdgeInsets.only(
-                                                            left: 8,
-                                                          ),
-
+                                                          padding: const pw.EdgeInsets.only(left: 8),
                                                           ///level 2 modifiers
-                                                          child: _modifierItemView(
-                                                              order,
-                                                              secondModifiers,
-                                                              modifiers
-                                                                  .quantity,
-                                                              order
-                                                                  .cartV2[index]
-                                                                  .quantity),
+                                                          child: _modifierItemView(order, secondModifiers, secondModifiers.quantity, order.cartV2[index].quantity),
                                                         );
                                                       },
                                                     ).toList(),

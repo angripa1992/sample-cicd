@@ -14,43 +14,48 @@ class ManageItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final subSections = args[ArgumentKey.kSECTIONS];
     final parentEnabled = args[ArgumentKey.kENABLED];
     final brandId = args[ArgumentKey.kBRAND_ID];
     final providerId = args[ArgumentKey.kPROVIDER_ID];
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context, subSections);
-          },
-          icon: const Icon(Icons.arrow_back_outlined),
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pop(context, subSections);
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context, subSections);
+            },
+            icon: const Icon(Icons.arrow_back_outlined),
+          ),
+          title: Text(AppStrings.manage_items.tr()),
+          titleTextStyle: getAppBarTextStyle(),
+          flexibleSpace: getAppBarBackground(),
         ),
-        title: Text(AppStrings.manage_items.tr()),
-        titleTextStyle: getAppBarTextStyle(),
-        flexibleSpace: getAppBarBackground(),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: AppSize.s16.rh,
-          horizontal: AppSize.s16.rw,
-        ),
-        child: Column(
-          children: [
-            SubMenuItemsTitle(subSections: subSections),
-            SizedBox(height: AppSize.s8.rh),
-            SubMenuItemsListView(
-              subSections: subSections,
-              onChanged: (modifiedItems) {
-                subSections.items = modifiedItems;
-              },
-              parentEnabled: parentEnabled,
-              brandID: brandId,
-              providerID: providerId,
-            ),
-          ],
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: AppSize.s16.rh,
+            horizontal: AppSize.s16.rw,
+          ),
+          child: Column(
+            children: [
+              SubMenuItemsTitle(subSections: subSections),
+              SizedBox(height: AppSize.s8.rh),
+              SubMenuItemsListView(
+                subSections: subSections,
+                onChanged: (modifiedItems) {
+                  subSections.items = modifiedItems;
+                },
+                parentEnabled: parentEnabled,
+                brandID: brandId,
+                providerID: providerId,
+              ),
+            ],
+          ),
         ),
       ),
     );

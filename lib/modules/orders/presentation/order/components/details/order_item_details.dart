@@ -63,18 +63,18 @@ class OrderItemDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: order.cartV2[index].modifierGroups.map(
-                        (modifiersGroup) {
+                        (firstModifiersGroup) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               ///level 1 modifiers group
-                              _showModifierGroupName(modifiersGroup.name),
+                              _showModifierGroupName(firstModifiersGroup.name),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: modifiersGroup.modifiers.map(
-                                  (modifiers) {
+                                children: firstModifiersGroup.modifiers.map(
+                                  (firstModifiers) {
                                     return Padding(
                                       padding: EdgeInsets.only(
                                           left: AppSize.s8.rw,
@@ -87,11 +87,7 @@ class OrderItemDetails extends StatelessWidget {
                                             MainAxisAlignment.start,
                                         children: [
                                           ///level 1 modifiers
-                                          _modifierItemView(
-                                              modifiers: modifiers,
-                                              prevQuantity: modifiers.quantity,
-                                              itemQuantity:
-                                                  order.cartV2[index].quantity),
+                                          _modifierItemView(modifiers: firstModifiers, prevQuantity: firstModifiers.quantity, itemQuantity: order.cartV2[index].quantity),
                                           Padding(
                                             padding: EdgeInsets.only(
                                                 left: AppSize.s8.rw),
@@ -101,8 +97,8 @@ class OrderItemDetails extends StatelessWidget {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children:
-                                                  modifiers.modifierGroups.map(
-                                                (modifierGroups) {
+                                              firstModifiers.modifierGroups.map(
+                                                (secondModifierGroups) {
                                                   return Padding(
                                                     padding: EdgeInsets.only(
                                                         left: AppSize.s8.rw,
@@ -117,9 +113,7 @@ class OrderItemDetails extends StatelessWidget {
                                                               .start,
                                                       children: [
                                                         ///level 2 modifiers group
-                                                        _showModifierGroupName(
-                                                            modifiersGroup
-                                                                .name),
+                                                        _showModifierGroupName(secondModifierGroups.name),
                                                         Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -128,28 +122,14 @@ class OrderItemDetails extends StatelessWidget {
                                                               MainAxisAlignment
                                                                   .start,
                                                           children:
-                                                              modifierGroups
+                                                          secondModifierGroups
                                                                   .modifiers
                                                                   .map(
                                                             (secondModifier) {
                                                               return Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left: AppSize
-                                                                            .s8
-                                                                            .rw),
-
+                                                                padding: EdgeInsets.only(left: AppSize.s8.rw),
                                                                 ///level 2 modifiers
-                                                                child: _modifierItemView(
-                                                                    modifiers:
-                                                                        secondModifier,
-                                                                    prevQuantity:
-                                                                        secondModifier
-                                                                            .quantity,
-                                                                    itemQuantity: order
-                                                                        .cartV2[
-                                                                            index]
-                                                                        .quantity),
+                                                                child: _modifierItemView(modifiers: secondModifier, prevQuantity: secondModifier.quantity, itemQuantity: order.cartV2[index].quantity),
                                                               );
                                                             },
                                                           ).toList(),
