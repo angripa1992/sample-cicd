@@ -4,7 +4,7 @@ import 'package:klikit/modules/user/data/models/user_model.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 
-User mapUserModelToUser(UserModel userModel){
+User mapUserModelToUser(UserModel userModel) {
   return User(
     accessToken: userModel.access_token.orEmpty(),
     refreshToken: userModel.refresh_token.orEmpty(),
@@ -27,7 +27,7 @@ User mapUserModelToUser(UserModel userModel){
       roles: userModel.user?.roles ?? [],
       roleIds: userModel.user?.role_ids ?? [],
       displayRoles: userModel.user?.display_roles ?? [],
-      updatedAt:  userModel.user?.updated_at?.orEmpty() ?? EMPTY,
+      updatedAt: userModel.user?.updated_at?.orEmpty() ?? EMPTY,
       permissions: userModel.user?.permissions ?? [],
       countryCodes: userModel.user?.country_codes ?? [],
       countryIds: userModel.user?.country_ids ?? [],
@@ -35,6 +35,6 @@ User mapUserModelToUser(UserModel userModel){
   );
 }
 
-SuccessResponse mapSuccessResponse(SuccessResponseModel responseModel){
+SuccessResponse mapSuccessResponse(SuccessResponseModel responseModel) {
   return SuccessResponse(responseModel.message ?? EMPTY);
 }

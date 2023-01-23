@@ -1,20 +1,20 @@
 import 'filter_observer.dart';
 
 class FilterSubject {
-  final Map<String,FilterObserver> _observers = {};
+  final Map<String, FilterObserver> _observers = {};
   List<int>? _providers;
   List<int>? _brands;
   List<int>? _status;
 
-  void addObserver(FilterObserver observer,String tag){
-    if(_observers.containsKey(tag)){
+  void addObserver(FilterObserver observer, String tag) {
+    if (_observers.containsKey(tag)) {
       _observers.remove(tag);
     }
     _observers[tag] = observer;
   }
 
-  void removeObserver(String tag){
-    if(_observers.containsKey(tag)){
+  void removeObserver(String tag) {
+    if (_observers.containsKey(tag)) {
       _observers.remove(tag);
     }
   }
@@ -25,15 +25,15 @@ class FilterSubject {
 
   List<int>? getStatus() => _status;
 
-  void setBrands(List<int> brands){
+  void setBrands(List<int> brands) {
     _brands = brands;
   }
 
-  void setProviders(List<int> providers){
+  void setProviders(List<int> providers) {
     _providers = providers;
   }
-  
- void setStatus(List<int> status){
+
+  void setStatus(List<int> status) {
     _status = status;
   }
 
@@ -57,5 +57,4 @@ class FilterSubject {
       value.applyStatusFilter(ids);
     });
   }
-
 }

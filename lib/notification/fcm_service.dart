@@ -1,15 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:klikit/notification/fcm_token_manager.dart';
+import 'package:flutter/material.dart';
 import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/notification/local_notification_service.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
 
-import '../app/di.dart';
-
 class FcmService {
   static final FcmService _instance = FcmService._internal();
-  final _fcmTokenManager = getIt.get<FcmTokenManager>();
+
+  //final _fcmTokenManager = getIt.get<FcmTokenManager>();
 
   FcmService._internal();
 
@@ -26,7 +25,7 @@ class FcmService {
 
   Future<String?> getFcmToken() async {
     final fcmToken = await messaging.getToken();
-    print('fcm token => $fcmToken');
+    debugPrint('fcm token => $fcmToken');
     return fcmToken;
   }
 

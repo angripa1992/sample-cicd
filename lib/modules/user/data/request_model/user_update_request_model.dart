@@ -31,7 +31,8 @@ class UserUpdateRequestModel {
       this.roleIds,
       this.countryIds});
 
-  factory UserUpdateRequestModel.fromJson(Map<String, dynamic> json) => _$UserUpdateRequestModelFromJson(json);
+  factory UserUpdateRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$UserUpdateRequestModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserUpdateRequestModelToJson(this);
 }

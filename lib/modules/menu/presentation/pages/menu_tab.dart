@@ -34,7 +34,8 @@ class MenuTab extends StatelessWidget {
               BoxShadow(
                 color: AppColors.lightGrey,
                 blurRadius: 2.0,
-                offset: const Offset(2.0, 2.0), // shadow direction: bottom right
+                offset:
+                    const Offset(2.0, 2.0), // shadow direction: bottom right
               )
             ],
           ),

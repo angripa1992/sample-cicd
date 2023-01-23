@@ -106,20 +106,22 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.providerId == ZERO ? Transform.scale(
-      scale: 0.7,
-      child: CupertinoSwitch(
-        value: _enabled,
-        activeColor: AppColors.purpleBlue,
-        trackColor: AppColors.blackCow,
-        onChanged: (enabled) {
-          if (enabled) {
-            _handleEnableAction(enabled);
-          } else {
-            _checkAffect(enabled);
-          }
-        },
-      ),
-    ) : SizedBox(height: AppSize.s32.rh);
+    return widget.providerId == ZERO
+        ? Transform.scale(
+            scale: 0.7,
+            child: CupertinoSwitch(
+              value: _enabled,
+              activeColor: AppColors.purpleBlue,
+              trackColor: AppColors.blackCow,
+              onChanged: (enabled) {
+                if (enabled) {
+                  _handleEnableAction(enabled);
+                } else {
+                  _checkAffect(enabled);
+                }
+              },
+            ),
+          )
+        : SizedBox(height: AppSize.s32.rh);
   }
 }

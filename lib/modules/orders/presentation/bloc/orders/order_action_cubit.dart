@@ -9,7 +9,7 @@ class OrderActionCubit extends Cubit<ResponseState> {
 
   OrderActionCubit(this._updateOrderStatus) : super(Empty());
 
-  void updateOrderStatus(Map<String,dynamic> params) async {
+  void updateOrderStatus(Map<String, dynamic> params) async {
     emit(Loading());
     final response = await _updateOrderStatus(params);
     response.fold(

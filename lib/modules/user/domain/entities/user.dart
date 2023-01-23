@@ -14,7 +14,7 @@ class User {
     required this.userInfo,
   });
 
-  User copyWith({String? firstName,String? lastName,String? phone}) {
+  User copyWith({String? firstName, String? lastName, String? phone}) {
     return User(
       accessToken: accessToken,
       refreshToken: refreshToken,

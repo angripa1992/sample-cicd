@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/language/language_manager.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../resources/colors.dart';
 import 'language.dart';
@@ -30,7 +32,7 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
       appBar: AppBar(),
       body: Column(
         children: [
-          Text('Change Language'),
+          Text(AppStrings.change_language.tr()),
           FutureBuilder<List<Language>>(
             future: _languageManager.getSupportedLanguages(),
             builder: (_, snapshot) {
@@ -55,7 +57,8 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
                       );
                     }).toList();
                   },
-                  items: languages.map<DropdownMenuItem<String>>((language) {
+                  items: languages.map<DropdownMenuItem<String>>(
+                    (language) {
                       return DropdownMenuItem<String>(
                         value: language.code,
                         child: RadioListTile<String>(

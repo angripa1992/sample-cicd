@@ -12,7 +12,7 @@ import 'package:klikit/resources/values.dart';
 class OrderStatusView extends StatelessWidget {
   final Order order;
 
-  OrderStatusView({Key? key, required this.order}) : super(key: key);
+  const OrderStatusView({Key? key, required this.order}) : super(key: key);
 
   String _getStatus() {
     switch (order.status) {
@@ -39,6 +39,17 @@ class OrderStatusView extends StatelessWidget {
     }
   }
 
+  String _getType() {
+    switch (order.type) {
+      case OrderType.PICKUP:
+        return AppStrings.pickup.tr();
+      case OrderType.DELIVERY:
+        return AppStrings.deliver.tr();
+      default:
+        return AppStrings.manual.tr();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -48,19 +59,9 @@ class OrderStatusView extends StatelessWidget {
           padding: EdgeInsets.only(top: AppSize.s12.rh),
           child: _statusItem(_getStatus()),
         ),
-        Visibility(
-          visible: (order.isManualOrder),
-          child: Padding(
-            padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
-            child: _statusItem(AppStrings.manual.tr()),
-          ),
-        ),
-        Visibility(
-          visible: (order.type == OrderType.PICKUP),
-          child: Padding(
-            padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
-            child: _statusItem(AppStrings.pickup.tr()),
-          ),
+        Padding(
+          padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
+          child: _statusItem(_getType()),
         ),
       ],
     );

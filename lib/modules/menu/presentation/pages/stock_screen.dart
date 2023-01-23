@@ -26,7 +26,6 @@ class StockScreen extends StatefulWidget {
 }
 
 class _StockScreenState extends State<StockScreen> {
-
   @override
   void initState() {
     SegmentManager().screen(event: SegmentEvents.MENU_TAB, name: 'Menu Tab');

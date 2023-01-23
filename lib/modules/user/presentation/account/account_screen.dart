@@ -52,7 +52,8 @@ class _AccountScreenState extends State<AccountScreen> {
     _lastNameController.text = _user.userInfo.lastName;
     _phoneNameController.text = _user.userInfo.phone;
     _emailNameController.text = _user.userInfo.email;
-    SegmentManager().screen(event: SegmentEvents.ACCOUNT_TAB, name: 'Account Tab');
+    SegmentManager()
+        .screen(event: SegmentEvents.ACCOUNT_TAB, name: 'Account Tab');
     super.initState();
   }
 
@@ -191,13 +192,15 @@ class _AccountScreenState extends State<AccountScreen> {
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
                               _orderInfoProvider.clearData();
-                              InAppNotificationHandler().dismissInAppNotification();
-                              SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
+                              InAppNotificationHandler()
+                                  .dismissInAppNotification();
+                              SegmentManager().identify(
+                                  event: SegmentEvents.USER_LOGGED_OUT);
                               getIt
                                   .get<AppPreferences>()
                                   .clearPreferences()
                                   .then(
-                                    (value) {
+                                (value) {
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, Routes.login, (route) => false);
                                 },

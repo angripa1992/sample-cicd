@@ -10,7 +10,8 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   final TabBar tabBar;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Align(
       child: Container(
         margin: EdgeInsets.symmetric(
@@ -27,12 +28,10 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent =>
-      tabBar.preferredSize.height;
+  double get maxExtent => tabBar.preferredSize.height;
 
   @override
-  double get minExtent =>
-      tabBar.preferredSize.height;
+  double get minExtent => tabBar.preferredSize.height;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

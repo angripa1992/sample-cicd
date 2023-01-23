@@ -1,4 +1,3 @@
-
 class CartV2 {
   final String id;
   final String name;

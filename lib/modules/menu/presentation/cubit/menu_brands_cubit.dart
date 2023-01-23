@@ -47,7 +47,7 @@ class MenuBrandsCubit extends Cubit<ResponseState> {
         break;
       }
     }
-    if(!isFailed){
+    if (!isFailed) {
       emit(Success<List<MenuBrand>>(brands));
     }
   }

@@ -18,11 +18,13 @@ class ProviderModel {
     this.logo,
   });
 
-  factory ProviderModel.fromJson(Map<String, dynamic> json) => _$ProviderModelFromJson(json);
+  factory ProviderModel.fromJson(Map<String, dynamic> json) =>
+      _$ProviderModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProviderModelToJson(this);
 
-  Provider toEntity(){
-    return Provider(id.orZero(), title.orEmpty(), value.orEmpty(), logo.orEmpty());
+  Provider toEntity() {
+    return Provider(
+        id.orZero(), title.orEmpty(), value.orEmpty(), logo.orEmpty());
   }
 }

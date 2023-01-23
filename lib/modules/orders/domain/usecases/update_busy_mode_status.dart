@@ -14,6 +14,6 @@ class UpdateBusyModeStatus
   @override
   Future<Either<Failure, BusyModePostResponse>> call(
       Map<String, dynamic> params) {
-   return _orderRepository.updateBusyMode(params);
+    return _orderRepository.updateBusyMode(params);
   }
 }

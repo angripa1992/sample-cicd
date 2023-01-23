@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/urls.dart';
@@ -42,11 +41,15 @@ class TokenProvider {
     );
   }
 
-  void _logout(){
+  void _logout() {
     getIt.get<OrderInformationProvider>().clearData();
-    getIt.get<AppPreferences>().clearPreferences().then((value) {
-      Navigator.pushNamedAndRemoveUntil(RoutesGenerator.navigatorKey.currentState!.context, Routes.login, (route) => false);
-    },
+    getIt.get<AppPreferences>().clearPreferences().then(
+      (value) {
+        Navigator.pushNamedAndRemoveUntil(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            Routes.login,
+            (route) => false);
+      },
     );
   }
 
@@ -64,14 +67,15 @@ class TokenProvider {
 
   Future<Either<String, int>> fetchTokenFromServer() async {
     try {
-      final response = await _tokenDio.post(Urls.refreshToken, data: {"refresh_token": getRefreshToken()});
+      final response = await _tokenDio
+          .post(Urls.refreshToken, data: {"refresh_token": getRefreshToken()});
       final accessToken = response.data['access_token'];
       final refreshToken = response.data['refresh_token'];
       saveAccessToken(accessToken);
       saveRefreshToken(refreshToken);
       return Left(accessToken);
     } on DioError catch (error) {
-      if(error.response?.statusCode == ResponseCode.UNAUTHORISED){
+      if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
         _logout();
         return Right(error.response?.statusCode ?? ResponseCode.UNAUTHORISED);
       }

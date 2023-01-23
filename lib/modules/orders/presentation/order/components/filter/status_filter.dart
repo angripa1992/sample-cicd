@@ -37,7 +37,8 @@ class _StatusFilterState extends State<StatusFilter> {
   void initState() {
     _currentTabIndex = widget.tabController.index;
     widget.tabController.addListener(_tabListener);
-    widget.subject.setStatus([OrderStatus.DELIVERED,OrderStatus.PICKED_UP, OrderStatus.CANCELLED]);
+    widget.subject.setStatus(
+        [OrderStatus.DELIVERED, OrderStatus.PICKED_UP, OrderStatus.CANCELLED]);
     super.initState();
   }
 
@@ -53,7 +54,8 @@ class _StatusFilterState extends State<StatusFilter> {
 
   void _changeSelectedStatus(bool isChecked, StatusItem item) async {
     final statusItem = item.copyWith(isChecked: isChecked);
-    _statusItems[_statusItems.indexWhere((element) => element.id == statusItem.id)] = statusItem;
+    _statusItems[_statusItems
+        .indexWhere((element) => element.id == statusItem.id)] = statusItem;
     widget.subject.applyStatusFilter(
       _statusItems
           .where((element) => element.isChecked)
@@ -72,7 +74,8 @@ class _StatusFilterState extends State<StatusFilter> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s14.rw, vertical: AppSize.s12.rh),
+            padding: EdgeInsets.symmetric(
+                horizontal: AppSize.s14.rw, vertical: AppSize.s12.rh),
             child: Text(
               AppStrings.filter_by_aggregator.tr(),
               style: getRegularTextStyle(

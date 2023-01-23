@@ -18,12 +18,12 @@ class BrandModel {
 
   Map<String, dynamic> toJson() => _$BrandModelToJson(this);
 
-  Brands toEntity(){
-    if(results == null){
+  Brands toEntity() {
+    if (results == null) {
       return Brands([]);
     }
     List<Brand> brands = [];
-    for(var brand in results!){
+    for (var brand in results!) {
       brands.add(brand.toEntity());
     }
     return Brands(brands);

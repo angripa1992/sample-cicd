@@ -10,11 +10,11 @@ class OrderScreenNavigateDataHandler {
     _navData = data;
   }
 
-  Map<String, dynamic>? getData(){
+  Map<String, dynamic>? getData() {
     return _navData;
   }
 
-  void clearData(){
+  void clearData() {
     _navData = null;
   }
 }

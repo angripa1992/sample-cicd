@@ -11,5 +11,5 @@ class Source {
   final String name;
   final String image;
 
-  Source({required this.id,required this.name,required this.image});
+  Source({required this.id, required this.name, required this.image});
 }

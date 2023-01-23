@@ -11,12 +11,14 @@ class AppRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);
-    debugPrint('RouteObserver===========didPop======route: ${route.settings.name}=========previousRoute: ${previousRoute?.settings.name}');
+    debugPrint(
+        'RouteObserver===========didPop======route: ${route.settings.name}=========previousRoute: ${previousRoute?.settings.name}');
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
-    debugPrint('RouteObserver===========didReplace======newRoute: ${newRoute?.settings.name}=========oldRoute: ${oldRoute?.settings.name}');
+    debugPrint(
+        'RouteObserver===========didReplace======newRoute: ${newRoute?.settings.name}=========oldRoute: ${oldRoute?.settings.name}');
   }
 }

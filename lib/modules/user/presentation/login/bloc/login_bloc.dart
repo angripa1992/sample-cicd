@@ -4,7 +4,6 @@ import '../../../domain/usecases/login.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
-
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticateUser authenticateUser;
 
@@ -12,7 +11,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginEventAuthenticate>(_login);
   }
 
-  Future<void> _login(LoginEventAuthenticate event, Emitter<LoginState> emit) async {
+  Future<void> _login(
+      LoginEventAuthenticate event, Emitter<LoginState> emit) async {
     emit(LoginStateLoading());
     final failureOrUser = await authenticateUser(event.loginParams);
     failureOrUser.fold(

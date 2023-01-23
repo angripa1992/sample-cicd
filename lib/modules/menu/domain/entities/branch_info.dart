@@ -10,11 +10,11 @@ class BranchInfo {
 
   BranchInfo(
       {required this.countryId,
-        required this.branchId,
-        required this.currencyId,
-        required this.startTime,
-        required this.endTime,
-        required this.availabilityMask,
-        required this.providerIds,
-        required this.languageCode});
+      required this.branchId,
+      required this.currencyId,
+      required this.startTime,
+      required this.endTime,
+      required this.availabilityMask,
+      required this.providerIds,
+      required this.languageCode});
 }

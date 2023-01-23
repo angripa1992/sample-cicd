@@ -20,7 +20,8 @@ class ManageModifiersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     ModifiersGroup modifierGroup = args[ArgumentKey.kGROUP];
     final brandId = args[ArgumentKey.kBRAND_ID];
     final providerId = args[ArgumentKey.kPROVIDER_ID];

@@ -57,7 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
       context.read<LoginBloc>().add(
             LoginEventAuthenticate(
               LoginRequestModel(
-                  _emailController.text, _passwordController.text),
+                _emailController.text,
+                _passwordController.text,
+              ),
             ),
           );
     }
@@ -84,7 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
         break;
       default:
         showAccessDeniedDialog(
-            context: context, role: AppStrings.business_owner.tr());
+          context: context,
+          role: AppStrings.business_owner.tr(),
+        );
         break;
     }
   }
@@ -117,8 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pushReplacementNamed(Routes.base);
     } else {
       NotificationHandler().navigateToOrderScreen(
-          args![ArgumentKey.kNOTIFICATION_DATA],
-          notificationType: NotificationType.BACKGROUD);
+        args![ArgumentKey.kNOTIFICATION_DATA],
+        notificationType: NotificationType.BACKGROUD,
+      );
     }
   }
 

@@ -135,7 +135,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
           Navigator.of(context).pop();
         }
         if (!willCancel && status == OrderStatus.ACCEPTED) {
-          _printDocket(order: order,isFromDetails:  isFromDetails);
+          _printDocket(order: order, isFromDetails: isFromDetails);
         }
         SegmentManager().trackOrderSegment(
           sourceTab: 'New Order',
@@ -147,7 +147,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
-  void _printDocket({required Order order,required bool isFromDetails}) {
+  void _printDocket({required Order order, required bool isFromDetails}) {
     _printingHandler.printDocket(order);
     SegmentManager().trackOrderSegment(
       sourceTab: 'New Order',
@@ -186,7 +186,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                   );
                 },
                 onPrint: () {
-                  _printDocket(order: item,isFromDetails: true);
+                  _printDocket(order: item, isFromDetails: true);
                 },
                 onCancel: (title) {
                   _onAction(
@@ -211,7 +211,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
               );
             },
             onPrint: () {
-              _printDocket(order: item,isFromDetails: false);
+              _printDocket(order: item, isFromDetails: false);
             },
             onCancel: (title) {
               _onAction(

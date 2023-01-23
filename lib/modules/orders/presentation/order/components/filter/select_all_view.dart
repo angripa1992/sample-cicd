@@ -11,7 +11,10 @@ import '../../../../../../resources/values.dart';
 class SelectAllView extends StatefulWidget {
   final Function(bool) onSelectChange;
   final bool isAllSelected;
-  const SelectAllView({Key? key, required this.onSelectChange, required this.isAllSelected}) : super(key: key);
+
+  const SelectAllView(
+      {Key? key, required this.onSelectChange, required this.isAllSelected})
+      : super(key: key);
 
   @override
   State<SelectAllView> createState() => _SelectAllViewState();
@@ -19,11 +22,13 @@ class SelectAllView extends StatefulWidget {
 
 class _SelectAllViewState extends State<SelectAllView> {
   bool? _isSelected;
+
   @override
   void initState() {
     _isSelected = widget.isAllSelected;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(

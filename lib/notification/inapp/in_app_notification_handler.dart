@@ -79,7 +79,8 @@ class InAppNotificationHandler {
   }
 
   void _handleDocketPrinting(NotificationData notificationData) async {
-    final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
+    final order = await NotificationDataHandler()
+        .getOrderById(notificationData.orderId.toInt());
     if (order != null && order.status == OrderStatus.ACCEPTED) {
       _printingHandler.verifyConnection(fromNotification: true, order: order);
     }
@@ -109,7 +110,8 @@ class InAppNotificationHandler {
 
   void _navigateToOrderScreen(NotificationData data) {
     dismissInAppNotification();
-    NotificationHandler().navigateToOrderScreen(data, notificationType: NotificationType.IN_APP);
+    NotificationHandler()
+        .navigateToOrderScreen(data, notificationType: NotificationType.IN_APP);
   }
 
   void _showDialog(NotificationData data, NotificationCountCubit cubit) {

@@ -16,7 +16,7 @@ class OrderInformationProvider {
 
   OrderInformationProvider(this._orderRepository, this._preferences);
 
-  void loadAllInformation() async{
+  void loadAllInformation() async {
     await fetchSources();
   }
 
@@ -126,7 +126,7 @@ class OrderInformationProvider {
       if (response.isRight()) {
         final sources = response.getOrElse(() => []);
         final data = <Source>[];
-        for(var source in sources){
+        for (var source in sources) {
           data.addAll(source.sources);
         }
         _sources = data;
@@ -139,8 +139,8 @@ class OrderInformationProvider {
     }
   }
 
-  Future<Source> findSourceById(int sourceId) async{
-    if(_sources.isEmpty){
+  Future<Source> findSourceById(int sourceId) async {
+    if (_sources.isEmpty) {
       final sources = await fetchSources();
       _sources = sources;
     }
@@ -148,7 +148,7 @@ class OrderInformationProvider {
   }
 
   ///clear data after logout
-  void clearData(){
+  void clearData() {
     _brands.clear();
     _providers.clear();
   }

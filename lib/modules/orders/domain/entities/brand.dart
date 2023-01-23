@@ -34,7 +34,8 @@ class Brand {
   });
 
   Brand copy() {
-    return Brand(id: id,
+    return Brand(
+      id: id,
       businessId: businessId,
       title: title,
       logo: logo,
@@ -50,7 +51,8 @@ class Brand {
   }
 
   Brand copyWith({required isChecked}) {
-    return Brand(id: id,
+    return Brand(
+      id: id,
       businessId: businessId,
       title: title,
       logo: logo,

@@ -34,7 +34,7 @@ abstract class OrderRemoteDatasource {
 
   Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params);
 
-  Future<ActionSuccess> addComment(Map<String, dynamic> params,int orderID);
+  Future<ActionSuccess> addComment(Map<String, dynamic> params, int orderID);
 
   Future<ActionSuccess> deleteComment(int orderID);
 }
@@ -136,10 +136,11 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> addComment(Map<String, dynamic> params,int orderID) async{
+  Future<ActionSuccess> addComment(
+      Map<String, dynamic> params, int orderID) async {
     try {
-      final response =
-          await _restClient.request(Urls.comment(orderID), Method.PATCH, params);
+      final response = await _restClient.request(
+          Urls.comment(orderID), Method.PATCH, params);
       return ActionSuccess.fromJson(response);
     } on DioError {
       rethrow;
@@ -147,7 +148,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> deleteComment(int orderID) async{
+  Future<ActionSuccess> deleteComment(int orderID) async {
     try {
       final response =
           await _restClient.request(Urls.comment(orderID), Method.DELETE, null);
@@ -158,9 +159,10 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<OrderModel> fetchOrderById(int id) async{
+  Future<OrderModel> fetchOrderById(int id) async {
     try {
-      final response = await _restClient.request('${Urls.order}/$id', Method.GET, null);
+      final response =
+          await _restClient.request('${Urls.order}/$id', Method.GET, null);
       return OrderModel.fromJson(response);
     } on DioError {
       rethrow;
@@ -168,9 +170,10 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<List<SourcesModel>> fetchSources() async{
+  Future<List<SourcesModel>> fetchSources() async {
     try {
-      final List<dynamic> response = await _restClient.request(Urls.sources, Method.GET, null);
+      final List<dynamic> response =
+          await _restClient.request(Urls.sources, Method.GET, null);
       final data = response.map((e) => SourcesModel.fromJson(e)).toList();
       return data;
     } on DioError {

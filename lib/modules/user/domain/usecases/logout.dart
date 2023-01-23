@@ -5,7 +5,7 @@ import 'package:klikit/modules/user/domain/entities/success_response.dart';
 
 import '../repositories/user_repository.dart';
 
-class LogoutUser extends UseCase<SuccessResponse,NoParams>{
+class LogoutUser extends UseCase<SuccessResponse, NoParams> {
   final UserRepository _repository;
 
   LogoutUser(this._repository);
@@ -14,5 +14,4 @@ class LogoutUser extends UseCase<SuccessResponse,NoParams>{
   Future<Either<Failure, SuccessResponse>> call(NoParams params) {
     return _repository.logout();
   }
-
 }
