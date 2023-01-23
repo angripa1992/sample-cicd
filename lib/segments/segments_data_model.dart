@@ -2,7 +2,7 @@ class SegmentData {
   String? userId;
   String? event;
   String? name;
-  Map<String,dynamic>? properties;
+  Map<String, dynamic>? properties;
   SegmentTraits? traits;
   SegmentContext? context;
   String? timestamp;

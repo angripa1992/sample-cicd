@@ -54,7 +54,9 @@ class MenuMgtBody extends StatelessWidget {
                       child: FilterByAggregatorView(
                         providers: snapshot.data!,
                         onChanged: (provider) {
-                          context.read<AggregatorSelectionCubit>().changeAggregator(provider?.id);
+                          context
+                              .read<AggregatorSelectionCubit>()
+                              .changeAggregator(provider?.id);
                         },
                       ),
                     );

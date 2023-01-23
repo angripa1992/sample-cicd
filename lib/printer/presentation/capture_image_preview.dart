@@ -16,7 +16,10 @@ class CaptureImagePrivew extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Center(
             child: capturedImage != null
-                ? Image.memory(capturedImage!,fit: BoxFit.cover,)
+                ? Image.memory(
+                    capturedImage!,
+                    fit: BoxFit.cover,
+                  )
                 : Container()),
       ),
     );

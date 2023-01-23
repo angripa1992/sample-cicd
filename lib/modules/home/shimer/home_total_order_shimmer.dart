@@ -23,7 +23,9 @@ Widget totalOrderShimmer(String text) {
           fontSize: AppFontSize.s14.rSp,
         ),
       ),
-      SizedBox(height: AppSize.s8.rh,),
+      SizedBox(
+        height: AppSize.s8.rh,
+      ),
       ContainerShimmer(
         baseColor: AppColors.lightGrey,
         highlightColor: AppColors.whiteSmoke,
@@ -47,7 +49,9 @@ Widget yesterdayTotalOrderShimmer() {
           fontSize: AppFontSize.s14.rSp,
         ),
       ),
-      SizedBox(height: AppSize.s8.rh,),
+      SizedBox(
+        height: AppSize.s8.rh,
+      ),
       ContainerShimmer(
         baseColor: AppColors.lightGrey,
         highlightColor: AppColors.whiteSmoke,

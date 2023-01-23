@@ -3,18 +3,19 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_model.g.dart';
 
 @JsonSerializable()
-class UserModel{
+class UserModel {
   String? access_token;
   String? refresh_token;
   UserInfoModel? user;
 
-  UserModel({this.access_token,this.refresh_token,this.user});
+  UserModel({this.access_token, this.refresh_token, this.user});
 
-  factory UserModel.fromJson(Map<String,dynamic> json) => _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 }
 
 @JsonSerializable()
-class UserInfoModel{
+class UserInfoModel {
   int? id;
   String? first_name;
   String? last_name;
@@ -40,26 +41,27 @@ class UserInfoModel{
 
   UserInfoModel(
       {this.id,
-        this.first_name,
-        this.last_name,
-        this.email,
-        this.profile_pic,
-        this.business_id,
-        this.business_name,
-        this.brand_id,
-        this.brand_name,
-        this.branch_id,
-        this.branch_name,
-        this.created_at,
-        this.updated_at,
-        this.last_login_at,
-        this.first_login,
-        this.roles,
-        this.role_ids,
-        this.display_roles,
-        this.permissions,
-        this.country_ids,
-        this.country_codes});
+      this.first_name,
+      this.last_name,
+      this.email,
+      this.profile_pic,
+      this.business_id,
+      this.business_name,
+      this.brand_id,
+      this.brand_name,
+      this.branch_id,
+      this.branch_name,
+      this.created_at,
+      this.updated_at,
+      this.last_login_at,
+      this.first_login,
+      this.roles,
+      this.role_ids,
+      this.display_roles,
+      this.permissions,
+      this.country_ids,
+      this.country_codes});
 
-  factory UserInfoModel.fromJson(Map<String,dynamic> json) => _$UserInfoModelFromJson(json);
+  factory UserInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$UserInfoModelFromJson(json);
 }

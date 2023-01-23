@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'success_response.g.dart';
 
 @JsonSerializable()
-class SuccessResponseModel{
+class SuccessResponseModel {
   final String? message;
 
   SuccessResponseModel(this.message);

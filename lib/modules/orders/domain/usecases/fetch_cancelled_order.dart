@@ -4,7 +4,7 @@ import 'package:klikit/core/utils/usecase.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 
-class FetchCancelledOrder extends UseCase<Orders,Map<String,dynamic>>{
+class FetchCancelledOrder extends UseCase<Orders, Map<String, dynamic>> {
   final OrderRepository _orderRepository;
 
   FetchCancelledOrder(this._orderRepository);
@@ -13,5 +13,4 @@ class FetchCancelledOrder extends UseCase<Orders,Map<String,dynamic>>{
   Future<Either<Failure, Orders>> call(Map<String, dynamic> params) {
     return _orderRepository.fetchOrder(params);
   }
-
 }

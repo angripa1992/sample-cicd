@@ -12,4 +12,3 @@ class MenuBrands {
       required this.page,
       required this.size});
 }
-

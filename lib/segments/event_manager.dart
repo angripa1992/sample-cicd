@@ -62,19 +62,19 @@ class SegmentManager {
     int status = -1,
     bool willPrint = false,
     bool isFromDetails = false,
-  }){
+  }) {
     String eventName = '';
-    if(willPrint){
+    if (willPrint) {
       eventName = SegmentEvents.PRINT_ORDER;
-    }else if(status == OrderStatus.ACCEPTED){
+    } else if (status == OrderStatus.ACCEPTED) {
       eventName = SegmentEvents.ACCEPT_ORDER;
-    }else if(status == OrderStatus.CANCELLED){
+    } else if (status == OrderStatus.CANCELLED) {
       eventName = SegmentEvents.CANCEL_ORDER;
-    }else if(status == OrderStatus.DELIVERED){
+    } else if (status == OrderStatus.DELIVERED) {
       eventName = SegmentEvents.DELIVER_ORDER;
-    }else if(status == OrderStatus.READY){
+    } else if (status == OrderStatus.READY) {
       eventName = SegmentEvents.READY_ORDER;
-    }else if(status == OrderStatus.PICKED_UP){
+    } else if (status == OrderStatus.PICKED_UP) {
       eventName = SegmentEvents.PICKUP_ORDER;
     }
     track(

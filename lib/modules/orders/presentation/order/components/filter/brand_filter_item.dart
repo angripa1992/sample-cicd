@@ -28,9 +28,9 @@ class _BrandFilterItemState extends State<BrandFilterItem> {
     super.initState();
   }
 
- @override
+  @override
   void didUpdateWidget(covariant BrandFilterItem oldWidget) {
-   _isChecked = widget.brand.isChecked;
+    _isChecked = widget.brand.isChecked;
     super.didUpdateWidget(oldWidget);
   }
 

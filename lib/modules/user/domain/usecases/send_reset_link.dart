@@ -5,7 +5,7 @@ import 'package:klikit/modules/user/data/request_model/reset_link_request_model.
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/repositories/user_repository.dart';
 
-class SentResetLink extends UseCase<SuccessResponse,ResetLinkRequestModel>{
+class SentResetLink extends UseCase<SuccessResponse, ResetLinkRequestModel> {
   final UserRepository _repository;
 
   SentResetLink(this._repository);
@@ -14,5 +14,4 @@ class SentResetLink extends UseCase<SuccessResponse,ResetLinkRequestModel>{
   Future<Either<Failure, SuccessResponse>> call(ResetLinkRequestModel params) {
     return _repository.sendResetLink(params);
   }
-
 }

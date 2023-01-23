@@ -82,7 +82,8 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, SuccessResponse>> changePassword(ChangePasswordRequestModel requestModel) async {
+  Future<Either<Failure, SuccessResponse>> changePassword(
+      ChangePasswordRequestModel requestModel) async {
     if (await _networkConnectivity.hasConnection()) {
       try {
         final response =

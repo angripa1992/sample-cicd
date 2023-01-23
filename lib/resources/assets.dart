@@ -27,7 +27,7 @@ class AppIcons {
   static const String notificationIcon = '@mipmap/ic_launcher';
 }
 
-class AppSounds{
+class AppSounds {
   static const String newOrder = "new_order";
   static const String cancelOrder = "cancel_order";
   static const String aNewOrder = "sounds/new_order.wav";

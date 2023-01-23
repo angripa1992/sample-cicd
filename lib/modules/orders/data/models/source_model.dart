@@ -13,16 +13,17 @@ class SourcesModel {
 
   SourcesModel({this.id, this.name, this.sources});
 
-  factory SourcesModel.fromJson(Map<String,dynamic> json) => _$SourcesModelFromJson(json);
+  factory SourcesModel.fromJson(Map<String, dynamic> json) =>
+      _$SourcesModelFromJson(json);
 
-  Sources toEntity(){
+  Sources toEntity() {
     return Sources(id: id.orZero(), name: name.orEmpty(), sources: _sources());
   }
 
-  List<Source> _sources(){
+  List<Source> _sources() {
     final data = <Source>[];
-    if(sources != null){
-      for(var source in sources!){
+    if (sources != null) {
+      for (var source in sources!) {
         data.add(source.toEntity());
       }
     }
@@ -38,9 +39,11 @@ class SourceModel {
 
   SourceModel({this.id, this.name, this.image});
 
-  factory SourceModel.fromJson(Map<String,dynamic> json) => _$SourceModelFromJson(json);
+  factory SourceModel.fromJson(Map<String, dynamic> json) =>
+      _$SourceModelFromJson(json);
 
-  Source toEntity(){
-    return Source(id: id.orZero(), name: name.orEmpty(), image: image.orEmpty());
+  Source toEntity() {
+    return Source(
+        id: id.orZero(), name: name.orEmpty(), image: image.orEmpty());
   }
 }

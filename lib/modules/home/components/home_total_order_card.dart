@@ -19,7 +19,9 @@ class HomeTotalOrdersCard extends StatelessWidget {
   final VoidCallback onToday;
   final VoidCallback onYesterday;
 
-  const HomeTotalOrdersCard({Key? key,required this.onToday, required this.onYesterday}) : super(key: key);
+  const HomeTotalOrdersCard(
+      {Key? key, required this.onToday, required this.onYesterday})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,17 +39,18 @@ class HomeTotalOrdersCard extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: onToday,
-                child: BlocConsumer<TotalOrderCubit,ResponseState>(
-                  listener: (context,state){
-                    if(state is Failed){
+                child: BlocConsumer<TotalOrderCubit, ResponseState>(
+                  listener: (context, state) {
+                    if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
                     }
                   },
                   builder: (context, state) {
-                    if(state is Loading){
-                      return totalOrderShimmer(AppStrings.total_orders_today.tr());
+                    if (state is Loading) {
+                      return totalOrderShimmer(
+                          AppStrings.total_orders_today.tr());
                     }
-                    return  Column(
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -58,7 +61,9 @@ class HomeTotalOrdersCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          (state is Success<Orders>) ? state.data.total.toString() : '0',
+                          (state is Success<Orders>)
+                              ? state.data.total.toString()
+                              : '0',
                           style: getRegularTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s30.rSp,
@@ -84,17 +89,18 @@ class HomeTotalOrdersCard extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: onYesterday,
-                child: BlocConsumer<YesterdayTotalOrderCubit,ResponseState>(
-                  listener: (context,state){
-                    if(state is Failed){
+                child: BlocConsumer<YesterdayTotalOrderCubit, ResponseState>(
+                  listener: (context, state) {
+                    if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
                     }
                   },
                   builder: (context, state) {
-                    if(state is Loading){
-                      return totalOrderShimmer(AppStrings.total_orders_yesterday.tr());
+                    if (state is Loading) {
+                      return totalOrderShimmer(
+                          AppStrings.total_orders_yesterday.tr());
                     }
-                    return  Column(
+                    return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -105,7 +111,9 @@ class HomeTotalOrdersCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          (state is Success<Orders>) ? state.data.total.toString() : '0',
+                          (state is Success<Orders>)
+                              ? state.data.total.toString()
+                              : '0',
                           style: getRegularTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s30.rSp,

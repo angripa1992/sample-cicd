@@ -3,7 +3,6 @@ import 'package:klikit/modules/menu/data/models/sections_model.dart';
 import 'package:klikit/modules/menu/domain/entities/menues.dart';
 
 import '../../domain/entities/sections.dart';
-import 'branch_info_model.dart';
 
 part 'menues_model.g.dart';
 

@@ -119,25 +119,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: HomeTotalOrdersCard(
                           onYesterday: () {
                             context.read<BaseScreenCubit>().changeIndex(
-                              NavigationData(
-                                index: BottomNavItem.ORDER,
-                                subTabIndex: OrderTab.History,
-                                data: {
-                                  HistoryNavData.HISTORY_NAV_DATA : HistoryNavData.yesterday(),
-                                },
-                              ),
-                            );
+                                  NavigationData(
+                                    index: BottomNavItem.ORDER,
+                                    subTabIndex: OrderTab.History,
+                                    data: {
+                                      HistoryNavData.HISTORY_NAV_DATA:
+                                          HistoryNavData.yesterday(),
+                                    },
+                                  ),
+                                );
                           },
                           onToday: () {
                             context.read<BaseScreenCubit>().changeIndex(
-                              NavigationData(
-                                index: BottomNavItem.ORDER,
-                                subTabIndex: OrderTab.History,
-                                data: {
-                                  HistoryNavData.HISTORY_NAV_DATA : HistoryNavData.today(),
-                                },
-                              ),
-                            );
+                                  NavigationData(
+                                    index: BottomNavItem.ORDER,
+                                    subTabIndex: OrderTab.History,
+                                    data: {
+                                      HistoryNavData.HISTORY_NAV_DATA:
+                                          HistoryNavData.today(),
+                                    },
+                                  ),
+                                );
                           },
                         ),
                       ),
@@ -303,7 +305,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
-
               ),
             ],
           ),

@@ -1,9 +1,7 @@
-
 import 'package:klikit/modules/menu/domain/entities/price.dart';
 import 'package:klikit/modules/menu/domain/entities/status.dart';
 import 'package:klikit/modules/menu/domain/entities/stock.dart';
 import 'package:klikit/modules/menu/domain/entities/v2_data.dart';
-
 
 class Items {
   final int id;

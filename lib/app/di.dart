@@ -84,16 +84,19 @@ final getIt = GetIt.instance;
 
 Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
-  getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
+  getIt.registerSingleton<SharedPreferences>(
+      await SharedPreferences.getInstance());
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
   getIt.registerSingleton<LocationProvider>(LocationProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
-  getIt.registerSingleton<SegmentDataProvider>(SegmentDataProvider(getIt(),getIt(),getIt()));
+  getIt.registerSingleton<SegmentDataProvider>(
+      SegmentDataProvider(getIt(), getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider(getIt()));
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
-  getIt.registerSingleton<FcmTokenManager>(FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerSingleton<FcmTokenManager>(
+      FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
 
   ///base
   getIt.registerFactory(() => BaseScreenCubit());
@@ -167,7 +170,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(
       () => CheckAffectedCubit(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateModifier(getIt.get()));
-  getIt.registerFactory(() => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerFactory(
+      () => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerFactory(() => AggregatorSelectionCubit());
 
   ///notification

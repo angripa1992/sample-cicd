@@ -68,22 +68,24 @@ class LocalNotificationService {
   LocalNotificationService._internal();
 
   Future<ByteArrayAndroidBitmap?> getByteArrayAndroidBitmap(String url) async {
-    if(url.orEmpty().isEmpty)return null;
-    try{
+    if (url.orEmpty().isEmpty) return null;
+    try {
       http.Response response = await http.get(Uri.parse(url));
       final base64String = base64.encode(response.bodyBytes);
       final bitmapImage = ByteArrayAndroidBitmap.fromBase64String(base64String);
       return bitmapImage;
-    }catch (e){
+    } catch (e) {
       return null;
     }
   }
 
   void showNotification({required Map<String, dynamic> payload}) async {
     print(payload);
-    final notificationData = NotificationDataHandler().getNotificationData(payload);
+    final notificationData =
+        NotificationDataHandler().getNotificationData(payload);
     final notificationType = int.parse(notificationData.type);
-    final providerByteArrayAndroidBitmap = await getByteArrayAndroidBitmap(notificationData.providerUrl);
+    final providerByteArrayAndroidBitmap =
+        await getByteArrayAndroidBitmap(notificationData.providerUrl);
     flutterLocalNotificationsPlugin.show(
       DateTime.now().millisecondsSinceEpoch.remainder(100000),
       notificationData.title,

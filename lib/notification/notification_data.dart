@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'notification_data.g.dart';
 
 @JsonSerializable()
-class NotificationData{
+class NotificationData {
   @JsonKey(name: 'type')
   final String type;
   @JsonKey(name: 'title')
@@ -15,7 +15,9 @@ class NotificationData{
   @JsonKey(name: 'url')
   final String providerUrl;
 
-  NotificationData(this.type, this.title, this.message, this.orderId, this.providerUrl);
+  NotificationData(
+      this.type, this.title, this.message, this.orderId, this.providerUrl);
 
-  factory NotificationData.fromJson(Map<String,dynamic> json) => _$NotificationDataFromJson(json);
+  factory NotificationData.fromJson(Map<String, dynamic> json) =>
+      _$NotificationDataFromJson(json);
 }

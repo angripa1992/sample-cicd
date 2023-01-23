@@ -15,14 +15,13 @@ class NetworkConnectivity {
     _init();
   }
 
-  void _init()  {
+  void _init() {
     _networkConnectivity.checkConnectivity();
     _networkConnectivity.onConnectivityChanged.listen(
       (result) {
-        print('===============listener called $result');
-        if(result == ConnectivityResult.none){
+        if (result == ConnectivityResult.none) {
           _showNoInternetSnackbar();
-        }else{
+        } else {
           _checkStatus();
         }
       },
@@ -33,29 +32,30 @@ class NetworkConnectivity {
     hasConnection().then(
       (isOnline) {
         if (isOnline) {
-          if(!_isFirstTime){
+          if (!_isFirstTime) {
             _showOnlineSnackbar();
           }
         } else {
           _showNoInternetSnackbar();
         }
-        print('---------is online $isOnline ----------- is first time $_isFirstTime');
         _isFirstTime = false;
       },
     );
   }
 
-  void _showNoInternetSnackbar(){
-    BuildContext? currentContext = RoutesGenerator.navigatorKey.currentState?.context;
+  void _showNoInternetSnackbar() {
+    BuildContext? currentContext =
+        RoutesGenerator.navigatorKey.currentState?.context;
     if (currentContext != null) {
-      showConnectivitySnackBar(currentContext,false);
+      showConnectivitySnackBar(currentContext, false);
     }
   }
 
-  void _showOnlineSnackbar(){
-    BuildContext? currentContext = RoutesGenerator.navigatorKey.currentState?.context;
+  void _showOnlineSnackbar() {
+    BuildContext? currentContext =
+        RoutesGenerator.navigatorKey.currentState?.context;
     if (currentContext != null) {
-      showConnectivitySnackBar(currentContext,true);
+      showConnectivitySnackBar(currentContext, true);
     }
   }
 

@@ -1,40 +1,38 @@
 import 'dart:io';
 
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-
-class DeviceInfoProvider{
-
-  Future<String> FID() async{
+class DeviceInfoProvider {
+  Future<String> FID() async {
     return await FirebaseInstallations.instance.getId();
   }
 
-  String platformName(){
-    if(Platform.isIOS){
+  String platformName() {
+    if (Platform.isIOS) {
       return 'ios';
-    }else{
+    } else {
       return 'android';
     }
   }
 
-  Future<String> appName() async{
+  Future<String> appName() async {
     final packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.appName;
   }
 
-  Future<String> packageName() async{
-    final packageInfo = await PackageInfo.fromPlatform(); 
+  Future<String> packageName() async {
+    final packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.packageName;
   }
 
-  Future<String> versionCode() async{
+  Future<String> versionCode() async {
     final packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.buildNumber;
   }
 
-  Future<String> versionName() async{
+  Future<String> versionName() async {
     final packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
   }
@@ -55,7 +53,7 @@ class DeviceInfoProvider{
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       return iosInfo.model.toString();
     } else {
-      return ('Error retreiving device model');
+      return ('Error retrieving device model');
     }
   }
 }

@@ -1,12 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
-import '../../../../../core/provider/order_information_provider.dart';
 import '../../../../../core/provider/order_parameter_provider.dart';
 import '../../../domain/entities/order.dart';
-import '../../../domain/entities/order_status.dart';
 import '../../../domain/usecases/fetch_new_order.dart';
 
 class NewOrderCubit extends Cubit<ResponseState> {
@@ -27,7 +23,8 @@ class NewOrderCubit extends Cubit<ResponseState> {
     if (willShowLoading) {
       emit(Loading());
     }
-    final params = await _orderParameterProvider.getNewOrderParams(brandsID, providersID);
+    final params =
+        await _orderParameterProvider.getNewOrderParams(brandsID, providersID);
     final response = await _fetchNewOrder(params);
     response.fold(
       (failure) {

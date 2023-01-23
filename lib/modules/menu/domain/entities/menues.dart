@@ -5,4 +5,3 @@ class MenusData {
 
   MenusData({required this.sections});
 }
-

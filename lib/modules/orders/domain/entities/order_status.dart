@@ -9,4 +9,3 @@
 //   static final DRIVER_ARRIVED = 'DRIVER ARRIVED';
 //   static final PICKED_UP = 'PICKED UP';
 // }
-

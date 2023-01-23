@@ -23,7 +23,7 @@ class ModifierRequestModel {
     data['brand_id'] = brandId;
     data['branch_id'] = branchId;
     data['group_id'] = groupId;
-    if(modifierId != null){
+    if (modifierId != null) {
       data['modifier_id'] = modifierId;
     }
     data['provider_ids'] = providerIds;

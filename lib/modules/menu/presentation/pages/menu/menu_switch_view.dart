@@ -78,22 +78,24 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return  widget.providerId == ZERO ? Transform.scale(
-      scale: 0.7,
-      child: CupertinoSwitch(
-        value: _enabled,
-        activeColor: AppColors.purpleBlue,
-        trackColor: AppColors.blackCow,
-        onChanged: !widget.parentEnabled
-            ? null
-            : (value) {
-                if (widget.type == MenuType.ITEM) {
-                  _handleItem(value);
-                } else {
-                  _handleMenu(value);
-                }
-              },
-      ),
-    ) : SizedBox(height: AppSize.s32.rh);
+    return widget.providerId == ZERO
+        ? Transform.scale(
+            scale: 0.7,
+            child: CupertinoSwitch(
+              value: _enabled,
+              activeColor: AppColors.purpleBlue,
+              trackColor: AppColors.blackCow,
+              onChanged: !widget.parentEnabled
+                  ? null
+                  : (value) {
+                      if (widget.type == MenuType.ITEM) {
+                        _handleItem(value);
+                      } else {
+                        _handleMenu(value);
+                      }
+                    },
+            ),
+          )
+        : SizedBox(height: AppSize.s32.rh);
   }
 }

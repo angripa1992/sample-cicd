@@ -11,6 +11,6 @@ class FetchNewOrder extends UseCase<Orders, Map<String, dynamic>> {
 
   @override
   Future<Either<Failure, Orders>> call(Map<String, dynamic> params) {
-   return _orderRepository.fetchOrder(params);
+    return _orderRepository.fetchOrder(params);
   }
 }

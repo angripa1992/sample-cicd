@@ -26,6 +26,7 @@ class UpdateItem extends UseCase<Stock, UpdateItemParam> {
   final MenuRepository _repository;
 
   UpdateItem(this._repository);
+
   @override
   Future<Either<Failure, Stock>> call(UpdateItemParam params) {
     return _repository.updateItem(params);

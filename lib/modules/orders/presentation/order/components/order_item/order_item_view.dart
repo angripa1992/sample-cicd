@@ -14,7 +14,6 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
-import 'package:klikit/segments/event_manager.dart';
 
 import '../../../../domain/entities/source.dart';
 
@@ -85,7 +84,7 @@ class OrderItemView extends StatelessWidget {
                   ),
                   SizedBox(width: AppSize.s8.rw),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       Clipboard.setData(
                         ClipboardData(
                           text: (order.providerId == ProviderID.KLIKIT)

@@ -14,13 +14,13 @@ class ModifierGroupsCubit extends Cubit<ResponseState> {
   ModifierGroupsCubit(this._fetchModifierGroups, this._preferences)
       : super(Empty());
 
-  void fetchModifierGroups(int brandId,int? providerId) async {
+  void fetchModifierGroups(int brandId, int? providerId) async {
     emit(Loading());
     final params = {
       'brand_id': brandId,
       'branch_id': _preferences.getUser().userInfo.branchId,
     };
-    if(providerId != null && providerId != ZERO){
+    if (providerId != null && providerId != ZERO) {
       params['provider_id'] = providerId;
     }
     final response = await _fetchModifierGroups(params);
@@ -28,26 +28,27 @@ class ModifierGroupsCubit extends Cubit<ResponseState> {
       (failure) {
         emit(Failed(failure));
       },
-      (data) async{
+      (data) async {
         final filteredData = await _filterData(providerId, data);
         emit(Success<List<ModifiersGroup>>(filteredData));
       },
     );
   }
 
-  Future<List<ModifiersGroup>> _filterData(int? providerId,List<ModifiersGroup> data) async{
+  Future<List<ModifiersGroup>> _filterData(
+      int? providerId, List<ModifiersGroup> data) async {
     List<ModifiersGroup> tempData = data;
-    if(providerId == null) return tempData;
+    if (providerId == null) return tempData;
     _filterHiddenModifierGroups(providerId, tempData);
     await Future.forEach<ModifiersGroup>(tempData, (modifierGroup) {
-      _filterHiddenModifiers(providerId,modifierGroup.modifiers);
+      _filterHiddenModifiers(providerId, modifierGroup.modifiers);
     });
     return tempData;
   }
 
-  void _filterHiddenModifierGroups(int? providerId,List<ModifiersGroup> data){
-    data.removeWhere((modifierGroup){
-      return modifierGroup.statuses.any((status){
+  void _filterHiddenModifierGroups(int? providerId, List<ModifiersGroup> data) {
+    data.removeWhere((modifierGroup) {
+      return modifierGroup.statuses.any((status) {
         if (providerId == ZERO) {
           return status.hidden;
         } else {
@@ -57,8 +58,8 @@ class ModifierGroupsCubit extends Cubit<ResponseState> {
     });
   }
 
-  void _filterHiddenModifiers (int? providerId,List<Modifiers> data){
-    data.removeWhere((modifier){
+  void _filterHiddenModifiers(int? providerId, List<Modifiers> data) {
+    data.removeWhere((modifier) {
       return modifier.statuses.any((status) {
         if (providerId == ZERO) {
           return status.hidden;

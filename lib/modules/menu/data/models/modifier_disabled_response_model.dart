@@ -14,14 +14,15 @@ class ModifierDisabledResponseModel {
   factory ModifierDisabledResponseModel.fromJson(Map<String, dynamic> json) =>
       _$ModifierDisabledResponseModelFromJson(json);
 
-  ModifierDisabledResponse toEntity(){
-    return ModifierDisabledResponse(affected: affected.orFalse(), items: _items());
+  ModifierDisabledResponse toEntity() {
+    return ModifierDisabledResponse(
+        affected: affected.orFalse(), items: _items());
   }
 
-  List<DisabledItem> _items(){
+  List<DisabledItem> _items() {
     List<DisabledItem> itemData = [];
-    if(items == null) return itemData;
-    for(var element in items!){
+    if (items == null) return itemData;
+    for (var element in items!) {
       itemData.add(element.toEntity());
     }
     return itemData;
@@ -39,7 +40,7 @@ class DisabledItemModel {
   factory DisabledItemModel.fromJson(Map<String, dynamic> json) =>
       _$DisabledItemModelFromJson(json);
 
-  DisabledItem toEntity(){
+  DisabledItem toEntity() {
     return DisabledItem(itemId: itemId.orZero(), title: title.orEmpty());
   }
 }

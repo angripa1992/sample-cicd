@@ -39,11 +39,14 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
     super.initState();
   }
 
-  void _onToggle(){
+  void _onToggle() {
     String title = AppStrings.delivery_aggregator.tr();
-    if(!_controller.isExpanded){
-      final selectedAggregator = _applyingProvider.where((element) => element.isSelected).toList().length;
-      if(selectedAggregator > 0){
+    if (!_controller.isExpanded) {
+      final selectedAggregator = _applyingProvider
+          .where((element) => element.isSelected)
+          .toList()
+          .length;
+      if (selectedAggregator > 0) {
         title = '$selectedAggregator  ${AppStrings.aggregators_selected.tr()}';
       }
     }
@@ -60,7 +63,8 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
 
   void _apply() async {
     for (var provider in _applyingProvider) {
-      _providers[_providers.indexWhere((element) => element.id == provider.id)] = provider;
+      _providers[_providers
+          .indexWhere((element) => element.id == provider.id)] = provider;
     }
     widget.filterSubject.applyProviderFilter(
       await _orderInfoProvider.extractProvidersIds(
@@ -117,7 +121,7 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
       ),
       trailing: Icon(
         Icons.keyboard_arrow_down_rounded,
-        color: AppColors.black ,
+        color: AppColors.black,
       ),
       trailingRotation: 180,
       title: Text(

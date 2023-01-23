@@ -1,9 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/core/route/routes.dart';
-import 'package:klikit/language/language_setting_page.dart';
 import 'package:klikit/modules/base/base_screen.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/manage_items_screen.dart';
@@ -18,7 +16,6 @@ import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 
 import '../../modules/support/contact_support.dart';
-import '../../resources/strings.dart';
 
 class RoutesGenerator {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

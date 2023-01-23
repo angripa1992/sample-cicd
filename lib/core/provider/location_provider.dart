@@ -1,8 +1,7 @@
-import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
-class LocationProvider{
-
+class LocationProvider {
   Future<Position?> currentPosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -27,9 +26,11 @@ class LocationProvider{
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<Placemark?> placeMarkFromCoordinates({required double lat, required double lan}) async{
-    List<Placemark> placeMarks = await placemarkFromCoordinates(lat,lan,localeIdentifier: 'en_US');
-    if(placeMarks.isNotEmpty){
+  Future<Placemark?> placeMarkFromCoordinates(
+      {required double lat, required double lan}) async {
+    List<Placemark> placeMarks =
+        await placemarkFromCoordinates(lat, lan, localeIdentifier: 'en_US');
+    if (placeMarks.isNotEmpty) {
       return placeMarks.first;
     }
     return null;

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'reset_link_request_model.g.dart';
 
 @JsonSerializable()
-class ResetLinkRequestModel{
+class ResetLinkRequestModel {
   final String email;
 
   ResetLinkRequestModel(this.email);

@@ -15,11 +15,14 @@ abstract class UserRemoteDataSource {
 
   Future<SuccessResponseModel> logout();
 
-  Future<SuccessResponseModel> updateUserInfo(UserUpdateRequestModel params, int userID);
+  Future<SuccessResponseModel> updateUserInfo(
+      UserUpdateRequestModel params, int userID);
 
-  Future<SuccessResponseModel> sendResetLink(ResetLinkRequestModel requestModel);
+  Future<SuccessResponseModel> sendResetLink(
+      ResetLinkRequestModel requestModel);
 
-  Future<SuccessResponseModel> changePassword(ChangePasswordRequestModel requestModel);
+  Future<SuccessResponseModel> changePassword(
+      ChangePasswordRequestModel requestModel);
 }
 
 class UserRemoteDataSourceImpl extends UserRemoteDataSource {
@@ -62,9 +65,11 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }
 
   @override
-  Future<SuccessResponseModel> sendResetLink(ResetLinkRequestModel requestModel) async{
+  Future<SuccessResponseModel> sendResetLink(
+      ResetLinkRequestModel requestModel) async {
     try {
-      final response = await _restClient.request(Urls.forgetPassword, Method.POST, requestModel.toJson());
+      final response = await _restClient.request(
+          Urls.forgetPassword, Method.POST, requestModel.toJson());
       return SuccessResponseModel.fromJson(response);
     } on DioError {
       rethrow;
@@ -72,9 +77,11 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }
 
   @override
-  Future<SuccessResponseModel> changePassword(ChangePasswordRequestModel requestModel) async{
+  Future<SuccessResponseModel> changePassword(
+      ChangePasswordRequestModel requestModel) async {
     try {
-      final response = await _restClient.request(Urls.changePassword, Method.POST, requestModel.toJson());
+      final response = await _restClient.request(
+          Urls.changePassword, Method.POST, requestModel.toJson());
       return SuccessResponseModel.fromJson(response);
     } on DioError {
       rethrow;

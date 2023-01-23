@@ -38,10 +38,7 @@ class OrdersCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
           color: bgColor ?? AppColors.white,
-            border: Border.all(
-              color: AppColors.whiteSmoke,
-              width: 2
-            ),
+          border: Border.all(color: AppColors.whiteSmoke, width: 2),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(

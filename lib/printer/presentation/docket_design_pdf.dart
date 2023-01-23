@@ -54,10 +54,11 @@ class DocketDesignPdf {
 
   Future _initResources() async {
     fontRegular = await PdfGoogleFonts.notoSansRegular();
-    fontMedium = await fontFromAssetBundle('assets/docket_fonts/NotoSans-Medium.ttf');
-    fontSemiBold = await fontFromAssetBundle('assets/docket_fonts/NotoSans-SemiBold.ttf');
+    fontMedium =
+        await fontFromAssetBundle('assets/docket_fonts/NotoSans-Medium.ttf');
+    fontSemiBold =
+        await fontFromAssetBundle('assets/docket_fonts/NotoSans-SemiBold.ttf');
     fontBold = await PdfGoogleFonts.notoSansBold();
-
 
     fontRegularThai = await PdfGoogleFonts.notoSansThaiRegular();
     fontMediumThai = await PdfGoogleFonts.notoSansThaiMedium();
@@ -616,37 +617,71 @@ class DocketDesignPdf {
                         pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
                           mainAxisAlignment: pw.MainAxisAlignment.start,
-                          children: firstModifiersGroup.modifiers.map((firstModifiers) {
+                          children: firstModifiersGroup.modifiers.map(
+                            (firstModifiers) {
                               return pw.Padding(
                                 padding: const pw.EdgeInsets.only(left: 8),
                                 child: pw.Column(
-                                  crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.stretch,
                                   mainAxisAlignment: pw.MainAxisAlignment.start,
                                   children: [
                                     ///level 1 modifiers
-                                    _modifierItemView(order, firstModifiers,firstModifiers.quantity, order.cartV2[index].quantity),
+                                    _modifierItemView(
+                                        order,
+                                        firstModifiers,
+                                        firstModifiers.quantity,
+                                        order.cartV2[index].quantity),
                                     pw.Padding(
-                                      padding: const pw.EdgeInsets.only(left: 8),
+                                      padding:
+                                          const pw.EdgeInsets.only(left: 8),
                                       child: pw.Column(
-                                        crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-                                        mainAxisAlignment: pw.MainAxisAlignment.start,
-                                        children: firstModifiers.modifierGroups.map((secondModifierGroups) {
+                                        crossAxisAlignment:
+                                            pw.CrossAxisAlignment.stretch,
+                                        mainAxisAlignment:
+                                            pw.MainAxisAlignment.start,
+                                        children:
+                                            firstModifiers.modifierGroups.map(
+                                          (secondModifierGroups) {
                                             return pw.Padding(
-                                              padding: const pw.EdgeInsets.only(left: 8),
+                                              padding: const pw.EdgeInsets.only(
+                                                  left: 8),
                                               child: pw.Column(
-                                                crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-                                                mainAxisAlignment: pw.MainAxisAlignment.start,
+                                                crossAxisAlignment: pw
+                                                    .CrossAxisAlignment.stretch,
+                                                mainAxisAlignment:
+                                                    pw.MainAxisAlignment.start,
                                                 children: [
                                                   ///level 2 modifiers group
-                                                  _showModifierGroupName(secondModifierGroups.name),
+                                                  _showModifierGroupName(
+                                                      secondModifierGroups
+                                                          .name),
                                                   pw.Column(
-                                                    crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-                                                    mainAxisAlignment: pw.MainAxisAlignment.start,
-                                                    children: secondModifierGroups.modifiers.map((secondModifiers) {
+                                                    crossAxisAlignment: pw
+                                                        .CrossAxisAlignment
+                                                        .stretch,
+                                                    mainAxisAlignment: pw
+                                                        .MainAxisAlignment
+                                                        .start,
+                                                    children:
+                                                        secondModifierGroups
+                                                            .modifiers
+                                                            .map(
+                                                      (secondModifiers) {
                                                         return pw.Padding(
-                                                          padding: const pw.EdgeInsets.only(left: 8),
+                                                          padding: const pw
+                                                                  .EdgeInsets.only(
+                                                              left: 8),
+
                                                           ///level 2 modifiers
-                                                          child: _modifierItemView(order, secondModifiers, secondModifiers.quantity, order.cartV2[index].quantity),
+                                                          child: _modifierItemView(
+                                                              order,
+                                                              secondModifiers,
+                                                              secondModifiers
+                                                                  .quantity,
+                                                              order
+                                                                  .cartV2[index]
+                                                                  .quantity),
                                                         );
                                                       },
                                                     ).toList(),

@@ -6,7 +6,7 @@ import 'package:klikit/modules/user/domain/entities/success_response.dart';
 
 import '../repositories/user_repository.dart';
 
-class UpdateUserInfo extends UseCase<SuccessResponse,UpdateUserInfoParams>{
+class UpdateUserInfo extends UseCase<SuccessResponse, UpdateUserInfoParams> {
   final UserRepository _repository;
 
   UpdateUserInfo(this._repository);
@@ -15,10 +15,9 @@ class UpdateUserInfo extends UseCase<SuccessResponse,UpdateUserInfoParams>{
   Future<Either<Failure, SuccessResponse>> call(UpdateUserInfoParams params) {
     return _repository.updateUserInfo(params.updateRequestModel, params.userID);
   }
-
 }
 
-class UpdateUserInfoParams extends NoParams{
+class UpdateUserInfoParams extends NoParams {
   final UserUpdateRequestModel updateRequestModel;
   final int userID;
 

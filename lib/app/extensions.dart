@@ -34,9 +34,9 @@ extension NonNullDouble on double? {
 }
 
 extension NonNullBoolean on bool? {
- bool orFalse(){
-   return this ?? FALSE;
- }
+  bool orFalse() {
+    return this ?? FALSE;
+  }
 }
 
 extension StringToInteger on String? {

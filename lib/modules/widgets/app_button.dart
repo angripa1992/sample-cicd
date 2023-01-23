@@ -69,7 +69,7 @@ class AppButton extends StatelessWidget {
                   Visibility(
                     visible: icon != null,
                     child: Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                       child: Icon(
                         icon,
                         color: enable

@@ -64,7 +64,8 @@ class SegmentDataProvider {
   Future<SegmentLocation?> _getLocation() async {
     final position = await _locationProvider.currentPosition();
     if (position == null) return _geCountryId();
-    final placeMark = await _locationProvider.placeMarkFromCoordinates(lat: position.latitude, lan: position.longitude);
+    final placeMark = await _locationProvider.placeMarkFromCoordinates(
+        lat: position.latitude, lan: position.longitude);
     if (placeMark == null) return _geCountryId();
     return SegmentLocation(
       city: placeMark.locality,
