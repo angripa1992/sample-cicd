@@ -5,7 +5,7 @@ void main() {
   final environmentVariables = EnvironmentVariables(
     baseUrl: 'https://gateway-enterprise.klikit.io',
     cdnUrl: 'https://assets.klikit.io',
-    segmentWriteKey: 'djROSUJqa21nc2dKUUJTOUJGaWU3ckFsZHIwM01nSGg=',
+    segmentWriteKey: 'Sm10a3NTc2lnUjJVMXpBb05JalNJZk4wQjU1SWxyZWg=',
   );
   mainCommon(environmentVariables);
 }
