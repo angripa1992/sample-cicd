@@ -76,27 +76,23 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void _handlePrinterSetting(PrinterSetting setting) async {
-    if (setting.typeId > 0) {
-      _appPreferences.savePrinterConnectionType(setting.typeId);
-      final args =
-          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-      if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
-        if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
-          return;
-        }
-        final NotificationData notificationData =
-            args[ArgumentKey.kNOTIFICATION_DATA];
-        final order = await NotificationDataHandler()
-            .getOrderById(notificationData.orderId.toInt());
-        if (order != null && order.status == OrderStatus.ACCEPTED) {
-          _printingHandler.verifyConnection(
-              fromNotification: true, order: order);
-        }
-      } else {
-        _printingHandler.verifyConnection(fromNotification: false);
+    _appPreferences.savePrinterConnectionType(setting.typeId);
+    _appPreferences.savePrinterPaperSize(setting.rollId);
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
+      if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
+        return;
+      }
+      final NotificationData notificationData =
+          args[ArgumentKey.kNOTIFICATION_DATA];
+      final order = await NotificationDataHandler()
+          .getOrderById(notificationData.orderId.toInt());
+      if (order != null && order.status == OrderStatus.ACCEPTED) {
+        _printingHandler.verifyConnection(fromNotification: true, order: order);
       }
     } else {
-      Navigator.pushNamed(context, Routes.printerSettings);
+      _printingHandler.verifyConnection(fromNotification: false);
     }
   }
 

@@ -13,6 +13,7 @@ class AppPreferences {
   final String _kLoggedIn = "logged_in";
   final String _kLoginEmail = "login_email";
   final String _kPrinterConnectionType = "printer_connection_type";
+  final String _kPrinterPaperSize = "printer_paper_size";
   final String _kLanguage = "language";
 
   AppPreferences(this._preferences);
@@ -60,9 +61,17 @@ class AppPreferences {
     await _preferences.setInt(_kPrinterConnectionType, connectionType);
   }
 
+  Future<void> savePrinterPaperSize(int paperSize) async {
+    await _preferences.setInt(_kPrinterPaperSize, paperSize);
+  }
+
   int connectionType() {
     return _preferences.getInt(_kPrinterConnectionType) ??
         ConnectionType.BLUETOOTH;
+  }
+
+  int paperSize() {
+    return _preferences.getInt(_kPrinterPaperSize) ?? PaperSize.mm80;
   }
 
   Future<void> saveLanguageCode(String languageCode) {

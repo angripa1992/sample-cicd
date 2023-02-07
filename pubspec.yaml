@@ -36,12 +36,8 @@ dependencies:
   package_info_plus: ^3.0.2
   audioplayers: ^2.0.0
   permission_handler: ^10.2.0
-  esc_pos_utils: ^1.1.0
   flutter_pos_printer_platform: ^1.0.12
   percent_indicator: ^4.2.2
-  printing: ^5.9.3
-  pdfx: ^2.3.0
-  path_provider: ^2.0.11
   device_info_plus: ^4.0.0
   geolocator: ^9.0.2
   geocoding: ^2.0.5
@@ -51,6 +47,11 @@ dependencies:
   firebase_app_installations: ^0.2.1+8
   firebase_remote_config: ^3.0.9
   firebase_analytics: ^10.1.0
+
+  docket_design_template:
+    git:
+      url: https://sayed_hasan@bitbucket.org/shadowchef/docket_design_template.git
+      ref: develop
 
 dev_dependencies:
   flutter_test:

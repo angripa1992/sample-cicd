@@ -1,3 +1,6 @@
+import 'package:docket_design_template/utils/paper_size.dart';
+import 'package:klikit/app/constants.dart';
+
 const String EMPTY = '';
 const int ZERO = 0;
 const double ZERO_DECIMAL = 0.0;
@@ -46,6 +49,16 @@ extension StringToInteger on String? {
     } else {
       return int.parse(this!);
     }
+  }
+}
+
+extension PaperSizeToRollSize on int {
+  RollPaperSize toRollSize() {
+   if(this == PaperSize.mm58){
+     return RollPaperSize.mm58;
+   }else{
+     return RollPaperSize.mm80;
+   }
   }
 }
 

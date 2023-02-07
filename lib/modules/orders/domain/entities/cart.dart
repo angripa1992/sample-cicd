@@ -1,3 +1,6 @@
+import 'package:docket_design_template/model/cart.dart';
+import 'package:docket_design_template/model/modifiers.dart';
+
 class CartV2 {
   final String id;
   final String name;
@@ -18,6 +21,27 @@ class CartV2 {
     required this.unitPrice,
     required this.modifierGroups,
   });
+
+  TemplateCart toTemplateCart() {
+    return TemplateCart(
+      id: id,
+      name: name,
+      image: image,
+      price: price,
+      comment: comment,
+      quantity: quantity,
+      unitPrice: unitPrice,
+      modifierGroups: _templateModifiersGroups(),
+    );
+  }
+
+  List<TemplateModifierGroups> _templateModifiersGroups() {
+    List<TemplateModifierGroups> templateModifiersGroups = [];
+    for (var element in modifierGroups) {
+      templateModifiersGroups.add(element.toTemplateModifierGroups());
+    }
+    return templateModifiersGroups;
+  }
 }
 
 class ModifierGroups {
@@ -30,6 +54,22 @@ class ModifierGroups {
     required this.name,
     required this.modifiers,
   });
+
+  TemplateModifierGroups toTemplateModifierGroups() {
+    return TemplateModifierGroups(
+      id: id,
+      name: name,
+      modifiers: _templateModifiers(),
+    );
+  }
+
+  List<TemplateModifiers> _templateModifiers() {
+    List<TemplateModifiers> templateModifiers = [];
+    for (var element in modifiers) {
+      templateModifiers.add(element.toTemplateModifiers());
+    }
+    return templateModifiers;
+  }
 }
 
 class Modifiers {
@@ -48,4 +88,23 @@ class Modifiers {
     required this.unitPrice,
     required this.modifierGroups,
   });
+
+  TemplateModifiers toTemplateModifiers() {
+    return TemplateModifiers(
+      id: id,
+      name: name,
+      price: price,
+      quantity: quantity,
+      unitPrice: unitPrice,
+      modifierGroups: _templateModifiersGroups(),
+    );
+  }
+
+  List<TemplateModifierGroups> _templateModifiersGroups() {
+    List<TemplateModifierGroups> templateModifiersGroups = [];
+    for (var element in modifierGroups) {
+      templateModifiersGroups.add(element.toTemplateModifierGroups());
+    }
+    return templateModifiersGroups;
+  }
 }
