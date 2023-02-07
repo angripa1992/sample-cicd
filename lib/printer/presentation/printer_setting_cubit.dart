@@ -21,8 +21,7 @@ class PrinterSettingCubit extends Cubit<ResponseState> {
       },
       (data) {
         if (data.isEmpty) {
-          emit(Success<PrinterSetting>(
-              PrinterSetting(branchId: -1, typeId: -1)));
+          emit(Success<PrinterSetting>(PrinterSetting(branchId: -1, typeId: -1,rollId:  -1)));
         } else {
           emit(Success<PrinterSetting>(data.first));
         }

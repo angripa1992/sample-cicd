@@ -32,10 +32,12 @@ class _PrinterConnectionSettingPageState
   final _appPreferences = getIt.get<AppPreferences>();
   final _printingHandler = getIt.get<PrintingHandler>();
   late int _connectionType;
+  late int _paperSize;
 
   @override
   void initState() {
     _connectionType = _appPreferences.connectionType();
+    _paperSize = _appPreferences.paperSize();
     super.initState();
   }
 
@@ -45,15 +47,23 @@ class _PrinterConnectionSettingPageState
     });
   }
 
-  void _saveConnectionTypeToPreferences() async {
+  void _changePrinterPaperSize(int paperSize) {
+    setState(() {
+      _paperSize = paperSize;
+    });
+  }
+
+  void _savePrinterSettingToPreferences() async {
     await _appPreferences.savePrinterConnectionType(_connectionType);
+    await _appPreferences.savePrinterPaperSize(_paperSize);
     setState(() {});
   }
 
-  void _updateConnectionType() {
-    context
-        .read<UpdatePrinterSettingCubit>()
-        .updatePrintSetting(_connectionType);
+  void _updatePrinterSetting() {
+    context.read<UpdatePrinterSettingCubit>().updatePrintSetting(
+          connectionType: _connectionType,
+          paperSize: _paperSize,
+        );
   }
 
   void _showDeviceListView() {
@@ -76,6 +86,7 @@ class _PrinterConnectionSettingPageState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          /// connection type
           Padding(
             padding: EdgeInsets.only(
               left: AppSize.s20.rw,
@@ -123,6 +134,59 @@ class _PrinterConnectionSettingPageState
               onChanged: (int? type) => _changePrinterConnectionType(type!),
             ),
           ),
+
+          /// Paper size
+
+          Padding(
+            padding: EdgeInsets.only(
+              left: AppSize.s20.rw,
+              right: AppSize.s20.rw,
+              top: AppSize.s16.rh,
+              bottom: AppSize.s8.rh,
+            ),
+            child: Text(
+              'Set Paper Size',
+              style: getRegularTextStyle(
+                color: AppColors.purpleBlue,
+                fontSize: AppFontSize.s18.rSp,
+              ),
+            ),
+          ),
+          ListTile(
+            title: Text(
+              'mm58',
+              style: getRegularTextStyle(
+                color: AppColors.blueViolet,
+                fontSize: AppSize.s16.rSp,
+              ),
+            ),
+            leading: Radio(
+              fillColor: MaterialStateColor.resolveWith(
+                  (states) => AppColors.purpleBlue),
+              value: PaperSize.mm58,
+              groupValue: _paperSize,
+              onChanged: (int? size) => _changePrinterPaperSize(size!),
+            ),
+          ),
+          ListTile(
+            title: Text(
+              'mm80',
+              style: getRegularTextStyle(
+                color: AppColors.blueViolet,
+                fontSize: AppSize.s16.rSp,
+              ),
+            ),
+            leading: Radio(
+              fillColor: MaterialStateColor.resolveWith(
+                  (states) => AppColors.purpleBlue),
+              value: PaperSize.mm80,
+              groupValue: _paperSize,
+              onChanged: (int? size) => _changePrinterPaperSize(size!),
+            ),
+          ),
+
+          /// save button
+
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: AppSize.s24.rw,
@@ -133,7 +197,7 @@ class _PrinterConnectionSettingPageState
                 if (state is Failed) {
                   showApiErrorSnackBar(context, state.failure);
                 } else if (state is Success<ActionSuccess>) {
-                  _saveConnectionTypeToPreferences();
+                  _savePrinterSettingToPreferences();
                   showSuccessSnackBar(context, state.data.message ?? '');
                 }
               },
@@ -141,7 +205,7 @@ class _PrinterConnectionSettingPageState
                 return LoadingButton(
                   isLoading: state is Loading,
                   verticalPadding: AppSize.s10.rh,
-                  onTap: _updateConnectionType,
+                  onTap: _updatePrinterSetting,
                   text: AppStrings.save.tr(),
                 );
               },

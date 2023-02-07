@@ -181,7 +181,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => BluetoothPrinterHandler());
   getIt.registerLazySingleton(() => UsbPrinterHandler());
   getIt.registerLazySingleton(
-      () => PrintingHandler(getIt.get(), getIt.get(), getIt.get()));
+      () => PrintingHandler(getIt.get(), getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton<PrinterSettingRepository>(
       () => PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => PrinterSettingCubit(getIt.get(), getIt.get()));

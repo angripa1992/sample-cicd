@@ -1,3 +1,5 @@
+import 'package:docket_design_template/model/brand.dart';
+
 class Brands {
   final List<Brand> brands;
 
@@ -65,5 +67,9 @@ class Brand {
       brandCuisines: brandCuisines,
       isChecked: isChecked,
     );
+  }
+
+  TemplateBrand toTemplateBrand(){
+    return TemplateBrand(id: id, qrLabel: qrLabel, qrContent: qrContent);
   }
 }

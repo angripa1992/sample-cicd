@@ -4,8 +4,7 @@ import '../../modules/orders/domain/entities/order.dart';
 
 class PriceCalculator {
   static String calculateItemPrice(Order order, CartV2 cartV2) {
-    if (!order.isInterceptorOrder &&
-        order.providerId != ProviderID.FOOD_PANDA) {
+    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
       double unitPrice = double.parse(cartV2.unitPrice);
       double itemTotalPrice = unitPrice * cartV2.quantity;
       return itemTotalPrice.toStringAsFixed(2);

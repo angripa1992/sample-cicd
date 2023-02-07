@@ -12,12 +12,16 @@ class UpdatePrinterSettingCubit extends Cubit<ResponseState> {
   UpdatePrinterSettingCubit(this._appPreferences, this._repository)
       : super(Empty());
 
-  void updatePrintSetting(int connectionType) async {
+  void updatePrintSetting({
+    required int connectionType,
+    required int paperSize,
+  }) async {
     emit(Loading());
     final branchId = _appPreferences.getUser().userInfo.branchId;
     final params = {
       'branch_id': branchId,
       'type_id': connectionType,
+      'roll_id': paperSize,
     };
     final response = await _repository.updatePrinterSettings(params);
     response.fold(
