@@ -70,6 +70,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
+import '../core/provider/location_provider.dart';
 import '../core/provider/order_parameter_provider.dart';
 import '../environment_variables.dart';
 import '../language/language_manager.dart';
@@ -85,6 +86,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
   getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
+  getIt.registerSingleton<LocationProvider>(LocationProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
   getIt.registerSingleton<SegmentDataProvider>(SegmentDataProvider(getIt(), getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
