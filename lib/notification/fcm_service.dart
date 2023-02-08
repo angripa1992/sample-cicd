@@ -19,7 +19,6 @@ class FcmService {
   late final FirebaseMessaging messaging;
 
   Future initApp() async {
-    await Firebase.initializeApp();
     messaging = FirebaseMessaging.instance;
   }
 

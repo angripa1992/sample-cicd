@@ -8,12 +8,11 @@ import '../../environment_variables.dart';
 import '../../resources/values.dart';
 
 class ImageView extends StatelessWidget {
-  final envVariables = getIt.get<EnvironmentVariables>();
   final String path;
   final double? height;
   final double? width;
 
-  ImageView({Key? key, required this.path, this.height, this.width})
+  const ImageView({Key? key, required this.path, this.height, this.width})
       : super(key: key);
 
   @override

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import 'package:klikit/environment_variables.dart';
 import 'package:klikit/language/smart_asset_loader.dart';
 import 'package:klikit/resources/assets.dart';
 
+import 'app/crashlytics_config.dart';
 import 'app/di.dart';
 import 'language/language_manager.dart';
 import 'notification/fcm_service.dart';
@@ -14,6 +16,8 @@ import 'notification/local_notification_service.dart';
 
 void mainCommon(EnvironmentVariables environmentVariables) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  CrashlyticsConfiguration().initialize();
   await EasyLocalization.ensureInitialized();
   await initAppModule(environmentVariables);
   await flutterLocalNotificationsPlugin.initialize(
