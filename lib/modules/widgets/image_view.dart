@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/image_url_provider.dart';
 
-import '../../app/di.dart';
-import '../../environment_variables.dart';
 import '../../resources/values.dart';
 
 class ImageView extends StatelessWidget {

@@ -87,5 +87,7 @@ class AppPreferences {
     await _preferences.remove(_kRefreshToken);
     await _preferences.remove(_kUser);
     await _preferences.remove(_kLoggedIn);
+    await _preferences.remove(_kPrinterPaperSize);
+    await _preferences.remove(_kPrinterConnectionType);
   }
 }

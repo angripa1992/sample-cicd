@@ -38,6 +38,7 @@ class _PrinterConnectionSettingPageState
   void initState() {
     _connectionType = _appPreferences.connectionType();
     _paperSize = _appPreferences.paperSize();
+    print(_paperSize);
     super.initState();
   }
 
@@ -76,6 +77,7 @@ class _PrinterConnectionSettingPageState
 
   @override
   Widget build(BuildContext context) {
+    print(_paperSize);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppStrings.printer_connection_settings.tr()),

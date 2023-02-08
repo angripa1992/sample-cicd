@@ -18,7 +18,7 @@ class SubMenuItemsTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppColors.darkViolet,
+      color: AppColors.lightVioletTwo,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s20.rw,
@@ -31,7 +31,7 @@ class SubMenuItemsTitle extends StatelessWidget {
               child: Text(
                 subSections.title,
                 style: getRegularTextStyle(
-                  color: AppColors.white,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s15.rSp,
                 ),
               ),
@@ -39,7 +39,7 @@ class SubMenuItemsTitle extends StatelessWidget {
             Text(
               '${subSections.items.length} ${AppStrings.items.tr()}',
               style: getRegularTextStyle(
-                color: AppColors.white,
+                color: AppColors.black,
                 fontSize: AppFontSize.s15.rSp,
               ),
             )

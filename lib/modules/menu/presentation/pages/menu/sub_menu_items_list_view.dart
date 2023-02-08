@@ -11,7 +11,7 @@ import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/items.dart';
 import 'menu_item_details.dart';
 
-class SubMenuItemsListView extends StatelessWidget {
+class SubMenuItemsListView extends StatefulWidget {
   final SubSections subSections;
   final bool parentEnabled;
   final int brandID;
@@ -28,32 +28,58 @@ class SubMenuItemsListView extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<SubMenuItemsListView> createState() => _SubMenuItemsListViewState();
+}
+
+class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
+  final List<Items> _items = [];
+
+  @override
+  void initState() {
+    _items.addAll(widget.subSections.items);
+    super.initState();
+  }
+
+  void _onChanged(int index, bool enabled) {
+    setState(() {
+      _items[index].stock.available = enabled;
+      widget.onChanged(_items);
+    });
+    SegmentManager().track(
+      event: SegmentEvents.ITEM_TOGGLE,
+      properties: {
+        'id': _items[index].id,
+        'name': _items[index].title,
+        'enabled': enabled ? 'Yes' : 'No',
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-        itemCount: subSections.items.length,
+        key: UniqueKey(),
+        itemCount: _items.length,
         itemBuilder: (_, index) {
           return InkWell(
             onTap: () {
               showModalBottomSheet<void>(
                 context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(AppSize.s14.rSp),
+                  ),
+                ),
                 builder: (BuildContext context) {
                   return MenuItemDetails(
-                    items: subSections.items[index],
-                    parentEnabled: parentEnabled && subSections.enabled,
-                    brandID: brandID,
-                    providerID: providerID,
+                    items: _items[index],
+                    parentEnabled:
+                        widget.parentEnabled && widget.subSections.enabled,
+                    brandID: widget.brandID,
+                    providerID: widget.providerID,
                     onChanged: (enabled) {
-                      subSections.items[index].stock.available = enabled;
-                      onChanged(subSections.items);
-                      SegmentManager().track(
-                        event: SegmentEvents.ITEM_TOGGLE,
-                        properties: {
-                          'id': subSections.items[index].id,
-                          'name': subSections.items[index].title,
-                          'enabled': enabled ? 'Yes' : 'No',
-                        },
-                      );
+                      _onChanged(index, enabled);
                     },
                   );
                 },
@@ -70,7 +96,11 @@ class SubMenuItemsListView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(right: AppSize.s10.rw),
-                      child: ImageView(path: subSections.items[index].image),
+                      child: ImageView(
+                        path: _items[index].image,
+                        width: AppSize.s36.rw,
+                        height: AppSize.s36.rh,
+                      ),
                     ),
                     Expanded(
                       child: Row(
@@ -78,29 +108,20 @@ class SubMenuItemsListView extends StatelessWidget {
                           Text('${index + 1}.'),
                           SizedBox(width: AppSize.s4.rw),
                           Expanded(
-                            child: Text(subSections.items[index].title),
+                            child: Text(_items[index].title),
                           ),
                         ],
                       ),
                     ),
                     MenuSwitchView(
-                      id: subSections.items[index].id,
-                      brandId: brandID,
-                      providerId: providerID,
+                      id: _items[index].id,
+                      brandId: widget.brandID,
+                      providerId: widget.providerID,
                       type: MenuType.ITEM,
-                      enabled: subSections.items[index].stock.available,
-                      parentEnabled: parentEnabled && subSections.enabled,
+                      enabled: _items[index].stock.available,
+                      parentEnabled: widget.parentEnabled && widget.subSections.enabled,
                       onChanged: (enabled) {
-                        subSections.items[index].stock.available = enabled;
-                        onChanged(subSections.items);
-                        SegmentManager().track(
-                          event: SegmentEvents.ITEM_TOGGLE,
-                          properties: {
-                            'id': subSections.items[index].id,
-                            'name': subSections.items[index].title,
-                            'enabled': enabled ? 'Yes' : 'No',
-                          },
-                        );
+                        _onChanged(index, enabled);
                       },
                     ),
                   ],
