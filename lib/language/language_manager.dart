@@ -63,12 +63,6 @@ class LanguageManager {
     } catch (e) {
       return _fallbackLocale;
     }
-    return _languages.map((e) => makeLocaleFromLanguage(e)).toList();
-  }
-
-  Future<Locale> getStartLocale() async {
-    final currentLanguage = _languages.firstWhere((element) => element.code == _appPreferences.languageCode());
-    return makeLocaleFromLanguage(currentLanguage);
   }
 
   String currentLanguageCode() {

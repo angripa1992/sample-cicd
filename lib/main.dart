@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/klikit.dart';
 import 'package:klikit/environment_variables.dart';
 import 'package:klikit/language/smart_asset_loader.dart';
@@ -28,9 +27,8 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
   await FcmService().getFcmToken();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  final supportedLocale = await getIt.get<LanguageManager>().getSupportedLocale();
-  final startLocale = await getIt.get<LanguageManager>().getStartLocale();
-  final supportedLocale = await getIt.get<LanguageManager>().getSupportedLocale();
+  final supportedLocale =
+      await getIt.get<LanguageManager>().getSupportedLocale();
   final startLocale = await getIt.get<LanguageManager>().getStartLocale();
 
   SystemChrome.setPreferredOrientations(
@@ -39,17 +37,6 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
       DeviceOrientation.portraitDown,
     ],
   ).then(
-        (_) =>
-        runApp(
-          EasyLocalization(
-            path: AppAssets.translations,
-            supportedLocales: supportedLocale,
-            fallbackLocale: const Locale('en', 'US'),
-            startLocale: startLocale,
-            assetLoader: SmartAssetLoader(),
-            child: const Klikit(),
-          ),
-        ),
     (_) => runApp(
       EasyLocalization(
         path: AppAssets.translations,

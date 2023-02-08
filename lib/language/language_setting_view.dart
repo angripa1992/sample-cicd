@@ -59,7 +59,6 @@ class _LanguageSettingViewState extends State<LanguageSettingView> {
                   },
                   items: languages.map<DropdownMenuItem<String>>(
                     (language) {
-                  items: languages.map<DropdownMenuItem<String>>((language) {
                       return DropdownMenuItem<String>(
                         value: language.code,
                         child: RadioListTile<String>(
