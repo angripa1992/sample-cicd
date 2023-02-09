@@ -71,7 +71,7 @@ class AppPreferences {
   }
 
   int paperSize() {
-    return _preferences.getInt(_kPrinterPaperSize) ?? PaperSize.mm80;
+    return _preferences.getInt(_kPrinterPaperSize) ?? RollId.mm80;
   }
 
   Future<void> saveLanguageCode(String languageCode) {

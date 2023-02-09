@@ -22,6 +22,8 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:klikit/segments/event_manager.dart';
 
+import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
+import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
@@ -110,8 +112,8 @@ class _AccountScreenState extends State<AccountScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(lazy: false, create: (_) => getIt.get<LogoutCubit>()),
-        BlocProvider(
-            lazy: false, create: (_) => getIt.get<UpdateUserInfoCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt.get<UpdateUserInfoCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt.get<ConsumerProtectionCubit>()),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -256,6 +258,9 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  const ConsumerProtectionView(
+                    loggedIn: true,
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: AppSize.s16.rh),

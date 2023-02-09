@@ -1,5 +1,7 @@
 import 'package:klikit/app/extensions.dart';
 
+import '../../app/constants.dart';
+
 class PrinterSettingModel {
   int? branchId;
   int? typeId;
@@ -16,8 +18,8 @@ class PrinterSettingModel {
   PrinterSetting toEntity() {
     return PrinterSetting(
       branchId: branchId.orZero(),
-      typeId: typeId.orZero(),
-      rollId: rollId.orZero(),
+      typeId: typeId ?? ConnectionType.BLUETOOTH,
+      rollId: rollId ?? RollId.mm80,
     );
   }
 }

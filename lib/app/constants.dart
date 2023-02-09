@@ -107,7 +107,7 @@ class ConnectionType{
   static const USB = 2;
 }
 
-class PaperSize {
+class RollId {
   static const mm58 = 1;
   static const mm80 = 2;
 }

@@ -22,8 +22,7 @@ abstract class MenuRepository {
 
   Future<Either<Failure, ActionSuccess>> updateMenu(UpdateMenuParams params);
 
-  Future<Either<Failure, List<ModifiersGroup>>> fetchModifiersGroups(
-      Map<String, dynamic> params);
+  Future<Either<Failure, List<ModifiersGroup>>> fetchModifiersGroups(Map<String, dynamic> params);
 
   Future<Either<Failure, ActionSuccess>> enableModifier(
       ModifierRequestModel params);

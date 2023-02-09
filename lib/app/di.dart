@@ -68,6 +68,8 @@ import 'package:klikit/printer/printing_handler.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../consumer_protection/data/repository/consumer_protection_repository.dart';
+import '../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
 import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
 import '../core/provider/location_provider.dart';
@@ -184,4 +186,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => PrinterSettingCubit(getIt.get(), getIt.get()));
   getIt.registerFactory(
       () => UpdatePrinterSettingCubit(getIt.get(), getIt.get()));
+
+  ///consumer protection
+  getIt.registerLazySingleton<ConsumerProtectionRepository>(() => ConsumerProtectionRepositoryImpl(getIt.get(),getIt.get()));
+  getIt.registerFactory(() => ConsumerProtectionCubit(getIt.get()));
 }

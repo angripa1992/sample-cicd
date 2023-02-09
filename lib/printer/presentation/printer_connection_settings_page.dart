@@ -165,7 +165,7 @@ class _PrinterConnectionSettingPageState
             leading: Radio(
               fillColor: MaterialStateColor.resolveWith(
                   (states) => AppColors.purpleBlue),
-              value: PaperSize.mm58,
+              value: RollId.mm58,
               groupValue: _paperSize,
               onChanged: (int? size) => _changePrinterPaperSize(size!),
             ),
@@ -181,7 +181,7 @@ class _PrinterConnectionSettingPageState
             leading: Radio(
               fillColor: MaterialStateColor.resolveWith(
                   (states) => AppColors.purpleBlue),
-              value: PaperSize.mm80,
+              value: RollId.mm80,
               groupValue: _paperSize,
               onChanged: (int? size) => _changePrinterPaperSize(size!),
             ),

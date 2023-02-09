@@ -27,6 +27,8 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:klikit/segments/event_manager.dart';
 
+import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
+import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import 'bloc/login_event.dart';
 import 'bloc/login_state.dart';
@@ -130,8 +132,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-    return BlocProvider(
-      create: (BuildContext context) => getIt.get<LoginBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (BuildContext context) => getIt.get<LoginBloc>()),
+        BlocProvider(
+            create: (BuildContext context) => getIt.get<ConsumerProtectionCubit>()),
+      ],
       child: SafeArea(
         child: Scaffold(
           backgroundColor: AppColors.black,
@@ -227,6 +233,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             );
                           },
+                        ),
+                        const ConsumerProtectionView(
+                          loggedIn: false,
                         ),
                       ],
                     ),
