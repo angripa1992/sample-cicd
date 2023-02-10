@@ -147,7 +147,7 @@ class _PrinterConnectionSettingPageState
               bottom: AppSize.s8.rh,
             ),
             child: Text(
-              'Set Paper Size',
+              AppStrings.set_paper_size.tr(),
               style: getRegularTextStyle(
                 color: AppColors.purpleBlue,
                 fontSize: AppFontSize.s18.rSp,

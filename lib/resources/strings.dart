@@ -239,4 +239,5 @@ class AppStrings {
   static const String select_all = "select_all";
   static const String aggregators_selected = "aggregators_selected";
   static const String brands_selected = "brands_selected";
+  static const String set_paper_size = "set_paper_size";
 }

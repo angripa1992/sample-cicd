@@ -32,7 +32,7 @@ class SmartAssetLoader extends AssetLoader {
     }
 
     if (content.isEmpty) {
-      content = await _loadFromAsset(path);
+      content = await _loadFromAsset(path,localeName);
       debugPrint('translations loaded from assets');
     }
 
@@ -58,8 +58,8 @@ class SmartAssetLoader extends AssetLoader {
     return await (await _getFileForLocale(localeName)).readAsString();
   }
 
-  Future<String> _loadFromAsset(String assetsPath) async {
-    return await rootBundle.loadString('$assetsPath/en-US.json');
+  Future<String> _loadFromAsset(String assetsPath,String localeName) async {
+    return await rootBundle.loadString('$assetsPath/$localeName.json');
   }
 
   Future<String> _loadFromNetwork(String localeName) async {

@@ -377,7 +377,7 @@ packages:
     description:
       path: "."
       ref: develop
-      resolved-ref: "37b7b035de920f198161a3e9490e12a9c0616332"
+      resolved-ref: "34a7dd52a68e75ef7e3f5a1b2fb5335e11d58d8c"
       url: "https://sayed_hasan@bitbucket.org/shadowchef/docket_design_template.git"
     source: git
     version: "0.0.1"
