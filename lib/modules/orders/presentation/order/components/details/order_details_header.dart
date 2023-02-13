@@ -60,7 +60,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           _timeView(),
           SizedBox(height: AppSize.s8.rh),
           _brandAndCommentView(),
-          SizedBox(height: AppSize.s8.rh),
+          //SizedBox(height: AppSize.s8.rh),
           OrderStatusView(order: order),
         ],
       ),
