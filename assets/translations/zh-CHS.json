@@ -190,8 +190,8 @@
   "brand": "品牌",
   "select_all": "全选",
   "order_details": "订单内容",
-  "set_paper_size": "Set Paper Size",
-  "usb_not_connected": "USB printer is not connected",
-  "bluetooth_not_connected": "Bluetooth printer is not connected",
-  "printer_settings": "Printer Settings"
+  "set_paper_size": "设置纸张尺寸",
+  "usb_not_connected": "USB 打印机未连接",
+  "bluetooth_not_connected": "蓝牙打印机未连接",
+  "printer_settings": "打印机设置"
 }

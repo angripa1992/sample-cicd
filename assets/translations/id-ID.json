@@ -191,7 +191,7 @@
   "delete": "Hapus",
   "field_required": "Bagian ini diperlukan",
   "manual": "Manual",
-  "usb_not_connected": "USB printer is not connected",
-  "bluetooth_not_connected": "Bluetooth printer is not connected",
-  "set_paper_size": "Set Paper Size"
+  "usb_not_connected": "Pencetak USB tidak tersambung",
+  "bluetooth_not_connected": "Pencetak Bluetooth tidak tersambung",
+  "set_paper_size": "Atur Ukuran Kertas"
 }
