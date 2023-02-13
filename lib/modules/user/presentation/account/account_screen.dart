@@ -24,6 +24,7 @@ import 'package:klikit/segments/event_manager.dart';
 
 import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
 import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
+import '../../../../language/language_setting_page.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
@@ -112,8 +113,10 @@ class _AccountScreenState extends State<AccountScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(lazy: false, create: (_) => getIt.get<LogoutCubit>()),
-        BlocProvider(lazy: false, create: (_) => getIt.get<UpdateUserInfoCubit>()),
-        BlocProvider(lazy: false, create: (_) => getIt.get<ConsumerProtectionCubit>()),
+        BlocProvider(
+            lazy: false, create: (_) => getIt.get<UpdateUserInfoCubit>()),
+        BlocProvider(
+            lazy: false, create: (_) => getIt.get<ConsumerProtectionCubit>()),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -135,7 +138,11 @@ class _AccountScreenState extends State<AccountScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const AccountActionHeader(),
+                  AccountActionHeader(
+                    onLanguageChange: () {
+                      showLanguageSettingDialog(context: context);
+                    },
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(

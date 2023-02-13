@@ -7,7 +7,8 @@ import '../../../../../core/route/routes.dart';
 import '../../../../../resources/strings.dart';
 
 class AccountActionHeader extends StatelessWidget {
-  const AccountActionHeader({Key? key}) : super(key: key);
+  final VoidCallback onLanguageChange;
+  const AccountActionHeader({Key? key, required this.onLanguageChange}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +17,7 @@ class AccountActionHeader extends StatelessWidget {
         AccountActionItem(
           title: AppStrings.change_language.tr(),
           iconData: Icons.language,
-          onTap: () {
-            showLanguageSettingDialog(context: context);
-          },
+          onTap: onLanguageChange,
         ),
         AccountActionItem(
           title: AppStrings.printer_settings.tr(),
