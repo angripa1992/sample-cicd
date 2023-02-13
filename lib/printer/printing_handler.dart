@@ -153,18 +153,20 @@ class PrintingHandler {
   Future<List<int>?> _generatePrintingData(Order order) async {
     final rollSize = _preferences.paperSize().toRollSize();
     final templateOrder = await _generateTemplateOrder(order);
-    List<int>? rawBytes =
-        await DocketDesignTemplate().generateTicket(templateOrder, rollSize);
-    final pdfImage =
-        await DocketDesignTemplate().generatePdfImage(templateOrder, rollSize);
+    List<int>? rawBytes = await DocketDesignTemplate().generateTicket(templateOrder, rollSize);
+    return rawBytes;
+  }
 
+  void _showPreview(Order order) async{
+    final rollSize = _preferences.paperSize().toRollSize();
+    final templateOrder = await _generateTemplateOrder(order);
+    final pdfImage = await DocketDesignTemplate().generatePdfImage(templateOrder, rollSize);
     Navigator.push(
         RoutesGenerator.navigatorKey.currentState!.context,
         MaterialPageRoute(
             builder: (context) => CaptureImagePrivew(
-                  capturedImage: pdfImage,
-                )));
-    return rawBytes;
+              capturedImage: pdfImage,
+            )));
   }
 
   Future<TemplateOrder> _generateTemplateOrder(Order order) async {

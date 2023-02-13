@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/image_url_provider.dart';
 
+import '../../resources/assets.dart';
 import '../../resources/values.dart';
 
 class ImageView extends StatelessWidget {
@@ -29,7 +31,11 @@ class ImageView extends StatelessWidget {
       placeholder: (context, url) => Center(
         child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
       ),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+      errorWidget: (context, url, error) => SvgPicture.asset(
+        AppImages.placeholder,
+        height: height,
+        width: width,
+      ),
     );
   }
 }

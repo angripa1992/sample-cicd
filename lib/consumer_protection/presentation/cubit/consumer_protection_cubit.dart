@@ -11,7 +11,7 @@ class ConsumerProtectionCubit extends Cubit<ResponseState> {
 
   void fetchConsumerProtection() async {
     emit(Loading());
-    final response = await _repository.fetchConsumerProtectionFakeData();
+    final response = await _repository.fetchConsumerProtection();
     response.fold(
       (failure) {
         emit(Failed(failure));

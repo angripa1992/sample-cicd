@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../core/provider/image_url_provider.dart';
+import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
@@ -64,9 +66,13 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
                   ),
                 ),
-                errorWidget: (context, url, error) => Center(
-                  child: SizedBox(
-                      height: AppSize.s100.rh, child: const Icon(Icons.error)),
+                errorWidget: (context, url, error) => Padding(
+                  padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      AppImages.placeholder,
+                    ),
+                  ),
                 ),
               ),
               Positioned(
