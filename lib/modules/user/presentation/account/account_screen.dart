@@ -140,7 +140,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 children: [
                   AccountActionHeader(
                     onLanguageChange: () {
-                      showLanguageSettingDialog(context: context);
+                      showLanguageSettingDialog(context:context);
                     },
                   ),
                   Padding(

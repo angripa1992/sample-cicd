@@ -76,6 +76,7 @@ import '../core/provider/location_provider.dart';
 import '../core/provider/order_parameter_provider.dart';
 import '../environment_variables.dart';
 import '../language/language_manager.dart';
+import '../modules/base/chnage_language_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
@@ -99,6 +100,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
 
   ///base
   getIt.registerFactory(() => BaseScreenCubit());
+  getIt.registerFactory(() => ChangeLanguageCubit());
 
   ///user
   getIt.registerLazySingleton<UserRemoteDataSource>(

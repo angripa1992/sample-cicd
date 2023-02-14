@@ -8,7 +8,6 @@ import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
@@ -133,51 +132,51 @@ class _BaseScreenState extends State<BaseScreen> {
             create: (_) => getIt.get<OrderActionCubit>()),
       ],
       child: WillPopScope(
-          onWillPop: () {
-            if (context.read<BaseScreenCubit>().state.index ==
-                BottomNavItem.HOME) {
-              return Future.value(true);
-            } else {
-              context.read<BaseScreenCubit>().changeIndex(
-                  NavigationData(index: BottomNavItem.HOME, data: null));
-              return Future.value(false);
+        onWillPop: () {
+          if (context.read<BaseScreenCubit>().state.index ==
+              BottomNavItem.HOME) {
+            return Future.value(true);
+          } else {
+            context.read<BaseScreenCubit>().changeIndex(
+                NavigationData(index: BottomNavItem.HOME, data: null));
+            return Future.value(false);
+          }
+        },
+        child: BlocListener<PrinterSettingCubit, ResponseState>(
+          listener: (context, state) {
+            if (state is Success<PrinterSetting>) {
+              _handlePrinterSetting(state.data);
             }
           },
-          child: BlocListener<PrinterSettingCubit, ResponseState>(
-            listener: (context, state) {
-              if (state is Success<PrinterSetting>) {
-                _handlePrinterSetting(state.data);
-              }
-            },
-            child: BlocBuilder<BaseScreenCubit, NavigationData>(
-              builder: (context, data) {
-                return Scaffold(
-                  body: Center(child: _getWidget(data)),
-                  bottomNavigationBar: BottomNavigationBar(
-                    items: _navigationItems(),
-                    currentIndex: context.read<BaseScreenCubit>().state.index,
-                    onTap: (index) {
-                      context.read<BaseScreenCubit>().changeIndex(
-                          NavigationData(
-                              index: index, subTabIndex: null, data: null));
-                    },
-                    backgroundColor: AppColors.whiteSmoke,
-                    type: BottomNavigationBarType.fixed,
-                    selectedItemColor: AppColors.purpleBlue,
-                    unselectedItemColor: AppColors.smokeyGrey,
-                    selectedLabelStyle: getRegularTextStyle(
-                      color: AppColors.purpleBlue,
-                      fontSize: AppFontSize.s14.rSp,
-                    ),
-                    unselectedLabelStyle: getRegularTextStyle(
-                      color: AppColors.smokeyGrey,
-                      fontSize: AppFontSize.s14.rSp,
-                    ),
+          child: BlocBuilder<BaseScreenCubit, NavigationData>(
+            builder: (context, data) {
+              return Scaffold(
+                body: Center(child: _getWidget(data)),
+                bottomNavigationBar: BottomNavigationBar(
+                  items: _navigationItems(),
+                  currentIndex: context.read<BaseScreenCubit>().state.index,
+                  onTap: (index) {
+                    context.read<BaseScreenCubit>().changeIndex(NavigationData(
+                        index: index, subTabIndex: null, data: null));
+                  },
+                  backgroundColor: AppColors.whiteSmoke,
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: AppColors.purpleBlue,
+                  unselectedItemColor: AppColors.smokeyGrey,
+                  selectedLabelStyle: getRegularTextStyle(
+                    color: AppColors.purpleBlue,
+                    fontSize: AppFontSize.s14.rSp,
                   ),
-                );
-              },
-            ),
-          )),
+                  unselectedLabelStyle: getRegularTextStyle(
+                    color: AppColors.smokeyGrey,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 

@@ -15,6 +15,7 @@ import 'package:klikit/printer/presentation/printer_connection_settings_page.dar
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 
+import '../../modules/base/chnage_language_cubit.dart';
 import '../../modules/support/contact_support.dart';
 
 class RoutesGenerator {
@@ -38,6 +39,7 @@ class RoutesGenerator {
             providers: [
               BlocProvider(create: (_) => getIt.get<BaseScreenCubit>()),
               BlocProvider(create: (_) => getIt.get<PrinterSettingCubit>()),
+              BlocProvider(create: (_) => getIt.get<ChangeLanguageCubit>()),
             ],
             child: const BaseScreen(),
           ),
