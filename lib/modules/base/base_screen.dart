@@ -66,8 +66,7 @@ class _BaseScreenState extends State<BaseScreen> {
               as Map<String, dynamic>?;
           if (args != null) {
             if (args[ArgumentKey.kIS_NOTIFICATION]) {
-              final navData = NotificationDataHandler()
-                  .getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
+              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
               context.read<BaseScreenCubit>().changeIndex(navData);
             }
           }

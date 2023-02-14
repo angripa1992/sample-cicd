@@ -77,8 +77,11 @@ class RoutesGenerator {
         );
       case Routes.printerSettings:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => getIt.get<UpdatePrinterSettingCubit>(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => getIt.get<UpdatePrinterSettingCubit>()),
+              BlocProvider(create: (_) => getIt.get<PrinterSettingCubit>()),
+            ],
             child: const PrinterConnectionSettingPage(),
           ),
           settings: routeSettings,
