@@ -10,6 +10,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
+import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
@@ -33,6 +34,8 @@ import 'package:klikit/resources/values.dart';
 import '../../app/constants.dart';
 import '../../core/provider/order_information_provider.dart';
 import '../../core/utils/response_state.dart';
+import '../../language/language_manager.dart';
+import '../../language/language_setting_page.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
 import '../home/home_screen.dart';
@@ -50,6 +53,7 @@ class _BaseScreenState extends State<BaseScreen> {
   final _appPreferences = getIt.get<AppPreferences>();
   final _orderInfoProvider = getIt.get<OrderInformationProvider>();
   final _printingHandler = getIt.get<PrintingHandler>();
+  final _languageManager = getIt.get<LanguageManager>();
 
   @override
   void initState() {
@@ -142,12 +146,23 @@ class _BaseScreenState extends State<BaseScreen> {
             return Future.value(false);
           }
         },
-        child: BlocListener<PrinterSettingCubit, ResponseState>(
-          listener: (context, state) {
-            if (state is Success<PrinterSetting>) {
-              _handlePrinterSetting(state.data);
-            }
-          },
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<PrinterSettingCubit, ResponseState>(
+              listener: (context, state) {
+                if (state is Success<PrinterSetting>) {
+                  _handlePrinterSetting(state.data);
+                }
+              },
+            ),
+            BlocListener<ChangeLanguageCubit, ChangeLanguageState>(
+              listener: (_, state) {
+                if (state is OnChangeState) {
+                  _languageManager.changeLocale(context, state.locale);
+                }
+              },
+            ),
+          ],
           child: BlocBuilder<BaseScreenCubit, NavigationData>(
             builder: (context, data) {
               return Scaffold(

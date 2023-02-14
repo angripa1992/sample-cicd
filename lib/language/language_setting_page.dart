@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/language/language_manager.dart';
 import 'package:klikit/modules/widgets/app_button.dart';
 import 'package:klikit/resources/values.dart';
@@ -12,23 +11,29 @@ import '../resources/strings.dart';
 import '../resources/styles.dart';
 import 'language.dart';
 
-void showLanguageSettingDialog({required BuildContext context}) {
+void showLanguageSettingDialog({
+  required BuildContext context,
+  required Function(Locale) onLanguageChange,
+}) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return const AlertDialog(
+      return AlertDialog(
         contentPadding: EdgeInsets.all(AppSize.ZERO),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
-        content: LanguageSettingPage(),
+        content: LanguageSettingPage(onLanguageChange: onLanguageChange),
       );
     },
   );
 }
 
 class LanguageSettingPage extends StatefulWidget {
-  const LanguageSettingPage({Key? key}) : super(key: key);
+  final Function(Locale) onLanguageChange;
+
+  const LanguageSettingPage({Key? key, required this.onLanguageChange})
+      : super(key: key);
 
   @override
   State<LanguageSettingPage> createState() => _LanguageSettingPageState();
@@ -47,9 +52,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
 
   void _changeLocale() {
     if (_currentLanguage != null) {
-      context.setLocale(
-          _languageManager.makeLocaleFromLanguage(_currentLanguage!));
-      _languageManager.saveCurrentLanguageCode(_currentLanguage!.code!);
+      widget.onLanguageChange(_languageManager.makeLocaleFromLanguage(_currentLanguage!));
     }
   }
 

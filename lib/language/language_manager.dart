@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
 
 import 'language.dart';
@@ -56,8 +58,7 @@ class LanguageManager {
 
   Future<Locale> getStartLocale() async {
     try {
-      final currentLanguage = _languages.firstWhere(
-          (element) => element.code == _appPreferences.languageCode());
+      final currentLanguage = _languages.firstWhere((element) => element.code == _appPreferences.languageCode());
       return makeLocaleFromLanguage(currentLanguage);
     } catch (e) {
       return _fallbackLocale;
@@ -74,5 +75,10 @@ class LanguageManager {
 
   Locale makeLocaleFromLanguage(Language language) {
     return Locale(language.code!, language.countryCode);
+  }
+
+  void changeLocale(BuildContext context, Locale locale) {
+    context.setLocale(locale);
+    saveCurrentLanguageCode(locale.languageCode);
   }
 }

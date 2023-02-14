@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
+import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
@@ -24,6 +25,7 @@ import 'package:klikit/segments/event_manager.dart';
 
 import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
 import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
+import '../../../../language/language_manager.dart';
 import '../../../../language/language_setting_page.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/dialogs.dart';
@@ -46,6 +48,7 @@ class _AccountScreenState extends State<AccountScreen> {
   final _formKey = GlobalKey<FormState>();
   final _appPreferences = getIt.get<AppPreferences>();
   final _orderInfoProvider = getIt.get<OrderInformationProvider>();
+  final _languageManager = getIt.get<LanguageManager>();
   late User _user;
 
   @override
@@ -140,7 +143,15 @@ class _AccountScreenState extends State<AccountScreen> {
                 children: [
                   AccountActionHeader(
                     onLanguageChange: () {
-                      showLanguageSettingDialog(context:context);
+                      showLanguageSettingDialog(
+                        context: context,
+                        onLanguageChange: (locale) {
+                          _languageManager.changeLocale(context, locale);
+                          context
+                              .read<ChangeLanguageCubit>()
+                              .openLanguageSettingDialog(locale);
+                        },
+                      );
                     },
                   ),
                   Padding(
