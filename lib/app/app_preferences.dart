@@ -5,6 +5,8 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../printer/data/printer_setting.dart';
+
 class AppPreferences {
   final SharedPreferences _preferences;
   final String _kAccessToken = "access_token";
@@ -14,6 +16,8 @@ class AppPreferences {
   final String _kLoginEmail = "login_email";
   final String _kPrinterConnectionType = "printer_connection_type";
   final String _kPrinterPaperSize = "printer_paper_size";
+  final String _kDocketType = "docket_type";
+  final String _kPrinterBranch = "printer_branch";
   final String _kLanguage = "language";
 
   AppPreferences(this._preferences);
@@ -57,23 +61,6 @@ class AppPreferences {
     return _preferences.getString(_kLoginEmail) ?? EMPTY;
   }
 
-  Future<void> savePrinterConnectionType(int connectionType) async {
-    await _preferences.setInt(_kPrinterConnectionType, connectionType);
-  }
-
-  Future<void> savePrinterPaperSize(int paperSize) async {
-    await _preferences.setInt(_kPrinterPaperSize, paperSize);
-  }
-
-  int connectionType() {
-    return _preferences.getInt(_kPrinterConnectionType) ??
-        ConnectionType.BLUETOOTH;
-  }
-
-  int paperSize() {
-    return _preferences.getInt(_kPrinterPaperSize) ?? RollId.mm80;
-  }
-
   Future<void> saveLanguageCode(String languageCode) {
     return _preferences.setString(_kLanguage, languageCode);
   }
@@ -82,12 +69,43 @@ class AppPreferences {
     return _preferences.getString(_kLanguage) ?? 'en';
   }
 
+  Future<void> savePrinterSettings({
+    PrinterSetting? printerSetting,
+    int? connectionType,
+    int? paperSize,
+    int? docketType,
+  }) async {
+    int branchId = printerSetting?.branchId ?? (_preferences.getInt(_kPrinterBranch) ?? ZERO);
+    int connection = printerSetting?.connectionType ?? connectionType!;
+    int paper = printerSetting?.paperSize ?? paperSize!;
+    int docket = printerSetting?.docketType ?? docketType!;
+    await _preferences.setInt(_kPrinterBranch, branchId);
+    await _preferences.setInt(_kPrinterConnectionType, connection);
+    await _preferences.setInt(_kPrinterPaperSize, paper);
+    await _preferences.setInt(_kDocketType, docket);
+  }
+
+  PrinterSetting printerSetting() {
+    return PrinterSetting(
+      branchId: _preferences.getInt(_kPrinterBranch) ?? ZERO,
+      connectionType: _preferences.getInt(_kPrinterConnectionType) ?? ConnectionType.BLUETOOTH,
+      paperSize: _preferences.getInt(_kPrinterPaperSize) ?? RollId.mm80,
+      docketType: _preferences.getInt(_kDocketType) ?? DocketType.customer,
+    );
+  }
+
+  Future<void> clearPrinterSetting()async {
+    await _preferences.remove(_kPrinterBranch);
+    await _preferences.remove(_kPrinterPaperSize);
+    await _preferences.remove(_kPrinterConnectionType);
+    await _preferences.remove(_kDocketType);
+  }
+
   Future<void> clearPreferences() async {
     await _preferences.remove(_kAccessToken);
     await _preferences.remove(_kRefreshToken);
     await _preferences.remove(_kUser);
     await _preferences.remove(_kLoggedIn);
-    await _preferences.remove(_kPrinterPaperSize);
-    await _preferences.remove(_kPrinterConnectionType);
+    clearPrinterSetting();
   }
 }

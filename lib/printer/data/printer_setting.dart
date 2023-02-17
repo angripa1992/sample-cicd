@@ -18,20 +18,23 @@ class PrinterSettingModel {
   PrinterSetting toEntity() {
     return PrinterSetting(
       branchId: branchId.orZero(),
-      typeId: typeId ?? ConnectionType.BLUETOOTH,
-      rollId: rollId ?? RollId.mm80,
+      connectionType: typeId ?? ConnectionType.BLUETOOTH,
+      paperSize: rollId ?? RollId.mm80,
+      docketType: DocketType.customer,
     );
   }
 }
 
 class PrinterSetting {
   final int branchId;
-  final int typeId;
-  final int rollId;
+  final int connectionType;
+  final int paperSize;
+  final int docketType;
 
   PrinterSetting({
     required this.branchId,
-    required this.typeId,
-    required this.rollId,
+    required this.connectionType,
+    required this.paperSize,
+    required this.docketType,
   });
 }

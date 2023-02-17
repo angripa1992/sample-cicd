@@ -35,7 +35,6 @@ import '../../app/constants.dart';
 import '../../core/provider/order_information_provider.dart';
 import '../../core/utils/response_state.dart';
 import '../../language/language_manager.dart';
-import '../../language/language_setting_page.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
 import '../home/home_screen.dart';
@@ -66,7 +65,8 @@ class _BaseScreenState extends State<BaseScreen> {
               as Map<String, dynamic>?;
           if (args != null) {
             if (args[ArgumentKey.kIS_NOTIFICATION]) {
-              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
+              final navData = NotificationDataHandler()
+                  .getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
               context.read<BaseScreenCubit>().changeIndex(navData);
             }
           }
@@ -78,10 +78,8 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void _handlePrinterSetting(PrinterSetting setting) async {
-    _appPreferences.savePrinterConnectionType(setting.typeId);
-    _appPreferences.savePrinterPaperSize(setting.rollId);
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    await _appPreferences.savePrinterSettings(printerSetting: setting);
     if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
       if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
         return;

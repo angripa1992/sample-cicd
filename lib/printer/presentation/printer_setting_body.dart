@@ -31,6 +31,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
   final _printingHandler = getIt.get<PrintingHandler>();
   late int _connectionType;
   late int _paperSize;
+  late int _docketType;
 
   @override
   void initState() {
@@ -39,8 +40,10 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
   }
 
   void _initPrinterSetting() {
-    _connectionType = _appPreferences.connectionType();
-    _paperSize = _appPreferences.paperSize();
+    final printerSetting = _appPreferences.printerSetting();
+    _connectionType = printerSetting.connectionType;
+    _paperSize = printerSetting.paperSize;
+    _docketType = printerSetting.docketType;
   }
 
   void _changePrinterConnectionType(int connectionType) {
@@ -55,9 +58,18 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
     });
   }
 
+  void _changeDocketType(int type) {
+    setState(() {
+      _docketType = type;
+    });
+  }
+
   void _savePrinterSettingLocally() async {
-    await _appPreferences.savePrinterConnectionType(_connectionType);
-    await _appPreferences.savePrinterPaperSize(_paperSize);
+    await _appPreferences.savePrinterSettings(
+      connectionType: _connectionType,
+      paperSize: _paperSize,
+      docketType: _docketType,
+    );
     setState(() {});
   }
 
@@ -69,7 +81,8 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
   }
 
   void _showDeviceListView() {
-    if (_appPreferences.connectionType() == ConnectionType.BLUETOOTH) {
+    if (_appPreferences.printerSetting().connectionType ==
+        ConnectionType.BLUETOOTH) {
       _printingHandler.showBleDevices();
     } else {
       _printingHandler.showUsbDevices();
@@ -181,6 +194,56 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
           ),
         ),
 
+        /// Docket type
+
+        Padding(
+          padding: EdgeInsets.only(
+            left: AppSize.s20.rw,
+            right: AppSize.s20.rw,
+            top: AppSize.s16.rh,
+            bottom: AppSize.s8.rh,
+          ),
+          child: Text(
+            'Set Docket Type',
+            style: getRegularTextStyle(
+              color: AppColors.purpleBlue,
+              fontSize: AppFontSize.s18.rSp,
+            ),
+          ),
+        ),
+        ListTile(
+          title: Text(
+            'Kitchen',
+            style: getRegularTextStyle(
+              color: AppColors.blueViolet,
+              fontSize: AppSize.s16.rSp,
+            ),
+          ),
+          leading: Radio(
+            fillColor: MaterialStateColor.resolveWith(
+                (states) => AppColors.purpleBlue),
+            value: DocketType.kitchen,
+            groupValue: _docketType,
+            onChanged: (int? type) => _changeDocketType(type!),
+          ),
+        ),
+        ListTile(
+          title: Text(
+            'Customer',
+            style: getRegularTextStyle(
+              color: AppColors.blueViolet,
+              fontSize: AppSize.s16.rSp,
+            ),
+          ),
+          leading: Radio(
+            fillColor: MaterialStateColor.resolveWith(
+                (states) => AppColors.purpleBlue),
+            value: DocketType.customer,
+            groupValue: _docketType,
+            onChanged: (int? type) => _changeDocketType(type!),
+          ),
+        ),
+
         /// save button
 
         Padding(
@@ -210,11 +273,11 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s24.rw),
           child: AppButton(
-            enable: _appPreferences.connectionType() == _connectionType,
+            enable: _appPreferences.printerSetting().connectionType == _connectionType,
             verticalPadding: AppSize.s10.rh,
             onTap: _showDeviceListView,
             text: AppStrings.show_devices.tr(),
-            icon: _appPreferences.connectionType() == ConnectionType.BLUETOOTH
+            icon: _appPreferences.printerSetting().connectionType == ConnectionType.BLUETOOTH
                 ? Icons.bluetooth
                 : Icons.usb,
           ),

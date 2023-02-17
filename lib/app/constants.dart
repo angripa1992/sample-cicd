@@ -112,6 +112,11 @@ class RollId {
   static const mm80 = 2;
 }
 
+class DocketType {
+  static const kitchen = 1;
+  static const customer = 2;
+}
+
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
   static const String kNOTIFICATION_DATA = 'notification_data';

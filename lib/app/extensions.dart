@@ -1,4 +1,4 @@
-import 'package:docket_design_template/utils/paper_size.dart';
+import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:klikit/app/constants.dart';
 
 const String EMPTY = '';
@@ -53,11 +53,11 @@ extension StringToInteger on String? {
 }
 
 extension PaperSizeToRollSize on int {
-  RollPaperSize toRollSize() {
+  Roll toRollSize() {
    if(this == RollId.mm58){
-     return RollPaperSize.mm58;
+     return Roll.mm58;
    }else{
-     return RollPaperSize.mm80;
+     return Roll.mm80;
    }
   }
 }

@@ -30,11 +30,9 @@ class _PrinterConnectionSettingPageState
   }
 
   void _savePrinterSettingLocally({
-    required int connectionType,
-    required int paperSize,
+    required PrinterSetting printerSetting,
   }) async {
-    await _appPreferences.savePrinterConnectionType(connectionType);
-    await _appPreferences.savePrinterPaperSize(paperSize);
+    await _appPreferences.savePrinterSettings(printerSetting: printerSetting);
   }
 
   @override
@@ -50,10 +48,7 @@ class _PrinterConnectionSettingPageState
           if (state is Loading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is Success<PrinterSetting>) {
-            _savePrinterSettingLocally(
-              connectionType: state.data.typeId,
-              paperSize: state.data.rollId,
-            );
+            _savePrinterSettingLocally(printerSetting: state.data);
           }
           return const PrinterSettingBody();
         },

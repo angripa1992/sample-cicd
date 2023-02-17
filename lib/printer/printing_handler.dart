@@ -1,5 +1,6 @@
 import 'package:docket_design_template/docket_design_template.dart';
 import 'package:docket_design_template/model/order.dart';
+import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
@@ -39,7 +40,8 @@ class PrintingHandler {
   }
 
   void verifyConnection({required bool fromNotification, Order? order}) async {
-    if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
+    if (_preferences.printerSetting().connectionType ==
+        ConnectionType.BLUETOOTH) {
       _verifyBleConnection(fromNotification: fromNotification, order: order);
     } else {
       _verifyUsbConnection(fromNotification: fromNotification, order: order);
@@ -131,7 +133,8 @@ class PrintingHandler {
   }
 
   void printDocket(Order order) async {
-    if (_preferences.connectionType() == ConnectionType.BLUETOOTH) {
+    if (_preferences.printerSetting().connectionType ==
+        ConnectionType.BLUETOOTH) {
       if (_bluetoothPrinterHandler.isConnected()) {
         final printingData = await _generatePrintingData(order);
         if (printingData == null) return;
@@ -151,22 +154,42 @@ class PrintingHandler {
   }
 
   Future<List<int>?> _generatePrintingData(Order order) async {
-    final rollSize = _preferences.paperSize().toRollSize();
+    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+    final docketType =
+        _preferences.printerSetting().docketType == DocketType.customer
+            ? Docket.customer
+            : Docket.kitchen;
     final templateOrder = await _generateTemplateOrder(order);
-    List<int>? rawBytes = await DocketDesignTemplate().generateTicket(templateOrder, rollSize);
+    List<int>? rawBytes = await DocketDesignTemplate().generateTicket(
+      templateOrder,
+      PrinterConfiguration(
+        docket: docketType,
+        roll: rollSize,
+      ),
+    );
     return rawBytes;
   }
 
-  void _showPreview(Order order) async{
-    final rollSize = _preferences.paperSize().toRollSize();
+  void _showPreview(Order order) async {
+    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+    final docketType =
+        _preferences.printerSetting().docketType == DocketType.customer
+            ? Docket.customer
+            : Docket.kitchen;
     final templateOrder = await _generateTemplateOrder(order);
-    final pdfImage = await DocketDesignTemplate().generatePdfImage(templateOrder, rollSize);
+    final pdfImage = await DocketDesignTemplate().generatePdfImage(
+      templateOrder,
+      PrinterConfiguration(
+        docket: docketType,
+        roll: rollSize,
+      ),
+    );
     Navigator.push(
         RoutesGenerator.navigatorKey.currentState!.context,
         MaterialPageRoute(
             builder: (context) => CaptureImagePrivew(
-              capturedImage: pdfImage,
-            )));
+                  capturedImage: pdfImage,
+                )));
   }
 
   Future<TemplateOrder> _generateTemplateOrder(Order order) async {
