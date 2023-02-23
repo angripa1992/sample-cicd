@@ -26,8 +26,7 @@ class ModifiersGroupModel {
     this.modifiers,
   });
 
-  factory ModifiersGroupModel.fromJson(Map<String, dynamic> json) =>
-      _$ModifiersGroupModelFromJson(json);
+  factory ModifiersGroupModel.fromJson(Map<String, dynamic> json) => _$ModifiersGroupModelFromJson(json);
 
   ModifiersGroup toEntity() {
     return ModifiersGroup(
