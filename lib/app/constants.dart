@@ -43,6 +43,7 @@ class BottomNavItem {
   static const int ORDER = 1;
   static const int STOCK = 2;
   static const int ACCOUNT = 3;
+  static const int ADD_ORDER = 4;
 }
 
 class OrderTab {

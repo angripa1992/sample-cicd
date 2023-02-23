@@ -37,6 +37,7 @@ import '../../core/utils/response_state.dart';
 import '../../language/language_manager.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
+import '../add_order/presentation/pages/add_order_screen.dart';
 import '../home/home_screen.dart';
 import '../menu/presentation/pages/stock_screen.dart';
 import '../user/presentation/account/account_screen.dart';
@@ -106,6 +107,8 @@ class _BaseScreenState extends State<BaseScreen> {
       );
     } else if (navigationData.index == BottomNavItem.STOCK) {
       return const StockScreen();
+    }else if (navigationData.index == BottomNavItem.ADD_ORDER) {
+      return const AddOrderScreen();
     } else {
       return const AccountScreen();
     }
@@ -213,6 +216,11 @@ class _BaseScreenState extends State<BaseScreen> {
         icon: _generateNavIcon(AppIcons.account),
         activeIcon: _generateNavIcon(AppIcons.accountActive),
         label: AppStrings.account.tr(),
+      ),
+      BottomNavigationBarItem(
+        icon: _generateNavIcon(AppIcons.account),
+        activeIcon: _generateNavIcon(AppIcons.accountActive),
+        label: AppStrings.add.tr(),
       ),
     ];
   }
