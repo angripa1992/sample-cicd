@@ -41,6 +41,7 @@ dependencies:
   device_info_plus: ^4.0.0
   geolocator: ^9.0.2
   geocoding: ^2.0.5
+  scrollable_list_tab_scroller: ^1.1.0
   badges: ^3.1.1
   flutter_expanded_tile: ^0.3.7
   # firebase
