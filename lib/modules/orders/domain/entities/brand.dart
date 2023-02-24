@@ -73,3 +73,11 @@ class Brand {
     return TemplateBrand(id: id, qrLabel: qrLabel, qrContent: qrContent);
   }
 }
+
+class CartBrand {
+  final int id;
+  final String title;
+  final String logo;
+
+  CartBrand({required this.id,required this.title,required this.logo});
+}

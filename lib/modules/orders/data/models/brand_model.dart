@@ -86,3 +86,29 @@ class Results {
     );
   }
 }
+
+@JsonSerializable()
+class CartBrandModel {
+  int? id;
+  String? title;
+  String? logo;
+
+  CartBrandModel({
+    this.id,
+    this.title,
+    this.logo,
+  });
+
+  factory CartBrandModel.fromJson(Map<String, dynamic> json) =>
+      _$CartBrandModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CartBrandModelToJson(this);
+
+  CartBrand toEntity() {
+    return CartBrand(
+      id: id.orZero(),
+      title: title.orEmpty(),
+      logo: logo.orEmpty(),
+    );
+  }
+}

@@ -2,8 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
+import '../../domain/entities/brand.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/variant.dart';
+import 'brand_model.dart';
 
 part 'orders_model.g.dart';
 
@@ -98,6 +100,7 @@ class OrderModel {
   String? userPhone;
   @JsonKey(name: 'user_email')
   String? userEmail;
+  List<CartBrandModel>? brands;
   @JsonKey(name: 'cart_v2')
   List<CartV2Model>? cartV2;
   @JsonKey(name: 'klikit_store_id')
@@ -158,6 +161,7 @@ class OrderModel {
       this.userProfilePic,
       this.userPhone,
       this.userEmail,
+      this.brands,
       this.cartV2,
       this.klikitStoreId,
       this.type,
@@ -211,6 +215,7 @@ class OrderModel {
       userPhone: userPhone.orEmpty(),
       userEmail: userEmail.orEmpty(),
       cartV2: toCartV2ListEntity(),
+      brands: _brands(),
       klikitStoreId: klikitStoreId.orEmpty(),
       type: type.orZero(),
       isFake: isFake ?? false,
@@ -240,6 +245,15 @@ class OrderModel {
     }
     return carts;
   }
+
+  List<CartBrand> _brands() {
+    if (brands == null || brands!.isEmpty) return [];
+    List<CartBrand> cartBrands = [];
+    for (var cartBrand in brands!) {
+      cartBrands.add(cartBrand.toEntity());
+    }
+    return cartBrands;
+  }
 }
 
 @JsonSerializable()
@@ -267,6 +281,7 @@ class CartV2Model {
   String? price;
   String? comment;
   int? quantity;
+  CartBrandModel? brand;
   @JsonKey(name: 'unit_price')
   String? unitPrice;
   @JsonKey(name: 'modifier_groups')
@@ -298,6 +313,7 @@ class CartV2Model {
       quantity: quantity.orZero(),
       unitPrice: unitPrice.orEmpty(),
       modifierGroups: _getModifiersGroup(),
+      cartBrand: brand!.toEntity(),
     );
   }
 

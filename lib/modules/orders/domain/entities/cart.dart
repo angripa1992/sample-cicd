@@ -1,5 +1,6 @@
 import 'package:docket_design_template/model/cart.dart';
 import 'package:docket_design_template/model/modifiers.dart';
+import 'package:klikit/modules/orders/domain/entities/brand.dart';
 
 class CartV2 {
   final String id;
@@ -9,6 +10,7 @@ class CartV2 {
   final String comment;
   final int quantity;
   final String unitPrice;
+  final CartBrand cartBrand;
   final List<ModifierGroups> modifierGroups;
 
   CartV2({
@@ -19,6 +21,7 @@ class CartV2 {
     required this.comment,
     required this.quantity,
     required this.unitPrice,
+    required this.cartBrand,
     required this.modifierGroups,
   });
 

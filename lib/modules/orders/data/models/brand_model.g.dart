@@ -55,3 +55,17 @@ Map<String, dynamic> _$ResultsToJson(Results instance) => <String, dynamic>{
       'branch_titles': instance.branchTitles,
       'brand_cuisines': instance.brandCuisines,
     };
+
+CartBrandModel _$CartBrandModelFromJson(Map<String, dynamic> json) =>
+    CartBrandModel(
+      id: json['id'] as int?,
+      title: json['title'] as String?,
+      logo: json['logo'] as String?,
+    );
+
+Map<String, dynamic> _$CartBrandModelToJson(CartBrandModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'logo': instance.logo,
+    };

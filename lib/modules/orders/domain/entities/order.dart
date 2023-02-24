@@ -47,6 +47,7 @@ class Order {
   final String userProfilePic;
   final String userPhone;
   final String userEmail;
+  final List<CartBrand> brands;
   final List<CartV2> cartV2;
   final String klikitStoreId;
   final int type;
@@ -94,6 +95,7 @@ class Order {
     required this.userProfilePic,
     required this.userPhone,
     required this.userEmail,
+    required this.brands,
     required this.cartV2,
     required this.klikitStoreId,
     required this.type,
