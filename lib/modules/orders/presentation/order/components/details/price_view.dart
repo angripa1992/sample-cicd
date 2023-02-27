@@ -112,7 +112,11 @@ class _PriceViewState extends State<PriceView> {
                   ),
                 ),
                 Text(
-                  '${widget.order.currencySymbol}${PriceCalculator.convertPrice(widget.order.finalPrice)}',
+                  PriceCalculator.formatPrice(
+                    price: widget.order.finalPrice/100,
+                    currencySymbol: widget.order.currencySymbol,
+                    name: widget.order.currency,
+                  ),
                   style: TextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s18.rSp,
@@ -142,7 +146,11 @@ class _PriceViewState extends State<PriceView> {
           style: textStyle,
         ),
         Text(
-          '${isDiscount ? '-' : ''}${widget.order.currencySymbol}${PriceCalculator.convertPrice(price)}',
+          '${isDiscount ? '-' : ''}${PriceCalculator.formatPrice(
+            price: price/100,
+            currencySymbol: widget.order.currencySymbol,
+            name: widget.order.currency,
+          )}',
           style: textStyle,
         ),
       ],
