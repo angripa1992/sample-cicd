@@ -52,18 +52,18 @@ class OrderStatusView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(top: AppSize.s12.rh),
-          child: _statusItem(_getStatus()),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: AppSize.s24.rw, top: AppSize.s12.rh),
-          child: _statusItem(_getType()),
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppSize.s4.rh),
+      child: Row(
+        //mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _statusItem(_getStatus()),
+          Padding(
+            padding: EdgeInsets.only(left: AppSize.s24.rw),
+            child: _statusItem(_getType()),
+          ),
+        ],
+      ),
     );
   }
 

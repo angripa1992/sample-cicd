@@ -1,27 +1,39 @@
+import 'package:intl/intl.dart';
+
 import '../../app/constants.dart';
 import '../../modules/orders/domain/entities/cart.dart';
 import '../../modules/orders/domain/entities/order.dart';
 
 class PriceCalculator {
   static String calculateItemPrice(Order order, CartV2 cartV2) {
-    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
+    double price = double.parse(cartV2.price);
+    if (!order.isInterceptorOrder &&
+        order.providerId != ProviderID.FOOD_PANDA) {
       double unitPrice = double.parse(cartV2.unitPrice);
-      double itemTotalPrice = unitPrice * cartV2.quantity;
-      return itemTotalPrice.toStringAsFixed(2);
+      price = unitPrice * cartV2.quantity;
     }
-    return cartV2.price;
+    return formatPrice(
+        price: price,
+        currencySymbol: order.currencySymbol,
+        name: order.currency);
   }
 
   static String calculateModifierPrice(
-      Order order, Modifiers modifiers, int prevQuantity, int itemQuantity) {
+    Order order,
+    Modifiers modifiers,
+    int prevQuantity,
+    int itemQuantity,
+  ) {
+    double price = double.parse(modifiers.price);
     if (!order.isInterceptorOrder &&
         order.providerId != ProviderID.FOOD_PANDA) {
       double unitPrice = double.parse(modifiers.unitPrice);
-      double modifierTotalPrice =
-          unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
-      return modifierTotalPrice.toStringAsFixed(2);
+      price = unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
     }
-    return modifiers.price;
+    return formatPrice(
+        price: price,
+        currencySymbol: order.currencySymbol,
+        name: order.currency);
   }
 
   static String calculateSubtotal(Order order) {
@@ -31,7 +43,23 @@ class PriceCalculator {
     } else {
       subtotal = order.itemPrice;
     }
-    return convertPrice(subtotal);
+    final price = subtotal / 100;
+    return formatPrice(
+        price: price,
+        currencySymbol: order.currencySymbol,
+        name: order.currency);
+  }
+
+  static String formatPrice({
+    required num price,
+    required String currencySymbol,
+    required String name,
+  }) {
+    if (name.toUpperCase() == 'IDR') {
+      return NumberFormat.currency(locale: 'id',symbol: currencySymbol, decimalDigits: 0).format(price);
+    }
+    return NumberFormat.currency(name: name, symbol: currencySymbol)
+        .format(price);
   }
 
   static String convertPrice(num price) {

@@ -56,10 +56,10 @@ class OrderDetailsHeaderView extends StatelessWidget {
             ),
           ),
           _externalIdView(),
-          SizedBox(height: AppSize.s8.rh),
+          SizedBox(height: AppSize.s12.rh),
           _timeView(),
-          SizedBox(height: AppSize.s8.rh),
-          _brandAndCommentView(),
+          SizedBox(height: AppSize.s12.rh),
+          //_brandAndCommentView(),
           //SizedBox(height: AppSize.s8.rh),
           OrderStatusView(order: order),
         ],
@@ -146,7 +146,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
                         ),
                       );
                     }
-                    return SizedBox();
+                    return const SizedBox();
                   },
                 )
               : FutureBuilder<Provider>(
@@ -206,7 +206,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
-        Flexible(
+        Expanded(
           child: Text(
             DateTimeProvider.parseOrderCreatedDate(order.createdAt),
             style: getMediumTextStyle(
@@ -214,6 +214,11 @@ class OrderDetailsHeaderView extends StatelessWidget {
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
+        ),
+        SizedBox(width: AppSize.s8.rw),
+        CommentActionView(
+          onCommentActionSuccess: onCommentActionSuccess,
+          order: order,
         ),
       ],
     );

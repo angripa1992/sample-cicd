@@ -27,13 +27,13 @@ void _openBottomSheet({
     isDismissible: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
-        top: Radius.circular(16),
+        top: Radius.circular(0),
       ),
     ),
     builder: (context) => DraggableScrollableSheet(
-      initialChildSize: 0.90,
-      maxChildSize: 0.90,
-      minChildSize: 0.90,
+      initialChildSize: 0.958,
+      maxChildSize: 0.958,
+      minChildSize: 0.958,
       expand: false,
       builder: (_, controller) => Scaffold(
         backgroundColor: Colors.transparent,
@@ -76,12 +76,8 @@ void _openBottomSheet({
               onCommentActionSuccess: onCommentActionSuccess,
             ),
             Padding(
-              padding: EdgeInsets.only(
-                top: AppSize.s8.rh,
-                left: AppSize.s16.rw,
-                right: AppSize.s16.rw,
-              ),
-              child: Divider(color: AppColors.lightViolet),
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+              child: Divider(color: AppColors.purpleBlue),
             ),
             OrderItemDetails(order: order),
             CommentView(comment: order.orderComment),

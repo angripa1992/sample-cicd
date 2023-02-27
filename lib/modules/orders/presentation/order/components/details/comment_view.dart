@@ -26,7 +26,7 @@ class CommentView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Divider(color: AppColors.lightViolet),
+            Divider(color: AppColors.purpleBlue),
             Text(
               AppStrings.order_instruction.tr(),
               style: getRegularTextStyle(

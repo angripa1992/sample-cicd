@@ -8,6 +8,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
+import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
 import 'package:klikit/printer/presentation/capture_image_preview.dart';
@@ -136,6 +137,7 @@ class PrintingHandler {
     if (_preferences.printerSetting().connectionType ==
         ConnectionType.BLUETOOTH) {
       if (_bluetoothPrinterHandler.isConnected()) {
+       // _showPreview(order);
         final printingData = await _generatePrintingData(order);
         if (printingData == null) return;
         _bluetoothPrinterHandler.printDocket(printingData);
@@ -193,17 +195,21 @@ class PrintingHandler {
   }
 
   Future<TemplateOrder> _generateTemplateOrder(Order order) async {
-    final brand = await _infoProvider.findBrandById(order.brandId);
-    String providerName = EMPTY;
-    String sourceName = EMPTY;
+    Brand? brand;
+    if (order.brands.length == 1) {
+      brand = await _infoProvider.findBrandById(order.brands.first.id);
+    }
+    String placedOn = EMPTY;
     if (order.source > 0) {
       final source = await _infoProvider.findSourceById(order.source);
-      sourceName = source.name;
+      placedOn = source.name;
     } else {
       final provider = await _infoProvider.findProviderById(order.providerId);
-      providerName = provider.title;
+      placedOn = provider.title;
     }
     return order.toTemplateOrder(
-        brand: brand, providerName: providerName, sourceName: sourceName);
+      placedOn: placedOn,
+      qrInfo: brand?.toQrInfo(),
+    );
   }
 }

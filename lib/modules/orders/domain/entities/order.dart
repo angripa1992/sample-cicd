@@ -1,6 +1,6 @@
+import 'package:docket_design_template/model/brand.dart';
 import 'package:docket_design_template/model/cart.dart';
 import 'package:docket_design_template/model/order.dart';
-import 'package:klikit/app/extensions.dart';
 
 import 'brand.dart';
 import 'cart.dart';
@@ -116,60 +116,43 @@ class Order {
   });
 
   TemplateOrder toTemplateOrder({
-    required Brand brand,
-    required String providerName,
-    required String sourceName,
+    required QrInfo? qrInfo,
+    required String placedOn,
   }) {
     return TemplateOrder(
       id: id,
       externalId: externalId,
       shortId: shortId,
       providerId: providerId,
-      brandId: brandId,
-      brandName: brandName,
-      branchId: branchId,
       status: status,
       itemPrice: itemPrice,
       finalPrice: finalPrice,
       discount: discount,
-      merchantDiscount: merchantDiscount,
-      providerDiscount: providerDiscount,
       deliveryFee: deliveryFee,
       additionalFee: additionalFee,
       vat: vat,
-      currency: currency,
       currencySymbol: currencySymbol,
       itemCount: itemCount,
-      uniqueItemCount: uniqueItemCount,
       createdAt: createdAt,
-      updatedAt: updatedAt,
-      userId: userId,
       userFirstName: userFirstName,
       userLastName: userLastName,
-      userProfilePic: userProfilePic,
-      userPhone: userPhone,
-      userEmail: userEmail,
       cartV2: _templateCarts(),
-      klikitStoreId: klikitStoreId,
-      isFake: isFake,
       isInterceptorOrder: isInterceptorOrder,
       orderComment: orderComment,
-      deliveryComment: deliveryComment,
-      foodpandaToken: foodpandaToken,
-      klikitComment: klikitComment,
-      isManualOrder: isManualOrder,
       type: type,
-      source: source,
-      paymentStatus: paymentStatus,
-      autoAccept: autoAccept,
-      autoPilot: autoPilot,
-      autoPilotTime: autoPilotTime,
-      discountType: ZERO,
-      discountValue: ZERO,
-      providerName: providerName,
-      sourceName: sourceName,
-      brand: brand.toTemplateBrand(),
+      brands: _templateCartsBrand(),
+      klikitComment: klikitComment,
+      placedOn: placedOn,
+      qrInfo: qrInfo,
     );
+  }
+
+  List<TemplateCartBrand> _templateCartsBrand(){
+    List<TemplateCartBrand> templateBrands = [];
+    for(var cartBrand in brands){
+      templateBrands.add(cartBrand.toTemplateCartBrand());
+    }
+    return templateBrands;
   }
 
   List<TemplateCart> _templateCarts() {

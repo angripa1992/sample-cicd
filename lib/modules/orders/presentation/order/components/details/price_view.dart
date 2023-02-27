@@ -41,7 +41,7 @@ class _PriceViewState extends State<PriceView> {
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
         children: [
-          Divider(color: AppColors.lightViolet),
+          Divider(color: AppColors.purpleBlue),
           ExpandedTile(
             theme: ExpandedTileThemeData(
               headerColor: Colors.transparent,
@@ -54,7 +54,7 @@ class _PriceViewState extends State<PriceView> {
               contentPadding: EdgeInsets.zero,
             ),
             trailing: Text(
-              '${widget.order.currencySymbol}${PriceCalculator.calculateSubtotal(widget.order)}',
+              PriceCalculator.calculateSubtotal(widget.order),
               style: TextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
@@ -95,7 +95,7 @@ class _PriceViewState extends State<PriceView> {
             ),
             controller: _controller!,
           ),
-          Divider(color: AppColors.lightViolet),
+          Divider(color: AppColors.purpleBlue),
           Padding(
             padding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,

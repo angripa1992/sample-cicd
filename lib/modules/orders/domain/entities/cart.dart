@@ -35,6 +35,7 @@ class CartV2 {
       quantity: quantity,
       unitPrice: unitPrice,
       modifierGroups: _templateModifiersGroups(),
+      cartBrand: cartBrand.toTemplateCartBrand(),
     );
   }
 
