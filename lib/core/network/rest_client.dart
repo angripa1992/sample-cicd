@@ -46,8 +46,7 @@ class RestClient {
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
-          if (options.path == Urls.login ||
-              options.path == Urls.forgetPassword) {
+          if (options.path == Urls.login || options.path == Urls.forgetPassword) {
             handler.next(options);
           } else {
             if (_tokenProvider.getAccessToken() == null) {
