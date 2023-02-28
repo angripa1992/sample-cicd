@@ -196,53 +196,53 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
 
         /// Docket type
 
-        Padding(
-          padding: EdgeInsets.only(
-            left: AppSize.s20.rw,
-            right: AppSize.s20.rw,
-            top: AppSize.s16.rh,
-            bottom: AppSize.s8.rh,
-          ),
-          child: Text(
-            'Set Docket Type',
-            style: getRegularTextStyle(
-              color: AppColors.purpleBlue,
-              fontSize: AppFontSize.s18.rSp,
-            ),
-          ),
-        ),
-        ListTile(
-          title: Text(
-            'Kitchen',
-            style: getRegularTextStyle(
-              color: AppColors.blueViolet,
-              fontSize: AppSize.s16.rSp,
-            ),
-          ),
-          leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
-            value: DocketType.kitchen,
-            groupValue: _docketType,
-            onChanged: (int? type) => _changeDocketType(type!),
-          ),
-        ),
-        ListTile(
-          title: Text(
-            'Customer',
-            style: getRegularTextStyle(
-              color: AppColors.blueViolet,
-              fontSize: AppSize.s16.rSp,
-            ),
-          ),
-          leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
-            value: DocketType.customer,
-            groupValue: _docketType,
-            onChanged: (int? type) => _changeDocketType(type!),
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.only(
+        //     left: AppSize.s20.rw,
+        //     right: AppSize.s20.rw,
+        //     top: AppSize.s16.rh,
+        //     bottom: AppSize.s8.rh,
+        //   ),
+        //   child: Text(
+        //     'Set Docket Type',
+        //     style: getRegularTextStyle(
+        //       color: AppColors.purpleBlue,
+        //       fontSize: AppFontSize.s18.rSp,
+        //     ),
+        //   ),
+        // ),
+        // ListTile(
+        //   title: Text(
+        //     'Kitchen',
+        //     style: getRegularTextStyle(
+        //       color: AppColors.blueViolet,
+        //       fontSize: AppSize.s16.rSp,
+        //     ),
+        //   ),
+        //   leading: Radio(
+        //     fillColor: MaterialStateColor.resolveWith(
+        //         (states) => AppColors.purpleBlue),
+        //     value: DocketType.kitchen,
+        //     groupValue: _docketType,
+        //     onChanged: (int? type) => _changeDocketType(type!),
+        //   ),
+        // ),
+        // ListTile(
+        //   title: Text(
+        //     'Customer',
+        //     style: getRegularTextStyle(
+        //       color: AppColors.blueViolet,
+        //       fontSize: AppSize.s16.rSp,
+        //     ),
+        //   ),
+        //   leading: Radio(
+        //     fillColor: MaterialStateColor.resolveWith(
+        //         (states) => AppColors.purpleBlue),
+        //     value: DocketType.customer,
+        //     groupValue: _docketType,
+        //     onChanged: (int? type) => _changeDocketType(type!),
+        //   ),
+        // ),
 
         /// save button
 

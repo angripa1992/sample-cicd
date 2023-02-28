@@ -131,6 +131,7 @@ class Order {
       deliveryFee: deliveryFee,
       additionalFee: additionalFee,
       vat: vat,
+      currency: currency,
       currencySymbol: currencySymbol,
       itemCount: itemCount,
       createdAt: createdAt,

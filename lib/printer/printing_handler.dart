@@ -157,15 +157,14 @@ class PrintingHandler {
 
   Future<List<int>?> _generatePrintingData(Order order) async {
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-    final docketType =
-        _preferences.printerSetting().docketType == DocketType.customer
-            ? Docket.customer
-            : Docket.kitchen;
+    // final docketType = _preferences.printerSetting().docketType == DocketType.customer
+    //         ? Docket.customer
+    //         : Docket.kitchen;
     final templateOrder = await _generateTemplateOrder(order);
     List<int>? rawBytes = await DocketDesignTemplate().generateTicket(
       templateOrder,
       PrinterConfiguration(
-        docket: docketType,
+        docket: Docket.customer,
         roll: rollSize,
       ),
     );
