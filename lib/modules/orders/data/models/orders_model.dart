@@ -60,8 +60,6 @@ class OrderModel {
   String? shortId;
   @JsonKey(name: 'provider_id')
   int? providerId;
-  @JsonKey(name: 'brand_id')
-  int? brandId;
   @JsonKey(name: 'brand_name')
   String? brandName;
   @JsonKey(name: 'branch_id')
@@ -137,7 +135,6 @@ class OrderModel {
       this.externalId,
       this.shortId,
       this.providerId,
-      this.brandId,
       this.brandName,
       this.branchId,
       this.status,
@@ -190,7 +187,6 @@ class OrderModel {
       externalId: externalId.orEmpty(),
       shortId: shortId.orEmpty(),
       providerId: providerId.orZero(),
-      brandId: brandId.orZero(),
       brandName: brandName.orEmpty(),
       branchId: branchId.orZero(),
       status: status.orZero(),

@@ -23,7 +23,6 @@ class Order {
   final String externalId;
   final String shortId;
   final int providerId;
-  final int brandId;
   final String brandName;
   final int branchId;
   final int status;
@@ -71,7 +70,6 @@ class Order {
     required this.externalId,
     required this.shortId,
     required this.providerId,
-    required this.brandId,
     required this.brandName,
     required this.branchId,
     required this.status,

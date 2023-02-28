@@ -107,9 +107,11 @@ class _BaseScreenState extends State<BaseScreen> {
       );
     } else if (navigationData.index == BottomNavItem.STOCK) {
       return const StockScreen();
-    }else if (navigationData.index == BottomNavItem.ADD_ORDER) {
-      return const AddOrderScreen();
-    } else {
+    }
+    // else if (navigationData.index == BottomNavItem.ADD_ORDER) {
+    //   return const AddOrderScreen();
+    // }
+    else {
       return const AccountScreen();
     }
   }
@@ -217,11 +219,11 @@ class _BaseScreenState extends State<BaseScreen> {
         activeIcon: _generateNavIcon(AppIcons.accountActive),
         label: AppStrings.account.tr(),
       ),
-      BottomNavigationBarItem(
-        icon: _generateNavIcon(AppIcons.account),
-        activeIcon: _generateNavIcon(AppIcons.accountActive),
-        label: AppStrings.add.tr(),
-      ),
+      // BottomNavigationBarItem(
+      //   icon: _generateNavIcon(AppIcons.account),
+      //   activeIcon: _generateNavIcon(AppIcons.accountActive),
+      //   label: AppStrings.add.tr(),
+      // ),
     ];
   }
 
