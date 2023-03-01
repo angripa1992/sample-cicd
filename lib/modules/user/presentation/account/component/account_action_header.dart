@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/language/language_setting_page.dart';
 import 'package:klikit/modules/user/presentation/account/component/account_action_item.dart';
 
 import '../../../../../core/route/routes.dart';
@@ -8,7 +7,9 @@ import '../../../../../resources/strings.dart';
 
 class AccountActionHeader extends StatelessWidget {
   final VoidCallback onLanguageChange;
-  const AccountActionHeader({Key? key, required this.onLanguageChange}) : super(key: key);
+
+  const AccountActionHeader({Key? key, required this.onLanguageChange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

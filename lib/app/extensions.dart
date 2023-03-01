@@ -54,11 +54,11 @@ extension StringToInteger on String? {
 
 extension PaperSizeToRollSize on int {
   Roll toRollSize() {
-   if(this == RollId.mm58){
-     return Roll.mm58;
-   }else{
-     return Roll.mm80;
-   }
+    if (this == RollId.mm58) {
+      return Roll.mm58;
+    } else {
+      return Roll.mm80;
+    }
   }
 }
 

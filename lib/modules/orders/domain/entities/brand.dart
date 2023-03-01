@@ -69,7 +69,7 @@ class Brand {
     );
   }
 
-  QrInfo toQrInfo(){
+  QrInfo toQrInfo() {
     return QrInfo(brandId: id, qrLabel: qrLabel, qrContent: qrContent);
   }
 }
@@ -79,9 +79,9 @@ class CartBrand {
   final String title;
   final String logo;
 
-  CartBrand({required this.id,required this.title,required this.logo});
+  CartBrand({required this.id, required this.title, required this.logo});
 
-  TemplateCartBrand toTemplateCartBrand(){
+  TemplateCartBrand toTemplateCartBrand() {
     return TemplateCartBrand(id: id, title: title, logo: logo);
   }
 }

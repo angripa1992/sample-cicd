@@ -119,7 +119,8 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                       providerId: widget.providerID,
                       type: MenuType.ITEM,
                       enabled: _items[index].stock.available,
-                      parentEnabled: widget.parentEnabled && widget.subSections.enabled,
+                      parentEnabled:
+                          widget.parentEnabled && widget.subSections.enabled,
                       onChanged: (enabled) {
                         _onChanged(index, enabled);
                       },

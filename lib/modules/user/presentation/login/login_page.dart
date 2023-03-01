@@ -136,7 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
       providers: [
         BlocProvider(create: (BuildContext context) => getIt.get<LoginBloc>()),
         BlocProvider(
-            create: (BuildContext context) => getIt.get<ConsumerProtectionCubit>()),
+            create: (BuildContext context) =>
+                getIt.get<ConsumerProtectionCubit>()),
       ],
       child: SafeArea(
         child: Scaffold(

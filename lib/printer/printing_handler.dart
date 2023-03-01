@@ -137,7 +137,7 @@ class PrintingHandler {
     if (_preferences.printerSetting().connectionType ==
         ConnectionType.BLUETOOTH) {
       if (_bluetoothPrinterHandler.isConnected()) {
-       // _showPreview(order);
+        // _showPreview(order);
         final printingData = await _generatePrintingData(order);
         if (printingData == null) return;
         _bluetoothPrinterHandler.printDocket(printingData);

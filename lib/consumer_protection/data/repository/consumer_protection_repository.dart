@@ -19,7 +19,8 @@ class ConsumerProtectionRepositoryImpl extends ConsumerProtectionRepository {
   final NetworkConnectivity _connectivity;
   final EnvironmentVariables _environmentVariables;
 
-  ConsumerProtectionRepositoryImpl(this._connectivity, this._environmentVariables);
+  ConsumerProtectionRepositoryImpl(
+      this._connectivity, this._environmentVariables);
 
   @override
   Future<Either<Failure, ConsumerProtection?>> fetchConsumerProtection() async {
@@ -47,7 +48,8 @@ class ConsumerProtectionRepositoryImpl extends ConsumerProtectionRepository {
       fetchConsumerProtectionFakeData() async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _dio.get('http://192.168.20.194:8088/v1/countries/consumer-protection');
+        final response = await _dio
+            .get('http://192.168.20.194:8088/v1/countries/consumer-protection');
         final Map<String, dynamic> responseData = response.data;
         if (responseData.isEmpty) {
           return const Right(null);

@@ -3,9 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_state.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -19,6 +16,9 @@ import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/loading_button.dart';
 import '../../../widgets/snackbars.dart';
 import '../../domain/entities/busy_mode.dart';
+import '../bloc/busy_mode_cubit.dart';
+import '../bloc/busy_mode_state.dart';
+import '../bloc/update_busy_mode_cubit.dart';
 
 class BusyModeView extends StatefulWidget {
   const BusyModeView({Key? key}) : super(key: key);

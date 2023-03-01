@@ -52,7 +52,8 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
 
   void _changeLocale() {
     if (_currentLanguage != null) {
-      widget.onLanguageChange(_languageManager.makeLocaleFromLanguage(_currentLanguage!));
+      widget.onLanguageChange(
+          _languageManager.makeLocaleFromLanguage(_currentLanguage!));
     }
   }
 

@@ -63,7 +63,8 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                 placeholder: (context, url) => Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
-                    child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
+                    child:
+                        CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
                   ),
                 ),
                 errorWidget: (context, url, error) => Padding(

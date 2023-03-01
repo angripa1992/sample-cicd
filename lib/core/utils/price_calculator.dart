@@ -5,10 +5,10 @@ import '../../modules/orders/domain/entities/cart.dart';
 import '../../modules/orders/domain/entities/order.dart';
 
 class PriceCalculator {
-
   static String calculateItemPrice(Order order, CartV2 cartV2) {
     num itemTotalPrice = num.parse(cartV2.price);
-    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
+    if (!order.isInterceptorOrder &&
+        order.providerId != ProviderID.FOOD_PANDA) {
       num unitPrice = num.parse(cartV2.unitPrice);
       itemTotalPrice = unitPrice * cartV2.quantity;
     }

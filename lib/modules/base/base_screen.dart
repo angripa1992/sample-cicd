@@ -11,16 +11,16 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/order/orders_screen.dart';
+import 'package:klikit/modules/orders/presentation/bloc/busy_mode_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/cancelled_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/completed_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/new_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/ongoing_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/order_action_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/total_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/update_busy_mode_cubit.dart';
+import 'package:klikit/modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
+import 'package:klikit/modules/orders/presentation/orders_screen.dart';
 import 'package:klikit/notification/notification_data.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
@@ -37,7 +37,6 @@ import '../../core/utils/response_state.dart';
 import '../../language/language_manager.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
-import '../add_order/presentation/pages/add_order_screen.dart';
 import '../home/home_screen.dart';
 import '../menu/presentation/pages/stock_screen.dart';
 import '../user/presentation/account/account_screen.dart';
@@ -79,7 +78,8 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void _handlePrinterSetting(PrinterSetting setting) async {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     await _appPreferences.savePrinterSettings(printerSetting: setting);
     if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
       if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {

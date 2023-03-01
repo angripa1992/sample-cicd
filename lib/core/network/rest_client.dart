@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/network/urls.dart';
 
@@ -50,9 +49,9 @@ class RestClient {
     final versionCode = await deviceInfoProvider.versionCode();
     final versionName = await deviceInfoProvider.versionName();
     _dio.options.headers[contentType] = 'application/json';
-    _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
-    _dio.options.headers[appVersion] = versionCode;
-    _dio.options.headers[appVersionName] = versionName.removeDot();
+    // _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
+    // _dio.options.headers[appVersion] = versionCode;
+    // _dio.options.headers[appVersionName] = versionName.removeDot();
   }
 
   void _initInterceptor() {

@@ -64,6 +64,7 @@ class Order {
   final bool autoPilot;
   final int autoPilotTime;
   String klikitComment;
+  String jsonData;
 
   Order({
     required this.id,
@@ -111,6 +112,7 @@ class Order {
     required this.autoAccept,
     required this.autoPilot,
     required this.autoPilotTime,
+    required this.jsonData,
   });
 
   TemplateOrder toTemplateOrder({
@@ -146,9 +148,9 @@ class Order {
     );
   }
 
-  List<TemplateCartBrand> _templateCartsBrand(){
+  List<TemplateCartBrand> _templateCartsBrand() {
     List<TemplateCartBrand> templateBrands = [];
-    for(var cartBrand in brands){
+    for (var cartBrand in brands) {
       templateBrands.add(cartBrand.toTemplateCartBrand());
     }
     return templateBrands;

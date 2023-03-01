@@ -273,11 +273,13 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s24.rw),
           child: AppButton(
-            enable: _appPreferences.printerSetting().connectionType == _connectionType,
+            enable: _appPreferences.printerSetting().connectionType ==
+                _connectionType,
             verticalPadding: AppSize.s10.rh,
             onTap: _showDeviceListView,
             text: AppStrings.show_devices.tr(),
-            icon: _appPreferences.printerSetting().connectionType == ConnectionType.BLUETOOTH
+            icon: _appPreferences.printerSetting().connectionType ==
+                    ConnectionType.BLUETOOTH
                 ? Icons.bluetooth
                 : Icons.usb,
           ),

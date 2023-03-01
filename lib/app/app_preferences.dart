@@ -75,7 +75,8 @@ class AppPreferences {
     int? paperSize,
     int? docketType,
   }) async {
-    int branchId = printerSetting?.branchId ?? (_preferences.getInt(_kPrinterBranch) ?? ZERO);
+    int branchId = printerSetting?.branchId ??
+        (_preferences.getInt(_kPrinterBranch) ?? ZERO);
     int connection = printerSetting?.connectionType ?? connectionType!;
     int paper = printerSetting?.paperSize ?? paperSize!;
     int docket = printerSetting?.docketType ?? docketType!;
@@ -88,13 +89,14 @@ class AppPreferences {
   PrinterSetting printerSetting() {
     return PrinterSetting(
       branchId: _preferences.getInt(_kPrinterBranch) ?? ZERO,
-      connectionType: _preferences.getInt(_kPrinterConnectionType) ?? ConnectionType.BLUETOOTH,
+      connectionType: _preferences.getInt(_kPrinterConnectionType) ??
+          ConnectionType.BLUETOOTH,
       paperSize: _preferences.getInt(_kPrinterPaperSize) ?? RollId.mm80,
       docketType: _preferences.getInt(_kDocketType) ?? DocketType.customer,
     );
   }
 
-  Future<void> clearPrinterSetting()async {
+  Future<void> clearPrinterSetting() async {
     await _preferences.remove(_kPrinterBranch);
     await _preferences.remove(_kPrinterPaperSize);
     await _preferences.remove(_kPrinterConnectionType);

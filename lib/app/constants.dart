@@ -15,19 +15,20 @@ class AppConstant {
 
 class HistoryNavData {
   static const String HISTORY_NAV_DATA = 'history_nav_data';
+
   static DateTimeRange today() => DateTimeRange(
-    start: DateTime.now(),
-    end: DateTime.now(),
-  );
+        start: DateTime.now(),
+        end: DateTime.now(),
+      );
 
   static DateTimeRange yesterday() => DateTimeRange(
-    start: DateTime.now().subtract(
-      const Duration(days: 1),
-    ),
-    end: DateTime.now().subtract(
-      const Duration(days: 1),
-    ),
-  );
+        start: DateTime.now().subtract(
+          const Duration(days: 1),
+        ),
+        end: DateTime.now().subtract(
+          const Duration(days: 1),
+        ),
+      );
 }
 
 class ObserverTag {
@@ -76,34 +77,34 @@ class OrderStatus {
   static const PICKED_UP = 9;
 }
 
-class MenuTabIndex{
+class MenuTabIndex {
   static const MENU = 1;
   static const MODIFIER = 2;
 }
 
-class MenuType{
+class MenuType {
   static const SECTION = 1;
   static const SUB_SECTION = 2;
   static const ITEM = 3;
 }
 
-class ModifierType{
+class ModifierType {
   static const GROUP = 1;
   static const MODIFIER = 2;
 }
 
-class NotificationOrderType{
+class NotificationOrderType {
   static const NEW = 1;
   static const CANCEL = 2;
 }
 
-class NotificationType{
+class NotificationType {
   static const BACKGROUD = 1;
   static const IN_APP = 2;
   static const TERMINATED = 3;
 }
 
-class ConnectionType{
+class ConnectionType {
   static const BLUETOOTH = 1;
   static const USB = 2;
 }
@@ -128,4 +129,3 @@ class ArgumentKey {
   static const String kSECTIONS = 'sections';
   static const String kENABLED = 'enabled';
 }
-

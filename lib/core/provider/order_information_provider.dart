@@ -28,7 +28,8 @@ class OrderInformationProvider {
   ///brands info
   Future<List<Brand>> fetchBrands() async {
     if (_brands.isEmpty) {
-      final requestModel = BrandRequestModel(filterByBranch: _preferences.getUser().userInfo.branchId);
+      final requestModel = BrandRequestModel(
+          filterByBranch: _preferences.getUser().userInfo.branchId);
       final response = await _orderRepository.fetchBrand(requestModel);
       if (response.isRight()) {
         final brands = response.getOrElse(() => Brands([]));
@@ -53,14 +54,14 @@ class OrderInformationProvider {
   }
 
   Future<Brand?> findBrandById(int id) async {
-    try{
+    try {
       if (_brands.isEmpty) {
         final brands = await fetchBrands();
         return brands.firstWhere((element) => element.id == id);
       } else {
         return _brands.firstWhere((element) => element.id == id);
       }
-    }catch (e){
+    } catch (e) {
       return null;
     }
   }

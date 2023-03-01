@@ -37,16 +37,6 @@ import 'package:klikit/modules/orders/domain/usecases/fetch_total_orders.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_yesterday_total_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/update_busy_mode_status.dart';
 import 'package:klikit/modules/orders/domain/usecases/update_order_status.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy/busy_mode_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy/update_busy_mode_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/add_comment_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/cancelled_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/delete_comment_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/new_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/ongoing_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/order_action_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/total_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/orders/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
 import 'package:klikit/modules/user/data/repositories/user_repository_impl.dart';
 import 'package:klikit/modules/user/domain/repositories/user_repository.dart';
@@ -78,7 +68,17 @@ import '../environment_variables.dart';
 import '../language/language_manager.dart';
 import '../modules/base/chnage_language_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
-import '../modules/orders/presentation/bloc/orders/completed_order_cubit.dart';
+import '../modules/orders/presentation/bloc/add_comment_cubit.dart';
+import '../modules/orders/presentation/bloc/busy_mode_cubit.dart';
+import '../modules/orders/presentation/bloc/cancelled_order_cubit.dart';
+import '../modules/orders/presentation/bloc/completed_order_cubit.dart';
+import '../modules/orders/presentation/bloc/delete_comment_cubit.dart';
+import '../modules/orders/presentation/bloc/new_order_cubit.dart';
+import '../modules/orders/presentation/bloc/ongoing_order_cubit.dart';
+import '../modules/orders/presentation/bloc/order_action_cubit.dart';
+import '../modules/orders/presentation/bloc/total_order_cubit.dart';
+import '../modules/orders/presentation/bloc/update_busy_mode_cubit.dart';
+import '../modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
 import '../notification/inapp/notification_count_cubit.dart';
 import '../segments/segemnt_data_provider.dart';
@@ -87,16 +87,19 @@ final getIt = GetIt.instance;
 
 Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
-  getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
+  getIt.registerSingleton<SharedPreferences>(
+      await SharedPreferences.getInstance());
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
   getIt.registerSingleton<LocationProvider>(LocationProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
-  getIt.registerSingleton<SegmentDataProvider>(SegmentDataProvider(getIt(), getIt(), getIt()));
+  getIt.registerSingleton<SegmentDataProvider>(
+      SegmentDataProvider(getIt(), getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider(getIt()));
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
-  getIt.registerSingleton<FcmTokenManager>(FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerSingleton<FcmTokenManager>(
+      FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
 
   ///base
   getIt.registerFactory(() => BaseScreenCubit());
@@ -171,7 +174,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(
       () => CheckAffectedCubit(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateModifier(getIt.get()));
-  getIt.registerFactory(() => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerFactory(
+      () => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
   getIt.registerFactory(() => AggregatorSelectionCubit());
 
   ///notification
@@ -181,8 +185,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   ///printer
   getIt.registerLazySingleton(() => BluetoothPrinterHandler());
   getIt.registerLazySingleton(() => UsbPrinterHandler());
-  getIt.registerLazySingleton(
-      () => PrintingHandler(getIt.get(), getIt.get(), getIt.get(),getIt.get()));
+  getIt.registerLazySingleton(() =>
+      PrintingHandler(getIt.get(), getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton<PrinterSettingRepository>(
       () => PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => PrinterSettingCubit(getIt.get(), getIt.get()));
@@ -190,6 +194,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
       () => UpdatePrinterSettingCubit(getIt.get(), getIt.get()));
 
   ///consumer protection
-  getIt.registerLazySingleton<ConsumerProtectionRepository>(() => ConsumerProtectionRepositoryImpl(getIt.get(),getIt.get()));
+  getIt.registerLazySingleton<ConsumerProtectionRepository>(
+      () => ConsumerProtectionRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => ConsumerProtectionCubit(getIt.get()));
 }

@@ -79,7 +79,8 @@ class RoutesGenerator {
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
-              BlocProvider(create: (_) => getIt.get<UpdatePrinterSettingCubit>()),
+              BlocProvider(
+                  create: (_) => getIt.get<UpdatePrinterSettingCubit>()),
               BlocProvider(create: (_) => getIt.get<PrinterSettingCubit>()),
             ],
             child: const PrinterConnectionSettingPage(),

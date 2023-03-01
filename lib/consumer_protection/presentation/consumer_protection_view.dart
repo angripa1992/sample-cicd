@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/di.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
 import '../data/model/consumer_protection.dart';

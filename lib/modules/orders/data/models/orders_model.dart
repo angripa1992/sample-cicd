@@ -1,15 +1,16 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
 import '../../domain/entities/brand.dart';
 import '../../domain/entities/order.dart';
-import '../../domain/entities/variant.dart';
 import 'brand_model.dart';
 
 part 'orders_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class OrdersModel {
   List<OrderModel>? orders;
   int? total;
@@ -45,7 +46,7 @@ class OrdersModel {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class OrderModel {
   int? id;
   int? source;
@@ -228,6 +229,7 @@ class OrderModel {
       autoPilotTime: autoPilotTime.orZero(),
       klikitComment: klikitComment.orEmpty(),
       isInterceptorOrder: isInterceptorOrder.orFalse(),
+      jsonData: json.encode(toJson()),
     );
   }
 
@@ -252,24 +254,7 @@ class OrderModel {
   }
 }
 
-@JsonSerializable()
-class VariantModel {
-  String? id;
-  String? name;
-  @JsonKey(name: 'external_id')
-  String? externalId;
-
-  VariantModel(this.id, this.name, this.externalId);
-
-  Variant toEntity() {
-    return Variant(id.orEmpty(), name.orEmpty(), externalId.orEmpty());
-  }
-
-  factory VariantModel.fromJson(Map<String, dynamic> json) =>
-      _$VariantModelFromJson(json);
-}
-
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CartV2Model {
   String? id;
   String? name;
@@ -323,7 +308,7 @@ class CartV2Model {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ModifierGroupsModel {
   String? id;
   String? name;
@@ -333,6 +318,8 @@ class ModifierGroupsModel {
 
   factory ModifierGroupsModel.fromJson(Map<String, dynamic> json) =>
       _$ModifierGroupsModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ModifierGroupsModelToJson(this);
 
   ModifierGroups toEntity() {
     return ModifierGroups(
@@ -352,7 +339,7 @@ class ModifierGroupsModel {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ModifiersModel {
   String? id;
   String? name;
@@ -374,6 +361,8 @@ class ModifiersModel {
 
   factory ModifiersModel.fromJson(Map<String, dynamic> json) =>
       _$ModifiersModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ModifiersModelToJson(this);
 
   Modifiers toEntity() {
     return Modifiers(

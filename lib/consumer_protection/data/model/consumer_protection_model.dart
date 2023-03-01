@@ -30,9 +30,12 @@ class ConsumerProtectionModel {
 
   ConsumerProtection toEntity() {
     return ConsumerProtection(
-      directorateSocialContact: directorateSocialContact ?? 'WhatsApp : +62 853 1111 1010',
-      directorateSubtitle: directorateSubtitle ?? 'Kementerian Perdagangan RI / Directorate General of Consumer Protection and Trade Compliance',
-      directorateTitle: directorateTitle ?? 'Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga',
+      directorateSocialContact:
+          directorateSocialContact ?? 'WhatsApp : +62 853 1111 1010',
+      directorateSubtitle: directorateSubtitle ??
+          'Kementerian Perdagangan RI / Directorate General of Consumer Protection and Trade Compliance',
+      directorateTitle: directorateTitle ??
+          'Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga',
       header: header ?? 'Layanan Pengaduan Konsumen',
       orgEmail: orgEmail ?? 'help@klikit.io',
       orgPhone: orgPhone ?? '+62 812 8713 7048',

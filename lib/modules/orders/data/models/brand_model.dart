@@ -87,7 +87,7 @@ class Results {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CartBrandModel {
   int? id;
   String? title;

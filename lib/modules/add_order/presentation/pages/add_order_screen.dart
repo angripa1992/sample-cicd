@@ -14,7 +14,7 @@ class AddOrderScreen extends StatelessWidget {
       providers: [
         BlocProvider<MenuBrandsCubit>(create: (_) => getIt.get()),
       ],
-      child:  Scaffold(
+      child: Scaffold(
         appBar: AppBar(),
         body: const AddOrderBody(),
       ),
