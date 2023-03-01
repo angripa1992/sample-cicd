@@ -2,7 +2,6 @@ import 'package:get_it/get_it.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
-import 'package:klikit/core/provider/order_information_provider.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/repository/menu_repository_impl.dart';
@@ -37,6 +36,7 @@ import 'package:klikit/modules/orders/domain/usecases/fetch_total_orders.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_yesterday_total_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/update_busy_mode_status.dart';
 import 'package:klikit/modules/orders/domain/usecases/update_order_status.dart';
+import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
 import 'package:klikit/modules/user/data/repositories/user_repository_impl.dart';
 import 'package:klikit/modules/user/domain/repositories/user_repository.dart';
@@ -63,7 +63,6 @@ import '../consumer_protection/presentation/cubit/consumer_protection_cubit.dart
 import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
 import '../core/provider/location_provider.dart';
-import '../core/provider/order_parameter_provider.dart';
 import '../environment_variables.dart';
 import '../language/language_manager.dart';
 import '../modules/base/chnage_language_cubit.dart';
@@ -79,6 +78,7 @@ import '../modules/orders/presentation/bloc/order_action_cubit.dart';
 import '../modules/orders/presentation/bloc/total_order_cubit.dart';
 import '../modules/orders/presentation/bloc/update_busy_mode_cubit.dart';
 import '../modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
+import '../modules/orders/provider/order_parameter_provider.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
 import '../notification/inapp/notification_count_cubit.dart';
 import '../segments/segemnt_data_provider.dart';
@@ -93,13 +93,13 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<LocationProvider>(LocationProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
   getIt.registerSingleton<SegmentDataProvider>(
-      SegmentDataProvider(getIt(), getIt(), getIt()));
+      SegmentDataProvider(getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider(getIt()));
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
   getIt.registerSingleton<FcmTokenManager>(
-      FcmTokenManager(getIt.get(), getIt.get(), getIt.get()));
+      FcmTokenManager(getIt.get(), getIt.get()));
 
   ///base
   getIt.registerFactory(() => BaseScreenCubit());
@@ -126,7 +126,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
       () => OrderRemoteDatasourceImpl(getIt()));
   getIt.registerLazySingleton<OrderRepository>(
       () => OrderRepositoryImpl(getIt(), getIt()));
-  getIt.registerLazySingleton(() => OrderInformationProvider(getIt(), getIt()));
+  getIt.registerLazySingleton(() => OrderInformationProvider(getIt()));
   getIt.registerLazySingleton(() => OrderParameterProvider(getIt()));
   getIt.registerLazySingleton(() => FetchTotalOrders(getIt()));
   getIt.registerFactory(() => TotalOrderCubit(getIt(), getIt()));
@@ -150,8 +150,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   ///busy mode
   getIt.registerLazySingleton(() => CheckBusyMode(getIt()));
   getIt.registerLazySingleton(() => UpdateBusyModeStatus(getIt()));
-  getIt.registerFactory(() => BusyModeCubit(getIt(), getIt()));
-  getIt.registerFactory(() => UpdateBusyModeCubit(getIt(), getIt()));
+  getIt.registerFactory(() => BusyModeCubit(getIt()));
+  getIt.registerFactory(() => UpdateBusyModeCubit(getIt()));
 
   ///menu mgt
   getIt.registerLazySingleton<MenuRemoteDatasource>(
@@ -159,23 +159,21 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton<MenuRepository>(
       () => MenuRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => FetchMenuBrands(getIt.get()));
-  getIt.registerFactory(() => MenuBrandsCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => MenuBrandsCubit(getIt.get()));
   getIt.registerFactory(() => BrandSelectionCubit());
   getIt.registerFactory(() => TabSelectionCubit());
   getIt.registerLazySingleton(() => FetchMenus(getIt.get()));
-  getIt.registerFactory(() => MenusCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => MenusCubit(getIt.get()));
   getIt.registerLazySingleton(() => UpdateItem(getIt.get()));
-  getIt.registerFactory(() => UpdateItemCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => UpdateItemCubit(getIt.get()));
   getIt.registerLazySingleton(() => UpdateMenu(getIt.get()));
-  getIt.registerFactory(() => UpdateMenuCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => UpdateMenuCubit(getIt.get()));
   getIt.registerLazySingleton(() => FetchModifierGroups(getIt.get()));
-  getIt.registerFactory(() => ModifierGroupsCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => ModifierGroupsCubit(getIt.get()));
   getIt.registerLazySingleton(() => CheckAffected(getIt.get()));
-  getIt.registerFactory(
-      () => CheckAffectedCubit(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerFactory(() => CheckAffectedCubit(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => UpdateModifier(getIt.get()));
-  getIt.registerFactory(
-      () => UpdateModifierCubit(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerFactory(() => UpdateModifierCubit(getIt.get(), getIt.get()));
   getIt.registerFactory(() => AggregatorSelectionCubit());
 
   ///notification
@@ -189,9 +187,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
       PrintingHandler(getIt.get(), getIt.get(), getIt.get(), getIt.get()));
   getIt.registerLazySingleton<PrinterSettingRepository>(
       () => PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
-  getIt.registerFactory(() => PrinterSettingCubit(getIt.get(), getIt.get()));
-  getIt.registerFactory(
-      () => UpdatePrinterSettingCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => PrinterSettingCubit(getIt.get()));
+  getIt.registerFactory(() => UpdatePrinterSettingCubit(getIt.get()));
 
   ///consumer protection
   getIt.registerLazySingleton<ConsumerProtectionRepository>(

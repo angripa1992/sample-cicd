@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../app/constants.dart';
+import '../../../app/constants.dart';
+import '../../../app/session_manager.dart';
 import 'order_information_provider.dart';
 
 class OrderParameterProvider {
@@ -45,7 +46,7 @@ class OrderParameterProvider {
     final brands = brandsID ?? await _informationProvider.findBrandsIds();
     final providers =
         providersID ?? await _informationProvider.findProvidersIds();
-    final branch = await _informationProvider.findBranchId();
+    final branch = SessionManager().currentUserBranchId();
     return {
       "size": pageSize ?? 1,
       "filterByBranch": branch,

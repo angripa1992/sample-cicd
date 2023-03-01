@@ -5,8 +5,9 @@ import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../../../../core/provider/order_information_provider.dart';
+import '../../../../app/session_manager.dart';
 import '../../domain/usecases/fetch_total_orders.dart';
+import '../../provider/order_information_provider.dart';
 
 class TotalOrderCubit extends Cubit<ResponseState> {
   final FetchTotalOrders _fetchTotalOrders;
@@ -58,7 +59,7 @@ class TotalOrderCubit extends Cubit<ResponseState> {
       OrderStatus.DELIVERED,
       OrderStatus.PICKED_UP
     ];
-    final branch = await _informationProvider.findBranchId();
+    final branch = SessionManager().currentUserBranchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;
     final response = await _fetchTotalOrders(params);

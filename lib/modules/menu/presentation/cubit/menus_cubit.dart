@@ -3,7 +3,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/menu/domain/entities/menues.dart';
 
-import '../../../../app/app_preferences.dart';
+import '../../../../app/session_manager.dart';
 import '../../domain/entities/items.dart';
 import '../../domain/entities/sections.dart';
 import '../../domain/entities/sub_section.dart';
@@ -11,15 +11,14 @@ import '../../domain/usecase/fetch_menus.dart';
 
 class MenusCubit extends Cubit<ResponseState> {
   final FetchMenus _fetchMenus;
-  final AppPreferences _appPreferences;
 
-  MenusCubit(this._fetchMenus, this._appPreferences) : super(Empty());
+  MenusCubit(this._fetchMenus) : super(Empty());
 
   void fetchMenu(int brandId, int? providerId) async {
     emit(Loading());
     final response = await _fetchMenus(
       FetchMenuParams(
-        branchId: _appPreferences.getUser().userInfo.branchId,
+        branchId: SessionManager().currentUserBranchId(),
         brandId: brandId,
         providerID: providerId != null
             ? (providerId == ZERO ? 'undefine' : providerId.toString())

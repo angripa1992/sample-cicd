@@ -6,7 +6,7 @@ import 'package:klikit/core/network/urls.dart';
 import 'package:klikit/environment_variables.dart';
 
 import '../../app/di.dart';
-import '../provider/order_information_provider.dart';
+import '../../modules/orders/provider/order_information_provider.dart';
 import '../route/routes.dart';
 import '../route/routes_generator.dart';
 import 'dio_logger.dart';

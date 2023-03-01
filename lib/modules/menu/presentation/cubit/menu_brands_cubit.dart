@@ -3,18 +3,17 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/entities/brands.dart';
 
-import '../../../../app/app_preferences.dart';
+import '../../../../app/session_manager.dart';
 import '../../domain/usecase/fetch_menu_brands.dart';
 
 class MenuBrandsCubit extends Cubit<ResponseState> {
   final FetchMenuBrands _fetchMenuBrands;
-  final AppPreferences _appPreferences;
 
-  MenuBrandsCubit(this._fetchMenuBrands, this._appPreferences) : super(Empty());
+  MenuBrandsCubit(this._fetchMenuBrands) : super(Empty());
 
   void fetchMenuBrands() async {
     emit(Loading());
-    final branchID = _appPreferences.getUser().userInfo.branchId;
+    final branchID = SessionManager().currentUserBranchId();
     List<MenuBrand> brands = [];
     int pageKey = 1;
     int pageSize = 10;

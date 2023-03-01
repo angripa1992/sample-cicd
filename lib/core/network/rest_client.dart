@@ -8,7 +8,7 @@ import '../../app/di.dart';
 import '../../app/enums.dart';
 import '../../environment_variables.dart';
 import '../provider/device_information_provider.dart';
-import '../provider/order_information_provider.dart';
+import '../../modules/orders/provider/order_information_provider.dart';
 import '../route/routes.dart';
 import '../route/routes_generator.dart';
 import '../utils/app_update_manager.dart';

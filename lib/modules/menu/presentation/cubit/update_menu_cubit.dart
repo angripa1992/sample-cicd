@@ -3,13 +3,12 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
-import '../../../../app/app_preferences.dart';
+import '../../../../app/session_manager.dart';
 
 class UpdateMenuCubit extends Cubit<ResponseState> {
-  final AppPreferences _preferences;
   final UpdateMenu _updateMenu;
 
-  UpdateMenuCubit(this._preferences, this._updateMenu) : super(Empty());
+  UpdateMenuCubit(this._updateMenu) : super(Empty());
 
   void updateMenu({
     required int brandId,
@@ -20,7 +19,7 @@ class UpdateMenuCubit extends Cubit<ResponseState> {
     emit(Loading());
     final response = await _updateMenu(
       UpdateMenuParams(
-        branchId: _preferences.getUser().userInfo.branchId,
+        branchId: SessionManager().currentUserBranchId(),
         brandId: brandId,
         enabled: enabled,
         id: id,

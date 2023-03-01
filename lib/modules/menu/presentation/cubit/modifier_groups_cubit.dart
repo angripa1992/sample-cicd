@@ -3,22 +3,20 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/menu/domain/entities/modifiers.dart';
 import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 
-import '../../../../app/app_preferences.dart';
 import '../../../../app/extensions.dart';
+import '../../../../app/session_manager.dart';
 import '../../domain/usecase/ftech_modifier_groups.dart';
 
 class ModifierGroupsCubit extends Cubit<ResponseState> {
   final FetchModifierGroups _fetchModifierGroups;
-  final AppPreferences _preferences;
 
-  ModifierGroupsCubit(this._fetchModifierGroups, this._preferences)
-      : super(Empty());
+  ModifierGroupsCubit(this._fetchModifierGroups) : super(Empty());
 
   void fetchModifierGroups(int brandId, int? providerId) async {
     emit(Loading());
     final params = {
       'brand_id': brandId,
-      'branch_id': _preferences.getUser().userInfo.branchId,
+      'branch_id': SessionManager().currentUserBranchId(),
     };
     if (providerId != null && providerId != ZERO) {
       params['provider_id'] = providerId;

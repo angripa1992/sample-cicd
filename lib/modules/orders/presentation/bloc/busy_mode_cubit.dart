@@ -1,23 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/app_preferences.dart';
 
+import '../../../../app/session_manager.dart';
 import '../../domain/usecases/check_busy_mode.dart';
 import 'busy_mode_state.dart';
 
 class BusyModeCubit extends Cubit<BusyModeState> {
   final CheckBusyMode _checkBusyMode;
-  final AppPreferences _appPreferences;
   Timer? _timer;
 
-  BusyModeCubit(this._checkBusyMode, this._appPreferences)
-      : super(Available()) {
+  BusyModeCubit(this._checkBusyMode) : super(Available()) {
     checkCurrentStatus();
   }
 
   void checkCurrentStatus() async {
-    final params = {"branch_id": _appPreferences.getUser().userInfo.branchId};
+    final params = {
+      "branch_id": SessionManager().currentUserBranchId(),
+    };
     final response = await _checkBusyMode(params);
     response.fold(
       (failure) {},

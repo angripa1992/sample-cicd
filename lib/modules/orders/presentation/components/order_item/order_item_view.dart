@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/provider/order_information_provider.dart';
+import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/widgets/image_view.dart';

@@ -2,18 +2,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
-import '../../../../app/app_preferences.dart';
-import '../../../../core/provider/order_information_provider.dart';
+import '../../../../app/session_manager.dart';
+import '../../../orders/provider/order_information_provider.dart';
 import '../../data/models/modifier_request_model.dart';
 import '../../domain/usecase/update_modifier.dart';
 
 class UpdateModifierCubit extends Cubit<ResponseState> {
   final UpdateModifier _updateModifier;
   final OrderInformationProvider _informationProvider;
-  final AppPreferences _preferences;
 
-  UpdateModifierCubit(
-      this._updateModifier, this._informationProvider, this._preferences)
+  UpdateModifierCubit(this._updateModifier, this._informationProvider)
       : super(Empty());
 
   void updateModifier({
@@ -28,7 +26,7 @@ class UpdateModifierCubit extends Cubit<ResponseState> {
       type: type,
       isEnabled: enabled,
       brandId: brandId,
-      branchId: _preferences.getUser().userInfo.branchId,
+      branchId: SessionManager().currentUserBranchId(),
       groupId: groupId,
       modifierId: modifierId,
       providerIds: await _informationProvider.findProvidersIds(),

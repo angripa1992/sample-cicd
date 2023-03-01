@@ -16,7 +16,7 @@ import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:klikit/resources/strings.dart';
 
-import '../core/provider/order_information_provider.dart';
+import '../modules/orders/provider/order_information_provider.dart';
 import '../modules/orders/domain/entities/order.dart';
 
 class PrintingHandler {

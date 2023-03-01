@@ -5,8 +5,9 @@ import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../../../../core/provider/order_information_provider.dart';
+import '../../../../app/session_manager.dart';
 import '../../domain/usecases/fetch_yesterday_total_order.dart';
+import '../../provider/order_information_provider.dart';
 
 class YesterdayTotalOrderCubit extends Cubit<ResponseState> {
   final FetchYesterdayTotalOrders _fetchTotalOrders;
@@ -24,7 +25,7 @@ class YesterdayTotalOrderCubit extends Cubit<ResponseState> {
     ];
     final brands = await _informationProvider.findBrandsIds();
     final providers = await _informationProvider.findProvidersIds();
-    final branch = await _informationProvider.findBranchId();
+    final branch = SessionManager().currentUserBranchId();
     final timeZone = await DateTimeProvider.timeZone();
     final params = {
       "start": DateTimeProvider.yesterday(),

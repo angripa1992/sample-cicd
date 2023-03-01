@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
-import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/home/shimer/home_order_nav_card_shimmer.dart';
@@ -19,8 +18,8 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../app/app_preferences.dart';
 import '../../../../resources/styles.dart';
+import '../../app/session_manager.dart';
 import '../../segments/event_manager.dart';
 import '../../segments/segemnt_data_provider.dart';
 import '../base/base_screen_cubit.dart';
@@ -43,7 +42,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Timer? _timer;
-  final _user = getIt.get<AppPreferences>().getUser();
 
   @override
   void initState() {
@@ -109,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   clipBehavior: Clip.none,
                   children: [
                     HomeHeaderView(
-                      userInfo: _user.userInfo,
+                      userInfo: SessionManager().currentUser(),
                     ),
                     Positioned(
                       bottom: -50.rh,

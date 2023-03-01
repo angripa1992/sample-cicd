@@ -2,20 +2,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
 
-import '../../../../../app/app_preferences.dart';
+import '../../../../app/session_manager.dart';
 import '../../domain/usecases/update_busy_mode_status.dart';
 
 class UpdateBusyModeCubit extends Cubit<ResponseState> {
   final UpdateBusyModeStatus _updateBusyModeStatus;
-  final AppPreferences _appPreferences;
 
-  UpdateBusyModeCubit(this._updateBusyModeStatus, this._appPreferences)
-      : super(Empty());
+  UpdateBusyModeCubit(this._updateBusyModeStatus) : super(Empty());
 
   void updateStatus(bool isBusy) async {
     emit(Loading());
     final params = {
-      "branch_id": _appPreferences.getUser().userInfo.branchId,
+      "branch_id": SessionManager().currentUserBranchId(),
       "is_busy": isBusy,
     };
     final response = await _updateBusyModeStatus(params);

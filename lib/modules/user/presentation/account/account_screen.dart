@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/provider/order_information_provider.dart';
+import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
@@ -23,6 +23,7 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:klikit/segments/event_manager.dart';
 
+import '../../../../app/session_manager.dart';
 import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
 import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
 import '../../../../language/language_manager.dart';
@@ -99,7 +100,7 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _saveUpdatedUserInfo() async {
-    await _appPreferences.saveUser(
+    await SessionManager().saveUser(
       _user.copyWith(
         firstName: _firstNameController.text,
         lastName: _lastNameController.text,

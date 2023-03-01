@@ -32,7 +32,6 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../app/constants.dart';
-import '../../core/provider/order_information_provider.dart';
 import '../../core/utils/response_state.dart';
 import '../../language/language_manager.dart';
 import '../../resources/colors.dart';
@@ -50,13 +49,11 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreenState extends State<BaseScreen> {
   final _appPreferences = getIt.get<AppPreferences>();
-  final _orderInfoProvider = getIt.get<OrderInformationProvider>();
   final _printingHandler = getIt.get<PrintingHandler>();
   final _languageManager = getIt.get<LanguageManager>();
 
   @override
   void initState() {
-    _orderInfoProvider.loadAllInformation();
     context.read<PrinterSettingCubit>().getPrinterSetting();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {

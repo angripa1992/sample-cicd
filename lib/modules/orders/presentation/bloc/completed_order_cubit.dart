@@ -4,9 +4,10 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
 import '../../../../../core/provider/date_time_provider.dart';
-import '../../../../../core/provider/order_information_provider.dart';
+import '../../../../app/session_manager.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/usecases/fetch_completed_order.dart';
+import '../../provider/order_information_provider.dart';
 
 class CompletedOrderCubit extends Cubit<ResponseState> {
   final FetchCompletedOrder _fetchCompletedOrder;
@@ -54,7 +55,7 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
       emit(Loading());
     }
     final status = [OrderStatus.DELIVERED, OrderStatus.PICKED_UP];
-    final branch = await _informationProvider.findBranchId();
+    final branch = SessionManager().currentUserBranchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;
     final response = await _fetchCompletedOrder(params);

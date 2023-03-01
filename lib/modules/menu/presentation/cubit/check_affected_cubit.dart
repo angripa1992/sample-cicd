@@ -4,18 +4,16 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
 import 'package:klikit/modules/menu/domain/entities/modifier_disabled_response.dart';
 
-import '../../../../app/app_preferences.dart';
+import '../../../../app/session_manager.dart';
 import '../../../../core/network/error_handler.dart';
-import '../../../../core/provider/order_information_provider.dart';
+import '../../../orders/provider/order_information_provider.dart';
 import '../../domain/usecase/check_affected.dart';
 
 class CheckAffectedCubit extends Cubit<ResponseState> {
   final CheckAffected _checkAffected;
   final OrderInformationProvider _informationProvider;
-  final AppPreferences _preferences;
 
-  CheckAffectedCubit(
-      this._checkAffected, this._informationProvider, this._preferences)
+  CheckAffectedCubit(this._checkAffected, this._informationProvider)
       : super(Empty());
 
   Future<Either<Failure, ModifierDisabledResponse>> checkAffect({
@@ -29,7 +27,7 @@ class CheckAffectedCubit extends Cubit<ResponseState> {
       type: type,
       isEnabled: enabled,
       brandId: brandId,
-      branchId: _preferences.getUser().userInfo.branchId,
+      branchId: SessionManager().currentUserBranchId(),
       groupId: groupId,
       modifierId: modifierId,
       providerIds: await _informationProvider.findProvidersIds(),

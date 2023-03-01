@@ -19,23 +19,21 @@ location(lon) - (context -> location -> longitude)
 import 'package:klikit/core/provider/location_provider.dart';
 import 'package:klikit/segments/segments_data_model.dart';
 
-import '../app/app_preferences.dart';
+import '../app/session_manager.dart';
 import '../core/provider/device_information_provider.dart';
 
 class SegmentDataProvider {
-  final AppPreferences _appPreferences;
   final DeviceInfoProvider _deviceInfoProvider;
   final LocationProvider _locationProvider;
   SegmentTraits? _traits;
   SegmentDevice? _device;
   SegmentApp? _app;
 
-  SegmentDataProvider(
-      this._appPreferences, this._deviceInfoProvider, this._locationProvider);
+  SegmentDataProvider(this._deviceInfoProvider, this._locationProvider);
 
   SegmentTraits _getTraits() {
     if (_traits == null) {
-      final userInfo = _appPreferences.getUser().userInfo;
+      final userInfo = SessionManager().currentUser();
       _traits = SegmentTraits(
         email: userInfo.email,
         phone: userInfo.phone,
@@ -76,7 +74,7 @@ class SegmentDataProvider {
   }
 
   SegmentLocation _geCountryId() {
-    final countryCode = _appPreferences.getUser().userInfo.countryCodes.first;
+    final countryCode = SessionManager().currentUser().countryCodes.first;
     return SegmentLocation(
       country: countryCode,
     );
@@ -86,7 +84,7 @@ class SegmentDataProvider {
 
   Future<SegmentData> identifyData({required String event}) async {
     return SegmentData(
-      userId: _appPreferences.getUser().userInfo.id.toString(),
+      userId: SessionManager().currentUser().id.toString(),
       event: event,
       timestamp: _timestamp(),
       traits: _getTraits(),
@@ -103,7 +101,7 @@ class SegmentDataProvider {
     Map<String, dynamic>? properties,
   }) async {
     return SegmentData(
-      userId: _appPreferences.getUser().userInfo.id.toString(),
+      userId: SessionManager().currentUser().id.toString(),
       event: event,
       properties: properties,
       timestamp: _timestamp(),
@@ -122,7 +120,7 @@ class SegmentDataProvider {
     Map<String, dynamic>? properties,
   }) async {
     return SegmentData(
-      userId: _appPreferences.getUser().userInfo.id.toString(),
+      userId: SessionManager().currentUser().id.toString(),
       event: event,
       name: name,
       properties: properties,
