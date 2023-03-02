@@ -117,52 +117,52 @@ class Order {
     required this.orderSource,
   });
 
-  TemplateOrder toTemplateOrder({
-    required QrInfo? qrInfo,
-    required String placedOn,
-  }) {
-    return TemplateOrder(
-      id: id,
-      externalId: externalId,
-      shortId: shortId,
-      providerId: providerId,
-      status: status,
-      itemPrice: itemPrice,
-      finalPrice: finalPrice,
-      discount: discount,
-      deliveryFee: deliveryFee,
-      additionalFee: additionalFee,
-      vat: vat,
-      currency: currency,
-      currencySymbol: currencySymbol,
-      itemCount: itemCount,
-      createdAt: createdAt,
-      userFirstName: userFirstName,
-      userLastName: userLastName,
-      cartV2: _templateCarts(),
-      isInterceptorOrder: isInterceptorOrder,
-      orderComment: orderComment,
-      type: type,
-      brands: _templateCartsBrand(),
-      klikitComment: klikitComment,
-      placedOn: placedOn,
-      qrInfo: qrInfo,
-    );
-  }
-
-  List<TemplateCartBrand> _templateCartsBrand() {
-    List<TemplateCartBrand> templateBrands = [];
-    for (var cartBrand in brands) {
-      templateBrands.add(cartBrand.toTemplateCartBrand());
-    }
-    return templateBrands;
-  }
-
-  List<TemplateCart> _templateCarts() {
-    List<TemplateCart> templateCarts = [];
-    for (var cart in cartV2) {
-      templateCarts.add(cart.toTemplateCart());
-    }
-    return templateCarts;
-  }
+  // TemplateOrder toTemplateOrder({
+  //   required QrInfo? qrInfo,
+  //   required String placedOn,
+  // }) {
+  //   return TemplateOrder(
+  //     id: id,
+  //     externalId: externalId,
+  //     shortId: shortId,
+  //     providerId: providerId,
+  //     status: status,
+  //     itemPrice: itemPrice,
+  //     finalPrice: finalPrice,
+  //     discount: discount,
+  //     deliveryFee: deliveryFee,
+  //     additionalFee: additionalFee,
+  //     vat: vat,
+  //     currency: currency,
+  //     currencySymbol: currencySymbol,
+  //     itemCount: itemCount,
+  //     createdAt: createdAt,
+  //     userFirstName: userFirstName,
+  //     userLastName: userLastName,
+  //     cartV2: _templateCarts(),
+  //     isInterceptorOrder: isInterceptorOrder,
+  //     orderComment: orderComment,
+  //     type: type,
+  //     brands: _templateCartsBrand(),
+  //     klikitComment: klikitComment,
+  //     placedOn: placedOn,
+  //     qrInfo: qrInfo,
+  //   );
+  // }
+  //
+  // List<TemplateCartBrand> _templateCartsBrand() {
+  //   List<TemplateCartBrand> templateBrands = [];
+  //   for (var cartBrand in brands) {
+  //     templateBrands.add(cartBrand.toTemplateCartBrand());
+  //   }
+  //   return templateBrands;
+  // }
+  //
+  // List<TemplateCart> _templateCarts() {
+  //   List<TemplateCart> templateCarts = [];
+  //   for (var cart in cartV2) {
+  //     templateCarts.add(cart.toTemplateCart());
+  //   }
+  //   return templateCarts;
+  // }
 }

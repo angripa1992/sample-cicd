@@ -11,6 +11,7 @@ import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
+import 'package:klikit/printer/data/printer_data_provider.dart';
 import 'package:klikit/printer/presentation/capture_image_preview.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
@@ -200,9 +201,9 @@ class PrintingHandler {
     if (order.brands.length == 1) {
       brand = await _infoProvider.findBrandById(order.brands.first.id);
     }
-    return order.toTemplateOrder(
-      placedOn: order.orderSource.title,
-      qrInfo: brand?.toQrInfo(),
+    return PrinterDataProvider().createTemplateOrderData(
+      brand: brand,
+      order: order,
     );
   }
 }
