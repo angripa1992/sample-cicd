@@ -13,10 +13,8 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../app/di.dart';
-import '../../../provider/order_information_provider.dart';
 import '../../../../widgets/snackbars.dart';
-import '../../../domain/entities/provider.dart';
-import '../../../domain/entities/source.dart';
+import '../../../provider/order_information_provider.dart';
 import 'comment_action_view.dart';
 import 'order_status.dart';
 

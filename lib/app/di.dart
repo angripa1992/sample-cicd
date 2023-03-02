@@ -94,7 +94,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
   getIt.registerSingleton<LocationProvider>(LocationProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
-  getIt.registerSingleton<SegmentDataProvider>(SegmentDataProvider(getIt(), getIt()));
+  getIt.registerSingleton<SegmentDataProvider>(
+      SegmentDataProvider(getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider());
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
@@ -123,11 +124,14 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => ChangePasswordCubit(getIt(), getIt()));
 
   ///order
-  getIt.registerLazySingleton<OrderRemoteDatasource>(() => OrderRemoteDatasourceImpl(getIt()));
-  getIt.registerLazySingleton<OrderInfoProviderRepo>(() => OrderInfoProviderRepoImpl(getIt(),getIt()));
+  getIt.registerLazySingleton<OrderRemoteDatasource>(
+      () => OrderRemoteDatasourceImpl(getIt()));
+  getIt.registerLazySingleton<OrderInfoProviderRepo>(
+      () => OrderInfoProviderRepoImpl(getIt(), getIt()));
   getIt.registerLazySingleton(() => OrderInformationProvider(getIt()));
   getIt.registerLazySingleton(() => OrderParameterProvider(getIt()));
-  getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(), getIt(), getIt()));
+  getIt.registerLazySingleton<OrderRepository>(
+      () => OrderRepositoryImpl(getIt(), getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchTotalOrders(getIt()));
   getIt.registerFactory(() => TotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchYesterdayTotalOrders(getIt()));

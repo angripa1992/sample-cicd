@@ -44,12 +44,12 @@ class AppPreferences {
 
   UserInfo? getUser() {
     final preferenceData = _preferences.getString(_kUser);
-    if(preferenceData == null) return null;
+    if (preferenceData == null) return null;
     final data = json.decode(preferenceData);
     return UserInfo.fromJson(data);
   }
 
-  Future<void> setLoginState(bool isLoggedIn) async{
+  Future<void> setLoginState(bool isLoggedIn) async {
     await _preferences.setBool(_kLoggedIn, isLoggedIn);
   }
 

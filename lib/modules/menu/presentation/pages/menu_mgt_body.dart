@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/filter_by_brands_view.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_screen.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
+import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../app/di.dart';

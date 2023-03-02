@@ -1,13 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
-import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
@@ -207,8 +204,10 @@ class _AccountScreenState extends State<AccountScreen> {
                               showApiErrorSnackBar(context, state.failure);
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
-                              InAppNotificationHandler().dismissInAppNotification();
-                              SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
+                              InAppNotificationHandler()
+                                  .dismissInAppNotification();
+                              SegmentManager().identify(
+                                  event: SegmentEvents.USER_LOGGED_OUT);
                               SessionManager().logout();
                             }
                           },

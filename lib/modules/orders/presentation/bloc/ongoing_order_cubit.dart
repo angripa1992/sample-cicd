@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
-import '../../provider/order_parameter_provider.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/usecases/fetch_ongoing_order.dart';
+import '../../provider/order_parameter_provider.dart';
 
 class OngoingOrderCubit extends Cubit<ResponseState> {
   final FetchOngoingOrder _fetchOngoingOrder;

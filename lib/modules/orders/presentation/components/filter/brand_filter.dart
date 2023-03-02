@@ -11,8 +11,8 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/di.dart';
-import '../../../provider/order_information_provider.dart';
 import '../../../../widgets/app_button.dart';
+import '../../../provider/order_information_provider.dart';
 import '../../filter_subject.dart';
 import 'brand_filter_item.dart';
 

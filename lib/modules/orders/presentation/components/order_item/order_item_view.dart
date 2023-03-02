@@ -4,9 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/domain/entities/provider.dart';
+import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
@@ -14,8 +13,6 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
-
-import '../../../domain/entities/source.dart';
 
 class OrderItemView extends StatelessWidget {
   final _infoProvider = getIt.get<OrderInformationProvider>();

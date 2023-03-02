@@ -2,7 +2,6 @@ import 'package:klikit/app/extensions.dart';
 
 import '../domain/entities/source.dart';
 import '../domain/repository/order_info_provider_repo.dart';
-import '../domain/repository/orders_repository.dart';
 
 class SourceProvider {
   final OrderInfoProviderRepo _orderRepository;
@@ -30,13 +29,13 @@ class SourceProvider {
   }
 
   Future<Source> findSourceById(int sourceId) async {
-    try{
+    try {
       if (_sources.isEmpty) {
         final sources = await fetchSources();
         _sources = sources;
       }
       return _sources.firstWhere((element) => element.id == sourceId);
-    }catch (e){
+    } catch (e) {
       return Source(id: ZERO, name: EMPTY, image: EMPTY);
     }
   }

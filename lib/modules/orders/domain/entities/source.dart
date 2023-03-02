@@ -12,15 +12,14 @@ class Source {
   final String image;
 
   Source({required this.id, required this.name, required this.image});
-
 }
 
-enum SourceTpe{
+enum SourceTpe {
   source,
   provider,
 }
 
-class OrderSource{
+class OrderSource {
   final int id;
   final String title;
   final String logo;

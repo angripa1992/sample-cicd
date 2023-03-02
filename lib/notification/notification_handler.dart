@@ -43,7 +43,8 @@ class NotificationHandler {
   }
 
   void _navigateToLoginScreen(NotificationData notificationData) {
-    Navigator.of(RoutesGenerator.navigatorKey.currentState!.context).pushNamedAndRemoveUntil(
+    Navigator.of(RoutesGenerator.navigatorKey.currentState!.context)
+        .pushNamedAndRemoveUntil(
       Routes.login,
       (Route<dynamic> route) => false,
       arguments: {

@@ -1,15 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/urls.dart';
 import 'package:klikit/environment_variables.dart';
 
 import '../../app/di.dart';
-import '../../modules/orders/provider/order_information_provider.dart';
-import '../route/routes.dart';
-import '../route/routes_generator.dart';
 import 'dio_logger.dart';
 import 'error_handler.dart';
 
