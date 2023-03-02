@@ -82,8 +82,7 @@ class RestClient {
             if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
               if (_token(_tokenProvider.getAccessToken()) !=
                   options.headers[authorization]) {
-                options.headers[authorization] =
-                    _token(_tokenProvider.getAccessToken());
+                options.headers[authorization] = _token(_tokenProvider.getAccessToken());
                 _dio.fetch(options).then(
                   (r) => handler.resolve(r),
                   onError: (e) {
