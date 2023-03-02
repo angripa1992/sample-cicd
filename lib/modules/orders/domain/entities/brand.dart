@@ -1,5 +1,3 @@
-import 'package:docket_design_template/model/brand.dart';
-
 class Brands {
   final List<Brand> brands;
 
