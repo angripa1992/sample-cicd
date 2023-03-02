@@ -189,7 +189,6 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => UpdatePrinterSettingCubit(getIt.get()));
 
   ///consumer protection
-  getIt.registerLazySingleton<ConsumerProtectionRepository>(
-      () => ConsumerProtectionRepositoryImpl(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton<ConsumerProtectionRepository>(() => ConsumerProtectionRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => ConsumerProtectionCubit(getIt.get()));
 }
