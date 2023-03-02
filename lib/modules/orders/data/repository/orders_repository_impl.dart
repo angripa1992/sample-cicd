@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
@@ -14,26 +15,15 @@ import 'package:klikit/modules/orders/domain/entities/settings.dart';
 import 'package:klikit/modules/orders/domain/entities/source.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 
+import '../../provider/order_information_provider.dart';
+import '../models/orders_model.dart';
+
 class OrderRepositoryImpl extends OrderRepository {
   final OrderRemoteDatasource _datasource;
   final NetworkConnectivity _connectivity;
+  final OrderInformationProvider _orderInformationProvider;
 
-  OrderRepositoryImpl(this._datasource, this._connectivity);
-
-  @override
-  Future<Either<Failure, Brands>> fetchBrand(
-      BrandRequestModel requestModel) async {
-    if (await _connectivity.hasConnection()) {
-      try {
-        final response = await _datasource.fetchBrand(requestModel);
-        return Right(response.toEntity());
-      } on DioError catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    } else {
-      return Left(ErrorHandler.handleInternetConnection().failure);
-    }
-  }
+  OrderRepositoryImpl(this._datasource, this._connectivity, this._orderInformationProvider);
 
   @override
   Future<Either<Failure, order.Orders>> fetchOrder(
@@ -41,7 +31,15 @@ class OrderRepositoryImpl extends OrderRepository {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchOrder(params);
-        return Right(response.toEntity());
+        if(response.orders == null){
+          return Right(response.emptyObject());
+        }
+        final List<order.Order> orders = [];
+        for(var orderModel in response.orders!){
+          final orderWithSource = await _extractOrderWithSource(orderModel);
+          orders.add(orderWithSource);
+        }
+        return Right(response.toEntity(orders));
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
@@ -56,22 +54,6 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.fetchOrderStatus();
         return Right(response);
-      } on DioError catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    } else {
-      return Left(ErrorHandler.handleInternetConnection().failure);
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Provider>>> fetchProvider(
-      Map<String, dynamic> param) async {
-    if (await _connectivity.hasConnection()) {
-      try {
-        final response = await _datasource.fetchProvider(param);
-        final data = response.map((e) => e.toEntity()).toList();
-        return Right(data);
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
@@ -177,7 +159,7 @@ class OrderRepositoryImpl extends OrderRepository {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchOrderById(id);
-        return response.toEntity();
+        return _extractOrderWithSource(response);
       } on DioError {
         return null;
       }
@@ -186,18 +168,17 @@ class OrderRepositoryImpl extends OrderRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, List<Sources>>> fetchSources() async {
-    if (await _connectivity.hasConnection()) {
-      try {
-        final response = await _datasource.fetchSources();
-        final data = response.map((e) => e.toEntity()).toList();
-        return Right(data);
-      } on DioError catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    } else {
-      return Left(ErrorHandler.handleInternetConnection().failure);
+  Future<order.Order> _extractOrderWithSource(OrderModel orderModel) async{
+    final sourceId = orderModel.source.orZero();
+    final providerId = orderModel.providerId.orZero();
+    late OrderSource orderSource;
+    if(sourceId > 0){
+      final source = await _orderInformationProvider.findSourceById(sourceId);
+      orderSource = OrderSource(source.id, source.name, source.image, SourceTpe.source);
+    }else{
+      final provider = await _orderInformationProvider.findProviderById(providerId);
+      orderSource = OrderSource(provider.id, provider.title, provider.logo, SourceTpe.provider);
     }
+    return orderModel.toEntity(orderSource: orderSource);
   }
 }

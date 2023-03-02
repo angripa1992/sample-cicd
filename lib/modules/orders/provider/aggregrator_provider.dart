@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:klikit/app/extensions.dart';
 
 import '../../../app/session_manager.dart';
 import '../domain/entities/provider.dart';
-import '../domain/repository/orders_repository.dart';
+import '../domain/repository/order_info_provider_repo.dart';
 
 class AggregatorProvider {
-  final OrderRepository _orderRepository;
+  final OrderInfoProviderRepo _orderRepository;
+  final _emptyProvider = Provider(ZERO, EMPTY, EMPTY, EMPTY);
   List<Provider> _providers = [];
 
   AggregatorProvider(this._orderRepository);
@@ -40,12 +42,16 @@ class AggregatorProvider {
   }
 
   Future<Provider> findProviderById(int id) async {
-    if (_providers.isEmpty) {
-      final providers = await fetchProviders();
-      _providers = providers;
-      return extractProviderById(providers, id);
-    } else {
-      return extractProviderById(_providers, id);
+    try {
+      if (_providers.isEmpty) {
+        final providers = await fetchProviders();
+        _providers = providers;
+        return extractProviderById(providers, id);
+      } else {
+        return extractProviderById(_providers, id);
+      }
+    } catch (e) {
+      return Provider(ZERO, EMPTY, EMPTY, EMPTY);
     }
   }
 
@@ -58,7 +64,11 @@ class AggregatorProvider {
   }
 
   Future<Provider> extractProviderById(List<Provider> providers, int id) async {
-    return providers.firstWhere((element) => element.id == id);
+    try {
+      return providers.firstWhere((element) => element.id == id);
+    } catch (e) {
+      return _emptyProvider;
+    }
   }
 
   void clear() {

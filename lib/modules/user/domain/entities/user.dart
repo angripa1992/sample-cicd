@@ -14,37 +14,6 @@ class User {
     required this.userInfo,
   });
 
-  User copyWith({String? firstName, String? lastName, String? phone}) {
-    return User(
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      userInfo: UserInfo(
-        id: userInfo.id,
-        firstName: firstName ?? userInfo.firstName,
-        lastName: lastName ?? userInfo.lastName,
-        email: userInfo.email,
-        phone: phone ?? userInfo.phone,
-        profilePic: userInfo.profilePic,
-        businessId: userInfo.businessId,
-        businessName: userInfo.businessName,
-        brandId: userInfo.brandId,
-        brandName: userInfo.branchName,
-        branchId: userInfo.branchId,
-        branchName: userInfo.branchName,
-        createdAt: userInfo.createdAt,
-        updatedAt: userInfo.updatedAt,
-        lastLoginAt: userInfo.lastLoginAt,
-        firstLogin: userInfo.firstLogin,
-        roles: userInfo.roles,
-        roleIds: userInfo.roleIds,
-        displayRoles: userInfo.displayRoles,
-        permissions: userInfo.permissions,
-        countryIds: userInfo.countryIds,
-        countryCodes: userInfo.countryCodes,
-      ),
-    );
-  }
-
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
@@ -104,4 +73,31 @@ class UserInfo {
       _$UserInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserInfoToJson(this);
+
+  UserInfo copyWith({String? firstName, String? lastName, String? phone}) {
+    return UserInfo(
+      id: id,
+      firstName: firstName ?? '',
+      lastName: lastName ?? '',
+      email: email,
+      phone: phone ?? '',
+      profilePic: profilePic,
+      businessId: businessId,
+      businessName: businessName,
+      brandId: brandId,
+      brandName: brandName,
+      branchId: branchId,
+      branchName: branchName,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      lastLoginAt: lastLoginAt,
+      firstLogin: firstLogin,
+      roles: roles,
+      roleIds: roleIds,
+      displayRoles: displayRoles,
+      permissions: permissions,
+      countryIds: countryIds,
+      countryCodes: countryCodes,
+    );
+  }
 }

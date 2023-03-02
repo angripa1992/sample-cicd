@@ -1,6 +1,7 @@
 import 'package:docket_design_template/model/brand.dart';
 import 'package:docket_design_template/model/cart.dart';
 import 'package:docket_design_template/model/order.dart';
+import 'package:klikit/modules/orders/domain/entities/source.dart';
 
 import 'brand.dart';
 import 'cart.dart';
@@ -11,11 +12,12 @@ class Orders {
   final int size;
   final List<Order> data;
 
-  Orders(
-      {required this.data,
-      required this.total,
-      required this.page,
-      required this.size});
+  Orders({
+    required this.data,
+    required this.total,
+    required this.page,
+    required this.size,
+  });
 }
 
 class Order {
@@ -63,8 +65,8 @@ class Order {
   final bool autoAccept;
   final bool autoPilot;
   final int autoPilotTime;
+  final OrderSource orderSource;
   String klikitComment;
-  String jsonData;
 
   Order({
     required this.id,
@@ -112,7 +114,7 @@ class Order {
     required this.autoAccept,
     required this.autoPilot,
     required this.autoPilotTime,
-    required this.jsonData,
+    required this.orderSource,
   });
 
   TemplateOrder toTemplateOrder({

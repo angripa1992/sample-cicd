@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/enums.dart';
-import 'package:klikit/core/route/routes.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/modules/user/data/request_model/change_password_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
@@ -44,13 +44,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             _newPasswordController.text,
           ));
     }
-  }
-
-  void _clearPreferencesANdGotoLoginPage() {
-    _preferences.clearPreferences().then((_) {
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(Routes.login, (route) => false);
-    });
   }
 
   @override
@@ -126,7 +119,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     listener: (context, state) {
                       if (state is Success<SuccessResponse>) {
                         showSuccessSnackBar(context, state.data.message);
-                        _clearPreferencesANdGotoLoginPage();
+                        SessionManager().logout();
                       } else if (state is Failed) {
                         showApiErrorSnackBar(context, state.failure);
                       }

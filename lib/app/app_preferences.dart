@@ -38,15 +38,19 @@ class AppPreferences {
     return _preferences.getString(_kAccessToken);
   }
 
-  Future<void> saveUser(User user) async {
-    await _preferences.setBool(_kLoggedIn, true);
+  Future<void> saveUser(UserInfo user) async {
     await _preferences.setString(_kUser, json.encode(user));
   }
 
-  User getUser() {
+  UserInfo? getUser() {
     final preferenceData = _preferences.getString(_kUser);
-    final data = json.decode(preferenceData!);
-    return User.fromJson(data);
+    if(preferenceData == null) return null;
+    final data = json.decode(preferenceData);
+    return UserInfo.fromJson(data);
+  }
+
+  Future<void> setLoginState(bool isLoggedIn) async{
+    await _preferences.setBool(_kLoggedIn, isLoggedIn);
   }
 
   bool isLoggedIn() {
@@ -57,7 +61,7 @@ class AppPreferences {
     _preferences.setString(_kLoginEmail, email);
   }
 
-  String getLoginEmail() {
+  String loginEmail() {
     return _preferences.getString(_kLoginEmail) ?? EMPTY;
   }
 
@@ -107,7 +111,6 @@ class AppPreferences {
     await _preferences.remove(_kAccessToken);
     await _preferences.remove(_kRefreshToken);
     await _preferences.remove(_kUser);
-    await _preferences.remove(_kLoggedIn);
     clearPrinterSetting();
   }
 }

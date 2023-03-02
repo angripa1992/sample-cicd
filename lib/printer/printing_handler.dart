@@ -16,8 +16,8 @@ import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:klikit/resources/strings.dart';
 
-import '../modules/orders/provider/order_information_provider.dart';
 import '../modules/orders/domain/entities/order.dart';
+import '../modules/orders/provider/order_information_provider.dart';
 
 class PrintingHandler {
   final AppPreferences _preferences;
@@ -186,11 +186,13 @@ class PrintingHandler {
       ),
     );
     Navigator.push(
-        RoutesGenerator.navigatorKey.currentState!.context,
-        MaterialPageRoute(
-            builder: (context) => CaptureImagePrivew(
-                  capturedImage: pdfImage,
-                )));
+      RoutesGenerator.navigatorKey.currentState!.context,
+      MaterialPageRoute(
+        builder: (context) => CaptureImagePrivew(
+          capturedImage: pdfImage,
+        ),
+      ),
+    );
   }
 
   Future<TemplateOrder> _generateTemplateOrder(Order order) async {
@@ -198,16 +200,8 @@ class PrintingHandler {
     if (order.brands.length == 1) {
       brand = await _infoProvider.findBrandById(order.brands.first.id);
     }
-    String placedOn = EMPTY;
-    if (order.source > 0) {
-      final source = await _infoProvider.findSourceById(order.source);
-      placedOn = source.name;
-    } else {
-      final provider = await _infoProvider.findProviderById(order.providerId);
-      placedOn = provider.title;
-    }
     return order.toTemplateOrder(
-      placedOn: placedOn,
+      placedOn: order.orderSource.title,
       qrInfo: brand?.toQrInfo(),
     );
   }

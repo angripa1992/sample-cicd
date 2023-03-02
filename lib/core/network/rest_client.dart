@@ -1,16 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/network/urls.dart';
 
-import '../../app/app_preferences.dart';
 import '../../app/di.dart';
 import '../../app/enums.dart';
 import '../../environment_variables.dart';
 import '../provider/device_information_provider.dart';
-import '../../modules/orders/provider/order_information_provider.dart';
-import '../route/routes.dart';
-import '../route/routes_generator.dart';
 import '../utils/app_update_manager.dart';
 import 'dio_logger.dart';
 import 'error_handler.dart';
@@ -31,18 +27,6 @@ class RestClient {
   }
 
   String _token(String? accessToken) => 'Bearer $accessToken';
-
-  void _logout() {
-    getIt.get<OrderInformationProvider>().clearData();
-    getIt.get<AppPreferences>().clearPreferences().then(
-      (value) {
-        Navigator.pushNamedAndRemoveUntil(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            Routes.login,
-            (route) => false);
-      },
-    );
-  }
 
   void _addHeader() async {
     final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
@@ -73,7 +57,7 @@ class RestClient {
                   handler.next(options);
                 },
                 (errorCode) {
-                  _logout();
+                  SessionManager().logout();
                 },
               );
             } else {

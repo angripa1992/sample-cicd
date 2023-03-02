@@ -36,29 +36,9 @@ class OrderItemView extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(right: AppSize.s10),
-          child: order.source > 0
-              ? FutureBuilder<Source>(
-                  future: _infoProvider.findSourceById(order.source),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return SizedBox(
-                        child: ImageView(path: snapshot.data!.image),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                )
-              : FutureBuilder<Provider>(
-                  future: _infoProvider.findProviderById(order.providerId),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return SizedBox(
-                        child: ImageView(path: snapshot.data!.logo),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
+          child: SizedBox(
+            child: ImageView(path: order.orderSource.logo),
+          ),
         ),
         SizedBox(width: AppSize.s8.rw),
         Expanded(
@@ -104,31 +84,10 @@ class OrderItemView extends StatelessWidget {
                   ),
                 ],
               ),
-              order.source > 0
-                  ? FutureBuilder<Source>(
-                      future: _infoProvider.findSourceById(order.source),
-                      builder: (_, snapshot) {
-                        if (snapshot.hasData) {
-                          return Text(
-                            snapshot.data!.name,
-                            style: _providerTextStyle,
-                          );
-                        }
-                        return const SizedBox();
-                      },
-                    )
-                  : FutureBuilder<Provider>(
-                      future: _infoProvider.findProviderById(order.providerId),
-                      builder: (_, snapshot) {
-                        if (snapshot.hasData) {
-                          return Text(
-                            snapshot.data!.title,
-                            style: _providerTextStyle,
-                          );
-                        }
-                        return const SizedBox();
-                      },
-                    ),
+              Text(
+                order.orderSource.title,
+                style: _providerTextStyle,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                 child: InkWell(

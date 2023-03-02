@@ -4,11 +4,12 @@ import 'package:klikit/modules/orders/provider/source_provider.dart';
 
 import '../domain/entities/brand.dart';
 import '../domain/entities/source.dart';
+import '../domain/repository/order_info_provider_repo.dart';
 import 'aggregrator_provider.dart';
 import 'brand_provider.dart';
 
 class OrderInformationProvider {
-  final OrderRepository _orderRepository;
+  final OrderInfoProviderRepo _orderRepository;
   late BrandProvider _brandProvider;
   late AggregatorProvider _aggregatorProvider;
   late SourceProvider _sourceProvider;

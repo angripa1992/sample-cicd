@@ -14,13 +14,6 @@ import '../entities/source.dart';
 abstract class OrderRepository {
   Future<Either<Failure, List<OrderStatusModel>>> fetchOrderStatus();
 
-  Future<Either<Failure, Brands>> fetchBrand(BrandRequestModel requestModel);
-
-  Future<Either<Failure, List<Provider>>> fetchProvider(
-      Map<String, dynamic> param);
-
-  Future<Either<Failure, List<Sources>>> fetchSources();
-
   Future<Either<Failure, Settings>> fetchSettings(int id);
 
   Future<Either<Failure, order.Orders>> fetchOrder(Map<String, dynamic> params);

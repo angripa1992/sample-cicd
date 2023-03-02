@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
+import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
@@ -47,18 +47,16 @@ class _AccountScreenState extends State<AccountScreen> {
   final _phoneNameController = TextEditingController();
   final _emailNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final _appPreferences = getIt.get<AppPreferences>();
-  final _orderInfoProvider = getIt.get<OrderInformationProvider>();
   final _languageManager = getIt.get<LanguageManager>();
-  late User _user;
+  late UserInfo _user;
 
   @override
   void initState() {
-    _user = _appPreferences.getUser();
-    _firstNameController.text = _user.userInfo.firstName;
-    _lastNameController.text = _user.userInfo.lastName;
-    _phoneNameController.text = _user.userInfo.phone;
-    _emailNameController.text = _user.userInfo.email;
+    _user = SessionManager().currentUser();
+    _firstNameController.text = _user.firstName;
+    _lastNameController.text = _user.lastName;
+    _phoneNameController.text = _user.phone;
+    _emailNameController.text = _user.email;
     SegmentManager()
         .screen(event: SegmentEvents.ACCOUNT_TAB, name: 'Account Tab');
     super.initState();
@@ -66,10 +64,9 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _validateAndUpdate(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      bool isSameFirstName =
-          _firstNameController.text == _user.userInfo.firstName;
-      bool isSameLastName = _lastNameController.text == _user.userInfo.lastName;
-      bool isSamePhone = _phoneNameController.text == _user.userInfo.phone;
+      bool isSameFirstName = _firstNameController.text == _user.firstName;
+      bool isSameLastName = _lastNameController.text == _user.lastName;
+      bool isSamePhone = _phoneNameController.text == _user.phone;
       if (isSameFirstName && isSameLastName && isSamePhone) {
         showValidationDialog(
           context: context,
@@ -81,18 +78,16 @@ class _AccountScreenState extends State<AccountScreen> {
         context.read<UpdateUserInfoCubit>().updateUserInfo(
               UpdateUserInfoParams(
                 UserUpdateRequestModel(
-                  branchId: _user.userInfo.branchId,
-                  brandId: _user.userInfo.brandId == 0
-                      ? null
-                      : _user.userInfo.brandId,
-                  businessId: _user.userInfo.businessId,
+                  branchId: _user.branchId,
+                  brandId: _user.brandId == 0 ? null : _user.brandId,
+                  businessId: _user.businessId,
                   firstName: _firstNameController.text,
                   lastName: _lastNameController.text,
                   phone: _phoneNameController.text,
-                  roleIds: _user.userInfo.roleIds,
-                  countryIds: _user.userInfo.countryIds,
+                  roleIds: _user.roleIds,
+                  countryIds: _user.countryIds,
                 ),
-                _user.userInfo.id,
+                _user.id,
               ),
             );
       }
@@ -108,7 +103,7 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
     );
     setState(() {
-      _user = _appPreferences.getUser();
+      _user = SessionManager().currentUser();
     });
   }
 
@@ -170,21 +165,21 @@ class _AccountScreenState extends State<AccountScreen> {
                     child: Column(
                       children: [
                         EditProfileTextField(
-                          currentValue: _user.userInfo.firstName,
+                          currentValue: _user.firstName,
                           label: AppStrings.first_name.tr(),
                           editingController: _firstNameController,
                           enabled: true,
                         ),
                         SizedBox(height: AppSize.s23.rh),
                         EditProfileTextField(
-                          currentValue: _user.userInfo.lastName,
+                          currentValue: _user.lastName,
                           label: AppStrings.last_name.tr(),
                           editingController: _lastNameController,
                           enabled: true,
                         ),
                         SizedBox(height: AppSize.s23.rh),
                         EditProfileTextField(
-                          currentValue: _user.userInfo.phone,
+                          currentValue: _user.phone,
                           label: AppStrings.contact_number.tr(),
                           editingController: _phoneNameController,
                           enabled: true,
@@ -192,7 +187,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         SizedBox(height: AppSize.s23.rh),
                         EditProfileTextField(
-                          currentValue: _user.userInfo.email,
+                          currentValue: _user.email,
                           label: AppStrings.email_address.tr(),
                           editingController: _emailNameController,
                           enabled: false,
@@ -212,20 +207,9 @@ class _AccountScreenState extends State<AccountScreen> {
                               showApiErrorSnackBar(context, state.failure);
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
-                              _orderInfoProvider.clearData();
-                              InAppNotificationHandler()
-                                  .dismissInAppNotification();
-                              SegmentManager().identify(
-                                  event: SegmentEvents.USER_LOGGED_OUT);
-                              getIt
-                                  .get<AppPreferences>()
-                                  .clearPreferences()
-                                  .then(
-                                (value) {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context, Routes.login, (route) => false);
-                                },
-                              );
+                              InAppNotificationHandler().dismissInAppNotification();
+                              SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
+                              SessionManager().logout();
                             }
                           },
                           builder: (context, state) {

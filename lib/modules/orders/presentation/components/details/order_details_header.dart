@@ -131,41 +131,15 @@ class OrderDetailsHeaderView extends StatelessWidget {
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
-          order.source > 0
-              ? FutureBuilder<Source>(
-                  future: _infoProvider.findSourceById(order.source),
-                  builder: (_, snapshot) {
-                    if (snapshot.hasData) {
-                      return Flexible(
-                        child: Text(
-                          ' ${snapshot.data!.name}',
-                          style: getBoldTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s14.rSp,
-                          ),
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                )
-              : FutureBuilder<Provider>(
-                  future: _infoProvider.findProviderById(order.providerId),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Flexible(
-                        child: Text(
-                          ' ${snapshot.data!.title}',
-                          style: getBoldTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s14.rSp,
-                          ),
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
+          Flexible(
+            child: Text(
+              ' ${order.orderSource.title}',
+              style: getBoldTextStyle(
+                color: AppColors.purpleBlue,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
 import '../../domain/entities/brand.dart';
 import '../../domain/entities/order.dart';
+import '../../domain/entities/source.dart';
 import 'brand_model.dart';
 
 part 'orders_model.g.dart';
@@ -24,21 +23,18 @@ class OrdersModel {
 
   Map<String, dynamic> toJson() => _$OrdersModelToJson(this);
 
-  Orders toEntity() {
-    if (orders == null) {
-      return Orders(
-        data: [],
-        total: 0,
-        page: 0,
-        size: 0,
-      );
-    }
-    List<Order> orderList = [];
-    for (var order in orders!) {
-      orderList.add(order.toEntity());
-    }
+  Orders emptyObject() {
     return Orders(
-      data: orderList,
+      data: [],
+      total: 0,
+      page: 0,
+      size: 0,
+    );
+  }
+
+  Orders toEntity(List<Order> ordersWithSource) {
+    return Orders(
+      data: ordersWithSource,
       total: total.orZero(),
       page: page.orZero(),
       size: size.orZero(),
@@ -182,7 +178,7 @@ class OrderModel {
 
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 
-  Order toEntity() {
+  Order toEntity({required OrderSource orderSource}) {
     return Order(
       id: id.orZero(),
       externalId: externalId.orEmpty(),
@@ -229,7 +225,7 @@ class OrderModel {
       autoPilotTime: autoPilotTime.orZero(),
       klikitComment: klikitComment.orEmpty(),
       isInterceptorOrder: isInterceptorOrder.orFalse(),
-      jsonData: json.encode(toJson()),
+      orderSource: orderSource,
     );
   }
 

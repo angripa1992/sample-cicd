@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
@@ -24,7 +24,6 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen>
     with TickerProviderStateMixin {
-  final _appPreferences = getIt.get<AppPreferences>();
   final _fcmTokenManager = getIt.get<FcmTokenManager>();
 
   late final AnimationController _controller = AnimationController(
@@ -59,7 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   void _gotoNextScreen() {
     Timer(const Duration(seconds: 2), () {
-      if (_appPreferences.isLoggedIn()) {
+      if (SessionManager().isLoggedIn()) {
         _registerFcmToken().then((value) {
           Navigator.of(context)
               .pushReplacementNamed(Routes.base, arguments: null);

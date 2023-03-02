@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/urls.dart';
 import 'package:klikit/environment_variables.dart';
 
@@ -15,9 +16,8 @@ import 'error_handler.dart';
 class TokenProvider {
   final Dio _tokenDio = Dio();
   final DioLogger _dioLogger = DioLogger();
-  final AppPreferences _appPreferences;
 
-  TokenProvider(this._appPreferences) {
+  TokenProvider() {
     _initInterceptor();
     _tokenDio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
   }
@@ -41,42 +41,26 @@ class TokenProvider {
     );
   }
 
-  void _logout() {
-    getIt.get<OrderInformationProvider>().clearData();
-    getIt.get<AppPreferences>().clearPreferences().then(
-      (value) {
-        Navigator.pushNamedAndRemoveUntil(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            Routes.login,
-            (route) => false);
-      },
-    );
-  }
+  String? getAccessToken() => SessionManager().accessToke();
 
-  void saveAccessToken(String? token) {
-    _appPreferences.insertAccessToken(token);
-  }
-
-  void saveRefreshToken(String? token) {
-    _appPreferences.insertRefreshToken(token);
-  }
-
-  String? getAccessToken() => _appPreferences.retrieveAccessToken();
-
-  String? getRefreshToken() => _appPreferences.retrieveRefreshToken();
+  String? getRefreshToken() => SessionManager().refreshToken();
 
   Future<Either<String, int>> fetchTokenFromServer() async {
     try {
-      final response = await _tokenDio
-          .post(Urls.refreshToken, data: {"refresh_token": getRefreshToken()});
+      final response = await _tokenDio.post(
+        Urls.refreshToken,
+        data: {"refresh_token": getRefreshToken()},
+      );
       final accessToken = response.data['access_token'];
       final refreshToken = response.data['refresh_token'];
-      saveAccessToken(accessToken);
-      saveRefreshToken(refreshToken);
+      await SessionManager().saveToken(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      );
       return Left(accessToken);
     } on DioError catch (error) {
       if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-        _logout();
+        SessionManager().logout();
         return Right(error.response?.statusCode ?? ResponseCode.UNAUTHORISED);
       }
       return Right(error.response?.statusCode ?? ResponseCode.DEFAULT);

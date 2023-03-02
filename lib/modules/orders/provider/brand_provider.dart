@@ -1,10 +1,11 @@
 import '../../../app/session_manager.dart';
 import '../data/request_models/brand_request_model.dart';
 import '../domain/entities/brand.dart';
+import '../domain/repository/order_info_provider_repo.dart';
 import '../domain/repository/orders_repository.dart';
 
 class BrandProvider {
-  final OrderRepository _orderRepository;
+  final OrderInfoProviderRepo _orderRepository;
   List<Brand> _brands = [];
 
   BrandProvider(this._orderRepository);

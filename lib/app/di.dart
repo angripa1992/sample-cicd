@@ -67,6 +67,8 @@ import '../environment_variables.dart';
 import '../language/language_manager.dart';
 import '../modules/base/chnage_language_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
+import '../modules/orders/data/repository/order_info_provider_repo_impl.dart';
+import '../modules/orders/domain/repository/order_info_provider_repo.dart';
 import '../modules/orders/presentation/bloc/add_comment_cubit.dart';
 import '../modules/orders/presentation/bloc/busy_mode_cubit.dart';
 import '../modules/orders/presentation/bloc/cancelled_order_cubit.dart';
@@ -92,10 +94,9 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
   getIt.registerSingleton<LocationProvider>(LocationProvider());
   getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
-  getIt.registerSingleton<SegmentDataProvider>(
-      SegmentDataProvider(getIt(), getIt()));
+  getIt.registerSingleton<SegmentDataProvider>(SegmentDataProvider(getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
-  getIt.registerSingleton<TokenProvider>(TokenProvider(getIt()));
+  getIt.registerSingleton<TokenProvider>(TokenProvider());
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
   getIt.registerSingleton<FcmTokenManager>(
@@ -122,12 +123,11 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => ChangePasswordCubit(getIt(), getIt()));
 
   ///order
-  getIt.registerLazySingleton<OrderRemoteDatasource>(
-      () => OrderRemoteDatasourceImpl(getIt()));
-  getIt.registerLazySingleton<OrderRepository>(
-      () => OrderRepositoryImpl(getIt(), getIt()));
+  getIt.registerLazySingleton<OrderRemoteDatasource>(() => OrderRemoteDatasourceImpl(getIt()));
+  getIt.registerLazySingleton<OrderInfoProviderRepo>(() => OrderInfoProviderRepoImpl(getIt(),getIt()));
   getIt.registerLazySingleton(() => OrderInformationProvider(getIt()));
   getIt.registerLazySingleton(() => OrderParameterProvider(getIt()));
+  getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(), getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchTotalOrders(getIt()));
   getIt.registerFactory(() => TotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchYesterdayTotalOrders(getIt()));

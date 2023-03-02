@@ -12,4 +12,19 @@ class Source {
   final String image;
 
   Source({required this.id, required this.name, required this.image});
+
+}
+
+enum SourceTpe{
+  source,
+  provider,
+}
+
+class OrderSource{
+  final int id;
+  final String title;
+  final String logo;
+  final SourceTpe sourceType;
+
+  OrderSource(this.id, this.title, this.logo, this.sourceType);
 }

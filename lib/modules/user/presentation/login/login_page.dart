@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
@@ -44,14 +43,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _appPreferences = getIt.get<AppPreferences>();
   final _fcmTokenManager = getIt.get<FcmTokenManager>();
   final _formKey = GlobalKey<FormState>();
   late Map<String, dynamic>? args;
 
   @override
   void initState() {
-    _emailController.text = _appPreferences.getLoginEmail();
+    _emailController.text = SessionManager().lastLoginEmail();
     super.initState();
   }
 
@@ -96,11 +94,14 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _saveUserData(User user) {
-    _appPreferences.saveLoginEmail(user.userInfo.email);
-    _appPreferences.insertAccessToken(user.accessToken);
-    _appPreferences.insertRefreshToken(user.refreshToken);
-    SessionManager().saveUser(user).then((_) {
+  void _saveUserData(User user) async {
+    await SessionManager().saveLastLoginEmail(user.userInfo.email);
+    await SessionManager().saveToken(
+      accessToken: user.accessToken,
+      refreshToken: user.refreshToken,
+    );
+    await SessionManager().setLoginState(isLoggedIn: true);
+    SessionManager().saveUser(user.userInfo).then((_) {
       _registerFcmToken();
       SegmentManager().identify(event: SegmentEvents.USER_LOGGED_IN);
     });
