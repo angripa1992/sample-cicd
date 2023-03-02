@@ -7,7 +7,6 @@ import 'package:klikit/app/klikit.dart';
 import 'package:klikit/environment_variables.dart';
 import 'package:klikit/language/smart_asset_loader.dart';
 import 'package:klikit/resources/assets.dart';
-
 import 'app/crashlytics_config.dart';
 import 'app/di.dart';
 import 'language/language_manager.dart';
