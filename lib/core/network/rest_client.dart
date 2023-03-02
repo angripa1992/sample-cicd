@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/network/urls.dart';
