@@ -158,10 +158,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => UpdateBusyModeCubit(getIt()));
 
   ///menu mgt
-  getIt.registerLazySingleton<MenuRemoteDatasource>(
-      () => MenuRemoteDatasourceImpl(getIt.get()));
-  getIt.registerLazySingleton<MenuRepository>(
-      () => MenuRepositoryImpl(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton<MenuRemoteDatasource>(() => MenuRemoteDatasourceImpl(getIt.get()));
+  getIt.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => FetchMenuBrands(getIt.get()));
   getIt.registerFactory(() => MenuBrandsCubit(getIt.get()));
   getIt.registerFactory(() => BrandSelectionCubit());

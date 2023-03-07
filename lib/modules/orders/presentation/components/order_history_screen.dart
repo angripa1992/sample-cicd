@@ -92,7 +92,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   }
 
   void _onPrint({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(order);
+    _printingHandler.printDocket(order: order);
     SegmentManager().trackOrderSegment(
       sourceTab: 'Order History',
       isFromDetails: isFromDetails,

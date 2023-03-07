@@ -80,15 +80,6 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
         );
   }
 
-  void _showDeviceListView() {
-    if (_appPreferences.printerSetting().connectionType ==
-        ConnectionType.BLUETOOTH) {
-      _printingHandler.showBleDevices();
-    } else {
-      _printingHandler.showUsbDevices();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -276,7 +267,9 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
             enable: _appPreferences.printerSetting().connectionType ==
                 _connectionType,
             verticalPadding: AppSize.s10.rh,
-            onTap: _showDeviceListView,
+            onTap: (){
+              _printingHandler.showDevices();
+            },
             text: AppStrings.show_devices.tr(),
             icon: _appPreferences.printerSetting().connectionType ==
                     ConnectionType.BLUETOOTH

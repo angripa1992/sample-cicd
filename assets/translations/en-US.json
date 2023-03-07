@@ -193,5 +193,8 @@
   "brands_selected": "Brands Selected",
   "order_instruction": "Order Instruction",
   "order_details": "Order Details",
-  "set_paper_size": "Set Paper Size"
+  "set_paper_size": "Set Paper Size",
+  "select_docket_type": "Select Docket Type",
+  "kitchen ": "Kitchen ",
+  "customer ": "Customer "
 }

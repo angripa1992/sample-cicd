@@ -148,7 +148,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   }
 
   void _printDocket({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(order);
+    _printingHandler.printDocket(order: order);
     SegmentManager().trackOrderSegment(
       sourceTab: 'New Order',
       isFromDetails: isFromDetails,

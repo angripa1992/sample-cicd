@@ -58,12 +58,10 @@ class _BaseScreenState extends State<BaseScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (mounted) {
-          final args = ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>?;
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
           if (args != null) {
             if (args[ArgumentKey.kIS_NOTIFICATION]) {
-              final navData = NotificationDataHandler()
-                  .getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
+              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
               context.read<BaseScreenCubit>().changeIndex(navData);
             }
           }
@@ -87,10 +85,10 @@ class _BaseScreenState extends State<BaseScreen> {
       final order = await NotificationDataHandler()
           .getOrderById(notificationData.orderId.toInt());
       if (order != null && order.status == OrderStatus.ACCEPTED) {
-        _printingHandler.verifyConnection(fromNotification: true, order: order);
+        _printingHandler.printDocket(order: order, isAutoPrint: true);
       }
     } else {
-      _printingHandler.verifyConnection(fromNotification: false);
+      _printingHandler.showDevices();
     }
   }
 

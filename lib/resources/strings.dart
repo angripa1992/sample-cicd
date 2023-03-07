@@ -240,4 +240,9 @@ class AppStrings {
   static const String aggregators_selected = "aggregators_selected";
   static const String brands_selected = "brands_selected";
   static const String set_paper_size = "set_paper_size";
+
+  ///docket
+  static const String select_docket_type = "select_docket_type";
+  static const String kitchen = "kitchen";
+  static const String customer = "customer";
 }
