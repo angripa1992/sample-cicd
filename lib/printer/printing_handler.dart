@@ -70,11 +70,12 @@ class PrintingHandler {
     if (_preferences.printerSetting().connectionType ==
         ConnectionType.BLUETOOTH) {
       if (_bluetoothPrinterHandler.isConnected()) {
-        if(isAutoPrint){
-          _doAutoPrint();
-        }else{
-          _doManualPrint(order);
-        }
+        _doAutoPrint(order);
+        // if(isAutoPrint){
+        //   _doAutoPrint(order);
+        // }else{
+        //   _doManualPrint(order);
+        // }
       } else if (isAutoPrint) {
         showErrorSnackBar(
           RoutesGenerator.navigatorKey.currentState!.context,
@@ -86,7 +87,7 @@ class PrintingHandler {
     } else {
       if (_usbPrinterHandler.isConnected()) {
         if(isAutoPrint){
-          _doAutoPrint();
+          _doAutoPrint(order);
         }else{
           _doManualPrint(order);
         }
@@ -117,7 +118,42 @@ class PrintingHandler {
     );
   }
 
-  void _doAutoPrint() {}
+  void _doAutoPrint(Order order) async{
+    final printerSetting = _preferences.printerSetting();
+    final customerCopy = await _generatePrintingData(order: order, docketType: DocketType.customer);
+    final kitchenCopy = await _generatePrintingData(order: order, docketType: DocketType.kitchen);
+    if (printerSetting.connectionType == ConnectionType.BLUETOOTH){
+      if(printerSetting.customerCopyEnabled){
+        if(customerCopy != null){
+          for (int i=0; i< printerSetting.customerCopyCount; i++) {
+            await _bluetoothPrinterHandler.printDocket(customerCopy);
+          }
+        }
+      }
+      if(printerSetting.kitchenCopyEnabled){
+        if(kitchenCopy != null){
+          for (int i=0; i< printerSetting.kitchenCopyCount; i++){
+            await _bluetoothPrinterHandler.printDocket(kitchenCopy);
+          }
+        }
+      }
+    }else{
+      if(printerSetting.customerCopyEnabled){
+        if(customerCopy != null){
+          for (int i=0; i< printerSetting.customerCopyCount; i++) {
+            await _usbPrinterHandler.printDocket(customerCopy);
+          }
+        }
+      }
+      if(printerSetting.kitchenCopyEnabled){
+        if(kitchenCopy != null){
+          for (int i=0; i< printerSetting.kitchenCopyCount; i++) {
+            await _usbPrinterHandler.printDocket(kitchenCopy);
+          }
+        }
+      }
+    }
+  }
 
   Future<List<int>?> _generatePrintingData({
     required Order order,

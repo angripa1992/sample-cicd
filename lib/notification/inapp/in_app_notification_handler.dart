@@ -37,8 +37,7 @@ class InAppNotificationHandler {
       return;
     }
     if (_isShowing) {
-      final currentNotificationCountData =
-          _currentContext?.read<NotificationCountCubit>().state;
+      final currentNotificationCountData = _currentContext?.read<NotificationCountCubit>().state;
       late NotificationCountData notificationCountData;
       if (data.type.toInt() == NotificationOrderType.NEW) {
         notificationCountData = NotificationCountData(
@@ -97,19 +96,18 @@ class InAppNotificationHandler {
   }
 
   void dismissInAppNotification() {
-    if (_currentContext != null && _isShowing) {
-      Navigator.pop(_currentContext!);
-    }
     _stopSound();
     _isShowing = false;
+    if (_currentContext != null) {
+      Navigator.pop(_currentContext!);
+    }
   }
 
   bool currentlyShowingAnyNotification() => _isShowing;
 
   void _navigateToOrderScreen(NotificationData data) {
     dismissInAppNotification();
-    NotificationHandler()
-        .navigateToOrderScreen(data, notificationType: NotificationType.IN_APP);
+    NotificationHandler().navigateToOrderScreen(data, notificationType: NotificationType.IN_APP);
   }
 
   void _showDialog(NotificationData data, NotificationCountCubit cubit) {
@@ -202,9 +200,6 @@ class InAppNotificationHandler {
           ),
         );
       },
-    ).then((value) {
-      _stopSound();
-      _isShowing = false;
-    });
+    );
   }
 }

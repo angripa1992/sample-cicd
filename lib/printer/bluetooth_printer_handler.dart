@@ -48,7 +48,7 @@ class BluetoothPrinterHandler {
     return _isConnected;
   }
 
-  void printDocket(List<int> data) async {
+  Future<void> printDocket(List<int> data) async {
     try {
       await _printerManager.send(type: PrinterType.bluetooth, bytes: data);
     } on PlatformException {

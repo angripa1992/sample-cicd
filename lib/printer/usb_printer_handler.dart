@@ -52,7 +52,7 @@ class UsbPrinterHandler {
     return _isConnected;
   }
 
-  void printDocket(List<int> data) async {
+  Future<void> printDocket(List<int> data) async {
     try {
       await _printerManager.send(type: PrinterType.usb, bytes: data);
     } on PlatformException {

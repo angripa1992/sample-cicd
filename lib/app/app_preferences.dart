@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
@@ -14,10 +15,7 @@ class AppPreferences {
   final String _kUser = "user";
   final String _kLoggedIn = "logged_in";
   final String _kLoginEmail = "login_email";
-  final String _kPrinterConnectionType = "printer_connection_type";
-  final String _kPrinterPaperSize = "printer_paper_size";
-  final String _kDocketType = "docket_type";
-  final String _kPrinterBranch = "printer_branch";
+  final String _kPrinterSetting = "printer_setting";
   final String _kLanguage = "language";
 
   AppPreferences(this._preferences);
@@ -74,43 +72,32 @@ class AppPreferences {
   }
 
   Future<void> savePrinterSettings({
-    PrinterSetting? printerSetting,
-    int? connectionType,
-    int? paperSize,
-    int? docketType,
+    required PrinterSetting printerSetting,
   }) async {
-    int branchId = printerSetting?.branchId ??
-        (_preferences.getInt(_kPrinterBranch) ?? ZERO);
-    int connection = printerSetting?.connectionType ?? connectionType!;
-    int paper = printerSetting?.paperSize ?? paperSize!;
-    int docket = printerSetting?.docketType ?? docketType!;
-    await _preferences.setInt(_kPrinterBranch, branchId);
-    await _preferences.setInt(_kPrinterConnectionType, connection);
-    await _preferences.setInt(_kPrinterPaperSize, paper);
-    await _preferences.setInt(_kDocketType, docket);
+    _preferences.setString(_kPrinterSetting, jsonEncode(printerSetting));
   }
 
   PrinterSetting printerSetting() {
-    return PrinterSetting(
-      branchId: _preferences.getInt(_kPrinterBranch) ?? ZERO,
-      connectionType: _preferences.getInt(_kPrinterConnectionType) ??
-          ConnectionType.BLUETOOTH,
-      paperSize: _preferences.getInt(_kPrinterPaperSize) ?? RollId.mm80,
-      docketType: _preferences.getInt(_kDocketType) ?? DocketType.customer,
-    );
-  }
-
-  Future<void> clearPrinterSetting() async {
-    await _preferences.remove(_kPrinterBranch);
-    await _preferences.remove(_kPrinterPaperSize);
-    await _preferences.remove(_kPrinterConnectionType);
-    await _preferences.remove(_kDocketType);
+    final preferenceData = _preferences.getString(_kPrinterSetting);
+    if (preferenceData == null) {
+      return PrinterSetting(
+        branchId: ZERO,
+        connectionType: ConnectionType.BLUETOOTH,
+        paperSize: RollId.mm80,
+        customerCopyEnabled: FALSE,
+        kitchenCopyEnabled: FALSE,
+        customerCopyCount: ZERO,
+        kitchenCopyCount: ZERO,
+      );
+    }
+    final data = json.decode(preferenceData);
+    return PrinterSetting.fromJson(data);
   }
 
   Future<void> clearPreferences() async {
     await _preferences.remove(_kAccessToken);
     await _preferences.remove(_kRefreshToken);
     await _preferences.remove(_kUser);
-    clearPrinterSetting();
+    await _preferences.remove(_kPrinterSetting);
   }
 }

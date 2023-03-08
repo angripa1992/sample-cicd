@@ -1,6 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/constants.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 
@@ -21,20 +19,7 @@ class PrinterSettingCubit extends Cubit<ResponseState> {
         emit(Failed(failure));
       },
       (data) {
-        if (data.isEmpty) {
-          emit(
-            Success<PrinterSetting>(
-              PrinterSetting(
-                branchId: ZERO,
-                connectionType: ConnectionType.BLUETOOTH,
-                paperSize: RollId.mm80,
-                docketType: DocketType.customer,
-              ),
-            ),
-          );
-        } else {
-          emit(Success<PrinterSetting>(data.first));
-        }
+        emit(Success<PrinterSetting>(data.first));
       },
     );
   }

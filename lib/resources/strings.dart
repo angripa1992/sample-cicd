@@ -243,6 +243,7 @@ class AppStrings {
 
   ///docket
   static const String select_docket_type = "select_docket_type";
+  static const String set_docket_type = "set_docket_type";
   static const String kitchen = "kitchen";
   static const String customer = "customer";
 }

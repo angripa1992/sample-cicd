@@ -39,7 +39,7 @@ class _PrinterConnectionSettingPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppStrings.printer_connection_settings.tr()),
+        title: Text(AppStrings.printer_settings.tr()),
         titleTextStyle: getAppBarTextStyle(),
         flexibleSpace: getAppBarBackground(),
       ),
@@ -49,8 +49,9 @@ class _PrinterConnectionSettingPageState
             return const Center(child: CircularProgressIndicator());
           } else if (state is Success<PrinterSetting>) {
             _savePrinterSettingLocally(printerSetting: state.data);
+            return const PrinterSettingBody();
           }
-          return const PrinterSettingBody();
+          return const SizedBox();
         },
       ),
     );

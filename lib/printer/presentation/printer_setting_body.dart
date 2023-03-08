@@ -7,6 +7,8 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/printer/data/printer_setting.dart';
+import 'package:klikit/printer/presentation/printer_setting_checkbox.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
 import 'package:klikit/resources/colors.dart';
@@ -18,6 +20,8 @@ import '../../core/utils/response_state.dart';
 import '../../modules/widgets/app_button.dart';
 import '../../resources/strings.dart';
 import '../../resources/styles.dart';
+import 'docket_counter_view.dart';
+import 'printer_setting_radio_item.dart';
 
 class PrinterSettingBody extends StatefulWidget {
   const PrinterSettingBody({Key? key}) : super(key: key);
@@ -29,9 +33,13 @@ class PrinterSettingBody extends StatefulWidget {
 class _PrinterSettingBodyState extends State<PrinterSettingBody> {
   final _appPreferences = getIt.get<AppPreferences>();
   final _printingHandler = getIt.get<PrintingHandler>();
+  late int _branchId;
   late int _connectionType;
   late int _paperSize;
-  late int _docketType;
+  late bool _customerCopyEnabled;
+  late int _customerCopyCount;
+  late bool _kitchenCopyEnabled;
+  late int _kitchenCopyCount;
 
   @override
   void initState() {
@@ -41,9 +49,13 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
 
   void _initPrinterSetting() {
     final printerSetting = _appPreferences.printerSetting();
+    _branchId = printerSetting.branchId;
     _connectionType = printerSetting.connectionType;
     _paperSize = printerSetting.paperSize;
-    _docketType = printerSetting.docketType;
+    _customerCopyEnabled = printerSetting.customerCopyEnabled;
+    _kitchenCopyEnabled = printerSetting.kitchenCopyEnabled;
+    _customerCopyCount = printerSetting.customerCopyCount;
+    _kitchenCopyCount = printerSetting.kitchenCopyCount;
   }
 
   void _changePrinterConnectionType(int connectionType) {
@@ -58,216 +70,173 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
     });
   }
 
-  void _changeDocketType(int type) {
+  void _changeCustomerCopyEnabled(bool enabled) {
     setState(() {
-      _docketType = type;
+      _customerCopyEnabled = enabled;
+    });
+  }
+
+  void _changeKitchenCopyEnabled(bool enabled) {
+    setState(() {
+      _kitchenCopyEnabled = enabled;
+    });
+  }
+
+  void _changeCustomerCopyCount(int count) {
+    setState(() {
+      _customerCopyCount = count;
+    });
+  }
+
+  void _changeKitchenCopyCount(int count) {
+    setState(() {
+      _kitchenCopyCount = count;
     });
   }
 
   void _savePrinterSettingLocally() async {
     await _appPreferences.savePrinterSettings(
-      connectionType: _connectionType,
-      paperSize: _paperSize,
-      docketType: _docketType,
+      printerSetting: _createPrinterSettingFromLocalVariables(false),
     );
     setState(() {});
   }
 
   void _updatePrinterSetting() {
     context.read<UpdatePrinterSettingCubit>().updatePrintSetting(
-          connectionType: _connectionType,
-          paperSize: _paperSize,
+          printerSetting: _createPrinterSettingFromLocalVariables(true),
         );
+  }
+
+  PrinterSetting _createPrinterSettingFromLocalVariables(bool isUpdating) {
+    return PrinterSetting(
+      branchId: _branchId,
+      connectionType: _connectionType,
+      paperSize: _paperSize,
+      customerCopyEnabled: _customerCopyEnabled,
+      kitchenCopyEnabled: _kitchenCopyEnabled,
+      customerCopyCount: isUpdating ? (_customerCopyEnabled ? _customerCopyCount : 1) : _customerCopyCount,
+      kitchenCopyCount: isUpdating ? (_kitchenCopyEnabled ? _kitchenCopyCount : 1) : _kitchenCopyCount,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        /// connection type
-        Padding(
-          padding: EdgeInsets.only(
-            left: AppSize.s20.rw,
-            right: AppSize.s20.rw,
-            top: AppSize.s16.rh,
-            bottom: AppSize.s8.rh,
-          ),
-          child: Text(
-            AppStrings.set_printer_connection_type.tr(),
-            style: getRegularTextStyle(
-              color: AppColors.purpleBlue,
-              fontSize: AppFontSize.s18.rSp,
-            ),
-          ),
-        ),
-        ListTile(
-          title: Text(
-            AppStrings.bluetooth.tr(),
-            style: getRegularTextStyle(
-              color: AppColors.blueViolet,
-              fontSize: AppSize.s16.rSp,
-            ),
-          ),
-          leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s20.rw,
+        vertical: AppSize.s12.rh,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          /// connection type
+          _title(AppStrings.set_printer_connection_type.tr()),
+          PrinterSettingRadioItem(
             value: ConnectionType.BLUETOOTH,
             groupValue: _connectionType,
-            onChanged: (int? type) => _changePrinterConnectionType(type!),
+            onChanged: _changePrinterConnectionType,
+            name: AppStrings.bluetooth.tr(),
           ),
-        ),
-        ListTile(
-          title: Text(
-            AppStrings.usb.tr(),
-            style: getRegularTextStyle(
-              color: AppColors.blueViolet,
-              fontSize: AppSize.s16.rSp,
-            ),
-          ),
-          leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
+          PrinterSettingRadioItem(
             value: ConnectionType.USB,
             groupValue: _connectionType,
-            onChanged: (int? type) => _changePrinterConnectionType(type!),
+            onChanged: _changePrinterConnectionType,
+            name: AppStrings.usb.tr(),
           ),
-        ),
 
-        /// Paper size
+          Divider(color: AppColors.blueViolet),
 
-        Padding(
-          padding: EdgeInsets.only(
-            left: AppSize.s20.rw,
-            right: AppSize.s20.rw,
-            top: AppSize.s16.rh,
-            bottom: AppSize.s8.rh,
-          ),
-          child: Text(
-            AppStrings.set_paper_size.tr(),
-            style: getRegularTextStyle(
-              color: AppColors.purpleBlue,
-              fontSize: AppFontSize.s18.rSp,
-            ),
-          ),
-        ),
-        ListTile(
-          title: Text(
-            '58mm',
-            style: getRegularTextStyle(
-              color: AppColors.blueViolet,
-              fontSize: AppSize.s16.rSp,
-            ),
-          ),
-          leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
+          /// Paper size
+          _title(AppStrings.set_paper_size.tr()),
+          PrinterSettingRadioItem(
             value: RollId.mm58,
             groupValue: _paperSize,
-            onChanged: (int? size) => _changePrinterPaperSize(size!),
+            onChanged: _changePrinterPaperSize,
+            name: '58mm',
           ),
-        ),
-        ListTile(
-          title: Text(
-            '80mm',
-            style: getRegularTextStyle(
-              color: AppColors.blueViolet,
-              fontSize: AppSize.s16.rSp,
-            ),
-          ),
-          leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
+          PrinterSettingRadioItem(
             value: RollId.mm80,
             groupValue: _paperSize,
-            onChanged: (int? size) => _changePrinterPaperSize(size!),
+            onChanged: _changePrinterPaperSize,
+            name: '80mm',
           ),
-        ),
 
-        /// Docket type
+          Divider(color: AppColors.blueViolet),
 
-        // Padding(
-        //   padding: EdgeInsets.only(
-        //     left: AppSize.s20.rw,
-        //     right: AppSize.s20.rw,
-        //     top: AppSize.s16.rh,
-        //     bottom: AppSize.s8.rh,
-        //   ),
-        //   child: Text(
-        //     'Set Docket Type',
-        //     style: getRegularTextStyle(
-        //       color: AppColors.purpleBlue,
-        //       fontSize: AppFontSize.s18.rSp,
-        //     ),
-        //   ),
-        // ),
-        // ListTile(
-        //   title: Text(
-        //     'Kitchen',
-        //     style: getRegularTextStyle(
-        //       color: AppColors.blueViolet,
-        //       fontSize: AppSize.s16.rSp,
-        //     ),
-        //   ),
-        //   leading: Radio(
-        //     fillColor: MaterialStateColor.resolveWith(
-        //         (states) => AppColors.purpleBlue),
-        //     value: DocketType.kitchen,
-        //     groupValue: _docketType,
-        //     onChanged: (int? type) => _changeDocketType(type!),
-        //   ),
-        // ),
-        // ListTile(
-        //   title: Text(
-        //     'Customer',
-        //     style: getRegularTextStyle(
-        //       color: AppColors.blueViolet,
-        //       fontSize: AppSize.s16.rSp,
-        //     ),
-        //   ),
-        //   leading: Radio(
-        //     fillColor: MaterialStateColor.resolveWith(
-        //         (states) => AppColors.purpleBlue),
-        //     value: DocketType.customer,
-        //     groupValue: _docketType,
-        //     onChanged: (int? type) => _changeDocketType(type!),
-        //   ),
-        // ),
+          /// Docket type
 
-        /// save button
-
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s24.rw,
-            vertical: AppSize.s24.rh,
+          _title(AppStrings.set_docket_type.tr()),
+          Row(
+            children: [
+              Expanded(
+                child: PrinterSettingCheckbox(
+                  enabled: _kitchenCopyEnabled,
+                  onChanged: _changeKitchenCopyEnabled,
+                  name: AppStrings.kitchen.tr(),
+                ),
+              ),
+              DocketCounterView(
+                enabled: _kitchenCopyEnabled,
+                count: _kitchenCopyCount,
+                onChanged: _changeKitchenCopyCount,
+              ),
+            ],
           ),
-          child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
-            listener: (context, state) {
-              if (state is Failed) {
-                showApiErrorSnackBar(context, state.failure);
-              } else if (state is Success<ActionSuccess>) {
-                _savePrinterSettingLocally();
-                showSuccessSnackBar(context, state.data.message ?? '');
-              }
-            },
-            builder: (context, state) {
-              return LoadingButton(
-                isLoading: state is Loading,
-                verticalPadding: AppSize.s10.rh,
-                onTap: _updatePrinterSetting,
-                text: AppStrings.save.tr(),
-              );
-            },
+          SizedBox(height: AppSize.s12.rh),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: AppSize.s28.rw),
+                  child: Text(
+                    AppStrings.customer.tr(),
+                    style: getRegularTextStyle(
+                      color: AppColors.blueViolet,
+                      fontSize: AppSize.s16.rSp,
+                    ),
+                  ),
+                ),
+              ),
+              DocketCounterView(
+                enabled: _customerCopyEnabled,
+                count: _customerCopyCount,
+                onChanged: _changeCustomerCopyCount,
+              ),
+            ],
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s24.rw),
-          child: AppButton(
+
+          /// save button
+
+          const Spacer(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: AppSize.s12.rh,
+            ),
+            child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
+              listener: (context, state) {
+                if (state is Failed) {
+                  showApiErrorSnackBar(context, state.failure);
+                } else if (state is Success<ActionSuccess>) {
+                  _savePrinterSettingLocally();
+                  showSuccessSnackBar(context, state.data.message ?? '');
+                }
+              },
+              builder: (context, state) {
+                return LoadingButton(
+                  isLoading: state is Loading,
+                  verticalPadding: AppSize.s10.rh,
+                  onTap: _updatePrinterSetting,
+                  text: AppStrings.save.tr(),
+                );
+              },
+            ),
+          ),
+          AppButton(
             enable: _appPreferences.printerSetting().connectionType ==
                 _connectionType,
             verticalPadding: AppSize.s10.rh,
-            onTap: (){
+            onTap: () {
               _printingHandler.showDevices();
             },
             text: AppStrings.show_devices.tr(),
@@ -276,8 +245,18 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                 ? Icons.bluetooth
                 : Icons.usb,
           ),
-        ),
-      ],
+        ],
+      ),
+    );
+  }
+
+  Widget _title(String title) {
+    return Text(
+      title,
+      style: getMediumTextStyle(
+        color: AppColors.purpleBlue,
+        fontSize: AppFontSize.s16.rSp,
+      ),
     );
   }
 }
