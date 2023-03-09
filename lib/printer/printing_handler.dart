@@ -70,7 +70,7 @@ class PrintingHandler {
     if (_preferences.printerSetting().connectionType ==
         ConnectionType.BLUETOOTH) {
       if (_bluetoothPrinterHandler.isConnected()) {
-        _doAutoPrint(order);
+        //_doAutoPrint(order);
         // if(isAutoPrint){
         //   _doAutoPrint(order);
         // }else{
@@ -105,15 +105,15 @@ class PrintingHandler {
   void _doManualPrint(Order order) {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
-        _showPreview(order: order, docketType: type);
-        // final printingData = await _generatePrintingData(order: order, docketType: type);
-        // if (printingData != null){
-        //   if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH){
-        //     _bluetoothPrinterHandler.printDocket(printingData);
-        //   }else{
-        //     _usbPrinterHandler.printDocket(printingData);
-        //   }
-        // }
+       // _showPreview(order: order, docketType: type);
+        final printingData = await _generatePrintingData(order: order, docketType: type);
+        if (printingData != null){
+          if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH){
+            _bluetoothPrinterHandler.printDocket(printingData);
+          }else{
+            _usbPrinterHandler.printDocket(printingData);
+          }
+        }
       },
     );
   }
@@ -130,7 +130,7 @@ class PrintingHandler {
           }
         }
       }
-      if(printerSetting.kitchenCopyEnabled){
+      if(printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO){
         if(kitchenCopy != null){
           for (int i=0; i< printerSetting.kitchenCopyCount; i++){
             await _bluetoothPrinterHandler.printDocket(kitchenCopy);
@@ -145,7 +145,7 @@ class PrintingHandler {
           }
         }
       }
-      if(printerSetting.kitchenCopyEnabled){
+      if(printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO){
         if(kitchenCopy != null){
           for (int i=0; i< printerSetting.kitchenCopyCount; i++) {
             await _usbPrinterHandler.printDocket(kitchenCopy);

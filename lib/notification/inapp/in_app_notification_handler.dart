@@ -33,9 +33,6 @@ class InAppNotificationHandler {
   InAppNotificationHandler._internal();
 
   void handleNotification(NotificationData data) {
-    if (!SessionManager().isLoggedIn()) {
-      return;
-    }
     if (_isShowing) {
       final currentNotificationCountData = _currentContext?.read<NotificationCountCubit>().state;
       late NotificationCountData notificationCountData;
@@ -50,8 +47,7 @@ class InAppNotificationHandler {
           numOfCancelOrders: currentNotificationCountData.numOfCancelOrders + 1,
         );
       }
-      if (currentNotificationCountData.numOfNewOrders > 0 ||
-          data.type.toInt() == NotificationOrderType.NEW) {
+      if (currentNotificationCountData.numOfNewOrders > 0 || data.type.toInt() == NotificationOrderType.NEW) {
         _stopSound();
         _playNewSound();
       }
@@ -61,12 +57,10 @@ class InAppNotificationHandler {
     } else {
       late NotificationCountData notificationCountData;
       if (data.type.toInt() == NotificationOrderType.NEW) {
-        notificationCountData =
-            NotificationCountData(numOfNewOrders: 1, numOfCancelOrders: 0);
+        notificationCountData = NotificationCountData(numOfNewOrders: 1, numOfCancelOrders: 0);
         _playNewSound();
       } else {
-        notificationCountData =
-            NotificationCountData(numOfNewOrders: 0, numOfCancelOrders: 1);
+        notificationCountData = NotificationCountData(numOfNewOrders: 0, numOfCancelOrders: 1);
         _playCancelSound();
       }
       final cubit = NotificationCountCubit(notificationCountData);
@@ -95,7 +89,7 @@ class InAppNotificationHandler {
     _notificationSound.stop();
   }
 
-  void dismissInAppNotification() {
+  void _dismissInAppNotification() {
     _stopSound();
     _isShowing = false;
     if (_currentContext != null) {
@@ -106,7 +100,7 @@ class InAppNotificationHandler {
   bool currentlyShowingAnyNotification() => _isShowing;
 
   void _navigateToOrderScreen(NotificationData data) {
-    dismissInAppNotification();
+    _dismissInAppNotification();
     NotificationHandler().navigateToOrderScreen(data, notificationType: NotificationType.IN_APP);
   }
 

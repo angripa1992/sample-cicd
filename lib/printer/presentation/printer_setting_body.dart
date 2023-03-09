@@ -114,8 +114,12 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
       paperSize: _paperSize,
       customerCopyEnabled: _customerCopyEnabled,
       kitchenCopyEnabled: _kitchenCopyEnabled,
-      customerCopyCount: isUpdating ? (_customerCopyEnabled ? _customerCopyCount : 1) : _customerCopyCount,
-      kitchenCopyCount: isUpdating ? (_kitchenCopyEnabled ? _kitchenCopyCount : 1) : _kitchenCopyCount,
+      customerCopyCount: isUpdating
+          ? (_customerCopyEnabled ? _customerCopyCount : 1)
+          : _customerCopyCount,
+      kitchenCopyCount: isUpdating
+          ? (_kitchenCopyEnabled ? _kitchenCopyCount : 1)
+          : _kitchenCopyCount,
     );
   }
 
@@ -180,6 +184,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                 enabled: _kitchenCopyEnabled,
                 count: _kitchenCopyCount,
                 onChanged: _changeKitchenCopyCount,
+                minCount: 0,
               ),
             ],
           ),
@@ -202,6 +207,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                 enabled: _customerCopyEnabled,
                 count: _customerCopyCount,
                 onChanged: _changeCustomerCopyCount,
+                minCount: 1,
               ),
             ],
           ),

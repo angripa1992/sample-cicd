@@ -8,6 +8,7 @@ import 'package:klikit/resources/values.dart';
 class DocketCounterView extends StatelessWidget {
   final bool enabled;
   final int count;
+  final int minCount;
   final Function(int) onChanged;
 
   const DocketCounterView({
@@ -15,6 +16,7 @@ class DocketCounterView extends StatelessWidget {
     required this.enabled,
     required this.count,
     required this.onChanged,
+    required this.minCount,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class DocketCounterView extends StatelessWidget {
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
               onPressed:
-                  (enabled && count > 1) ? () => onChanged(count - 1) : null,
+                  (enabled && count > minCount) ? () => onChanged(count - 1) : null,
               icon: Icon(
                 Icons.remove,
                 color: AppColors.white,

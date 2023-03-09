@@ -40,7 +40,7 @@ class RestClient {
   }
 
   void _initInterceptor() {
-    _dioLogger.setLogStatus(LogStatus.OPEN);
+    _dioLogger.setLogStatus(LogStatus.CLOSE);
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
     _addHeader();
     _dio.interceptors.add(

@@ -37,7 +37,7 @@ dependencies:
   package_info_plus: ^3.0.2
   audioplayers: ^2.0.0
   permission_handler: ^10.2.0
-  flutter_pos_printer_platform: ^1.0.12
+  flutter_pos_printer_platform: ^1.1.0
   percent_indicator: ^4.2.2
   device_info_plus: ^4.0.0
   geolocator: ^9.0.2

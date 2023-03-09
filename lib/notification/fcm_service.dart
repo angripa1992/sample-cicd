@@ -4,6 +4,8 @@ import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/notification/local_notification_service.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
 
+import '../app/session_manager.dart';
+
 class FcmService {
   static final FcmService _instance = FcmService._internal();
 
@@ -29,8 +31,13 @@ class FcmService {
 
   void registerForegroundListener() async {
     FirebaseMessaging.onMessage.listen((message) {
-      InAppNotificationHandler().handleNotification(
-          NotificationDataHandler().getNotificationData(message.data));
+      if (SessionManager().isLoggedIn()) {
+        InAppNotificationHandler().handleNotification(
+          NotificationDataHandler().getNotificationData(
+            message.data,
+          ),
+        );
+      }
     });
   }
 

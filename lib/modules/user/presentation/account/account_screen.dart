@@ -204,10 +204,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               showApiErrorSnackBar(context, state.failure);
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
-                              InAppNotificationHandler()
-                                  .dismissInAppNotification();
-                              SegmentManager().identify(
-                                  event: SegmentEvents.USER_LOGGED_OUT);
+                              SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
                               SessionManager().logout();
                             }
                           },
