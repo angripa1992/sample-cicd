@@ -9,12 +9,14 @@ class PrinterSettingCheckbox extends StatelessWidget {
   final String name;
   final bool enabled;
   final Function(bool) onChanged;
+  final bool willAlwaysChecked;
 
   const PrinterSettingCheckbox(
       {Key? key,
       required this.name,
       required this.enabled,
-      required this.onChanged})
+      required this.onChanged,
+      required this.willAlwaysChecked})
       : super(key: key);
 
   @override
@@ -27,8 +29,8 @@ class PrinterSettingCheckbox extends StatelessWidget {
           fontSize: AppSize.s16.rSp,
         ),
       ),
-      value: enabled,
-      onChanged: (bool? value) => onChanged(value!),
+      value: willAlwaysChecked ? true : enabled,
+      onChanged: (bool? value) => willAlwaysChecked ? null : onChanged(value!),
       controlAffinity: ListTileControlAffinity.leading,
       activeColor: AppColors.purpleBlue,
     );

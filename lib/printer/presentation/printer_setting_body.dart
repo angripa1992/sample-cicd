@@ -178,6 +178,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                   enabled: _kitchenCopyEnabled,
                   onChanged: _changeKitchenCopyEnabled,
                   name: AppStrings.kitchen.tr(),
+                  willAlwaysChecked: false,
                 ),
               ),
               DocketCounterView(
@@ -188,19 +189,14 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
               ),
             ],
           ),
-          SizedBox(height: AppSize.s12.rh),
           Row(
             children: [
               Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(left: AppSize.s28.rw),
-                  child: Text(
-                    AppStrings.customer.tr(),
-                    style: getRegularTextStyle(
-                      color: AppColors.blueViolet,
-                      fontSize: AppSize.s16.rSp,
-                    ),
-                  ),
+                child: PrinterSettingCheckbox(
+                  enabled: _customerCopyEnabled,
+                  onChanged: _changeKitchenCopyEnabled,
+                  name: AppStrings.customer.tr(),
+                  willAlwaysChecked: true,
                 ),
               ),
               DocketCounterView(
