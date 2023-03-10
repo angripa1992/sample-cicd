@@ -5,7 +5,6 @@ import 'package:klikit/notification/notification_data.dart';
 
 import '../../app/constants.dart';
 import '../../core/route/routes.dart';
-import 'inapp/in_app_notification_handler.dart';
 import 'notification_data_handler.dart';
 
 class NotificationHandler {

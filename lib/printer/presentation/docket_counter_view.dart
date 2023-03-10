@@ -36,8 +36,9 @@ class DocketCounterView extends StatelessWidget {
             IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              onPressed:
-                  (enabled && count > minCount) ? () => onChanged(count - 1) : null,
+              onPressed: (enabled && count > minCount)
+                  ? () => onChanged(count - 1)
+                  : null,
               icon: Icon(
                 Icons.remove,
                 color: AppColors.white,

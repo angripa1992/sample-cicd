@@ -82,7 +82,6 @@ import '../modules/orders/presentation/bloc/update_busy_mode_cubit.dart';
 import '../modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import '../modules/orders/provider/order_parameter_provider.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
-import '../notification/inapp/notification_count_cubit.dart';
 import '../segments/segemnt_data_provider.dart';
 
 final getIt = GetIt.instance;
@@ -177,10 +176,6 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => UpdateModifier(getIt.get()));
   getIt.registerFactory(() => UpdateModifierCubit(getIt.get(), getIt.get()));
   getIt.registerFactory(() => AggregatorSelectionCubit());
-
-  ///notification
-  getIt.registerFactory(() => NewNotificationCountCubit());
-  getIt.registerFactory(() => CancelNotificationCountCubit());
 
   ///printer
   getIt.registerLazySingleton(() => BluetoothPrinterHandler());
