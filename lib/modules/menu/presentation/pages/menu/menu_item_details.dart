@@ -11,10 +11,11 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/items.dart';
+import 'menu_snooze_view.dart';
 import 'menu_switch_view.dart';
 
 class MenuItemDetails extends StatefulWidget {
-  final Items items;
+  final MenuItems items;
   final bool parentEnabled;
   final Function(bool) onChanged;
   final int brandID;
@@ -100,10 +101,19 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     child: Text(
                       widget.items.title,
                       style: getRegularTextStyle(
-                          fontSize: AppFontSize.s16.rSp,
-                          color: AppColors.black),
+                        fontSize: AppFontSize.s16.rSp,
+                        color: AppColors.black,
+                      ),
                     ),
                   ),
+                ),
+                MenuSnoozeView(
+                  items: widget.items,
+                  providerId: widget.providerID,
+                  borderRadius: AppSize.s16.rSp,
+                  width: AppSize.s100.rw,
+                  bgColor: AppColors.dustyOrange.withOpacity(0.1),
+                  parentEnabled: widget.parentEnabled,
                 ),
                 MenuSwitchView(
                   id: widget.items.id,
@@ -112,7 +122,13 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   type: MenuType.ITEM,
                   enabled: widget.items.stock.available,
                   parentEnabled: widget.parentEnabled,
-                  onChanged: widget.onChanged,
+                  onChanged: (enabled) {
+                    widget.onChanged(enabled);
+                    setState(() {
+                      widget.items.stock.available = enabled;
+                    });
+                  },
+                  willShowBg: false,
                 ),
               ],
             ),

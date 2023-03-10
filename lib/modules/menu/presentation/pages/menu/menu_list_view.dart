@@ -75,6 +75,7 @@ class _MenuListViewState extends State<MenuListView> {
           content: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
             child: SubMenuListView(
+              key: UniqueKey(),
               subSections: widget.sections[index].subSections,
               parentEnabled: widget.sections[index].enabled,
               onChanged: (modifiedSubSections) {
@@ -90,7 +91,7 @@ class _MenuListViewState extends State<MenuListView> {
       },
       seperatorBuilder: (context, _) {
         return SizedBox(
-          height: AppSize.s12.rh,
+          height: AppSize.s8.rh,
         );
       },
     );

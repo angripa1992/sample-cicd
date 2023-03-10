@@ -106,14 +106,13 @@ class PrintingHandler {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
         // _showPreview(order: order, docketType: type);
-        final printingData =
-            await _generatePrintingData(order: order, docketType: type);
+        final printingData = await _generatePrintingData(order: order, docketType: type);
         if (printingData != null) {
           if (_preferences.printerSetting().connectionType ==
               ConnectionType.BLUETOOTH) {
-            _bluetoothPrinterHandler.printDocket(printingData);
+           await _bluetoothPrinterHandler.printDocket(printingData);
           } else {
-            _usbPrinterHandler.printDocket(printingData);
+            await _usbPrinterHandler.printDocket(printingData);
           }
         }
       },

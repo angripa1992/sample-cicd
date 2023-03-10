@@ -74,7 +74,7 @@ class MenusCubit extends Cubit<ResponseState> {
     });
   }
 
-  void _filterHiddenSubSectionsItems(int? providerId, List<Items> data) {
+  void _filterHiddenSubSectionsItems(int? providerId, List<MenuItems> data) {
     data.removeWhere((section) {
       return section.statuses.any((status) {
         if (providerId == ZERO) {

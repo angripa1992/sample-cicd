@@ -51,8 +51,8 @@ class ItemsModel {
   factory ItemsModel.fromJson(Map<String, dynamic> json) =>
       _$ItemsModelFromJson(json);
 
-  Items toEntity() {
-    return Items(
+  MenuItems toEntity() {
+    return MenuItems(
       id: id.orZero(),
       title: title.orEmpty(),
       prices: _prices(),

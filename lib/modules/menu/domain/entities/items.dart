@@ -3,7 +3,7 @@ import 'package:klikit/modules/menu/domain/entities/status.dart';
 import 'package:klikit/modules/menu/domain/entities/stock.dart';
 import 'package:klikit/modules/menu/domain/entities/v2_data.dart';
 
-class Items {
+class MenuItems {
   final int id;
   final String title;
   final List<Prices> prices;
@@ -15,11 +15,11 @@ class Items {
   final List<Statuses> statuses;
   final int sequence;
   final int defaultItemId;
-  Stock stock;
   final TitleV2 titleV2;
   final DescriptionV2 descriptionV2;
+  Stock stock;
 
-  Items({
+  MenuItems({
     required this.id,
     required this.title,
     required this.prices,

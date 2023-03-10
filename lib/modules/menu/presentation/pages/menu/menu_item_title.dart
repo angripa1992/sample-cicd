@@ -1,10 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/sections.dart';
-import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -54,74 +52,77 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color:
-          widget.controller.isExpanded ? AppColors.purpleBlue : AppColors.white,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s20.rw,
-          vertical:
-              widget.controller.isExpanded ? AppSize.s16.rh : AppSize.s4.rh,
-        ),
+      //color: widget.controller.isExpanded ? AppColors.purpleBlue : AppColors.white,
+      child: IntrinsicHeight(
         child: Row(
           children: [
-            if (!widget.controller.isExpanded)
-              MenuSwitchView(
-                enabled: widget.sections.enabled,
-                parentEnabled: true,
-                providerId: widget.providerID,
-                onChanged: widget.onChanged,
-                id: widget.sections.id,
-                brandId: widget.brandId,
-                type: MenuType.SECTION,
-              ),
-            if (!widget.controller.isExpanded) SizedBox(width: AppSize.s12.rw),
-            Expanded(
-              child: Row(
-                children: [
-                  Text(
-                    '${widget.index + 1}.',
-                    style: getRegularTextStyle(
-                      color: widget.controller.isExpanded
-                          ? AppColors.white
-                          : AppColors.purpleBlue,
-                      fontSize: AppFontSize.s15.rSp,
-                    ),
+            if (widget.controller.isExpanded)
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(AppSize.s8.rSp),
+                    bottomLeft: Radius.circular(AppSize.s8.rSp),
                   ),
-                  SizedBox(width: AppSize.s4.rw),
-                  Expanded(
-                    child: Text(
-                      widget.sections.title,
-                      style: getRegularTextStyle(
-                        color: widget.controller.isExpanded
-                            ? AppColors.white
-                            : AppColors.purpleBlue,
-                        fontSize: AppFontSize.s15.rSp,
+                  color: AppColors.purpleBlue,
+                ),
+                width: AppSize.s4.rw,
+              ),
+            Flexible(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s12.rw,
+                  vertical: AppSize.s6.rh,
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: AppSize.s12.rw),
+                      child: Icon(
+                        widget.controller.isExpanded
+                            ? Icons.arrow_drop_up
+                            : Icons.arrow_drop_down,
+                        color: AppColors.purpleBlue,
+                        size: AppSize.s18,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            if (widget.controller.isExpanded)
-              Text(
-                '${widget.sections.subSections.length} ${AppStrings.items.tr()}',
-                style: getRegularTextStyle(
-                  color: AppColors.white,
-                  fontSize: AppFontSize.s15.rSp,
+                    SizedBox(width: AppSize.s24.rw),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          if (!widget.controller.isExpanded)
+                            Text(
+                              '${widget.index + 1}. ',
+                              style: getRegularTextStyle(
+                                color: AppColors.balticSea,
+                                fontSize: AppFontSize.s17.rSp,
+                              ),
+                            ),
+                          SizedBox(width: AppSize.s4.rw),
+                          Expanded(
+                            child: Text(
+                              '${widget.sections.title} ${widget.controller.isExpanded ? '(${widget.sections.subSections.length})' : ''}',
+                              style: getRegularTextStyle(
+                                color: AppColors.balticSea,
+                                fontSize: AppFontSize.s16.rSp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    MenuSwitchView(
+                      enabled: widget.sections.enabled,
+                      parentEnabled: true,
+                      providerId: widget.providerID,
+                      onChanged: widget.onChanged,
+                      id: widget.sections.id,
+                      brandId: widget.brandId,
+                      type: MenuType.SECTION,
+                    ),
+                  ],
                 ),
               ),
-            Padding(
-              padding: EdgeInsets.only(left: AppSize.s12.rw),
-              child: Icon(
-                widget.controller.isExpanded
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
-                color: widget.controller.isExpanded
-                    ? AppColors.white
-                    : AppColors.purpleBlue,
-                size: AppSize.s18,
-              ),
-            ),
+            )
           ],
         ),
       ),

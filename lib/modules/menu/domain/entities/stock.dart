@@ -1,13 +1,13 @@
 class Stock {
   bool available;
-  final Snooze snooze;
+  Snooze snooze;
 
   Stock({required this.available, required this.snooze});
 }
 
 class Snooze {
-  final String startTime;
-  final int duration;
+  String startTime;
+  int duration;
 
   Snooze({required this.startTime, required this.duration});
 }

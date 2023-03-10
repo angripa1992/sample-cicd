@@ -6,17 +6,19 @@ import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
+import '../../../../../resources/colors.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/items.dart';
 import 'menu_item_details.dart';
+import 'menu_snooze_view.dart';
 
 class SubMenuItemsListView extends StatefulWidget {
   final SubSections subSections;
   final bool parentEnabled;
   final int brandID;
   final int providerID;
-  final Function(List<Items>) onChanged;
+  final Function(List<MenuItems>) onChanged;
 
   const SubMenuItemsListView({
     Key? key,
@@ -32,7 +34,7 @@ class SubMenuItemsListView extends StatefulWidget {
 }
 
 class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
-  final List<Items> _items = [];
+  final List<MenuItems> _items = [];
 
   @override
   void initState() {
@@ -55,6 +57,28 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
     );
   }
 
+  void _showItemDetails(int index) {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppSize.s14.rSp),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return MenuItemDetails(
+          items: _items[index],
+          parentEnabled: widget.parentEnabled && widget.subSections.enabled,
+          brandID: widget.brandID,
+          providerID: widget.providerID,
+          onChanged: (enabled) {
+            _onChanged(index, enabled);
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -62,70 +86,76 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
         key: UniqueKey(),
         itemCount: _items.length,
         itemBuilder: (_, index) {
-          return InkWell(
-            onTap: () {
-              showModalBottomSheet<void>(
-                context: context,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(AppSize.s14.rSp),
-                  ),
-                ),
-                builder: (BuildContext context) {
-                  return MenuItemDetails(
-                    items: _items[index],
-                    parentEnabled:
-                        widget.parentEnabled && widget.subSections.enabled,
-                    brandID: widget.brandID,
-                    providerID: widget.providerID,
-                    onChanged: (enabled) {
-                      _onChanged(index, enabled);
-                    },
-                  );
-                },
-              );
-            },
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSize.s4.rh,
-                  horizontal: AppSize.s10.rw,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: AppSize.s10.rw),
-                      child: ImageView(
-                        path: _items[index].image,
-                        width: AppSize.s36.rw,
-                        height: AppSize.s36.rh,
+          return Card(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: AppSize.s8.rh,
+                horizontal: AppSize.s10.rw,
+              ),
+              child: IntrinsicHeight(
+                child: InkWell(
+                  onTap: () {
+                    _showItemDetails(index);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: AppSize.s10.rw),
+                              child: ImageView(
+                                path: _items[index].image,
+                                width: AppSize.s36.rw,
+                                height: AppSize.s36.rh,
+                              ),
+                            ),
+                            Flexible(
+                              child: Row(
+                                children: [
+                                  Text('${index + 1}.'),
+                                  SizedBox(width: AppSize.s4.rw),
+                                  Expanded(
+                                      child: Text(
+                                          '${_items[index].title} dvjnddvvevve')),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text('${index + 1}.'),
-                          SizedBox(width: AppSize.s4.rw),
-                          Expanded(
-                            child: Text(_items[index].title),
+                          Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                            child: MenuSnoozeView(
+                              items: _items[index],
+                              providerId: widget.providerID,
+                              borderRadius: AppSize.s8.rSp,
+                              width: AppSize.s80.rw,
+                              bgColor: AppColors.whiteSmoke,
+                              parentEnabled: widget.parentEnabled,
+                            ),
+                          ),
+                          MenuSwitchView(
+                            id: _items[index].id,
+                            brandId: widget.brandID,
+                            providerId: widget.providerID,
+                            type: MenuType.ITEM,
+                            enabled: _items[index].stock.available,
+                            parentEnabled: widget.parentEnabled &&
+                                widget.subSections.enabled,
+                            onChanged: (enabled) {
+                              _onChanged(index, enabled);
+                            },
                           ),
                         ],
                       ),
-                    ),
-                    MenuSwitchView(
-                      id: _items[index].id,
-                      brandId: widget.brandID,
-                      providerId: widget.providerID,
-                      type: MenuType.ITEM,
-                      enabled: _items[index].stock.available,
-                      parentEnabled:
-                          widget.parentEnabled && widget.subSections.enabled,
-                      onChanged: (enabled) {
-                        _onChanged(index, enabled);
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -33,87 +33,102 @@ class SubMenuListView extends StatelessWidget {
     return Card(
       elevation: AppSize.s4,
       color: AppColors.whiteSmoke,
-      child: ListView.separated(
-        itemCount: subSections.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (_, index) {
-          return InkWell(
-            onTap: () async {
-              final modifiedSubsections = await Navigator.pushNamed(
-                context,
-                Routes.manageItems,
-                arguments: {
-                  ArgumentKey.kSECTIONS: subSections[index],
-                  ArgumentKey.kENABLED: parentEnabled,
-                  ArgumentKey.kBRAND_ID: brandID,
-                  ArgumentKey.kPROVIDER_ID: providerID,
-                },
-              ) as SubSections;
-              subSections[index] = modifiedSubsections;
-              onChanged(subSections);
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: AppSize.s20.rw, right: AppSize.s4.rw),
-                          child: Text(
-                            '${index + 1}.',
-                            style: getRegularTextStyle(
-                              color: AppColors.purpleBlue,
-                              fontSize: AppFontSize.s15.rSp,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            subSections[index].title,
-                            style: getRegularTextStyle(
-                              color: AppColors.purpleBlue,
-                              fontSize: AppFontSize.s15.rSp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
-                    child: MenuSwitchView(
-                      enabled: subSections[index].enabled,
-                      parentEnabled: parentEnabled,
-                      id: subSections[index].id,
-                      brandId: brandID,
-                      providerId: providerID,
-                      type: MenuType.SUB_SECTION,
-                      onChanged: (enabled) {
-                        subSections[index].enabled = enabled;
-                        onChanged(subSections);
-                        SegmentManager().track(
-                          event: SegmentEvents.CATEGORY_TOGGLE,
-                          properties: {
-                            'id': subSections[index].id,
-                            'name': subSections[index].title,
-                            'enabled': enabled ? 'Yes' : 'No',
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: AppSize.s10.rh,left: AppSize.s10.rw),
+            child: Text(
+              'Categories List',
+              style: getRegularTextStyle(
+                color: AppColors.dustyGrey,
               ),
             ),
-          );
-        },
-        separatorBuilder: (_, __) {
-          return const Divider();
-        },
+          ),
+          ListView.separated(
+            itemCount: subSections.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (_, index) {
+              return InkWell(
+                onTap: () async {
+                  final modifiedSubsections = await Navigator.pushNamed(
+                    context,
+                    Routes.manageItems,
+                    arguments: {
+                      ArgumentKey.kSECTIONS: subSections[index],
+                      ArgumentKey.kENABLED: parentEnabled,
+                      ArgumentKey.kBRAND_ID: brandID,
+                      ArgumentKey.kPROVIDER_ID: providerID,
+                    },
+                  ) as SubSections;
+                  subSections[index] = modifiedSubsections;
+                  onChanged(subSections);
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: AppSize.s20.rw, right: AppSize.s4.rw),
+                              child: Text(
+                                '${index + 1}.',
+                                style: getRegularTextStyle(
+                                  color: AppColors.black,
+                                  fontSize: AppFontSize.s14.rSp,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                subSections[index].title,
+                                style: getRegularTextStyle(
+                                  color: AppColors.black,
+                                  fontSize: AppFontSize.s14.rSp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+                        child: MenuSwitchView(
+                          enabled: subSections[index].enabled,
+                          parentEnabled: parentEnabled,
+                          id: subSections[index].id,
+                          brandId: brandID,
+                          providerId: providerID,
+                          type: MenuType.SUB_SECTION,
+                          onChanged: (enabled) {
+                            subSections[index].enabled = enabled;
+                            onChanged(subSections);
+                            SegmentManager().track(
+                              event: SegmentEvents.CATEGORY_TOGGLE,
+                              properties: {
+                                'id': subSections[index].id,
+                                'name': subSections[index].title,
+                                'enabled': enabled ? 'Yes' : 'No',
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (_, __) {
+              return const Divider();
+            },
+          ),
+        ],
       ),
     );
   }

@@ -61,8 +61,8 @@ class SubSectionsModel {
     );
   }
 
-  List<Items> _items() {
-    List<Items> itemsData = [];
+  List<MenuItems> _items() {
+    List<MenuItems> itemsData = [];
     if (items == null) return itemsData;
     for (var element in items!) {
       itemsData.add(element.toEntity());

@@ -16,6 +16,7 @@ class MenuSwitchView extends StatefulWidget {
   final int id;
   final int type;
   final int providerId;
+  final bool willShowBg;
 
   const MenuSwitchView({
     Key? key,
@@ -26,6 +27,7 @@ class MenuSwitchView extends StatefulWidget {
     required this.id,
     required this.type,
     required this.providerId,
+    this.willShowBg = true,
   }) : super(key: key);
 
   @override
@@ -79,23 +81,34 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
   @override
   Widget build(BuildContext context) {
     return widget.providerId == ZERO
-        ? Transform.scale(
-            scale: 0.7,
-            child: CupertinoSwitch(
-              value: _enabled,
-              activeColor: AppColors.purpleBlue,
-              trackColor: AppColors.blackCow,
-              onChanged: !widget.parentEnabled
-                  ? null
-                  : (value) {
-                      if (widget.type == MenuType.ITEM) {
-                        _handleItem(value);
-                      } else {
-                        _handleMenu(value);
-                      }
-                    },
+        ? Container(
+            decoration: !widget.willShowBg ? const BoxDecoration() :  BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+              color: (_enabled && widget.parentEnabled)
+                  ? AppColors.peppermint
+                  : AppColors.whiteSmoke,
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+              child: Transform.scale(
+                scale: 0.7,
+                child: CupertinoSwitch(
+                  value: _enabled,
+                  activeColor: AppColors.purpleBlue,
+                  trackColor: AppColors.blackCow,
+                  onChanged: !widget.parentEnabled
+                      ? null
+                      : (value) {
+                          if (widget.type == MenuType.ITEM) {
+                            _handleItem(value);
+                          } else {
+                            _handleMenu(value);
+                          }
+                        },
+                ),
+              ),
             ),
           )
-        : SizedBox(height: AppSize.s32.rh);
+        : SizedBox(height: AppSize.s40.rh);
   }
 }

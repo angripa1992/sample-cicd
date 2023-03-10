@@ -33,8 +33,8 @@ void showSelectDocketTypeDialog({
             ),
             DocketTypeSelectionView(
               onChange: (type) {
-                onSelect(type);
                 Navigator.pop(context);
+                onSelect(type);
               },
             ),
           ],

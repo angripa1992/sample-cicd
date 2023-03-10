@@ -14,7 +14,7 @@ class SubSections {
   final TitleV2 titleV2;
   final DescriptionV2 descriptionV2;
   bool enabled;
-  List<Items> items;
+  List<MenuItems> items;
 
   SubSections({
     required this.id,
