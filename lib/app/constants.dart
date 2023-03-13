@@ -56,6 +56,7 @@ class OrderTab {
 class OrderType {
   static const int PICKUP = 1;
   static const int DELIVERY = 2;
+  static const int DINE_IN = 3;
 }
 
 class ProviderID {

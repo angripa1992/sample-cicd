@@ -170,14 +170,16 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
 
           /// Docket type
 
-          _title(AppStrings.set_docket_type.tr()),
+          //_title(AppStrings.set_docket_type.tr()),
+          _title('Set Docket Type'),
           Row(
             children: [
               Expanded(
                 child: PrinterSettingCheckbox(
                   enabled: _kitchenCopyEnabled,
                   onChanged: _changeKitchenCopyEnabled,
-                  name: AppStrings.kitchen.tr(),
+                 // name: AppStrings.kitchen.tr(),
+                  name: 'Kitchen',
                   willAlwaysChecked: false,
                 ),
               ),
@@ -195,7 +197,8 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                 child: PrinterSettingCheckbox(
                   enabled: _customerCopyEnabled,
                   onChanged: _changeKitchenCopyEnabled,
-                  name: AppStrings.customer.tr(),
+                  //name: AppStrings.customer.tr(),
+                  name: 'Customer',
                   willAlwaysChecked: true,
                 ),
               ),

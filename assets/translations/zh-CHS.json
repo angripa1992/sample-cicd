@@ -193,5 +193,11 @@
   "set_paper_size": "设置纸张尺寸",
   "usb_not_connected": "USB 打印机未连接",
   "bluetooth_not_connected": "蓝牙打印机未连接",
-  "printer_settings": "打印机设置"
+  "printer_settings": "打印机设置",
+
+  "select_docket_type": "Select Docket Type",
+  "set_docket_type": "Set Docket Type",
+  "kitchen ": "Kitchen ",
+  "customer ": "Customer ",
+  "dine_in" : "Dine In"
 }

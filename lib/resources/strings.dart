@@ -241,9 +241,10 @@ class AppStrings {
   static const String brands_selected = "brands_selected";
   static const String set_paper_size = "set_paper_size";
 
-  ///docket
+  ///new
   static const String select_docket_type = "select_docket_type";
   static const String set_docket_type = "set_docket_type";
   static const String kitchen = "kitchen";
   static const String customer = "customer";
+  static const String dine_in = "dine_in";
 }
