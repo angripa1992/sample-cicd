@@ -28,6 +28,5 @@ abstract class MenuRepository {
   Future<Either<Failure, ActionSuccess>> enableModifier(
       ModifierRequestModel params);
 
-  Future<Either<Failure, ModifierDisabledResponse>> disableModifier(
-      ModifierRequestModel params);
+  Future<Either<Failure, ModifierDisabledResponse>> disableModifier(ModifierRequestModel params);
 }

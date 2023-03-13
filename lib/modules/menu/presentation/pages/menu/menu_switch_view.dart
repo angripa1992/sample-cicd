@@ -47,6 +47,16 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
     super.initState();
   }
 
+ @override
+  void didUpdateWidget(covariant MenuSwitchView oldWidget) {
+   if (!widget.parentEnabled) {
+     _enabled = false;
+   } else {
+     _enabled = widget.enabled;
+   }
+    super.didUpdateWidget(oldWidget);
+  }
+
   void _handleItem(bool value) {
     showMenuItemActionDialog(
       context: context,
@@ -93,6 +103,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
               child: Transform.scale(
                 scale: 0.7,
                 child: CupertinoSwitch(
+                  key: UniqueKey(),
                   value: _enabled,
                   activeColor: AppColors.purpleBlue,
                   trackColor: AppColors.blackCow,

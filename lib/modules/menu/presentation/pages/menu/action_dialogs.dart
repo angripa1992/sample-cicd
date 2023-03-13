@@ -57,8 +57,10 @@ void showMenuItemActionDialog({
                       listener: (context, state) {
                         if (state is Success<Stock>) {
                           Navigator.of(context).pop();
-                          showSuccessSnackBar(context,
-                              'Menu ${enabled ? 'enabled' : 'disabled'} ${AppStrings.successful.tr()}');
+                          showSuccessSnackBar(
+                            context,
+                            'Menu item ${enabled ? 'enabled' : 'disabled'} ${AppStrings.successful.tr()}',
+                          );
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();

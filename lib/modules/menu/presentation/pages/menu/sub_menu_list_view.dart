@@ -32,7 +32,7 @@ class SubMenuListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: AppSize.s4,
-      color: AppColors.whiteSmoke,
+      color: AppColors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

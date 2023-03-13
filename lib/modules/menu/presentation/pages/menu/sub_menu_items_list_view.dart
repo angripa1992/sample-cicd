@@ -10,6 +10,7 @@ import '../../../../../resources/colors.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/items.dart';
+import '../../../domain/entities/stock.dart';
 import 'menu_item_details.dart';
 import 'menu_snooze_view.dart';
 
@@ -42,7 +43,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
     super.initState();
   }
 
-  void _onChanged(int index, bool enabled) {
+  void _onChangedEnabled(int index, bool enabled) {
     setState(() {
       _items[index].stock.available = enabled;
       widget.onChanged(_items);
@@ -55,6 +56,14 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
         'enabled': enabled ? 'Yes' : 'No',
       },
     );
+  }
+
+  void _onChangedOos(int index, Stock stock) {
+    print(stock.snooze.duration);
+    setState(() {
+      _items[index].stock = stock;
+      widget.onChanged(_items);
+    });
   }
 
   void _showItemDetails(int index) {
@@ -71,8 +80,12 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
           parentEnabled: widget.parentEnabled && widget.subSections.enabled,
           brandID: widget.brandID,
           providerID: widget.providerID,
+          brandId: widget.brandID,
           onChanged: (enabled) {
-            _onChanged(index, enabled);
+            _onChangedEnabled(index, enabled);
+          },
+          onChangedOos: (stock) {
+            _onChangedOos(index, stock);
           },
         );
       },
@@ -116,9 +129,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                                 children: [
                                   Text('${index + 1}.'),
                                   SizedBox(width: AppSize.s4.rw),
-                                  Expanded(
-                                      child: Text(
-                                          '${_items[index].title} dvjnddvvevve')),
+                                  Expanded(child: Text(_items[index].title)),
                                 ],
                               ),
                             ),
@@ -138,6 +149,13 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                               width: AppSize.s80.rw,
                               bgColor: AppColors.whiteSmoke,
                               parentEnabled: widget.parentEnabled,
+                              brandId: widget.brandID,
+                              onEnabledChange: (enabled) {
+                                _onChangedEnabled(index, enabled);
+                              },
+                              onOosChanged: (stock) {
+                                _onChangedOos(index, stock);
+                              },
                             ),
                           ),
                           MenuSwitchView(
@@ -149,7 +167,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                             parentEnabled: widget.parentEnabled &&
                                 widget.subSections.enabled,
                             onChanged: (enabled) {
-                              _onChanged(index, enabled);
+                              _onChangedEnabled(index, enabled);
                             },
                           ),
                         ],

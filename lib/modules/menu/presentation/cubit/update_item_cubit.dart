@@ -15,13 +15,14 @@ class UpdateItemCubit extends Cubit<ResponseState> {
     required int brandId,
     required int itemId,
     required bool enabled,
+    int duration = 0,
   }) async {
     emit(Loading());
     final response = await _updateItem(UpdateItemParam(
       itemId: itemId,
       branchId: SessionManager().currentUserBranchId(),
       brandId: brandId,
-      duration: 0,
+      duration: duration,
       enabled: enabled,
       timeZoneOffset: DateTimeProvider.timeZoneOffset(),
     ));

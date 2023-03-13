@@ -119,6 +119,13 @@ class DocketType {
   static const customer = 2;
 }
 
+class DurationType {
+  static const day_1 = 24;
+  static const day_3 = 72;
+  static const day_7 = 168;
+  static const defaultTime = 0;
+}
+
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
   static const String kNOTIFICATION_DATA = 'notification_data';

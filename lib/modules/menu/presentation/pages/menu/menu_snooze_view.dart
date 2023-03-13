@@ -6,15 +6,19 @@ import '../../../../../app/extensions.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../domain/entities/stock.dart';
 import 'oos_settings.dart';
 
 class MenuSnoozeView extends StatelessWidget {
   final MenuItems items;
+  final int brandId;
   final int providerId;
   final double borderRadius;
   final double width;
   final Color bgColor;
   final bool parentEnabled;
+  final Function(bool) onEnabledChange;
+  final Function(Stock) onOosChanged;
 
   const MenuSnoozeView({
     Key? key,
@@ -24,6 +28,9 @@ class MenuSnoozeView extends StatelessWidget {
     required this.width,
     required this.bgColor,
     required this.parentEnabled,
+    required this.onEnabledChange,
+    required this.brandId,
+    required this.onOosChanged,
   }) : super(key: key);
 
   String _duration() {
@@ -47,7 +54,16 @@ class MenuSnoozeView extends StatelessWidget {
         ? SizedBox(
             width: width,
             child: InkWell(
-              onTap: () => !parentEnabled ? null : showOosDialog(items),
+              onTap: () => !parentEnabled
+                  ? null
+                  : showOosDialog(
+                      items: items,
+                      onEnabledChanged: onEnabledChange,
+                      brandId: brandId,
+                      providerId: providerId,
+                      parentEnabled: parentEnabled,
+                      onOosChanged: onOosChanged,
+                    ),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(borderRadius),
@@ -69,7 +85,8 @@ class MenuSnoozeView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           _duration(),
-                          style: getMediumTextStyle(color: AppColors.smokeyGrey),
+                          style:
+                              getMediumTextStyle(color: AppColors.smokeyGrey),
                         ),
                       ),
                     ],
