@@ -10,6 +10,7 @@ import 'package:klikit/resources/colors.dart';
 
 import '../../app/size_config.dart';
 import '../../core/route/routes.dart';
+import '../../core/utils/permission_handler.dart';
 import '../../notification/fcm_service.dart';
 import '../../notification/fcm_token_manager.dart';
 import '../../notification/local_notification_service.dart';
@@ -38,6 +39,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   @override
   void initState() {
+    PermissionHandler().requestLocationPermission();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (mounted) {

@@ -17,6 +17,7 @@ import 'package:klikit/printer/presentation/select_docket_type_dialog.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:klikit/resources/strings.dart';
 
+import '../core/utils/permission_handler.dart';
 import '../modules/orders/domain/entities/order.dart';
 import '../modules/orders/provider/order_information_provider.dart';
 
@@ -33,71 +34,84 @@ class PrintingHandler {
     this._infoProvider,
   );
 
+  Future<bool> _isPermissionGranted() async {
+    if (await PermissionHandler().isLocationPermissionGranted()) {
+      return true;
+    } else {
+      return await PermissionHandler().requestLocationPermission();
+    }
+  }
+
   void showDevices({Order? order}) async {
     final type = _preferences.printerSetting().connectionType;
-    DeviceListBottomSheetManager().showBottomSheet(
-      type: type == ConnectionType.BLUETOOTH
-          ? ConnectionType.BLUETOOTH
-          : ConnectionType.USB,
-      devicesStream: type == ConnectionType.BLUETOOTH
-          ? _bluetoothPrinterHandler.getDevices()
-          : _usbPrinterHandler.getDevices(),
-      onConnect: (device) async {
-        final isSuccessfullyConnected = type == ConnectionType.BLUETOOTH
-            ? await _bluetoothPrinterHandler.connect(device)
-            : await _usbPrinterHandler.connect(device);
-        if (isSuccessfullyConnected) {
-          showSuccessSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            type == ConnectionType.BLUETOOTH
-                ? AppStrings.bluetooth_successfully_connected.tr()
-                : AppStrings.usb_successfully_connected.tr(),
-          );
-          if (order != null) {
-            printDocket(order: order);
+    final permissionGranted = await _isPermissionGranted();
+    if(permissionGranted){
+      DeviceListBottomSheetManager().showBottomSheet(
+        type: type == ConnectionType.BLUETOOTH
+            ? ConnectionType.BLUETOOTH
+            : ConnectionType.USB,
+        devicesStream: type == ConnectionType.BLUETOOTH
+            ? _bluetoothPrinterHandler.getDevices()
+            : _usbPrinterHandler.getDevices(),
+        onConnect: (device) async {
+          final isSuccessfullyConnected = type == ConnectionType.BLUETOOTH
+              ? await _bluetoothPrinterHandler.connect(device)
+              : await _usbPrinterHandler.connect(device);
+          if (isSuccessfullyConnected) {
+            showSuccessSnackBar(
+              RoutesGenerator.navigatorKey.currentState!.context,
+              type == ConnectionType.BLUETOOTH
+                  ? AppStrings.bluetooth_successfully_connected.tr()
+                  : AppStrings.usb_successfully_connected.tr(),
+            );
+            if (order != null) {
+              printDocket(order: order);
+            }
+          } else {
+            showErrorSnackBar(
+              RoutesGenerator.navigatorKey.currentState!.context,
+              AppStrings.can_not_connect_device.tr(),
+            );
           }
-        } else {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.can_not_connect_device.tr(),
-          );
-        }
-      },
-    );
+        },
+      );
+    }
   }
 
   void printDocket({required Order order, bool isAutoPrint = false}) async {
-    if (_preferences.printerSetting().connectionType ==
-        ConnectionType.BLUETOOTH) {
-      if (_bluetoothPrinterHandler.isConnected()) {
-        //_doAutoPrint(order);
-        if (isAutoPrint) {
-          _doAutoPrint(order);
+    final permissionGranted = await _isPermissionGranted();
+    if(permissionGranted){
+      if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
+        if (_bluetoothPrinterHandler.isConnected()) {
+          //_doAutoPrint(order);
+          if (isAutoPrint) {
+            _doAutoPrint(order);
+          } else {
+            _doManualPrint(order);
+          }
+        } else if (isAutoPrint) {
+          showErrorSnackBar(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            AppStrings.bluetooth_not_connected.tr(),
+          );
         } else {
-          _doManualPrint(order);
+          showDevices(order: order);
         }
-      } else if (isAutoPrint) {
-        showErrorSnackBar(
-          RoutesGenerator.navigatorKey.currentState!.context,
-          AppStrings.bluetooth_not_connected.tr(),
-        );
       } else {
-        showDevices(order: order);
-      }
-    } else {
-      if (_usbPrinterHandler.isConnected()) {
-        if (isAutoPrint) {
-          _doAutoPrint(order);
+        if (_usbPrinterHandler.isConnected()) {
+          if (isAutoPrint) {
+            _doAutoPrint(order);
+          } else {
+            _doManualPrint(order);
+          }
+        } else if (isAutoPrint) {
+          showErrorSnackBar(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            AppStrings.usb_not_connected.tr(),
+          );
         } else {
-          _doManualPrint(order);
+          showDevices(order: order);
         }
-      } else if (isAutoPrint) {
-        showErrorSnackBar(
-          RoutesGenerator.navigatorKey.currentState!.context,
-          AppStrings.usb_not_connected.tr(),
-        );
-      } else {
-        showDevices(order: order);
       }
     }
   }

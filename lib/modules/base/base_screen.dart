@@ -73,8 +73,7 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void _handlePrinterSetting(PrinterSetting setting) async {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     await _appPreferences.savePrinterSettings(printerSetting: setting);
     if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
       if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
