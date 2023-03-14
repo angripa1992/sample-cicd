@@ -42,7 +42,6 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
 
   @override
   void initState() {
-    print('switch ${widget.parentEnabled}');
     if (!widget.parentEnabled) {
       _enabled = false;
     } else {
