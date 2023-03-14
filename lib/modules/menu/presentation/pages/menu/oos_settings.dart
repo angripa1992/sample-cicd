@@ -348,6 +348,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           ),
           groupValue: _groupValue,
           value: OOS.hour,
+          activeColor: AppColors.purpleBlue,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
