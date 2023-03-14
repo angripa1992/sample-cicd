@@ -192,6 +192,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                       builder: (BuildContext context, state) {
                         return LoadingButton(
                           onTap: () {
+                            print('current $_currentDuration');
                             context.read<UpdateItemCubit>().updateItem(
                                   brandId: widget.brandId,
                                   itemId: widget.item.id,
@@ -250,6 +251,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
 
   void _setHours() {
     final text = _textEditingController.text.trim();
+    print(text);
     if (text.isNotEmpty) {
       widget.onDurationChanged(text.toInt());
     }
@@ -284,6 +286,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           title: Text('1 Day', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_1,
+          activeColor: AppColors.purpleBlue,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
@@ -295,6 +298,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           title: Text('3 Days', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_3,
+          activeColor: AppColors.purpleBlue,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
@@ -306,6 +310,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           title: Text('7 Days', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_7,
+          activeColor: AppColors.purpleBlue,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
@@ -318,7 +323,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
             children: [
               Container(
                 width: AppSize.s65.rw,
-                height: AppSize.s32.rh,
+               // height: AppSize.s32.rh,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                   color: AppColors.whiteSmoke,
@@ -330,6 +335,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
                   ),
                   child: TextField(
                     keyboardType: TextInputType.number,
+                    style: const TextStyle(color: Colors.black),
                     controller: _textEditingController,
                     cursorColor: AppColors.purpleBlue,
                     decoration: const InputDecoration(
@@ -347,7 +353,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
-              widget.onDurationChanged(_textEditingController.text.toInt());
+              _setHours();
             });
           },
         ),

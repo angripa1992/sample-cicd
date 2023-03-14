@@ -79,8 +79,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
             ),
           ),
           leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
+            fillColor: MaterialStateColor.resolveWith((states) => AppColors.purpleBlue),
             value: DocketType.kitchen,
             groupValue: _currentDocketType,
             onChanged: (int? type) => _changeDocketType(type!),

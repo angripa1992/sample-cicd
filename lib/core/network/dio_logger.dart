@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 enum LogStatus { CLOSE, OPEN }
 
 class DioLogger {
-  LogStatus _logStatus = LogStatus.CLOSE;
+  LogStatus _logStatus = LogStatus.OPEN;
 
   void setLogStatus(LogStatus logStatus) {
     _logStatus = logStatus;

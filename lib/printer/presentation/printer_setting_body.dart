@@ -180,7 +180,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                   onChanged: _changeKitchenCopyEnabled,
                  // name: AppStrings.kitchen.tr(),
                   name: 'Kitchen',
-                  willAlwaysChecked: false,
+                  willAlwaysChecked: false, activeColor: AppColors.purpleBlue,
                 ),
               ),
               DocketCounterView(
@@ -199,7 +199,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                   onChanged: _changeKitchenCopyEnabled,
                   //name: AppStrings.customer.tr(),
                   name: 'Customer',
-                  willAlwaysChecked: true,
+                  willAlwaysChecked: true, activeColor: AppColors.dustyGrey,
                 ),
               ),
               DocketCounterView(

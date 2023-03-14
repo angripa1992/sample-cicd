@@ -61,6 +61,6 @@ class DateTimeProvider {
   }
 
   static int timeZoneOffset() {
-    return DateTime.now().timeZoneOffset.inMinutes;
+    return DateTime.now().timeZoneOffset.inMinutes * -1;
   }
 }
