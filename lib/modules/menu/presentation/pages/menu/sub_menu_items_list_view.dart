@@ -41,12 +41,28 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
   @override
   void initState() {
     _items.addAll(widget.subSections.items);
+    print('list  ${widget.parentEnabled}');
     super.initState();
   }
 
-  void _onChangedEnabled(int index, bool enabled) {
+  // void _onChangedEnabled(int index, bool enabled) {
+  //   setState(() {
+  //     _items[index].stock.available = enabled;
+  //     widget.onChanged(_items);
+  //   });
+  //   SegmentManager().track(
+  //     event: SegmentEvents.ITEM_TOGGLE,
+  //     properties: {
+  //       'id': _items[index].id,
+  //       'name': _items[index].title,
+  //       'enabled': enabled ? 'Yes' : 'No',
+  //     },
+  //   );
+  // }
+
+  void _onChanged(int index, Stock stock) {
     setState(() {
-      _items[index].stock.available = enabled;
+      _items[index].stock = stock;
       widget.onChanged(_items);
     });
     SegmentManager().track(
@@ -54,17 +70,9 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
       properties: {
         'id': _items[index].id,
         'name': _items[index].title,
-        'enabled': enabled ? 'Yes' : 'No',
+        'enabled': stock.available ? 'Yes' : 'No',
       },
     );
-  }
-
-  void _onChangedOos(int index, Stock stock) {
-    print(stock.snooze.duration);
-    setState(() {
-      _items[index].stock = stock;
-      widget.onChanged(_items);
-    });
   }
 
   void _showItemDetails(int index) {
@@ -82,11 +90,8 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
           brandID: widget.brandID,
           providerID: widget.providerID,
           brandId: widget.brandID,
-          onChanged: (enabled) {
-            _onChangedEnabled(index, enabled);
-          },
-          onChangedOos: (stock) {
-            _onChangedOos(index, stock);
+          onChanged: (stock) {
+            _onChanged(index, stock);
           },
         );
       },
@@ -149,14 +154,11 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                               borderRadius: AppSize.s8.rSp,
                               width: AppSize.s80.rw,
                               bgColor: AppColors.whiteSmoke,
-                              parentEnabled: widget.parentEnabled,
+                              parentEnabled: widget.parentEnabled && widget.subSections.enabled,
                               brandId: widget.brandID,
                               iconPath: AppIcons.editRound,
-                              onEnabledChange: (enabled) {
-                                _onChangedEnabled(index, enabled);
-                              },
-                              onOosChanged: (stock) {
-                                _onChangedOos(index, stock);
+                              onChanged: (stock) {
+                                _onChanged(index, stock);
                               },
                             ),
                           ),
@@ -166,11 +168,11 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                             providerId: widget.providerID,
                             type: MenuType.ITEM,
                             enabled: _items[index].stock.available,
-                            parentEnabled: widget.parentEnabled &&
-                                widget.subSections.enabled,
-                            onChanged: (enabled) {
-                              _onChangedEnabled(index, enabled);
+                            parentEnabled: widget.parentEnabled && widget.subSections.enabled,
+                            onItemChanged: (stock) {
+                              _onChanged(index, stock);
                             },
+                            onMenuChanged: (enabled) {},
                           ),
                         ],
                       ),

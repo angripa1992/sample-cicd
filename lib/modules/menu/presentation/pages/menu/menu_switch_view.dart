@@ -7,11 +7,13 @@ import 'package:klikit/modules/menu/presentation/pages/menu/action_dialogs.dart'
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
+import '../../../domain/entities/stock.dart';
 
 class MenuSwitchView extends StatefulWidget {
   final bool enabled;
   final bool parentEnabled;
-  final Function(bool) onChanged;
+  final Function(Stock) onItemChanged;
+  final Function(bool) onMenuChanged;
   final int brandId;
   final int id;
   final int type;
@@ -21,7 +23,8 @@ class MenuSwitchView extends StatefulWidget {
   const MenuSwitchView({
     Key? key,
     required this.enabled,
-    required this.onChanged,
+    required this.onItemChanged,
+    required this.onMenuChanged,
     required this.parentEnabled,
     required this.brandId,
     required this.id,
@@ -39,6 +42,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
 
   @override
   void initState() {
+    print('switch ${widget.parentEnabled}');
     if (!widget.parentEnabled) {
       _enabled = false;
     } else {
@@ -63,10 +67,10 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
       brandId: widget.brandId,
       itemId: widget.id,
       enabled: value,
-      onSuccess: () {
+      onSuccess: (stock) {
         setState(() {
           _enabled = value;
-          widget.onChanged(_enabled);
+          widget.onItemChanged(stock);
         });
       },
     );
@@ -82,7 +86,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
       onSuccess: () {
         setState(() {
           _enabled = value;
-          widget.onChanged(_enabled);
+          widget.onMenuChanged(_enabled);
         });
       },
     );

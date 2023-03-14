@@ -30,8 +30,7 @@ enum OOS {
 
 void showOosDialog({
   required MenuItems items,
-  required Function(bool) onEnabledChanged,
-  required Function(Stock) onOosChanged,
+  required Function(Stock) onChanged,
   required int brandId,
   required int providerId,
   required bool parentEnabled,
@@ -50,11 +49,10 @@ void showOosDialog({
           contentPadding: EdgeInsets.zero,
           content: OutOfStockSettingScreen(
             item: items,
-            onEnabledChanged: onEnabledChanged,
             brandId: brandId,
             providerId: providerId,
             parentEnabled: parentEnabled,
-            onOosChanged: onOosChanged,
+            onChanged: onChanged,
           ),
         ),
       );
@@ -67,8 +65,7 @@ class OutOfStockSettingScreen extends StatefulWidget {
   final int brandId;
   final int providerId;
   final bool parentEnabled;
-  final Function(bool) onEnabledChanged;
-  final Function(Stock) onOosChanged;
+  final Function(Stock) onChanged;
 
   const OutOfStockSettingScreen({
     Key? key,
@@ -76,8 +73,7 @@ class OutOfStockSettingScreen extends StatefulWidget {
     required this.brandId,
     required this.providerId,
     required this.parentEnabled,
-    required this.onEnabledChanged,
-    required this.onOosChanged,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -146,11 +142,12 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                     type: MenuType.ITEM,
                     enabled: widget.item.stock.available,
                     parentEnabled: widget.parentEnabled,
-                    onChanged: (enabled) {
-                      widget.onEnabledChanged(enabled);
+                    willShowBg: false,
+                    onItemChanged: (stock) {
+                      widget.onChanged(stock);
                       Navigator.pop(context);
                     },
-                    willShowBg: false,
+                    onMenuChanged: (enabled) {},
                   ),
                 ),
                 if (widget.item.stock.snooze.endTime.isNotEmpty)
@@ -199,7 +196,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                         } else if (state is Success<Stock>) {
                           showSuccessSnackBar(
                               context, "Item stock disabled successful");
-                          widget.onOosChanged(state.data);
+                          widget.onChanged(state.data);
                           Navigator.pop(context);
                         }
                       },
@@ -245,6 +242,7 @@ class OutOfStockRadioGroup extends StatefulWidget {
 }
 
 class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
+  final MAX_DURATION = 8760;
   OOS? _groupValue;
   late TextEditingController _textEditingController;
   final _textStyle = getRegularTextStyle(
@@ -265,8 +263,20 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
   void _setHours() {
     final text = _textEditingController.text.trim();
     if (text.isNotEmpty) {
-      widget.onDurationChanged(text.toInt());
+      final duration = text.toInt();
+      if (duration > MAX_DURATION) {
+        _textEditingController.text = MAX_DURATION.toString();
+        _textEditingController.selection =
+            TextSelection.collapsed(offset: _textEditingController.text.length);
+        widget.onDurationChanged(MAX_DURATION);
+      } else {
+        widget.onDurationChanged(text.toInt());
+      }
     }
+  }
+
+  void _setInitHours(String hour) {
+    _textEditingController.text = hour;
   }
 
   void _setInitGroupValue() {
@@ -274,19 +284,23 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
     switch (duration) {
       case DurationType.day_1:
         _groupValue = OOS.day_1;
+        _setInitHours("1");
         return;
       case DurationType.day_3:
         _groupValue = OOS.day_3;
+        _setInitHours("1");
         return;
       case DurationType.day_7:
         _groupValue = OOS.day_7;
+        _setInitHours("1");
         return;
       case DurationType.defaultTime:
         _groupValue = OOS.default_;
+        _setInitHours("1");
         return;
       default:
         _groupValue = OOS.hour;
-        _textEditingController.text = duration.toString();
+        _setInitHours(duration.toString());
     }
   }
 

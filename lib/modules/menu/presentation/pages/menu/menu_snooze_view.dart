@@ -4,7 +4,6 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../../../app/extensions.dart';
-import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
@@ -20,8 +19,7 @@ class MenuSnoozeView extends StatelessWidget {
   final Color bgColor;
   final bool parentEnabled;
   final String iconPath;
-  final Function(bool) onEnabledChange;
-  final Function(Stock) onOosChanged;
+  final Function(Stock) onChanged;
 
   const MenuSnoozeView({
     Key? key,
@@ -31,9 +29,8 @@ class MenuSnoozeView extends StatelessWidget {
     required this.width,
     required this.bgColor,
     required this.parentEnabled,
-    required this.onEnabledChange,
     required this.brandId,
-    required this.onOosChanged,
+    required this.onChanged,
     required this.iconPath,
   }) : super(key: key);
 
@@ -54,6 +51,7 @@ class MenuSnoozeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('snooze ${parentEnabled}');
     return !items.stock.available && providerId == ZERO
         ? SizedBox(
             width: width,
@@ -62,11 +60,10 @@ class MenuSnoozeView extends StatelessWidget {
                   ? null
                   : showOosDialog(
                       items: items,
-                      onEnabledChanged: onEnabledChange,
                       brandId: brandId,
                       providerId: providerId,
                       parentEnabled: parentEnabled,
-                      onOosChanged: onOosChanged,
+                      onChanged: onChanged,
                     ),
               child: Container(
                 decoration: BoxDecoration(

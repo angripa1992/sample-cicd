@@ -19,8 +19,7 @@ import 'menu_switch_view.dart';
 class MenuItemDetails extends StatefulWidget {
   final MenuItems items;
   final bool parentEnabled;
-  final Function(bool) onChanged;
-  final Function(Stock) onChangedOos;
+  final Function(Stock) onChanged;
   final int brandID;
   final int providerID;
   final int brandId;
@@ -33,7 +32,6 @@ class MenuItemDetails extends StatefulWidget {
     required this.brandID,
     required this.providerID,
     required this.brandId,
-    required this.onChangedOos,
   }) : super(key: key);
 
   @override
@@ -124,15 +122,15 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   bgColor: AppColors.dustyOrange.withOpacity(0.1),
                   parentEnabled: widget.parentEnabled,
                   iconPath: AppIcons.edit,
-                  onEnabledChange: (enabled) {
-                    widget.onChanged(enabled);
-                    setState(() {
-                      widget.items.stock.available = enabled;
-                    });
-                    //Navigator.pop(context);
-                  },
-                  onOosChanged: (stock) {
-                    widget.onChangedOos(stock);
+                  // onEnabledChange: (enabled) {
+                  //   widget.onChanged(enabled);
+                  //   setState(() {
+                  //     widget.items.stock.available = enabled;
+                  //   });
+                  //   //Navigator.pop(context);
+                  // },
+                  onChanged: (stock) {
+                    widget.onChanged(stock);
                     setState(() {
                       widget.items.stock = stock;
                     });
@@ -145,13 +143,20 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   type: MenuType.ITEM,
                   enabled: widget.items.stock.available,
                   parentEnabled: widget.parentEnabled,
-                  onChanged: (enabled) {
-                    widget.onChanged(enabled);
+                  // on: (enabled) {
+                  //   widget.onChanged(enabled);
+                  //   setState(() {
+                  //     widget.items.stock.available = enabled;
+                  //   });
+                  // },
+                  willShowBg: false,
+                  onItemChanged: (stock) {
+                    widget.onChanged(stock);
                     setState(() {
-                      widget.items.stock.available = enabled;
+                      widget.items.stock = stock;
                     });
                   },
-                  willShowBg: false,
+                  onMenuChanged: (enabled) {},
                 ),
               ],
             ),

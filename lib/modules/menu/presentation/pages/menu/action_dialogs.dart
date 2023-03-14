@@ -21,7 +21,7 @@ import '../../../../widgets/snackbars.dart';
 
 void showMenuItemActionDialog({
   required BuildContext context,
-  required VoidCallback onSuccess,
+  required Function(Stock) onSuccess,
   required int brandId,
   required int itemId,
   required bool enabled,
@@ -61,7 +61,7 @@ void showMenuItemActionDialog({
                             context,
                             'Menu item ${enabled ? 'enabled' : 'disabled'} ${AppStrings.successful.tr()}',
                           );
-                          onSuccess();
+                          onSuccess(state.data);
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
                           showApiErrorSnackBar(context, state.failure);

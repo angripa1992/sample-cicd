@@ -37,7 +37,7 @@ class SubMenuListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: AppSize.s10.rh,left: AppSize.s10.rw),
+            padding: EdgeInsets.only(top: AppSize.s10.rh, left: AppSize.s10.rw),
             child: Text(
               'Categories List',
               style: getRegularTextStyle(
@@ -106,7 +106,8 @@ class SubMenuListView extends StatelessWidget {
                           brandId: brandID,
                           providerId: providerID,
                           type: MenuType.SUB_SECTION,
-                          onChanged: (enabled) {
+                          onItemChanged: (stock) {},
+                          onMenuChanged: (enabled) {
                             subSections[index].enabled = enabled;
                             onChanged(subSections);
                             SegmentManager().track(

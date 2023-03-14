@@ -10,6 +10,7 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
+import '../../../domain/entities/stock.dart';
 import 'menu_switch_view.dart';
 
 class MenuItemTitle extends StatefulWidget {
@@ -114,10 +115,11 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                       enabled: widget.sections.enabled,
                       parentEnabled: true,
                       providerId: widget.providerID,
-                      onChanged: widget.onChanged,
                       id: widget.sections.id,
                       brandId: widget.brandId,
                       type: MenuType.SECTION,
+                      onItemChanged: (stock) {},
+                      onMenuChanged: widget.onChanged,
                     ),
                   ],
                 ),
