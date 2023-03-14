@@ -16,11 +16,14 @@ void showSelectDocketTypeDialog({
 }) {
   showDialog(
     context: RoutesGenerator.navigatorKey.currentState!.context,
-    barrierDismissible: false,
+    barrierDismissible: true,
     builder: (context) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          borderRadius: BorderRadius.all(
+            Radius.circular(AppSize.s16.rSp),
+          ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -71,15 +74,16 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
       children: [
         ListTile(
           title: Text(
-           // AppStrings.kitchen.tr(),
-           'Kitchen',
+            // AppStrings.kitchen.tr(),
+            'Kitchen',
             style: getRegularTextStyle(
               color: AppColors.blueViolet,
               fontSize: AppSize.s16.rSp,
             ),
           ),
           leading: Radio(
-            fillColor: MaterialStateColor.resolveWith((states) => AppColors.purpleBlue),
+            fillColor: MaterialStateColor.resolveWith(
+                (states) => AppColors.purpleBlue),
             value: DocketType.kitchen,
             groupValue: _currentDocketType,
             onChanged: (int? type) => _changeDocketType(type!),
@@ -87,7 +91,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
         ),
         ListTile(
           title: Text(
-           // AppStrings.customer.tr(),
+            // AppStrings.customer.tr(),
             'Customer',
             style: getRegularTextStyle(
               color: AppColors.blueViolet,

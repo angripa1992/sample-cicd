@@ -6,6 +6,7 @@ import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
+import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
@@ -150,6 +151,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                               bgColor: AppColors.whiteSmoke,
                               parentEnabled: widget.parentEnabled,
                               brandId: widget.brandID,
+                              iconPath: AppIcons.editRound,
                               onEnabledChange: (enabled) {
                                 _onChangedEnabled(index, enabled);
                               },

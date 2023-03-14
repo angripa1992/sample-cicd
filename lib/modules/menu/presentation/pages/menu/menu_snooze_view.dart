@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../../../app/extensions.dart';
+import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
@@ -17,6 +19,7 @@ class MenuSnoozeView extends StatelessWidget {
   final double width;
   final Color bgColor;
   final bool parentEnabled;
+  final String iconPath;
   final Function(bool) onEnabledChange;
   final Function(Stock) onOosChanged;
 
@@ -31,6 +34,7 @@ class MenuSnoozeView extends StatelessWidget {
     required this.onEnabledChange,
     required this.brandId,
     required this.onOosChanged,
+    required this.iconPath,
   }) : super(key: key);
 
   String _duration() {
@@ -72,15 +76,11 @@ class MenuSnoozeView extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     vertical: AppSize.s4.rh,
-                    horizontal: AppSize.s4.rw,
+                    horizontal: AppSize.s6.rw,
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.edit,
-                        color: AppColors.warmRed,
-                        size: AppSize.s16.rSp,
-                      ),
+                      SvgPicture.asset(iconPath),
                       SizedBox(width: AppSize.s8.rw),
                       Expanded(
                         child: Text(

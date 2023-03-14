@@ -192,7 +192,6 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                       builder: (BuildContext context, state) {
                         return LoadingButton(
                           onTap: () {
-                            print('current $_currentDuration');
                             context.read<UpdateItemCubit>().updateItem(
                                   brandId: widget.brandId,
                                   itemId: widget.item.id,
@@ -251,7 +250,6 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
 
   void _setHours() {
     final text = _textEditingController.text.trim();
-    print(text);
     if (text.isNotEmpty) {
       widget.onDurationChanged(text.toInt());
     }

@@ -120,6 +120,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   width: AppSize.s100.rw,
                   bgColor: AppColors.dustyOrange.withOpacity(0.1),
                   parentEnabled: widget.parentEnabled,
+                  iconPath: AppIcons.edit,
                   onEnabledChange: (enabled) {
                     widget.onChanged(enabled);
                     setState(() {

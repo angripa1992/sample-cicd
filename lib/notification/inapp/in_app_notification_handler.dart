@@ -103,25 +103,14 @@ class InAppNotificationHandler {
                     visible: value > 0,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: AppSize.s24),
-                      child: Row(
-                        children: [
-                          Text(
-                            '• ',
-                            style: getRegularTextStyle(
-                              color: AppColors.warmRed,
-                              fontSize: AppFontSize.s18.rSp,
-                            ),
+                      child:   Expanded(
+                        child: Text(
+                          '$value ${AppStrings.orders_has_been_canceled.tr()}',
+                          style: getRegularTextStyle(
+                            color: AppColors.warmRed,
+                            fontSize: AppFontSize.s18.rSp,
                           ),
-                          Expanded(
-                            child: Text(
-                              '$value ${AppStrings.orders_has_been_canceled.tr()}',
-                              style: getRegularTextStyle(
-                                color: AppColors.warmRed,
-                                fontSize: AppFontSize.s18.rSp,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   );
@@ -134,25 +123,14 @@ class InAppNotificationHandler {
                     visible: value > 0,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: AppSize.s24),
-                      child: Row(
-                        children: [
-                          Text(
-                            '• ',
-                            style: getRegularTextStyle(
-                              color: AppColors.black,
-                              fontSize: AppFontSize.s18.rSp,
-                            ),
+                      child:  Expanded(
+                        child: Text(
+                          '${AppStrings.you_have_received.tr()} $value ${AppStrings.new_orders.tr()}',
+                          style: getRegularTextStyle(
+                            color: AppColors.black,
+                            fontSize: AppFontSize.s18.rSp,
                           ),
-                          Expanded(
-                            child: Text(
-                              '${AppStrings.you_have_received.tr()} $value ${AppStrings.new_orders.tr()}',
-                              style: getRegularTextStyle(
-                                color: AppColors.black,
-                                fontSize: AppFontSize.s18.rSp,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   );

@@ -7,6 +7,8 @@ import 'package:klikit/modules/menu/presentation/pages/menu/sub_menu_items_title
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 
 class ManageItemsScreen extends StatelessWidget {
@@ -14,7 +16,8 @@ class ManageItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final subSections = args[ArgumentKey.kSECTIONS];
     final parentEnabled = args[ArgumentKey.kENABLED];
     final brandId = args[ArgumentKey.kBRAND_ID];
@@ -42,9 +45,20 @@ class ManageItemsScreen extends StatelessWidget {
             horizontal: AppSize.s16.rw,
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SubMenuItemsTitle(subSections: subSections),
-              SizedBox(height: AppSize.s8.rh),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: AppSize.s16.rh, horizontal: AppSize.s8.rw),
+                child: Text(
+                  'Item List',
+                  style: getRegularTextStyle(
+                    color: AppColors.dustyGreay,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
+                ),
+              ),
               SubMenuItemsListView(
                 subSections: subSections,
                 onChanged: (modifiedItems) {

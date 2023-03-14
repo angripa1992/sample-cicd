@@ -27,6 +27,8 @@ class AppIcons {
   static const String stock = "$ICON_PATH/ic_stock.svg";
   static const String stockActive = "$ICON_PATH/ic_stock_active.svg";
   static const String canceled = "$ICON_PATH/ic_canceled.svg";
+  static const String editRound = "$ICON_PATH/ic_edit_round.svg";
+  static const String edit = "$ICON_PATH/ic_edit.svg";
   static const String notificationIcon = '@mipmap/ic_launcher';
 }
 
