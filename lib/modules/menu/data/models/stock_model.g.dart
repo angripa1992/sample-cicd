@@ -20,12 +20,12 @@ Map<String, dynamic> _$StockModelToJson(StockModel instance) =>
     };
 
 SnoozeModel _$SnoozeModelFromJson(Map<String, dynamic> json) => SnoozeModel(
-      startTime: json['start_time'] as String?,
+      endTime: json['end_time'] as String?,
       duration: json['duration'] as int?,
     );
 
 Map<String, dynamic> _$SnoozeModelToJson(SnoozeModel instance) =>
     <String, dynamic>{
-      'start_time': instance.startTime,
+      'end_time': instance.endTime,
       'duration': instance.duration,
     };

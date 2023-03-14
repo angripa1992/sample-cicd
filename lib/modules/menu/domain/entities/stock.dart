@@ -6,8 +6,8 @@ class Stock {
 }
 
 class Snooze {
-  String startTime;
+  String endTime;
   int duration;
 
-  Snooze({required this.startTime, required this.duration});
+  Snooze({required this.endTime, required this.duration});
 }

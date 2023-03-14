@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../app/constants.dart';
+import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../core/provider/image_url_provider.dart';
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
@@ -96,7 +97,9 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+            padding: EdgeInsets.only(
+              top: AppSize.s8.rh,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -153,6 +156,22 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
               ],
             ),
           ),
+          if (widget.items.stock.snooze.endTime.isNotEmpty)
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: AppSize.s8.rh,
+                right: AppSize.s10.rw,
+                left: AppSize.s10.rw,
+              ),
+              child: Text(
+                '(OOS till ${DateTimeProvider.parseSnoozeEndTime(widget.items.stock.snooze.endTime)})',
+                textAlign: TextAlign.right,
+                style: getMediumTextStyle(
+                  color: AppColors.warmRed,
+                  fontSize: AppFontSize.s12.rSp,
+                ),
+              ),
+            ),
           Expanded(
             child: SingleChildScrollView(
               child: Padding(

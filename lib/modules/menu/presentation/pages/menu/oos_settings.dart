@@ -9,6 +9,7 @@ import 'package:klikit/modules/widgets/snackbars.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
+import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
@@ -107,12 +108,10 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Text(
-                    'Out of Stock (OOS) Settings',
-                    style: getMediumTextStyle(
-                      color: AppColors.dustyGrey,
-                    ),
+                Text(
+                  'Out of Stock (OOS) Settings',
+                  style: getMediumTextStyle(
+                    color: AppColors.dustyGrey,
                   ),
                 ),
                 IconButton(
@@ -129,26 +128,41 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
             ),
             Row(
               children: [
-                Text(
-                  'Out of Stock',
-                  style: getMediumTextStyle(
-                    color: AppColors.balticSea,
-                    fontSize: AppFontSize.s14.rSp,
+                Flexible(
+                  child: Text(
+                    'Out of Stock',
+                    style: getMediumTextStyle(
+                      color: AppColors.balticSea,
+                      fontSize: AppFontSize.s14.rSp,
+                    ),
                   ),
                 ),
-                MenuSwitchView(
-                  id: widget.item.id,
-                  brandId: widget.brandId,
-                  providerId: widget.providerId,
-                  type: MenuType.ITEM,
-                  enabled: widget.item.stock.available,
-                  parentEnabled: widget.parentEnabled,
-                  onChanged: (enabled) {
-                    widget.onEnabledChanged(enabled);
-                    Navigator.pop(context);
-                  },
-                  willShowBg: false,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                  child: MenuSwitchView(
+                    id: widget.item.id,
+                    brandId: widget.brandId,
+                    providerId: widget.providerId,
+                    type: MenuType.ITEM,
+                    enabled: widget.item.stock.available,
+                    parentEnabled: widget.parentEnabled,
+                    onChanged: (enabled) {
+                      widget.onEnabledChanged(enabled);
+                      Navigator.pop(context);
+                    },
+                    willShowBg: false,
+                  ),
                 ),
+                if (widget.item.stock.snooze.endTime.isNotEmpty)
+                  Flexible(
+                    child: Text(
+                      '(OOS till ${DateTimeProvider.parseSnoozeEndTime(widget.item.stock.snooze.endTime)})',
+                      style: getMediumTextStyle(
+                        color: AppColors.warmRed,
+                        fontSize: AppFontSize.s12.rSp,
+                      ),
+                    ),
+                  ),
               ],
             ),
             Divider(color: AppColors.blueViolet),
@@ -321,7 +335,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
             children: [
               Container(
                 width: AppSize.s65.rw,
-               // height: AppSize.s32.rh,
+                // height: AppSize.s32.rh,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                   color: AppColors.whiteSmoke,

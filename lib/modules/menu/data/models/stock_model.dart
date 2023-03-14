@@ -28,12 +28,12 @@ class StockModel {
 
 @JsonSerializable()
 class SnoozeModel {
-  @JsonKey(name: 'start_time')
-  String? startTime;
+  @JsonKey(name: 'end_time')
+  String? endTime;
   int? duration;
 
   SnoozeModel({
-    this.startTime,
+    this.endTime,
     this.duration,
   });
 
@@ -42,7 +42,7 @@ class SnoozeModel {
 
   Snooze toEntity() {
     return Snooze(
-      startTime: startTime.orEmpty(),
+      endTime: endTime.orEmpty(),
       duration: duration.orZero(),
     );
   }
