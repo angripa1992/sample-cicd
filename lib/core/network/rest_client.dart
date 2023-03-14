@@ -34,7 +34,8 @@ class RestClient {
     final versionCode = await deviceInfoProvider.versionCode();
     final versionName = await deviceInfoProvider.versionName();
     _dio.options.headers[contentType] = 'application/json';
-    // _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
+    // _dio.options.headers[appAgent] =
+    //     'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
     // _dio.options.headers[appVersion] = versionCode;
     // _dio.options.headers[appVersionName] = versionName.removeDot();
   }
@@ -46,7 +47,8 @@ class RestClient {
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
-          if (options.path == Urls.login || options.path == Urls.forgetPassword) {
+          if (options.path == Urls.login ||
+              options.path == Urls.forgetPassword) {
             handler.next(options);
           } else {
             if (_tokenProvider.getAccessToken() == null) {
@@ -82,7 +84,8 @@ class RestClient {
             if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
               if (_token(_tokenProvider.getAccessToken()) !=
                   options.headers[authorization]) {
-                options.headers[authorization] = _token(_tokenProvider.getAccessToken());
+                options.headers[authorization] =
+                    _token(_tokenProvider.getAccessToken());
                 _dio.fetch(options).then(
                   (r) => handler.resolve(r),
                   onError: (e) {
