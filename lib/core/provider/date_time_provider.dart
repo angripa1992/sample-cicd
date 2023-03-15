@@ -60,6 +60,18 @@ class DateTimeProvider {
     return formatter.format(dateTime);
   }
 
+  static String scheduleDate(String scheduleTime) {
+    final formatter = DateFormat('d MMMM yyyy');
+    final dateTime = DateTime.parse(scheduleTime).toLocal();
+    return formatter.format(dateTime);
+  }
+
+  static String scheduleTime(String scheduleTime) {
+    final formatter = DateFormat('h:mm a');
+    final dateTime = DateTime.parse(scheduleTime).toLocal();
+    return formatter.format(dateTime);
+  }
+
   static Future<String> timeZone() async {
     final String currentTimeZone =
         await FlutterNativeTimezone.getLocalTimezone();

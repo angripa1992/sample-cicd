@@ -37,6 +37,8 @@ class Order {
   final String currencySymbol;
   final int itemCount;
   final int uniqueItemCount;
+  final int scheduledStatus;
+  final String scheduledTime;
   final String createdAt;
   final String updatedAt;
   final int userId;
@@ -85,6 +87,8 @@ class Order {
     required this.currencySymbol,
     required this.itemCount,
     required this.uniqueItemCount,
+    required this.scheduledStatus,
+    required this.scheduledTime,
     required this.createdAt,
     required this.updatedAt,
     required this.userId,

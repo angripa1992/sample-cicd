@@ -77,6 +77,7 @@ import '../modules/orders/presentation/bloc/delete_comment_cubit.dart';
 import '../modules/orders/presentation/bloc/new_order_cubit.dart';
 import '../modules/orders/presentation/bloc/ongoing_order_cubit.dart';
 import '../modules/orders/presentation/bloc/order_action_cubit.dart';
+import '../modules/orders/presentation/bloc/schedule_order_cubit.dart';
 import '../modules/orders/presentation/bloc/total_order_cubit.dart';
 import '../modules/orders/presentation/bloc/update_busy_mode_cubit.dart';
 import '../modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
@@ -129,8 +130,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
       () => OrderInfoProviderRepoImpl(getIt(), getIt()));
   getIt.registerLazySingleton(() => OrderInformationProvider(getIt()));
   getIt.registerLazySingleton(() => OrderParameterProvider(getIt()));
-  getIt.registerLazySingleton<OrderRepository>(
-      () => OrderRepositoryImpl(getIt(), getIt(), getIt()));
+  getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(), getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchTotalOrders(getIt()));
   getIt.registerFactory(() => TotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchYesterdayTotalOrders(getIt()));
@@ -141,6 +141,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => CancelledOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchNewOrder(getIt()));
   getIt.registerFactory(() => NewOrderCubit(getIt(), getIt()));
+  getIt.registerFactory(() => ScheduleOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchOngoingOrder(getIt()));
   getIt.registerFactory(() => OngoingOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => UpdateOrderStatus(getIt()));

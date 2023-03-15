@@ -1,9 +1,11 @@
+import 'package:badges/badges.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/presentation/components/schedule_order_screen.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -15,6 +17,7 @@ import '../../../../resources/styles.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import 'bloc/new_order_cubit.dart';
 import 'bloc/ongoing_order_cubit.dart';
+import 'bloc/schedule_order_cubit.dart';
 import 'components/new_order_screen.dart';
 import 'components/ongoing_order_screen.dart';
 import 'components/order_header.dart';
@@ -42,9 +45,19 @@ class _OrdersScreenState extends State<OrdersScreen>
   List<int>? _providers;
   List<int>? _brands;
 
+  final _badgeStyle = BadgeStyle(
+    shape: BadgeShape.square,
+    badgeColor: AppColors.red,
+    padding: EdgeInsets.symmetric(
+      horizontal: AppSize.s12.rw,
+      vertical: AppSize.s2.rh,
+    ),
+    borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+  );
+
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     OrderScreenNavigateDataHandler().setData(widget.data);
     _tabController!.index = widget.tabIndex;
     filterSubject = _filterSubject;
@@ -63,6 +76,11 @@ class _OrdersScreenState extends State<OrdersScreen>
           brandsID: _brands,
         );
     context.read<OngoingOrderCubit>().fetchOngoingOrder(
+          willShowLoading: false,
+          providersID: _providers,
+          brandsID: _brands,
+        );
+    context.read<ScheduleOrderCubit>().fetchScheduleOrder(
           willShowLoading: false,
           providersID: _providers,
           brandsID: _brands,
@@ -101,29 +119,57 @@ class _OrdersScreenState extends State<OrdersScreen>
                   tabs: [
                     BlocBuilder<NewOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        return Tab(
-                            text: (state is Success<Orders>)
-                                ? '${AppStrings.newOrder.tr()} (${state.data.total})'
-                                : AppStrings.newOrder.tr());
+                        return Badge(
+                          position: BadgePosition.topEnd(top: -22, end: -20),
+                          badgeContent: Text(
+                            (state is Success<Orders>)
+                                ? '${state.data.total}'
+                                : '0',
+                            style: getRegularTextStyle(color: AppColors.white),
+                          ),
+                          badgeStyle: _badgeStyle,
+                          child: Text(AppStrings.newOrder.tr()),
+                        );
                       },
                     ),
                     BlocBuilder<OngoingOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        return Tab(
-                          text: (state is Success<Orders>)
-                              ? '${AppStrings.ready.tr()} (${state.data.total})'
-                              : AppStrings.ready.tr(),
+                        return Badge(
+                          position: BadgePosition.topEnd(top: -22, end: -16),
+                          badgeContent: Text(
+                            (state is Success<Orders>)
+                                ? '${state.data.total}'
+                                : '0',
+                            style: getRegularTextStyle(color: AppColors.white),
+                          ),
+                          badgeStyle: _badgeStyle,
+                          child: Text(AppStrings.ready.tr()),
                         );
                       },
                     ),
-                    Tab(text: AppStrings.order_history.tr()),
+                    BlocBuilder<ScheduleOrderCubit, ResponseState>(
+                      builder: (context, state) {
+                        return Badge(
+                          position: BadgePosition.topEnd(top: -22, end: -6),
+                          badgeContent: Text(
+                            (state is Success<Orders>)
+                                ? '${state.data.total}'
+                                : '0',
+                            style: getRegularTextStyle(color: AppColors.white),
+                          ),
+                          badgeStyle: _badgeStyle,
+                          child: Text('Schedule'),
+                        );
+                      },
+                    ),
+                    Tab(text: 'History'),
                   ],
                   labelPadding:
-                      EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+                      EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                   unselectedLabelColor: AppColors.lightViolet,
                   labelColor: AppColors.white,
                   labelStyle: TextStyle(
-                    fontSize: AppFontSize.s12.rSp,
+                    fontSize: AppFontSize.s14.rSp,
                     fontFamily: AppFonts.Aeonik,
                     fontWeight: AppFontWeight.regular,
                   ),
@@ -149,6 +195,7 @@ class _OrdersScreenState extends State<OrdersScreen>
             children: [
               NewOrderScreen(subject: _filterSubject),
               OngoingOrderScreen(subject: _filterSubject),
+              ScheduleOrderScreen(subject: _filterSubject),
               OrderHistoryScreen(subject: _filterSubject),
             ],
           ),

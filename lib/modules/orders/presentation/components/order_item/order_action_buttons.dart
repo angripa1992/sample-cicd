@@ -344,6 +344,12 @@ Widget getExpandActionButtons({
   final orderStatus = order.status;
   final provider = order.providerId;
   final orderType = order.type;
+  if (orderStatus == OrderStatus.SCHEDULED) {
+    return   PrintButton(
+      onPrint: onPrint,
+      padding: AppSize.s16,
+    );
+  }
   if (orderStatus == OrderStatus.PLACED) {
     return Row(
       children: [

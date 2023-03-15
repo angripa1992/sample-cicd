@@ -38,6 +38,7 @@ import '../../resources/colors.dart';
 import '../../resources/strings.dart';
 import '../home/home_screen.dart';
 import '../menu/presentation/pages/stock_screen.dart';
+import '../orders/presentation/bloc/schedule_order_cubit.dart';
 import '../user/presentation/account/account_screen.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -126,6 +127,7 @@ class _BaseScreenState extends State<BaseScreen> {
         BlocProvider<CancelledOrderCubit>(
             create: (_) => getIt.get<CancelledOrderCubit>()),
         BlocProvider<NewOrderCubit>(create: (_) => getIt.get<NewOrderCubit>()),
+        BlocProvider<ScheduleOrderCubit>(create: (_) => getIt.get<ScheduleOrderCubit>()),
         BlocProvider<OngoingOrderCubit>(
             create: (_) => getIt.get<OngoingOrderCubit>()),
         BlocProvider<OrderActionCubit>(

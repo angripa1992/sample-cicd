@@ -27,6 +27,7 @@ class AppColors {
   static Color balticSea= const Color(0xFF262626);
   static Color dustyGreay= const Color(0xFF9B9B9B);
   static Color dustyOrange= const Color(0xFFE97B2F);
+  static Color sweetPink= const Color(0xFFFFA38E);
 }
 
 Color getCheckboxColor(Set<MaterialState> states) {

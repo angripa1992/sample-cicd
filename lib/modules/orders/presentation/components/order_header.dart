@@ -71,8 +71,8 @@ class OrderHeaderView extends StatelessWidget {
           padding: EdgeInsets.only(
             right: AppSize.s12.rw,
             left: AppSize.s16.rw,
-            top: AppSize.s12.rw,
-            bottom: AppSize.s8.rw,
+            top: AppSize.s12.rh,
+            bottom: AppSize.s8.rh,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

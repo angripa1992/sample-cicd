@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/details/price_view.dart';
+import 'package:klikit/modules/orders/presentation/components/details/scheduled_view.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../resources/colors.dart';
@@ -70,6 +72,10 @@ void _openBottomSheet({
                 )
               ],
             ),
+            if (order.status == OrderStatus.SCHEDULED && order.scheduledTime.isNotEmpty)
+              ScheduledDetailsView(
+                scheduleTime: order.scheduledTime,
+              ),
             OrderDetailsHeaderView(
               order: order,
               modalKey: key,

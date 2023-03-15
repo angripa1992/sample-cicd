@@ -19,6 +19,15 @@ class OrderParameterProvider {
     return _getParams(brandsID, providersID, status, pageSize: pageSize);
   }
 
+  Future<Map<String, dynamic>> getScheduleOrderParams(
+    List<int>? brandsID,
+    List<int>? providersID, {
+    int? pageSize,
+  }) async {
+    final status = [OrderStatus.SCHEDULED];
+    return _getParams(brandsID, providersID, status, pageSize: pageSize);
+  }
+
   Future<Map<String, dynamic>> getOrderHistoryParam({
     int? pageSize,
     List<int>? brandsID,

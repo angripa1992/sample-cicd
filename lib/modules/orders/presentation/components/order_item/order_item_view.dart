@@ -15,7 +15,6 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 class OrderItemView extends StatelessWidget {
-  final _infoProvider = getIt.get<OrderInformationProvider>();
   final VoidCallback seeDetails;
   final Order order;
 

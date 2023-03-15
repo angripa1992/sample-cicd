@@ -79,6 +79,10 @@ class OrderModel {
   int? itemCount;
   @JsonKey(name: 'unique_item_count')
   int? uniqueItemCount;
+  @JsonKey(name: 'scheduled_status')
+  int? scheduledStatus;
+  @JsonKey(name: 'scheduled_time')
+  String? scheduledTime;
   @JsonKey(name: 'created_at')
   String? createdAt;
   @JsonKey(name: 'updated_at')
@@ -147,6 +151,8 @@ class OrderModel {
       this.currencySymbol,
       this.itemCount,
       this.uniqueItemCount,
+      this.scheduledStatus,
+      this.scheduledTime,
       this.createdAt,
       this.updatedAt,
       this.userId,
@@ -226,6 +232,8 @@ class OrderModel {
       klikitComment: klikitComment.orEmpty(),
       isInterceptorOrder: isInterceptorOrder.orFalse(),
       orderSource: orderSource,
+      scheduledStatus: scheduledStatus.orZero(),
+      scheduledTime: scheduledTime.orEmpty(),
     );
   }
 
