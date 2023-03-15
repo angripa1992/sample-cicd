@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
 import 'package:klikit/modules/orders/provider/order_parameter_provider.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
@@ -122,20 +124,17 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Flexible(
-          flex: 1,
-          child: Center(
-            child: DateSelector(
-              dateTimeRange: _dateRange!,
-              onPick: (dateRange) {
-                _dateRange = dateRange;
-                _refresh();
-              },
-            ),
+        Center(
+          child: DateSelector(
+            dateTimeRange: _dateRange!,
+            onPick: (dateRange) {
+              _dateRange = dateRange;
+              _refresh();
+            },
           ),
         ),
+        SizedBox(height: AppSize.s16.rh),
         Flexible(
-          flex: 4,
           child: PagedListView<int, Order>(
             pagingController: _pagingController!,
             builderDelegate: PagedChildBuilderDelegate<Order>(
