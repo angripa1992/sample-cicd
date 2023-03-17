@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
 
 import '../../../../app/di.dart';
+import '../../../../resources/styles.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import 'add_order_body.dart';
 
@@ -17,7 +19,10 @@ class AddOrderScreen extends StatelessWidget {
         BlocProvider<FetchSubSectionCubit>(create: (_) => getIt.get()),
       ],
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          toolbarHeight: 0,
+          flexibleSpace: getAppBarBackground(),
+        ),
         body: const AddOrderBody(),
       ),
     );

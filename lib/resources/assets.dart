@@ -19,6 +19,8 @@ class AppImages {
 
 class AppIcons {
   static const String account = "$ICON_PATH/ic_account.svg";
+  static const String addActive = "$ICON_PATH/ic_add_active.svg";
+  static const String add = "$ICON_PATH/ic_add.svg";
   static const String accountActive = "$ICON_PATH/ic_account_active.svg";
   static const String home = "$ICON_PATH/ic_home.svg";
   static const String homeActive = "$ICON_PATH/ic_home_active.svg";

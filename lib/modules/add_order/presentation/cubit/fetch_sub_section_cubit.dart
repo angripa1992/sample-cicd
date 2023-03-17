@@ -20,8 +20,7 @@ class FetchSubSectionCubit extends Cubit<ResponseState> {
     response.fold(
       (failure) => emit(Failed(failure)),
       (successResponse) {
-        final subSectionListItems =
-            _createSubSectionList(successResponse.sections);
+        final subSectionListItems = _createSubSectionList(successResponse.sections);
         emit(Success<List<SubSectionListItem>>(subSectionListItems));
       },
     );
@@ -31,8 +30,7 @@ class FetchSubSectionCubit extends Cubit<ResponseState> {
     final List<SubSectionListItem> subSectionsListItemDataHolder = [];
     for (var section in sections) {
       for (var subSection in section.subSections) {
-        final subSectionListItem =
-            SubSectionListItem(section.availableTimes, subSection);
+        final subSectionListItem = SubSectionListItem(section.availableTimes, subSection);
         subSectionsListItemDataHolder.add(subSectionListItem);
       }
     }

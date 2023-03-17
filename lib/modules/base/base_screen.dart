@@ -36,6 +36,7 @@ import '../../core/utils/response_state.dart';
 import '../../language/language_manager.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
+import '../add_order/presentation/pages/add_order_screen.dart';
 import '../home/home_screen.dart';
 import '../menu/presentation/pages/stock_screen.dart';
 import '../orders/presentation/bloc/schedule_order_cubit.dart';
@@ -59,10 +60,12 @@ class _BaseScreenState extends State<BaseScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (mounted) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>?;
           if (args != null) {
             if (args[ArgumentKey.kIS_NOTIFICATION]) {
-              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
+              final navData = NotificationDataHandler()
+                  .getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
               context.read<BaseScreenCubit>().changeIndex(navData);
             }
           }
@@ -74,7 +77,8 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void _handlePrinterSetting(PrinterSetting setting) async {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     await _appPreferences.savePrinterSettings(printerSetting: setting);
     if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
       if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
@@ -100,13 +104,11 @@ class _BaseScreenState extends State<BaseScreen> {
         tabIndex: (navigationData.subTabIndex ?? OrderTab.NEW),
         data: navigationData.data,
       );
-    } else if (navigationData.index == BottomNavItem.STOCK) {
+    } else if (navigationData.index == BottomNavItem.MENU) {
       return const StockScreen();
-    }
-    // else if (navigationData.index == BottomNavItem.ADD_ORDER) {
-    //   return const AddOrderScreen();
-    // }
-    else {
+    } else if (navigationData.index == BottomNavItem.ADD_ORDER) {
+      return const AddOrderScreen();
+    } else {
       return const AccountScreen();
     }
   }
@@ -127,7 +129,8 @@ class _BaseScreenState extends State<BaseScreen> {
         BlocProvider<CancelledOrderCubit>(
             create: (_) => getIt.get<CancelledOrderCubit>()),
         BlocProvider<NewOrderCubit>(create: (_) => getIt.get<NewOrderCubit>()),
-        BlocProvider<ScheduleOrderCubit>(create: (_) => getIt.get<ScheduleOrderCubit>()),
+        BlocProvider<ScheduleOrderCubit>(
+            create: (_) => getIt.get<ScheduleOrderCubit>()),
         BlocProvider<OngoingOrderCubit>(
             create: (_) => getIt.get<OngoingOrderCubit>()),
         BlocProvider<OrderActionCubit>(
@@ -210,6 +213,11 @@ class _BaseScreenState extends State<BaseScreen> {
         label: AppStrings.orders.tr(),
       ),
       BottomNavigationBarItem(
+        icon: _generateNavIcon(AppIcons.add),
+        activeIcon: _generateNavIcon(AppIcons.addActive),
+        label: 'Add Order',
+      ),
+      BottomNavigationBarItem(
         icon: _generateNavIcon(AppIcons.stock),
         activeIcon: _generateNavIcon(AppIcons.stockActive),
         label: AppStrings.menu.tr(),
@@ -219,11 +227,6 @@ class _BaseScreenState extends State<BaseScreen> {
         activeIcon: _generateNavIcon(AppIcons.accountActive),
         label: AppStrings.account.tr(),
       ),
-      // BottomNavigationBarItem(
-      //   icon: _generateNavIcon(AppIcons.account),
-      //   activeIcon: _generateNavIcon(AppIcons.accountActive),
-      //   label: AppStrings.add.tr(),
-      // ),
     ];
   }
 

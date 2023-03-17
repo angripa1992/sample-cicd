@@ -2,6 +2,9 @@ import 'package:get_it/get_it.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
+import 'package:klikit/modules/add_order/data/datasource/add_order_datasource.dart';
+import 'package:klikit/modules/add_order/data/repository/add_order_repository_impl.dart';
+import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/repository/menu_repository_impl.dart';
@@ -65,6 +68,7 @@ import '../core/network/token_provider.dart';
 import '../core/provider/location_provider.dart';
 import '../environment_variables.dart';
 import '../language/language_manager.dart';
+import '../modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
 import '../modules/base/chnage_language_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/data/repository/order_info_provider_repo_impl.dart';
@@ -191,4 +195,9 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   ///consumer protection
   getIt.registerLazySingleton<ConsumerProtectionRepository>(() => ConsumerProtectionRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => ConsumerProtectionCubit(getIt.get()));
+
+  //add order
+  getIt.registerLazySingleton<AddOrderDatasource>(() => AddOrderDatasourceImpl(getIt()));
+  getIt.registerLazySingleton<AddOrderRepository>(() => AddOrderRepositoryImpl(getIt(),getIt()));
+  getIt.registerFactory(() => FetchSubSectionCubit(getIt.get()));
 }
