@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dropdown/select_brand_dropdown.dart';
 
 
+import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/brand.dart';
 
 class BrandSelectorAppBar extends StatelessWidget {
@@ -17,7 +19,6 @@ class BrandSelectorAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 6.0),
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -28,15 +29,18 @@ class BrandSelectorAppBar extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Center(
-              child: SelectBrandDropDown(brands: brands, onChanged: onChanged),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+        child: Row(
+          children: [
+            Expanded(
+              child: Center(
+                child: SelectBrandDropDown(brands: brands, onChanged: onChanged),
+              ),
             ),
-          ),
-          Icon(Icons.add_shopping_cart),
-        ],
+            const Icon(Icons.add_shopping_cart),
+          ],
+        ),
       ),
     );
   }

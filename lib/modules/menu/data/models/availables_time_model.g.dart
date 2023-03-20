@@ -8,25 +8,25 @@ part of 'availables_time_model.dart';
 
 AvailableTimesModel _$AvailableTimesModelFromJson(Map<String, dynamic> json) =>
     AvailableTimesModel(
-      dayOne: json['0'] == null
+      sunday: json['0'] == null
           ? null
           : DayInfoModel.fromJson(json['0'] as Map<String, dynamic>),
-      dayTwo: json['1'] == null
+      monday: json['1'] == null
           ? null
           : DayInfoModel.fromJson(json['1'] as Map<String, dynamic>),
-      dayThree: json['2'] == null
+      tuesday: json['2'] == null
           ? null
           : DayInfoModel.fromJson(json['2'] as Map<String, dynamic>),
-      dayFour: json['3'] == null
+      wednesday: json['3'] == null
           ? null
           : DayInfoModel.fromJson(json['3'] as Map<String, dynamic>),
-      dayFive: json['4'] == null
+      thursday: json['4'] == null
           ? null
           : DayInfoModel.fromJson(json['4'] as Map<String, dynamic>),
-      daySix: json['5'] == null
+      friday: json['5'] == null
           ? null
           : DayInfoModel.fromJson(json['5'] as Map<String, dynamic>),
-      daySeven: json['6'] == null
+      saturday: json['6'] == null
           ? null
           : DayInfoModel.fromJson(json['6'] as Map<String, dynamic>),
     );
@@ -34,13 +34,13 @@ AvailableTimesModel _$AvailableTimesModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AvailableTimesModelToJson(
         AvailableTimesModel instance) =>
     <String, dynamic>{
-      '0': instance.dayOne,
-      '1': instance.dayTwo,
-      '2': instance.dayThree,
-      '3': instance.dayFour,
-      '4': instance.dayFive,
-      '5': instance.daySix,
-      '6': instance.daySeven,
+      '0': instance.sunday,
+      '1': instance.monday,
+      '2': instance.tuesday,
+      '3': instance.wednesday,
+      '4': instance.thursday,
+      '5': instance.friday,
+      '6': instance.saturday,
     };
 
 DayInfoModel _$DayInfoModelFromJson(Map<String, dynamic> json) => DayInfoModel(

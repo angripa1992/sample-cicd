@@ -8,28 +8,28 @@ part 'availables_time_model.g.dart';
 @JsonSerializable()
 class AvailableTimesModel {
   @JsonKey(name: '0')
-  DayInfoModel? dayOne;
+  DayInfoModel? sunday;
   @JsonKey(name: '1')
-  DayInfoModel? dayTwo;
+  DayInfoModel? monday;
   @JsonKey(name: '2')
-  DayInfoModel? dayThree;
+  DayInfoModel? tuesday;
   @JsonKey(name: '3')
-  DayInfoModel? dayFour;
+  DayInfoModel? wednesday;
   @JsonKey(name: '4')
-  DayInfoModel? dayFive;
+  DayInfoModel? thursday;
   @JsonKey(name: '5')
-  DayInfoModel? daySix;
+  DayInfoModel? friday;
   @JsonKey(name: '6')
-  DayInfoModel? daySeven;
+  DayInfoModel? saturday;
 
   AvailableTimesModel({
-    this.dayOne,
-    this.dayTwo,
-    this.dayThree,
-    this.dayFour,
-    this.dayFive,
-    this.daySix,
-    this.daySeven,
+    this.sunday,
+    this.monday,
+    this.tuesday,
+    this.wednesday,
+    this.thursday,
+    this.friday,
+    this.saturday,
   });
 
   factory AvailableTimesModel.fromJson(Map<String, dynamic> json) =>
@@ -37,13 +37,13 @@ class AvailableTimesModel {
 
   AvailableTimes toEntity() {
     return AvailableTimes(
-      dayOne: dayOne?.toEntity() ?? DayInfoModel().toEntity(),
-      dayTwo: dayTwo?.toEntity() ?? DayInfoModel().toEntity(),
-      dayThree: dayThree?.toEntity() ?? DayInfoModel().toEntity(),
-      dayFour: dayFour?.toEntity() ?? DayInfoModel().toEntity(),
-      dayFive: dayFive?.toEntity() ?? DayInfoModel().toEntity(),
-      daySix: daySix?.toEntity() ?? DayInfoModel().toEntity(),
-      daySeven: daySeven?.toEntity() ?? DayInfoModel().toEntity(),
+      sunday: sunday?.toEntity() ?? DayInfoModel().toEntity(),
+      monday: monday?.toEntity() ?? DayInfoModel().toEntity(),
+      tuesday: tuesday?.toEntity() ?? DayInfoModel().toEntity(),
+      wednesday: wednesday?.toEntity() ?? DayInfoModel().toEntity(),
+      thursday: thursday?.toEntity() ?? DayInfoModel().toEntity(),
+      friday: friday?.toEntity() ?? DayInfoModel().toEntity(),
+      saturday: saturday?.toEntity() ?? DayInfoModel().toEntity(),
     );
   }
 }

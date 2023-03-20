@@ -4,6 +4,7 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/brand.dart';
 
 class SelectBrandDropDown extends StatefulWidget {
@@ -22,9 +23,9 @@ class SelectBrandDropDown extends StatefulWidget {
 
 class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
   MenuBrand? dropDownValue;
-  final _textStyle = getRegularTextStyle(
-    color: AppColors.black,
-    fontSize: AppFontSize.s14.rSp,
+  final _textStyle = getMediumTextStyle(
+    color: AppColors.balticSea,
+    fontSize: AppFontSize.s16.rSp,
   );
 
   @override
@@ -35,11 +36,10 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
       decoration: BoxDecoration(
-          border: Border.all(color: AppColors.purpleBlue),
-        borderRadius: BorderRadius.circular(4)
+        border: Border.all(color: AppColors.purpleBlue, width: AppSize.s1.rSp),
+        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
       ),
       child: DropdownButton<MenuBrand>(
         value: dropDownValue,
@@ -67,9 +67,14 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
             return DropdownMenuItem<MenuBrand>(
               value: menu,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(menu.title, style: _textStyle),
-                  if (menu.id == dropDownValue?.id) Icon(Icons.check),
+                  if (menu.id == dropDownValue?.id)
+                    Icon(
+                      Icons.check,
+                      color: AppColors.purpleBlue,
+                    ),
                 ],
               ),
             );
