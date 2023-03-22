@@ -6,10 +6,11 @@ import 'package:klikit/modules/add_order/presentation/pages/components/tab_item_
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
 import 'package:scrollable_list_tab_scroller/scrollable_list_tab_scroller.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:intl/intl.dart';
 
+import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
 import 'dropdown/select_categories_dropdown.dart';
+import 'menu_item_view.dart';
 
 class MenuItemsListView extends StatefulWidget {
   final List<SubSectionListItem> items;
@@ -31,68 +32,79 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
 
   @override
   Widget build(BuildContext context) {
-    print((1/100).floor());
-    print(int.tryParse(DateFormat('HH:mm').format(DateTime.now()).replaceAll(":", ""),radix: 10));
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          CategoriesDropDown(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+          child: CategoriesDropDown(
             items: widget.items,
             onChanged: (index) {
               _itemScrollController.jumpTo(index: index);
             },
           ),
-          Expanded(
-            child: ScrollableListTabScroller(
-              itemScrollController: _itemScrollController,
-              itemCount: widget.items.length,
-              headerContainerBuilder: (context, widget) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                    top: AppSize.s8.rh,
-                    bottom: AppSize.s24.rh,
-                  ),
-                  child: widget,
-                );
-              },
-              tabBuilder: (BuildContext context, int index, bool active) {
-                return TabItemView(
-                  title: widget.items[index].subSections.title,
-                  index: index,
-                  active: active,
-                );
-              },
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
+        ),
+        Expanded(
+          child: ScrollableListTabScroller(
+            itemScrollController: _itemScrollController,
+            itemCount: widget.items.length,
+            headerContainerBuilder: (context, widget) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: AppSize.s16.rh,
+                  left: AppSize.s8.rw,
+                  right: AppSize.s8.rw,
+                ),
+                child: widget,
+              );
+            },
+            tabBuilder: (BuildContext context, int index, bool active) {
+              return TabItemView(
+                title: widget.items[index].subSections.title,
+                index: index,
+                active: active,
+              );
+            },
+            itemBuilder: (BuildContext context, int index) {
+              final listItem = widget.items[index];
+              return Container(
+                color: AppColors.pearl,
+                child: Column(
                   children: [
                     SubsectionInfoView(
                       index: index,
-                      item: widget.items[index],
+                      item: listItem,
                     ),
-                    GridView.builder(
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppSize.s8.rh,
+                        horizontal: AppSize.s8.rw,
+                      ),
+                      child: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
+                          mainAxisSpacing: AppSize.s10.rh,
+                          childAspectRatio: 0.6,
                         ),
-                        itemCount: widget.items[index].subSections.items.length,
+                        itemCount: listItem.subSections.items.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            color: Colors.amber,
-                            child: Center(child: Text('$index')),
+                          return MenuItemView(
+                            menuItem: listItem.subSections.items[index],
+                            dayInfo: AvailableTimeProvider()
+                                .todayInfo(listItem.availableTimes),
                           );
-                        }),
+                        },
+                      ),
+                    ),
                   ],
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

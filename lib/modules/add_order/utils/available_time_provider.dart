@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/menu/domain/entities/avilable_times.dart';
 
 class AvailableTimeProvider {
@@ -16,8 +17,9 @@ class AvailableTimeProvider {
     return '$hoursStr:$minStr';
   }
 
-  DayInfo _todayInfo(AvailableTimes availableTimes) {
-    final today = DateTime.now().day;
+  DayInfo todayInfo(AvailableTimes availableTimes) {
+    final today = DateTime.now().weekday;
+    print('today $today');
     switch (today) {
       case DateTime.monday:
         return availableTimes.monday;
@@ -36,25 +38,28 @@ class AvailableTimeProvider {
     }
   }
 
-  String availableTime(AvailableTimes availableTimes) {
-    final todayInfo = _todayInfo(availableTimes);
-    String availableTime = "";
-    for (var slot in todayInfo.slots) {
+  Slots? haveAvailableTime(DayInfo dayInfo){
+    for (var slot in dayInfo.slots) {
       final currentMilitaryTime = int.tryParse(
         DateFormat('HH:mm').format(DateTime.now()).replaceAll(":", ""),
         radix: 10,
       );
-      print('current $currentMilitaryTime start ${slot.startTime} end${slot.endTime}');
-      if (currentMilitaryTime! >= slot.startTime &&
-          currentMilitaryTime <= slot.endTime) {
-        final startDateTime = DateFormat('HH:mm')
-            .parse(_convertMilitaryTimeToNormalTime(slot.startTime));
-        final startDateTimeStr = DateFormat('hh:mm a').format(startDateTime);
-        final endDateTime = DateFormat('HH:mm')
-            .parse(_convertMilitaryTimeToNormalTime(slot.endTime));
-        final endDateTimeStr = DateFormat('hh:mm a').format(endDateTime);
-        availableTime = '$startDateTimeStr - $endDateTimeStr';
+      if (currentMilitaryTime! >= slot.startTime && currentMilitaryTime <= slot.endTime) {
+        return slot;
       }
+    }
+    return null;
+  }
+
+  String availableTime(AvailableTimes availableTimes) {
+    final slot = haveAvailableTime(todayInfo(availableTimes));
+    String availableTime = 'Unavailable';
+    if(slot != null){
+      final startDateTime = DateFormat('HH:mm').parse(_convertMilitaryTimeToNormalTime(slot.startTime));
+      final startDateTimeStr = DateFormat('hh:mm a').format(startDateTime);
+      final endDateTime = DateFormat('HH:mm').parse(_convertMilitaryTimeToNormalTime(slot.endTime));
+      final endDateTimeStr = DateFormat('hh:mm a').format(endDateTime);
+      availableTime = '$startDateTimeStr - $endDateTimeStr';
     }
     return availableTime;
   }
