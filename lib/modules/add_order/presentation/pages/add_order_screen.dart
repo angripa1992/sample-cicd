@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
 
 import '../../../../app/di.dart';
@@ -23,7 +22,11 @@ class AddOrderScreen extends StatelessWidget {
           toolbarHeight: 0,
           flexibleSpace: getAppBarBackground(),
         ),
-        body: const AddOrderBody(),
+        body: AddOrderBody(
+          onBack: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
     );
   }

@@ -10,6 +10,7 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/items.dart';
+import '../../../utils/order_price_provider.dart';
 
 class MenuItemDescription extends StatelessWidget {
   final MenuItems items;
@@ -100,10 +101,11 @@ class MenuItemDescription extends StatelessWidget {
                               vertical: AppSize.s4.rh,
                             ),
                             child: Text(
-                              '290.00 PHP',
+                            OrderPriceProvider.klikitItemPrice(items.prices),
                               textAlign: TextAlign.center,
-                              style: getBoldTextStyle(
+                              style: TextStyle(
                                 color: AppColors.white,
+                                fontWeight: FontWeight.bold,
                                 fontSize: AppFontSize.s14.rSp,
                               ),
                             ),

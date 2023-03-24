@@ -7,12 +7,17 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../core/provider/image_url_provider.dart';
 import '../../../../../resources/assets.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 
 class MenuItemImageView extends StatelessWidget {
   final String image;
+  final String? available;
 
-  const MenuItemImageView({Key? key, required this.image}) : super(key: key);
+  const MenuItemImageView({Key? key, required this.image, this.available})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +36,16 @@ class MenuItemImageView extends StatelessWidget {
           child: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              //_getBlurImage(),
-              //Text('Out')
+              if (available != null) _getBlurImage(),
+              if (available != null) _unavailableMessage(),
             ],
           ),
         ),
-        progressIndicatorBuilder: (_, __, ___) => Padding(
-          padding: EdgeInsets.only(top: AppSize.s8.rh),
-          child: const Center(
-            child: CircularProgressIndicator(),
+        progressIndicatorBuilder: (_, __, ___) => Center(
+          child: SizedBox(
+            height: AppSize.s16.rh,
+            width: AppSize.s16.rw,
+            child: const CircularProgressIndicator(),
           ),
         ),
         errorWidget: (context, url, error) => Container(
@@ -59,7 +65,8 @@ class MenuItemImageView extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-             // _getBlurImage(),
+              if (available != null) _getBlurImage(),
+              if (available != null) _unavailableMessage(),
             ],
           ),
         ),
@@ -67,7 +74,7 @@ class MenuItemImageView extends StatelessWidget {
     );
   }
 
-  Widget _getBlurImage(){
+  Widget _getBlurImage() {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
       child: Container(
@@ -78,6 +85,16 @@ class MenuItemImageView extends StatelessWidget {
           ),
           color: Colors.black54,
         ),
+      ),
+    );
+  }
+
+  Widget _unavailableMessage() {
+    return Text(
+      available!,
+      style: getRegularTextStyle(
+        color: AppColors.white,
+        fontSize: AppFontSize.s14.rSp,
       ),
     );
   }

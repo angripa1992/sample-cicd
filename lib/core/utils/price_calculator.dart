@@ -60,8 +60,7 @@ class PriceCalculator {
         decimalDigits: 0,
       ).format(price);
     }
-    return NumberFormat.currency(name: name, symbol: currencySymbol)
-        .format(price);
+    return NumberFormat.currency(name: name, symbol: currencySymbol).format(price);
   }
 
   static String convertPrice(Order order, num priceInCent) {

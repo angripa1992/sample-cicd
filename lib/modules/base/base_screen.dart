@@ -106,9 +106,11 @@ class _BaseScreenState extends State<BaseScreen> {
       );
     } else if (navigationData.index == BottomNavItem.MENU) {
       return const StockScreen();
-    } else if (navigationData.index == BottomNavItem.ADD_ORDER) {
-      return const AddOrderScreen();
-    } else {
+    }
+    // else if (navigationData.index == BottomNavItem.ADD_ORDER) {
+    //   return const AddOrderScreen();
+    // }
+    else {
       return const AccountScreen();
     }
   }
@@ -176,8 +178,17 @@ class _BaseScreenState extends State<BaseScreen> {
                   items: _navigationItems(),
                   currentIndex: context.read<BaseScreenCubit>().state.index,
                   onTap: (index) {
-                    context.read<BaseScreenCubit>().changeIndex(NavigationData(
-                        index: index, subTabIndex: null, data: null));
+                    if (index == BottomNavItem.ADD_ORDER) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AddOrderScreen(),
+                        ),
+                      );
+                    } else {
+                      context.read<BaseScreenCubit>().changeIndex(
+                          NavigationData(
+                              index: index, subTabIndex: null, data: null));
+                    }
                   },
                   backgroundColor: AppColors.whiteSmoke,
                   type: BottomNavigationBarType.fixed,

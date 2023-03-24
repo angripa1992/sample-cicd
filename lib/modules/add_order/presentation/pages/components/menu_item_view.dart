@@ -1,13 +1,19 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/menu/domain/entities/avilable_times.dart';
 import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../../menu/domain/entities/price.dart';
+import '../../../utils/available_time_provider.dart';
+import '../../../utils/order_price_provider.dart';
 import 'menu_item_description.dart';
 import 'menu_item_image_view.dart';
 
@@ -18,8 +24,19 @@ class MenuItemView extends StatelessWidget {
   const MenuItemView({Key? key, required this.menuItem, required this.dayInfo})
       : super(key: key);
 
+  String? _checkAvailability() {
+    if (!menuItem.stock.available) {
+      return 'Out of Stock';
+    } else if (AvailableTimeProvider().haveAvailableTime(dayInfo) == null) {
+      return 'Unavailable';
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final availability =  _checkAvailability();
     return SizedBox(
       width: AppSize.s100.rw,
       child: Card(
@@ -34,7 +51,10 @@ class MenuItemView extends StatelessWidget {
                 alignment: AlignmentDirectional.center,
                 clipBehavior: Clip.none,
                 children: [
-                  MenuItemImageView(image: menuItem.image),
+                  MenuItemImageView(
+                    image: menuItem.image,
+                    available: availability,
+                  ),
                   Positioned(
                     bottom: 8,
                     child: Container(
@@ -47,9 +67,13 @@ class MenuItemView extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
                         child: Text(
-                          '290.00 PHP',
+                          OrderPriceProvider.klikitItemPrice(menuItem.prices),
                           textAlign: TextAlign.center,
-                          style: getBoldTextStyle(color: AppColors.white),
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: AppFontSize.s12.rSp,
+                          ),
                         ),
                       ),
                     ),
@@ -57,15 +81,21 @@ class MenuItemView extends StatelessWidget {
                   Positioned(
                     top: -8,
                     right: -4,
-                    child: IconButton(
-                      enableFeedback: true,
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.add_circle,
-                        color: AppColors.purpleBlue,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                        color: AppColors.white,
                       ),
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
+                      child: IconButton(
+                        enableFeedback: (availability==null) ? true : false,
+                        onPressed: (availability==null) ? () {} : null,
+                        icon: Icon(
+                          Icons.add_circle,
+                          color: (availability==null) ? AppColors.purpleBlue : AppColors.lightGrey,
+                        ),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                      ),
                     ),
                   )
                 ],

@@ -86,7 +86,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           mainAxisSpacing: AppSize.s10.rh,
-                          childAspectRatio: 0.6,
+                          childAspectRatio: 0.62,
                         ),
                         itemCount: listItem.subSections.items.length,
                         itemBuilder: (BuildContext context, int index) {

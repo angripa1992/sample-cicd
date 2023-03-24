@@ -11,7 +11,9 @@ import 'components/empty_brand_view.dart';
 import 'components/menu_items_list_view.dart';
 
 class AddOrderBody extends StatefulWidget {
-  const AddOrderBody({Key? key}) : super(key: key);
+  final VoidCallback onBack;
+
+  const AddOrderBody({Key? key, required this.onBack}) : super(key: key);
 
   @override
   State<AddOrderBody> createState() => _AddOrderBodyState();
@@ -46,6 +48,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           onChanged: (brand) {
             context.read<FetchSubSectionCubit>().fetchSubsection(brand.id);
           },
+          onBack: widget.onBack,
         ),
         Expanded(
           child: BlocBuilder<FetchSubSectionCubit, ResponseState>(
