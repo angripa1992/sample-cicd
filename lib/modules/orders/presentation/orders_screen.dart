@@ -119,53 +119,58 @@ class _OrdersScreenState extends State<OrdersScreen>
                   tabs: [
                     BlocBuilder<NewOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        return Badge(
-                          position: BadgePosition.topEnd(top: -22, end: -20),
-                          badgeContent: Text(
-                            (state is Success<Orders>)
-                                ? '${state.data.total}'
-                                : '0',
-                            style: getRegularTextStyle(color: AppColors.white),
-                          ),
-                          badgeStyle: _badgeStyle,
-                          child: Text(AppStrings.newOrder.tr()),
-                        );
+                        if (state is Success<Orders> && state.data.total > 0) {
+                          return Badge(
+                            position: BadgePosition.topEnd(top: -22, end: -20),
+                            badgeContent: Text(
+                              '${state.data.total}',
+                              style:
+                                  getRegularTextStyle(color: AppColors.white),
+                            ),
+                            badgeStyle: _badgeStyle,
+                            child: Text(AppStrings.newOrder.tr()),
+                          );
+                        }
+                        return Text(AppStrings.newOrder.tr());
                       },
                     ),
                     BlocBuilder<OngoingOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        return Badge(
-                          position: BadgePosition.topEnd(top: -22, end: -16),
-                          badgeContent: Text(
-                            (state is Success<Orders>)
-                                ? '${state.data.total}'
-                                : '0',
-                            style: getRegularTextStyle(color: AppColors.white),
-                          ),
-                          badgeStyle: _badgeStyle,
-                          child: Text(AppStrings.ready.tr()),
-                        );
+                        if (state is Success<Orders> && state.data.total > 0) {
+                          return Badge(
+                            position: BadgePosition.topEnd(top: -22, end: -16),
+                            badgeContent: Text(
+                              '${state.data.total}',
+                              style:
+                                  getRegularTextStyle(color: AppColors.white),
+                            ),
+                            badgeStyle: _badgeStyle,
+                            child: Text(AppStrings.ready.tr()),
+                          );
+                        }
+                        return Text(AppStrings.ready.tr());
                       },
                     ),
                     BlocBuilder<ScheduleOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        return Badge(
-                          position: BadgePosition.topEnd(top: -22, end: -6),
-                          badgeContent: Text(
-                            (state is Success<Orders>)
-                                ? '${state.data.total}'
-                                : '0',
-                            style: getRegularTextStyle(color: AppColors.white),
-                          ),
-                          badgeStyle: _badgeStyle,
-                          child: Text('Schedule'),
-                        );
+                        if (state is Success<Orders> && state.data.total > 0) {
+                          return Badge(
+                            position: BadgePosition.topEnd(top: -22, end: -6),
+                            badgeContent: Text(
+                              '${state.data.total}',
+                              style:
+                                  getRegularTextStyle(color: AppColors.white),
+                            ),
+                            badgeStyle: _badgeStyle,
+                            child: Text('Schedule'),
+                          );
+                        }
+                        return Text('Schedule');
                       },
                     ),
                     Tab(text: 'History'),
                   ],
-                  labelPadding:
-                      EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                  labelPadding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                   unselectedLabelColor: AppColors.lightViolet,
                   labelColor: AppColors.white,
                   labelStyle: TextStyle(
