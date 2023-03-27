@@ -84,7 +84,7 @@ class MenuItemDescription extends StatelessWidget {
                       children: [
                         Text(
                           items.title,
-                          style: getRegularTextStyle(
+                          style: getBoldTextStyle(
                             fontSize: AppFontSize.s17.rSp,
                             color: AppColors.balticSea,
                           ),

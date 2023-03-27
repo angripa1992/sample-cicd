@@ -1,27 +1,30 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/menu/domain/entities/avilable_times.dart';
 import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
-import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../../menu/domain/entities/price.dart';
+import '../../../domain/entities/item_modifier_group.dart';
 import '../../../utils/available_time_provider.dart';
 import '../../../utils/order_price_provider.dart';
 import 'menu_item_description.dart';
 import 'menu_item_image_view.dart';
+import 'modifier/add_modifier_view.dart';
 
 class MenuItemView extends StatelessWidget {
   final MenuItems menuItem;
   final DayInfo dayInfo;
+  final VoidCallback onAddItem;
 
-  const MenuItemView({Key? key, required this.menuItem, required this.dayInfo})
+  const MenuItemView(
+      {Key? key,
+      required this.menuItem,
+      required this.dayInfo,
+      required this.onAddItem})
       : super(key: key);
 
   String? _checkAvailability() {
@@ -36,7 +39,7 @@ class MenuItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final availability =  _checkAvailability();
+    final availability = _checkAvailability();
     return SizedBox(
       width: AppSize.s100.rw,
       child: Card(
@@ -87,11 +90,13 @@ class MenuItemView extends StatelessWidget {
                         color: AppColors.white,
                       ),
                       child: IconButton(
-                        enableFeedback: (availability==null) ? true : false,
-                        onPressed: (availability==null) ? () {} : null,
+                        enableFeedback: (availability == null) ? true : false,
+                        onPressed: (availability == null) ? onAddItem : null,
                         icon: Icon(
                           Icons.add_circle,
-                          color: (availability==null) ? AppColors.purpleBlue : AppColors.lightGrey,
+                          color: (availability == null)
+                              ? AppColors.purpleBlue
+                              : AppColors.lightGrey,
                         ),
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),

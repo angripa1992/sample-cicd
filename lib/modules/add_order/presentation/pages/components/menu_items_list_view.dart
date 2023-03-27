@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
+import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/subsection_info_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/tab_item_view.dart';
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
@@ -9,8 +11,11 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
+import '../../../../menu/domain/entities/items.dart';
+import '../../../domain/entities/item_modifier_group.dart';
 import 'dropdown/select_categories_dropdown.dart';
 import 'menu_item_view.dart';
+import 'modifier/add_modifier_view.dart';
 
 class MenuItemsListView extends StatefulWidget {
   final List<SubSectionListItem> items;
@@ -23,11 +28,50 @@ class MenuItemsListView extends StatefulWidget {
 
 class _MenuItemsListViewState extends State<MenuItemsListView> {
   late ItemScrollController _itemScrollController;
+  final _addOrderRepository = getIt.get<AddOrderRepository>();
 
   @override
   void initState() {
     _itemScrollController = ItemScrollController();
     super.initState();
+  }
+
+  void _fetchModifier(MenuItems item) async {
+    final response = await _addOrderRepository.fetchModifiers(itemId: item.id);
+    response.fold(
+      (failure) {
+        print(failure.message);
+      },
+      (data) {
+        if (data.isNotEmpty) {
+          _showAddModifierSheet(data, item);
+        }
+      },
+    );
+  }
+
+  void _showAddModifierSheet(List<ItemModifierGroup> groups, MenuItems item) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.vertical(
+      //     top: Radius.circular(AppSize.s14.rSp),
+      //   ),
+      // ),
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.959,
+          child: AddModifierView(
+            groups: groups,
+            item: item,
+            onClose: () {
+              Navigator.pop(context);
+            },
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -94,6 +138,9 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
                             menuItem: listItem.subSections.items[index],
                             dayInfo: AvailableTimeProvider()
                                 .todayInfo(listItem.availableTimes),
+                            onAddItem: () {
+                              _fetchModifier(listItem.subSections.items[index]);
+                            },
                           );
                         },
                       ),

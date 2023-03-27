@@ -1,3 +1,6 @@
+import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/add_order/domain/entities/item_modifier.dart';
+
 import 'item_modifier_group.dart';
 import 'item_price.dart';
 import 'item_status.dart';
@@ -47,5 +50,18 @@ class ItemModifierModel {
         groups!.add(ItemModifierGroupModel.fromJson(v));
       });
     }
+  }
+
+  ItemModifier toEntity() {
+    return ItemModifier(
+      id: id.orZero(),
+      modifierId: modifierId.orZero(),
+      immgId: immgId.orZero(),
+      title: title.orEmpty(),
+      sequence: sequence.orZero(),
+      statuses: statuses?.map((e) => e.toEntity()).toList() ?? [],
+      prices: prices?.map((e) => e.toEntity()).toList() ?? [],
+      groups: groups?.map((e) => e.toEntity()).toList() ?? [],
+    );
   }
 }

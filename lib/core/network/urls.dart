@@ -29,6 +29,7 @@ class Urls {
   static String updateMenu(int id, int type) =>
       '/v1/menu/${type == MenuType.SECTION ? 'section' : 'sub_section'}/$id/enabled';
   static const String modifiersGroup = '/v1/menu/groups/modifiers';
+  static const String itmModifiers = '/v1/menu/item-modifiers';
 
   static String modifiersDisabled(int id, int type) =>
       '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/verify/disabled';
