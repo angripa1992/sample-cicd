@@ -13,7 +13,6 @@ import 'package:klikit/modules/user/presentation/account/component/edit_profile_
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/update_user_info_cubit.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
-import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
@@ -138,11 +137,15 @@ class _AccountScreenState extends State<AccountScreen> {
                     onLanguageChange: () {
                       showLanguageSettingDialog(
                         context: context,
-                        onLanguageChange: (locale) {
-                          _languageManager.changeLocale(context, locale);
+                        onLanguageChange: (locale, id) {
+                          _languageManager.changeLocale(
+                            context: context,
+                            locale: locale,
+                            languageId: id,
+                          );
                           context
                               .read<ChangeLanguageCubit>()
-                              .openLanguageSettingDialog(locale);
+                              .openLanguageSettingDialog(locale, id);
                         },
                       );
                     },
@@ -204,7 +207,8 @@ class _AccountScreenState extends State<AccountScreen> {
                               showApiErrorSnackBar(context, state.failure);
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
-                              SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
+                              SegmentManager().identify(
+                                  event: SegmentEvents.USER_LOGGED_OUT);
                               SessionManager().logout();
                             }
                           },

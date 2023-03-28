@@ -156,7 +156,11 @@ class _BaseScreenState extends State<BaseScreen> {
             BlocListener<ChangeLanguageCubit, ChangeLanguageState>(
               listener: (_, state) {
                 if (state is OnChangeState) {
-                  _languageManager.changeLocale(context, state.locale);
+                  _languageManager.changeLocale(
+                    context: context,
+                    locale: state.locale,
+                    languageId: state.id,
+                  );
                 }
               },
             ),

@@ -31,8 +31,7 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
   await FcmService().getFcmToken();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  final supportedLocale =
-      await getIt.get<LanguageManager>().getSupportedLocale();
+  final supportedLocale = await getIt.get<LanguageManager>().getSupportedLocale();
   final startLocale = await getIt.get<LanguageManager>().getStartLocale();
 
   SystemChrome.setPreferredOrientations(

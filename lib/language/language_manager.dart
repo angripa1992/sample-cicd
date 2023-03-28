@@ -59,28 +59,32 @@ class LanguageManager {
 
   Future<Locale> getStartLocale() async {
     try {
-      final currentLanguage = _languages.firstWhere(
-          (element) => element.code == _appPreferences.languageCode());
+      final currentLanguage =
+          _languages.firstWhere((element) => element.id == currentLanguageId());
       return makeLocaleFromLanguage(currentLanguage);
     } catch (e) {
       return _fallbackLocale;
     }
   }
 
-  String currentLanguageCode() {
-    return _appPreferences.languageCode();
+  int currentLanguageId() {
+    return _appPreferences.language();
   }
 
-  Future<void> saveCurrentLanguageCode(String languageCode) {
-    return _appPreferences.saveLanguageCode(languageCode);
+  Future<void> saveCurrentLanguageCode(int id) {
+    return _appPreferences.saveLanguage(id);
   }
 
   Locale makeLocaleFromLanguage(Language language) {
     return Locale(language.code!, language.countryCode);
   }
 
-  void changeLocale(BuildContext context, Locale locale) {
+  void changeLocale({
+    required BuildContext context,
+    required Locale locale,
+    required int languageId,
+  }) {
     context.setLocale(locale);
-    saveCurrentLanguageCode(locale.languageCode);
+    saveCurrentLanguageCode(languageId);
   }
 }

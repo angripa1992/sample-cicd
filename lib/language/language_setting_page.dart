@@ -13,14 +13,14 @@ import 'language.dart';
 
 void showLanguageSettingDialog({
   required BuildContext context,
-  required Function(Locale) onLanguageChange,
+  required Function(Locale,int) onLanguageChange,
 }) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        contentPadding: EdgeInsets.all(AppSize.ZERO),
+        contentPadding: const EdgeInsets.all(AppSize.ZERO),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
         content: LanguageSettingPage(onLanguageChange: onLanguageChange),
@@ -30,7 +30,7 @@ void showLanguageSettingDialog({
 }
 
 class LanguageSettingPage extends StatefulWidget {
-  final Function(Locale) onLanguageChange;
+  final Function(Locale,int) onLanguageChange;
 
   const LanguageSettingPage({Key? key, required this.onLanguageChange})
       : super(key: key);
@@ -41,19 +41,19 @@ class LanguageSettingPage extends StatefulWidget {
 
 class _LanguageSettingPageState extends State<LanguageSettingPage> {
   final _languageManager = getIt.get<LanguageManager>();
-  String? _currentLanguageCode;
+  int? _currentLanguageId;
   Language? _currentLanguage;
 
   @override
   void initState() {
-    _currentLanguageCode = _languageManager.currentLanguageCode();
+    _currentLanguageId = _languageManager.currentLanguageId();
     super.initState();
   }
 
   void _changeLocale() {
-    if (_currentLanguage != null) {
-      widget.onLanguageChange(
-          _languageManager.makeLocaleFromLanguage(_currentLanguage!));
+    if (_currentLanguage != null && _currentLanguageId != null) {
+      final locale = _languageManager.makeLocaleFromLanguage(_currentLanguage!);
+      widget.onLanguageChange(locale,_currentLanguageId!);
     }
   }
 
@@ -91,17 +91,16 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
                       data: ThemeData(
                         unselectedWidgetColor: AppColors.pink,
                       ),
-                      child: RadioListTile<String>(
+                      child: RadioListTile<int>(
                         contentPadding: const EdgeInsets.all(AppSize.ZERO),
                         title: Text(languages[index].title!),
-                        value: languages[index].code!,
-                        groupValue: _currentLanguageCode,
+                        value: languages[index].id!,
+                        groupValue: _currentLanguageId,
                         activeColor: AppColors.pink,
                         onChanged: (value) {
                           setState(() {
-                            _currentLanguageCode = value;
-                            _currentLanguage = languages
-                                .firstWhere((element) => element.code == value);
+                            _currentLanguageId = value;
+                            _currentLanguage = languages.firstWhere((element) => element.id == value);
                           });
                         },
                       ),

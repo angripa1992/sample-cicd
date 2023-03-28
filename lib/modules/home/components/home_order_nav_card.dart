@@ -38,11 +38,13 @@ class HomeOrderNavCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                text,
-                style: getRegularTextStyle(
-                  color: textColor,
-                  fontSize: AppFontSize.s15.rSp,
+              Expanded(
+                child: Text(
+                  text,
+                  style: getRegularTextStyle(
+                    color: textColor,
+                    fontSize: AppFontSize.s15.rSp,
+                  ),
                 ),
               ),
               const Spacer(),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/language/language.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,12 +64,12 @@ class AppPreferences {
     return _preferences.getString(_kLoginEmail) ?? EMPTY;
   }
 
-  Future<void> saveLanguageCode(String languageCode) {
-    return _preferences.setString(_kLanguage, languageCode);
+  Future<void> saveLanguage(int languageId) {
+    return _preferences.setInt(_kLanguage, languageId);
   }
 
-  String languageCode() {
-    return _preferences.getString(_kLanguage) ?? 'en';
+  int language() {
+    return _preferences.getInt(_kLanguage) ?? AppLanguage.ENGLISH;
   }
 
   Future<void> savePrinterSettings({

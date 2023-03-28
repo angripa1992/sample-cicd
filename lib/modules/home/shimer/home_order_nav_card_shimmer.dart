@@ -40,18 +40,19 @@ class HomeOrderNavCardShimmer extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Shimmer.fromColors(
-              baseColor: textBaseColor,
-              highlightColor: textHighlightColor,
-              child: Text(
-                text,
-                style: getRegularTextStyle(
-                  color: textBaseColor,
-                  fontSize: AppFontSize.s15.rSp,
+            Expanded(
+              child: Shimmer.fromColors(
+                baseColor: textBaseColor,
+                highlightColor: textHighlightColor,
+                child: Text(
+                  text,
+                  style: getRegularTextStyle(
+                    color: textBaseColor,
+                    fontSize: AppFontSize.s15.rSp,
+                  ),
                 ),
               ),
             ),
-            const Spacer(),
             ContainerShimmer(
               baseColor: containerBaseColor,
               highlightColor: containerHighlightColor,

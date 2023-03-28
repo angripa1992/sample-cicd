@@ -168,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           return OrdersCard(
-                            height: AppSize.s80.rh,
+                            height: AppSize.s90.rh,
                             width: AppSize.s100.rw,
                             text: AppStrings.completed_orders.tr(),
                             orders: (state is Success<Orders>)
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           return OrdersCard(
-                            height: AppSize.s80.rh,
+                            height: AppSize.s90.rh,
                             width: AppSize.s100.rw,
                             text: AppStrings.cancelled_orders.tr(),
                             orders: (state is Success<Orders>)

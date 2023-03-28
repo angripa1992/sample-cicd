@@ -8,14 +8,14 @@ class InitState extends ChangeLanguageState {}
 
 class OnChangeState extends ChangeLanguageState {
   final Locale locale;
-
-  OnChangeState(this.locale);
+  final int id;
+  OnChangeState(this.locale, this.id);
 }
 
 class ChangeLanguageCubit extends Cubit<ChangeLanguageState> {
   ChangeLanguageCubit() : super(InitState());
 
-  void openLanguageSettingDialog(Locale locale) {
-    emit(OnChangeState(locale));
+  void openLanguageSettingDialog(Locale locale,int id) {
+    emit(OnChangeState(locale,id));
   }
 }

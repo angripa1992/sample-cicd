@@ -13,35 +13,37 @@ class AccountActionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        AccountActionItem(
-          title: AppStrings.change_language.tr(),
-          iconData: Icons.language,
-          onTap: onLanguageChange,
-        ),
-        AccountActionItem(
-          title: AppStrings.printer_settings.tr(),
-          iconData: Icons.print,
-          onTap: () {
-            Navigator.of(context).pushNamed(Routes.printerSettings);
-          },
-        ),
-        AccountActionItem(
-          title: AppStrings.contact_support.tr(),
-          iconData: Icons.support_agent,
-          onTap: () {
-            Navigator.of(context).pushNamed(Routes.contactSupport);
-          },
-        ),
-        AccountActionItem(
-          title: AppStrings.change_password.tr(),
-          iconData: Icons.lock,
-          onTap: () {
-            Navigator.of(context).pushNamed(Routes.changePassword);
-          },
-        ),
-      ],
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          AccountActionItem(
+            title: AppStrings.change_language.tr(),
+            iconData: Icons.language,
+            onTap: onLanguageChange,
+          ),
+          AccountActionItem(
+            title: AppStrings.printer_settings.tr(),
+            iconData: Icons.print,
+            onTap: () {
+              Navigator.of(context).pushNamed(Routes.printerSettings);
+            },
+          ),
+          AccountActionItem(
+            title: AppStrings.contact_support.tr(),
+            iconData: Icons.support_agent,
+            onTap: () {
+              Navigator.of(context).pushNamed(Routes.contactSupport);
+            },
+          ),
+          AccountActionItem(
+            title: AppStrings.change_password.tr(),
+            iconData: Icons.lock,
+            onTap: () {
+              Navigator.of(context).pushNamed(Routes.changePassword);
+            },
+          ),
+        ],
+      ),
     );
   }
 }
