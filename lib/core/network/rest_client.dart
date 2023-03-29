@@ -15,7 +15,7 @@ import 'error_handler.dart';
 class RestClient {
   static const String contentType = 'Content-Type';
   static const String authorization = 'Authorization';
-  static const String deviceAgent = 'Devic e-Agent';
+  static const String deviceAgent = 'Device-Agent';
   static const String appAgent = 'Mobile-App-Agent';
   static const String appVersion = 'App-Version';
   static const String appVersionName = 'App-Version-Name';
@@ -34,9 +34,9 @@ class RestClient {
     final versionCode = await deviceInfoProvider.versionCode();
     final versionName = await deviceInfoProvider.versionName();
     _dio.options.headers[contentType] = 'application/json';
-   _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
-    _dio.options.headers[appVersion] = versionCode;
-    _dio.options.headers[appVersionName] = versionName.removeDot();
+   // _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
+   //  _dio.options.headers[appVersion] = versionCode;
+   //  _dio.options.headers[appVersionName] = versionName.removeDot();
   }
 
   void _initInterceptor() {

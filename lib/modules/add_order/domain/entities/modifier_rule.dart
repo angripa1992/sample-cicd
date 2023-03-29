@@ -5,6 +5,7 @@ class ModifierRule {
   final int value;
   final int brandId;
   final int min;
+  final int max;
 
   ModifierRule({
     required this.id,
@@ -13,5 +14,6 @@ class ModifierRule {
     required this.value,
     required this.brandId,
     required this.min,
+    required this.max,
   });
 }

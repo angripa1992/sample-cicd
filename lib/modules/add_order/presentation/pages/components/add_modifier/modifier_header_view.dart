@@ -17,12 +17,12 @@ class ModifierHeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey,
-            offset: Offset(0.0, 1.0),
+            color: AppColors.lightGrey,
+            offset: const Offset(0.0, 2.0),
             blurRadius: 2.0,
           ),
         ],

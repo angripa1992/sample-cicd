@@ -27,12 +27,12 @@ class BrandSelectorAppBar extends StatelessWidget {
           BoxShadow(
             color: Colors.grey,
             offset: Offset(0.0, 1.0),
-            blurRadius: 2.0,
+            blurRadius: 4.0,
           ),
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+        padding: EdgeInsets.symmetric(vertical: AppSize.s6.rh),
         child: Row(
           children: [
             IconButton(

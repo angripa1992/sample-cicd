@@ -13,7 +13,6 @@ import '../../../utils/available_time_provider.dart';
 import '../../../utils/order_price_provider.dart';
 import 'menu_item_description.dart';
 import 'menu_item_image_view.dart';
-import 'modifier/add_modifier_view.dart';
 
 class MenuItemView extends StatelessWidget {
   final MenuItems menuItem;

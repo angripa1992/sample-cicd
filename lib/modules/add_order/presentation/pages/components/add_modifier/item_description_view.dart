@@ -20,6 +20,8 @@ class ItemDescriptionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: AppSize.s1.rh),
+      color: AppColors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

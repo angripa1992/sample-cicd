@@ -13,9 +13,9 @@ import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/items.dart';
 import '../../../domain/entities/item_modifier_group.dart';
+import 'add_modifier/add_modifier_view.dart';
 import 'dropdown/select_categories_dropdown.dart';
 import 'menu_item_view.dart';
-import 'modifier/add_modifier_view.dart';
 
 class MenuItemsListView extends StatefulWidget {
   final List<SubSectionListItem> items;

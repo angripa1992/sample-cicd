@@ -8,6 +8,7 @@ class ModifierRuleModel {
   int? value;
   int? brandId;
   int? min;
+  int? max;
 
   ModifierRuleModel({
     this.id,
@@ -16,6 +17,7 @@ class ModifierRuleModel {
     this.value,
     this.brandId,
     this.min,
+    this.max,
   });
 
   ModifierRuleModel.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class ModifierRuleModel {
     value = json['value'];
     brandId = json['brand_id'];
     min = json['min'];
+    max = json['max'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class ModifierRuleModel {
     data['value'] = value;
     data['brand_id'] = brandId;
     data['min'] = min;
+    data['max'] = max;
     return data;
   }
 
@@ -46,6 +50,7 @@ class ModifierRuleModel {
       value: value.orZero(),
       brandId: brandId.orZero(),
       min: min.orZero(),
+      max: max.orZero(),
     );
   }
 }
