@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/domain/entities/item_modifier_group.dart';
 
 import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/styles.dart';
+import '../../../../../../resources/values.dart';
+import '../../../../domain/entities/item_modifier.dart';
+import 'item_name_price_title.dart';
 import 'level_two_select_multiple_view.dart';
 import 'level_two_select_one_view.dart';
-import '../../../../domain/entities/item_modifier.dart';
-import '../../../../domain/entities/item_modifier_group.dart';
+import 'modifier_group_info.dart';
 
 class LevelOneSelectOneView extends StatefulWidget {
   final List<ItemModifier> modifiers;
@@ -19,14 +22,32 @@ class LevelOneSelectOneView extends StatefulWidget {
 
 class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
   int? _currentModifierId;
+  ItemModifier? _currentModifier;
 
-  List<ItemModifierGroup> _getGroups() {
-    if (_currentModifierId == null) {
-      return [];
+  void _changeCurrentModifier(int? id) {
+    setState(() {
+      _currentModifierId = id;
+    });
+    for (var modifier in widget.modifiers) {
+      if (modifier.id == id) {
+        modifier.isSelected = true;
+        modifier.quantity = 1;
+        _currentModifier = modifier;
+      } else {
+        modifier.isSelected = false;
+        modifier.quantity = 0;
+      }
+      _changeLevelTwoModifier(modifier.groups);
     }
-    return widget.modifiers
-        .firstWhere((element) => element.id == _currentModifierId)
-        .groups;
+  }
+
+  void _changeLevelTwoModifier(List<ItemModifierGroup> groups){
+    for (var group in groups) {
+      for (var modifier in group.modifiers) {
+        modifier.isSelected = false;
+        modifier.quantity = 0;
+      }
+    }
   }
 
   @override
@@ -34,43 +55,35 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
     return Column(
       children: [
         Column(
-          children: createRadioListUsers(),
-        ),
-        Column(
-          children: _getGroups().map((e) {
-            return Column(
-              children: [
-                Text(
-                  e.title,
-                  style: getBoldTextStyle(color: AppColors.red),
-                ),
-                LevelTwoSelectMultipleView(modifiers: e.modifiers),
-              ],
+          children: widget.modifiers.map((modifier) {
+            return RadioListTile<int>(
+              value: modifier.id,
+              groupValue: _currentModifierId,
+              title: ItemNamePriceTitle(
+                  name: modifier.title, prices: modifier.prices),
+              onChanged: _changeCurrentModifier,
+              selected: _currentModifierId == modifier.id,
+              activeColor: AppColors.purpleBlue,
             );
           }).toList(),
         ),
+        if (_currentModifier != null)
+          Column(
+            children: _currentModifier!.groups.map((e) {
+              return Container(
+                margin: EdgeInsets.only(top: AppSize.s8.rh),
+                child: Column(
+                  children: [
+                    ModifierGroupInfo(title: e.title, rule: e.rule),
+                    e.rule.value == 1
+                        ? LevelTwoSelectOneView(modifiers: e.modifiers)
+                        : LevelTwoSelectMultipleView(modifiers: e.modifiers),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
       ],
     );
-  }
-
-  List<Widget> createRadioListUsers() {
-    List<Widget> widgets = [];
-    for (var modifier in widget.modifiers) {
-      widgets.add(
-        RadioListTile<int>(
-          value: modifier.id,
-          groupValue: _currentModifierId,
-          title: Text(modifier.title),
-          onChanged: (id) {
-            setState(() {
-              _currentModifierId = id;
-            });
-          },
-          selected: _currentModifierId == modifier.id,
-          activeColor: Colors.green,
-        ),
-      );
-    }
-    return widgets;
   }
 }

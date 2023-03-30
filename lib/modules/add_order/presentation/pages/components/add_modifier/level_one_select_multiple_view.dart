@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
+import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/item_modifier.dart';
+import '../../../../utils/order_price_provider.dart';
+import 'item_name_price_title.dart';
 import 'level_two_select_multiple_view.dart';
+import 'level_two_select_one_view.dart';
+import 'modifier_group_info.dart';
 
 class LevelOneSelectMultipleView extends StatefulWidget {
   final List<ItemModifier> modifiers;
@@ -16,18 +23,32 @@ class LevelOneSelectMultipleView extends StatefulWidget {
       _LevelOneSelectMultipleViewState();
 }
 
-class _LevelOneSelectMultipleViewState extends State<LevelOneSelectMultipleView> {
+class _LevelOneSelectMultipleViewState
+    extends State<LevelOneSelectMultipleView> {
   final Map<int, bool> _values = {};
   final Map<int, int> _counter = {};
-  ItemModifier? _currentModifier;
+  final List<ItemModifier> _currentModifierList = [];
 
   @override
   void initState() {
     for (var element in widget.modifiers) {
-      _values[element.id] = false;
-      _counter[element.id] = 0;
+      _values[element.id] = element.isSelected;
+      _counter[element.id] = element.quantity;
     }
     super.initState();
+  }
+
+  void _onChanged(ItemModifier modifier,bool? value){
+    if(value != null){
+      setState(() {
+        _values[modifier.id] = value;
+        if (value) {
+          _currentModifierList.add(modifier);
+        } else {
+          _currentModifierList.removeWhere((element) => element.id == modifier.id);
+        }
+      });
+    }
   }
 
   @override
@@ -35,35 +56,33 @@ class _LevelOneSelectMultipleViewState extends State<LevelOneSelectMultipleView>
     return Column(
       children: [
         Column(
-          children: widget.modifiers.map((e) {
+          children: widget.modifiers.map((modifier) {
             return CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
-              title: Text(e.title),
-              value: _values[e.id],
+              title: ItemNamePriceTitle(name: modifier.title,prices: modifier.prices),
+              value: _values[modifier.id],
               onChanged: (value) {
-                setState(() {
-                  _values[e.id] = value!;
-                  if(value){
-                    _currentModifier = e;
-                  }else{
-                    _currentModifier = null;
-                  }
-                });
+                _onChanged(modifier,value);
               },
             );
           }).toList(),
         ),
-        if(_currentModifier != null)
           Column(
-            children: _currentModifier!.groups.map((e) {
+            children: _currentModifierList.map((modifier) {
               return Column(
-                children: [
-                  Text(
-                    e.title,
-                    style: getBoldTextStyle(color: AppColors.red),
-                  ),
-                  LevelTwoSelectMultipleView(modifiers: e.modifiers),
-                ],
+                children: modifier.groups.map((e) {
+                  return Container(
+                    margin: EdgeInsets.only(top: AppSize.s8.rh),
+                    child: Column(
+                      children: [
+                        ModifierGroupInfo(title: e.title, rule: e.rule),
+                        e.rule.value == 1
+                            ? LevelTwoSelectOneView(modifiers: e.modifiers)
+                            : LevelTwoSelectMultipleView(modifiers: e.modifiers),
+                      ],
+                    ),
+                  );
+                }).toList(),
               );
             }).toList(),
           ),

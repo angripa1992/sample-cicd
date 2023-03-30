@@ -11,6 +11,8 @@ class ItemModifier {
   final List<ItemStatus> statuses;
   final List<ItemPrice> prices;
   final List<ItemModifierGroup> groups;
+  bool isSelected;
+  int  quantity;
 
   ItemModifier({
     required this.id,
@@ -21,6 +23,8 @@ class ItemModifier {
     required this.statuses,
     required this.prices,
     required this.groups,
+    this.isSelected = false,
+    this.quantity = 0,
   });
 
 }

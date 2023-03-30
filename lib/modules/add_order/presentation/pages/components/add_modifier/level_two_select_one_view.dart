@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
 
+import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/styles.dart';
 import '../../../../domain/entities/item_modifier.dart';
+import '../../../../utils/order_price_provider.dart';
+import 'item_name_price_title.dart';
 
 
 class LevelTwoSelectOneView extends StatefulWidget {
@@ -16,31 +22,34 @@ class LevelTwoSelectOneView extends StatefulWidget {
 class _LevelTwoSelectOneViewState extends State<LevelTwoSelectOneView> {
   int? _currentModifierId;
 
+  void _onChanged(int? id){
+    setState(() {
+      _currentModifierId = id;
+    });
+    for (var element in widget.modifiers) {
+      if(element.id == id){
+        element.isSelected = true;
+        element.quantity = 1;
+      }else{
+        element.isSelected = false;
+        element.quantity = 0;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: createRadioListUsers(),
-    );
-  }
-
-  List<Widget> createRadioListUsers() {
-    List<Widget> widgets = [];
-    for (var modifier in widget.modifiers) {
-      widgets.add(
-        RadioListTile<int>(
+      children: widget.modifiers.map((modifier) {
+        return  RadioListTile<int>(
           value: modifier.id,
           groupValue: _currentModifierId,
-          title: Text(modifier.title),
-          onChanged: (id) {
-            setState(() {
-              _currentModifierId = id;
-            });
-          },
+          title: ItemNamePriceTitle(name: modifier.title,prices: modifier.prices),
+          onChanged: _onChanged,
           selected: _currentModifierId == modifier.id,
-          activeColor: Colors.green,
-        ),
-      );
-    }
-    return widgets;
+          activeColor: AppColors.purpleBlue,
+        );
+      }).toList(),
+    );
   }
 }
