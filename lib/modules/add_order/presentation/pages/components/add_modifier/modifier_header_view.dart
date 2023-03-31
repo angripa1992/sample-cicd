@@ -9,9 +9,9 @@ import '../../../../../../resources/values.dart';
 class ModifierHeaderView extends StatelessWidget {
   final VoidCallback onBack;
   final String itemName;
-
+  final VoidCallback onCartClick;
   const ModifierHeaderView(
-      {Key? key, required this.onBack, required this.itemName})
+      {Key? key, required this.onBack, required this.itemName, required this.onCartClick})
       : super(key: key);
 
   @override
@@ -47,7 +47,7 @@ class ModifierHeaderView extends StatelessWidget {
                 ),
               ),
             ),
-            const Icon(Icons.add_shopping_cart),
+            IconButton(onPressed: onCartClick, icon: Icon(Icons.add_shopping_cart)),
           ],
         ),
       ),

@@ -25,6 +25,7 @@ class _ItemCounterState extends State<ItemCounter> {
     }else{
       count = 1;
     }
+    widget.onChanged(count);
     super.initState();
   }
 

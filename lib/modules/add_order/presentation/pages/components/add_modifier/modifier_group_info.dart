@@ -17,59 +17,68 @@ class ModifierGroupInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isOptional = rule.value == 0 && rule.min == 0;
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: AppSize.s8.rh,
-        horizontal: AppSize.s16.rw,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(AppSize.s8.rSp),
+          topRight: Radius.circular(AppSize.s8.rSp),
+        ),
+        color: AppColors.white,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  title,
-                  style: getMediumTextStyle(
-                    color: AppColors.balticSea,
-                    fontSize: AppFontSize.s16.rSp,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s12.rw,
+          vertical: AppSize.s8.rh,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    title,
+                    style: getMediumTextStyle(
+                      color: AppColors.balticSea,
+                      fontSize: AppFontSize.s16.rSp,
+                    ),
                   ),
                 ),
-              ),
-              Flexible(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-                    color:
-                        isOptional ? AppColors.lightGrey : AppColors.blueChalk,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSize.s2.rh,
-                      horizontal: AppSize.s8.rw,
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                      color:
+                          isOptional ? AppColors.lightGrey : AppColors.blueChalk,
                     ),
-                    child: Text(
-                      isOptional ? 'Optional' : 'Required',
-                      style: getRegularTextStyle(
-                        color: isOptional
-                            ? AppColors.smokeyGrey
-                            : AppColors.purpleBlue,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppSize.s2.rh,
+                        horizontal: AppSize.s8.rw,
+                      ),
+                      child: Text(
+                        isOptional ? 'Optional' : 'Required',
+                        style: getRegularTextStyle(
+                          color: isOptional
+                              ? AppColors.smokeyGrey
+                              : AppColors.purpleBlue,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: AppSize.s2.rh),
-          Text(
-            rule.title,
-            style: getRegularTextStyle(
-              color: AppColors.smokeyGrey,
+                )
+              ],
             ),
-          ),
-        ],
+            SizedBox(height: AppSize.s2.rh),
+            Text(
+              rule.title,
+              style: getRegularTextStyle(
+                color: AppColors.smokeyGrey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

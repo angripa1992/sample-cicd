@@ -23,6 +23,20 @@ class AddModifierView extends StatelessWidget {
       required this.onClose})
       : super(key: key);
 
+
+  void _verify(){
+    for (var groupLevelOne in groups) {
+      for (var modifierLevelOne in groupLevelOne.modifiers) {
+        debugPrint("Level 1 -> ${modifierLevelOne.title} -> ${modifierLevelOne.isSelected} -> ${modifierLevelOne.quantity}");
+        for (var groupLevelTwo in modifierLevelOne.groups) {
+          for (var modifierLevelTwo in groupLevelTwo.modifiers) {
+            debugPrint("Level 2 -> ${modifierLevelTwo.title} -> ${modifierLevelTwo.isSelected} -> ${modifierLevelTwo.quantity}");
+          }
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +46,9 @@ class AddModifierView extends StatelessWidget {
         children: [
           ModifierHeaderView(
             onBack: onClose,
-            itemName: item.title,
+            itemName: item.title, onCartClick: () {
+              _verify();
+          },
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -40,31 +56,20 @@ class AddModifierView extends StatelessWidget {
                 children: [
                   ItemDescriptionView(item: item),
                   Column(
-                    children: groups.map((e) {
+                    children: groups.map((group) {
                       return Container(
                         margin: EdgeInsets.only(
                           top: AppSize.s8.rh,
                           left: AppSize.s10.rw,
                           right: AppSize.s10.rw,
                         ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          color: AppColors.white,
-                        ),
-                        child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                          child: Column(
-                            children: [
-                              ModifierGroupInfo(title: e.title, rule: e.rule),
-                              e.rule.value == 1
-                                  ? LevelOneSelectOneView(
-                                      modifiers: e.modifiers)
-                                  : LevelOneSelectMultipleView(
-                                      modifiers: e.modifiers,
-                                    ),
-                            ],
-                          ),
+                        child: Column(
+                          children: [
+                            ModifierGroupInfo(title: group.title, rule: group.rule),
+                            group.rule.value == 1
+                                ? LevelOneSelectOneView(modifiers: group.modifiers)
+                                : LevelOneSelectMultipleView(modifiers: group.modifiers,),
+                          ],
                         ),
                       );
                     }).toList(),

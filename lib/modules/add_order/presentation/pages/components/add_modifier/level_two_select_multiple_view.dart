@@ -40,40 +40,54 @@ class _LevelTwoSelectMultipleViewState
       if (!value) {
         modifier.isSelected = false;
         modifier.quantity = 0;
+      }else{
+        modifier.isSelected = true;
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: widget.modifiers.map((modifier) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              activeColor: AppColors.purpleBlue,
-              title: ItemNamePriceTitle(
-                name: modifier.title,
-                prices: modifier.prices,
-              ),
-              value: _values[modifier.id],
-              onChanged: (value) => _onChanged(modifier, value),
-            ),
-            if (_values[modifier.id] == true)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSize.s32.rw),
-                child: ItemCounter(
-                  count: modifier.quantity,
-                  onChanged: (quantity) {
-                    modifier.quantity = quantity;
-                  },
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(AppSize.s8.rSp),
+          bottomRight: Radius.circular(AppSize.s8.rSp),
+        ),
+        color: AppColors.white,
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(bottom: AppSize.s8.rh),
+        child: Column(
+          children: widget.modifiers.map((modifier) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  activeColor: AppColors.purpleBlue,
+                  title: ItemNamePriceTitle(
+                    name: modifier.title,
+                    prices: modifier.prices,
+                  ),
+                  value: _values[modifier.id],
+                  onChanged: (value) => _onChanged(modifier, value),
                 ),
-              ),
-          ],
-        );
-      }).toList(),
+                if (_values[modifier.id] == true)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: AppSize.s32.rw),
+                    child: ItemCounter(
+                      count: modifier.quantity,
+                      onChanged: (quantity) {
+                        modifier.quantity = quantity;
+                      },
+                    ),
+                  ),
+              ],
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

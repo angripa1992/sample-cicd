@@ -41,7 +41,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
     }
   }
 
-  void _changeLevelTwoModifier(List<ItemModifierGroup> groups){
+  void _changeLevelTwoModifier(List<ItemModifierGroup> groups) {
     for (var group in groups) {
       for (var modifier in group.modifiers) {
         modifier.isSelected = false;
@@ -54,30 +54,40 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Column(
-          children: widget.modifiers.map((modifier) {
-            return RadioListTile<int>(
-              value: modifier.id,
-              groupValue: _currentModifierId,
-              title: ItemNamePriceTitle(
-                  name: modifier.title, prices: modifier.prices),
-              onChanged: _changeCurrentModifier,
-              selected: _currentModifierId == modifier.id,
-              activeColor: AppColors.purpleBlue,
-            );
-          }).toList(),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(AppSize.s8.rSp),
+              bottomRight: Radius.circular(AppSize.s8.rSp),
+            ),
+            color: AppColors.white,
+          ),
+          child: Column(
+            children: widget.modifiers.map((modifier) {
+              return RadioListTile<int>(
+                value: modifier.id,
+                groupValue: _currentModifierId,
+                title: ItemNamePriceTitle(
+                    name: modifier.title, prices: modifier.prices),
+                onChanged: _changeCurrentModifier,
+                selected: _currentModifierId == modifier.id,
+                activeColor: AppColors.purpleBlue,
+              );
+            }).toList(),
+          ),
         ),
         if (_currentModifier != null)
           Column(
-            children: _currentModifier!.groups.map((e) {
+            children: _currentModifier!.groups.map((group) {
               return Container(
                 margin: EdgeInsets.only(top: AppSize.s8.rh),
                 child: Column(
                   children: [
-                    ModifierGroupInfo(title: e.title, rule: e.rule),
-                    e.rule.value == 1
-                        ? LevelTwoSelectOneView(modifiers: e.modifiers)
-                        : LevelTwoSelectMultipleView(modifiers: e.modifiers),
+                    ModifierGroupInfo(title: '${group.title} for ${_currentModifier!.title}', rule: group.rule),
+                    group.rule.value == 1
+                        ? LevelTwoSelectOneView(modifiers: group.modifiers)
+                        : LevelTwoSelectMultipleView(
+                            modifiers: group.modifiers),
                   ],
                 ),
               );

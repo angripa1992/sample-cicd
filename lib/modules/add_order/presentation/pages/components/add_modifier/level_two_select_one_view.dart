@@ -4,6 +4,7 @@ import 'package:klikit/app/size_config.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
+import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/item_modifier.dart';
 import '../../../../utils/order_price_provider.dart';
 import 'item_name_price_title.dart';
@@ -39,17 +40,29 @@ class _LevelTwoSelectOneViewState extends State<LevelTwoSelectOneView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: widget.modifiers.map((modifier) {
-        return  RadioListTile<int>(
-          value: modifier.id,
-          groupValue: _currentModifierId,
-          title: ItemNamePriceTitle(name: modifier.title,prices: modifier.prices),
-          onChanged: _onChanged,
-          selected: _currentModifierId == modifier.id,
-          activeColor: AppColors.purpleBlue,
-        );
-      }).toList(),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(AppSize.s8.rSp),
+          bottomRight: Radius.circular(AppSize.s8.rSp),
+        ),
+        color: AppColors.white,
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(bottom: AppSize.s8.rh),
+        child: Column(
+          children: widget.modifiers.map((modifier) {
+            return  RadioListTile<int>(
+              value: modifier.id,
+              groupValue: _currentModifierId,
+              title: ItemNamePriceTitle(name: modifier.title,prices: modifier.prices),
+              onChanged: _onChanged,
+              selected: _currentModifierId == modifier.id,
+              activeColor: AppColors.purpleBlue,
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

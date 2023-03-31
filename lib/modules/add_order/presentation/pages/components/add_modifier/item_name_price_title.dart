@@ -28,7 +28,7 @@ class ItemNamePriceTitle extends StatelessWidget {
         ),
         Text(
           OrderPriceProvider.modifierPrice(prices),
-          style: getRegularTextStyle(
+          style: TextStyle(
             color: AppColors.balticSea,
             fontSize: AppFontSize.s15.rSp,
           ),
