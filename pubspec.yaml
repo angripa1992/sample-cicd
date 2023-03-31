@@ -54,7 +54,7 @@ dependencies:
   docket_design_template:
     git:
       url: https://sayed_hasan@bitbucket.org/shadowchef/docket_design_template.git
-      ref: 3.0.0
+      ref: 3.0.1
 
 dev_dependencies:
   flutter_test:

@@ -73,6 +73,10 @@ class OrderModel {
   int? deliveryFee;
   @JsonKey(name: 'additional_fee')
   int? additionalFee;
+  @JsonKey(name: 'gateway_fee')
+  int? gatewayFee;
+  @JsonKey(name: 'service_fee')
+  int? serviceFee;
   @JsonKey(name: 'currency_symbol')
   String? currencySymbol;
   @JsonKey(name: 'item_count')
@@ -146,6 +150,8 @@ class OrderModel {
       this.providerDiscount,
       this.deliveryFee,
       this.additionalFee,
+      this.gatewayFee,
+      this.serviceFee,
       this.vat,
       this.currency,
       this.currencySymbol,
@@ -234,6 +240,8 @@ class OrderModel {
       orderSource: orderSource,
       scheduledStatus: scheduledStatus.orZero(),
       scheduledTime: scheduledTime.orEmpty(),
+      gatewayFee: gatewayFee.orZero(),
+      serviceFee: serviceFee.orZero(),
     );
   }
 

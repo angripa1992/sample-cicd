@@ -44,6 +44,10 @@ class PrinterDataProvider {
       brands: _createTemplateCartsBrandList(order.brands),
       placedOn: order.orderSource.title,
       qrInfo: _createQrInfo(brand),
+      paymentStatus: order.paymentStatus,
+      paymentMethod: order.paymentMethod,
+      gatewayFee: order.gatewayFee,
+      serviceFee: order.serviceFee,
     );
   }
 

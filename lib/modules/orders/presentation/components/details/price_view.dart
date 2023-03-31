@@ -37,6 +37,8 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
+    final bool willShowServiceFee =
+        (widget.order.serviceFee > 0 && widget.order.gatewayFee > 0);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
@@ -83,6 +85,12 @@ class _PriceViewState extends State<PriceView> {
                     AppStrings.additional_fee.tr(),
                     widget.order.additionalFee,
                   ),
+                  if (willShowServiceFee) SizedBox(height: AppSize.s2.rh),
+                  if (willShowServiceFee)
+                    _getSubtotalItem('Service Fee', widget.order.serviceFee),
+                  if (willShowServiceFee) SizedBox(height: AppSize.s2.rh),
+                  if (willShowServiceFee)
+                    _getSubtotalItem('Processing Fee', widget.order.gatewayFee),
                   SizedBox(height: AppSize.s2.rh),
                   _getSubtotalItem(
                     AppStrings.discount.tr(),

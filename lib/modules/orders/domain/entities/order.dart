@@ -32,6 +32,8 @@ class Order {
   final int providerDiscount;
   final int deliveryFee;
   final int additionalFee;
+  final int gatewayFee;
+  final int serviceFee;
   final int vat;
   final String currency;
   final String currencySymbol;
@@ -82,6 +84,8 @@ class Order {
     required this.providerDiscount,
     required this.deliveryFee,
     required this.additionalFee,
+    required this.gatewayFee,
+    required this.serviceFee,
     required this.vat,
     required this.currency,
     required this.currencySymbol,
