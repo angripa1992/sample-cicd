@@ -136,6 +136,11 @@ class PaymentStatusId {
   static const refunded = 4;
 }
 
+class RuleType{
+  static const exact= 'exact';
+  static const range= 'range';
+}
+
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
   static const String kNOTIFICATION_DATA = 'notification_data';

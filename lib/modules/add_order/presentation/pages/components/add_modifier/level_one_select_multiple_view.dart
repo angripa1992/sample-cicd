@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
+import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/item_modifier.dart';
+import '../../../../domain/entities/item_modifier_group.dart';
 import 'item_counter.dart';
 import 'item_name_price_title.dart';
 import 'level_two_select_multiple_view.dart';
@@ -41,12 +43,25 @@ class _LevelOneSelectMultipleViewState
       setState(() {
         _values[modifier.id] = value;
         if (value) {
+          modifier.isSelected = true;
           _currentModifierList.add(modifier);
         } else {
+          modifier.isSelected = false;
+          modifier.quantity = 0;
           _currentModifierList
               .removeWhere((element) => element.id == modifier.id);
+          _changeLevelTwoModifier(modifier.groups);
         }
       });
+    }
+  }
+
+  void _changeLevelTwoModifier(List<ItemModifierGroup> groups) {
+    for (var group in groups) {
+      for (var modifier in group.modifiers) {
+        modifier.isSelected = false;
+        modifier.quantity = 0;
+      }
     }
   }
 
@@ -62,36 +77,40 @@ class _LevelOneSelectMultipleViewState
             ),
             color: AppColors.white,
           ),
-          child: Column(
-            children: widget.modifiers.map((modifier) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: AppColors.purpleBlue,
-                    title: ItemNamePriceTitle(
-                      name: modifier.title,
-                      prices: modifier.prices,
-                    ),
-                    value: _values[modifier.id],
-                    onChanged: (value) {
-                      _onChanged(modifier, value);
-                    },
-                  ),
-                  if (_values[modifier.id] == true)
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: AppSize.s32.rw),
-                      child: ItemCounter(
-                        count: modifier.quantity,
-                        onChanged: (quantity) {
-                          modifier.quantity = quantity;
-                        },
+          child: Padding(
+            padding: EdgeInsets.only(bottom: AppSize.s8.rh),
+            child: Column(
+              children: widget.modifiers.map((modifier) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      activeColor: AppColors.purpleBlue,
+                      title: ItemNamePriceTitle(
+                        name: modifier.title,
+                        prices: modifier.prices,
                       ),
+                      value: _values[modifier.id],
+                      onChanged: (value) {
+                        _onChanged(modifier, value);
+                      },
                     ),
-                ],
-              );
-            }).toList(),
+                    if (_values[modifier.id] == true)
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: AppSize.s32.rw),
+                        child: ItemCounter(
+                          count: modifier.quantity,
+                          onChanged: (quantity) {
+                            modifier.quantity = quantity;
+                          },
+                        ),
+                      ),
+                  ],
+                );
+              }).toList(),
+            ),
           ),
         ),
         Column(
@@ -110,7 +129,7 @@ class _LevelOneSelectMultipleViewState
                         title: '${group.title} for ${modifier.title}',
                         rule: group.rule,
                       ),
-                      group.rule.value == 1
+                      (group.rule.typeTitle == RuleType.exact && group.rule.value == 1)
                           ? LevelTwoSelectOneView(modifiers: group.modifiers)
                           : LevelTwoSelectMultipleView(
                               modifiers: group.modifiers),

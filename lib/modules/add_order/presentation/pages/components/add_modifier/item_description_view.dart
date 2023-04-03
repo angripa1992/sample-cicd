@@ -20,7 +20,6 @@ class ItemDescriptionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: AppSize.s1.rh),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(AppSize.s8.rSp),

@@ -17,6 +17,7 @@ class ModifierHeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: AppSize.s1.rh),
       decoration: BoxDecoration(
         color: AppColors.white,
         boxShadow: [

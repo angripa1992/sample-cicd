@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/add_modifier/level_one_select_one_view.dart';
 
@@ -23,17 +24,46 @@ class AddModifierView extends StatelessWidget {
       required this.onClose})
       : super(key: key);
 
-
-  void _verify(){
+  Future<bool> _verify() async {
     for (var groupLevelOne in groups) {
+      int levelOneModifierQuantity = 0;
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         debugPrint("Level 1 -> ${modifierLevelOne.title} -> ${modifierLevelOne.isSelected} -> ${modifierLevelOne.quantity}");
-        for (var groupLevelTwo in modifierLevelOne.groups) {
-          for (var modifierLevelTwo in groupLevelTwo.modifiers) {
-            debugPrint("Level 2 -> ${modifierLevelTwo.title} -> ${modifierLevelTwo.isSelected} -> ${modifierLevelTwo.quantity}");
+        if (modifierLevelOne.isSelected) {
+          levelOneModifierQuantity += modifierLevelOne.quantity;
+          for (var groupLevelTwo in modifierLevelOne.groups) {
+            int levelTwoModifierQuantity = 0;
+            for (var modifierLevelTwo in groupLevelTwo.modifiers) {
+              debugPrint("Level 2 -> ${modifierLevelTwo.title} -> ${modifierLevelTwo.isSelected} -> ${modifierLevelTwo.quantity}");
+              if (modifierLevelTwo.isSelected) {
+                levelTwoModifierQuantity += modifierLevelTwo.quantity;
+              }
+            }
+            if (!_checkRole(levelTwoModifierQuantity, groupLevelTwo)) {
+              return false;
+            }
           }
         }
       }
+      if (!_checkRole(levelOneModifierQuantity, groupLevelOne)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool _checkRole(int quantity, ItemModifierGroup group) {
+    final rule = group.rule;
+    debugPrint(
+        '${group.title} ->  rule -> value = ${rule.value} -> min = ${rule.min} -> max = ${rule.max} -> quantity = $quantity');
+    if (rule.value > 0 && rule.value == quantity) {
+      return true;
+    } else if (rule.value == 0 &&
+        rule.min <= quantity &&
+        rule.max >= quantity) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -46,9 +76,10 @@ class AddModifierView extends StatelessWidget {
         children: [
           ModifierHeaderView(
             onBack: onClose,
-            itemName: item.title, onCartClick: () {
-              _verify();
-          },
+            itemName: item.title,
+            onCartClick: () async {
+              print("is ok -> ${await _verify()}");
+            },
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -65,10 +96,18 @@ class AddModifierView extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            ModifierGroupInfo(title: group.title, rule: group.rule),
-                            group.rule.value == 1
-                                ? LevelOneSelectOneView(modifiers: group.modifiers)
-                                : LevelOneSelectMultipleView(modifiers: group.modifiers,),
+                            ModifierGroupInfo(
+                              title: group.title,
+                              rule: group.rule,
+                            ),
+                            (group.rule.typeTitle == RuleType.exact &&
+                                    group.rule.value == 1)
+                                ? LevelOneSelectOneView(
+                                    modifiers: group.modifiers,
+                                  )
+                                : LevelOneSelectMultipleView(
+                                    modifiers: group.modifiers,
+                                  ),
                           ],
                         ),
                       );
