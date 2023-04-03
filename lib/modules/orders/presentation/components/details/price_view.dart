@@ -37,6 +37,8 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.order.serviceFee);
+    print(widget.order.gatewayFee);
     final bool willShowServiceFee =
         (widget.order.serviceFee > 0 && widget.order.gatewayFee > 0);
     return Padding(

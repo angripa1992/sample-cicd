@@ -27,9 +27,9 @@ void _openBottomSheet({
     context: context,
     isScrollControlled: true,
     isDismissible: true,
-    shape: const RoundedRectangleBorder(
+    shape:  RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
-        top: Radius.circular(0),
+        top: Radius.circular(AppSize.s16.rSp),
       ),
     ),
     builder: (context) => DraggableScrollableSheet(
