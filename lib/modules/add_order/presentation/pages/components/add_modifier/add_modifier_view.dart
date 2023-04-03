@@ -7,12 +7,15 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/items.dart';
 import '../../../../domain/entities/item_modifier_group.dart';
+import '../../../../utils/modifier_manager.dart';
+import '../../../../utils/order_price_provider.dart';
+import 'add_to_cart_button_view.dart';
 import 'item_description_view.dart';
 import 'level_one_select_multiple_view.dart';
 import 'modifier_group_info.dart';
 import 'modifier_header_view.dart';
 
-class AddModifierView extends StatelessWidget {
+class AddModifierView extends StatefulWidget {
   final List<ItemModifierGroup> groups;
   final MenuItems item;
   final VoidCallback onClose;
@@ -24,47 +27,35 @@ class AddModifierView extends StatelessWidget {
       required this.onClose})
       : super(key: key);
 
-  Future<bool> _verify() async {
-    for (var groupLevelOne in groups) {
-      int levelOneModifierQuantity = 0;
-      for (var modifierLevelOne in groupLevelOne.modifiers) {
-        debugPrint("Level 1 -> ${modifierLevelOne.title} -> ${modifierLevelOne.isSelected} -> ${modifierLevelOne.quantity}");
-        if (modifierLevelOne.isSelected) {
-          levelOneModifierQuantity += modifierLevelOne.quantity;
-          for (var groupLevelTwo in modifierLevelOne.groups) {
-            int levelTwoModifierQuantity = 0;
-            for (var modifierLevelTwo in groupLevelTwo.modifiers) {
-              debugPrint("Level 2 -> ${modifierLevelTwo.title} -> ${modifierLevelTwo.isSelected} -> ${modifierLevelTwo.quantity}");
-              if (modifierLevelTwo.isSelected) {
-                levelTwoModifierQuantity += modifierLevelTwo.quantity;
-              }
-            }
-            if (!_checkRole(levelTwoModifierQuantity, groupLevelTwo)) {
-              return false;
-            }
-          }
-        }
-      }
-      if (!_checkRole(levelOneModifierQuantity, groupLevelOne)) {
-        return false;
-      }
-    }
-    return true;
+  @override
+  State<AddModifierView> createState() => _AddModifierViewState();
+}
+
+class _AddModifierViewState extends State<AddModifierView> {
+  final _enabled = ValueNotifier<bool>(false);
+  final _price = ValueNotifier<num>(0);
+  num _itemPrice = 0;
+
+  @override
+  void initState() {
+    _itemPrice = OrderPriceProvider.klikitPrice(widget.item.prices);
+    _price.value = _itemPrice;
+    super.initState();
   }
 
-  bool _checkRole(int quantity, ItemModifierGroup group) {
-    final rule = group.rule;
-    debugPrint(
-        '${group.title} ->  rule -> value = ${rule.value} -> min = ${rule.min} -> max = ${rule.max} -> quantity = $quantity');
-    if (rule.value > 0 && rule.value == quantity) {
-      return true;
-    } else if (rule.value == 0 &&
-        rule.min <= quantity &&
-        rule.max >= quantity) {
-      return true;
-    } else {
-      return false;
+  void _onChanged() async {
+    final validated = await ModifierManager().verifyRules(widget.groups);
+    final price = await ModifierManager().calculateModifiersPrice(widget.groups);
+    if(_enabled.value != validated){
+      _enabled.value = validated;
     }
+    if(_price.value != price){
+      _price.value = price + _itemPrice;
+    }
+    print(
+        "check rule -> ${await ModifierManager().verifyRules(widget.groups)}");
+    print(
+        "modifier price -> ${await ModifierManager().calculateModifiersPrice(widget.groups)}");
   }
 
   @override
@@ -75,19 +66,17 @@ class AddModifierView extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           ModifierHeaderView(
-            onBack: onClose,
-            itemName: item.title,
-            onCartClick: () async {
-              print("is ok -> ${await _verify()}");
-            },
+            onBack: widget.onClose,
+            itemName: widget.item.title,
+            onCartClick: () async {},
           ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  ItemDescriptionView(item: item),
+                  ItemDescriptionView(item: widget.item),
                   Column(
-                    children: groups.map((group) {
+                    children: widget.groups.map((group) {
                       return Container(
                         margin: EdgeInsets.only(
                           top: AppSize.s8.rh,
@@ -104,9 +93,11 @@ class AddModifierView extends StatelessWidget {
                                     group.rule.value == 1)
                                 ? LevelOneSelectOneView(
                                     modifiers: group.modifiers,
+                                    onChanged: _onChanged,
                                   )
                                 : LevelOneSelectMultipleView(
                                     modifiers: group.modifiers,
+                                    onChanged: _onChanged,
                                   ),
                           ],
                         ),
@@ -116,6 +107,10 @@ class AddModifierView extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          AddToCartButtonView(
+            enabled: _enabled,
+            price: _price,
           ),
         ],
       ),

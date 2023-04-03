@@ -14,8 +14,10 @@ import 'modifier_group_info.dart';
 
 class LevelOneSelectMultipleView extends StatefulWidget {
   final List<ItemModifier> modifiers;
+  final VoidCallback onChanged;
 
-  const LevelOneSelectMultipleView({Key? key, required this.modifiers})
+  const LevelOneSelectMultipleView(
+      {Key? key, required this.modifiers, required this.onChanged})
       : super(key: key);
 
   @override
@@ -54,6 +56,7 @@ class _LevelOneSelectMultipleViewState
         }
       });
     }
+    widget.onChanged();
   }
 
   void _changeLevelTwoModifier(List<ItemModifierGroup> groups) {
@@ -104,6 +107,7 @@ class _LevelOneSelectMultipleViewState
                           count: modifier.quantity,
                           onChanged: (quantity) {
                             modifier.quantity = quantity;
+                            widget.onChanged();
                           },
                         ),
                       ),
@@ -129,10 +133,16 @@ class _LevelOneSelectMultipleViewState
                         title: '${group.title} for ${modifier.title}',
                         rule: group.rule,
                       ),
-                      (group.rule.typeTitle == RuleType.exact && group.rule.value == 1)
-                          ? LevelTwoSelectOneView(modifiers: group.modifiers)
+                      (group.rule.typeTitle == RuleType.exact &&
+                              group.rule.value == 1)
+                          ? LevelTwoSelectOneView(
+                              modifiers: group.modifiers,
+                              onChanged: widget.onChanged,
+                            )
                           : LevelTwoSelectMultipleView(
-                              modifiers: group.modifiers),
+                              modifiers: group.modifiers,
+                              onChanged: widget.onChanged,
+                            ),
                     ],
                   ),
                 );

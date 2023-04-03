@@ -9,8 +9,9 @@ import 'item_name_price_title.dart';
 
 class LevelTwoSelectMultipleView extends StatefulWidget {
   final List<ItemModifier> modifiers;
+  final VoidCallback onChanged;
 
-  const LevelTwoSelectMultipleView({Key? key, required this.modifiers})
+  const LevelTwoSelectMultipleView({Key? key, required this.modifiers, required this.onChanged})
       : super(key: key);
 
   @override
@@ -44,6 +45,7 @@ class _LevelTwoSelectMultipleViewState
         modifier.isSelected = true;
       }
     }
+    widget.onChanged();
   }
 
   @override
@@ -80,6 +82,7 @@ class _LevelTwoSelectMultipleViewState
                       count: modifier.quantity,
                       onChanged: (quantity) {
                         modifier.quantity = quantity;
+                        widget.onChanged();
                       },
                     ),
                   ),

@@ -5,6 +5,10 @@ import '../../../core/utils/price_calculator.dart';
 import '../../menu/domain/entities/price.dart';
 
 class OrderPriceProvider {
+  static num klikitPrice(List<Prices> prices) {
+    return prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT).price;
+  }
+
   static String klikitItemPrice(List<Prices> prices) {
     final price =
         prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);

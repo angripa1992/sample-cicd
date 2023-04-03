@@ -12,8 +12,9 @@ import 'item_name_price_title.dart';
 
 class LevelTwoSelectOneView extends StatefulWidget {
   final List<ItemModifier> modifiers;
+  final VoidCallback onChanged;
 
-  const LevelTwoSelectOneView({Key? key, required this.modifiers})
+  const LevelTwoSelectOneView({Key? key, required this.modifiers, required this.onChanged})
       : super(key: key);
 
   @override
@@ -36,6 +37,7 @@ class _LevelTwoSelectOneViewState extends State<LevelTwoSelectOneView> {
         element.quantity = 0;
       }
     }
+    widget.onChanged();
   }
 
   @override
