@@ -5,17 +5,20 @@ import 'package:klikit/modules/add_order/presentation/pages/components/dropdown/
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/brand.dart';
+import 'cart_badge.dart';
 
 class BrandSelectorAppBar extends StatelessWidget {
   final List<MenuBrand> brands;
   final Function(MenuBrand) onChanged;
   final VoidCallback onBack;
+  final VoidCallback onCartTap;
 
   const BrandSelectorAppBar({
     Key? key,
     required this.brands,
     required this.onChanged,
     required this.onBack,
+    required this.onCartTap,
   }) : super(key: key);
 
   @override
@@ -48,7 +51,9 @@ class BrandSelectorAppBar extends StatelessWidget {
                     SelectBrandDropDown(brands: brands, onChanged: onChanged),
               ),
             ),
-            const Icon(Icons.add_shopping_cart),
+            CartBadge(
+              onCartTap: () {},
+            ),
           ],
         ),
       ),

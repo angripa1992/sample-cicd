@@ -47,62 +47,59 @@ class MenuItemView extends StatelessWidget {
         ),
         child: Column(
           children: [
-            SizedBox(
-              height: AppSize.s100.rh,
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                clipBehavior: Clip.none,
-                children: [
-                  MenuItemImageView(
-                    image: menuItem.image,
-                    available: availability,
-                  ),
-                  Positioned(
-                    bottom: 8,
-                    child: Container(
-                      width: AppSize.s90.rw,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        color: AppColors.purpleBlue,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
-                        child: Text(
-                          OrderPriceProvider.klikitItemPrice(menuItem.prices),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: AppFontSize.s12.rSp,
+            InkWell(
+              onTap: (availability == null) ? onAddItem : null,
+              child: SizedBox(
+                height: AppSize.s100.rh,
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  clipBehavior: Clip.none,
+                  children: [
+                    MenuItemImageView(
+                      image: menuItem.image,
+                      available: availability,
+                    ),
+                    Positioned(
+                      bottom: 8,
+                      child: Container(
+                        width: AppSize.s90.rw,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: AppColors.purpleBlue,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+                          child: Text(
+                            OrderPriceProvider.klikitItemPrice(menuItem.prices),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: AppFontSize.s12.rSp,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: -8,
-                    right: -4,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-                        color: AppColors.white,
-                      ),
-                      child: IconButton(
-                        enableFeedback: (availability == null) ? true : false,
-                        onPressed: (availability == null) ? onAddItem : null,
-                        icon: Icon(
+                    Positioned(
+                      top: -8,
+                      right: -4,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                          color: AppColors.white,
+                        ),
+                        child: Icon(
                           Icons.add_circle,
                           color: (availability == null)
                               ? AppColors.purpleBlue
                               : AppColors.lightGrey,
                         ),
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
             Padding(

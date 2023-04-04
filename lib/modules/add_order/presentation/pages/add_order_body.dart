@@ -4,10 +4,12 @@ import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.d
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
 
 import '../../../../core/utils/response_state.dart';
+import '../../../../resources/colors.dart';
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import 'components/brand_selector_app_bar.dart';
 import 'components/empty_brand_view.dart';
+import 'components/go_to_cart_button.dart';
 import 'components/menu_items_list_view.dart';
 
 class AddOrderBody extends StatefulWidget {
@@ -40,6 +42,8 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     );
   }
 
+  void _gotoCart() {}
+
   Widget _body(List<MenuBrand> brands) {
     return Column(
       children: [
@@ -49,6 +53,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
             context.read<FetchSubSectionCubit>().fetchSubsection(brand.id);
           },
           onBack: widget.onBack,
+          onCartTap: _gotoCart,
         ),
         Expanded(
           child: BlocBuilder<FetchSubSectionCubit, ResponseState>(
@@ -56,11 +61,18 @@ class _AddOrderBodyState extends State<AddOrderBody> {
               if (state is Loading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is Success<List<SubSectionListItem>>) {
-                return MenuItemsListView(items: state.data);
+                return MenuItemsListView(
+                  items: state.data,
+                  onCartTap: _gotoCart,
+                );
               }
               return const EmptyBrandView();
             },
           ),
+        ),
+        Container(
+          color: AppColors.pearl,
+          child: GoToCartButton(),
         ),
       ],
     );

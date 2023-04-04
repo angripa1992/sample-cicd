@@ -6,6 +6,8 @@ import 'package:klikit/modules/add_order/presentation/pages/components/add_modif
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/items.dart';
+import '../../../../../menu/domain/entities/price.dart';
+import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../domain/entities/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
 import '../../../../utils/order_price_provider.dart';
@@ -18,13 +20,14 @@ import 'modifier_header_view.dart';
 class AddModifierView extends StatefulWidget {
   final List<ItemModifierGroup> groups;
   final MenuItems item;
-  final VoidCallback onClose;
+  final Function(AddToCartItem?) onClose;
+  final VoidCallback onCartTap;
 
   const AddModifierView(
       {Key? key,
       required this.groups,
       required this.item,
-      required this.onClose})
+      required this.onClose, required this.onCartTap})
       : super(key: key);
 
   @override
@@ -34,28 +37,45 @@ class AddModifierView extends StatefulWidget {
 class _AddModifierViewState extends State<AddModifierView> {
   final _enabled = ValueNotifier<bool>(false);
   final _price = ValueNotifier<num>(0);
-  num _itemPrice = 0;
+  late Prices _itemPrice;
+  num _modifierPrice = 0;
+  int _quantity = 1;
 
   @override
   void initState() {
     _itemPrice = OrderPriceProvider.klikitPrice(widget.item.prices);
-    _price.value = _itemPrice;
+    _price.value = _itemPrice.price;
     super.initState();
   }
 
   void _onChanged() async {
     final validated = await ModifierManager().verifyRules(widget.groups);
-    final price = await ModifierManager().calculateModifiersPrice(widget.groups);
-    if(_enabled.value != validated){
+    _modifierPrice =
+        await ModifierManager().calculateModifiersPrice(widget.groups);
+    if (_enabled.value != validated) {
       _enabled.value = validated;
     }
-    if(_price.value != price){
-      _price.value = price + _itemPrice;
+    final totalPrice = _modifierPrice + _itemPrice.price;
+    if (_price.value != totalPrice) {
+      _price.value = totalPrice;
     }
-    print(
-        "check rule -> ${await ModifierManager().verifyRules(widget.groups)}");
-    print(
-        "modifier price -> ${await ModifierManager().calculateModifiersPrice(widget.groups)}");
+  }
+
+  void _onQuantityChanged(int quantity) {
+    _quantity = quantity;
+    final totalPrice = (_modifierPrice + _itemPrice.price) * _quantity;
+    _price.value = totalPrice;
+  }
+
+  AddToCartItem _createCartItem() {
+    return AddToCartItem(
+      modifiers: widget.groups,
+      item: widget.item,
+      quantity: _quantity,
+      itemInstruction: '',
+      modifiersPrice: _modifierPrice,
+      itemPrice: _itemPrice,
+    );
   }
 
   @override
@@ -66,9 +86,9 @@ class _AddModifierViewState extends State<AddModifierView> {
         mainAxisSize: MainAxisSize.max,
         children: [
           ModifierHeaderView(
-            onBack: widget.onClose,
+            onBack: () => widget.onClose(null),
             itemName: widget.item.title,
-            onCartClick: () async {},
+            onCartTap: widget.onCartTap,
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -111,6 +131,10 @@ class _AddModifierViewState extends State<AddModifierView> {
           AddToCartButtonView(
             enabled: _enabled,
             price: _price,
+            quantity: _quantity,
+            currencySymbol: _itemPrice.symbol,
+            onQuantityChanged: _onQuantityChanged,
+            onAddToCart: () => widget.onClose(_createCartItem()),
           ),
         ],
       ),

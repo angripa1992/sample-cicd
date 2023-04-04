@@ -1,0 +1,40 @@
+import 'package:badges/badges.dart';
+import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
+import 'package:klikit/resources/styles.dart';
+
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/values.dart';
+import '../../../utils/cart_manager.dart';
+
+class CartBadge extends StatelessWidget {
+  final VoidCallback onCartTap;
+  const CartBadge({Key? key, required this.onCartTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+        valueListenable: CartManager().getNotifyListener(),
+        builder: (_, count, __) {
+          return InkWell(
+            onTap: onCartTap,
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: AppSize.s20.rw),
+              child: Badge(
+                position: BadgePosition.topEnd(top: -16, end: -8),
+                badgeContent: Text(
+                  '$count',
+                  style: getMediumTextStyle(color: AppColors.white),
+                ),
+                badgeStyle: BadgeStyle(
+                  shape: BadgeShape.circle,
+                  badgeColor: AppColors.red,
+                  borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                ),
+                child: const Icon(Icons.add_shopping_cart),
+              ),
+            ),
+          );
+        });
+  }
+}

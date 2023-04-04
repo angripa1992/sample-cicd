@@ -26,5 +26,4 @@ class ItemModifier {
     this.isSelected = false,
     this.quantity = 0,
   });
-
 }

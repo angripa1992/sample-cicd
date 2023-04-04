@@ -5,13 +5,14 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../cart_badge.dart';
 
 class ModifierHeaderView extends StatelessWidget {
   final VoidCallback onBack;
   final String itemName;
-  final VoidCallback onCartClick;
+  final VoidCallback onCartTap;
   const ModifierHeaderView(
-      {Key? key, required this.onBack, required this.itemName, required this.onCartClick})
+      {Key? key, required this.onBack, required this.itemName, required this.onCartTap})
       : super(key: key);
 
   @override
@@ -48,7 +49,7 @@ class ModifierHeaderView extends StatelessWidget {
                 ),
               ),
             ),
-            IconButton(onPressed: onCartClick, icon: Icon(Icons.add_shopping_cart)),
+            CartBadge(onCartTap: onCartTap),
           ],
         ),
       ),
