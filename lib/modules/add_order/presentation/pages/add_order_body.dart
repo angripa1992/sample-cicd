@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
+import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
 import '../../../menu/domain/entities/brand.dart';
+import '../../../menu/domain/entities/items.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
+import '../../domain/entities/item_modifier_group.dart';
+import '../../utils/cart_manager.dart';
 import 'components/brand_selector_app_bar.dart';
+import 'components/cart/cart_screen.dart';
 import 'components/empty_brand_view.dart';
 import 'components/go_to_cart_button.dart';
 import 'components/menu_items_list_view.dart';
+import 'components/modifier/add_modifier_view.dart';
+import 'components/modifier/edit_modifier.dart';
 
 class AddOrderBody extends StatefulWidget {
   final VoidCallback onBack;
@@ -22,6 +30,8 @@ class AddOrderBody extends StatefulWidget {
 }
 
 class _AddOrderBodyState extends State<AddOrderBody> {
+  MenuBrand? _selectedBrand;
+
   @override
   void initState() {
     context.read<MenuBrandsCubit>().fetchMenuBrands();
@@ -42,7 +52,115 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     );
   }
 
-  void _gotoCart() {}
+  void _gotoCart() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.959,
+          child: CartScreen(
+            onClose: () {
+              Navigator.pop(context);
+            },
+            onEdit: (cartItem) {
+              Navigator.pop(context);
+              _editModifier(cartItem);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _addToCart(AddToCartItem? item) {
+    if (item != null) {
+      CartManager().addToCart(item);
+    }
+  }
+
+  void _editCart(AddToCartItem? newItem,AddToCartItem oldItem) {
+    if (newItem != null) {
+      CartManager().editItem(
+        newItem: newItem,
+        oldItem: oldItem,
+      );
+    }
+  }
+
+  void _editModifier(AddToCartItem item) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.959,
+          child: EditModifierView(
+            cartItem: item.copy(),
+            onClose: (cartItem) {
+              Navigator.pop(context);
+              _editCart(cartItem, item);
+            },
+            onCartTap: () {
+              Navigator.pop(context);
+              _gotoCart();
+            },
+            onAddAsNew: () {
+              Navigator.pop(context);
+              _addAsNew(item);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _addAsNew(AddToCartItem cartItem) async {
+    final copiedItem = cartItem.copy();
+    await ModifierManager().clearModifier(copiedItem.modifiers);
+    _addModifier(
+      groups: copiedItem.modifiers,
+      item: cartItem.item,
+      brand: cartItem.brand,
+      addAsNew: true,
+      oldItem: cartItem,
+    );
+  }
+
+  void _addModifier({
+    required List<ItemModifierGroup> groups,
+    required MenuItems item,
+    required MenuBrand brand,
+    required bool addAsNew,
+    AddToCartItem? oldItem,
+  }) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.959,
+          child: AddModifierView(
+            groups: groups,
+            item: item,
+            brand: brand,
+            onClose: (cartItem) {
+              Navigator.pop(context);
+              if(addAsNew){
+                _editCart(cartItem, oldItem!);
+              }else{
+                _addToCart(cartItem);
+              }
+            },
+            onCartTap: () {
+              Navigator.pop(context);
+              _gotoCart();
+            },
+          ),
+        );
+      },
+    );
+  }
 
   Widget _body(List<MenuBrand> brands) {
     return Column(
@@ -50,6 +168,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         BrandSelectorAppBar(
           brands: brands,
           onChanged: (brand) {
+            _selectedBrand = brand;
             context.read<FetchSubSectionCubit>().fetchSubsection(brand.id);
           },
           onBack: widget.onBack,
@@ -63,7 +182,17 @@ class _AddOrderBodyState extends State<AddOrderBody> {
               } else if (state is Success<List<SubSectionListItem>>) {
                 return MenuItemsListView(
                   items: state.data,
+                  brand: _selectedBrand,
                   onCartTap: _gotoCart,
+                  onAddToCart: _addToCart,
+                  onAddModifier: (groups, item, brand) {
+                    _addModifier(
+                      groups: groups,
+                      item: item,
+                      brand: brand,
+                      addAsNew: false,
+                    );
+                  },
                 );
               }
               return const EmptyBrandView();
@@ -72,7 +201,9 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         ),
         Container(
           color: AppColors.pearl,
-          child: GoToCartButton(),
+          child: GoToCartButton(
+            onGotoCart: _gotoCart,
+          ),
         ),
       ],
     );

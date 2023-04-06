@@ -52,7 +52,7 @@ class BrandSelectorAppBar extends StatelessWidget {
               ),
             ),
             CartBadge(
-              onCartTap: () {},
+              onCartTap: onCartTap,
             ),
           ],
         ),

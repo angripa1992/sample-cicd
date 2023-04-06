@@ -22,4 +22,15 @@ class ItemModifierGroup {
     required this.rule,
     required this.modifiers,
   });
+
+  ItemModifierGroup copy() => ItemModifierGroup(
+        groupId: groupId,
+        title: title,
+        label: label,
+        brandId: brandId,
+        sequence: sequence,
+        statuses: statuses.map((e) => e.copy()).toList(),
+        rule: rule.copy(),
+        modifiers: modifiers.map((e) => e.copy()).toList(),
+      );
 }

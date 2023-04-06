@@ -30,7 +30,7 @@ class ModifierHeaderView extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+        padding: EdgeInsets.symmetric(vertical: AppSize.s6.rh),
         child: Row(
           children: [
             IconButton(

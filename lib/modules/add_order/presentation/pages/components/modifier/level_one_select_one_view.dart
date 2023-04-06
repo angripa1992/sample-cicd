@@ -27,6 +27,12 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
   int? _currentModifierId;
   ItemModifier? _currentModifier;
 
+  @override
+  void initState() {
+    super.initState();
+    _initModifierSelectedState();
+  }
+
   void _changeCurrentModifier(int? id) {
     setState(() {
       _currentModifierId = id;
@@ -43,6 +49,16 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
       _changeLevelTwoModifier(modifier.groups);
     }
     widget.onChanged();
+  }
+
+  void _initModifierSelectedState(){
+    for (var modifier in widget.modifiers){
+      if(modifier.isSelected){
+        _currentModifierId = modifier.id;
+        _currentModifier = modifier;
+        break;
+      }
+    }
   }
 
   void _changeLevelTwoModifier(List<ItemModifierGroup> groups) {
@@ -67,6 +83,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
             color: AppColors.white,
           ),
           child: Column(
+            key: UniqueKey(),
             children: widget.modifiers.map((modifier) {
               return RadioListTile<int>(
                 value: modifier.id,
@@ -82,6 +99,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
         ),
         if (_currentModifier != null)
           Column(
+            key: UniqueKey(),
             children: _currentModifier!.groups.map((group) {
               return Container(
                 margin: EdgeInsets.only(top: AppSize.s8.rh),
@@ -97,6 +115,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
                             onChanged: widget.onChanged,
                           )
                         : LevelTwoSelectMultipleView(
+                      key: UniqueKey(),
                             modifiers: group.modifiers,
                             onChanged: widget.onChanged,
                           ),

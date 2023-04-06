@@ -37,7 +37,7 @@ void showEnableModifierDialog({
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? 'add_modifier group' : 'add_modifier'}?',
+                '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -144,7 +144,7 @@ void showDisableModifierDialog({
               Text(
                 affected
                     ? AppStrings.modifier_required_msg.tr()
-                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? 'add_modifier group' : 'add_modifier'}?',
+                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,

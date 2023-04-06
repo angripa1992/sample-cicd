@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
-import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/item_modifier.dart';
-import '../../../../utils/order_price_provider.dart';
 import 'item_name_price_title.dart';
-
 
 class LevelTwoSelectOneView extends StatefulWidget {
   final List<ItemModifier> modifiers;
   final VoidCallback onChanged;
 
-  const LevelTwoSelectOneView({Key? key, required this.modifiers, required this.onChanged})
+  const LevelTwoSelectOneView(
+      {Key? key, required this.modifiers, required this.onChanged})
       : super(key: key);
 
   @override
@@ -24,15 +21,30 @@ class LevelTwoSelectOneView extends StatefulWidget {
 class _LevelTwoSelectOneViewState extends State<LevelTwoSelectOneView> {
   int? _currentModifierId;
 
-  void _onChanged(int? id){
+  @override
+  void initState() {
+    super.initState();
+    _initModifierSelectedState();
+  }
+
+  void _initModifierSelectedState() {
+    for (var modifier in widget.modifiers) {
+      if (modifier.isSelected) {
+        _currentModifierId = modifier.id;
+        break;
+      }
+    }
+  }
+
+  void _onChanged(int? id) {
     setState(() {
       _currentModifierId = id;
     });
     for (var element in widget.modifiers) {
-      if(element.id == id){
+      if (element.id == id) {
         element.isSelected = true;
         element.quantity = 1;
-      }else{
+      } else {
         element.isSelected = false;
         element.quantity = 0;
       }
@@ -53,11 +65,13 @@ class _LevelTwoSelectOneViewState extends State<LevelTwoSelectOneView> {
       child: Padding(
         padding: EdgeInsets.only(bottom: AppSize.s8.rh),
         child: Column(
+          key: UniqueKey(),
           children: widget.modifiers.map((modifier) {
-            return  RadioListTile<int>(
+            return RadioListTile<int>(
               value: modifier.id,
               groupValue: _currentModifierId,
-              title: ItemNamePriceTitle(name: modifier.title,prices: modifier.prices),
+              title: ItemNamePriceTitle(
+                  name: modifier.title, prices: modifier.prices),
               onChanged: _onChanged,
               selected: _currentModifierId == modifier.id,
               activeColor: AppColors.purpleBlue,

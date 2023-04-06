@@ -12,7 +12,7 @@ class ItemModifier {
   final List<ItemPrice> prices;
   final List<ItemModifierGroup> groups;
   bool isSelected;
-  int  quantity;
+  int quantity;
 
   ItemModifier({
     required this.id,
@@ -26,4 +26,17 @@ class ItemModifier {
     this.isSelected = false,
     this.quantity = 0,
   });
+
+  ItemModifier copy() => ItemModifier(
+        id: id,
+        modifierId: modifierId,
+        immgId: immgId,
+        title: title,
+        sequence: sequence,
+        statuses: statuses.map((e) => e.copy()).toList(),
+        prices: prices.map((e) => e.copy()).toList(),
+        groups: groups.map((e) => e.copy()).toList(),
+        isSelected: isSelected,
+        quantity: quantity,
+      );
 }

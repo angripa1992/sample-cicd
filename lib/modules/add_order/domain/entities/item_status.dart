@@ -8,4 +8,10 @@ class ItemStatus {
     required this.enabled,
     required this.hidden,
   });
+
+  ItemStatus copy() => ItemStatus(
+        providerId: providerId,
+        enabled: enabled,
+        hidden: hidden,
+      );
 }

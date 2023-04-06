@@ -33,9 +33,12 @@ class _LevelOneSelectMultipleViewState
 
   @override
   void initState() {
-    for (var element in widget.modifiers) {
-      _values[element.id] = element.isSelected;
-      _counter[element.id] = element.quantity;
+    for (var modifier in widget.modifiers) {
+      _values[modifier.id] = modifier.isSelected;
+      _counter[modifier.id] = modifier.quantity;
+      if (modifier.isSelected) {
+        _currentModifierList.add(modifier);
+      }
     }
     super.initState();
   }
@@ -70,6 +73,7 @@ class _LevelOneSelectMultipleViewState
 
   @override
   Widget build(BuildContext context) {
+    print('list ${_currentModifierList.length}');
     return Column(
       children: [
         Container(
@@ -83,6 +87,7 @@ class _LevelOneSelectMultipleViewState
           child: Padding(
             padding: EdgeInsets.only(bottom: AppSize.s8.rh),
             child: Column(
+              key: UniqueKey(),
               children: widget.modifiers.map((modifier) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,6 +123,7 @@ class _LevelOneSelectMultipleViewState
           ),
         ),
         Column(
+          key: UniqueKey(),
           children: _currentModifierList.map((modifier) {
             return Column(
               children: modifier.groups.map((group) {

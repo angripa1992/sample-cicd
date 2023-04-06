@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/add_modifier/level_one_select_one_view.dart';
+import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
@@ -10,71 +10,91 @@ import '../../../../../menu/domain/entities/price.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../domain/entities/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
-import '../../../../utils/order_price_provider.dart';
 import 'add_to_cart_button_view.dart';
 import 'item_description_view.dart';
 import 'level_one_select_multiple_view.dart';
+import 'level_one_select_one_view.dart';
 import 'modifier_group_info.dart';
 import 'modifier_header_view.dart';
 
-class AddModifierView extends StatefulWidget {
-  final List<ItemModifierGroup> groups;
-  final MenuItems item;
+class EditModifierView extends StatefulWidget {
+  final AddToCartItem cartItem;
   final Function(AddToCartItem?) onClose;
+  final VoidCallback onAddAsNew;
   final VoidCallback onCartTap;
 
-  const AddModifierView(
-      {Key? key,
-      required this.groups,
-      required this.item,
-      required this.onClose, required this.onCartTap})
-      : super(key: key);
+  const EditModifierView({
+    Key? key,
+    required this.onClose,
+    required this.onCartTap,
+    required this.cartItem,
+    required this.onAddAsNew,
+  }) : super(key: key);
 
   @override
-  State<AddModifierView> createState() => _AddModifierViewState();
+  State<EditModifierView> createState() => _EditModifierViewState();
 }
 
-class _AddModifierViewState extends State<AddModifierView> {
-  final _enabled = ValueNotifier<bool>(false);
+class _EditModifierViewState extends State<EditModifierView> {
+  final _enabled = ValueNotifier<bool>(true);
   final _price = ValueNotifier<num>(0);
+  late List<ItemModifierGroup> _groups;
+  late MenuItems _item;
+  late MenuBrand? _brand;
   late Prices _itemPrice;
-  num _modifierPrice = 0;
-  int _quantity = 1;
+  late num _modifierPrice;
+  late int _quantity;
 
   @override
   void initState() {
-    _itemPrice = OrderPriceProvider.klikitPrice(widget.item.prices);
-    _price.value = _itemPrice.price;
+    final cartItem = widget.cartItem;
+    _groups = cartItem.modifiers;
+    _item = cartItem.item;
+    _brand = cartItem.brand;
+    _itemPrice = cartItem.itemPrice;
+    _modifierPrice = cartItem.modifiersPrice;
+    _quantity = cartItem.quantity;
+    _changePrice();
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _price.dispose();
+    _enabled.dispose();
+    super.dispose();
+  }
+
   void _onChanged() async {
-    final validated = await ModifierManager().verifyRules(widget.groups);
-    _modifierPrice =
-        await ModifierManager().calculateModifiersPrice(widget.groups);
+    final validated = await ModifierManager().verifyRules(_groups);
+    _modifierPrice = await ModifierManager().calculateModifiersPrice(_groups);
     if (_enabled.value != validated) {
       _enabled.value = validated;
     }
-    final totalPrice = _modifierPrice + _itemPrice.price;
+    _changePrice();
+  }
+
+  void _onQuantityChanged(int quantity) {
+    _quantity = quantity;
+    _changePrice();
+  }
+
+  void _changePrice() {
+    final totalPrice = (_modifierPrice + _itemPrice.price) * _quantity;
     if (_price.value != totalPrice) {
       _price.value = totalPrice;
     }
   }
 
-  void _onQuantityChanged(int quantity) {
-    _quantity = quantity;
-    final totalPrice = (_modifierPrice + _itemPrice.price) * _quantity;
-    _price.value = totalPrice;
-  }
-
   AddToCartItem _createCartItem() {
     return AddToCartItem(
-      modifiers: widget.groups,
-      item: widget.item,
+      modifiers: _groups,
+      item: _item,
       quantity: _quantity,
       itemInstruction: '',
       modifiersPrice: _modifierPrice,
       itemPrice: _itemPrice,
+      brand: _brand!,
     );
   }
 
@@ -87,16 +107,20 @@ class _AddModifierViewState extends State<AddModifierView> {
         children: [
           ModifierHeaderView(
             onBack: () => widget.onClose(null),
-            itemName: widget.item.title,
+            itemName: _item.title,
             onCartTap: widget.onCartTap,
+          ),
+          ElevatedButton(
+            onPressed: widget.onAddAsNew,
+            child: Text('Add as new'),
           ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  ItemDescriptionView(item: widget.item),
+                  ItemDescriptionView(item: _item),
                   Column(
-                    children: widget.groups.map((group) {
+                    children: _groups.map((group) {
                       return Container(
                         margin: EdgeInsets.only(
                           top: AppSize.s8.rh,

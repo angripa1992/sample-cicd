@@ -12,4 +12,12 @@ class ItemPrice {
     required this.symbol,
     required this.price,
   });
+
+  ItemPrice copy() => ItemPrice(
+        providerId: providerId,
+        currencyId: currencyId,
+        code: code,
+        symbol: symbol,
+        price: price,
+      );
 }

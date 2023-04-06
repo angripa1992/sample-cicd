@@ -16,4 +16,14 @@ class ModifierRule {
     required this.min,
     required this.max,
   });
+
+  ModifierRule copy() => ModifierRule(
+        id: id,
+        title: title,
+        typeTitle: typeTitle,
+        value: value,
+        brandId: brandId,
+        min: min,
+        max: max,
+      );
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/add_modifier/quantity_selector.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/modifier/quantity_selector.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
@@ -29,12 +29,12 @@ class AddToCartButtonView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: AppSize.s1.rh),
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
       decoration: BoxDecoration(
         color: AppColors.white,
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+        padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
         child: Row(
           children: [
             QuantitySelector(

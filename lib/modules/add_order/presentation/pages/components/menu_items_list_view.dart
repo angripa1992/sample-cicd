@@ -6,29 +6,36 @@ import 'package:klikit/modules/add_order/domain/repository/add_order_repository.
 import 'package:klikit/modules/add_order/presentation/pages/components/subsection_info_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/tab_item_view.dart';
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
+import 'package:klikit/modules/menu/domain/entities/brand.dart';
 import 'package:scrollable_list_tab_scroller/scrollable_list_tab_scroller.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
+import '../../../../menu/domain/entities/brands.dart';
 import '../../../../menu/domain/entities/items.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/add_to_cart_item.dart';
 import '../../../domain/entities/item_modifier_group.dart';
 import '../../../utils/cart_manager.dart';
 import '../../../utils/order_price_provider.dart';
-import 'add_modifier/add_modifier_view.dart';
 import 'dropdown/select_categories_dropdown.dart';
 import 'menu_item_view.dart';
 
 class MenuItemsListView extends StatefulWidget {
+  final MenuBrand? brand;
   final List<SubSectionListItem> items;
   final VoidCallback onCartTap;
+  final Function(AddToCartItem?) onAddToCart;
+  final Function(List<ItemModifierGroup>,MenuItems,MenuBrand) onAddModifier;
 
   const MenuItemsListView({
     Key? key,
     required this.items,
     required this.onCartTap,
+    this.brand,
+    required this.onAddToCart,
+    required this.onAddModifier,
   }) : super(key: key);
 
   @override
@@ -53,48 +60,18 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
       },
       (data) {
         if (data.isNotEmpty) {
-          _showAddModifierSheet(data, item);
+          widget.onAddModifier(data, item,widget.brand!);
         } else {
-          _addToCart(AddToCartItem(
+          widget.onAddToCart(AddToCartItem(
             modifiers: [],
             item: item,
             quantity: 1,
             itemInstruction: '',
             modifiersPrice: 0,
             itemPrice: OrderPriceProvider.klikitPrice(item.prices),
+            brand: widget.brand!,
           ));
         }
-      },
-    );
-  }
-
-  void _addToCart(AddToCartItem? item) {
-    if (item != null) {
-      CartManager().addToCart(item);
-      showSuccessSnackBar(context, 'Successfully added to cart'); 
-    }
-  }
-
-  void _showAddModifierSheet(List<ItemModifierGroup> groups, MenuItems item) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return FractionallySizedBox(
-          heightFactor: 0.959,
-          child: AddModifierView(
-            groups: groups,
-            item: item,
-            onClose: (cartItem) {
-              Navigator.pop(context);
-              _addToCart(cartItem);
-            },
-            onCartTap: (){
-              Navigator.pop(context);
-              widget.onCartTap();
-            },
-          ),
-        );
       },
     );
   }

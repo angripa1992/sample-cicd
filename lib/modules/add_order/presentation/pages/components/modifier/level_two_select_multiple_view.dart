@@ -11,7 +11,8 @@ class LevelTwoSelectMultipleView extends StatefulWidget {
   final List<ItemModifier> modifiers;
   final VoidCallback onChanged;
 
-  const LevelTwoSelectMultipleView({Key? key, required this.modifiers, required this.onChanged})
+  const LevelTwoSelectMultipleView(
+      {Key? key, required this.modifiers, required this.onChanged})
       : super(key: key);
 
   @override
@@ -26,9 +27,9 @@ class _LevelTwoSelectMultipleViewState
 
   @override
   void initState() {
-    for (var element in widget.modifiers) {
-      _values[element.id] = element.isSelected;
-      _counter[element.id] = element.quantity ;
+    for (var modifier in widget.modifiers) {
+      _values[modifier.id] = modifier.isSelected;
+      _counter[modifier.id] = modifier.quantity;
     }
     super.initState();
   }
@@ -41,7 +42,7 @@ class _LevelTwoSelectMultipleViewState
       if (!value) {
         modifier.isSelected = false;
         modifier.quantity = 0;
-      }else{
+      } else {
         modifier.isSelected = true;
       }
     }
@@ -61,6 +62,7 @@ class _LevelTwoSelectMultipleViewState
       child: Padding(
         padding: EdgeInsets.only(bottom: AppSize.s8.rh),
         child: Column(
+          key: UniqueKey(),
           children: widget.modifiers.map((modifier) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
