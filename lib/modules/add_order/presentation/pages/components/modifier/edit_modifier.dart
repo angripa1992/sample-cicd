@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/items.dart';
 import '../../../../../menu/domain/entities/price.dart';
@@ -36,6 +39,7 @@ class EditModifierView extends StatefulWidget {
 }
 
 class _EditModifierViewState extends State<EditModifierView> {
+  final _textEditingController = TextEditingController();
   final _enabled = ValueNotifier<bool>(true);
   final _price = ValueNotifier<num>(0);
   late List<ItemModifierGroup> _groups;
@@ -55,11 +59,13 @@ class _EditModifierViewState extends State<EditModifierView> {
     _modifierPrice = cartItem.modifiersPrice;
     _quantity = cartItem.quantity;
     _changePrice();
+    _textEditingController.text = cartItem.itemInstruction;
     super.initState();
   }
 
   @override
   void dispose() {
+    _textEditingController.dispose();
     _price.dispose();
     _enabled.dispose();
     super.dispose();
@@ -101,7 +107,7 @@ class _EditModifierViewState extends State<EditModifierView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.lightGrey,
+      color: AppColors.whiteSmoke,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -110,15 +116,38 @@ class _EditModifierViewState extends State<EditModifierView> {
             itemName: _item.title,
             onCartTap: widget.onCartTap,
           ),
-          ElevatedButton(
-            onPressed: widget.onAddAsNew,
-            child: Text('Add as new'),
-          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   ItemDescriptionView(item: _item),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: AppSize.s8.rh,
+                      left: AppSize.s10.rw,
+                      right: AppSize.s10.rw,
+                    ),
+                    child: OutlinedButton(
+                      onPressed: widget.onAddAsNew,
+                      style: OutlinedButton.styleFrom(
+                        //<-- SEE HERE
+                        side: BorderSide(color: AppColors.purpleBlue),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add, color: AppColors.purpleBlue),
+                          Text(
+                            'Add as New',
+                            style: getMediumTextStyle(
+                              color: AppColors.purpleBlue,
+                              fontSize: AppFontSize.s14.rSp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Column(
                     children: _groups.map((group) {
                       return Container(
@@ -147,7 +176,8 @@ class _EditModifierViewState extends State<EditModifierView> {
                         ),
                       );
                     }).toList(),
-                  )
+                  ),
+                  SpecialInstructionField(controller: _textEditingController),
                 ],
               ),
             ),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
-import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/items.dart';
 import '../../../../../menu/domain/entities/price.dart';
@@ -41,8 +40,9 @@ class AddModifierView extends StatefulWidget {
 }
 
 class _AddModifierViewState extends State<AddModifierView> {
-  final _enabled = ValueNotifier<bool>(false);
-  final _price = ValueNotifier<num>(0);
+  final _textController = TextEditingController();
+  final _enabledNotifier = ValueNotifier<bool>(false);
+  final _priceNotifier = ValueNotifier<num>(0);
   late Prices _itemPrice;
   num _modifierPrice = 0;
   int _quantity = 1;
@@ -50,16 +50,24 @@ class _AddModifierViewState extends State<AddModifierView> {
   @override
   void initState() {
     _itemPrice = OrderPriceProvider.klikitPrice(widget.item.prices);
-    _price.value = _itemPrice.price;
+    _priceNotifier.value = _itemPrice.price;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _enabledNotifier.dispose();
+    _priceNotifier.dispose();
+    super.dispose();
   }
 
   void _onChanged() async {
     final validated = await ModifierManager().verifyRules(widget.groups);
     _modifierPrice =
         await ModifierManager().calculateModifiersPrice(widget.groups);
-    if (_enabled.value != validated) {
-      _enabled.value = validated;
+    if (_enabledNotifier.value != validated) {
+      _enabledNotifier.value = validated;
     }
     _changePrice();
   }
@@ -69,11 +77,10 @@ class _AddModifierViewState extends State<AddModifierView> {
     _changePrice();
   }
 
-
-  void _changePrice(){
+  void _changePrice() {
     final totalPrice = (_modifierPrice + _itemPrice.price) * _quantity;
-    if (_price.value != totalPrice) {
-      _price.value = totalPrice;
+    if (_priceNotifier.value != totalPrice) {
+      _priceNotifier.value = totalPrice;
     }
   }
 
@@ -82,7 +89,7 @@ class _AddModifierViewState extends State<AddModifierView> {
       modifiers: widget.groups,
       item: widget.item,
       quantity: _quantity,
-      itemInstruction: '',
+      itemInstruction: _textController.text,
       modifiersPrice: _modifierPrice,
       itemPrice: _itemPrice,
       brand: widget.brand,
@@ -92,7 +99,7 @@ class _AddModifierViewState extends State<AddModifierView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.lightGrey,
+      color: AppColors.whiteSmoke,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -136,34 +143,14 @@ class _AddModifierViewState extends State<AddModifierView> {
                       );
                     }).toList(),
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Add Instruction',
-                      hintStyle: getRegularTextStyle(
-                        color: AppColors.black,
-                        fontSize: AppFontSize.s16.rSp,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                        BorderSide(color: AppColors.blueViolet),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                        BorderSide(color: AppColors.blueViolet),
-                      ),
-                      border: UnderlineInputBorder(
-                        borderSide:
-                        BorderSide(color:  AppColors.blueViolet),
-                      ),
-                    ),
-                  ),
+                  SpecialInstructionField(controller: _textController),
                 ],
               ),
             ),
           ),
           AddToCartButtonView(
-            enabled: _enabled,
-            price: _price,
+            enabled: _enabledNotifier,
+            price: _priceNotifier,
             quantity: _quantity,
             currencySymbol: _itemPrice.symbol,
             onQuantityChanged: _onQuantityChanged,
