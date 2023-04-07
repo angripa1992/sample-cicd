@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
@@ -56,17 +57,21 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return FractionallySizedBox(
-          heightFactor: 0.959,
-          child: CartScreen(
-            onClose: () {
-              Navigator.pop(context);
-            },
-            onEdit: (cartItem) {
-              Navigator.pop(context);
-              _editModifier(cartItem);
-            },
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+            child: CartScreen(
+              onClose: () {
+                Navigator.pop(context);
+              },
+              onEdit: (cartItem) {
+                Navigator.pop(context);
+                _editModifier(cartItem);
+              },
+            ),
           ),
         );
       },
@@ -92,23 +97,27 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return FractionallySizedBox(
-          heightFactor: 0.959,
-          child: EditModifierView(
-            cartItem: item.copy(),
-            onClose: (cartItem) {
-              Navigator.pop(context);
-              _editCart(cartItem, item);
-            },
-            onCartTap: () {
-              Navigator.pop(context);
-              _gotoCart();
-            },
-            onAddAsNew: () {
-              Navigator.pop(context);
-              _addAsNew(item);
-            },
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+            child: EditModifierView(
+              cartItem: item.copy(),
+              onClose: (cartItem) {
+                Navigator.pop(context);
+                _editCart(cartItem, item);
+              },
+              onCartTap: () {
+                Navigator.pop(context);
+                _gotoCart();
+              },
+              onAddAsNew: () {
+                Navigator.pop(context);
+                _addAsNew(item);
+              },
+            ),
           ),
         );
       },
@@ -122,8 +131,6 @@ class _AddOrderBodyState extends State<AddOrderBody> {
       groups: copiedItem.modifiers,
       item: cartItem.item,
       brand: cartItem.brand,
-      addAsNew: true,
-      oldItem: cartItem,
     );
   }
 
@@ -131,31 +138,29 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     required List<ItemModifierGroup> groups,
     required MenuItems item,
     required MenuBrand brand,
-    required bool addAsNew,
-    AddToCartItem? oldItem,
   }) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return FractionallySizedBox(
-          heightFactor: 0.959,
-          child: AddModifierView(
-            groups: groups,
-            item: item,
-            brand: brand,
-            onClose: (cartItem) {
-              Navigator.pop(context);
-              if(addAsNew){
-                _editCart(cartItem, oldItem!);
-              }else{
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+            child: AddModifierView(
+              groups: groups,
+              item: item,
+              brand: brand,
+              onClose: (cartItem) {
+                Navigator.pop(context);
                 _addToCart(cartItem);
-              }
-            },
-            onCartTap: () {
-              Navigator.pop(context);
-              _gotoCart();
-            },
+              },
+              onCartTap: () {
+                Navigator.pop(context);
+                _gotoCart();
+              },
+            ),
           ),
         );
       },
@@ -190,7 +195,6 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                       groups: groups,
                       item: item,
                       brand: brand,
-                      addAsNew: false,
                     );
                   },
                 );

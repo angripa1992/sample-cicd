@@ -4,6 +4,8 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/items.dart';
 import '../../../../../menu/domain/entities/price.dart';
@@ -102,6 +104,7 @@ class _AddModifierViewState extends State<AddModifierView> {
           Expanded(
             child: SingleChildScrollView(
               child: Column(
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   ItemDescriptionView(item: widget.item),
                   Column(
@@ -132,7 +135,28 @@ class _AddModifierViewState extends State<AddModifierView> {
                         ),
                       );
                     }).toList(),
-                  )
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Add Instruction',
+                      hintStyle: getRegularTextStyle(
+                        color: AppColors.black,
+                        fontSize: AppFontSize.s16.rSp,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                        BorderSide(color: AppColors.blueViolet),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                        BorderSide(color: AppColors.blueViolet),
+                      ),
+                      border: UnderlineInputBorder(
+                        borderSide:
+                        BorderSide(color:  AppColors.blueViolet),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
