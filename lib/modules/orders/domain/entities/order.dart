@@ -70,7 +70,7 @@ class Order {
   final String tableNo;
   String klikitComment;
 
-  Order({
+  Order( {
     required this.id,
     required this.externalId,
     required this.shortId,

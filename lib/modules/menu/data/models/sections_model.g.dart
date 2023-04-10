@@ -14,7 +14,8 @@ SectionsModel _$SectionsModelFromJson(Map<String, dynamic> json) =>
       endTime: json['end_time'] as int?,
       availableTimes: json['available_times'] == null
           ? null
-          : AvailableTimesModel.fromJson(json['available_times'] as Map<String, dynamic>),
+          : AvailableTimesModel.fromJson(
+              json['available_times'] as Map<String, dynamic>),
       days: json['days'] as String?,
       enabled: json['enabled'] as bool?,
       hidden: json['hidden'] as bool?,
