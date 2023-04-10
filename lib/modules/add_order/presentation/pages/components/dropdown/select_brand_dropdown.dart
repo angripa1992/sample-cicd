@@ -9,12 +9,14 @@ import '../../../../../menu/domain/entities/brand.dart';
 
 class SelectBrandDropDown extends StatefulWidget {
   final List<MenuBrand> brands;
+  final MenuBrand? initialBrand;
   final Function(MenuBrand) onChanged;
 
   const SelectBrandDropDown({
     Key? key,
     required this.brands,
     required this.onChanged,
+    required this.initialBrand,
   }) : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class SelectBrandDropDown extends StatefulWidget {
 }
 
 class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
-  MenuBrand? dropDownValue;
+  MenuBrand? _dropDownValue;
   final _textStyle = getMediumTextStyle(
     color: AppColors.balticSea,
     fontSize: AppFontSize.s16.rSp,
@@ -30,7 +32,20 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
 
   @override
   void initState() {
+    _dropDownValue = widget.initialBrand;
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant SelectBrandDropDown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if ((_dropDownValue != null && widget.initialBrand != null) &&
+        _dropDownValue!.id != widget.initialBrand!.id) {
+      setState(() {
+        _dropDownValue = widget.initialBrand;
+        widget.onChanged(_dropDownValue!);
+      });
+    }
   }
 
   @override
@@ -42,7 +57,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
       ),
       child: DropdownButton<MenuBrand>(
-        value: dropDownValue,
+        value: _dropDownValue,
         underline: const SizedBox(),
         icon: Icon(
           Icons.arrow_drop_down,
@@ -63,14 +78,14 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
           }).toList();
         },
         items: widget.brands.map<DropdownMenuItem<MenuBrand>>(
-          (menu) {
+              (menu) {
             return DropdownMenuItem<MenuBrand>(
               value: menu,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(menu.title, style: _textStyle),
-                  if (menu.id == dropDownValue?.id)
+                  if (menu.id == _dropDownValue?.id)
                     Icon(
                       Icons.check,
                       color: AppColors.purpleBlue,
@@ -82,7 +97,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
         ).toList(),
         onChanged: (value) {
           setState(() {
-            dropDownValue = value;
+            _dropDownValue = value;
             widget.onChanged(value!);
           });
         },

@@ -31,6 +31,7 @@ class AddOrderBody extends StatefulWidget {
 }
 
 class _AddOrderBodyState extends State<AddOrderBody> {
+  final _changeBrandNotifier = ValueNotifier<MenuBrand?>(null);
   MenuBrand? _selectedBrand;
 
   @override
@@ -71,6 +72,10 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                 Navigator.pop(context);
                 _editModifier(cartItem);
               },
+              addMore: (brand) {
+                Navigator.pop(context);
+                _changeBrandNotifier.value = brand;
+              },
             ),
           ),
         );
@@ -84,7 +89,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     }
   }
 
-  void _editCart(AddToCartItem? newItem,AddToCartItem oldItem) {
+  void _editCart(AddToCartItem? newItem, AddToCartItem oldItem) {
     if (newItem != null) {
       CartManager().editItem(
         newItem: newItem,
@@ -170,14 +175,21 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   Widget _body(List<MenuBrand> brands) {
     return Column(
       children: [
-        BrandSelectorAppBar(
-          brands: brands,
-          onChanged: (brand) {
-            _selectedBrand = brand;
-            context.read<FetchSubSectionCubit>().fetchSubsection(brand.id);
+        ValueListenableBuilder<MenuBrand?>(
+          valueListenable: _changeBrandNotifier,
+          builder: (_, initialBrand, __) {
+            print('ValueListenableBuilder');
+            return BrandSelectorAppBar(
+              brands: brands,
+              onChanged: (brand) {
+                _selectedBrand = brand;
+                context.read<FetchSubSectionCubit>().fetchSubsection(brand.id);
+              },
+              onBack: widget.onBack,
+              onCartTap: _gotoCart,
+              initialBrand: initialBrand,
+            );
           },
-          onBack: widget.onBack,
-          onCartTap: _gotoCart,
         ),
         Expanded(
           child: BlocBuilder<FetchSubSectionCubit, ResponseState>(

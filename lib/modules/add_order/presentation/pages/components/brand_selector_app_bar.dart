@@ -8,6 +8,7 @@ import '../../../../menu/domain/entities/brand.dart';
 import 'cart_badge.dart';
 
 class BrandSelectorAppBar extends StatelessWidget {
+  final MenuBrand? initialBrand;
   final List<MenuBrand> brands;
   final Function(MenuBrand) onChanged;
   final VoidCallback onBack;
@@ -19,6 +20,7 @@ class BrandSelectorAppBar extends StatelessWidget {
     required this.onChanged,
     required this.onBack,
     required this.onCartTap,
+    required this.initialBrand,
   }) : super(key: key);
 
   @override
@@ -47,8 +49,11 @@ class BrandSelectorAppBar extends StatelessWidget {
             ),
             Expanded(
               child: Center(
-                child:
-                    SelectBrandDropDown(brands: brands, onChanged: onChanged),
+                child: SelectBrandDropDown(
+                  brands: brands,
+                  onChanged: onChanged,
+                  initialBrand: initialBrand,
+                ),
               ),
             ),
             CartBadge(

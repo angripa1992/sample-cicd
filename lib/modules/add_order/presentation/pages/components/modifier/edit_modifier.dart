@@ -130,7 +130,6 @@ class _EditModifierViewState extends State<EditModifierView> {
                     child: OutlinedButton(
                       onPressed: widget.onAddAsNew,
                       style: OutlinedButton.styleFrom(
-                        //<-- SEE HERE
                         side: BorderSide(color: AppColors.purpleBlue),
                       ),
                       child: Row(

@@ -15,7 +15,7 @@ class CartBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
+    return ValueListenableBuilder<int>(
         valueListenable: CartManager().getNotifyListener(),
         builder: (_, count, __) {
           return InkWell(
@@ -24,7 +24,7 @@ class CartBadge extends StatelessWidget {
               margin: EdgeInsets.symmetric(
                 horizontal: AppSize.s20.rw,
               ),
-              child: Badge(
+              child: count > 1 ? Badge(
                 position: BadgePosition.topEnd(top: -16, end: -8),
                 badgeContent: Text(
                   '$count',
@@ -43,6 +43,9 @@ class CartBadge extends StatelessWidget {
                   Icons.add_shopping_cart,
                   color: AppColors.purpleBlue,
                 ),
+              ) : Icon(
+                Icons.add_shopping_cart,
+                color: AppColors.purpleBlue,
               ),
             ),
           );

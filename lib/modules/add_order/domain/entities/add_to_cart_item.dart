@@ -12,6 +12,8 @@ class AddToCartItem {
   final String itemInstruction;
   MenuBrand brand;
   int quantity;
+  int? discountType;
+  num? discountValue;
 
   AddToCartItem({
     required this.modifiers,
@@ -21,6 +23,8 @@ class AddToCartItem {
     required this.modifiersPrice,
     required this.itemPrice,
     required this.brand,
+    this.discountType,
+    this.discountValue,
   });
 
   AddToCartItem copy() => AddToCartItem(
@@ -31,5 +35,7 @@ class AddToCartItem {
         modifiersPrice: modifiersPrice,
         itemPrice: itemPrice,
         brand: brand,
+        discountType: discountType,
+        discountValue: discountValue,
       );
 }

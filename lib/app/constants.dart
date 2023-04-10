@@ -141,6 +141,11 @@ class RuleType{
   static const range= 'range';
 }
 
+class DiscountType{
+  static const flat= 1;
+  static const percentage= 2;
+}
+
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
   static const String kNOTIFICATION_DATA = 'notification_data';

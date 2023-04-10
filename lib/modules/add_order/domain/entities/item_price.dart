@@ -1,9 +1,11 @@
+import '../../data/models/item_price.dart';
+
 class ItemPrice {
   final int providerId;
   final int currencyId;
   final String code;
   final String symbol;
-  final int price;
+  final double price;
 
   ItemPrice({
     required this.providerId,
@@ -14,6 +16,14 @@ class ItemPrice {
   });
 
   ItemPrice copy() => ItemPrice(
+        providerId: providerId,
+        currencyId: currencyId,
+        code: code,
+        symbol: symbol,
+        price: price,
+      );
+
+  ItemPriceModel toModel() => ItemPriceModel(
         providerId: providerId,
         currencyId: currencyId,
         code: code,

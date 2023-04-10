@@ -5,16 +5,26 @@ import 'package:klikit/modules/add_order/presentation/pages/components/cart/step
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../../menu/domain/entities/brand.dart';
 import 'cart_app_bar.dart';
 import 'cart_item.dart';
+import 'cart_item_brand.dart';
 
 class CartScreen extends StatelessWidget {
   final VoidCallback onClose;
   final Function(AddToCartItem) onEdit;
+  final Function(MenuBrand) addMore;
 
-  const CartScreen({Key? key, required this.onClose, required this.onEdit})
-      : super(key: key);
+  const CartScreen({
+    Key? key,
+    required this.onClose,
+    required this.onEdit,
+    required this.addMore,
+  }) : super(key: key);
+
+  void _removeAll(int brandId) {}
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +50,54 @@ class CartScreen extends StatelessWidget {
                   itemCount: cartsItemByBrands.length,
                   itemBuilder: (context, index) {
                     final cartItems = cartsItemByBrands[index];
-                    return Column(
-                      children: [
-                        Text(cartItems.first.brand!.title),
-                        Divider(),
-                        Column(
-                          children: cartItems.map((cartItem) {
-                            return CartItemView(
-                              cartItem: cartItem,
-                              onEdit: () {
-                                onEdit(cartItem);
+                    return Container(
+                      margin: EdgeInsets.only(
+                        left: AppSize.s16.rw,
+                        right: AppSize.s16.rw,
+                        bottom: AppSize.s8.rw,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                        color: AppColors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CartItemBrand(
+                            menuBrand: cartItems.first.brand,
+                            removeAll: _removeAll,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: AppSize.s12.rw),
+                            child: Column(
+                              children: cartItems.map((cartItem) {
+                                return CartItemView(
+                                  cartItem: cartItem,
+                                  onEdit: () {
+                                    onEdit(cartItem);
+                                  },
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: AppSize.s12.rw),
+                            child: TextButton(
+                              onPressed: () {
+                                addMore(cartItems.first.brand);
                               },
-                            );
-                          }).toList(),
-                        )
-                      ],
+                              child: Text(
+                                '+ Add more items',
+                                style: getMediumTextStyle(
+                                  color: AppColors.purpleBlue,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     );
                   },
                 );

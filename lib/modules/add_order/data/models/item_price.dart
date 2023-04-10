@@ -6,7 +6,7 @@ class ItemPriceModel {
   int? currencyId;
   String? code;
   String? symbol;
-  int? price;
+  double? price;
 
   ItemPriceModel({
     this.providerId,

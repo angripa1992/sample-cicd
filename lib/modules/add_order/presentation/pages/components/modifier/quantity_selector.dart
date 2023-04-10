@@ -4,6 +4,7 @@ import 'package:klikit/app/size_config.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
+import '../../../../../../resources/values.dart';
 
 class QuantitySelector extends StatefulWidget {
   final int quantity;
@@ -53,12 +54,17 @@ class _QuantitySelectorState extends State<QuantitySelector> {
             Icons.remove_circle,
             color: AppColors.purpleBlue,
           ),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
         ),
-        Text(
-          '$_quantity',
-          style: getMediumTextStyle(
-            color: AppColors.balticSea,
-            fontSize: AppFontSize.s16.rSp,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+          child: Text(
+            '$_quantity',
+            style: getMediumTextStyle(
+              color: AppColors.balticSea,
+              fontSize: AppFontSize.s16.rSp,
+            ),
           ),
         ),
         IconButton(
@@ -67,6 +73,8 @@ class _QuantitySelectorState extends State<QuantitySelector> {
             Icons.add_circle,
             color: AppColors.purpleBlue,
           ),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
         ),
       ],
     );
