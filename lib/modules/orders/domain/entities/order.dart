@@ -67,6 +67,7 @@ class Order {
   final bool autoPilot;
   final int autoPilotTime;
   final OrderSource orderSource;
+  final String tableNo;
   String klikitComment;
 
   Order({
@@ -120,5 +121,6 @@ class Order {
     required this.autoPilot,
     required this.autoPilotTime,
     required this.orderSource,
+    required this.tableNo,
   });
 }

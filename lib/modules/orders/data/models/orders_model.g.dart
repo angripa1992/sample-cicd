@@ -76,6 +76,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       autoAccept: json['auto_accept'] as bool?,
       autoPilot: json['auto_pilot'] as bool?,
       autoPilotTime: json['auto_pilot_time'] as int?,
+      tableNo: json['table_no'] as String?,
     )..isInterceptorOrder = json['is_interceptor_order'] as bool?;
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -129,6 +130,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'auto_accept': instance.autoAccept,
       'auto_pilot': instance.autoPilot,
       'auto_pilot_time': instance.autoPilotTime,
+      'table_no': instance.tableNo,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 
 import '../core/route/routes.dart';
 import '../core/route/routes_generator.dart';
@@ -48,6 +49,8 @@ class SessionManager {
   UserInfo currentUser() => _user!;
 
   int currentUserBranchId() => _user!.branchId;
+
+  String currentUserBranchName() => _user?.branchName ?? EMPTY;
 
   String lastLoginEmail() => _appPreferences.loginEmail();
 

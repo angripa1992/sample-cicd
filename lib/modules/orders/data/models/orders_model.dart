@@ -134,6 +134,8 @@ class OrderModel {
   bool? autoPilot;
   @JsonKey(name: 'auto_pilot_time')
   int? autoPilotTime;
+  @JsonKey(name: 'table_no')
+  String? tableNo;
 
   OrderModel(
       {this.id,
@@ -183,7 +185,9 @@ class OrderModel {
       this.paymentStatus,
       this.autoAccept,
       this.autoPilot,
-      this.autoPilotTime});
+      this.autoPilotTime,
+      this.tableNo,
+      });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);
@@ -242,6 +246,7 @@ class OrderModel {
       scheduledTime: scheduledTime.orEmpty(),
       gatewayFee: gatewayFee.orZero(),
       serviceFee: serviceFee.orZero(),
+      tableNo: tableNo.orEmpty(),
     );
   }
 

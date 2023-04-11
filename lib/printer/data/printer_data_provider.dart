@@ -5,6 +5,7 @@ import 'package:docket_design_template/model/order.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
+import '../../app/session_manager.dart';
 import '../../modules/orders/domain/entities/brand.dart';
 
 class PrinterDataProvider {
@@ -48,6 +49,8 @@ class PrinterDataProvider {
       paymentMethod: order.paymentMethod,
       gatewayFee: order.gatewayFee,
       serviceFee: order.serviceFee,
+      tableNo: order.tableNo,
+      branchName: SessionManager().currentUserBranchName(),
     );
   }
 
