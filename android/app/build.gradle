@@ -61,24 +61,24 @@ android {
     }
 
     flavorDimensions "app"
-    productFlavors{
-        staging{
+    productFlavors {
+        staging {
             dimension "app"
             applicationId "io.klikit.enterprise.staging"
             versionCode 1
             versionName "1.33.0"
         }
-        dev{
+        dev {
             dimension "app"
             applicationId "io.klikit.enterprise.dev"
             versionCode 1
             versionName "0.20.0"
         }
-        live{
+        live {
             dimension "app"
             applicationId "io.klikit.cloud"
-            versionCode 105
-            versionName "1.0.5"
+            versionCode 106
+            versionName "1.0.6"
         }
     }
 

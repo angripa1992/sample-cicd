@@ -15,7 +15,7 @@ import 'error_handler.dart';
 class RestClient {
   static const String contentType = 'Content-Type';
   static const String authorization = 'Authorization';
-  static const String deviceAgent = 'Device-Agent';
+  static const String deviceAgent = 'Devic e-Agent';
   static const String appAgent = 'Mobile-App-Agent';
   static const String appVersion = 'App-Version';
   static const String appVersionName = 'App-Version-Name';
@@ -40,7 +40,7 @@ class RestClient {
   }
 
   void _initInterceptor() {
-    _dioLogger.setLogStatus(LogStatus.OPEN);
+    _dioLogger.setLogStatus(LogStatus.CLOSE);
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
     _addHeader();
     _dio.interceptors.add(
