@@ -5,7 +5,7 @@ class ItemPrice {
   final int currencyId;
   final String code;
   final String symbol;
-  final double price;
+  final num price;
 
   ItemPrice({
     required this.providerId,

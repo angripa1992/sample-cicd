@@ -183,7 +183,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
               brands: brands,
               onChanged: (brand) {
                 _selectedBrand = brand;
-                context.read<FetchSubSectionCubit>().fetchSubsection(brand.id);
+                context.read<FetchSubSectionCubit>().fetchSubsection(brand);
               },
               onBack: widget.onBack,
               onCartTap: _gotoCart,

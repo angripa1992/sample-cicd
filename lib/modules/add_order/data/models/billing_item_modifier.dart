@@ -1,10 +1,10 @@
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 
-import 'cart_item_modifier_group.dart';
+import 'billing_item_modifier_group.dart';
 import 'item_price.dart';
 import 'item_status.dart';
 
-class CartItemModifier {
+class BillingItemModifier {
   int? id;
   int? modifierId;
   int? immgId;
@@ -13,13 +13,13 @@ class CartItemModifier {
   TitleV2Model? titleV2;
   List<ItemStatusModel>? statuses;
   List<ItemPriceModel>? prices;
-  List<CartItemModifierGroup>? groups;
+  List<BillingItemModifierGroup>? groups;
   bool? isSelected;
   int? modifierQuantity;
-  int? extraPrice;
+  num? extraPrice;
   String? selectedTitle;
 
-  CartItemModifier(
+  BillingItemModifier(
       {this.id,
         this.modifierId,
         this.immgId,
@@ -34,7 +34,7 @@ class CartItemModifier {
         this.extraPrice,
         this.selectedTitle});
 
-  CartItemModifier.fromJson(Map<String, dynamic> json) {
+  BillingItemModifier.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     modifierId = json['modifier_id'];
     immgId = json['immg_id'];
@@ -56,15 +56,17 @@ class CartItemModifier {
       });
     }
     if (json['groups'] != null) {
-      groups = <CartItemModifierGroup>[];
+      groups = <BillingItemModifierGroup>[];
       json['groups'].forEach((v) {
-        groups!.add(CartItemModifierGroup.fromJson(v));
+        groups!.add(BillingItemModifierGroup.fromJson(v));
       });
     }
     isSelected = json['is_selected'];
     modifierQuantity = json['modifier_quantity'];
     extraPrice = json['extra_price'];
-    selectedTitle = json['selectedTitle'];
+    if(selectedTitle != null){
+      selectedTitle = json['selectedTitle'];
+    }
   }
 
   Map<String, dynamic> toJson() {

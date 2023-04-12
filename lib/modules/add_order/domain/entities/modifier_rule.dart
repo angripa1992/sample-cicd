@@ -1,3 +1,5 @@
+import '../../data/models/modifier_rule.dart';
+
 class ModifierRule {
   final int id;
   final String title;
@@ -18,6 +20,16 @@ class ModifierRule {
   });
 
   ModifierRule copy() => ModifierRule(
+        id: id,
+        title: title,
+        typeTitle: typeTitle,
+        value: value,
+        brandId: brandId,
+        min: min,
+        max: max,
+      );
+
+  ModifierRuleModel toModel() => ModifierRuleModel(
         id: id,
         title: title,
         typeTitle: typeTitle,

@@ -1,10 +1,10 @@
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 
-import 'cart_item_modifier.dart';
+import 'billing_item_modifier.dart';
 import 'item_status.dart';
 import 'modifier_rule.dart';
 
-class CartItemModifierGroup{
+class BillingItemModifierGroup{
   int? groupId;
   String? title;
   String? label;
@@ -13,9 +13,9 @@ class CartItemModifierGroup{
   TitleV2Model? titleV2;
   List<ItemStatusModel>? statuses;
   ModifierRuleModel? rule;
-  List<CartItemModifier>? modifiers;
+  List<BillingItemModifier>? modifiers;
 
-  CartItemModifierGroup(
+  BillingItemModifierGroup(
       {this.groupId,
         this.title,
         this.label,
@@ -26,7 +26,7 @@ class CartItemModifierGroup{
         this.rule,
         this.modifiers});
 
-  CartItemModifierGroup.fromJson(Map<String, dynamic> json) {
+  BillingItemModifierGroup.fromJson(Map<String, dynamic> json) {
     groupId = json['group_id'];
     title = json['title'];
     label = json['label'];
@@ -43,9 +43,9 @@ class CartItemModifierGroup{
     }
     rule = json['rule'] != null ?  ModifierRuleModel.fromJson(json['rule']) : null;
     if (json['modifiers'] != null) {
-      modifiers = <CartItemModifier>[];
+      modifiers = <BillingItemModifier>[];
       json['modifiers'].forEach((v) {
-        modifiers!.add(CartItemModifier.fromJson(v));
+        modifiers!.add(BillingItemModifier.fromJson(v));
       });
     }
   }

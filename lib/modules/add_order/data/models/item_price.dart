@@ -6,7 +6,7 @@ class ItemPriceModel {
   int? currencyId;
   String? code;
   String? symbol;
-  double? price;
+  num? price;
 
   ItemPriceModel({
     this.providerId,
@@ -40,7 +40,7 @@ class ItemPriceModel {
       currencyId: currencyId.orZero(),
       code: code.orEmpty(),
       symbol: symbol.orEmpty(),
-      price: price.orZero(),
+      price: price ?? ZERO,
     );
   }
 }

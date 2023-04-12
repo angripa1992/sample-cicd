@@ -1,3 +1,5 @@
+import '../../data/models/item_status.dart';
+
 class ItemStatus {
   final int providerId;
   final bool enabled;
@@ -10,6 +12,12 @@ class ItemStatus {
   });
 
   ItemStatus copy() => ItemStatus(
+        providerId: providerId,
+        enabled: enabled,
+        hidden: hidden,
+      );
+
+  ItemStatusModel toModel() => ItemStatusModel(
         providerId: providerId,
         enabled: enabled,
         hidden: hidden,

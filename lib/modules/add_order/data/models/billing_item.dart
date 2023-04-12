@@ -1,6 +1,6 @@
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 
-import 'cart_item_modifier_group.dart';
+import 'billing_item_modifier_group.dart';
 import 'item_brand.dart';
 import 'item_price.dart';
 import 'item_status.dart';
@@ -27,7 +27,7 @@ class BillingItem {
   int? unitPrice;
   int? discountType;
   num? discountValue;
-  List<CartItemModifierGroup>? groups;
+  List<BillingItemModifierGroup>? groups;
   int? quantity;
   bool? hasModifierGroups;
   ItemBrandModel? brand;

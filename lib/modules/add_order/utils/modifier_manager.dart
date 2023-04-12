@@ -1,9 +1,12 @@
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/add_order/data/models/billing_item_modifier.dart';
+import 'package:klikit/modules/add_order/data/models/billing_item_modifier_group.dart';
 
 import '../../../app/constants.dart';
 import '../../menu/domain/entities/items.dart';
 import '../domain/entities/item_modifier_group.dart';
 import '../domain/entities/item_price.dart';
+import 'order_entity_provider.dart';
 
 class ModifierManager {
   static final _instance = ModifierManager._internal();
@@ -141,5 +144,33 @@ class ModifierManager {
         }
       }
     }
+  }
+
+  Future<List<BillingItemModifierGroup>> billingItemModifiers(List<ItemModifierGroup> groups) async {
+    final billingModifiersGroupsL1 = <BillingItemModifierGroup>[];
+    for (var groupLevelOne in groups) {
+      final billingModifiersL1 = <BillingItemModifier>[];
+      for (var modifierLevelOne in groupLevelOne.modifiers) {
+        if (modifierLevelOne.isSelected) {
+          final billingModifiersGroupsL2 = <BillingItemModifierGroup>[];
+          for (var groupLevelTwo in modifierLevelOne.groups) {
+            final billingModifiersL2 = <BillingItemModifier>[];
+            for (var modifierLevelTwo in groupLevelTwo.modifiers) {
+              if (modifierLevelTwo.isSelected) {
+                billingModifiersL2.add(OrderEntityProvider().cartToBillingModifier(modifierLevelTwo, []));
+              }
+            }
+            if (billingModifiersL2.isNotEmpty) {
+              billingModifiersGroupsL2.add(OrderEntityProvider().cartToBillingModifierGroup(groupLevelTwo, billingModifiersL2));
+            }
+          }
+          billingModifiersL1.add(OrderEntityProvider().cartToBillingModifier(modifierLevelOne, billingModifiersGroupsL2));
+        }
+      }
+      if (billingModifiersL1.isNotEmpty) {
+        billingModifiersGroupsL1.add(OrderEntityProvider().cartToBillingModifierGroup(groupLevelOne, billingModifiersL1));
+      }
+    }
+    return billingModifiersGroupsL1;
   }
 }

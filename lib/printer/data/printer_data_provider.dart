@@ -2,6 +2,7 @@ import 'package:docket_design_template/model/brand.dart';
 import 'package:docket_design_template/model/cart.dart';
 import 'package:docket_design_template/model/modifiers.dart';
 import 'package:docket_design_template/model/order.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 

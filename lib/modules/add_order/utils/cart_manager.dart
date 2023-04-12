@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../domain/entities/add_to_cart_item.dart';
 import 'modifier_manager.dart';
+import 'order_entity_provider.dart';
 
 class CartManager {
   static final _instance = CartManager._internal();
@@ -27,11 +28,9 @@ class CartManager {
     required AddToCartItem newItem,
     required AddToCartItem oldItem,
   }) async {
-    _carts.removeWhere(
-      (element) =>
-          element.item.id == oldItem.item.id &&
-          element.quantity == oldItem.quantity,
-    );
+    _carts.removeWhere((element) =>
+        element.item.id == oldItem.item.id &&
+        element.quantity == oldItem.quantity);
     addToCart(newItem);
   }
 
