@@ -16,11 +16,17 @@ import '../modifier/quantity_selector.dart';
 class CartItemView extends StatelessWidget {
   final VoidCallback onEdit;
   final AddToCartItem cartItem;
+  final Function(int) addDiscount;
+  final Function(int) onDelete;
+  final Function(int,int) onQuantityChanged;
 
   const CartItemView({
     Key? key,
     required this.cartItem,
     required this.onEdit,
+    required this.addDiscount,
+    required this.onDelete,
+    required this.onQuantityChanged,
   }) : super(key: key);
 
   @override
@@ -135,7 +141,9 @@ class CartItemView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppSize.s20.rSp),
                 ),
               ),
-              onPressed: () {},
+              onPressed: (){
+                addDiscount(cartItem.item.id);
+              },
               child: Text(
                 '+ Discount',
                 style: getRegularTextStyle(
@@ -148,7 +156,7 @@ class CartItemView extends StatelessWidget {
             IconButton(
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              onPressed: () {},
+              onPressed: () => onDelete(cartItem.item.id),
               icon: Icon(
                 Icons.delete_outline,
                 color: AppColors.red,
@@ -157,7 +165,9 @@ class CartItemView extends StatelessWidget {
             const Spacer(),
             QuantitySelector(
               quantity: cartItem.quantity,
-              onQuantityChanged: (quantity) {},
+              onQuantityChanged: (quantity) {
+                onQuantityChanged(cartItem.item.id,quantity);
+              },
             ),
           ],
         ),

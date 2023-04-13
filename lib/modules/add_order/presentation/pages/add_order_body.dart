@@ -6,6 +6,7 @@ import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.d
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 
+import '../../../../app/di.dart';
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
 import '../../../menu/domain/entities/brand.dart';
@@ -13,6 +14,7 @@ import '../../../menu/domain/entities/items.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../domain/entities/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
+import '../cubit/calculate_bill_cubit.dart';
 import 'components/brand_selector_app_bar.dart';
 import 'components/cart/cart_screen.dart';
 import 'components/empty_brand_view.dart';
@@ -60,22 +62,27 @@ class _AddOrderBodyState extends State<AddOrderBody> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Container(
-            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-            child: CartScreen(
-              onClose: () {
-                Navigator.pop(context);
-              },
-              onEdit: (cartItem) {
-                Navigator.pop(context);
-                _editModifier(cartItem);
-              },
-              addMore: (brand) {
-                Navigator.pop(context);
-                _changeBrandNotifier.value = brand;
-              },
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<CalculateBillCubit>(create: (_) => getIt.get()),
+          ],
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Container(
+              margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+              child: CartScreen(
+                onClose: () {
+                  Navigator.pop(context);
+                },
+                onEdit: (cartItem) {
+                  Navigator.pop(context);
+                  _editModifier(cartItem);
+                },
+                addMore: (brand) {
+                  Navigator.pop(context);
+                  _changeBrandNotifier.value = brand;
+                },
+              ),
             ),
           ),
         );
@@ -178,7 +185,6 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         ValueListenableBuilder<MenuBrand?>(
           valueListenable: _changeBrandNotifier,
           builder: (_, initialBrand, __) {
-            print('ValueListenableBuilder');
             return BrandSelectorAppBar(
               brands: brands,
               onChanged: (brand) {

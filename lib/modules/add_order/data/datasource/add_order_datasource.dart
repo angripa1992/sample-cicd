@@ -4,13 +4,16 @@ import '../../../../app/enums.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
 import '../../../menu/data/models/menues_model.dart';
+import '../models/billing_request.dart';
+import '../models/billing_response.dart';
 import '../models/item_modifier_group.dart';
 
 abstract class AddOrderDatasource {
-  Future<MenusDataModel> fetchMenus(
-      {required int branchId, required int brandId});
+  Future<MenusDataModel> fetchMenus({required int branchId, required int brandId});
 
   Future<List<ItemModifierGroupModel>> fetchModifiers({required int itemId});
+
+  Future<CartBillModel> calculateBill({required BillingRequestModel model});
 }
 
 class AddOrderDatasourceImpl extends AddOrderDatasource {
@@ -45,6 +48,20 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         {'item_id': itemId},
       );
       return response?.map((e) => ItemModifierGroupModel.fromJson(e)).toList() ?? [];
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CartBillModel> calculateBill({required BillingRequestModel model}) async{
+    try {
+      final response = await _restClient.request(
+        Urls.calculateBill,
+        Method.POST,
+        model.toJson(),
+      );
+      return CartBillModel.fromJson(response);
     } on DioError {
       rethrow;
     }

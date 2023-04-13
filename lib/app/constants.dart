@@ -142,6 +142,7 @@ class RuleType{
 }
 
 class DiscountType{
+  static const none = 0;
   static const flat= 1;
   static const percentage= 2;
 }

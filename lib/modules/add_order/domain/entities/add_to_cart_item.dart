@@ -12,8 +12,10 @@ class AddToCartItem {
   final String itemInstruction;
   MenuBrand brand;
   int quantity;
-  int? discountType;
-  num? discountValue;
+  int discountType;
+  num discountValue;
+  num discountValue;
+  num discountValue;
 
   AddToCartItem({
     required this.modifiers,

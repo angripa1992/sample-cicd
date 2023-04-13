@@ -15,6 +15,7 @@ class Urls {
   static const String busy = '/v1/brand-provider/busy';
   static const String updateStatus = '/v1/oni/order/status';
   static const String tokenRegistration = '/v1/notify-token';
+  static const String calculateBill = '/v1/menu/manual-order/calculate-bill';
 
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
 

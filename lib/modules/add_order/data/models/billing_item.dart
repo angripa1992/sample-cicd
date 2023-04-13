@@ -24,7 +24,7 @@ class BillingItem {
   TitleV2Model? descriptionV2;
   String? cartId;
   int? itemId;
-  int? unitPrice;
+  num? unitPrice;
   int? discountType;
   num? discountValue;
   List<BillingItemModifierGroup>? groups;

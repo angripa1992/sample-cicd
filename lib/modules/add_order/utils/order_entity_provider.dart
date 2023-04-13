@@ -28,21 +28,18 @@ class OrderEntityProvider {
 
   OrderEntityProvider._internal();
 
-  Future<BillingRequestModel?> billingRequestModel(List<AddToCartItem> cartItems) async{
-    if(cartItems.isNotEmpty){
-      final cartItem = cartItems.first;
-      return BillingRequestModel(
-        brandId: cartItem.brand.id,
-        branchId: SessionManager().currentUserBranchId(),
-        deliveryFee: 0,
-        discountType: 1,
-        discountValue: 0,
-        additionalFee: 0,
-        currency: _billingCurrency(cartItem.itemPrice),
-        items: await _cartsToBillingItems(cartItems),
-      );
-    }
-    return null;
+  Future<BillingRequestModel> billingRequestModel(List<AddToCartItem> cartItems) async{
+    final cartItem = cartItems.first;
+    return BillingRequestModel(
+      brandId: cartItem.brand.id,
+      branchId: SessionManager().currentUserBranchId(),
+      deliveryFee: 0,
+      discountType: 1,
+      discountValue: 0,
+      additionalFee: 0,
+      currency: _billingCurrency(cartItem.itemPrice),
+      items: await _cartsToBillingItems(cartItems),
+    );
   }
 
   Future<List<BillingItem>> _cartsToBillingItems(List<AddToCartItem> cartsItems) async{
@@ -75,6 +72,7 @@ class OrderEntityProvider {
       statuses: item.statuses.map((e) => _statusModel(e)).toList(),
       prices: item.prices.map((e) => _priceModel(e)).toList(),
       groups: groups,
+      unitPrice: cartItem.itemPrice.price,
     );
   }
 

@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 
+import '../data/models/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
 import 'modifier_manager.dart';
 import 'order_entity_provider.dart';
@@ -37,6 +39,48 @@ class CartManager {
   void removeFromCart(int itemId) {
     _carts.removeWhere((element) => element.item.id == itemId);
     _notifyListener();
+  }
+
+  void removeAll(int brandId) {
+    _carts.removeWhere((element) => element.brand.id == brandId);
+    _notifyListener();
+  }
+
+  void addDiscount({
+    required int itemId,
+    required int type,
+    required num value,
+  }) {
+    final item =
+        _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    if (item != null) {
+      item.discountValue = value;
+      item.discountType = type;
+      _notifyListener();
+    }
+  }
+
+  void changeQuantity(int itemId, int quantity) {
+    final item =
+        _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    if (item != null) {
+      item.quantity = quantity;
+      _notifyListener();
+    }
+  }
+
+  BillingCurrency currency() {
+    int id = ZERO;
+    String symbol = EMPTY;
+    String code = EMPTY;
+
+    if (_carts.isNotEmpty) {
+      final price = _carts.first.itemPrice;
+      id = price.currencyId;
+      symbol = price.symbol;
+      code = price.code;
+    }
+    return BillingCurrency(id: id, symbol: symbol, code: code);
   }
 
   void _notifyListener() {
@@ -99,6 +143,13 @@ class CartManager {
       if (newtUniqueId == existingUniqueId) {
         return searchedItem;
       }
+    }
+    return null;
+  }
+
+  Future<BillingRequestModel?> calculateBillingRequestPaylod() async {
+    if (_carts.isNotEmpty) {
+      return OrderEntityProvider().billingRequestModel(_carts);
     }
     return null;
   }

@@ -3,20 +3,20 @@ import 'package:klikit/app/extensions.dart';
 import '../../domain/entities/billing_response.dart';
 
 class CartBillModel {
-  int? subTotal;
-  int? subTotalCent;
-  double? totalPrice;
-  int? totalPriceCent;
-  int? discountAmount;
-  int? discountAmountCent;
-  int? vatPrice;
-  int? vatPriceCent;
-  int? deliveryFee;
-  int? deliveryFeeCent;
-  int? additionalFee;
-  int? additionalFeeCent;
-  double? serviceFee;
-  int? serviceFeeCent;
+  num? subTotal;
+  num? subTotalCent;
+  num? totalPrice;
+  num? totalPriceCent;
+  num? discountAmount;
+  num? discountAmountCent;
+  num? vatPrice;
+  num? vatPriceCent;
+  num? deliveryFee;
+  num? deliveryFeeCent;
+  num? additionalFee;
+  num? additionalFeeCent;
+  num? serviceFee;
+  num? serviceFeeCent;
   List<ItemBillModel>? items;
 
   CartBillModel(
@@ -79,14 +79,14 @@ class CartBillModel {
 }
 
 class ItemBillModel {
-  int? id;
-  int? basePrice;
-  int? modifiersPrice;
-  int? itemPrice;
-  int? discount;
-  int? discountedItemPrice;
-  int? quantity;
-  int? itemFinalPrice;
+  num? id;
+  num? basePrice;
+  num? modifiersPrice;
+  num? itemPrice;
+  num? discount;
+  num? discountedItemPrice;
+  num? quantity;
+  num? itemFinalPrice;
 
   ItemBillModel({
     this.id,

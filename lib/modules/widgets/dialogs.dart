@@ -15,8 +15,7 @@ void showLogoutDialog(
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
