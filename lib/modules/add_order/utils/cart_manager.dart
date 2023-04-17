@@ -51,8 +51,7 @@ class CartManager {
     required int type,
     required num value,
   }) {
-    final item =
-        _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.discountValue = value;
       item.discountType = type;
@@ -147,9 +146,20 @@ class CartManager {
     return null;
   }
 
-  Future<BillingRequestModel?> calculateBillingRequestPaylod() async {
+  Future<BillingRequestModel?> calculateBillingRequestPaylod({
+    required int discountType,
+    required num discountValue,
+    required num additionalFee,
+    required num deliveryFee,
+  }) async {
     if (_carts.isNotEmpty) {
-      return OrderEntityProvider().billingRequestModel(_carts);
+      return OrderEntityProvider().billingRequestModel(
+        cartItems: _carts,
+        discountType: discountType,
+        discountValue: discountValue,
+        additionalFee: additionalFee,
+        deliveryFee: deliveryFee,
+      );
     }
     return null;
   }

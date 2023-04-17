@@ -14,8 +14,6 @@ class AddToCartItem {
   int quantity;
   int discountType;
   num discountValue;
-  num discountValue;
-  num discountValue;
 
   AddToCartItem({
     required this.modifiers,
@@ -25,8 +23,8 @@ class AddToCartItem {
     required this.modifiersPrice,
     required this.itemPrice,
     required this.brand,
-    this.discountType,
-    this.discountValue,
+    required this.discountType,
+    required this.discountValue,
   });
 
   AddToCartItem copy() => AddToCartItem(

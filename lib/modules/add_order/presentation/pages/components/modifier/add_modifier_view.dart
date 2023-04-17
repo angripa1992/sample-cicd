@@ -93,6 +93,8 @@ class _AddModifierViewState extends State<AddModifierView> {
       modifiersPrice: _modifierPrice,
       itemPrice: _itemPrice,
       brand: widget.brand,
+      discountType: DiscountType.flat,
+      discountValue: 0,
     );
   }
 

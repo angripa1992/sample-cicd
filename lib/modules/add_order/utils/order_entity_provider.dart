@@ -17,9 +17,7 @@ import '../data/models/billing_item_modifier.dart';
 import '../data/models/billing_request.dart';
 import '../domain/entities/item_modifier.dart';
 import '../domain/entities/item_modifier_group.dart';
-import '../domain/entities/item_price.dart';
 import 'modifier_manager.dart';
-import 'order_price_provider.dart';
 
 class OrderEntityProvider {
   static final _instance = OrderEntityProvider._internal();
@@ -28,30 +26,42 @@ class OrderEntityProvider {
 
   OrderEntityProvider._internal();
 
-  Future<BillingRequestModel> billingRequestModel(List<AddToCartItem> cartItems) async{
+  Future<BillingRequestModel> billingRequestModel({
+    required List<AddToCartItem> cartItems,
+    required int discountType,
+    required num discountValue,
+    required num additionalFee,
+    required num deliveryFee,
+  }) async {
     final cartItem = cartItems.first;
     return BillingRequestModel(
       brandId: cartItem.brand.id,
       branchId: SessionManager().currentUserBranchId(),
-      deliveryFee: 0,
-      discountType: 1,
-      discountValue: 0,
-      additionalFee: 0,
+      deliveryFee: deliveryFee,
+      discountType: discountType,
+      discountValue: discountValue,
+      additionalFee: additionalFee,
       currency: _billingCurrency(cartItem.itemPrice),
       items: await _cartsToBillingItems(cartItems),
     );
   }
 
-  Future<List<BillingItem>> _cartsToBillingItems(List<AddToCartItem> cartsItems) async{
+  Future<List<BillingItem>> _cartsToBillingItems(
+    List<AddToCartItem> cartsItems,
+  ) async {
     final items = <BillingItem>[];
-    for(var item in cartsItems){
-      final groups = await ModifierManager().billingItemModifiers(item.modifiers);
+    for (var item in cartsItems) {
+      final groups =
+          await ModifierManager().billingItemModifiers(item.modifiers);
       items.add(_cartItemToBillingItem(item, groups));
     }
     return items;
   }
 
-  BillingItem _cartItemToBillingItem(AddToCartItem cartItem,List<BillingItemModifierGroup> groups) {
+  BillingItem _cartItemToBillingItem(
+    AddToCartItem cartItem,
+    List<BillingItemModifierGroup> groups,
+  ) {
     final item = cartItem.item;
     return BillingItem(
       id: item.id,
@@ -73,6 +83,8 @@ class OrderEntityProvider {
       prices: item.prices.map((e) => _priceModel(e)).toList(),
       groups: groups,
       unitPrice: cartItem.itemPrice.price,
+      discountValue: cartItem.discountValue,
+      discountType: cartItem.discountType,
     );
   }
 
@@ -106,7 +118,9 @@ class OrderEntityProvider {
         groups: groups,
         isSelected: modifier.isSelected,
         modifierQuantity: modifier.quantity,
-        extraPrice: modifier.prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT).price,
+        extraPrice: modifier.prices
+            .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
+            .price,
       );
 
   ItemStockModel _stockModel(Stock stock) => ItemStockModel(
@@ -138,9 +152,10 @@ class OrderEntityProvider {
         logo: brand.logo,
         title: brand.title,
       );
+
   BillingCurrency _billingCurrency(Prices price) => BillingCurrency(
-    id: price.currencyId,
-    symbol: price.symbol,
-    code: price.code,
-  );
+        id: price.currencyId,
+        symbol: price.symbol,
+        code: price.code,
+      );
 }

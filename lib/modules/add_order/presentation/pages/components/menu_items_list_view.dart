@@ -10,14 +10,13 @@ import 'package:klikit/modules/menu/domain/entities/brand.dart';
 import 'package:scrollable_list_tab_scroller/scrollable_list_tab_scroller.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
-import '../../../../menu/domain/entities/brands.dart';
 import '../../../../menu/domain/entities/items.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/add_to_cart_item.dart';
 import '../../../domain/entities/item_modifier_group.dart';
-import '../../../utils/cart_manager.dart';
 import '../../../utils/order_price_provider.dart';
 import 'dropdown/select_categories_dropdown.dart';
 import 'menu_item_view.dart';
@@ -27,7 +26,7 @@ class MenuItemsListView extends StatefulWidget {
   final List<SubSectionListItem> items;
   final VoidCallback onCartTap;
   final Function(AddToCartItem?) onAddToCart;
-  final Function(List<ItemModifierGroup>,MenuItems,MenuBrand) onAddModifier;
+  final Function(List<ItemModifierGroup>, MenuItems, MenuBrand) onAddModifier;
 
   const MenuItemsListView({
     Key? key,
@@ -60,17 +59,21 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
       },
       (data) {
         if (data.isNotEmpty) {
-          widget.onAddModifier(data, item,widget.brand!);
+          widget.onAddModifier(data, item, widget.brand!);
         } else {
-          widget.onAddToCart(AddToCartItem(
-            modifiers: [],
-            item: item,
-            quantity: 1,
-            itemInstruction: '',
-            modifiersPrice: 0,
-            itemPrice: OrderPriceProvider.klikitPrice(item.prices),
-            brand: widget.brand!,
-          ));
+          widget.onAddToCart(
+            AddToCartItem(
+              modifiers: [],
+              item: item,
+              quantity: 1,
+              itemInstruction: '',
+              modifiersPrice: 0,
+              itemPrice: OrderPriceProvider.klikitPrice(item.prices),
+              brand: widget.brand!,
+              discountType: DiscountType.flat,
+              discountValue: 0,
+            ),
+          );
         }
       },
     );

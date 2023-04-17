@@ -101,6 +101,8 @@ class _EditModifierViewState extends State<EditModifierView> {
       modifiersPrice: _modifierPrice,
       itemPrice: _itemPrice,
       brand: _brand!,
+      discountType: DiscountType.flat,
+      discountValue: 0,
     );
   }
 

@@ -48,24 +48,24 @@ class CartPriceView extends StatelessWidget {
               price: cartBill.subTotal,
               subtotal: true,
             ),
-            SizedBox(height: AppSize.s8.rh),
+            SizedBox(height: AppSize.s12.rh),
             _item(
               title: AppStrings.vat.tr(),
               price: cartBill.vatPrice,
             ),
-            SizedBox(height: AppSize.s8.rh),
+            SizedBox(height: AppSize.s12.rh),
             _editableItem(
               title: AppStrings.delivery_fee.tr(),
               price: cartBill.deliveryFee,
               onTap: onDeliveryFee,
             ),
-            SizedBox(height: AppSize.s8.rh),
+            SizedBox(height: AppSize.s12.rh),
             _editableItem(
               title: AppStrings.discount.tr(),
               price: cartBill.discountAmount,
               onTap: onDiscount,
             ),
-            SizedBox(height: AppSize.s8.rh),
+            SizedBox(height: AppSize.s12.rh),
             _editableItem(
               title: AppStrings.additional_fee.tr(),
               price: cartBill.additionalFee,

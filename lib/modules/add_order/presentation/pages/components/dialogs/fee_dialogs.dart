@@ -91,12 +91,17 @@ class _FeeDialogViewState extends State<FeeDialogView> {
             },
           ),
         Container(
+          margin: EdgeInsets.symmetric(
+            vertical: AppSize.s16.rh,
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             color: AppColors.seaShell,
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSize.s8.rw,
+            ),
             child: TextField(
               controller: _controller,
               keyboardType: TextInputType.number,
@@ -116,11 +121,23 @@ class _FeeDialogViewState extends State<FeeDialogView> {
             ),
           ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            widget.onSave(_type, num.parse(_controller.text), _feeType);
-          },
-          child: Text('Save'),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              widget.onSave(_type, num.parse(_controller.text), _feeType);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.purpleBlue, // Background color
+            ),
+            child: Text(
+              'Save',
+              style: getMediumTextStyle(
+                color: AppColors.white,
+              ),
+            ),
+          ),
         ),
       ],
     );

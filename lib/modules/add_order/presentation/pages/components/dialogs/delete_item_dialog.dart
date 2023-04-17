@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
-import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 
 import '../../../../../../core/provider/image_url_provider.dart';
 import '../../../../../../resources/assets.dart';
@@ -11,30 +9,43 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../modifier/quantity_selector.dart';
+import '../../../../domain/entities/add_to_cart_item.dart';
+import '../../../../utils/modifier_manager.dart';
 
-class CartItemView extends StatelessWidget {
-  final VoidCallback onEdit;
+class DeleteItemDialogView extends StatelessWidget {
   final AddToCartItem cartItem;
-  final Function(AddToCartItem) addDiscount;
-  final Function(AddToCartItem) onDelete;
-  final Function(int,int) onQuantityChanged;
-
-  const CartItemView({
-    Key? key,
-    required this.cartItem,
-    required this.onEdit,
-    required this.addDiscount,
-    required this.onDelete,
-    required this.onQuantityChanged,
-  }) : super(key: key);
+  final VoidCallback onDelete;
+  const DeleteItemDialogView({Key? key, required this.cartItem, required this.onDelete}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                'Are you sure you want to delete the following item?',
+                style: getMediumTextStyle(
+                  color: AppColors.balticSea,
+                  fontSize: AppFontSize.s16.rSp,
+                ),
+              ),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.clear),
+            ),
+          ],
+        ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+          padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
           child: Row(
             children: [
               SizedBox(
@@ -109,69 +120,41 @@ class CartItemView extends StatelessWidget {
             ],
           ),
         ),
-        Row(
-          children: [
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(
-                  color: cartItem.modifiers.isEmpty
-                      ? AppColors.dustyGreay
-                      : AppColors.purpleBlue,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSize.s20.rSp),
-                ),
-              ),
-              onPressed: cartItem.modifiers.isEmpty ? null : onEdit,
-              child: Text(
-                'Edit',
-                style: getRegularTextStyle(
-                  color: cartItem.modifiers.isEmpty
-                      ? AppColors.dustyGreay
-                      : AppColors.purpleBlue,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
-            ),
-            SizedBox(width: AppSize.s8.rw),
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(color: AppColors.purpleBlue),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSize.s20.rSp),
-                ),
-              ),
-              onPressed: (){
-                addDiscount(cartItem);
-              },
-              child: Text(
-                '+ Discount',
-                style: getRegularTextStyle(
-                  color: AppColors.purpleBlue,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
-            ),
-            SizedBox(width: AppSize.s8.rw),
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              onPressed: () => onDelete(cartItem),
-              icon: Icon(
-                Icons.delete_outline,
-                color: AppColors.red,
-              ),
-            ),
-            const Spacer(),
-            QuantitySelector(
-              quantity: cartItem.quantity,
-              onQuantityChanged: (quantity) {
-                onQuantityChanged(cartItem.item.id,quantity);
-              },
-            ),
-          ],
-        ),
-        const Divider(),
+       Row(
+         mainAxisAlignment: MainAxisAlignment.end,
+         children: [
+           ElevatedButton(
+             onPressed: () {
+               Navigator.pop(context);
+             },
+             style: ElevatedButton.styleFrom(
+               backgroundColor: AppColors.water, // Background color
+             ),
+             child: Text(
+               'Cancel',
+               style: getMediumTextStyle(
+                 color: AppColors.balticSea,
+               ),
+             ),
+           ),
+           SizedBox(width: AppSize.s24.rw),
+           ElevatedButton(
+             onPressed: () {
+               Navigator.pop(context);
+               onDelete();
+             },
+             style: ElevatedButton.styleFrom(
+               backgroundColor: AppColors.red, // Background color
+             ),
+             child: Text(
+               'Delete',
+               style: getMediumTextStyle(
+                 color: AppColors.white,
+               ),
+             ),
+           ),
+         ],
+       ),
       ],
     );
   }

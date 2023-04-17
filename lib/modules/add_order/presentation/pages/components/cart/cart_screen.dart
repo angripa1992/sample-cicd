@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
@@ -13,6 +14,7 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/brand.dart';
 import '../../../cubit/calculate_bill_cubit.dart';
+import '../dialogs/delete_item_dialog.dart';
 import '../dialogs/fee_dialogs.dart';
 import 'cart_app_bar.dart';
 import 'cart_item.dart';
@@ -36,6 +38,9 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  CartBill? _cartBill;
+  int _currentDiscountType = DiscountType.flat;
+
   @override
   void initState() {
     _calculateBill();
@@ -47,18 +52,50 @@ class _CartScreenState extends State<CartScreen> {
     _calculateBill();
   }
 
-  void _remove(int itemId) {
-    CartManager().removeFromCart(itemId);
-    _calculateBill();
+  void _remove(AddToCartItem item) {
+    showDialog(
+      context: context,
+      builder: (dContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(AppSize.s16.rSp),
+            ),
+          ),
+          content: DeleteItemDialogView(
+            cartItem: item,
+            onDelete: () {
+              CartManager().removeFromCart(item.item.id);
+              _calculateBill();
+            },
+          ),
+        );
+      },
+    );
   }
 
-  void _addDiscount(int itemId) {
-    CartManager().addDiscount(
-      itemId: itemId,
-      type: 1,
-      value: 0,
+  void _addDiscount(AddToCartItem item) {
+    showDialog(
+      context: context,
+      builder: (dContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(AppSize.s16.rSp),
+            ),
+          ),
+          content: FeeDialogView(
+            initType: item.discountType,
+            initValue: item.discountValue,
+            feeType: FeeType.discount,
+            onSave: (type, value, feeType) {
+              CartManager().addDiscount(itemId: item.item.id, type: type, value: value);
+              _calculateBill();
+            },
+          ),
+        );
+      },
     );
-    _calculateBill();
   }
 
   void _quantityChanged(int itemId, int quantity) {
@@ -66,8 +103,17 @@ class _CartScreenState extends State<CartScreen> {
     _calculateBill();
   }
 
-  void _calculateBill() {
-    CartManager().calculateBillingRequestPaylod().then((value) {
+  void _calculateBill({
+    num? discountValue,
+    num? additionalFee,
+    num? deliveryFee,
+  }) {
+    CartManager().calculateBillingRequestPaylod(
+      discountType: _currentDiscountType,
+      discountValue: discountValue ?? _cartBill?.discountAmount ?? ZERO,
+      additionalFee: additionalFee ?? _cartBill?.additionalFee ?? ZERO,
+      deliveryFee: deliveryFee ?? _cartBill?.deliveryFee ?? ZERO,
+    ).then((value) {
       if (value != null) {
         context.read<CalculateBillCubit>().calculateBill(value);
       }
@@ -92,7 +138,16 @@ class _CartScreenState extends State<CartScreen> {
             initType: type,
             initValue: value,
             feeType: feeType,
-            onSave: (type, value, feeType) {},
+            onSave: (type, value, feeType) {
+              if (feeType == FeeType.discount) {
+                _currentDiscountType = type;
+              }
+              _calculateBill(
+                discountValue: feeType == FeeType.discount ? value : null,
+                additionalFee: feeType == FeeType.additional ? value : null,
+                deliveryFee: feeType == FeeType.delivery ? value : null,
+              );
+            },
           ),
         );
       },
@@ -121,8 +176,8 @@ class _CartScreenState extends State<CartScreen> {
                 } else if (state is Failed) {
                   return Center(child: Text(state.failure.message));
                 } else if (state is Success<CartBill>) {
-                  final cartsItemByBrands =
-                      CartManager().cartItemsMapWithBrands();
+                  _cartBill = state.data;
+                  final cartsItemByBrands = CartManager().cartItemsMapWithBrands();
                   return SingleChildScrollView(
                     child: Column(
                       children: [
@@ -188,25 +243,25 @@ class _CartScreenState extends State<CartScreen> {
                           },
                         ),
                         CartPriceView(
-                          cartBill: state.data,
+                          cartBill: _cartBill!,
                           onDeliveryFee: () {
                             _showFeeDialog(
                               type: DiscountType.none,
-                              value: state.data.deliveryFee,
+                              value: _cartBill!.deliveryFee,
                               feeType: FeeType.delivery,
                             );
                           },
                           onDiscount: () {
                             _showFeeDialog(
                               type: DiscountType.flat,
-                              value: state.data.discountAmount,
+                              value: _cartBill!.discountAmount,
                               feeType: FeeType.discount,
                             );
                           },
                           onAdditionalFee: () {
                             _showFeeDialog(
                               type: DiscountType.none,
-                              value: state.data.additionalFee,
+                              value: _cartBill!.additionalFee,
                               feeType: FeeType.additional,
                             );
                           },

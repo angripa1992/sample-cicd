@@ -16,39 +16,42 @@ class CartBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
-        valueListenable: CartManager().getNotifyListener(),
-        builder: (_, count, __) {
-          return InkWell(
-            onTap: onCartTap,
-            child: Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: AppSize.s20.rw,
-              ),
-              child: count > 1 ? Badge(
-                position: BadgePosition.topEnd(top: -16, end: -8),
-                badgeContent: Text(
-                  '$count',
-                  style: getMediumTextStyle(
-                    color: AppColors.white,
-                    fontSize: AppFontSize.s10.rSp,
-                  ),
-                ),
-                badgeStyle: BadgeStyle(
-                  shape: BadgeShape.circle,
-                  badgeColor: AppColors.red,
-                  padding: const EdgeInsets.all(4),
-                  borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-                ),
-                child: Icon(
-                  Icons.add_shopping_cart,
-                  color: AppColors.purpleBlue,
-                ),
-              ) : Icon(
-                Icons.add_shopping_cart,
-                color: AppColors.purpleBlue,
-              ),
+      valueListenable: CartManager().getNotifyListener(),
+      builder: (_, count, __) {
+        return InkWell(
+          onTap: onCartTap,
+          child: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: AppSize.s20.rw,
             ),
-          );
-        });
+            child: count > 0
+                ? Badge(
+                    position: BadgePosition.topEnd(top: -16, end: -8),
+                    badgeContent: Text(
+                      '$count',
+                      style: getMediumTextStyle(
+                        color: AppColors.white,
+                        fontSize: AppFontSize.s10.rSp,
+                      ),
+                    ),
+                    badgeStyle: BadgeStyle(
+                      shape: BadgeShape.circle,
+                      badgeColor: AppColors.red,
+                      padding: const EdgeInsets.all(4),
+                      borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                    ),
+                    child: Icon(
+                      Icons.add_shopping_cart,
+                      color: AppColors.purpleBlue,
+                    ),
+                  )
+                : Icon(
+                    Icons.add_shopping_cart,
+                    color: AppColors.purpleBlue,
+                  ),
+          ),
+        );
+      },
+    );
   }
 }

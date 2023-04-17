@@ -3,10 +3,10 @@ import 'billing_item.dart';
 class BillingRequestModel {
   int? brandId;
   int? branchId;
-  int? deliveryFee;
+  num? deliveryFee;
   int? discountType;
-  int? discountValue;
-  int? additionalFee;
+  num? discountValue;
+  num? additionalFee;
   BillingCurrency? currency;
   List<BillingItem>? items;
 
