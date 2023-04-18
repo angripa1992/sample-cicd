@@ -60,7 +60,7 @@ class PrinterSettingModel {
             largeFontSize: NormalFontSize.large,
             extraLargeFontSize: NormalFontSize.extraLarge,
           ),
-      fontId: PrinterFontSize.normal,
+      fontId: fontId ?? PrinterFontSize.normal,
     );
   }
 }
@@ -120,7 +120,7 @@ class PrinterSetting {
   int kitchenCopyCount;
   @JsonKey(name: 'font_id')
   int fontId;
-  PrinterFonts fonts;
+  PrinterFonts? fonts;
 
   PrinterSetting({
     required this.branchId,

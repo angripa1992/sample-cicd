@@ -96,7 +96,8 @@ class AppPreferences {
           mediumFontSize: NormalFontSize.medium,
           largeFontSize: NormalFontSize.large,
           extraLargeFontSize: NormalFontSize.extraLarge,
-        ), fontId: PrinterFontSize.normal,
+        ),
+        fontId: PrinterFontSize.normal,
       );
     }
     final data = json.decode(preferenceData);

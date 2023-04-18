@@ -1,4 +1,5 @@
 import 'package:docket_design_template/docket_design_template.dart';
+import 'package:docket_design_template/model/font_size.dart';
 import 'package:docket_design_template/model/order.dart';
 import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -45,7 +46,7 @@ class PrintingHandler {
   void showDevices({Order? order}) async {
     final type = _preferences.printerSetting().connectionType;
     final permissionGranted = await _isPermissionGranted();
-    if(permissionGranted){
+    if (permissionGranted) {
       DeviceListBottomSheetManager().showBottomSheet(
         type: type == ConnectionType.BLUETOOTH
             ? ConnectionType.BLUETOOTH
@@ -79,56 +80,59 @@ class PrintingHandler {
   }
 
   void printDocket({required Order order, bool isAutoPrint = false}) async {
-    final permissionGranted = await _isPermissionGranted();
-    if(permissionGranted){
-      if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
-        if (_bluetoothPrinterHandler.isConnected()) {
-          //_doAutoPrint(order);
-          if (isAutoPrint) {
-            _doAutoPrint(order);
-          } else {
-            _doManualPrint(order);
-          }
-        } else if (isAutoPrint) {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.bluetooth_not_connected.tr(),
-          );
-        } else {
-          showDevices(order: order);
-        }
-      } else {
-        if (_usbPrinterHandler.isConnected()) {
-          if (isAutoPrint) {
-            _doAutoPrint(order);
-          } else {
-            _doManualPrint(order);
-          }
-        } else if (isAutoPrint) {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.usb_not_connected.tr(),
-          );
-        } else {
-          showDevices(order: order);
-        }
-      }
-    }
+    _doManualPrint(order);
+    // final permissionGranted = await _isPermissionGranted();
+    // if (permissionGranted) {
+    //   if (_preferences.printerSetting().connectionType ==
+    //       ConnectionType.BLUETOOTH) {
+    //     if (_bluetoothPrinterHandler.isConnected()) {
+    //       //_doAutoPrint(order);
+    //       if (isAutoPrint) {
+    //         _doAutoPrint(order);
+    //       } else {
+    //         _doManualPrint(order);
+    //       }
+    //     } else if (isAutoPrint) {
+    //       showErrorSnackBar(
+    //         RoutesGenerator.navigatorKey.currentState!.context,
+    //         AppStrings.bluetooth_not_connected.tr(),
+    //       );
+    //     } else {
+    //       showDevices(order: order);
+    //     }
+    //   } else {
+    //     if (_usbPrinterHandler.isConnected()) {
+    //       if (isAutoPrint) {
+    //         _doAutoPrint(order);
+    //       } else {
+    //         _doManualPrint(order);
+    //       }
+    //     } else if (isAutoPrint) {
+    //       showErrorSnackBar(
+    //         RoutesGenerator.navigatorKey.currentState!.context,
+    //         AppStrings.usb_not_connected.tr(),
+    //       );
+    //     } else {
+    //       showDevices(order: order);
+    //     }
+    //   }
+    // }
   }
 
   void _doManualPrint(Order order) {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
-        // _showPreview(order: order, docketType: type);
-        final printingData = await _generatePrintingData(order: order, docketType: type);
-        if (printingData != null) {
-          if (_preferences.printerSetting().connectionType ==
-              ConnectionType.BLUETOOTH) {
-           await _bluetoothPrinterHandler.printDocket(printingData);
-          } else {
-            await _usbPrinterHandler.printDocket(printingData);
-          }
-        }
+         _showPreview(order: order, docketType: type);
+        // final printingData =
+        //     await _generatePrintingData(order: order, docketType: type);
+        // if (printingData != null) {
+        //   if (_preferences.printerSetting().connectionType ==
+        //       ConnectionType.BLUETOOTH) {
+        //     await _bluetoothPrinterHandler.printDocket(printingData);
+        //   } else {
+        //     await _usbPrinterHandler.printDocket(printingData);
+        //   }
+        // }
       },
     );
   }
@@ -174,6 +178,17 @@ class PrintingHandler {
     }
   }
 
+  PrinterFonts _printerFonts(){
+    final font = _preferences.printerSetting().fonts!;
+    return PrinterFonts(
+      smallFontSize: font.smallFontSize.toDouble(),
+      regularFontSize:  font.regularFontSize.toDouble(),
+      mediumFontSize:  font.mediumFontSize.toDouble(),
+      largeFontSize: font.largeFontSize.toDouble(),
+      extraLargeFontSize:  font.extraLargeFontSize.toDouble(),
+    );
+  }
+
   Future<List<int>?> _generatePrintingData({
     required Order order,
     required int docketType,
@@ -187,6 +202,7 @@ class PrintingHandler {
             ? Docket.customer
             : Docket.kitchen,
         roll: rollSize,
+        fontSize: _printerFonts(),
       ),
     );
     return rawBytes;
@@ -205,6 +221,7 @@ class PrintingHandler {
             ? Docket.customer
             : Docket.kitchen,
         roll: rollSize,
+        fontSize: _printerFonts(),
       ),
     );
     Navigator.push(

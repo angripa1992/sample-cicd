@@ -63,7 +63,9 @@ PrinterSetting _$PrinterSettingFromJson(Map<String, dynamic> json) =>
       customerCopyCount: json['docket_customer_copy_count'] as int,
       kitchenCopyCount: json['docket_kitchen_copy_count'] as int,
       fontId: json['font_id'] as int,
-      fonts: PrinterFonts.fromJson(json['fonts'] as Map<String, dynamic>),
+      fonts: json['fonts'] == null
+          ? null
+          : PrinterFonts.fromJson(json['fonts'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PrinterSettingToJson(PrinterSetting instance) =>
