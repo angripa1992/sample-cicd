@@ -11,6 +11,7 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:klikit/segments/event_manager.dart';
+import 'package:badges/badges.dart' as badges;
 
 import '../../../../app/constants.dart';
 import '../../../../resources/styles.dart';
@@ -120,7 +121,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                     BlocBuilder<NewOrderCubit, ResponseState>(
                       builder: (context, state) {
                         if (state is Success<Orders> && state.data.total > 0) {
-                          return Badge(
+                          return badges.Badge(
                             position: BadgePosition.topEnd(top: -22, end: -20),
                             badgeContent: Text(
                               '${state.data.total}',
@@ -137,7 +138,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                     BlocBuilder<OngoingOrderCubit, ResponseState>(
                       builder: (context, state) {
                         if (state is Success<Orders> && state.data.total > 0) {
-                          return Badge(
+                          return badges.Badge(
                             position: BadgePosition.topEnd(top: -22, end: -16),
                             badgeContent: Text(
                               '${state.data.total}',
@@ -154,7 +155,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                     BlocBuilder<ScheduleOrderCubit, ResponseState>(
                       builder: (context, state) {
                         if (state is Success<Orders> && state.data.total > 0) {
-                          return Badge(
+                          return badges.Badge(
                             position: BadgePosition.topEnd(top: -22, end: -6),
                             badgeContent: Text(
                               '${state.data.total}',
