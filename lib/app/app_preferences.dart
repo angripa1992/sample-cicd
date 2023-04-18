@@ -7,6 +7,7 @@ import 'package:klikit/language/language.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../printer/data/dockets_fonts.dart';
 import '../printer/data/printer_setting.dart';
 
 class AppPreferences {
@@ -89,6 +90,13 @@ class AppPreferences {
         kitchenCopyEnabled: FALSE,
         customerCopyCount: ZERO,
         kitchenCopyCount: ZERO,
+        fonts: PrinterFonts(
+          smallFontSize: NormalFontSize.small,
+          regularFontSize: NormalFontSize.regular,
+          mediumFontSize: NormalFontSize.medium,
+          largeFontSize: NormalFontSize.large,
+          extraLargeFontSize: NormalFontSize.extraLarge,
+        ), fontId: PrinterFontSize.normal,
       );
     }
     final data = json.decode(preferenceData);

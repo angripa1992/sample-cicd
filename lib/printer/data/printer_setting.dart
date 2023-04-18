@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/printer/data/dockets_fonts.dart';
 
 import '../../app/constants.dart';
 
@@ -21,6 +22,9 @@ class PrinterSettingModel {
   int? customerCopyCount;
   @JsonKey(name: 'docket_kitchen_copy_count')
   int? kitchenCopyCount;
+  @JsonKey(name: 'font_id')
+  int? fontId;
+  PrinterFontsModel? fonts;
 
   PrinterSettingModel({
     this.branchId,
@@ -30,6 +34,8 @@ class PrinterSettingModel {
     this.kitchenCopyEnabled,
     this.customerCopyCount,
     this.kitchenCopyCount,
+    this.fonts,
+    this.fontId,
   });
 
   factory PrinterSettingModel.fromJson(Map<String, dynamic> json) =>
@@ -46,6 +52,52 @@ class PrinterSettingModel {
       kitchenCopyEnabled: kitchenCopyEnabled.orFalse(),
       customerCopyCount: customerCopyCount.orZero(),
       kitchenCopyCount: kitchenCopyCount.orZero(),
+      fonts: fonts?.toEntity() ??
+          PrinterFonts(
+            smallFontSize: NormalFontSize.small,
+            regularFontSize: NormalFontSize.regular,
+            mediumFontSize: NormalFontSize.medium,
+            largeFontSize: NormalFontSize.large,
+            extraLargeFontSize: NormalFontSize.extraLarge,
+          ),
+      fontId: PrinterFontSize.normal,
+    );
+  }
+}
+
+@JsonSerializable()
+class PrinterFontsModel {
+  @JsonKey(name: 'small_font_size')
+  num? smallFontSize;
+  @JsonKey(name: 'regular_font_size')
+  num? regularFontSize;
+  @JsonKey(name: 'medium_font_size')
+  num? mediumFontSize;
+  @JsonKey(name: 'large_font_size')
+  num? largeFontSize;
+  @JsonKey(name: 'extra_large_font_size')
+  num? extraLargeFontSize;
+
+  PrinterFontsModel({
+    this.smallFontSize,
+    this.regularFontSize,
+    this.mediumFontSize,
+    this.largeFontSize,
+    this.extraLargeFontSize,
+  });
+
+  factory PrinterFontsModel.fromJson(Map<String, dynamic> json) =>
+      _$PrinterFontsModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PrinterFontsModelToJson(this);
+
+  PrinterFonts toEntity() {
+    return PrinterFonts(
+      smallFontSize: smallFontSize ?? NormalFontSize.small,
+      regularFontSize: smallFontSize ?? NormalFontSize.regular,
+      mediumFontSize: smallFontSize ?? NormalFontSize.medium,
+      largeFontSize: smallFontSize ?? NormalFontSize.large,
+      extraLargeFontSize: smallFontSize ?? NormalFontSize.extraLarge,
     );
   }
 }
@@ -66,6 +118,9 @@ class PrinterSetting {
   int customerCopyCount;
   @JsonKey(name: 'docket_kitchen_copy_count')
   int kitchenCopyCount;
+  @JsonKey(name: 'font_id')
+  int fontId;
+  PrinterFonts fonts;
 
   PrinterSetting({
     required this.branchId,
@@ -75,10 +130,76 @@ class PrinterSetting {
     required this.kitchenCopyEnabled,
     required this.customerCopyCount,
     required this.kitchenCopyCount,
+    required this.fontId,
+    required this.fonts,
   });
 
   factory PrinterSetting.fromJson(Map<String, dynamic> json) =>
       _$PrinterSettingFromJson(json);
 
   Map<String, dynamic> toJson() => _$PrinterSettingToJson(this);
+}
+
+@JsonSerializable()
+class PrinterFonts {
+  @JsonKey(name: 'small_font_size')
+  num smallFontSize;
+  @JsonKey(name: 'regular_font_size')
+  num regularFontSize;
+  @JsonKey(name: 'medium_font_size')
+  num mediumFontSize;
+  @JsonKey(name: 'large_font_size')
+  num largeFontSize;
+  @JsonKey(name: 'extra_large_font_size')
+  num extraLargeFontSize;
+
+  PrinterFonts({
+    required this.smallFontSize,
+    required this.regularFontSize,
+    required this.mediumFontSize,
+    required this.largeFontSize,
+    required this.extraLargeFontSize,
+  });
+
+  factory PrinterFonts.fromJson(Map<String, dynamic> json) =>
+      _$PrinterFontsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PrinterFontsToJson(this);
+
+  static PrinterFonts fromId(int fontId) {
+    switch (fontId) {
+      case PrinterFontSize.small:
+        return PrinterFonts(
+          smallFontSize: SmallFontSize.small,
+          regularFontSize: SmallFontSize.regular,
+          mediumFontSize: SmallFontSize.medium,
+          largeFontSize: SmallFontSize.large,
+          extraLargeFontSize: SmallFontSize.extraLarge,
+        );
+      case PrinterFontSize.large:
+        return PrinterFonts(
+          smallFontSize: LargeFontSize.small,
+          regularFontSize: LargeFontSize.regular,
+          mediumFontSize: LargeFontSize.medium,
+          largeFontSize: LargeFontSize.large,
+          extraLargeFontSize: LargeFontSize.extraLarge,
+        );
+      case PrinterFontSize.huge:
+        return PrinterFonts(
+          smallFontSize: ExtraLargeFontSize.small,
+          regularFontSize: ExtraLargeFontSize.regular,
+          mediumFontSize: ExtraLargeFontSize.medium,
+          largeFontSize: ExtraLargeFontSize.large,
+          extraLargeFontSize: ExtraLargeFontSize.extraLarge,
+        );
+      default:
+        return PrinterFonts(
+          smallFontSize: NormalFontSize.small,
+          regularFontSize: NormalFontSize.regular,
+          mediumFontSize: NormalFontSize.medium,
+          largeFontSize: NormalFontSize.large,
+          extraLargeFontSize: NormalFontSize.extraLarge,
+        );
+    }
+  }
 }

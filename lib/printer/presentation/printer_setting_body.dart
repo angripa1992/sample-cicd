@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/printer/data/dockets_fonts.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_checkbox.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
@@ -40,6 +41,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
   late int _customerCopyCount;
   late bool _kitchenCopyEnabled;
   late int _kitchenCopyCount;
+  late int _printerFontId;
 
   @override
   void initState() {
@@ -56,6 +58,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
     _kitchenCopyEnabled = printerSetting.kitchenCopyEnabled;
     _customerCopyCount = printerSetting.customerCopyCount;
     _kitchenCopyCount = printerSetting.kitchenCopyCount;
+    _printerFontId = printerSetting.fontId;
   }
 
   void _changePrinterConnectionType(int connectionType) {
@@ -67,6 +70,12 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
   void _changePrinterPaperSize(int paperSize) {
     setState(() {
       _paperSize = paperSize;
+    });
+  }
+
+  void _changePrinterFont(int fontId) {
+    setState(() {
+      _printerFontId = fontId;
     });
   }
 
@@ -120,137 +129,174 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
       kitchenCopyCount: isUpdating
           ? (_kitchenCopyEnabled ? _kitchenCopyCount : 1)
           : _kitchenCopyCount,
+      fonts: PrinterFonts.fromId(_printerFontId),
+      fontId: _printerFontId,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s20.rw,
-        vertical: AppSize.s12.rh,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          /// connection type
-          _title(AppStrings.set_printer_connection_type.tr()),
-          PrinterSettingRadioItem(
-            value: ConnectionType.BLUETOOTH,
-            groupValue: _connectionType,
-            onChanged: _changePrinterConnectionType,
-            name: AppStrings.bluetooth.tr(),
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSize.s20.rw,
+            vertical: AppSize.s12.rh,
           ),
-          PrinterSettingRadioItem(
-            value: ConnectionType.USB,
-            groupValue: _connectionType,
-            onChanged: _changePrinterConnectionType,
-            name: AppStrings.usb.tr(),
-          ),
-
-          Divider(color: AppColors.blueViolet),
-
-          /// Paper size
-          _title(AppStrings.set_paper_size.tr()),
-          PrinterSettingRadioItem(
-            value: RollId.mm58,
-            groupValue: _paperSize,
-            onChanged: _changePrinterPaperSize,
-            name: '58mm',
-          ),
-          PrinterSettingRadioItem(
-            value: RollId.mm80,
-            groupValue: _paperSize,
-            onChanged: _changePrinterPaperSize,
-            name: '80mm',
-          ),
-
-          Divider(color: AppColors.blueViolet),
-
-          /// Docket type
-
-          //_title(AppStrings.set_docket_type.tr()),
-          _title('Set Docket Type'),
-          Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Expanded(
-                child: PrinterSettingCheckbox(
-                  enabled: _kitchenCopyEnabled,
-                  onChanged: _changeKitchenCopyEnabled,
-                 // name: AppStrings.kitchen.tr(),
-                  name: 'Kitchen',
-                  willAlwaysChecked: false, activeColor: AppColors.purpleBlue,
+              /// connection type
+              _title(AppStrings.set_printer_connection_type.tr()),
+              PrinterSettingRadioItem(
+                value: ConnectionType.BLUETOOTH,
+                groupValue: _connectionType,
+                onChanged: _changePrinterConnectionType,
+                name: AppStrings.bluetooth.tr(),
+              ),
+              PrinterSettingRadioItem(
+                value: ConnectionType.USB,
+                groupValue: _connectionType,
+                onChanged: _changePrinterConnectionType,
+                name: AppStrings.usb.tr(),
+              ),
+
+              Divider(color: AppColors.blueViolet),
+
+              /// Paper size
+              _title(AppStrings.set_paper_size.tr()),
+              PrinterSettingRadioItem(
+                value: RollId.mm58,
+                groupValue: _paperSize,
+                onChanged: _changePrinterPaperSize,
+                name: '58mm',
+              ),
+              PrinterSettingRadioItem(
+                value: RollId.mm80,
+                groupValue: _paperSize,
+                onChanged: _changePrinterPaperSize,
+                name: '80mm',
+              ),
+
+              Divider(color: AppColors.blueViolet),
+
+
+              /// Font size
+              _title('Set Font Size'),
+              PrinterSettingRadioItem(
+                value: PrinterFontSize.small,
+                groupValue: _printerFontId,
+                onChanged: _changePrinterFont,
+                name: 'Small',
+              ),
+              PrinterSettingRadioItem(
+                value: PrinterFontSize.normal,
+                groupValue: _printerFontId,
+                onChanged: _changePrinterFont,
+                name: 'Normal',
+              ),
+              PrinterSettingRadioItem(
+                value: PrinterFontSize.large,
+                groupValue: _printerFontId,
+                onChanged: _changePrinterFont,
+                name: 'Large',
+              ),
+              PrinterSettingRadioItem(
+                value: PrinterFontSize.huge,
+                groupValue: _printerFontId,
+                onChanged: _changePrinterFont,
+                name: 'Huge',
+              ),
+
+              Divider(color: AppColors.blueViolet),
+
+              /// Docket type
+
+              //_title(AppStrings.set_docket_type.tr()),
+              _title('Set Docket Type'),
+              Row(
+                children: [
+                  Expanded(
+                    child: PrinterSettingCheckbox(
+                      enabled: _kitchenCopyEnabled,
+                      onChanged: _changeKitchenCopyEnabled,
+                     // name: AppStrings.kitchen.tr(),
+                      name: 'Kitchen',
+                      willAlwaysChecked: false, activeColor: AppColors.purpleBlue,
+                    ),
+                  ),
+                  DocketCounterView(
+                    enabled: _kitchenCopyEnabled,
+                    count: _kitchenCopyCount,
+                    onChanged: _changeKitchenCopyCount,
+                    minCount: 0,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: PrinterSettingCheckbox(
+                      enabled: _customerCopyEnabled,
+                      onChanged: _changeKitchenCopyEnabled,
+                      //name: AppStrings.customer.tr(),
+                      name: 'Customer',
+                      willAlwaysChecked: true, activeColor: AppColors.dustyGrey,
+                    ),
+                  ),
+                  DocketCounterView(
+                    enabled: _customerCopyEnabled,
+                    count: _customerCopyCount,
+                    onChanged: _changeCustomerCopyCount,
+                    minCount: 1,
+                  ),
+                ],
+              ),
+
+              /// save button
+
+              const Spacer(),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.s12.rh,
+                ),
+                child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
+                  listener: (context, state) {
+                    if (state is Failed) {
+                      showApiErrorSnackBar(context, state.failure);
+                    } else if (state is Success<ActionSuccess>) {
+                      _savePrinterSettingLocally();
+                      showSuccessSnackBar(context, state.data.message ?? '');
+                    }
+                  },
+                  builder: (context, state) {
+                    return LoadingButton(
+                      isLoading: state is Loading,
+                      verticalPadding: AppSize.s10.rh,
+                      onTap: _updatePrinterSetting,
+                      text: AppStrings.save.tr(),
+                    );
+                  },
                 ),
               ),
-              DocketCounterView(
-                enabled: _kitchenCopyEnabled,
-                count: _kitchenCopyCount,
-                onChanged: _changeKitchenCopyCount,
-                minCount: 0,
+              AppButton(
+                enable: _appPreferences.printerSetting().connectionType ==
+                    _connectionType,
+                verticalPadding: AppSize.s10.rh,
+                onTap: () {
+                  _printingHandler.showDevices();
+                },
+                text: AppStrings.show_devices.tr(),
+                icon: _appPreferences.printerSetting().connectionType ==
+                        ConnectionType.BLUETOOTH
+                    ? Icons.bluetooth
+                    : Icons.usb,
               ),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: PrinterSettingCheckbox(
-                  enabled: _customerCopyEnabled,
-                  onChanged: _changeKitchenCopyEnabled,
-                  //name: AppStrings.customer.tr(),
-                  name: 'Customer',
-                  willAlwaysChecked: true, activeColor: AppColors.dustyGrey,
-                ),
-              ),
-              DocketCounterView(
-                enabled: _customerCopyEnabled,
-                count: _customerCopyCount,
-                onChanged: _changeCustomerCopyCount,
-                minCount: 1,
-              ),
-            ],
-          ),
-
-          /// save button
-
-          const Spacer(),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSize.s12.rh,
-            ),
-            child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
-              listener: (context, state) {
-                if (state is Failed) {
-                  showApiErrorSnackBar(context, state.failure);
-                } else if (state is Success<ActionSuccess>) {
-                  _savePrinterSettingLocally();
-                  showSuccessSnackBar(context, state.data.message ?? '');
-                }
-              },
-              builder: (context, state) {
-                return LoadingButton(
-                  isLoading: state is Loading,
-                  verticalPadding: AppSize.s10.rh,
-                  onTap: _updatePrinterSetting,
-                  text: AppStrings.save.tr(),
-                );
-              },
-            ),
-          ),
-          AppButton(
-            enable: _appPreferences.printerSetting().connectionType ==
-                _connectionType,
-            verticalPadding: AppSize.s10.rh,
-            onTap: () {
-              _printingHandler.showDevices();
-            },
-            text: AppStrings.show_devices.tr(),
-            icon: _appPreferences.printerSetting().connectionType ==
-                    ConnectionType.BLUETOOTH
-                ? Icons.bluetooth
-                : Icons.usb,
-          ),
-        ],
+        ),
       ),
     );
   }
