@@ -36,8 +36,6 @@ class SmartAssetLoader extends AssetLoader {
       debugPrint('translations loaded from assets');
     }
 
-    //content = await _loadFromAsset(path);
-
     return _decodeJson(content);
   }
 

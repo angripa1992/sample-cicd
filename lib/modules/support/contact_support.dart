@@ -52,7 +52,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
         child: Column(
           children: [
             ContactItem(
-              iconData: Icons.whatsapp,
+              iconData: Icons.whatshot,
               iconColor: AppColors.green,
               title: AppStrings.whatsapp.tr(),
               description: AppStrings.whatsapp_tile.tr(),

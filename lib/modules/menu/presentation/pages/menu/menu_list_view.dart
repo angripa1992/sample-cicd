@@ -33,7 +33,7 @@ class _MenuListViewState extends State<MenuListView> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpandedTileList.seperated(
+    return ExpandedTileList.separated(
       itemCount: widget.sections.length,
       itemBuilder: (context, index, controller) {
         controller.addListener(_listen);
@@ -89,7 +89,7 @@ class _MenuListViewState extends State<MenuListView> {
           ),
         );
       },
-      seperatorBuilder: (context, _) {
+      separatorBuilder: (BuildContext context, int index) {
         return SizedBox(
           height: AppSize.s8.rh,
         );

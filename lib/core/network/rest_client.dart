@@ -34,13 +34,13 @@ class RestClient {
     final versionCode = await deviceInfoProvider.versionCode();
     final versionName = await deviceInfoProvider.versionName();
     _dio.options.headers[contentType] = 'application/json';
-   _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
-    _dio.options.headers[appVersion] = versionCode;
-    _dio.options.headers[appVersionName] = versionName.removeDot();
+   // _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
+   //  _dio.options.headers[appVersion] = versionCode;
+   //  _dio.options.headers[appVersionName] = versionName.removeDot();
   }
 
   void _initInterceptor() {
-    _dioLogger.setLogStatus(LogStatus.CLOSE);
+    _dioLogger.setLogStatus(LogStatus.OPEN);
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
     _addHeader();
     _dio.interceptors.add(
