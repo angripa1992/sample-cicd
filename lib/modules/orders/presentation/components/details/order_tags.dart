@@ -1,14 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
+import '../../../../../app/di.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../domain/entities/provider.dart';
+import '../../../provider/order_information_provider.dart';
 
 class OrderTagsView extends StatelessWidget {
   final Order order;
@@ -49,12 +53,13 @@ class OrderTagsView extends StatelessWidget {
       case OrderType.DINE_IN:
         return 'Dine In';
       default:
-        return AppStrings.manual.tr();
+        return EMPTY;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final type = _getType();
     return Align(
       alignment: Alignment.topLeft,
       child: Wrap(
@@ -63,10 +68,23 @@ class OrderTagsView extends StatelessWidget {
         children: [
           if (order.providerId == ProviderID.KLIKIT)
             _tagView(order.isManualOrder ? 'Manual' : 'Webshop'),
-          _tagView(_getType()),
-          if (order.tableNo.isNotEmpty) _tagView('Table ${order.tableNo}'),
+          if (order.providerId == ProviderID.KLIKIT &&
+              !order.isManualOrder &&
+              order.tableNo.isNotEmpty)
+            _tagView('Table ${order.tableNo}'),
+          if (type.isNotEmpty) _tagView(_getType()),
           _tagView(_getStatus()),
-          _tagView(order.orderSource.title),
+          if (order.providerId > ZERO)
+            FutureBuilder<Provider>(
+              future: getIt.get<OrderInformationProvider>().findProviderById(order.providerId),
+              builder: (_, result) {
+                if(result.hasData && result.data != null){
+                  return _tagView('${AppStrings.placed_on.tr()} ${result.data!.title}');
+                }
+                return const SizedBox();
+              },
+            ),
+
         ],
       ),
     );

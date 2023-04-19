@@ -87,8 +87,7 @@ void _openBottomSheet({
               padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
               child: Divider(color: AppColors.purpleBlue),
             ),
-            if (order.providerId == ProviderID.KLIKIT)
-              OrderPaymentInfoView(order: order),
+            OrderPaymentInfoView(order: order),
             OrderItemDetails(order: order),
             CommentView(comment: order.orderComment),
             PriceView(order: order),

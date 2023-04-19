@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/provider/order_information_provider.dart';
@@ -12,6 +13,7 @@ import '../../../domain/entities/payment_info.dart';
 
 class OrderPaymentInfoView extends StatelessWidget {
   final Order order;
+
   const OrderPaymentInfoView({Key? key, required this.order}) : super(key: key);
 
   @override
@@ -20,16 +22,17 @@ class OrderPaymentInfoView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
         children: [
-          OrderPaymentMethodView(order: order),
-          Divider(color: AppColors.purpleBlue),
           OrderPaymentStatusView(order: order),
+          Divider(color: AppColors.purpleBlue),
+          if(order.paymentStatus == PaymentStatusId.paid)
+          OrderPaymentMethodView(order: order),
+          if(order.paymentStatus == PaymentStatusId.paid)
           Divider(color: AppColors.purpleBlue),
         ],
       ),
     );
   }
 }
-
 
 class OrderPaymentMethodView extends StatelessWidget {
   final _provider = getIt.get<OrderInformationProvider>();

@@ -129,6 +129,13 @@ class DurationType {
   static const defaultTime = 0;
 }
 
+class PaymentStatusId {
+  static const paid = 1;
+  static const failed = 2;
+  static const pending = 3;
+  static const refunded = 4;
+}
+
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
   static const String kNOTIFICATION_DATA = 'notification_data';
