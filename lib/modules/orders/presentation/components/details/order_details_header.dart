@@ -12,24 +12,21 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/constants.dart';
-import '../../../../../../app/di.dart';
 import '../../../../widgets/snackbars.dart';
-import '../../../provider/order_information_provider.dart';
 import 'comment_action_view.dart';
-import 'order_status.dart';
+import 'order_tags.dart';
 
 class OrderDetailsHeaderView extends StatelessWidget {
-  final _infoProvider = getIt.get<OrderInformationProvider>();
   final GlobalKey<ScaffoldState> modalKey;
   final Order order;
   final VoidCallback onCommentActionSuccess;
 
-  OrderDetailsHeaderView(
-      {Key? key,
-      required this.order,
-      required this.modalKey,
-      required this.onCommentActionSuccess})
-      : super(key: key);
+  const OrderDetailsHeaderView({
+    Key? key,
+    required this.order,
+    required this.modalKey,
+    required this.onCommentActionSuccess,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,27 +36,14 @@ class OrderDetailsHeaderView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.only(
-              top: AppSize.s8.rh,
-              bottom: AppSize.s16.rh,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(child: _idView()),
-                SizedBox(width: AppSize.s8.rw),
-                _placedOnView(),
-              ],
-            ),
-          ),
+          _idView(),
+          SizedBox(height: AppSize.s12.rh),
+          OrderTagsView(order: order),
+          SizedBox(height: AppSize.s12.rh),
           _externalIdView(),
           SizedBox(height: AppSize.s12.rh),
           _timeView(),
           SizedBox(height: AppSize.s12.rh),
-          //_brandAndCommentView(),
-          //SizedBox(height: AppSize.s8.rh),
-          OrderStatusView(order: order),
         ],
       ),
     );
@@ -106,39 +90,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
         Icons.copy,
         size: AppSize.s18.rSp,
         color: AppColors.black,
-      ),
-    );
-  }
-
-  Widget _placedOnView() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: AppSize.s4.rh,
-        horizontal: AppSize.s8.rw,
-      ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-          border: Border.all(color: AppColors.purpleBlue)),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            AppStrings.placed_on.tr(),
-            style: getRegularTextStyle(
-              color: AppColors.purpleBlue,
-              fontSize: AppFontSize.s14.rSp,
-            ),
-          ),
-          Flexible(
-            child: Text(
-              ' ${order.orderSource.title}',
-              style: getBoldTextStyle(
-                color: AppColors.purpleBlue,
-                fontSize: AppFontSize.s14.rSp,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -191,43 +142,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
         CommentActionView(
           onCommentActionSuccess: onCommentActionSuccess,
           order: order,
-        ),
-      ],
-    );
-  }
-
-  Widget _brandAndCommentView() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(child: _brandView()),
-        SizedBox(width: AppSize.s8.rw),
-        CommentActionView(
-          onCommentActionSuccess: onCommentActionSuccess,
-          order: order,
-        ),
-      ],
-    );
-  }
-
-  Widget _brandView() {
-    return Row(
-      children: [
-        Text(
-          '${AppStrings.brand.tr()} : ',
-          style: getRegularTextStyle(
-            color: AppColors.dustyGrey,
-            fontSize: AppFontSize.s14.rSp,
-          ),
-        ),
-        Flexible(
-          child: Text(
-            order.brandName,
-            style: getMediumTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s14.rSp,
-            ),
-          ),
         ),
       ],
     );

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
+import 'package:klikit/modules/orders/domain/entities/payment_info.dart';
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/entities/source.dart';
 
@@ -52,6 +53,36 @@ class OrderInfoProviderRepoImpl extends OrderInfoProviderRepo {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchSources();
+        final data = response.map((e) => e.toEntity()).toList();
+        return Right(data);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PaymentMethod>>> fetchPaymentMethods() async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchPaymentMethods();
+        final data = response.map((e) => e.toEntity()).toList();
+        return Right(data);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PaymentStatus>>> fetchPaymentSources() async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchPaymentStatus();
         final data = response.map((e) => e.toEntity()).toList();
         return Right(data);
       } on DioError catch (error) {

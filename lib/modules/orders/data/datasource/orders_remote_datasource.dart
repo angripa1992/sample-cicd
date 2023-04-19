@@ -12,6 +12,7 @@ import 'package:klikit/modules/orders/data/models/source_model.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
 
 import '../models/order_status_model.dart';
+import '../models/payment_info.dart';
 
 abstract class OrderRemoteDatasource {
   Future<List<OrderStatusModel>> fetchOrderStatus();
@@ -21,6 +22,10 @@ abstract class OrderRemoteDatasource {
   Future<List<ProviderModel>> fetchProvider(Map<String, dynamic> param);
 
   Future<List<SourcesModel>> fetchSources();
+
+  Future<List<PaymentMethodModel>> fetchPaymentMethods();
+
+  Future<List<PaymentStatusModel>> fetchPaymentStatus();
 
   Future<SettingsModel> fetchSettings(int id);
 
@@ -175,6 +180,30 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final List<dynamic> response =
           await _restClient.request(Urls.sources, Method.GET, null);
       final data = response.map((e) => SourcesModel.fromJson(e)).toList();
+      return data;
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<PaymentMethodModel>> fetchPaymentMethods() async{
+    try {
+      final List<dynamic> response =
+      await _restClient.request(Urls.paymentMethod, Method.GET, null);
+      final data = response.map((e) => PaymentMethodModel.fromJson(e)).toList();
+      return data;
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<PaymentStatusModel>> fetchPaymentStatus() async{
+    try {
+      final List<dynamic> response =
+      await _restClient.request(Urls.paymentStatus, Method.GET, null);
+      final data = response.map((e) => PaymentStatusModel.fromJson(e)).toList();
       return data;
     } on DioError {
       rethrow;

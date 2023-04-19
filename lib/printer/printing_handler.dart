@@ -138,10 +138,8 @@ class PrintingHandler {
 
   void _doAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
-    final customerCopy = await _generatePrintingData(
-        order: order, docketType: DocketType.customer);
-    final kitchenCopy = await _generatePrintingData(
-        order: order, docketType: DocketType.kitchen);
+    final customerCopy = await _generatePrintingData(order: order, docketType: DocketType.customer);
+    final kitchenCopy = await _generatePrintingData(order: order, docketType: DocketType.kitchen);
     if (printerSetting.connectionType == ConnectionType.BLUETOOTH) {
       if (printerSetting.customerCopyEnabled) {
         if (customerCopy != null) {
@@ -150,8 +148,7 @@ class PrintingHandler {
           }
         }
       }
-      if (printerSetting.kitchenCopyEnabled &&
-          printerSetting.kitchenCopyCount > ZERO) {
+      if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
         if (kitchenCopy != null) {
           for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
             await _bluetoothPrinterHandler.printDocket(kitchenCopy);

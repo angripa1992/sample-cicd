@@ -1,7 +1,9 @@
 import 'package:klikit/modules/orders/domain/entities/provider.dart';
+import 'package:klikit/modules/orders/provider/payment_info_provider.dart';
 import 'package:klikit/modules/orders/provider/source_provider.dart';
 
 import '../domain/entities/brand.dart';
+import '../domain/entities/payment_info.dart';
 import '../domain/entities/source.dart';
 import '../domain/repository/order_info_provider_repo.dart';
 import 'aggregrator_provider.dart';
@@ -12,11 +14,13 @@ class OrderInformationProvider {
   late BrandProvider _brandProvider;
   late AggregatorProvider _aggregatorProvider;
   late SourceProvider _sourceProvider;
+  late PaymentInfoProvider _paymentInfoProvider;
 
   OrderInformationProvider(this._orderRepository) {
     _brandProvider = BrandProvider(_orderRepository);
     _aggregatorProvider = AggregatorProvider(_orderRepository);
     _sourceProvider = SourceProvider(_orderRepository);
+    _paymentInfoProvider = PaymentInfoProvider(_orderRepository);
   }
 
   ///brands
@@ -51,10 +55,24 @@ class OrderInformationProvider {
   Future<Source> findSourceById(int sourceId) =>
       _sourceProvider.findSourceById(sourceId);
 
+  ///payment
+  Future<List<PaymentStatus>> fetchPaymentStatues() =>
+      _paymentInfoProvider.fetchStatuses();
+
+  Future<List<PaymentMethod>> fetchPaymentMethods() =>
+      _paymentInfoProvider.fetchMethods();
+
+  Future<PaymentStatus> fetchPaymentStatus(int id) =>
+      _paymentInfoProvider.findStatusById(id);
+
+  Future<PaymentMethod> fetchPaymentMethod(int id) =>
+      _paymentInfoProvider.findMethodById(id);
+
   ///clear data after logout
   void clearData() {
     _brandProvider.clear();
     _aggregatorProvider.clear();
     _sourceProvider.clear();
+    _paymentInfoProvider.clear();
   }
 }

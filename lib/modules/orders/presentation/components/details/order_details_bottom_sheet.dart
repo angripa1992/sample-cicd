@@ -15,6 +15,7 @@ import '../order_item/order_action_buttons.dart';
 import 'comment_view.dart';
 import 'order_details_header.dart';
 import 'order_item_details.dart';
+import 'order_payment_info.dart';
 
 void _openBottomSheet({
   required BuildContext context,
@@ -27,7 +28,7 @@ void _openBottomSheet({
     context: context,
     isScrollControlled: true,
     isDismissible: true,
-    shape:  RoundedRectangleBorder(
+    shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(AppSize.s16.rSp),
       ),
@@ -72,7 +73,8 @@ void _openBottomSheet({
                 )
               ],
             ),
-            if (order.status == OrderStatus.SCHEDULED && order.scheduledTime.isNotEmpty)
+            if (order.status == OrderStatus.SCHEDULED &&
+                order.scheduledTime.isNotEmpty)
               ScheduledDetailsView(
                 scheduleTime: order.scheduledTime,
               ),
@@ -85,6 +87,8 @@ void _openBottomSheet({
               padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
               child: Divider(color: AppColors.purpleBlue),
             ),
+            if (order.providerId == ProviderID.KLIKIT)
+              OrderPaymentInfoView(order: order),
             OrderItemDetails(order: order),
             CommentView(comment: order.orderComment),
             PriceView(order: order),
