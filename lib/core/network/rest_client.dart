@@ -40,7 +40,7 @@ class RestClient {
   }
 
   void _initInterceptor() {
-    _dioLogger.setLogStatus(LogStatus.OPEN);
+    _dioLogger.setLogStatus(LogStatus.CLOSE);
     _dio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
     _addHeader();
     _dio.interceptors.add(
@@ -71,21 +71,18 @@ class RestClient {
         },
         onError: (error, handler) async {
           _dioLogger.logError(error);
-          var options = error.response!.requestOptions;
+          var options = error.response?.requestOptions;
           if (error.response?.statusCode == ResponseCode.UPDATE_REQUIRED) {
             AppUpdateManager().showAppUpdateDialog();
             return handler.reject(error);
           }
-          if (options.path == Urls.login ||
-              options.path == Urls.forgetPassword) {
+          if (options?.path == Urls.login || options?.path == Urls.forgetPassword) {
             return handler.next(error);
           } else {
             if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-              if (_token(_tokenProvider.getAccessToken()) !=
-                  options.headers[authorization]) {
-                options.headers[authorization] =
-                    _token(_tokenProvider.getAccessToken());
-                _dio.fetch(options).then(
+              if (_token(_tokenProvider.getAccessToken()) != options?.headers[authorization]) {
+                options?.headers[authorization] = _token(_tokenProvider.getAccessToken());
+                _dio.fetch(options!).then(
                   (r) => handler.resolve(r),
                   onError: (e) {
                     handler.reject(e);
@@ -96,8 +93,8 @@ class RestClient {
               final tokenResponse = await _tokenProvider.fetchTokenFromServer();
               tokenResponse.fold(
                 (accessToken) {
-                  options.headers[authorization] = _token(accessToken);
-                  _dio.fetch(options).then(
+                  options?.headers[authorization] = _token(accessToken);
+                  _dio.fetch(options!).then(
                     (r) => handler.resolve(r),
                     onError: (e) {
                       handler.reject(e);

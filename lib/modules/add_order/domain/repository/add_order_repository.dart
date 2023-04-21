@@ -5,6 +5,7 @@ import '../../../menu/domain/entities/menues.dart';
 import '../../data/models/billing_request.dart';
 import '../entities/billing_response.dart';
 import '../entities/item_modifier_group.dart';
+import '../entities/order_source.dart';
 
 abstract class AddOrderRepository {
   Future<Either<Failure, MenusData>> fetchMenus(
@@ -15,4 +16,6 @@ abstract class AddOrderRepository {
 
   Future<Either<Failure, CartBill>> calculateBill(
       {required BillingRequestModel model});
+
+  Future<Either<Failure, List<AddOrderSourceType>>> fetchSources();
 }

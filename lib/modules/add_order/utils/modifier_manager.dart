@@ -80,24 +80,22 @@ class ModifierManager {
   }
 
   Future<String> allCsvModifiersName(List<ItemModifierGroup> groups) async {
-    String modifiers = EMPTY;
+    final modifiers = [];
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          modifiers =
-              '$modifiers${modifierLevelOne.quantity}x ${modifierLevelOne.title},';
+          modifiers.add('${modifierLevelOne.quantity}x ${modifierLevelOne.title}');
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                modifiers =
-                    '$modifiers${modifierLevelTwo.quantity}x ${modifierLevelTwo.title},';
+                modifiers.add('${modifierLevelTwo.quantity}x ${modifierLevelTwo.title}');
               }
             }
           }
         }
       }
     }
-    return modifiers;
+    return modifiers.join(' , ');
   }
 
   Future<String> generateCheckingId({

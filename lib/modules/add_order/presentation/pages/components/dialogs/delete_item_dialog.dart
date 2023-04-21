@@ -15,7 +15,10 @@ import '../../../../utils/modifier_manager.dart';
 class DeleteItemDialogView extends StatelessWidget {
   final AddToCartItem cartItem;
   final VoidCallback onDelete;
-  const DeleteItemDialogView({Key? key, required this.cartItem, required this.onDelete}) : super(key: key);
+
+  const DeleteItemDialogView(
+      {Key? key, required this.cartItem, required this.onDelete})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -120,41 +123,117 @@ class DeleteItemDialogView extends StatelessWidget {
             ],
           ),
         ),
-       Row(
-         mainAxisAlignment: MainAxisAlignment.end,
-         children: [
-           ElevatedButton(
-             onPressed: () {
-               Navigator.pop(context);
-             },
-             style: ElevatedButton.styleFrom(
-               backgroundColor: AppColors.water, // Background color
-             ),
-             child: Text(
-               'Cancel',
-               style: getMediumTextStyle(
-                 color: AppColors.balticSea,
-               ),
-             ),
-           ),
-           SizedBox(width: AppSize.s24.rw),
-           ElevatedButton(
-             onPressed: () {
-               Navigator.pop(context);
-               onDelete();
-             },
-             style: ElevatedButton.styleFrom(
-               backgroundColor: AppColors.red, // Background color
-             ),
-             child: Text(
-               'Delete',
-               style: getMediumTextStyle(
-                 color: AppColors.white,
-               ),
-             ),
-           ),
-         ],
-       ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.water, // Background color
+              ),
+              child: Text(
+                'Cancel',
+                style: getMediumTextStyle(
+                  color: AppColors.balticSea,
+                ),
+              ),
+            ),
+            SizedBox(width: AppSize.s24.rw),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                onDelete();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.red, // Background color
+              ),
+              child: Text(
+                'Delete',
+                style: getMediumTextStyle(
+                  color: AppColors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class DeleteAllDialogView extends StatelessWidget {
+  final VoidCallback onDelete;
+
+  const DeleteAllDialogView({
+    Key? key,
+    required this.onDelete,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                'Are you sure you want to delete the all items?',
+                style: getMediumTextStyle(
+                  color: AppColors.balticSea,
+                  fontSize: AppFontSize.s16.rSp,
+                ),
+              ),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.clear),
+            ),
+          ],
+        ),
+        SizedBox(height: AppSize.s16.rh),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.water, // Background color
+              ),
+              child: Text(
+                'Cancel',
+                style: getMediumTextStyle(
+                  color: AppColors.balticSea,
+                ),
+              ),
+            ),
+            SizedBox(width: AppSize.s24.rw),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                onDelete();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.red, // Background color
+              ),
+              child: Text(
+                'Delete',
+                style: getMediumTextStyle(
+                  color: AppColors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

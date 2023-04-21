@@ -11,14 +11,16 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../domain/entities/billing_response.dart';
 import '../modifier/quantity_selector.dart';
 
 class CartItemView extends StatelessWidget {
+  final ItemBill itemBill;
   final VoidCallback onEdit;
   final AddToCartItem cartItem;
   final Function(AddToCartItem) addDiscount;
   final Function(AddToCartItem) onDelete;
-  final Function(int,int) onQuantityChanged;
+  final Function(int, int) onQuantityChanged;
 
   const CartItemView({
     Key? key,
@@ -27,10 +29,12 @@ class CartItemView extends StatelessWidget {
     required this.addDiscount,
     required this.onDelete,
     required this.onQuantityChanged,
+    required this.itemBill,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final haveDiscount = itemBill.discountedItemPrice != itemBill.itemPrice;
     return Column(
       children: [
         Padding(
@@ -82,20 +86,38 @@ class CartItemView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: AppSize.s16.rw),
-                        Text(
-                          '${cartItem.itemPrice.symbol} ${cartItem.itemPrice.price}',
-                          style: TextStyle(
-                            color: AppColors.balticSea,
-                            fontSize: AppFontSize.s14.rSp,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            if (haveDiscount)
+                              Text(
+                                '${cartItem.itemPrice.symbol} ${itemBill.discountedItemPrice}',
+                                style: TextStyle(
+                                  color: AppColors.balticSea,
+                                  fontSize: AppFontSize.s14.rSp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            Text(
+                              '${cartItem.itemPrice.symbol} ${itemBill.itemPrice}',
+                              style: TextStyle(
+                                color: haveDiscount
+                                    ? AppColors.red
+                                    : AppColors.balticSea,
+                                fontSize: AppFontSize.s14.rSp,
+                                fontWeight: FontWeight.w500,
+                                decoration: haveDiscount
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                     SizedBox(height: AppSize.s8.rh),
                     FutureBuilder<String>(
-                      future: ModifierManager()
-                          .allCsvModifiersName(cartItem.modifiers),
+                      future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
                       builder: (context, snapShot) {
                         if (snapShot.hasData) {
                           return Text(snapShot.data!);
@@ -141,7 +163,7 @@ class CartItemView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppSize.s20.rSp),
                 ),
               ),
-              onPressed: (){
+              onPressed: () {
                 addDiscount(cartItem);
               },
               child: Text(
@@ -166,7 +188,7 @@ class CartItemView extends StatelessWidget {
             QuantitySelector(
               quantity: cartItem.quantity,
               onQuantityChanged: (quantity) {
-                onQuantityChanged(cartItem.item.id,quantity);
+                onQuantityChanged(cartItem.item.id, quantity);
               },
             ),
           ],

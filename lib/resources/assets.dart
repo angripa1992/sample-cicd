@@ -15,6 +15,7 @@ class AppImages {
   static const String klikitTextPurple = "$IMAGE_PATH/klikit_text_purple.png";
   static const String klikitTextWhite = "$IMAGE_PATH/klikit_text_white.png";
   static const String placeholder = "$IMAGE_PATH/placeholder.svg";
+  static const String emptyCartSvg = "$IMAGE_PATH/empty_cart.svg";
 }
 
 class AppIcons {

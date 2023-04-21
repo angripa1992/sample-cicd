@@ -29,26 +29,13 @@ class CartAppBar extends StatelessWidget {
         child: Row(
           children: [
             IconButton(onPressed: onClose, icon: Icon(Icons.clear)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Cart',
-                  style: getMediumTextStyle(
-                    color: AppColors.balticSea,
-                    fontSize: AppFontSize.s17.rSp,
-                  ),
-                ),
-                SizedBox(height: AppSize.s2.rh),
-                Text(
-                  '#122345678',
-                  style: getRegularTextStyle(
-                    color: AppColors.smokeyGrey,
-                    fontSize: AppFontSize.s12.rSp,
-                  ),
-                ),
-              ],
-            )
+            Text(
+              'Cart',
+              style: getMediumTextStyle(
+                color: AppColors.balticSea,
+                fontSize: AppFontSize.s17.rSp,
+              ),
+            ),
           ],
         ),
       ),

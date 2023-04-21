@@ -69,6 +69,7 @@ import '../core/provider/location_provider.dart';
 import '../environment_variables.dart';
 import '../language/language_manager.dart';
 import '../modules/add_order/presentation/cubit/calculate_bill_cubit.dart';
+import '../modules/add_order/presentation/cubit/fetch_add_order_sources_cubit.dart';
 import '../modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
 import '../modules/base/chnage_language_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
@@ -202,4 +203,5 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton<AddOrderRepository>(() => AddOrderRepositoryImpl(getIt(),getIt()));
   getIt.registerFactory(() => FetchSubSectionCubit(getIt.get()));
   getIt.registerFactory(() => CalculateBillCubit(getIt.get()));
+  getIt.registerFactory(() => AddOrderSourcesCubit(getIt.get()));
 }

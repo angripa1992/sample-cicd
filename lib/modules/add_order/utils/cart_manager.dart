@@ -36,8 +36,11 @@ class CartManager {
     addToCart(newItem);
   }
 
-  void removeFromCart(int itemId) {
-    _carts.removeWhere((element) => element.item.id == itemId);
+  void removeFromCart(AddToCartItem item) {
+    _carts.removeWhere(
+      (element) =>
+          element.item.id == item.item.id && element.quantity == item.quantity,
+    );
     _notifyListener();
   }
 
@@ -51,11 +54,11 @@ class CartManager {
     required int type,
     required num value,
   }) {
-    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    final item =
+        _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.discountValue = value;
       item.discountType = type;
-      _notifyListener();
     }
   }
 
@@ -64,7 +67,6 @@ class CartManager {
         _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.quantity = quantity;
-      _notifyListener();
     }
   }
 

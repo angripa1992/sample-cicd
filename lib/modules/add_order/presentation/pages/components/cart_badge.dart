@@ -37,7 +37,7 @@ class CartBadge extends StatelessWidget {
                     badgeStyle: BadgeStyle(
                       shape: BadgeShape.circle,
                       badgeColor: AppColors.red,
-                      padding: const EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(5),
                       borderRadius: BorderRadius.circular(AppSize.s16.rSp),
                     ),
                     child: Icon(

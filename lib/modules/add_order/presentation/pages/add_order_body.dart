@@ -15,6 +15,7 @@ import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../domain/entities/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
 import '../cubit/calculate_bill_cubit.dart';
+import '../cubit/fetch_add_order_sources_cubit.dart';
 import 'components/brand_selector_app_bar.dart';
 import 'components/cart/cart_screen.dart';
 import 'components/empty_brand_view.dart';
@@ -65,6 +66,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         return MultiBlocProvider(
           providers: [
             BlocProvider<CalculateBillCubit>(create: (_) => getIt.get()),
+            BlocProvider<AddOrderSourcesCubit>(create: (_) => getIt.get()),
           ],
           child: Scaffold(
             backgroundColor: Colors.transparent,

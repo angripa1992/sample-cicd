@@ -7,13 +7,17 @@ import '../../../menu/data/models/menues_model.dart';
 import '../models/billing_request.dart';
 import '../models/billing_response.dart';
 import '../models/item_modifier_group.dart';
+import '../models/order_source.dart';
 
 abstract class AddOrderDatasource {
-  Future<MenusDataModel> fetchMenus({required int branchId, required int brandId});
+  Future<MenusDataModel> fetchMenus(
+      {required int branchId, required int brandId});
 
   Future<List<ItemModifierGroupModel>> fetchModifiers({required int itemId});
 
   Future<CartBillModel> calculateBill({required BillingRequestModel model});
+
+  Future<List<AddOrderSourcesModel>> fetchSources();
 }
 
 class AddOrderDatasourceImpl extends AddOrderDatasource {
@@ -47,14 +51,18 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         Method.GET,
         {'item_id': itemId},
       );
-      return response?.map((e) => ItemModifierGroupModel.fromJson(e)).toList() ?? [];
+      return response
+              ?.map((e) => ItemModifierGroupModel.fromJson(e))
+              .toList() ??
+          [];
     } on DioError {
       rethrow;
     }
   }
 
   @override
-  Future<CartBillModel> calculateBill({required BillingRequestModel model}) async{
+  Future<CartBillModel> calculateBill(
+      {required BillingRequestModel model}) async {
     try {
       final response = await _restClient.request(
         Urls.calculateBill,
@@ -62,6 +70,16 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         model.toJson(),
       );
       return CartBillModel.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<AddOrderSourcesModel>> fetchSources() async {
+    try {
+      final List<dynamic>? responses = await _restClient.request(Urls.sources, Method.GET, null);
+      return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ?? [];
     } on DioError {
       rethrow;
     }
