@@ -59,7 +59,7 @@ class ProceedCheckoutButton extends StatelessWidget {
           ),
           SizedBox(height: AppSize.s8.rh),
           ElevatedButton(
-            onPressed: () {},
+            onPressed:onProceed,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.purpleBlue,
             ),

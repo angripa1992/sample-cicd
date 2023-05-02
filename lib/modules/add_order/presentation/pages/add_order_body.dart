@@ -18,6 +18,7 @@ import '../cubit/calculate_bill_cubit.dart';
 import '../cubit/fetch_add_order_sources_cubit.dart';
 import 'components/brand_selector_app_bar.dart';
 import 'components/cart/cart_screen.dart';
+import 'components/checkout/checkout_screen.dart';
 import 'components/empty_brand_view.dart';
 import 'components/go_to_cart_button.dart';
 import 'components/menu_items_list_view.dart';
@@ -84,7 +85,35 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                   Navigator.pop(context);
                   _changeBrandNotifier.value = brand;
                 },
+                onCheckout: (checkoutData){
+                  print('come');
+                  Navigator.pop(context);
+                  _checkout(checkoutData);
+                },
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _checkout(CheckoutData checkoutData) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+            child: CheckoutScreen(
+              checkoutData: checkoutData,
+              onBack: () {
+                Navigator.pop(context);
+                _gotoCart();
+              },
             ),
           ),
         );

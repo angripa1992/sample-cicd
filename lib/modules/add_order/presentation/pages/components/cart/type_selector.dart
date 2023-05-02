@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/cart/required_title.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/tag_title.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
@@ -73,7 +73,7 @@ class _TypeSelectorState extends State<TypeSelector> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const RequiredTitleView(title: 'Order Type'),
+          const TagTitleView(title: 'Order Type',required: true),
           SizedBox(height: AppSize.s4.rh),
           Wrap(
             alignment: WrapAlignment.center,

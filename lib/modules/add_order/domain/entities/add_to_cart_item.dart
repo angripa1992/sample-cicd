@@ -1,8 +1,10 @@
+import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
 import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/price.dart';
 import 'item_modifier_group.dart';
+import 'order_source.dart';
 
 class AddToCartItem {
   final List<ItemModifierGroup> modifiers;
@@ -38,4 +40,13 @@ class AddToCartItem {
         discountType: discountType,
         discountValue: discountValue,
       );
+}
+
+class CheckoutData{
+  final List<AddToCartItem> items;
+  final AddOrderSourceType sourceType;
+  final AddOrderSource source;
+  final CartBill cartBill;
+
+  CheckoutData(this.items, this.sourceType, this.source, this.cartBill);
 }

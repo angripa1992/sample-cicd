@@ -6,10 +6,10 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
-class RequiredTitleView extends StatelessWidget {
+class TagTitleView extends StatelessWidget {
   final String title;
-
-  const RequiredTitleView({Key? key, required this.title}) : super(key: key);
+  final bool required;
+  const TagTitleView({Key? key, required this.title, required this.required}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,9 @@ class RequiredTitleView extends StatelessWidget {
             color: AppColors.lightVioletTwo,
           ),
           child: Text(
-            'Required',
+            required ? 'Required' : 'Optional',
             style: getMediumTextStyle(
-              color: AppColors.purpleBlue,
+              color: required ? AppColors.purpleBlue : AppColors.balticSea,
               fontSize: AppFontSize.s10.rSp,
             ),
           ),

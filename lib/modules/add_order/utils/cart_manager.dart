@@ -16,6 +16,8 @@ class CartManager {
 
   CartManager._internal();
 
+  List<AddToCartItem> items () => _carts;
+
   Future<void> addToCart(AddToCartItem cartItem) async {
     final duplicateItem = await _findDuplicate(cartItem);
     if (duplicateItem != null) {

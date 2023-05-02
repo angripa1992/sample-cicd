@@ -28,12 +28,14 @@ class CartScreen extends StatefulWidget {
   final VoidCallback onClose;
   final Function(AddToCartItem) onEdit;
   final Function(MenuBrand) addMore;
+  final Function(CheckoutData) onCheckout;
 
   const CartScreen({
     Key? key,
     required this.onClose,
     required this.onEdit,
     required this.addMore,
+    required this.onCheckout,
   }) : super(key: key);
 
   @override
@@ -180,6 +182,17 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+  void _onCheckout() {
+    final checkoutData = CheckoutData(
+      CartManager().items(),
+      _currentSourceType!,
+      _currentSource!,
+      _cartBill!,
+    );
+    print('called');
+    widget.onCheckout(checkoutData);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -227,8 +240,6 @@ class _CartScreenState extends State<CartScreen> {
                                                 (sourceType, source) {
                                               _currentSourceType = sourceType;
                                               _currentSource = source;
-                                              print(_currentSourceType!.id);
-                                              print(_currentSource!.id);
                                             },
                                           );
                                         }
@@ -236,7 +247,8 @@ class _CartScreenState extends State<CartScreen> {
                                       },
                                     ),
                                     TypeSelector(
-                                      initialType: _currentOrderType ?? OrderType.DINE_IN,
+                                      initialType: _currentOrderType ??
+                                          OrderType.DINE_IN,
                                       onTypeChange: (type) {
                                         _currentOrderType = type;
                                       },
@@ -282,7 +294,7 @@ class _CartScreenState extends State<CartScreen> {
                             ProceedCheckoutButton(
                               enable: true,
                               totalPrice: _cartBill!.totalPrice,
-                              onProceed: () {},
+                              onProceed: _onCheckout,
                             ),
                           ],
                         );

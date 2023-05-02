@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/cart/required_title.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/tag_title.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
@@ -89,7 +89,7 @@ class _SourceSelectorState extends State<SourceSelector> {
         ),
         child: Column(
           children: [
-            const RequiredTitleView(title: 'Order Source'),
+            const TagTitleView(title: 'Order Source',required: true),
             Container(
               margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               padding: EdgeInsets.symmetric(
