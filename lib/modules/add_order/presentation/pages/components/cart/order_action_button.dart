@@ -7,16 +7,18 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
-class ProceedCheckoutButton extends StatelessWidget {
+class OrderActionButton extends StatelessWidget {
+  final String buttonText;
   final bool enable;
   final num totalPrice;
   final VoidCallback onProceed;
 
-  const ProceedCheckoutButton({
+  const OrderActionButton({
     Key? key,
     required this.enable,
     required this.totalPrice,
     required this.onProceed,
+    required this.buttonText,
   }) : super(key: key);
 
   @override
@@ -59,14 +61,14 @@ class ProceedCheckoutButton extends StatelessWidget {
           ),
           SizedBox(height: AppSize.s8.rh),
           ElevatedButton(
-            onPressed:onProceed,
+            onPressed: enable ? onProceed : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.purpleBlue,
+              backgroundColor: enable ? AppColors.purpleBlue : AppColors.whiteSmoke,
             ),
             child: Padding(
-              padding:  EdgeInsets.symmetric(vertical: AppSize.s10.rh),
+              padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
               child: Text(
-                'Proceed to Checkout',
+                buttonText,
                 style: getMediumTextStyle(
                   color: AppColors.white,
                   fontSize: AppFontSize.s14.rSp,

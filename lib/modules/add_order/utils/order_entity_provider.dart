@@ -51,8 +51,7 @@ class OrderEntityProvider {
   ) async {
     final items = <BillingItem>[];
     for (var item in cartsItems) {
-      final groups =
-          await ModifierManager().billingItemModifiers(item.modifiers);
+      final groups = await ModifierManager().billingItemModifiers(item.modifiers);
       items.add(_cartItemToBillingItem(item, groups));
     }
     return items;

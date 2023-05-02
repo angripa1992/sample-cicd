@@ -12,7 +12,9 @@ import 'customer_into_field.dart';
 
 class CustomerInfo extends StatefulWidget {
   final Function(CustomerInfoData) onCustomerInfoSave;
-  const CustomerInfo({Key? key, required this.onCustomerInfoSave}) : super(key: key);
+
+  const CustomerInfo({Key? key, required this.onCustomerInfoSave})
+      : super(key: key);
 
   @override
   State<CustomerInfo> createState() => _CustomerInfoState();
@@ -43,7 +45,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
     super.dispose();
   }
 
-  void _onSave(){
+  void _onSave() {
     final customerInfo = CustomerInfoData(
       firstName: _firstNameController.text,
       lastName: _lastNameController.text,
@@ -58,7 +60,10 @@ class _CustomerInfoState extends State<CustomerInfo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+      margin: EdgeInsets.symmetric(
+        horizontal: AppSize.s10.rw,
+        vertical: AppSize.s10.rh,
+      ),
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s8.rw,
         vertical: AppSize.s8.rh,
@@ -124,7 +129,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
                     backgroundColor: AppColors.purpleBlue,
                   ),
                   child: Padding(
-                    padding:  EdgeInsets.symmetric(vertical: AppSize.s10.rh),
+                    padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(
                       'Save',
                       style: getMediumTextStyle(

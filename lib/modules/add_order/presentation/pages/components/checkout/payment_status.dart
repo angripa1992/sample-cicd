@@ -1,0 +1,149 @@
+import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/di.dart';
+import 'package:klikit/app/size_config.dart';
+
+import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/styles.dart';
+import '../../../../../../resources/values.dart';
+import '../../../../../orders/domain/entities/payment_info.dart';
+import '../../../../../orders/provider/order_information_provider.dart';
+import '../cart/tag_title.dart';
+
+class PaymentStatusView extends StatefulWidget {
+  final Function(PaymentStatus) onChanged;
+
+  const PaymentStatusView({Key? key, required this.onChanged})
+      : super(key: key);
+
+  @override
+  State<PaymentStatusView> createState() => _PaymentStatusViewState();
+}
+
+class _PaymentStatusViewState extends State<PaymentStatusView> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: AppSize.s10.rw,
+        vertical: AppSize.s10.rh,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s8.rw,
+        vertical: AppSize.s8.rh,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+        color: AppColors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const TagTitleView(
+            title: 'Payment Status',
+            required: true,
+          ),
+          FutureBuilder<List<PaymentStatus>>(
+            future: getIt.get<OrderInformationProvider>().fetchPaymentStatues(),
+            builder: (_, snap) {
+              if (snap.hasData) {
+                return PaymentStatusDropdown(
+                  statues: snap.data!,
+                  onChanged: widget.onChanged,
+                );
+              }
+              return const SizedBox();
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class PaymentStatusDropdown extends StatefulWidget {
+  final List<PaymentStatus> statues;
+  final Function(PaymentStatus) onChanged;
+
+  const PaymentStatusDropdown(
+      {Key? key, required this.statues, required this.onChanged})
+      : super(key: key);
+
+  @override
+  State<PaymentStatusDropdown> createState() => _PaymentStatusDropdownState();
+}
+
+class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
+  PaymentStatus? _paymentStatus;
+  final _textStyle = getRegularTextStyle(
+    color: AppColors.balticSea,
+    fontSize: AppFontSize.s13.rSp,
+  );
+
+  @override
+  void initState() {
+   _paymentStatus = widget.statues.firstWhere((element) => element.id == PaymentStatusId.pending);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: AppSize.s8.rh),
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+        color: AppColors.whiteSmoke,
+      ),
+      child: DropdownButton<PaymentStatus>(
+        isExpanded: true,
+        value: _paymentStatus,
+        underline: const SizedBox(),
+        hint: Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Select payment status',
+            style: _textStyle,
+          ),
+        ),
+        items: widget.statues
+            .map<DropdownMenuItem<PaymentStatus>>((PaymentStatus value) {
+          return DropdownMenuItem<PaymentStatus>(
+              value: value,
+              child: ListTile(
+                title: Text(
+                  value.title,
+                  style: _textStyle,
+                ),
+                trailing:
+                    (_paymentStatus != null && _paymentStatus!.id == value.id)
+                        ? Icon(
+                            Icons.check,
+                            size: AppSize.s18.rSp,
+                            color: AppColors.balticSea,
+                          )
+                        : const SizedBox(),
+              ));
+        }).toList(),
+        selectedItemBuilder: (BuildContext context) {
+          return widget.statues.map<Widget>((PaymentStatus item) {
+            return Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                item.title,
+                style: _textStyle,
+              ),
+            );
+          }).toList();
+        },
+        onChanged: (value) {
+          setState(() {
+            _paymentStatus = value;
+            widget.onChanged(_paymentStatus!);
+          });
+        },
+      ),
+    );
+  }
+}

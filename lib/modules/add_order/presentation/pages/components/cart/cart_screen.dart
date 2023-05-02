@@ -6,7 +6,6 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/cart/proceed_checkout_button.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/step_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/type_selector.dart';
@@ -23,6 +22,7 @@ import '../dialogs/fee_dialogs.dart';
 import 'cart_app_bar.dart';
 import 'cart_items_list.dart';
 import 'empty_cart_view.dart';
+import 'order_action_button.dart';
 
 class CartScreen extends StatefulWidget {
   final VoidCallback onClose;
@@ -291,7 +291,8 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                               ),
                             ),
-                            ProceedCheckoutButton(
+                            OrderActionButton(
+                              buttonText: 'Proceed to Checkout',
                               enable: true,
                               totalPrice: _cartBill!.totalPrice,
                               onProceed: _onCheckout,

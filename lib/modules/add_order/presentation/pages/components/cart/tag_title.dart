@@ -27,11 +27,11 @@ class TagTitleView extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
           padding: EdgeInsets.symmetric(
             horizontal: AppSize.s8.rw,
-            vertical: AppSize.s2.rh,
+            vertical: AppSize.s4.rh,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-            color: AppColors.lightVioletTwo,
+            color: required ? AppColors.lightVioletTwo : AppColors.whiteSmoke,
           ),
           child: Text(
             required ? 'Required' : 'Optional',
