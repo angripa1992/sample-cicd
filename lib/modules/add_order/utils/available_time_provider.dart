@@ -19,7 +19,6 @@ class AvailableTimeProvider {
 
   DayInfo todayInfo(AvailableTimes availableTimes) {
     final today = DateTime.now().weekday;
-    print('today $today');
     switch (today) {
       case DateTime.monday:
         return availableTimes.monday;

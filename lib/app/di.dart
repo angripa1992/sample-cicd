@@ -69,8 +69,8 @@ import '../core/provider/location_provider.dart';
 import '../environment_variables.dart';
 import '../language/language_manager.dart';
 import '../modules/add_order/presentation/cubit/calculate_bill_cubit.dart';
-import '../modules/add_order/presentation/cubit/fetch_add_order_sources_cubit.dart';
 import '../modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
+import '../modules/add_order/presentation/cubit/place_order_cubit.dart';
 import '../modules/base/chnage_language_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/data/repository/order_info_provider_repo_impl.dart';
@@ -136,7 +136,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
       () => OrderInfoProviderRepoImpl(getIt(), getIt()));
   getIt.registerLazySingleton(() => OrderInformationProvider(getIt()));
   getIt.registerLazySingleton(() => OrderParameterProvider(getIt()));
-  getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(), getIt(), getIt()));
+  getIt.registerLazySingleton<OrderRepository>(
+      () => OrderRepositoryImpl(getIt(), getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchTotalOrders(getIt()));
   getIt.registerFactory(() => TotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchYesterdayTotalOrders(getIt()));
@@ -164,8 +165,10 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => UpdateBusyModeCubit(getIt()));
 
   ///menu mgt
-  getIt.registerLazySingleton<MenuRemoteDatasource>(() => MenuRemoteDatasourceImpl(getIt.get()));
-  getIt.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton<MenuRemoteDatasource>(
+      () => MenuRemoteDatasourceImpl(getIt.get()));
+  getIt.registerLazySingleton<MenuRepository>(
+      () => MenuRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerLazySingleton(() => FetchMenuBrands(getIt.get()));
   getIt.registerFactory(() => MenuBrandsCubit(getIt.get()));
   getIt.registerFactory(() => BrandSelectionCubit());
@@ -195,13 +198,16 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => UpdatePrinterSettingCubit(getIt.get()));
 
   ///consumer protection
-  getIt.registerLazySingleton<ConsumerProtectionRepository>(() => ConsumerProtectionRepositoryImpl(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton<ConsumerProtectionRepository>(
+      () => ConsumerProtectionRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => ConsumerProtectionCubit(getIt.get()));
 
-  //add order
-  getIt.registerLazySingleton<AddOrderDatasource>(() => AddOrderDatasourceImpl(getIt()));
-  getIt.registerLazySingleton<AddOrderRepository>(() => AddOrderRepositoryImpl(getIt(),getIt()));
+  ///add order
+  getIt.registerLazySingleton<AddOrderDatasource>(
+      () => AddOrderDatasourceImpl(getIt()));
+  getIt.registerLazySingleton<AddOrderRepository>(
+      () => AddOrderRepositoryImpl(getIt(), getIt()));
   getIt.registerFactory(() => FetchSubSectionCubit(getIt.get()));
   getIt.registerFactory(() => CalculateBillCubit(getIt.get()));
-  getIt.registerFactory(() => AddOrderSourcesCubit(getIt.get()));
+  getIt.registerFactory(() => PlaceOrderCubit(getIt.get()));
 }

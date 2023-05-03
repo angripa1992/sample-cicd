@@ -42,11 +42,20 @@ class AddToCartItem {
       );
 }
 
-class CheckoutData{
+class CheckoutData {
   final List<AddToCartItem> items;
-  final AddOrderSourceType sourceType;
-  final AddOrderSource source;
+  final int type;
+  final int source;
   final CartBill cartBill;
+  final int discountType;
+  final num discountValue;
 
-  CheckoutData(this.items, this.sourceType, this.source, this.cartBill);
+  CheckoutData({
+    required this.items,
+    required this.type,
+    required this.source,
+    required this.cartBill,
+    required this.discountType,
+    required this.discountValue,
+  });
 }

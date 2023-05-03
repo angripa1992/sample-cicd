@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/checkout/pament_method.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/checkout/payment_status.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../orders/domain/entities/payment_info.dart';
 import '../../../../domain/entities/customer_info.dart';
+import '../../../cubit/place_order_cubit.dart';
 import '../cart/order_action_button.dart';
 import '../cart/step_view.dart';
 import 'checkout_appbar.dart';
@@ -16,9 +22,13 @@ import 'customer_info.dart';
 class CheckoutScreen extends StatefulWidget {
   final CheckoutData checkoutData;
   final VoidCallback onBack;
+  final VoidCallback onSuccess;
 
   const CheckoutScreen(
-      {Key? key, required this.checkoutData, required this.onBack})
+      {Key? key,
+      required this.checkoutData,
+      required this.onBack,
+      required this.onSuccess})
       : super(key: key);
 
   @override
@@ -26,15 +36,17 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  final _enabledListener = ValueNotifier(false);
   CustomerInfoData? _customerInfo;
   PaymentStatus? _paymentStatus;
   PaymentMethod? _paymentMethod;
 
-  @override
-  void dispose() {
-    _enabledListener.dispose();
-    super.dispose();
+  void _placeOrder() {
+    context.read<PlaceOrderCubit>().placeOrder(
+          checkoutData: widget.checkoutData,
+          paymentStatus: _paymentStatus?.id ?? PaymentStatusId.pending,
+          paymentMethod: _paymentMethod?.id,
+          info: _customerInfo,
+        );
   }
 
   @override
@@ -71,21 +83,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   PaymentStatusView(
                     onChanged: (paymentStatus) {
                       _paymentStatus = paymentStatus;
-                      _enabledListener.value = true;
                     },
                   ),
                 ],
               ),
             ),
           ),
-          ValueListenableBuilder<bool>(
-            valueListenable: _enabledListener,
-            builder: (_,enabled,__){
+          BlocConsumer<PlaceOrderCubit, ResponseState>(
+            listener: (context, state) {
+              if (state is Success<PlacedOrderResponse>) {
+                CartManager().clear();
+                widget.onSuccess();
+              }
+            },
+            builder: (context, state) {
               return OrderActionButton(
                 buttonText: 'Place Order',
-                enable: enabled,
+                enable: state is Loading ? false : true,
                 totalPrice: widget.checkoutData.cartBill.totalPrice,
-                onProceed: () {},
+                onProceed: _placeOrder,
+                loading: state is Loading,
               );
             },
           ),

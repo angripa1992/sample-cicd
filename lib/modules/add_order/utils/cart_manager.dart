@@ -167,4 +167,8 @@ class CartManager {
     }
     return null;
   }
+   void clear(){
+    _carts.clear();
+    _notifyListener();
+   }
 }

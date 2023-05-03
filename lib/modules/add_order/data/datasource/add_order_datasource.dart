@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-
+import 'dart:developer';
 import '../../../../app/enums.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
@@ -8,6 +8,8 @@ import '../models/billing_request.dart';
 import '../models/billing_response.dart';
 import '../models/item_modifier_group.dart';
 import '../models/order_source.dart';
+import '../models/place_order_data.dart';
+import '../models/placed_order_response.dart';
 
 abstract class AddOrderDatasource {
   Future<MenusDataModel> fetchMenus(
@@ -18,6 +20,7 @@ abstract class AddOrderDatasource {
   Future<CartBillModel> calculateBill({required BillingRequestModel model});
 
   Future<List<AddOrderSourcesModel>> fetchSources();
+  Future<PlacedOrderResponse> placeOrder(PlaceOrderDataModel body);
 }
 
 class AddOrderDatasourceImpl extends AddOrderDatasource {
@@ -61,8 +64,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   }
 
   @override
-  Future<CartBillModel> calculateBill(
-      {required BillingRequestModel model}) async {
+  Future<CartBillModel> calculateBill({required BillingRequestModel model}) async {
     try {
       final response = await _restClient.request(
         Urls.calculateBill,
@@ -80,6 +82,22 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     try {
       final List<dynamic>? responses = await _restClient.request(Urls.sources, Method.GET, null);
       return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ?? [];
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<PlacedOrderResponse> placeOrder(PlaceOrderDataModel body) async{
+    try {
+      final jsonBody = body.toJson();
+      log(jsonBody.toString());
+      final response = await _restClient.request(
+        Urls.manualOrder,
+        Method.POST,
+        body.toJson(),
+      );
+      return PlacedOrderResponse.fromJson(response);
     } on DioError {
       rethrow;
     }

@@ -9,15 +9,13 @@ import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/order_source.dart';
 
 class SourceSelector extends StatefulWidget {
-  final AddOrderSourceType? sourceType;
   final AddOrderSource? source;
   final List<AddOrderSourceType> sources;
-  final Function(AddOrderSourceType, AddOrderSource) onChangeSource;
+  final Function(AddOrderSource) onChangeSource;
 
   const SourceSelector({
     Key? key,
     required this.sources,
-    this.sourceType,
     this.source,
     required this.onChangeSource,
   }) : super(key: key);
@@ -27,19 +25,15 @@ class SourceSelector extends StatefulWidget {
 }
 
 class _SourceSelectorState extends State<SourceSelector> {
-  late AddOrderSourceType _currentSourceType;
   late AddOrderSource _currentSource;
 
   @override
   void initState() {
     if (widget.source == null) {
-      _currentSourceType =
-          widget.sources.firstWhere((element) => element.id == 4);
-      _currentSource =
-          _currentSourceType.sources.firstWhere((element) => element.id == 9);
-      widget.onChangeSource(_currentSourceType, _currentSource);
+      final source = widget.sources.firstWhere((element) => element.id == 4);
+      _currentSource = source.sources.firstWhere((element) => element.id == 9);
+      widget.onChangeSource(_currentSource);
     } else {
-      _currentSourceType = widget.sourceType!;
       _currentSource = widget.source!;
     }
     super.initState();
@@ -61,12 +55,11 @@ class _SourceSelectorState extends State<SourceSelector> {
               content: SourceSelectorDropdown(
                 sources: widget.sources,
                 source: _currentSource,
-                sourceType: _currentSourceType,
-                onChangeSource: (sourceType, source) {
+                onChangeSource: (source) {
                   setState(() {
                     _currentSource = source;
                   });
-                  widget.onChangeSource(sourceType, source);
+                  widget.onChangeSource(source);
                   Navigator.pop(context);
                 },
               ),
@@ -122,15 +115,13 @@ class _SourceSelectorState extends State<SourceSelector> {
 }
 
 class SourceSelectorDropdown extends StatefulWidget {
-  final AddOrderSourceType sourceType;
   final AddOrderSource source;
   final List<AddOrderSourceType> sources;
-  final Function(AddOrderSourceType, AddOrderSource) onChangeSource;
+  final Function(AddOrderSource) onChangeSource;
 
   const SourceSelectorDropdown({
     Key? key,
     required this.sources,
-    required this.sourceType,
     required this.source,
     required this.onChangeSource,
   }) : super(key: key);
@@ -145,7 +136,6 @@ class _SourceSelectorDropdownState extends State<SourceSelectorDropdown> {
 
   @override
   void initState() {
-    _currentSourceType = widget.sourceType;
     _currentSource = widget.source;
     super.initState();
   }
@@ -190,8 +180,7 @@ class _SourceSelectorDropdownState extends State<SourceSelectorDropdown> {
                           _currentSourceType = sourceType;
                           _currentSource = source;
                         });
-                        widget.onChangeSource(
-                            _currentSourceType!, _currentSource!);
+                        widget.onChangeSource(_currentSource!);
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(

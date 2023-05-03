@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
+import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/step_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/type_selector.dart';
@@ -16,7 +18,6 @@ import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/brand.dart';
 import '../../../../domain/entities/order_source.dart';
 import '../../../cubit/calculate_bill_cubit.dart';
-import '../../../cubit/fetch_add_order_sources_cubit.dart';
 import '../dialogs/delete_item_dialog.dart';
 import '../dialogs/fee_dialogs.dart';
 import 'cart_app_bar.dart';
@@ -45,13 +46,12 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   CartBill? _cartBill;
   int _currentDiscountType = DiscountType.flat;
+  num _globalDiscount = 0;
   int? _currentOrderType;
-  AddOrderSourceType? _currentSourceType;
   AddOrderSource? _currentSource;
 
   @override
   void initState() {
-    context.read<AddOrderSourcesCubit>().fetchSources();
     _calculateBill();
     super.initState();
   }
@@ -114,8 +114,7 @@ class _CartScreenState extends State<CartScreen> {
             initValue: item.discountValue,
             feeType: FeeType.discount,
             onSave: (type, value, feeType) {
-              CartManager()
-                  .addDiscount(itemId: item.item.id, type: type, value: value);
+              CartManager().addDiscount(itemId: item.item.id, type: type, value: value);
               _calculateBill();
             },
           ),
@@ -134,21 +133,19 @@ class _CartScreenState extends State<CartScreen> {
     num? additionalFee,
     num? deliveryFee,
   }) {
-    CartManager()
-        .calculateBillingRequestPaylod(
+    CartManager().calculateBillingRequestPaylod(
       discountType: _currentDiscountType,
       discountValue: discountValue ?? _cartBill?.discountAmount ?? ZERO,
       additionalFee: additionalFee ?? _cartBill?.additionalFee ?? ZERO,
       deliveryFee: deliveryFee ?? _cartBill?.deliveryFee ?? ZERO,
-    )
-        .then((value) {
+    ).then((value) {
       if (value != null) {
         context.read<CalculateBillCubit>().calculateBill(value);
       }
     });
   }
 
-  void _showFeeDialog({
+  void _showGlobalFeeDialog({
     required int type,
     required num value,
     required FeeType feeType,
@@ -169,6 +166,7 @@ class _CartScreenState extends State<CartScreen> {
             onSave: (type, value, feeType) {
               if (feeType == FeeType.discount) {
                 _currentDiscountType = type;
+                _globalDiscount = value;
               }
               _calculateBill(
                 discountValue: feeType == FeeType.discount ? value : null,
@@ -184,12 +182,13 @@ class _CartScreenState extends State<CartScreen> {
 
   void _onCheckout() {
     final checkoutData = CheckoutData(
-      CartManager().items(),
-      _currentSourceType!,
-      _currentSource!,
-      _cartBill!,
+      items: CartManager().items(),
+      type: _currentOrderType ?? OrderType.DINE_IN,
+      source: _currentSource?.id ?? 9,
+      cartBill: _cartBill!,
+      discountType: _currentDiscountType,
+      discountValue: _globalDiscount,
     );
-    print('called');
     widget.onCheckout(checkoutData);
   }
 
@@ -227,18 +226,14 @@ class _CartScreenState extends State<CartScreen> {
                               child: SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    BlocBuilder<AddOrderSourcesCubit,
-                                        ResponseState>(
-                                      builder: (_, state) {
-                                        if (state is Success<
-                                            List<AddOrderSourceType>>) {
+                                    FutureBuilder<List<AddOrderSourceType>>(
+                                      future: getIt.get<AddOrderRepository>().fetchSources(),
+                                      builder: (_,snap){
+                                        if(snap.hasData && snap.data!=null){
                                           return SourceSelector(
-                                            sources: state.data,
-                                            sourceType: _currentSourceType,
+                                            sources: snap.data!,
                                             source: _currentSource,
-                                            onChangeSource:
-                                                (sourceType, source) {
-                                              _currentSourceType = sourceType;
+                                            onChangeSource: (source) {
                                               _currentSource = source;
                                             },
                                           );
@@ -247,8 +242,7 @@ class _CartScreenState extends State<CartScreen> {
                                       },
                                     ),
                                     TypeSelector(
-                                      initialType: _currentOrderType ??
-                                          OrderType.DINE_IN,
+                                      initialType: _currentOrderType ?? OrderType.DINE_IN,
                                       onTypeChange: (type) {
                                         _currentOrderType = type;
                                       },
@@ -266,21 +260,21 @@ class _CartScreenState extends State<CartScreen> {
                                       onQuantityChanged: _quantityChanged,
                                       removeAll: _removeAll,
                                       onDeliveryFee: () {
-                                        _showFeeDialog(
+                                        _showGlobalFeeDialog(
                                           type: DiscountType.none,
                                           value: _cartBill!.deliveryFee,
                                           feeType: FeeType.delivery,
                                         );
                                       },
                                       onDiscount: () {
-                                        _showFeeDialog(
+                                        _showGlobalFeeDialog(
                                           type: DiscountType.flat,
                                           value: _cartBill!.discountAmount,
                                           feeType: FeeType.discount,
                                         );
                                       },
                                       onAdditionalFee: () {
-                                        _showFeeDialog(
+                                        _showGlobalFeeDialog(
                                           type: DiscountType.none,
                                           value: _cartBill!.additionalFee,
                                           feeType: FeeType.additional,
@@ -294,6 +288,7 @@ class _CartScreenState extends State<CartScreen> {
                             OrderActionButton(
                               buttonText: 'Proceed to Checkout',
                               enable: true,
+                              loading: false,
                               totalPrice: _cartBill!.totalPrice,
                               onProceed: _onCheckout,
                             ),

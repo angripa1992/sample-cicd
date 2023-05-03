@@ -1,3 +1,4 @@
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/add_order/data/models/billing_item.dart';
 import 'package:klikit/modules/add_order/data/models/billing_item_modifier_group.dart';
 import 'package:klikit/modules/add_order/data/models/item_brand.dart';
@@ -13,10 +14,14 @@ import '../../../app/constants.dart';
 import '../../../app/session_manager.dart';
 import '../../menu/domain/entities/status.dart';
 import '../../menu/domain/entities/stock.dart';
+import '../../orders/domain/entities/payment_info.dart';
 import '../data/models/billing_item_modifier.dart';
 import '../data/models/billing_request.dart';
+import '../data/models/place_order_data.dart';
+import '../domain/entities/customer_info.dart';
 import '../domain/entities/item_modifier.dart';
 import '../domain/entities/item_modifier_group.dart';
+import 'cart_manager.dart';
 import 'modifier_manager.dart';
 
 class OrderEntityProvider {
@@ -51,7 +56,8 @@ class OrderEntityProvider {
   ) async {
     final items = <BillingItem>[];
     for (var item in cartsItems) {
-      final groups = await ModifierManager().billingItemModifiers(item.modifiers);
+      final groups =
+          await ModifierManager().billingItemModifiers(item.modifiers);
       items.add(_cartItemToBillingItem(item, groups));
     }
     return items;
@@ -157,4 +163,54 @@ class OrderEntityProvider {
         symbol: price.symbol,
         code: price.code,
       );
+
+  Future<PlaceOrderDataModel> placeOrderRequestData(
+  {
+    required CheckoutData checkoutData,
+    required int paymentStatus,
+    required int? paymentMethod,
+    required CustomerInfoData? info,
+}
+  ) async {
+    final bill = checkoutData.cartBill;
+    final cartItems = await _cartsToBillingItems(checkoutData.items);
+    int totalItems = 0;
+    for (var element in cartItems) {
+      totalItems += element.quantity ?? 0;
+    }
+    final uniqueItems = cartItems.length;
+    final currency = CartManager().currency();
+    CustomerInfoModel user = CustomerInfoModel();
+    if(info != null){
+      user.firstName =  info.firstName.notEmptyOrNull();
+      user.lastName =  info.lastName.notEmptyOrNull();
+      user.email =  info.email.notEmptyOrNull();
+      user.phone =  info.phone.notEmptyOrNull();
+    }
+
+    return PlaceOrderDataModel(
+      branchId: SessionManager().currentUserBranchId(),
+      currency: currency.code,
+      currencySymbol: currency.symbol,
+      currencyId: currency.id,
+      source: checkoutData.source,
+      type: checkoutData.type,
+      paymentStatus: paymentStatus,
+      paymentMethod: paymentMethod,
+      deliveryFee: bill.deliveryFeeCent.toInt(),
+      vatAmount: bill.vatPriceCent.toInt(),
+      discountAmount: bill.discountAmountCent.toInt(),
+      discountValue: checkoutData.discountValue.toInt(),
+      discountType: checkoutData.discountType,
+      additionalFee: bill.additionalFeeCent.toInt(),
+      serviceFee: bill.serviceFeeCent.toInt(),
+      uniqueItems: uniqueItems,
+      totalItems: totalItems,
+      tableNo: info?.tableNo.notEmptyOrNull(),
+      user: user,
+      finalPrice: bill.totalPriceCent.toInt(),
+      itemPrice: bill.subTotalCent.toInt(),
+      cart: cartItems,
+    );
+  }
 }

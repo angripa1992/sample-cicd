@@ -15,7 +15,7 @@ import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../domain/entities/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
 import '../cubit/calculate_bill_cubit.dart';
-import '../cubit/fetch_add_order_sources_cubit.dart';
+import '../cubit/place_order_cubit.dart';
 import 'components/brand_selector_app_bar.dart';
 import 'components/cart/cart_screen.dart';
 import 'components/checkout/checkout_screen.dart';
@@ -67,7 +67,6 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         return MultiBlocProvider(
           providers: [
             BlocProvider<CalculateBillCubit>(create: (_) => getIt.get()),
-            BlocProvider<AddOrderSourcesCubit>(create: (_) => getIt.get()),
           ],
           child: Scaffold(
             backgroundColor: Colors.transparent,
@@ -85,8 +84,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                   Navigator.pop(context);
                   _changeBrandNotifier.value = brand;
                 },
-                onCheckout: (checkoutData){
-                  print('come');
+                onCheckout: (checkoutData) {
                   Navigator.pop(context);
                   _checkout(checkoutData);
                 },
@@ -104,16 +102,22 @@ class _AddOrderBodyState extends State<AddOrderBody> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Container(
-            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-            child: CheckoutScreen(
-              checkoutData: checkoutData,
-              onBack: () {
-                Navigator.pop(context);
-                _gotoCart();
-              },
+        return BlocProvider<PlaceOrderCubit>(
+          create: (_) => getIt.get(),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Container(
+              margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+              child: CheckoutScreen(
+                checkoutData: checkoutData,
+                onBack: () {
+                  Navigator.pop(context);
+                  _gotoCart();
+                },
+                onSuccess: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
           ),
         );

@@ -10,6 +10,7 @@ import '../../../../../../resources/values.dart';
 class OrderActionButton extends StatelessWidget {
   final String buttonText;
   final bool enable;
+  final bool loading;
   final num totalPrice;
   final VoidCallback onProceed;
 
@@ -19,6 +20,7 @@ class OrderActionButton extends StatelessWidget {
     required this.totalPrice,
     required this.onProceed,
     required this.buttonText,
+    required this.loading,
   }) : super(key: key);
 
   @override
@@ -63,18 +65,27 @@ class OrderActionButton extends StatelessWidget {
           ElevatedButton(
             onPressed: enable ? onProceed : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: enable ? AppColors.purpleBlue : AppColors.whiteSmoke,
+              backgroundColor:
+                  enable ? AppColors.purpleBlue : AppColors.whiteSmoke,
             ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
-              child: Text(
-                buttonText,
-                style: getMediumTextStyle(
-                  color: AppColors.white,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
-            ),
+            child: loading
+                ? SizedBox(
+                    height: AppSize.s14.rh,
+                    width: AppSize.s16.rw,
+                    child: CircularProgressIndicator(
+                      color: AppColors.purpleBlue,
+                    ),
+                  )
+                : Padding(
+                    padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
+                    child: Text(
+                      buttonText,
+                      style: getMediumTextStyle(
+                        color: AppColors.white,
+                        fontSize: AppFontSize.s14.rSp,
+                      ),
+                    ),
+                  ),
           ),
         ],
       ),

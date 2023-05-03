@@ -27,37 +27,35 @@ class PlaceOrderDataModel {
   int? discountType;
 
   PlaceOrderDataModel({
-    branchId,
-    brandId,
-    brandName,
-    currency,
-    currencySymbol,
-    source,
-    type,
-    paymentMethod,
-    paymentStatus,
-    user,
-    tableNo,
-    itemPrice,
-    finalPrice,
-    deliveryFee,
-    vatAmount,
-    discountAmount,
-    additionalFee,
-    serviceFee,
-    cart,
-    uniqueItems,
-    totalItems,
-    currencyId,
-    discountValue,
-    discountType,
+    this.branchId,
+    this.brandId,
+    this.brandName,
+    this.currency,
+    this.currencySymbol,
+    this.source,
+    this.type,
+    this.paymentMethod,
+    this.paymentStatus,
+    this.user,
+    this.tableNo,
+    this.itemPrice,
+    this.finalPrice,
+    this.deliveryFee,
+    this.vatAmount,
+    this.discountAmount,
+    this.additionalFee,
+    this.serviceFee,
+    this.cart,
+    this.uniqueItems,
+    this.totalItems,
+    this.currencyId,
+    this.discountValue,
+    this.discountType,
   });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['branch_id'] = branchId;
-    data['brand_id'] = brandId;
-    data['brand_name'] = brandName;
     data['currency'] = currency;
     data['currency_symbol'] = currencySymbol;
     data['source'] = source;
@@ -75,16 +73,22 @@ class PlaceOrderDataModel {
     data['currency_id'] = currencyId;
     data['discount_value'] = discountValue;
     data['discount_type'] = discountType;
+    if (brandId != null) {
+      data['brand_id'] = brandId;
+    }
+    if (brandName != null) {
+      data['brand_name'] = brandName;
+    }
     if (cart != null) {
       data['cart'] = cart!.map((v) => v.toJson()).toList();
     }
     if (user != null) {
       data['user'] = user!.toJson();
     }
-    if (tableNo != null){
+    if (tableNo != null) {
       data['table_no'] = tableNo;
     }
-    if(paymentMethod != null){
+    if (paymentMethod != null) {
       data['payment_method'] = paymentMethod;
     }
     return data;
@@ -97,7 +101,7 @@ class CustomerInfoModel {
   String? email;
   String? phone;
 
-  CustomerInfoModel({firstName, lastName, email, phone});
+  CustomerInfoModel({this.firstName, this.lastName,this. email,this. phone});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
