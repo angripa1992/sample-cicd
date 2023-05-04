@@ -101,9 +101,8 @@ class ModifierManager {
   Future<String> generateCheckingId({
     required List<ItemModifierGroup> groups,
     required MenuItems item,
-    required int quantity,
   }) async {
-    var uniqueId = '${item.id}/$quantity';
+    var uniqueId = '${item.id}';
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {

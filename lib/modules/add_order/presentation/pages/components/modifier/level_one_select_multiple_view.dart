@@ -73,7 +73,6 @@ class _LevelOneSelectMultipleViewState
 
   @override
   Widget build(BuildContext context) {
-    print('list ${_currentModifierList.length}');
     return Column(
       children: [
         Container(

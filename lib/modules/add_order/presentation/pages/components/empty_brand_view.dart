@@ -33,7 +33,7 @@ class EmptyBrandView extends StatelessWidget {
             ),
           ),
           Text(
-            'Select a brand name to start working on the order',
+            'Click on the button at the top to select a brand name',
             textAlign: TextAlign.center,
             style: getRegularTextStyle(
               color: AppColors.coolGrey,

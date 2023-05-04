@@ -5,7 +5,9 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
+import '../../../domain/entities/selected_item_price.dart';
 import '../../../utils/cart_manager.dart';
+
 
 class GoToCartButton extends StatelessWidget {
   final VoidCallback onGotoCart;
@@ -13,11 +15,11 @@ class GoToCartButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<int>(
-        valueListenable: CartManager().getNotifyListener(),
+    return ValueListenableBuilder<SelectedItemPrice?>(
+        valueListenable: CartManager().getPriceNotifyListener(),
         builder: (_, value, __) {
-          final priceMap = CartManager().totalPrice();
-          if (value < 1) {
+          print('button updated');
+          if (value == null) {
             return const SizedBox();
           } else {
             return InkWell(
@@ -43,12 +45,12 @@ class GoToCartButton extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '$value item(s)',
+                            '${value.noOfItem} item(s)',
                             style: getRegularTextStyle(color: AppColors.white),
                           ),
                           SizedBox(height: AppSize.s2.rh),
                           Text(
-                            '${priceMap['symbol']} ${priceMap['price']}',
+                            '${value.currencySymbol} ${value.totalPrice}',
                             style: TextStyle(
                               color: AppColors.white,
                               fontWeight: FontWeight.w500,

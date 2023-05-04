@@ -72,7 +72,7 @@ class ModifierGroupInfo extends StatelessWidget {
             ),
             SizedBox(height: AppSize.s2.rh),
             Text(
-              rule.title,
+              isOptional ? 'Range ${rule.min}-${rule.max}' : rule.title,
               style: getRegularTextStyle(
                 color: AppColors.smokeyGrey,
               ),

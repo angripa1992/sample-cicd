@@ -4,19 +4,21 @@ import 'package:klikit/app/extensions.dart';
 
 import '../data/models/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
+import '../domain/entities/selected_item_price.dart';
 import 'modifier_manager.dart';
 import 'order_entity_provider.dart';
 
 class CartManager {
   static final _instance = CartManager._internal();
   static final _carts = <AddToCartItem>[];
-  static final ValueNotifier<int> _cartItemNotifier = ValueNotifier<int>(0);
+  static final  _cartItemNotifier = ValueNotifier<int>(0);
+  static final  _priceNotifier = ValueNotifier<SelectedItemPrice?>(null);
 
   factory CartManager() => _instance;
 
   CartManager._internal();
 
-  List<AddToCartItem> items () => _carts;
+  List<AddToCartItem> items() => _carts;
 
   Future<void> addToCart(AddToCartItem cartItem) async {
     final duplicateItem = await _findDuplicate(cartItem);
@@ -51,6 +53,10 @@ class CartManager {
     _notifyListener();
   }
 
+  void notifyPriceChanged(){
+    _notifyListener();
+  }
+
   void addDiscount({
     required int itemId,
     required int type,
@@ -70,6 +76,7 @@ class CartManager {
     if (item != null) {
       item.quantity = quantity;
     }
+    _notifyListener();
   }
 
   BillingCurrency currency() {
@@ -88,23 +95,26 @@ class CartManager {
 
   void _notifyListener() {
     _cartItemNotifier.value = _carts.length;
+    _updatePrice();
   }
 
   ValueNotifier<int> getNotifyListener() => _cartItemNotifier;
 
-  Map<String, dynamic> totalPrice() {
-    num totalPrice = 0;
-    String symbol = '';
-    for (var item in _carts) {
-      final price =
-          (item.modifiersPrice + item.itemPrice.price) * item.quantity;
-      totalPrice += price;
-      symbol = item.itemPrice.symbol;
+  ValueNotifier<SelectedItemPrice?> getPriceNotifyListener() => _priceNotifier;
+
+  void _updatePrice() {
+    if(_carts.isEmpty){
+      _priceNotifier.value = null;
+    }else{
+      num totalPrice = 0;
+      String symbol = '';
+      for (var item in _carts) {
+        final price = (item.modifiersPrice + item.itemPrice.price) * item.quantity;
+        totalPrice += price;
+        symbol = item.itemPrice.symbol;
+      }
+      _priceNotifier.value = SelectedItemPrice(_carts.length, symbol, totalPrice);
     }
-    return {
-      'price': totalPrice,
-      'symbol': symbol,
-    };
   }
 
   List<List<AddToCartItem>> cartItemsMapWithBrands() {
@@ -127,21 +137,15 @@ class CartManager {
   }
 
   Future<AddToCartItem?> _findDuplicate(AddToCartItem cartItem) async {
-    final searchedItem = _carts.firstWhereOrNull(
-      (element) =>
-          element.item.id == cartItem.item.id &&
-          element.quantity == cartItem.quantity,
-    );
+    final searchedItem = _carts.firstWhereOrNull((element) => element.item.id == cartItem.item.id);
     if (searchedItem != null) {
       final newtUniqueId = await ModifierManager().generateCheckingId(
         groups: cartItem.modifiers,
         item: cartItem.item,
-        quantity: cartItem.quantity,
       );
       final existingUniqueId = await ModifierManager().generateCheckingId(
         groups: searchedItem.modifiers,
         item: searchedItem.item,
-        quantity: searchedItem.quantity,
       );
       if (newtUniqueId == existingUniqueId) {
         return searchedItem;
@@ -167,8 +171,9 @@ class CartManager {
     }
     return null;
   }
-   void clear(){
+
+  void clear() {
     _carts.clear();
     _notifyListener();
-   }
+  }
 }

@@ -27,13 +27,16 @@ class EmptyCartView extends StatelessWidget {
             'Your cart is empty!',
             style: getMediumTextStyle(
               color: AppColors.purpleBlue,
-              fontSize: AppFontSize.s16.rSp,
+              fontSize: AppFontSize.s20.rSp,
             ),
           ),
           SizedBox(height: AppSize.s8.rh),
           Text(
             'Take your time to explore and add items to your cart. Once you are ready, proceed to checkout to place oder',
-            style: getRegularTextStyle(color: AppColors.balticSea),
+            style: getRegularTextStyle(
+              color: AppColors.balticSea,
+              fontSize: AppFontSize.s16.rSp,
+            ),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: AppSize.s16.rh),
