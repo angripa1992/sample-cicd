@@ -126,7 +126,8 @@ class _FeeDialogViewState extends State<FeeDialogView> {
           child: ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
-              widget.onSave(_type, num.parse(_controller.text), _feeType);
+              final value = _controller.text.isEmpty ? '0' : _controller.text;
+              widget.onSave(_type, num.parse(value), _feeType);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.purpleBlue, // Background color

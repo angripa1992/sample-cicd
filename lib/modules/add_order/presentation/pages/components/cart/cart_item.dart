@@ -176,12 +176,22 @@ class CartItemView extends StatelessWidget {
               onPressed: () {
                 addDiscount(cartItem);
               },
-              child: Text(
-                '+ Discount',
-                style: getRegularTextStyle(
-                  color: AppColors.purpleBlue,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
+              child: Row(
+                children: [
+                  Icon(
+                    itemBill.discount > 0 ? Icons.edit : Icons.add,
+                    color: AppColors.purpleBlue,
+                    size: AppSize.s14.rSp,
+                  ),
+                  SizedBox(width: AppSize.s4.rw),
+                  Text(
+                    'Discount',
+                    style: getRegularTextStyle(
+                      color: AppColors.purpleBlue,
+                      fontSize: AppFontSize.s14.rSp,
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(width: AppSize.s8.rw),

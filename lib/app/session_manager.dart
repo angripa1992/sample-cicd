@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../core/route/routes.dart';
 import '../core/route/routes_generator.dart';
@@ -61,6 +62,7 @@ class SessionManager {
   bool isLoggedIn() => _appPreferences.isLoggedIn();
 
   Future<void> logout() async {
+    CartManager().clear();
     await setLoginState(isLoggedIn: false);
     getIt.get<OrderInformationProvider>().clearData();
     _appPreferences.clearPreferences().then(

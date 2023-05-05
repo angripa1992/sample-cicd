@@ -36,6 +36,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  final _paymentMethodNotifier = ValueNotifier<PaymentMethod?>(null);
   CustomerInfoData? _customerInfo;
   PaymentStatus? _paymentStatus;
   PaymentMethod? _paymentMethod;
@@ -47,6 +48,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           paymentMethod: _paymentMethod?.id,
           info: _customerInfo,
         );
+  }
+
+  @override
+  void dispose() {
+    _paymentMethodNotifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -78,11 +85,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   PaymentMethodView(
                     onChanged: (paymentMethod) {
                       _paymentMethod = paymentMethod;
+                      _paymentMethodNotifier.value = _paymentMethod;
                     },
                   ),
-                  PaymentStatusView(
-                    onChanged: (paymentStatus) {
-                      _paymentStatus = paymentStatus;
+                  ValueListenableBuilder(
+                    valueListenable: _paymentMethodNotifier,
+                    builder: (_, paymentMethod, __) {
+                      if (paymentMethod == null) {
+                        return const SizedBox();
+                      } else {
+                        return PaymentStatusView(
+                          onChanged: (paymentStatus) {
+                            _paymentStatus = paymentStatus;
+                          },
+                        );
+                      }
                     },
                   ),
                 ],

@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/resources/themes.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 
 import '../core/route/routes.dart';
 import '../core/route/routes_generator.dart';
@@ -21,6 +23,7 @@ class Klikit extends StatelessWidget {
       navigatorObservers: [AppRouteObserver()],
       onGenerateRoute: RoutesGenerator.generateRoute,
       initialRoute: Routes.splash,
+      builder: EasyLoading.init(),
     );
   }
 }

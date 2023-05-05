@@ -24,9 +24,11 @@ class OrderPaymentInfoView extends StatelessWidget {
         children: [
           OrderPaymentStatusView(order: order),
           Divider(color: AppColors.purpleBlue),
-          if(order.paymentStatus == PaymentStatusId.paid)
+          //if(order.paymentStatus == PaymentStatusId.paid)
+          if(order.paymentMethod > 0)
           OrderPaymentMethodView(order: order),
-          if(order.paymentStatus == PaymentStatusId.paid)
+          //if(order.paymentStatus == PaymentStatusId.paid)
+          if(order.paymentMethod > 0)
           Divider(color: AppColors.purpleBlue),
         ],
       ),

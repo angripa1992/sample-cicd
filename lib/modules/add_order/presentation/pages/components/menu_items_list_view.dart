@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
@@ -52,12 +53,15 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
   }
 
   void _fetchModifier(MenuItems item) async {
+    EasyLoading.show();
     final response = await _addOrderRepository.fetchModifiers(itemId: item.id);
     response.fold(
       (failure) {
+        EasyLoading.dismiss();
         showErrorSnackBar(context, failure.message);
       },
       (data) {
+        EasyLoading.dismiss();
         if (data.isNotEmpty) {
           widget.onAddModifier(data, item, widget.brand!);
         } else {
@@ -109,7 +113,6 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
             },
 
             tabBuilder: (BuildContext context, int index, bool active) {
-              print('==============$active $index');
               return TabItemView(
                 title: widget.items[index].subSections.title,
                 index: index,
