@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/quantity_selector.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -12,6 +13,7 @@ class AddToCartButtonView extends StatelessWidget {
   final ValueNotifier<num> price;
   final int quantity;
   final String currencySymbol;
+  final String currencyCode;
   final Function(int) onQuantityChanged;
   final VoidCallback onAddToCart;
 
@@ -23,6 +25,7 @@ class AddToCartButtonView extends StatelessWidget {
     required this.onQuantityChanged,
     required this.currencySymbol,
     required this.onAddToCart,
+    required this.currencyCode,
   }) : super(key: key);
 
   @override
@@ -71,7 +74,11 @@ class AddToCartButtonView extends StatelessWidget {
                                 valueListenable: price,
                                 builder: (_, price, __) {
                                   return Text(
-                                    '$currencySymbol $price',
+                                    PriceCalculator.formatPrice(
+                                      price: price,
+                                      currencySymbol: currencySymbol,
+                                      code: currencyCode,
+                                    ),
                                     style: TextStyle(
                                       color: AppColors.white,
                                       fontSize: AppFontSize.s14.rSp,

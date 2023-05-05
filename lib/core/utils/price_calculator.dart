@@ -15,7 +15,7 @@ class PriceCalculator {
     return formatPrice(
       price: itemTotalPrice,
       currencySymbol: order.currencySymbol,
-      name: order.currency,
+      code: order.currency,
     );
   }
 
@@ -35,7 +35,7 @@ class PriceCalculator {
     return formatPrice(
         price: modifierTotalPrice,
         currencySymbol: order.currencySymbol,
-        name: order.currency);
+        code: order.currency);
   }
 
   static String calculateSubtotal(Order order) {
@@ -51,16 +51,16 @@ class PriceCalculator {
   static String formatPrice({
     required num price,
     required String currencySymbol,
-    required String name,
+    required String code,
   }) {
-    if (name.toUpperCase() == 'IDR') {
+    if (code.toUpperCase() == 'IDR') {
       return NumberFormat.currency(
         locale: 'id',
         symbol: currencySymbol,
         decimalDigits: 0,
       ).format(price);
     }
-    return NumberFormat.currency(name: name, symbol: currencySymbol).format(price);
+    return NumberFormat.currency(name: code, symbol: currencySymbol).format(price);
   }
 
   static String convertPrice(Order order, num priceInCent) {
@@ -68,7 +68,7 @@ class PriceCalculator {
     return formatPrice(
       price: price,
       currencySymbol: order.currencySymbol,
-      name: order.currency,
+      code: order.currency,
     );
   }
 }

@@ -135,7 +135,7 @@ class _CartScreenState extends State<CartScreen> {
   }) {
     CartManager().calculateBillingRequestPaylod(
       discountType: _currentDiscountType,
-      discountValue: discountValue ?? _cartBill?.discountAmount ?? ZERO,
+      discountValue: _globalDiscount,
       additionalFee: additionalFee ?? _cartBill?.additionalFee ?? ZERO,
       deliveryFee: deliveryFee ?? _cartBill?.deliveryFee ?? ZERO,
     ).then((value) {
@@ -268,7 +268,7 @@ class _CartScreenState extends State<CartScreen> {
                                       },
                                       onDiscount: () {
                                         _showGlobalFeeDialog(
-                                          type: DiscountType.flat,
+                                          type: _currentDiscountType,
                                           value: _cartBill!.discountAmount,
                                           feeType: FeeType.discount,
                                         );

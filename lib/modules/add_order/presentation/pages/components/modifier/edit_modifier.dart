@@ -189,6 +189,7 @@ class _EditModifierViewState extends State<EditModifierView> {
             price: _price,
             quantity: _quantity,
             currencySymbol: _itemPrice.symbol,
+            currencyCode: _itemPrice.code,
             onQuantityChanged: _onQuantityChanged,
             onAddToCart: () => widget.onClose(_createCartItem()),
           ),

@@ -3,14 +3,15 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../../core/utils/price_calculator.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../domain/entities/selected_item_price.dart';
 import '../../../utils/cart_manager.dart';
 
-
 class GoToCartButton extends StatelessWidget {
   final VoidCallback onGotoCart;
+
   const GoToCartButton({Key? key, required this.onGotoCart}) : super(key: key);
 
   @override
@@ -18,7 +19,6 @@ class GoToCartButton extends StatelessWidget {
     return ValueListenableBuilder<SelectedItemPrice?>(
         valueListenable: CartManager().getPriceNotifyListener(),
         builder: (_, value, __) {
-          print('button updated');
           if (value == null) {
             return const SizedBox();
           } else {
@@ -50,7 +50,11 @@ class GoToCartButton extends StatelessWidget {
                           ),
                           SizedBox(height: AppSize.s2.rh),
                           Text(
-                            '${value.currencySymbol} ${value.totalPrice}',
+                            PriceCalculator.formatPrice(
+                              price: value.totalPrice,
+                              currencySymbol: value.currencySymbol,
+                              code: value.code,
+                            ),
                             style: TextStyle(
                               color: AppColors.white,
                               fontWeight: FontWeight.w500,

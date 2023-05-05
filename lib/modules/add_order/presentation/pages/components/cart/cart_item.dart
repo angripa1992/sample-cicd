@@ -6,6 +6,7 @@ import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 
 import '../../../../../../core/provider/image_url_provider.dart';
+import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/assets.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
@@ -91,7 +92,11 @@ class CartItemView extends StatelessWidget {
                           children: [
                             if (haveDiscount)
                               Text(
-                                '${cartItem.itemPrice.symbol} ${itemBill.discountedItemPrice}',
+                                PriceCalculator.formatPrice(
+                                  price: itemBill.discountedItemPrice,
+                                  currencySymbol: cartItem.itemPrice.symbol,
+                                  code: cartItem.itemPrice.code,
+                                ),
                                 style: TextStyle(
                                   color: AppColors.balticSea,
                                   fontSize: AppFontSize.s14.rSp,
@@ -99,7 +104,11 @@ class CartItemView extends StatelessWidget {
                                 ),
                               ),
                             Text(
-                              '${cartItem.itemPrice.symbol} ${itemBill.itemPrice}',
+                              PriceCalculator.formatPrice(
+                                price: itemBill.itemPrice,
+                                currencySymbol: cartItem.itemPrice.symbol,
+                                code: cartItem.itemPrice.code,
+                              ),
                               style: TextStyle(
                                 color: haveDiscount
                                     ? AppColors.red
@@ -117,7 +126,8 @@ class CartItemView extends StatelessWidget {
                     ),
                     SizedBox(height: AppSize.s8.rh),
                     FutureBuilder<String>(
-                      future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
+                      future: ModifierManager()
+                          .allCsvModifiersName(cartItem.modifiers),
                       builder: (context, snapShot) {
                         if (snapShot.hasData) {
                           return Text(snapShot.data!);

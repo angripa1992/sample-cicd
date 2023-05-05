@@ -107,7 +107,9 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
                 child: widget,
               );
             },
+
             tabBuilder: (BuildContext context, int index, bool active) {
+              print('==============$active $index');
               return TabItemView(
                 title: widget.items[index].subSections.title,
                 index: index,

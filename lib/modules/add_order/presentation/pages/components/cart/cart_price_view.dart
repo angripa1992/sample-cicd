@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
 
 import '../../../../../../resources/colors.dart';
@@ -54,6 +56,11 @@ class CartPriceView extends StatelessWidget {
               price: cartBill.vatPrice,
             ),
             SizedBox(height: AppSize.s12.rh),
+            _item(
+              title: 'Service Fee',
+              price: cartBill.serviceFee,
+            ),
+            SizedBox(height: AppSize.s12.rh),
             _editableItem(
               title: AppStrings.delivery_fee.tr(),
               price: cartBill.deliveryFee,
@@ -87,7 +94,7 @@ class CartPriceView extends StatelessWidget {
       fontSize: subtotal ? AppFontSize.s16.rSp : AppFontSize.s14.rSp,
       fontWeight: subtotal ? FontWeight.w500 : FontWeight.w400,
     );
-
+    final currency = CartManager().currency();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -96,7 +103,11 @@ class CartPriceView extends StatelessWidget {
           style: textStyle,
         ),
         Text(
-          '${CartManager().currency().symbol} $price',
+          PriceCalculator.formatPrice(
+            price: price,
+            currencySymbol: currency.symbol ?? EMPTY,
+            code: currency.code ?? EMPTY,
+          ),
           style: textStyle,
         ),
       ],
@@ -108,6 +119,7 @@ class CartPriceView extends StatelessWidget {
     required num price,
     required VoidCallback onTap,
   }) {
+    final currency = CartManager().currency();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -133,7 +145,11 @@ class CartPriceView extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    '${CartManager().currency().symbol} $price',
+                    PriceCalculator.formatPrice(
+                      price: price,
+                      currencySymbol: currency.symbol ?? EMPTY,
+                      code: currency.code ?? EMPTY,
+                    ),
                     style: TextStyle(
                       color: AppColors.balticSea,
                       fontSize: AppFontSize.s14.rSp,

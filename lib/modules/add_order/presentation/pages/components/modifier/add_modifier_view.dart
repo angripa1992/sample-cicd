@@ -155,6 +155,7 @@ class _AddModifierViewState extends State<AddModifierView> {
             price: _priceNotifier,
             quantity: _quantity,
             currencySymbol: _itemPrice.symbol,
+            currencyCode: _itemPrice.code,
             onQuantityChanged: _onQuantityChanged,
             onAddToCart: () => widget.onClose(_createCartItem()),
           ),

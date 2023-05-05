@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
+import '../../../../../../app/extensions.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
@@ -25,6 +27,7 @@ class OrderActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currency = CartManager().currency();
     return Container(
       color: AppColors.white,
       padding: EdgeInsets.symmetric(
@@ -52,7 +55,11 @@ class OrderActionButton extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                '${CartManager().currency().symbol} $totalPrice',
+                PriceCalculator.formatPrice(
+                  price: totalPrice,
+                  currencySymbol: currency.symbol ?? EMPTY,
+                  code: currency.code ?? EMPTY,
+                ),
                 style: TextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,

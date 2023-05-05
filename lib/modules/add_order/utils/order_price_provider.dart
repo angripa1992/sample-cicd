@@ -15,7 +15,7 @@ class OrderPriceProvider {
     return PriceCalculator.formatPrice(
       price: price.price,
       currencySymbol: price.symbol,
-      name: price.code,
+      code: price.code,
     );
   }
 
@@ -27,7 +27,7 @@ class OrderPriceProvider {
     final priceStr = PriceCalculator.formatPrice(
       price: price.price,
       currencySymbol: price.symbol,
-      name: price.code,
+      code: price.code,
     );
     return '+ $priceStr';
   }

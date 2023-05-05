@@ -107,13 +107,15 @@ class CartManager {
       _priceNotifier.value = null;
     }else{
       num totalPrice = 0;
-      String symbol = '';
+      String symbol = EMPTY;
+      String code = EMPTY;
       for (var item in _carts) {
         final price = (item.modifiersPrice + item.itemPrice.price) * item.quantity;
         totalPrice += price;
         symbol = item.itemPrice.symbol;
+        code = item.itemPrice.code;
       }
-      _priceNotifier.value = SelectedItemPrice(_carts.length, symbol, totalPrice);
+      _priceNotifier.value = SelectedItemPrice(_carts.length, symbol, totalPrice,code);
     }
   }
 
