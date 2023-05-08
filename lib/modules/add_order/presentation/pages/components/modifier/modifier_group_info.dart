@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
+import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
@@ -13,6 +14,16 @@ class ModifierGroupInfo extends StatelessWidget {
 
   const ModifierGroupInfo({Key? key, required this.title, required this.rule})
       : super(key: key);
+
+  String _ruleTitle(){
+    final optional = rule.value == 0 && rule.min == 0;
+    if(optional){
+      return 'Choose Up to ${rule.max}';
+    }else if(rule.typeTitle == RuleType.exact){
+      return 'Choose ${rule.value} options';
+    }
+    return 'Choose ${rule.min} - ${rule.max}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +83,7 @@ class ModifierGroupInfo extends StatelessWidget {
             ),
             SizedBox(height: AppSize.s2.rh),
             Text(
-              isOptional ? 'Range ${rule.min}-${rule.max}' : rule.title,
+              _ruleTitle(),
               style: getRegularTextStyle(
                 color: AppColors.smokeyGrey,
               ),

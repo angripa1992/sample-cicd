@@ -28,22 +28,16 @@ void _openBottomSheet({
     context: context,
     isScrollControlled: true,
     isDismissible: true,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(
-        top: Radius.circular(AppSize.s16.rSp),
-      ),
-    ),
-    builder: (context) => DraggableScrollableSheet(
-      initialChildSize: 0.958,
-      maxChildSize: 0.958,
-      minChildSize: 0.958,
-      expand: false,
-      builder: (_, controller) => Scaffold(
-        backgroundColor: Colors.transparent,
-        resizeToAvoidBottomInset: false,
-        extendBody: false,
-        key: key,
-        body: Column(
+    backgroundColor: Colors.transparent,
+    builder: (context) => Scaffold(
+      backgroundColor: Colors.transparent,
+      resizeToAvoidBottomInset: false,
+      extendBody: false,
+      key: key,
+      body: Container(
+        margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+        color: AppColors.pearl,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,

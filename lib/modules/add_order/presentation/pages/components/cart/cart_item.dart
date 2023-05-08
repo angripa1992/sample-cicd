@@ -93,7 +93,7 @@ class CartItemView extends StatelessWidget {
                             if (haveDiscount)
                               Text(
                                 PriceCalculator.formatPrice(
-                                  price: itemBill.discountedItemPrice,
+                                  price: itemBill.discountedItemPrice * cartItem.quantity,
                                   currencySymbol: cartItem.itemPrice.symbol,
                                   code: cartItem.itemPrice.code,
                                 ),
@@ -105,7 +105,7 @@ class CartItemView extends StatelessWidget {
                               ),
                             Text(
                               PriceCalculator.formatPrice(
-                                price: itemBill.itemPrice,
+                                price: itemBill.itemPrice * cartItem.quantity,
                                 currencySymbol: cartItem.itemPrice.symbol,
                                 code: cartItem.itemPrice.code,
                               ),

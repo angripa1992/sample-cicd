@@ -90,14 +90,16 @@ class StepView extends StatelessWidget {
       height: AppSize.s18.rh,
       width: AppSize.s18.rw,
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: getRegularTextStyle(
-            color: AppColors.white,
-            fontSize: AppFontSize.s10.rSp,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: getRegularTextStyle(
+              color: AppColors.white,
+              fontSize: AppFontSize.s10.rSp,
+            ),
           ),
         ),
       ),

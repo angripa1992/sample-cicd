@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/strings.dart';
@@ -37,7 +38,17 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
-    final bool willShowServiceFee = (widget.order.serviceFee > 0 && widget.order.gatewayFee > 0);
+    final isWebshopOrder = widget.order.providerId == ProviderID.KLIKIT &&
+        !widget.order.isManualOrder;
+    final isManualOrderOrder = widget.order.providerId == ProviderID.KLIKIT &&
+        widget.order.isManualOrder;
+    final serviceFee = widget.order.serviceFee;
+    final gateWayFee = widget.order.gatewayFee;
+    final willShowServiceFee =
+        (isWebshopOrder && serviceFee > 0 && gateWayFee > 0) ||
+            (isManualOrderOrder && serviceFee > 0);
+    final willShowProcessingFee =
+        (isWebshopOrder && serviceFee > 0 && gateWayFee > 0);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
@@ -86,10 +97,10 @@ class _PriceViewState extends State<PriceView> {
                   ),
                   if (willShowServiceFee) SizedBox(height: AppSize.s2.rh),
                   if (willShowServiceFee)
-                    _getSubtotalItem('Service Fee', widget.order.serviceFee),
-                  if (willShowServiceFee) SizedBox(height: AppSize.s2.rh),
-                  if (willShowServiceFee)
-                    _getSubtotalItem('Processing Fee', widget.order.gatewayFee),
+                    _getSubtotalItem('Service Fee', serviceFee),
+                  if (willShowProcessingFee) SizedBox(height: AppSize.s2.rh),
+                  if (willShowProcessingFee)
+                    _getSubtotalItem('Processing Fee', gateWayFee),
                   SizedBox(height: AppSize.s2.rh),
                   _getSubtotalItem(
                     AppStrings.discount.tr(),

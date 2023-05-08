@@ -25,109 +25,111 @@ class HomeTotalOrdersCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Card(
-            shadowColor: AppColors.smokeyGrey,
-            elevation: 4,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s20.rw,
-                vertical: AppSize.s20.rh,
-              ),
-              child: InkWell(
-                onTap: onToday,
-                child: BlocConsumer<TotalOrderCubit, ResponseState>(
-                  listener: (context, state) {
-                    if (state is Failed) {
-                      showApiErrorSnackBar(context, state.failure);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is Loading) {
-                      return totalOrderShimmer(
-                          AppStrings.total_orders_today.tr());
-                    }
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppStrings.total_orders_today.tr(),
-                          style: getRegularTextStyle(
-                            color: AppColors.blackCow,
-                            fontSize: AppFontSize.s14.rSp,
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Card(
+              shadowColor: AppColors.smokeyGrey,
+              elevation: 4,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s20.rw,
+                  vertical: AppSize.s20.rh,
+                ),
+                child: InkWell(
+                  onTap: onToday,
+                  child: BlocConsumer<TotalOrderCubit, ResponseState>(
+                    listener: (context, state) {
+                      if (state is Failed) {
+                        showApiErrorSnackBar(context, state.failure);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is Loading) {
+                        return totalOrderShimmer(
+                            AppStrings.total_orders_today.tr());
+                      }
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppStrings.total_orders_today.tr(),
+                            style: getRegularTextStyle(
+                              color: AppColors.blackCow,
+                              fontSize: AppFontSize.s14.rSp,
+                            ),
                           ),
-                        ),
-                        Text(
-                          (state is Success<Orders>)
-                              ? state.data.total.toString()
-                              : '0',
-                          style: getRegularTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s30.rSp,
+                          Text(
+                            (state is Success<Orders>)
+                                ? state.data.total.toString()
+                                : '0',
+                            style: getRegularTextStyle(
+                              color: AppColors.purpleBlue,
+                              fontSize: AppFontSize.s30.rSp,
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        SizedBox(width: AppSize.s8.rw),
-        Expanded(
-          child: Card(
-            shadowColor: AppColors.smokeyGrey,
-            elevation: 4,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s20.rw,
-                vertical: AppSize.s20.rh,
-              ),
-              child: InkWell(
-                onTap: onYesterday,
-                child: BlocConsumer<YesterdayTotalOrderCubit, ResponseState>(
-                  listener: (context, state) {
-                    if (state is Failed) {
-                      showApiErrorSnackBar(context, state.failure);
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is Loading) {
-                      return totalOrderShimmer(
-                          AppStrings.total_orders_yesterday.tr());
-                    }
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppStrings.total_orders_yesterday.tr(),
-                          style: getRegularTextStyle(
-                            color: AppColors.blackCow,
-                            fontSize: AppFontSize.s14.rSp,
+          SizedBox(width: AppSize.s8.rw),
+          Expanded(
+            child: Card(
+              shadowColor: AppColors.smokeyGrey,
+              elevation: 4,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s20.rw,
+                  vertical: AppSize.s20.rh,
+                ),
+                child: InkWell(
+                  onTap: onYesterday,
+                  child: BlocConsumer<YesterdayTotalOrderCubit, ResponseState>(
+                    listener: (context, state) {
+                      if (state is Failed) {
+                        showApiErrorSnackBar(context, state.failure);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is Loading) {
+                        return totalOrderShimmer(
+                            AppStrings.total_orders_yesterday.tr());
+                      }
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppStrings.total_orders_yesterday.tr(),
+                            style: getRegularTextStyle(
+                              color: AppColors.blackCow,
+                              fontSize: AppFontSize.s14.rSp,
+                            ),
                           ),
-                        ),
-                        Text(
-                          (state is Success<Orders>)
-                              ? state.data.total.toString()
-                              : '0',
-                          style: getRegularTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s30.rSp,
+                          Text(
+                            (state is Success<Orders>)
+                                ? state.data.total.toString()
+                                : '0',
+                            style: getRegularTextStyle(
+                              color: AppColors.purpleBlue,
+                              fontSize: AppFontSize.s30.rSp,
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

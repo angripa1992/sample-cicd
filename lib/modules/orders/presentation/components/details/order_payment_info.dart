@@ -22,7 +22,9 @@ class OrderPaymentInfoView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
         children: [
+          if(order.paymentStatus > 0)
           OrderPaymentStatusView(order: order),
+          if(order.paymentStatus > 0)
           Divider(color: AppColors.purpleBlue),
           //if(order.paymentStatus == PaymentStatusId.paid)
           if(order.paymentMethod > 0)

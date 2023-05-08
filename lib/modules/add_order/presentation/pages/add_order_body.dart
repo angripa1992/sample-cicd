@@ -70,6 +70,8 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           ],
           child: Scaffold(
             backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            extendBody: false,
             body: Container(
               margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
               child: CartScreen(
@@ -131,12 +133,13 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     }
   }
 
-  void _editCart(AddToCartItem? newItem, AddToCartItem oldItem) {
+  void _editCart(AddToCartItem? newItem, AddToCartItem oldItem) async{
     if (newItem != null) {
-      CartManager().editItem(
+      await CartManager().editItem(
         newItem: newItem,
         oldItem: oldItem,
       );
+      _gotoCart();
     }
   }
 

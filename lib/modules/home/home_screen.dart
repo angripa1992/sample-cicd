@@ -150,68 +150,70 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.s20.rw,
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: BlocConsumer<CompletedOrderCubit, ResponseState>(
-                        listener: (context, state) {
-                          if (state is Failed) {
-                            showApiErrorSnackBar(context, state.failure);
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is Loading) {
-                            return OrdersCardShimmer(
+                child: IntrinsicHeight(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: BlocConsumer<CompletedOrderCubit, ResponseState>(
+                          listener: (context, state) {
+                            if (state is Failed) {
+                              showApiErrorSnackBar(context, state.failure);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is Loading) {
+                              return OrdersCardShimmer(
+                                text: AppStrings.completed_orders.tr(),
+                                fontSize: AppFontSize.s14.rSp,
+                                orderTextHeight: AppFontSize.s24.rSp,
+                              );
+                            }
+                            return OrdersCard(
+                              height: AppSize.s90.rh,
+                              width: AppSize.s100.rw,
                               text: AppStrings.completed_orders.tr(),
+                              orders: (state is Success<Orders>)
+                                  ? state.data.total.toString()
+                                  : '0',
+                              orderColor: AppColors.purpleBlue,
                               fontSize: AppFontSize.s14.rSp,
-                              orderTextHeight: AppFontSize.s24.rSp,
+                              orderFontSize: AppFontSize.s24.rSp,
                             );
-                          }
-                          return OrdersCard(
-                            height: AppSize.s90.rh,
-                            width: AppSize.s100.rw,
-                            text: AppStrings.completed_orders.tr(),
-                            orders: (state is Success<Orders>)
-                                ? state.data.total.toString()
-                                : '0',
-                            orderColor: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s14.rSp,
-                            orderFontSize: AppFontSize.s24.rSp,
-                          );
-                        },
+                          },
+                        ),
                       ),
-                    ),
-                    SizedBox(width: AppSize.s8.rw),
-                    Expanded(
-                      child: BlocConsumer<CancelledOrderCubit, ResponseState>(
-                        listener: (context, state) {
-                          if (state is Failed) {
-                            showApiErrorSnackBar(context, state.failure);
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is Loading) {
-                            return OrdersCardShimmer(
+                      SizedBox(width: AppSize.s8.rw),
+                      Expanded(
+                        child: BlocConsumer<CancelledOrderCubit, ResponseState>(
+                          listener: (context, state) {
+                            if (state is Failed) {
+                              showApiErrorSnackBar(context, state.failure);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is Loading) {
+                              return OrdersCardShimmer(
+                                text: AppStrings.cancelled_orders.tr(),
+                                fontSize: AppFontSize.s14.rSp,
+                                orderTextHeight: AppFontSize.s24.rSp,
+                              );
+                            }
+                            return OrdersCard(
+                              height: AppSize.s90.rh,
+                              width: AppSize.s100.rw,
                               text: AppStrings.cancelled_orders.tr(),
+                              orders: (state is Success<Orders>)
+                                  ? state.data.total.toString()
+                                  : '0',
+                              orderColor: AppColors.red,
                               fontSize: AppFontSize.s14.rSp,
-                              orderTextHeight: AppFontSize.s24.rSp,
+                              orderFontSize: AppFontSize.s24.rSp,
                             );
-                          }
-                          return OrdersCard(
-                            height: AppSize.s90.rh,
-                            width: AppSize.s100.rw,
-                            text: AppStrings.cancelled_orders.tr(),
-                            orders: (state is Success<Orders>)
-                                ? state.data.total.toString()
-                                : '0',
-                            orderColor: AppColors.red,
-                            fontSize: AppFontSize.s14.rSp,
-                            orderFontSize: AppFontSize.s24.rSp,
-                          );
-                        },
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Padding(

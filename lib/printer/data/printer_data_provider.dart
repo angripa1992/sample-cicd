@@ -52,6 +52,7 @@ class PrinterDataProvider {
       serviceFee: order.serviceFee,
       tableNo: order.tableNo,
       branchName: SessionManager().currentUserBranchName(),
+      isManualOrder: order.isManualOrder,
     );
   }
 

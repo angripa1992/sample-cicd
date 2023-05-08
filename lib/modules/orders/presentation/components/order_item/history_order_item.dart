@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../domain/entities/order.dart';
@@ -31,8 +32,11 @@ class HistoryOrderItemView extends StatelessWidget {
                 seeDetails: seeDetails,
               ),
             ),
-            PrintButton(
-              onPrint: onPrint,
+            Padding(
+              padding: EdgeInsets.only(right: AppSize.s2.rw),
+              child: PrintButton(
+                onPrint: onPrint,
+              ),
             ),
           ],
         ),

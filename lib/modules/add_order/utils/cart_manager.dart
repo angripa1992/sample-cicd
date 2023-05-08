@@ -12,6 +12,7 @@ class CartManager {
   static final _instance = CartManager._internal();
   static final _carts = <AddToCartItem>[];
   static final  _cartItemNotifier = ValueNotifier<int>(0);
+  static final  _noOfCartItemNotifier = ValueNotifier<int>(0);
   static final  _priceNotifier = ValueNotifier<SelectedItemPrice?>(null);
 
   factory CartManager() => _instance;
@@ -34,10 +35,8 @@ class CartManager {
     required AddToCartItem newItem,
     required AddToCartItem oldItem,
   }) async {
-    _carts.removeWhere((element) =>
-        element.item.id == oldItem.item.id &&
-        element.quantity == oldItem.quantity);
-    addToCart(newItem);
+    _carts.removeWhere((element) => element.item.id == oldItem.item.id && element.quantity == oldItem.quantity);
+    await addToCart(newItem);
   }
 
   void removeFromCart(AddToCartItem item) {
@@ -55,6 +54,14 @@ class CartManager {
 
   void notifyPriceChanged(){
     _notifyListener();
+  }
+
+  int _noOfCartItem(){
+    int nofOfItem = 0;
+    for(var item in _carts){
+      nofOfItem += item.quantity;
+    }
+    return nofOfItem;
   }
 
   void addDiscount({
@@ -102,6 +109,8 @@ class CartManager {
 
   ValueNotifier<SelectedItemPrice?> getPriceNotifyListener() => _priceNotifier;
 
+  ValueNotifier<int> cartItemNotifier() => _noOfCartItemNotifier;
+
   void _updatePrice() {
     if(_carts.isEmpty){
       _priceNotifier.value = null;
@@ -115,7 +124,9 @@ class CartManager {
         symbol = item.itemPrice.symbol;
         code = item.itemPrice.code;
       }
-      _priceNotifier.value = SelectedItemPrice(_carts.length, symbol, totalPrice,code);
+      final noOfItem = _noOfCartItem();
+      _priceNotifier.value = SelectedItemPrice(noOfItem, symbol, totalPrice,code);
+      _noOfCartItemNotifier.value = noOfItem;
     }
   }
 

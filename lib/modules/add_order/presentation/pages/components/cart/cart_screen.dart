@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
@@ -207,94 +208,18 @@ class _CartScreenState extends State<CartScreen> {
                   return BlocBuilder<CalculateBillCubit, ResponseState>(
                     builder: (_, state) {
                       if (state is Loading) {
-                        return const Center(child: CircularProgressIndicator());
+                        EasyLoading.show();
                       } else if (state is Failed) {
+                        EasyLoading.dismiss();
                         return Center(child: Text(state.failure.message));
                       } else if (state is Success<CartBill>) {
+                        EasyLoading.dismiss();
                         _cartBill = state.data;
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: AppSize.s10.rw,
-                                vertical: AppSize.s16.rh,
-                              ),
-                              child: const StepView(
-                                  stepPosition: StepPosition.cart),
-                            ),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    FutureBuilder<List<AddOrderSourceType>>(
-                                      future: getIt.get<AddOrderRepository>().fetchSources(),
-                                      builder: (_,snap){
-                                        if(snap.hasData && snap.data!=null){
-                                          return SourceSelector(
-                                            sources: snap.data!,
-                                            source: _currentSource,
-                                            onChangeSource: (source) {
-                                              _currentSource = source;
-                                            },
-                                          );
-                                        }
-                                        return const SizedBox();
-                                      },
-                                    ),
-                                    TypeSelector(
-                                      initialType: _currentOrderType ?? OrderType.DINE_IN,
-                                      onTypeChange: (type) {
-                                        _currentOrderType = type;
-                                      },
-                                    ),
-                                    CartItemsListView(
-                                      cartBill: _cartBill!,
-                                      onEdit: (item) {
-                                        widget.onEdit(item);
-                                      },
-                                      addMore: (brand) {
-                                        widget.addMore(brand);
-                                      },
-                                      addDiscount: _addDiscount,
-                                      onDelete: _remove,
-                                      onQuantityChanged: _quantityChanged,
-                                      removeAll: _removeAll,
-                                      onDeliveryFee: () {
-                                        _showGlobalFeeDialog(
-                                          type: DiscountType.none,
-                                          value: _cartBill!.deliveryFee,
-                                          feeType: FeeType.delivery,
-                                        );
-                                      },
-                                      onDiscount: () {
-                                        _showGlobalFeeDialog(
-                                          type: _currentDiscountType,
-                                          value: _cartBill!.discountAmount,
-                                          feeType: FeeType.discount,
-                                        );
-                                      },
-                                      onAdditionalFee: () {
-                                        _showGlobalFeeDialog(
-                                          type: DiscountType.none,
-                                          value: _cartBill!.additionalFee,
-                                          feeType: FeeType.additional,
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            OrderActionButton(
-                              buttonText: 'Proceed to Checkout',
-                              enable: true,
-                              loading: false,
-                              totalPrice: _cartBill!.totalPrice,
-                              onProceed: _onCheckout,
-                            ),
-                          ],
-                        );
-                      } else {
+                      }
+                      if(_cartBill != null){
+                        return _body();
+                      }
+                      else {
                         return const SizedBox();
                       }
                     },
@@ -307,6 +232,90 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ],
       ),
+    );
+  }
+  Widget _body(){
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSize.s10.rw,
+            vertical: AppSize.s16.rh,
+          ),
+          child: const StepView(
+              stepPosition: StepPosition.cart),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                FutureBuilder<List<AddOrderSourceType>>(
+                  future: getIt.get<AddOrderRepository>().fetchSources(),
+                  builder: (_,snap){
+                    if(snap.hasData && snap.data!=null){
+                      return SourceSelector(
+                        sources: snap.data!,
+                        source: _currentSource,
+                        onChangeSource: (source) {
+                          _currentSource = source;
+                        },
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+                TypeSelector(
+                  initialType: _currentOrderType ?? OrderType.DINE_IN,
+                  onTypeChange: (type) {
+                    _currentOrderType = type;
+                  },
+                ),
+                CartItemsListView(
+                  cartBill: _cartBill!,
+                  onEdit: (item) {
+                    widget.onEdit(item);
+                  },
+                  addMore: (brand) {
+                    widget.addMore(brand);
+                  },
+                  addDiscount: _addDiscount,
+                  onDelete: _remove,
+                  onQuantityChanged: _quantityChanged,
+                  removeAll: _removeAll,
+                  onDeliveryFee: () {
+                    _showGlobalFeeDialog(
+                      type: DiscountType.none,
+                      value: _cartBill!.deliveryFee,
+                      feeType: FeeType.delivery,
+                    );
+                  },
+                  onDiscount: () {
+                    _showGlobalFeeDialog(
+                      type: _currentDiscountType,
+                      value: _cartBill!.discountAmount,
+                      feeType: FeeType.discount,
+                    );
+                  },
+                  onAdditionalFee: () {
+                    _showGlobalFeeDialog(
+                      type: DiscountType.none,
+                      value: _cartBill!.additionalFee,
+                      feeType: FeeType.additional,
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        OrderActionButton(
+          buttonText: 'Proceed to Checkout',
+          enable: true,
+          loading: false,
+          totalPrice: _cartBill!.totalPrice,
+          onProceed: _onCheckout,
+        ),
+      ],
     );
   }
 }

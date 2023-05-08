@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../domain/entities/order.dart';
@@ -34,11 +35,14 @@ class NewOrderItemView extends StatelessWidget {
                 seeDetails: seeDetails,
               ),
             ),
-            getActionButtons(
-              order: order,
-              onAction: onAction,
-              onPrint: onPrint,
-              onCancel: onCancel,
+            Padding(
+              padding: EdgeInsets.only(right: AppSize.s2.rw),
+              child: getActionButtons(
+                order: order,
+                onAction: onAction,
+                onPrint: onPrint,
+                onCancel: onCancel,
+              ),
             ),
           ],
         ),

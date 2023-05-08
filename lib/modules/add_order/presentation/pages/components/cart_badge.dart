@@ -16,7 +16,7 @@ class CartBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
-      valueListenable: CartManager().getNotifyListener(),
+      valueListenable: CartManager().cartItemNotifier(),
       builder: (_, count, __) {
         return InkWell(
           onTap: onCartTap,
