@@ -8,6 +8,7 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../../widgets/snackbars.dart';
 
 enum FeeType { discount, delivery, additional }
 
@@ -15,6 +16,7 @@ class FeeDialogView extends StatefulWidget {
   final int initType;
   final num initValue;
   final FeeType feeType;
+  final num subTotal;
   final Function(int, num, FeeType) onSave;
 
   const FeeDialogView({
@@ -23,6 +25,7 @@ class FeeDialogView extends StatefulWidget {
     required this.initValue,
     required this.feeType,
     required this.onSave,
+    required this.subTotal,
   }) : super(key: key);
 
   @override
@@ -34,6 +37,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
   late int _type;
   bool _editable = false;
   late FeeType _feeType;
+  String? _validateMsg;
 
   @override
   void initState() {
@@ -55,6 +59,36 @@ class _FeeDialogViewState extends State<FeeDialogView> {
       return AppStrings.delivery_fee.tr();
     } else {
       return AppStrings.additional_fee.tr();
+    }
+  }
+
+  String? _validate(){
+    final text = _controller.text;
+    final amountString = text.isEmpty ? '0' : text;
+    final amount = num.parse(amountString);
+    if(_feeType == FeeType.discount){
+      if(_type == DiscountType.flat){
+        if(amount > widget.subTotal){
+          return 'Can\'t be greater than the subtotal' ;
+        }
+      }else{
+        if(amount > 100){
+          return 'Can\'t be greater than 100' ;
+        }
+      }
+    }
+    return null;
+  }
+
+  void _save(){
+    final validate = _validate();
+    setState(() {
+      _validateMsg = validate;
+    });
+    if(validate == null){
+      Navigator.pop(context);
+      final value = _controller.text.isEmpty ? '0' : _controller.text;
+      widget.onSave(_type, num.parse(value), _feeType);
     }
   }
 
@@ -88,6 +122,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
             initValue: _type,
             onChange: (type) {
               _type = type;
+              _controller.text = '0';
             },
           ),
         Container(
@@ -106,6 +141,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
               controller: _controller,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
+                errorText: _validateMsg,
                 hintText: 'Add ${_title()}',
                 hintStyle: getRegularTextStyle(
                   color: AppColors.dustyGreay,
@@ -124,11 +160,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
         Align(
           alignment: Alignment.bottomRight,
           child: ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              final value = _controller.text.isEmpty ? '0' : _controller.text;
-              widget.onSave(_type, num.parse(value), _feeType);
-            },
+            onPressed: _save,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.purpleBlue, // Background color
             ),

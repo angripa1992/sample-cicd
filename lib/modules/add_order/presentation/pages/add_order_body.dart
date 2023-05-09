@@ -12,6 +12,7 @@ import '../../../../resources/colors.dart';
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/items.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
+import '../../../widgets/snackbars.dart';
 import '../../domain/entities/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
 import '../cubit/calculate_bill_cubit.dart';
@@ -130,6 +131,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   void _addToCart(AddToCartItem? item) {
     if (item != null) {
       CartManager().addToCart(item);
+      showSuccessSnackBar(null,'Successfully added to cart');
     }
   }
 
@@ -139,8 +141,8 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         newItem: newItem,
         oldItem: oldItem,
       );
-      _gotoCart();
     }
+    _gotoCart();
   }
 
   void _editModifier(AddToCartItem item) {

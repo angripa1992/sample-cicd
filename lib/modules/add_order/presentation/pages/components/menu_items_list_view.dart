@@ -15,11 +15,13 @@ import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/items.dart';
+import '../../../../widgets/loader.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/add_to_cart_item.dart';
 import '../../../domain/entities/item_modifier_group.dart';
 import '../../../utils/order_price_provider.dart';
 import 'dropdown/select_categories_dropdown.dart';
+import 'menu_item_description.dart';
 import 'menu_item_view.dart';
 
 class MenuItemsListView extends StatefulWidget {
@@ -65,20 +67,47 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
         if (data.isNotEmpty) {
           widget.onAddModifier(data, item, widget.brand!);
         } else {
-          widget.onAddToCart(
-            AddToCartItem(
-              modifiers: [],
-              item: item,
-              quantity: 1,
-              itemInstruction: '',
-              modifiersPrice: 0,
-              itemPrice: OrderPriceProvider.klikitPrice(item.prices),
-              brand: widget.brand!,
-              discountType: DiscountType.flat,
-              discountValue: 0,
-            ),
-          );
+          _showItemDetails(context, item);
         }
+      },
+    );
+  }
+
+  void _addNonModifierItem(MenuItems item, int quantity) {
+    widget.onAddToCart(
+      AddToCartItem(
+        modifiers: [],
+        item: item,
+        quantity: quantity,
+        itemInstruction: '',
+        modifiersPrice: 0,
+        itemPrice: OrderPriceProvider.klikitPrice(item.prices),
+        brand: widget.brand!,
+        discountType: DiscountType.flat,
+        discountValue: 0,
+      ),
+    );
+  }
+
+  void _showItemDetails(BuildContext context, MenuItems item) {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppSize.s14.rSp),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: AppSize.s250.rh,
+          child: MenuItemDescription(
+            items: item,
+            addToCart: (quantity) {
+              Navigator.pop(context);
+              _addNonModifierItem(item, quantity);
+            },
+          ),
+        );
       },
     );
   }
@@ -111,7 +140,6 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
                 child: widget,
               );
             },
-
             tabBuilder: (BuildContext context, int index, bool active) {
               return TabItemView(
                 title: widget.items[index].subSections.title,

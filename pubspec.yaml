@@ -47,8 +47,8 @@ dependencies:
   flutter_expanded_tile: ^0.3.7
   flutter_easyloading: ^3.0.5
   # firebase
-  firebase_core: ^2.4.1
-  firebase_messaging: ^14.2.1
+  firebase_core: ^2.11.0
+  firebase_messaging: ^14.5.0
   firebase_app_installations: ^0.2.1+8
   firebase_remote_config: ^3.0.9
   firebase_analytics: ^10.1.0

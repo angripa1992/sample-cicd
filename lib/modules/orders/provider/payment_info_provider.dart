@@ -1,5 +1,6 @@
 import 'package:klikit/app/extensions.dart';
 
+import '../../../app/constants.dart';
 import '../domain/entities/payment_info.dart';
 import '../domain/repository/order_info_provider_repo.dart';
 
@@ -15,6 +16,7 @@ class PaymentInfoProvider {
       final response = await _orderRepository.fetchPaymentSources();
       if (response.isRight()) {
         final statues = response.getOrElse(() => []);
+        statues.removeWhere((element) => element.id == PaymentStatusId.refunded);
         _statuses.addAll(statues);
         return _statuses;
       } else {

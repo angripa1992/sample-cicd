@@ -18,6 +18,8 @@ class MenuItemView extends StatelessWidget {
   final MenuItems menuItem;
   final DayInfo dayInfo;
   final VoidCallback onAddItem;
+  static const _outOfStock = 'Out of Stock';
+  static const _unavailable = 'Unavailable';
 
   const MenuItemView(
       {Key? key,
@@ -28,9 +30,9 @@ class MenuItemView extends StatelessWidget {
 
   String? _checkAvailability() {
     if (!menuItem.stock.available) {
-      return 'Out of Stock';
+      return _outOfStock;
     } else if (AvailableTimeProvider().haveAvailableTime(dayInfo) == null) {
-      return 'Unavailable';
+      return _unavailable;
     } else {
       return null;
     }
@@ -48,7 +50,7 @@ class MenuItemView extends StatelessWidget {
         child: Column(
           children: [
             InkWell(
-              onTap: (availability == null) ? onAddItem : null,
+              onTap: (availability == null || availability == _unavailable) ? onAddItem : null,
               child: SizedBox(
                 height: AppSize.s100.rh,
                 child: Stack(
@@ -102,53 +104,31 @@ class MenuItemView extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s4.rw,
-                vertical: AppSize.s8.rh,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      menuItem.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+            InkWell(
+              onTap: (availability == null || availability == _unavailable) ? onAddItem : null,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s4.rw,
+                  vertical: AppSize.s8.rh,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        menuItem.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: AppSize.s4.rw),
-                  IconButton(
-                    onPressed: () {
-                      _showItemDetails(context, menuItem);
-                    },
-                    icon: const Icon(Icons.info_outline),
-                    iconSize: AppSize.s16.rSp,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  )
-                ],
+                    SizedBox(width: AppSize.s4.rw),
+                    Icon(Icons.info_outline,size: AppSize.s16.rSp),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  void _showItemDetails(BuildContext context, MenuItems item) {
-    showModalBottomSheet<void>(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppSize.s14.rSp),
-        ),
-      ),
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: AppSize.s200.rh,
-          child: MenuItemDescription(items: item),
-        );
-      },
     );
   }
 }

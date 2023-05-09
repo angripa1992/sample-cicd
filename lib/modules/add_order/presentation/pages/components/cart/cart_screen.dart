@@ -117,7 +117,7 @@ class _CartScreenState extends State<CartScreen> {
             onSave: (type, value, feeType) {
               CartManager().addDiscount(itemId: item.item.id, type: type, value: value);
               _calculateBill();
-            },
+            }, subTotal: _cartBill!.subTotal,
           ),
         );
       },
@@ -174,7 +174,7 @@ class _CartScreenState extends State<CartScreen> {
                 additionalFee: feeType == FeeType.additional ? value : null,
                 deliveryFee: feeType == FeeType.delivery ? value : null,
               );
-            },
+            }, subTotal: _cartBill!.subTotal,
           ),
         );
       },

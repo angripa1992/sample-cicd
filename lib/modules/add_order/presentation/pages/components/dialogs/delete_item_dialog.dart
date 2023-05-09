@@ -181,7 +181,7 @@ class DeleteAllDialogView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'Are you sure you want to delete the all items?',
+                'Are you sure you want to delete all the items from the cart?',
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,

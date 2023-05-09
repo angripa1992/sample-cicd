@@ -11,6 +11,7 @@ import 'package:klikit/resources/assets.dart';
 import 'app/crashlytics_config.dart';
 import 'app/di.dart';
 import 'language/language_manager.dart';
+import 'modules/widgets/loader.dart';
 import 'notification/fcm_service.dart';
 import 'notification/local_notification_service.dart';
 
@@ -33,6 +34,8 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
 
   final supportedLocale = await getIt.get<LanguageManager>().getSupportedLocale();
   final startLocale = await getIt.get<LanguageManager>().getStartLocale();
+
+  configLoading();
 
   SystemChrome.setPreferredOrientations(
     [

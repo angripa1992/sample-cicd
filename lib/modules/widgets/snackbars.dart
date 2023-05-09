@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/network/error_handler.dart';
+import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
@@ -83,8 +84,8 @@ void showApiErrorSnackBar(BuildContext context, Failure failure) {
   );
 }
 
-void showSuccessSnackBar(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(
+void showSuccessSnackBar(BuildContext? context, String message) {
+  ScaffoldMessenger.of(context ?? RoutesGenerator.navigatorKey.currentState!.context).showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,
       content: Text(
@@ -94,7 +95,7 @@ void showSuccessSnackBar(BuildContext context, String message) {
           fontSize: AppFontSize.s15.rSp,
         ),
       ),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 1),
       backgroundColor: AppColors.purpleBlue,
     ),
   );

@@ -38,107 +38,110 @@ class CartItemView extends StatelessWidget {
     final haveDiscount = itemBill.discountedItemPrice != itemBill.itemPrice;
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-          child: Row(
-            children: [
-              SizedBox(
-                height: AppSize.s48.rh,
-                width: AppSize.s48.rw,
-                child: CachedNetworkImage(
-                  imageUrl: ImageUrlProvider.getUrl(cartItem.item.image),
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                      shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: imageProvider, fit: BoxFit.cover),
+        InkWell(
+          onTap: cartItem.modifiers.isEmpty ? null : onEdit,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: AppSize.s48.rh,
+                  width: AppSize.s48.rw,
+                  child: CachedNetworkImage(
+                    imageUrl: ImageUrlProvider.getUrl(cartItem.item.image),
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: imageProvider, fit: BoxFit.cover),
+                      ),
                     ),
-                  ),
-                  progressIndicatorBuilder: (_, __, ___) => Center(
-                    child: SizedBox(
-                      height: AppSize.s16.rh,
-                      width: AppSize.s16.rw,
-                      child: const CircularProgressIndicator(),
+                    progressIndicatorBuilder: (_, __, ___) => Center(
+                      child: SizedBox(
+                        height: AppSize.s16.rh,
+                        width: AppSize.s16.rw,
+                        child: const CircularProgressIndicator(),
+                      ),
                     ),
-                  ),
-                  errorWidget: (context, url, error) => Center(
-                    child: SvgPicture.asset(
-                      AppImages.placeholder,
-                      fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Center(
+                      child: SvgPicture.asset(
+                        AppImages.placeholder,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(width: AppSize.s16.rw),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '${cartItem.quantity}x ${cartItem.item.title}',
-                            style: getMediumTextStyle(
-                              color: AppColors.purpleBlue,
-                              fontSize: AppFontSize.s14.rSp,
+                SizedBox(width: AppSize.s16.rw),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${cartItem.quantity}x ${cartItem.item.title}',
+                              style: getMediumTextStyle(
+                                color: AppColors.purpleBlue,
+                                fontSize: AppFontSize.s14.rSp,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(width: AppSize.s16.rw),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            if (haveDiscount)
+                          SizedBox(width: AppSize.s16.rw),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              if (haveDiscount)
+                                Text(
+                                  PriceCalculator.formatPrice(
+                                    price: itemBill.discountedItemPrice * cartItem.quantity,
+                                    currencySymbol: cartItem.itemPrice.symbol,
+                                    code: cartItem.itemPrice.code,
+                                  ),
+                                  style: TextStyle(
+                                    color: AppColors.balticSea,
+                                    fontSize: AppFontSize.s14.rSp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               Text(
                                 PriceCalculator.formatPrice(
-                                  price: itemBill.discountedItemPrice * cartItem.quantity,
+                                  price: itemBill.itemPrice * cartItem.quantity,
                                   currencySymbol: cartItem.itemPrice.symbol,
                                   code: cartItem.itemPrice.code,
                                 ),
                                 style: TextStyle(
-                                  color: AppColors.balticSea,
+                                  color: haveDiscount
+                                      ? AppColors.red
+                                      : AppColors.balticSea,
                                   fontSize: AppFontSize.s14.rSp,
                                   fontWeight: FontWeight.w500,
+                                  decoration: haveDiscount
+                                      ? TextDecoration.lineThrough
+                                      : TextDecoration.none,
                                 ),
                               ),
-                            Text(
-                              PriceCalculator.formatPrice(
-                                price: itemBill.itemPrice * cartItem.quantity,
-                                currencySymbol: cartItem.itemPrice.symbol,
-                                code: cartItem.itemPrice.code,
-                              ),
-                              style: TextStyle(
-                                color: haveDiscount
-                                    ? AppColors.red
-                                    : AppColors.balticSea,
-                                fontSize: AppFontSize.s14.rSp,
-                                fontWeight: FontWeight.w500,
-                                decoration: haveDiscount
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: AppSize.s8.rh),
-                    FutureBuilder<String>(
-                      future: ModifierManager()
-                          .allCsvModifiersName(cartItem.modifiers),
-                      builder: (context, snapShot) {
-                        if (snapShot.hasData) {
-                          return Text(snapShot.data!);
-                        }
-                        return const SizedBox();
-                      },
-                    ),
-                  ],
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: AppSize.s8.rh),
+                      FutureBuilder<String>(
+                        future: ModifierManager()
+                            .allCsvModifiersName(cartItem.modifiers),
+                        builder: (context, snapShot) {
+                          if (snapShot.hasData) {
+                            return Text(snapShot.data!);
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Row(

@@ -131,7 +131,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(
-                      'Save',
+                      'Submit',
                       style: getMediumTextStyle(
                         color: AppColors.white,
                         fontSize: AppFontSize.s12.rSp,

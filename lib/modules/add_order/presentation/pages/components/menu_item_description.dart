@@ -11,14 +11,24 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/items.dart';
 import '../../../utils/order_price_provider.dart';
+import 'modifier/quantity_selector.dart';
 
-class MenuItemDescription extends StatelessWidget {
+class MenuItemDescription extends StatefulWidget {
   final MenuItems items;
+  final Function(int) addToCart;
 
   const MenuItemDescription({
     Key? key,
     required this.items,
+    required this.addToCart,
   }) : super(key: key);
+
+  @override
+  State<MenuItemDescription> createState() => _MenuItemDescriptionState();
+}
+
+class _MenuItemDescriptionState extends State<MenuItemDescription> {
+  int _quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +52,7 @@ class MenuItemDescription extends StatelessWidget {
                   height: AppSize.s120.rh,
                   width: AppSize.s150.rw,
                   child: CachedNetworkImage(
-                    imageUrl: ImageUrlProvider.getUrl(items.image),
+                    imageUrl: ImageUrlProvider.getUrl(widget.items.image),
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(AppSize.s16.rSp),
@@ -83,7 +93,7 @@ class MenuItemDescription extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          items.title,
+                          widget.items.title,
                           style: getBoldTextStyle(
                             fontSize: AppFontSize.s17.rSp,
                             color: AppColors.balticSea,
@@ -92,7 +102,8 @@ class MenuItemDescription extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                            borderRadius:
+                                BorderRadius.circular(AppSize.s16.rSp),
                             color: AppColors.purpleBlue,
                           ),
                           child: Padding(
@@ -101,7 +112,8 @@ class MenuItemDescription extends StatelessWidget {
                               vertical: AppSize.s4.rh,
                             ),
                             child: Text(
-                            OrderPriceProvider.klikitItemPrice(items.prices),
+                              OrderPriceProvider.klikitItemPrice(
+                                  widget.items.prices),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: AppColors.white,
@@ -112,7 +124,7 @@ class MenuItemDescription extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          items.description,
+                          widget.items.description,
                           style: getRegularTextStyle(
                             fontSize: AppFontSize.s14.rSp,
                             color: AppColors.black,
@@ -126,6 +138,51 @@ class MenuItemDescription extends StatelessWidget {
             ],
           ),
         ),
+        Container(
+          margin: EdgeInsets.only(top: AppSize.s1.rh),
+          padding: EdgeInsets.symmetric(
+              horizontal: AppSize.s12.rw, vertical: AppSize.s8.rh),
+          decoration: BoxDecoration(
+            color: AppColors.whiteSmoke,
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+            child: Row(
+              children: [
+                QuantitySelector(
+                  quantity: _quantity,
+                  onQuantityChanged: (quantity) {
+                    _quantity = quantity;
+                  },
+                ),
+                const Spacer(),
+                InkWell(
+                  onTap: () {
+                    widget.addToCart(_quantity);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.purpleBlue,
+                      borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppSize.s12.rh,
+                        horizontal: AppSize.s16.rw,
+                      ),
+                      child: Text(
+                        'Add to Cart',
+                        style: getRegularTextStyle(
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }

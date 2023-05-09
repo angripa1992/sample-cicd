@@ -21,9 +21,6 @@ class OrderPriceProvider {
 
   static String modifierPrice(List<ItemPrice> prices) {
     final price = prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
-    if(price.price == 0){
-      return 'Free';
-    }
     final priceStr = PriceCalculator.formatPrice(
       price: price.price,
       currencySymbol: price.symbol,

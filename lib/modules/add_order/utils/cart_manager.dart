@@ -114,6 +114,7 @@ class CartManager {
   void _updatePrice() {
     if(_carts.isEmpty){
       _priceNotifier.value = null;
+      _noOfCartItemNotifier.value = 0;
     }else{
       num totalPrice = 0;
       String symbol = EMPTY;

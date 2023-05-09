@@ -32,6 +32,7 @@ class FcmService {
   void registerForegroundListener() async {
     FirebaseMessaging.onMessage.listen((message) {
       if (SessionManager().isLoggedIn()) {
+        print(message.data);
         InAppNotificationHandler().handleNotification(
           NotificationDataHandler().getNotificationData(
             message.data,
