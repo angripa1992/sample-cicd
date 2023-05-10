@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
@@ -241,8 +242,10 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           child: BlocBuilder<FetchSubSectionCubit, ResponseState>(
             builder: (context, state) {
               if (state is Loading) {
-                return const Center(child: CircularProgressIndicator());
+                EasyLoading.show();
+                return const SizedBox();
               } else if (state is Success<List<SubSectionListItem>>) {
+                EasyLoading.dismiss();
                 return MenuItemsListView(
                   items: state.data,
                   brand: _selectedBrand,
@@ -257,6 +260,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                   },
                 );
               }
+              EasyLoading.dismiss();
               return const EmptyBrandView();
             },
           ),

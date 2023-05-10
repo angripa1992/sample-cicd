@@ -21,7 +21,7 @@ class TabItemView extends StatelessWidget {
           horizontal: AppSize.s4.rw,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+          borderRadius: BorderRadius.circular(AppSize.s12.rSp),
           border: Border.all(
             color: active ? AppColors.blueViolet : Colors.transparent,
             width: AppSize.s1.rh,
@@ -31,7 +31,7 @@ class TabItemView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: AppSize.s12.rw,
-            vertical: AppSize.s8.rh,
+            vertical: AppSize.s4.rh,
           ),
           child: Text(
            title,

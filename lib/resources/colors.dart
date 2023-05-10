@@ -26,6 +26,7 @@ class AppColors {
   static Color peppermint = const Color(0xFFE3F3E9);
   static Color balticSea= const Color(0xFF262626);
   static Color dustyGreay= const Color(0xFF9B9B9B);
+  static Color frenchGrey= const Color(0xFFBCBDBE);
   static Color dustyOrange= const Color(0xFFE97B2F);
   static Color sweetPink= const Color(0xFFFFA38E);
   static Color seaShell= const Color(0xFFF0F0F0);

@@ -22,7 +22,7 @@ class FcmTokenManager {
     params['platform'] = _deviceInformationProvider.platformName();
     params['app_type'] = 2;
     params['branch_id'] = SessionManager().currentUserBranchId();
-    params['uuid'] = deviceId;
+    //params['uuid'] = deviceId;
     try {
       await _restClient.request(Urls.tokenRegistration, Method.POST, params);
       return const Right(true);

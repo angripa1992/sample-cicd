@@ -4,6 +4,8 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/search/menu_search_view.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/search/search_button.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/subsection_info_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/tab_item_view.dart';
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
@@ -15,7 +17,6 @@ import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/items.dart';
-import '../../../../widgets/loader.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/add_to_cart_item.dart';
 import '../../../domain/entities/item_modifier_group.dart';
@@ -112,11 +113,37 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
     );
   }
 
+  void _search() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+            child: MenuSearchView(
+              items: widget.items,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSize.s10.rw,
+            vertical: AppSize.s12.rh,
+          ),
+          child: SearchActionButtonView(onTap: _search),
+        ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           child: CategoriesDropDown(
@@ -168,7 +195,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           mainAxisSpacing: AppSize.s10.rh,
-                          childAspectRatio: ScreenSizes.isTablet ? 0.90 : 0.62,
+                          childAspectRatio: ScreenSizes.isTablet ? 0.90 : 0.63,
                         ),
                         itemCount: listItem.subSections.items.length,
                         itemBuilder: (BuildContext context, int index) {

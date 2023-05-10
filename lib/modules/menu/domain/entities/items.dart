@@ -3,6 +3,8 @@ import 'package:klikit/modules/menu/domain/entities/status.dart';
 import 'package:klikit/modules/menu/domain/entities/stock.dart';
 import 'package:klikit/modules/menu/domain/entities/v2_data.dart';
 
+import 'avilable_times.dart';
+
 class MenuItems {
   final int id;
   final String title;
@@ -18,6 +20,7 @@ class MenuItems {
   final TitleV2 titleV2;
   final DescriptionV2 descriptionV2;
   Stock stock;
+  AvailableTimes? availableTimes;
 
   MenuItems({
     required this.id,
@@ -34,5 +37,6 @@ class MenuItems {
     required this.stock,
     required this.titleV2,
     required this.descriptionV2,
+    this.availableTimes,
   });
 }

@@ -39,12 +39,12 @@ class FetchSubSectionCubit extends Cubit<ResponseState> {
             final items = <MenuItems>[];
             for (var item in subSection.items) {
               if (!item.hidden) {
+                item.availableTimes = section.availableTimes;
                 items.add(item);
               }
             }
             subSection.items = items;
-            final subSectionListItem =
-                SubSectionListItem(section.availableTimes, subSection);
+            final subSectionListItem = SubSectionListItem(section.availableTimes, subSection);
             subSectionsListItemDataHolder.add(subSectionListItem);
           }
         }
