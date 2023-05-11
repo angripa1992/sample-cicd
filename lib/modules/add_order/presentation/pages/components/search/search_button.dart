@@ -36,7 +36,7 @@ class SearchActionButtonView extends StatelessWidget {
               'Search for items and categories',
               style: getRegularTextStyle(
                 color: AppColors.frenchGrey,
-                fontSize: AppSize.s12.rSp,
+                fontSize: AppSize.s14.rSp,
               ),
             ),
           ],

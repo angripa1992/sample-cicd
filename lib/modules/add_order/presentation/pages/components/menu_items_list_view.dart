@@ -125,11 +125,34 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
             margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
             child: MenuSearchView(
               items: widget.items,
+              onBack: () {
+                Navigator.pop(context);
+              },
+              onCategorySelected: (selectedId) {
+                Navigator.pop(context);
+                _jumpToCategoryIndexById(selectedId);
+              },
+              goToCart: () {
+                Navigator.pop(context);
+                widget.onCartTap();
+              },
+              onItemSelected: (selectedMenuItem) {
+                _fetchModifier(selectedMenuItem);
+              },
             ),
           ),
         );
       },
     );
+  }
+
+  void _jumpToCategoryIndexById(int id) {
+    widget.items.asMap().forEach((index, value) {
+      if (value.subSections.id == id) {
+        _itemScrollController.jumpTo(index: index);
+        return;
+      }
+    });
   }
 
   @override

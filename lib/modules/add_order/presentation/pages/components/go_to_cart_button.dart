@@ -29,6 +29,7 @@ class GoToCartButton extends StatelessWidget {
                   left: AppSize.s8.rw,
                   right: AppSize.s8.rw,
                   bottom: AppSize.s4.rh,
+                  top: AppSize.s4.rh,
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s8.rSp),

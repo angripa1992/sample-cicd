@@ -28,7 +28,7 @@ class CartAppBar extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
         child: Row(
           children: [
-            IconButton(onPressed: onClose, icon: Icon(Icons.clear)),
+            IconButton(onPressed: onClose, icon: const Icon(Icons.clear)),
             Text(
               'Cart',
               style: getMediumTextStyle(

@@ -94,6 +94,7 @@ class MenuItemView extends StatelessWidget {
                         ),
                         child: Icon(
                           Icons.add_circle,
+                          size: AppSize.s28.rSp,
                           color: (availability == null)
                               ? AppColors.purpleBlue
                               : AppColors.lightGrey,

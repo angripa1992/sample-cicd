@@ -43,9 +43,9 @@ class MenuItemImageView extends StatelessWidget {
         ),
         progressIndicatorBuilder: (_, __, ___) => Center(
           child: SizedBox(
-            height: AppSize.s16.rh,
+            height: AppSize.s14.rh,
             width: AppSize.s16.rw,
-            child: const CircularProgressIndicator(),
+            child: const CircularProgressIndicator(strokeWidth: 1,),
           ),
         ),
         errorWidget: (context, url, error) => Container(
