@@ -44,7 +44,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void _placeOrder() {
     context.read<PlaceOrderCubit>().placeOrder(
           checkoutData: widget.checkoutData,
-          paymentStatus: _paymentStatus?.id ?? PaymentStatusId.pending,
+          paymentStatus: _paymentMethod == null ? PaymentStatusId.pending : (_paymentStatus?.id ?? PaymentStatusId.pending),
           paymentMethod: _paymentMethod?.id,
           info: _customerInfo,
         );
