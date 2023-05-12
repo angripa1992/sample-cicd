@@ -115,6 +115,14 @@ class _BaseScreenState extends State<BaseScreen> {
     }
   }
 
+  void _goToAddOrderScreen(NavigationData data){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const AddOrderScreen(fromHome: false),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -179,15 +187,15 @@ class _BaseScreenState extends State<BaseScreen> {
                   currentIndex: context.read<BaseScreenCubit>().state.index,
                   onTap: (index) {
                     if (index == BottomNavItem.ADD_ORDER) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const AddOrderScreen(),
-                        ),
-                      );
+                      _goToAddOrderScreen(data);
                     } else {
                       context.read<BaseScreenCubit>().changeIndex(
-                          NavigationData(
-                              index: index, subTabIndex: null, data: null));
+                            NavigationData(
+                              index: index,
+                              subTabIndex: null,
+                              data: null,
+                            ),
+                          );
                     }
                   },
                   backgroundColor: AppColors.whiteSmoke,

@@ -29,8 +29,8 @@ import 'components/modifier/edit_modifier.dart';
 
 class AddOrderBody extends StatefulWidget {
   final VoidCallback onBack;
-
-  const AddOrderBody({Key? key, required this.onBack}) : super(key: key);
+  final bool willOpenCart;
+  const AddOrderBody({Key? key, required this.onBack, required this.willOpenCart}) : super(key: key);
 
   @override
   State<AddOrderBody> createState() => _AddOrderBodyState();
@@ -48,14 +48,26 @@ class _AddOrderBodyState extends State<AddOrderBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MenuBrandsCubit, ResponseState>(
+    return BlocConsumer<MenuBrandsCubit, ResponseState>(
+      listener: (context,state){
+        if(state is Success<List<MenuBrand>> && widget.willOpenCart){
+          WidgetsBinding.instance.addPostFrameCallback((_){
+            _gotoCart();
+          });
+        }
+      },
       builder: (context, state) {
-        if (state is Success<List<MenuBrand>>) {
+        if (state is Loading) {
+          EasyLoading.show();
+        } else if (state is Success<List<MenuBrand>>) {
+          EasyLoading.dismiss();
           return _body(state.data);
-        } else if (state is Failed) {
+        } else if(state is Failed) {
+          EasyLoading.dismiss();
           return Center(child: Text(state.failure.message));
         }
-        return const Center(child: CircularProgressIndicator());
+        EasyLoading.dismiss();
+        return const SizedBox();
       },
     );
   }

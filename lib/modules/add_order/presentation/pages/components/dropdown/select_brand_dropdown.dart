@@ -39,8 +39,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
   @override
   void didUpdateWidget(covariant SelectBrandDropDown oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if ((_dropDownValue != null && widget.initialBrand != null) &&
-        _dropDownValue!.id != widget.initialBrand!.id) {
+    if (((_dropDownValue != null && widget.initialBrand != null) && _dropDownValue!.id != widget.initialBrand!.id) || widget.initialBrand != null) {
       setState(() {
         _dropDownValue = widget.initialBrand;
         widget.onChanged(_dropDownValue!);

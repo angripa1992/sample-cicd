@@ -6,11 +6,12 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../resources/values.dart';
+import '../../add_order/presentation/pages/components/cart_badge.dart';
 
 class HomeHeaderView extends StatelessWidget {
   final UserInfo userInfo;
-
-  const HomeHeaderView({Key? key, required this.userInfo}) : super(key: key);
+  final VoidCallback onCartTap;
+  const HomeHeaderView({Key? key, required this.userInfo, required this.onCartTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +27,22 @@ class HomeHeaderView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              '${userInfo.firstName} ${userInfo.lastName}',
-              style: getRegularTextStyle(
-                color: AppColors.white,
-                fontSize: AppFontSize.s25.rSp,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '${userInfo.firstName} ${userInfo.lastName}',
+                    style: getRegularTextStyle(
+                      color: AppColors.white,
+                      fontSize: AppFontSize.s25.rSp,
+                    ),
+                  ),
+                ),
+                CartBadge(
+                  iconColor: AppColors.white,
+                  onCartTap: onCartTap,
+                ),
+              ],
             ),
             SizedBox(
               height: AppSize.s12.rh,

@@ -9,9 +9,10 @@ import '../../../../../resources/values.dart';
 import '../../../utils/cart_manager.dart';
 
 class CartBadge extends StatelessWidget {
+  final Color? iconColor;
   final VoidCallback onCartTap;
 
-  const CartBadge({Key? key, required this.onCartTap}) : super(key: key);
+  const CartBadge({Key? key, required this.onCartTap, this.iconColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +43,12 @@ class CartBadge extends StatelessWidget {
                     ),
                     child: Icon(
                       Icons.add_shopping_cart,
-                      color: AppColors.purpleBlue,
+                      color: iconColor ?? AppColors.purpleBlue,
                     ),
                   )
                 : Icon(
                     Icons.add_shopping_cart,
-                    color: AppColors.purpleBlue,
+                    color: iconColor ?? AppColors.purpleBlue,
                   ),
           ),
         );

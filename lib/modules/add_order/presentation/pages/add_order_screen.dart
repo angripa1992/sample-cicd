@@ -8,7 +8,9 @@ import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import 'add_order_body.dart';
 
 class AddOrderScreen extends StatelessWidget {
-  const AddOrderScreen({Key? key}) : super(key: key);
+  final bool fromHome;
+
+  const AddOrderScreen({Key? key, required this.fromHome}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class AddOrderScreen extends StatelessWidget {
           onBack: () {
             Navigator.pop(context);
           },
+          willOpenCart: fromHome,
         ),
       ),
     );

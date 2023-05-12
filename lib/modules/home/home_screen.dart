@@ -22,6 +22,7 @@ import '../../../../resources/styles.dart';
 import '../../app/session_manager.dart';
 import '../../segments/event_manager.dart';
 import '../../segments/segemnt_data_provider.dart';
+import '../add_order/presentation/pages/add_order_screen.dart';
 import '../base/base_screen_cubit.dart';
 import '../orders/presentation/bloc/cancelled_order_cubit.dart';
 import '../orders/presentation/bloc/completed_order_cubit.dart';
@@ -108,6 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     HomeHeaderView(
                       userInfo: SessionManager().currentUser(),
+                      onCartTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const AddOrderScreen(fromHome: true),
+                          ),
+                        );
+                      },
                     ),
                     Positioned(
                       bottom: -50.rh,
