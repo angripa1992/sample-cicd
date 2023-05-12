@@ -50,7 +50,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.purpleBlue, width: AppSize.s1.rSp),
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),

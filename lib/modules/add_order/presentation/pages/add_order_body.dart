@@ -258,6 +258,11 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                 return const SizedBox();
               } else if (state is Success<List<SubSectionListItem>>) {
                 EasyLoading.dismiss();
+                if(state.data.isEmpty){
+                  return const Center(
+                    child: Text('No items found!'),
+                  );
+                }
                 return MenuItemsListView(
                   items: state.data,
                   brand: _selectedBrand,

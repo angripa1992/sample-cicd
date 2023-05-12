@@ -46,6 +46,7 @@ class MenuItemsListView extends StatefulWidget {
 }
 
 class _MenuItemsListViewState extends State<MenuItemsListView> {
+  final _categoriesNotifier = ValueNotifier<SubSectionListItem?>(null);
   late ItemScrollController _itemScrollController;
   final _addOrderRepository = getIt.get<AddOrderRepository>();
 
@@ -168,11 +169,21 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
           child: SearchActionButtonView(onTap: _search),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          child: CategoriesDropDown(
-            items: widget.items,
-            onChanged: (index) {
-              _itemScrollController.jumpTo(index: index);
+          padding: EdgeInsets.only(
+            left: AppSize.s16.rw,
+            right: AppSize.s16.rw,
+            bottom: AppSize.s8.rh,
+          ),
+          child: ValueListenableBuilder<SubSectionListItem?>(
+            valueListenable: _categoriesNotifier,
+            builder: (_, category, __) {
+              return CategoriesDropDown(
+                items: widget.items,
+                onChanged: (index) {
+                  _itemScrollController.jumpTo(index: index);
+                },
+                initValue: category,
+              );
             },
           ),
         ),
@@ -180,6 +191,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
           child: ScrollableListTabScroller(
             itemScrollController: _itemScrollController,
             itemCount: widget.items.length,
+            earlyChangePositionOffset: -50,
             headerContainerBuilder: (context, widget) {
               return Padding(
                 padding: EdgeInsets.only(
@@ -191,6 +203,11 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
               );
             },
             tabBuilder: (BuildContext context, int index, bool active) {
+              if (active) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _categoriesNotifier.value = widget.items[index];
+                });
+              }
               return TabItemView(
                 title: widget.items[index].subSections.title,
                 index: index,

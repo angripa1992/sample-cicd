@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/menu/domain/entities/sub_section.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
@@ -11,11 +12,12 @@ import '../../../../utils/color_provider.dart';
 class CategoriesDropDown extends StatefulWidget {
   final List<SubSectionListItem> items;
   final Function(int) onChanged;
+  final SubSectionListItem? initValue;
 
   const CategoriesDropDown({
     Key? key,
     required this.items,
-    required this.onChanged,
+    required this.onChanged, required this.initValue,
   }) : super(key: key);
 
   @override
@@ -34,10 +36,23 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
   }
 
   @override
+  void initState() {
+    _dropDownValue = widget.initValue;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant CategoriesDropDown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _dropDownValue = widget.initValue;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DropdownButton<SubSectionListItem>(
       value: _dropDownValue,
       underline: const SizedBox(),
+      borderRadius: BorderRadius.circular(AppSize.s8.rSp),
       icon: Icon(
         Icons.arrow_drop_down,
         color: AppColors.black,
@@ -61,10 +76,23 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
           return DropdownMenuItem<SubSectionListItem>(
             value: item,
             child: Container(
-              color: CategoriesColorProvider().color(_getIndex(item)),
+              margin: EdgeInsets.only(bottom: AppSize.s4.rh),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                color: CategoriesColorProvider().color(_getIndex(item)),
+              ),
               alignment: Alignment.center,
               constraints: BoxConstraints(minHeight: AppSize.s42.rh),
-              child: Text(item.subSections.title, style: _textStyle),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                child: Row(
+                  children: [
+                    Expanded(child: Text(item.subSections.title, style: _textStyle)),
+                    if(_dropDownValue?.subSections.id == item.subSections.id)
+                      const Icon(Icons.check),
+                  ],
+                ),
+              ),
             ),
           );
         },

@@ -132,42 +132,67 @@ class CartPriceView extends StatelessWidget {
         ),
         InkWell(
           onTap: onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-              color: AppColors.whiteSmoke,
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s8.rw,
-                vertical: AppSize.s2.rh,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    PriceCalculator.formatPrice(
-                      price: price,
-                      currencySymbol: currency.symbol ?? EMPTY,
-                      code: currency.code ?? EMPTY,
+          child: price < 1
+              ? _addView()
+              : Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                    color: AppColors.whiteSmoke,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSize.s8.rw,
+                      vertical: AppSize.s2.rh,
                     ),
-                    style: TextStyle(
-                      color: AppColors.balticSea,
-                      fontSize: AppFontSize.s14.rSp,
-                      fontWeight: FontWeight.w400,
+                    child: Row(
+                      children: [
+                        Text(
+                          PriceCalculator.formatPrice(
+                            price: price,
+                            currencySymbol: currency.symbol ?? EMPTY,
+                            code: currency.code ?? EMPTY,
+                          ),
+                          style: TextStyle(
+                            color: AppColors.balticSea,
+                            fontSize: AppFontSize.s14.rSp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(width: AppSize.s8.rw),
+                        Icon(
+                          Icons.mode_edit_outlined,
+                          size: AppSize.s16.rSp,
+                          color: AppColors.balticSea,
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(width: AppSize.s8.rw),
-                  Icon(
-                    Icons.mode_edit_outlined,
-                    size: AppSize.s16.rSp,
-                    color: AppColors.balticSea,
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ),
         ),
       ],
+    );
+  }
+
+  Widget _addView() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s8.rw,
+        vertical: AppSize.s2.rh,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+        color: AppColors.lightVioletTwo,
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.add,color: AppColors.purpleBlue,size: AppSize.s14.rSp),
+          SizedBox(width: AppSize.s4.rw),
+          Text(
+            'Add',
+            style: getRegularTextStyle(color: AppColors.purpleBlue),
+          ),
+        ],
+      ),
     );
   }
 }
