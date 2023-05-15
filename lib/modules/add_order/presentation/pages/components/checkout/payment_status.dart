@@ -13,8 +13,9 @@ import '../cart/tag_title.dart';
 
 class PaymentStatusView extends StatefulWidget {
   final Function(PaymentStatus) onChanged;
+  final int? initStatus;
 
-  const PaymentStatusView({Key? key, required this.onChanged})
+  const PaymentStatusView({Key? key, required this.onChanged, this.initStatus})
       : super(key: key);
 
   @override
@@ -51,6 +52,7 @@ class _PaymentStatusViewState extends State<PaymentStatusView> {
                 return PaymentStatusDropdown(
                   statues: snap.data!,
                   onChanged: widget.onChanged,
+                  initStatus: widget.initStatus,
                 );
               }
               return const SizedBox();
@@ -65,9 +67,10 @@ class _PaymentStatusViewState extends State<PaymentStatusView> {
 class PaymentStatusDropdown extends StatefulWidget {
   final List<PaymentStatus> statues;
   final Function(PaymentStatus) onChanged;
+  final int? initStatus;
 
   const PaymentStatusDropdown(
-      {Key? key, required this.statues, required this.onChanged})
+      {Key? key, required this.statues, required this.onChanged, this.initStatus})
       : super(key: key);
 
   @override
@@ -83,7 +86,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
 
   @override
   void initState() {
-   _paymentStatus = widget.statues.firstWhere((element) => element.id == PaymentStatusId.pending);
+   _paymentStatus = widget.statues.firstWhere((element) => element.id == (widget.initStatus ?? PaymentStatusId.pending));
     super.initState();
   }
 

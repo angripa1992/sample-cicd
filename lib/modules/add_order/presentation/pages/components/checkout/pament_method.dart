@@ -12,8 +12,8 @@ import '../cart/tag_title.dart';
 
 class PaymentMethodView extends StatefulWidget {
   final Function(PaymentMethod?) onChanged;
-
-  const PaymentMethodView({Key? key, required this.onChanged})
+  final int? initMethod;
+  const PaymentMethodView({Key? key, required this.onChanged, this.initMethod})
       : super(key: key);
 
   @override
@@ -48,7 +48,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
             builder: (_, snap) {
               if (snap.hasData) {
                 return PaymentMethodDropdown(
-                  statues: snap.data!,
+                  methods: snap.data!,
                   onChanged: widget.onChanged,
                 );
               }
@@ -62,11 +62,12 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
 }
 
 class PaymentMethodDropdown extends StatefulWidget {
-  final List<PaymentMethod> statues;
+  final List<PaymentMethod> methods;
+  final int? initMethod;
   final Function(PaymentMethod?) onChanged;
 
   const PaymentMethodDropdown(
-      {Key? key, required this.statues, required this.onChanged})
+      {Key? key, required this.methods, required this.onChanged, this.initMethod})
       : super(key: key);
 
   @override
@@ -75,10 +76,19 @@ class PaymentMethodDropdown extends StatefulWidget {
 
 class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
   PaymentMethod? _paymentMethod;
+
   final _textStyle = getRegularTextStyle(
     color: AppColors.balticSea,
     fontSize: AppFontSize.s13.rSp,
   );
+
+  @override
+  void initState() {
+    if(widget.initMethod != null){
+      _paymentMethod = widget.methods.firstWhere((element) => element.id == widget.initMethod);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +110,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
             style: _textStyle,
           ),
         ),
-        items: widget.statues
+        items: widget.methods
             .map<DropdownMenuItem<PaymentMethod>>((PaymentMethod value) {
           return DropdownMenuItem<PaymentMethod>(
               value: value,
@@ -120,7 +130,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
               ));
         }).toList(),
         selectedItemBuilder: (BuildContext context) {
-          return widget.statues.map<Widget>((PaymentMethod item) {
+          return widget.methods.map<Widget>((PaymentMethod item) {
             return Container(
               alignment: Alignment.centerLeft,
               child: Text(
