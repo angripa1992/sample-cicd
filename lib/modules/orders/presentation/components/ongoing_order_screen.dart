@@ -18,6 +18,7 @@ import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'dialogs/action_dialogs.dart';
+import 'dialogs/add_payment_method_and_status.dart';
 import 'order_item/ongoing_order_item.dart';
 
 class OngoingOrderScreen extends StatefulWidget {
@@ -109,6 +110,18 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     }
   }
 
+  void _onActionSuccess(bool isFromDetails, int status) {
+    _refresh(willBackground: true);
+    if (isFromDetails) {
+      Navigator.of(context).pop();
+    }
+    SegmentManager().trackOrderSegment(
+      sourceTab: 'Ready Order',
+      status: status,
+      isFromDetails: isFromDetails,
+    );
+  }
+
   void _onAction({
     required String title,
     required Order order,
@@ -116,22 +129,26 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     bool willCancel = false,
     bool isFromDetails = false,
   }) {
-    showOrderActionDialog(
-      params: _orderParamProvider.getOrderActionParams(order, willCancel),
-      context: context,
-      onSuccess: () {
-        _refresh(willBackground: true);
-        if (isFromDetails) {
-          Navigator.of(context).pop();
-        }
-        SegmentManager().trackOrderSegment(
-          sourceTab: 'Ready Order',
-          status: status,
-          isFromDetails: isFromDetails,
-        );
-      },
-      title: title,
-    );
+    if (status == OrderStatus.DELIVERED &&
+        (order.paymentStatus == PaymentStatusId.pending ||
+            order.paymentStatus == PaymentStatusId.failed)) {
+      showAddPaymentStatusMethodDialog(
+        context: context,
+        order: order,
+        onSuccess: () {
+          _onActionSuccess(isFromDetails, status);
+        },
+      );
+    } else {
+      showOrderActionDialog(
+        params: _orderParamProvider.getOrderActionParams(order, willCancel),
+        context: context,
+        onSuccess: () {
+          _onActionSuccess(isFromDetails, status);
+        },
+        title: title,
+      );
+    }
   }
 
   void _onPrint({required Order order, required bool isFromDetails}) {

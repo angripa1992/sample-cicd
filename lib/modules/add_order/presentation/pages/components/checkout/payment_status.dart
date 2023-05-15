@@ -14,8 +14,9 @@ import '../cart/tag_title.dart';
 class PaymentStatusView extends StatefulWidget {
   final Function(PaymentStatus) onChanged;
   final int? initStatus;
+  final bool willShowReqTag;
 
-  const PaymentStatusView({Key? key, required this.onChanged, this.initStatus})
+  const PaymentStatusView({Key? key, required this.onChanged, this.initStatus,this.willShowReqTag = true})
       : super(key: key);
 
   @override
@@ -41,9 +42,10 @@ class _PaymentStatusViewState extends State<PaymentStatusView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const TagTitleView(
+          TagTitleView(
             title: 'Payment Status',
             required: true,
+            willShowReqTag: widget.willShowReqTag,
           ),
           FutureBuilder<List<PaymentStatus>>(
             future: getIt.get<OrderInformationProvider>().fetchPaymentStatues(),

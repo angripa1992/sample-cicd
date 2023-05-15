@@ -39,6 +39,8 @@ abstract class OrderRemoteDatasource {
 
   Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params);
 
+  Future<ActionSuccess> updatePaymentInfo(Map<String, dynamic> params);
+
   Future<ActionSuccess> addComment(Map<String, dynamic> params, int orderID);
 
   Future<ActionSuccess> deleteComment(int orderID);
@@ -205,6 +207,16 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       await _restClient.request(Urls.paymentStatus, Method.GET, null);
       final data = response.map((e) => PaymentStatusModel.fromJson(e)).toList();
       return data;
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> updatePaymentInfo(Map<String, dynamic> params) async{
+    try {
+      final response = await _restClient.request(Urls.updatePaymentInfo, Method.PATCH, params);
+      return ActionSuccess.fromJson(response);
     } on DioError {
       rethrow;
     }

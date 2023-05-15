@@ -14,6 +14,7 @@ class Urls {
   static const String printerSettings = '/v1/printer/settings';
   static const String busy = '/v1/brand-provider/busy';
   static const String updateStatus = '/v1/oni/order/status';
+  static const String updatePaymentInfo = '/v1/oni/manualorder/payment';
   static const String tokenRegistration = '/v1/notify-token';
   static const String calculateBill = '/v1/menu/manual-order/calculate-bill';
   static const String manualOrder = '/v1/oni/manualorder';

@@ -8,6 +8,7 @@ import 'package:klikit/resources/values.dart';
 class LoadingButton extends StatelessWidget {
   final String text;
   final bool isLoading;
+  final bool enabled;
   final VoidCallback onTap;
   final double? verticalPadding;
   final double? horizontalPadding;
@@ -39,20 +40,21 @@ class LoadingButton extends StatelessWidget {
     this.textColor,
     this.loaderColor,
     this.borderRadius,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: isLoading ? null : onTap,
+      onTap: (!enabled || isLoading) ? null : onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: isLoading
+          color: (!enabled || isLoading)
               ? (loadingBgColor ?? AppColors.lightViolet)
               : (bgColor ?? AppColors.purpleBlue),
           borderRadius: BorderRadius.circular(borderRadius ?? AppSize.s8.rSp),
           border: Border.all(
-            color: isLoading
+            color: (!enabled || isLoading)
                 ? (loadingBorderColor ?? AppColors.lightViolet)
                 : (borderColor ?? AppColors.purpleBlue),
           ),

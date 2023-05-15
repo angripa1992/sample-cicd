@@ -182,4 +182,19 @@ class OrderRepositoryImpl extends OrderRepository {
     }
     return orderModel.toEntity(orderSource: orderSource);
   }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> updatePaymentInfo(
+      Map<String, dynamic> params) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.updatePaymentInfo(params);
+        return Right(response);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
 }

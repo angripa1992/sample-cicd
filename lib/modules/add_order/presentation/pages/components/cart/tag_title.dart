@@ -9,7 +9,14 @@ import '../../../../../../resources/values.dart';
 class TagTitleView extends StatelessWidget {
   final String title;
   final bool required;
-  const TagTitleView({Key? key, required this.title, required this.required}) : super(key: key);
+  final bool willShowReqTag;
+
+  const TagTitleView({
+    Key? key,
+    required this.title,
+    required this.required,
+    this.willShowReqTag = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,24 +30,25 @@ class TagTitleView extends StatelessWidget {
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s8.rw,
-            vertical: AppSize.s4.rh,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-            color: required ? AppColors.lightVioletTwo : AppColors.whiteSmoke,
-          ),
-          child: Text(
-            required ? 'Required' : 'Optional',
-            style: getMediumTextStyle(
-              color: required ? AppColors.purpleBlue : AppColors.balticSea,
-              fontSize: AppFontSize.s10.rSp,
+        if (willShowReqTag)
+          Container(
+            margin: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSize.s8.rw,
+              vertical: AppSize.s4.rh,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+              color: required ? AppColors.lightVioletTwo : AppColors.whiteSmoke,
+            ),
+            child: Text(
+              required ? 'Required' : 'Optional',
+              style: getMediumTextStyle(
+                color: required ? AppColors.purpleBlue : AppColors.balticSea,
+                fontSize: AppFontSize.s10.rSp,
+              ),
             ),
           ),
-        ),
       ],
     );
   }

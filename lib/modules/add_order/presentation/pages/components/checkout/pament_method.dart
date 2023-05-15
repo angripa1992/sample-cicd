@@ -13,8 +13,14 @@ import '../cart/tag_title.dart';
 class PaymentMethodView extends StatefulWidget {
   final Function(PaymentMethod?) onChanged;
   final int? initMethod;
-  const PaymentMethodView({Key? key, required this.onChanged, this.initMethod})
-      : super(key: key);
+  final bool willShowReqTag;
+
+  const PaymentMethodView({
+    Key? key,
+    required this.onChanged,
+    this.initMethod,
+    this.willShowReqTag = true,
+  }) : super(key: key);
 
   @override
   State<PaymentMethodView> createState() => _PaymentMethodViewState();
@@ -39,9 +45,10 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const TagTitleView(
+          TagTitleView(
             title: 'Payment Method',
             required: false,
+            willShowReqTag: widget.willShowReqTag,
           ),
           FutureBuilder<List<PaymentMethod>>(
             future: getIt.get<OrderInformationProvider>().fetchPaymentMethods(),
@@ -67,7 +74,10 @@ class PaymentMethodDropdown extends StatefulWidget {
   final Function(PaymentMethod?) onChanged;
 
   const PaymentMethodDropdown(
-      {Key? key, required this.methods, required this.onChanged, this.initMethod})
+      {Key? key,
+      required this.methods,
+      required this.onChanged,
+      this.initMethod})
       : super(key: key);
 
   @override
@@ -84,8 +94,9 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
 
   @override
   void initState() {
-    if(widget.initMethod != null){
-      _paymentMethod = widget.methods.firstWhere((element) => element.id == widget.initMethod);
+    if (widget.initMethod != null) {
+      _paymentMethod = widget.methods
+          .firstWhere((element) => element.id == widget.initMethod);
     }
     super.initState();
   }
@@ -120,13 +131,13 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
                   style: _textStyle,
                 ),
                 trailing:
-                (_paymentMethod != null && _paymentMethod!.id == value.id)
-                    ? Icon(
-                  Icons.check,
-                  size: AppSize.s18.rSp,
-                  color: AppColors.balticSea,
-                )
-                    : const SizedBox(),
+                    (_paymentMethod != null && _paymentMethod!.id == value.id)
+                        ? Icon(
+                            Icons.check,
+                            size: AppSize.s18.rSp,
+                            color: AppColors.balticSea,
+                          )
+                        : const SizedBox(),
               ));
         }).toList(),
         selectedItemBuilder: (BuildContext context) {
@@ -142,9 +153,9 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
         },
         onChanged: (value) {
           setState(() {
-            if(_paymentMethod != null && _paymentMethod?.id == value?.id){
+            if (_paymentMethod != null && _paymentMethod?.id == value?.id) {
               _paymentMethod = null;
-            }else{
+            } else {
               _paymentMethod = value;
             }
             widget.onChanged(_paymentMethod);

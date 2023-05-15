@@ -14,6 +14,8 @@ import '../../../../../../../resources/fonts.dart';
 import '../../../../../../../resources/styles.dart';
 import '../../../../../../../resources/values.dart';
 import '../../../../../../app/di.dart';
+import '../../../../add_order/presentation/pages/components/checkout/pament_method.dart';
+import '../../../../add_order/presentation/pages/components/checkout/payment_status.dart';
 import '../../bloc/order_action_cubit.dart';
 
 void showOrderActionDialog({
@@ -112,3 +114,5 @@ void showOrderActionDialog({
     },
   );
 }
+
+

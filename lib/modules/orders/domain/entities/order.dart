@@ -61,14 +61,14 @@ class Order {
   final String foodpandaToken;
   final bool isManualOrder;
   final int source;
-  final int paymentMethod;
-  final int paymentStatus;
   final bool autoAccept;
   final bool autoPilot;
   final int autoPilotTime;
   final OrderSource orderSource;
   final String tableNo;
   String klikitComment;
+  int paymentMethod;
+  int paymentStatus;
 
   Order( {
     required this.id,

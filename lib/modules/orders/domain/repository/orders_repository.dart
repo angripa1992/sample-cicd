@@ -24,6 +24,9 @@ abstract class OrderRepository {
   Future<Either<Failure, ActionSuccess>> updateStatus(
       Map<String, dynamic> params);
 
+  Future<Either<Failure, ActionSuccess>> updatePaymentInfo(
+      Map<String, dynamic> params);
+
   Future<Either<Failure, ActionSuccess>> addComment(
       Map<String, dynamic> params, int orderID);
 
