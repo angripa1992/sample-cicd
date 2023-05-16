@@ -156,7 +156,7 @@ class PaymentInfoTagView extends StatelessWidget {
   bool _isWebshopPostPayment() {
     return order.providerId == ProviderID.KLIKIT &&
         !order.isManualOrder &&
-        order.paymentStatus == PaymentStatusId.pending;
+        order.paymentStatus != PaymentStatusId.paid;
   }
 
   @override

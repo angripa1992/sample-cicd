@@ -28,7 +28,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
     if (_debounce?.isActive ?? false) {
       _debounce!.cancel();
     }
-    _debounce = Timer(const Duration(milliseconds: 500), () {
+    _debounce = Timer(const Duration(milliseconds: 3), () {
       if(value.isEmpty || value.length > 2){
         widget.onTextChanged(value.toLowerCase());
       }

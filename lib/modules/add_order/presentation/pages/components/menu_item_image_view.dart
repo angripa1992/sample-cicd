@@ -38,8 +38,8 @@ class MenuItemImageView extends StatelessWidget {
           child: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              if (available != null) _getBlurImage(),
-              if (available != null) _unavailableMessage(),
+              if (available == _outOfStock) _getBlurImage(),
+              if (available == _outOfStock) _unavailableMessage(),
             ],
           ),
         ),
