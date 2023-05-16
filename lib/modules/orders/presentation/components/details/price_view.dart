@@ -53,7 +53,7 @@ class _PriceViewState extends State<PriceView> {
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
         children: [
-          Divider(color: AppColors.purpleBlue),
+          Divider(color: AppColors.frenchGrey),
           ExpandedTile(
             theme: ExpandedTileThemeData(
               headerColor: Colors.transparent,
@@ -113,7 +113,7 @@ class _PriceViewState extends State<PriceView> {
             ),
             controller: _controller!,
           ),
-          Divider(color: AppColors.purpleBlue),
+          Divider(color: AppColors.frenchGrey),
           Padding(
             padding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,
@@ -124,7 +124,7 @@ class _PriceViewState extends State<PriceView> {
                 Text(
                   AppStrings.total.tr(),
                   style: TextStyle(
-                    color: AppColors.black,
+                    color: AppColors.darkGrey,
                     fontSize: AppFontSize.s18.rSp,
                     fontWeight: AppFontWeight.bold,
                   ),
@@ -135,7 +135,7 @@ class _PriceViewState extends State<PriceView> {
                     widget.order.finalPrice,
                   ),
                   style: TextStyle(
-                    color: AppColors.black,
+                    color: AppColors.darkGrey,
                     fontSize: AppFontSize.s18.rSp,
                     fontWeight: AppFontWeight.bold,
                   ),
@@ -151,7 +151,7 @@ class _PriceViewState extends State<PriceView> {
   Widget _getSubtotalItem(String name, num price,
       {Color? color, bool isDiscount = false}) {
     final textStyle = TextStyle(
-      color: color ?? AppColors.black,
+      color: color ?? AppColors.darkGrey,
       fontSize: AppFontSize.s14.rSp,
       fontWeight: AppFontWeight.regular,
     );
@@ -207,13 +207,13 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
         Text(
           AppStrings.sub_total.tr(),
           style: getBoldTextStyle(
-            color: AppColors.black,
+            color: AppColors.darkGrey,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
         Icon(
           _isExpanded! ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-          color: AppColors.black,
+          color: AppColors.darkGrey,
           size: AppSize.s24.rSp,
         ),
       ],

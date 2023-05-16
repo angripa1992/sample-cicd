@@ -4,24 +4,31 @@ import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../core/provider/image_url_provider.dart';
+import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/assets.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
+import '../../../../domain/entities/billing_response.dart';
 import '../../../../utils/modifier_manager.dart';
 
 class DeleteItemDialogView extends StatelessWidget {
   final AddToCartItem cartItem;
   final VoidCallback onDelete;
+  final ItemBill itemBill;
 
-  const DeleteItemDialogView(
-      {Key? key, required this.cartItem, required this.onDelete})
-      : super(key: key);
+  const DeleteItemDialogView({
+    Key? key,
+    required this.cartItem,
+    required this.onDelete,
+    required this.itemBill,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final haveDiscount = itemBill.discountedItemPrice != itemBill.itemPrice;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -96,13 +103,40 @@ class DeleteItemDialogView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: AppSize.s16.rw),
-                        Text(
-                          '${cartItem.itemPrice.symbol} ${cartItem.itemPrice.price}',
-                          style: TextStyle(
-                            color: AppColors.balticSea,
-                            fontSize: AppFontSize.s14.rSp,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            if (haveDiscount)
+                              Text(
+                                PriceCalculator.formatPrice(
+                                  price: itemBill.discountedItemPrice * cartItem.quantity,
+                                  currencySymbol: cartItem.itemPrice.symbol,
+                                  code: cartItem.itemPrice.code,
+                                ),
+                                style: TextStyle(
+                                  color: AppColors.balticSea,
+                                  fontSize: AppFontSize.s14.rSp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            Text(
+                              PriceCalculator.formatPrice(
+                                price: itemBill.itemPrice * cartItem.quantity,
+                                currencySymbol: cartItem.itemPrice.symbol,
+                                code: cartItem.itemPrice.code,
+                              ),
+                              style: TextStyle(
+                                color: haveDiscount
+                                    ? AppColors.red
+                                    : AppColors.balticSea,
+                                fontSize: AppFontSize.s14.rSp,
+                                fontWeight: FontWeight.w500,
+                                decoration: haveDiscount
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

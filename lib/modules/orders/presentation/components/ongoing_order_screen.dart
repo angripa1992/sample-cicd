@@ -130,12 +130,13 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     bool isFromDetails = false,
   }) {
     if (status == OrderStatus.DELIVERED &&
-        (order.paymentStatus == PaymentStatusId.pending ||
-            order.paymentStatus == PaymentStatusId.failed)) {
+        (order.paymentStatus == PaymentStatusId.pending || order.paymentStatus == PaymentStatusId.failed)) {
       showAddPaymentStatusMethodDialog(
+        title: 'Select payment method and status',
         context: context,
         order: order,
-        onSuccess: () {
+        willOnlyUpdatePaymentInfo: false,
+        onSuccess: (method,status) {
           _onActionSuccess(isFromDetails, status);
         },
       );

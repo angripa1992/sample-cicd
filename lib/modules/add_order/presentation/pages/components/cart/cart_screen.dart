@@ -90,6 +90,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
           content: DeleteItemDialogView(
             cartItem: item,
+            itemBill: _cartBill!.items.firstWhere((element) => element.id == item.item.id),
             onDelete: () {
               CartManager().removeFromCart(item);
               _calculateBill();

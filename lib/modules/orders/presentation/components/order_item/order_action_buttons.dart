@@ -15,10 +15,14 @@ import '../../../../../../resources/values.dart';
 class PrintButton extends StatelessWidget {
   final VoidCallback onPrint;
   final double padding;
+  final bool expanded;
 
-  const PrintButton(
-      {Key? key, required this.onPrint, this.padding = AppSize.s32})
-      : super(key: key);
+  const PrintButton({
+    Key? key,
+    required this.onPrint,
+    this.padding = AppSize.s32,
+    required this.expanded,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +34,28 @@ class PrintButton extends StatelessWidget {
           minimumSize: Size.zero,
           primary: AppColors.purpleBlue,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s24.rSp), // <-- Radius
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp), // <-- Radius
           ),
         ),
-        child: Icon(
-          Icons.print,
-          color: AppColors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.print,
+              color: AppColors.white,
+            ),
+            if (expanded)
+              Padding(
+                padding: EdgeInsets.only(left: AppSize.s8.rw),
+                child: Text(
+                  'Print',
+                  style: getMediumTextStyle(
+                    color: AppColors.white,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -45,11 +65,13 @@ class PrintButton extends StatelessWidget {
 class ReadyButton extends StatelessWidget {
   final VoidCallback onReady;
   final bool enabled;
+  final bool expanded;
 
   const ReadyButton({
     Key? key,
     required this.onReady,
     required this.enabled,
+    required this.expanded,
   }) : super(key: key);
 
   @override
@@ -63,7 +85,7 @@ class ReadyButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
               color: enabled ? AppColors.purpleBlue : Colors.transparent,
             ),
@@ -84,11 +106,13 @@ class ReadyButton extends StatelessWidget {
 class DeliverButton extends StatelessWidget {
   final VoidCallback onDeliver;
   final bool enabled;
+  final bool expanded;
 
   const DeliverButton({
     Key? key,
     required this.onDeliver,
     required this.enabled,
+    required this.expanded,
   }) : super(key: key);
 
   @override
@@ -102,7 +126,7 @@ class DeliverButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
               color: enabled ? AppColors.purpleBlue : Colors.transparent,
             ),
@@ -123,11 +147,13 @@ class DeliverButton extends StatelessWidget {
 class PickedUpButton extends StatelessWidget {
   final VoidCallback onPickedUp;
   final bool enabled;
+  final bool expanded;
 
   const PickedUpButton({
     Key? key,
     required this.onPickedUp,
     required this.enabled,
+    required this.expanded,
   }) : super(key: key);
 
   @override
@@ -141,7 +167,7 @@ class PickedUpButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
               color: enabled ? AppColors.purpleBlue : Colors.transparent,
             ),
@@ -162,11 +188,13 @@ class PickedUpButton extends StatelessWidget {
 class AcceptButton extends StatelessWidget {
   final VoidCallback onAccept;
   final bool enabled;
+  final bool expanded;
 
   const AcceptButton({
     Key? key,
     required this.onAccept,
     required this.enabled,
+    required this.expanded,
   }) : super(key: key);
 
   @override
@@ -180,10 +208,26 @@ class AcceptButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.purpleBlue,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
           ),
         ),
-        child: const Icon(Icons.check),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.check),
+            if (expanded)
+              Padding(
+                padding: EdgeInsets.only(left: AppSize.s8.rw),
+                child: Text(
+                  'Accept',
+                  style: getMediumTextStyle(
+                    color: AppColors.white,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -192,11 +236,13 @@ class AcceptButton extends StatelessWidget {
 class CanceledButton extends StatelessWidget {
   final VoidCallback onCanceled;
   final bool enabled;
+  final bool expanded;
 
   const CanceledButton({
     Key? key,
     required this.onCanceled,
     required this.enabled,
+    required this.expanded,
   }) : super(key: key);
 
   @override
@@ -210,16 +256,34 @@ class CanceledButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
               color: enabled ? AppColors.black : Colors.transparent,
             ),
           ),
         ),
-        child: SvgPicture.asset(
-          AppIcons.canceled,
-          color: enabled ? AppColors.black : AppColors.smokeyGrey,
-        ),
+        child: expanded
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.clear,color: AppColors.darkGrey),
+                  if (expanded)
+                    Padding(
+                      padding: EdgeInsets.only(left: AppSize.s8.rw),
+                      child: Text(
+                        'Reject',
+                        style: getMediumTextStyle(
+                          color: AppColors.darkGrey,
+                          fontSize: AppFontSize.s14.rSp,
+                        ),
+                      ),
+                    ),
+                ],
+              )
+            : SvgPicture.asset(
+                AppIcons.canceled,
+                color: enabled ? AppColors.black : AppColors.smokeyGrey,
+              ),
       ),
     );
   }
@@ -238,6 +302,7 @@ Widget getActionButtons({
     return Row(
       children: [
         AcceptButton(
+          expanded: false,
           onAccept: () {
             onAction(
               '${AppStrings.accept_order.tr()} #${order.id}',
@@ -248,6 +313,7 @@ Widget getActionButtons({
         ),
         SizedBox(width: AppSize.s8.rw),
         CanceledButton(
+          expanded: false,
           onCanceled: () {
             onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
           },
@@ -264,9 +330,11 @@ Widget getActionButtons({
         PrintButton(
           onPrint: onPrint,
           padding: AppSize.s16,
+          expanded: false,
         ),
         SizedBox(width: AppSize.s8.rw),
         DeliverButton(
+          expanded: false,
           onDeliver: () {
             onAction('${AppStrings.deliver_order.tr()} #${order.id}',
                 OrderStatus.DELIVERED);
@@ -285,9 +353,11 @@ Widget getActionButtons({
         PrintButton(
           onPrint: onPrint,
           padding: AppSize.s16,
+          expanded: false,
         ),
         SizedBox(width: AppSize.s8.rw),
         ReadyButton(
+          expanded: false,
           onReady: () {
             onAction('${AppStrings.ready_order.tr()} #${order.id}',
                 OrderStatus.READY);
@@ -305,9 +375,11 @@ Widget getActionButtons({
         PrintButton(
           onPrint: onPrint,
           padding: AppSize.s16,
+          expanded: false,
         ),
         SizedBox(width: AppSize.s8.rw),
         PickedUpButton(
+          expanded: false,
           onPickedUp: () {
             onAction('${AppStrings.pickup_order.tr()} #${order.id}',
                 OrderStatus.PICKED_UP);
@@ -322,9 +394,11 @@ Widget getActionButtons({
       PrintButton(
         onPrint: onPrint,
         padding: AppSize.s16,
+        expanded: false,
       ),
       SizedBox(width: AppSize.s8.rw),
       DeliverButton(
+        expanded: false,
         onDeliver: () {
           onAction('${AppStrings.deliver_order.tr()} #${order.id}',
               OrderStatus.DELIVERED);
@@ -345,7 +419,8 @@ Widget getExpandActionButtons({
   final provider = order.providerId;
   final orderType = order.type;
   if (orderStatus == OrderStatus.SCHEDULED) {
-    return   PrintButton(
+    return PrintButton(
+      expanded: true,
       onPrint: onPrint,
       padding: AppSize.s16,
     );
@@ -355,6 +430,7 @@ Widget getExpandActionButtons({
       children: [
         Expanded(
           child: AcceptButton(
+            expanded: true,
             onAccept: () {
               onAction(
                 '${AppStrings.accept_order.tr()} #${order.id}',
@@ -367,6 +443,7 @@ Widget getExpandActionButtons({
         SizedBox(width: AppSize.s8.rw),
         Expanded(
           child: CanceledButton(
+            expanded: true,
             onCanceled: () {
               onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
             },
@@ -383,6 +460,7 @@ Widget getExpandActionButtons({
       children: [
         Expanded(
           child: PrintButton(
+            expanded: true,
             onPrint: onPrint,
             padding: AppSize.s16,
           ),
@@ -390,6 +468,7 @@ Widget getExpandActionButtons({
         SizedBox(width: AppSize.s8.rw),
         Expanded(
           child: DeliverButton(
+            expanded: true,
             onDeliver: () {
               onAction(
                 '${AppStrings.deliver_order.tr()} #${order.id}',
@@ -410,6 +489,7 @@ Widget getExpandActionButtons({
       children: [
         Expanded(
           child: PrintButton(
+            expanded: true,
             onPrint: onPrint,
             padding: AppSize.s16,
           ),
@@ -417,6 +497,7 @@ Widget getExpandActionButtons({
         SizedBox(width: AppSize.s8.rw),
         Expanded(
           child: ReadyButton(
+            expanded: true,
             onReady: () {
               onAction(
                 '${AppStrings.ready_order.tr()} #${order.id}',
@@ -436,6 +517,7 @@ Widget getExpandActionButtons({
       children: [
         Expanded(
           child: PrintButton(
+            expanded: true,
             onPrint: onPrint,
             padding: AppSize.s16,
           ),
@@ -443,6 +525,7 @@ Widget getExpandActionButtons({
         SizedBox(width: AppSize.s8.rw),
         Expanded(
           child: PickedUpButton(
+            expanded: true,
             onPickedUp: () {
               onAction(
                 '${AppStrings.pickup_order.tr()} #${order.id}',
@@ -459,6 +542,7 @@ Widget getExpandActionButtons({
     children: [
       Expanded(
         child: PrintButton(
+          expanded: true,
           onPrint: onPrint,
           padding: AppSize.s16,
         ),
@@ -466,6 +550,7 @@ Widget getExpandActionButtons({
       SizedBox(width: AppSize.s8.rw),
       Expanded(
         child: DeliverButton(
+          expanded: true,
           onDeliver: () {
             onAction(
               '${AppStrings.deliver_order.tr()} #${order.id}',

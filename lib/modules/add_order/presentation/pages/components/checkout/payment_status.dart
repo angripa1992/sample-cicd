@@ -117,6 +117,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
           return DropdownMenuItem<PaymentStatus>(
               value: value,
               child: ListTile(
+                tileColor: (_paymentStatus != null && _paymentStatus!.id == value.id) ? AppColors.alabaster : AppColors.white,
                 title: Text(
                   value.title,
                   style: _textStyle,
@@ -126,7 +127,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
                         ? Icon(
                             Icons.check,
                             size: AppSize.s18.rSp,
-                            color: AppColors.balticSea,
+                            color: AppColors.purpleBlue,
                           )
                         : const SizedBox(),
               ));

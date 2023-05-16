@@ -15,24 +15,30 @@ import '../../../../add_order/presentation/pages/components/checkout/payment_sta
 import '../../../../widgets/loading_button.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/order.dart';
-import '../../bloc/order_action_cubit.dart';
 import '../../bloc/update_payment_info_cubit.dart';
 
 void showAddPaymentStatusMethodDialog({
   required BuildContext context,
   required Order order,
-  required VoidCallback onSuccess,
+  required Function(int, int) onSuccess,
+  required bool willOnlyUpdatePaymentInfo,
+  required String title,
 }) {
   showDialog(
     context: context,
-    //  barrierDismissible: false,
+    barrierDismissible: false,
     builder: (context) {
       return BlocProvider<UpdatePaymentInfoCubit>(
         create: (_) => getIt.get<UpdatePaymentInfoCubit>(),
         child: AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
-          content: AddPaymentMethodAndStatusView(order: order, onSuccess: onSuccess),
+          content: AddPaymentMethodAndStatusView(
+            order: order,
+            willOnlyUpdatePaymentInfo: willOnlyUpdatePaymentInfo,
+            onSuccess: onSuccess,
+            title: title,
+          ),
         ),
       );
     },
@@ -41,9 +47,17 @@ void showAddPaymentStatusMethodDialog({
 
 class AddPaymentMethodAndStatusView extends StatefulWidget {
   final Order order;
-  final VoidCallback onSuccess;
-  const AddPaymentMethodAndStatusView({Key? key, required this.order, required this.onSuccess})
-      : super(key: key);
+  final Function(int, int) onSuccess;
+  final bool willOnlyUpdatePaymentInfo;
+  final String title;
+
+  const AddPaymentMethodAndStatusView({
+    Key? key,
+    required this.order,
+    required this.onSuccess,
+    required this.willOnlyUpdatePaymentInfo,
+    required this.title,
+  }) : super(key: key);
 
   @override
   State<AddPaymentMethodAndStatusView> createState() =>
@@ -60,7 +74,9 @@ class _AddPaymentMethodAndStatusViewState
   @override
   void initState() {
     _statusAndMethodNotifier.value = {
-      _status: PaymentStatusId.paid,
+      _status: widget.willOnlyUpdatePaymentInfo
+          ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null)
+          : PaymentStatusId.paid,
       _method:
           widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
     };
@@ -75,13 +91,26 @@ class _AddPaymentMethodAndStatusViewState
 
   void _updateStatus() {
     final value = _statusAndMethodNotifier.value;
-    context.read<UpdatePaymentInfoCubit>().updateOrderStatus({
-      "UPDATE_PAYMENT_STATUS": true,
-      "id": widget.order.id,
-      "payment_method": value[_method],
-      "payment_status": value[_status],
-      "status": OrderStatus.DELIVERED,
-    });
+    if (widget.willOnlyUpdatePaymentInfo) {
+      context.read<UpdatePaymentInfoCubit>().updatePaymentInfo({
+        "id": widget.order.id,
+        "payment_method": value[_method],
+        "payment_status": value[_status],
+      });
+    } else {
+      context.read<UpdatePaymentInfoCubit>().updateOrderStatus({
+        "UPDATE_PAYMENT_STATUS": true,
+        "id": widget.order.id,
+        "payment_method": value[_method],
+        "payment_status": value[_status],
+        "status": OrderStatus.DELIVERED,
+      });
+    }
+  }
+
+  void _onSuccess() {
+    final value = _statusAndMethodNotifier.value;
+    widget.onSuccess(value[_method]!, value[_status]!);
   }
 
   @override
@@ -93,7 +122,7 @@ class _AddPaymentMethodAndStatusViewState
           children: [
             Expanded(
               child: Text(
-                'Select payment method and status',
+                widget.title,
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
@@ -108,22 +137,12 @@ class _AddPaymentMethodAndStatusViewState
             )
           ],
         ),
-        PaymentStatusView(
-          initStatus: PaymentStatusId.paid,
-          willShowReqTag: false,
-          onChanged: (status) {
-            final previousValue = _statusAndMethodNotifier.value;
-            _statusAndMethodNotifier.value = {
-              _status: status.id,
-              _method: previousValue[_method],
-            };
-          },
-        ),
         PaymentMethodView(
           initMethod: widget.order.paymentMethod > 0
               ? widget.order.paymentMethod
               : null,
-          willShowReqTag: false,
+          willShowReqTag: true,
+          required: true,
           onChanged: (method) {
             final previousValue = _statusAndMethodNotifier.value;
             _statusAndMethodNotifier.value = {
@@ -132,16 +151,29 @@ class _AddPaymentMethodAndStatusViewState
             };
           },
         ),
+        PaymentStatusView(
+          initStatus: widget.willOnlyUpdatePaymentInfo
+              ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null)
+              : PaymentStatusId.paid,
+          willShowReqTag: true,
+          onChanged: (status) {
+            final previousValue = _statusAndMethodNotifier.value;
+            _statusAndMethodNotifier.value = {
+              _status: status.id,
+              _method: previousValue[_method],
+            };
+          },
+        ),
         ValueListenableBuilder<Map<String, int?>>(
           valueListenable: _statusAndMethodNotifier,
           builder: (_, value, __) {
             return BlocConsumer<UpdatePaymentInfoCubit, ResponseState>(
-              listener: (context,state){
-                if(state is Success<ActionSuccess>){
-                  showSuccessSnackBar(context,state.data.message ?? '');
-                  widget.onSuccess();
+              listener: (context, state) {
+                if (state is Success<ActionSuccess>) {
+                  showSuccessSnackBar(context, state.data.message ?? '');
+                  _onSuccess();
                   Navigator.pop(context);
-                }else if(state is Failed){
+                } else if (state is Failed) {
                   showApiErrorSnackBar(context, state.failure);
                 }
               },

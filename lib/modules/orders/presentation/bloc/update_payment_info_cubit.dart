@@ -35,4 +35,17 @@ class UpdatePaymentInfoCubit extends Cubit<ResponseState> {
       },
     );
   }
+
+  void updatePaymentInfo(Map<String, dynamic> params) async {
+    emit(Loading());
+    final response = await _repository.updatePaymentInfo(params);
+    response.fold(
+      (failure) {
+        emit(Failed(failure));
+      },
+      (paymentInfoSuccess) async {
+        emit(Success<ActionSuccess>(paymentInfoSuccess));
+      },
+    );
+  }
 }

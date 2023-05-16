@@ -60,32 +60,29 @@ class OrderTagsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final type = _getType();
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Wrap(
-        runSpacing: AppSize.s8.rh,
-        spacing: AppSize.s8.rw,
-        children: [
-          if (order.providerId == ProviderID.KLIKIT)
-            _tagView(order.isManualOrder ? 'Manual' : 'Webshop'),
-          if (order.providerId == ProviderID.KLIKIT &&
-              !order.isManualOrder &&
-              order.tableNo.isNotEmpty)
-            _tagView('Table ${order.tableNo}'),
-          if (type.isNotEmpty) _tagView(_getType()),
-          _tagView(_getStatus()),
-          if (order.providerId > ZERO)
-            FutureBuilder<Provider>(
-              future: getIt.get<OrderInformationProvider>().findProviderById(order.providerId),
-              builder: (_, result) {
-                if(result.hasData && result.data != null){
-                  return _tagView('${AppStrings.placed_on.tr()} ${result.data!.title}');
-                }
-                return const SizedBox();
-              },
-            ),
-
-        ],
+    return Padding(
+      padding: EdgeInsets.only(
+        left: AppSize.s16.rw,
+        right: AppSize.s16.rw,
+        top: AppSize.s2.rh,
+        bottom: AppSize.s8.rh,
+      ),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Wrap(
+          runSpacing: AppSize.s8.rh,
+          spacing: AppSize.s8.rw,
+          children: [
+            if (order.providerId == ProviderID.KLIKIT)
+              _tagView(order.isManualOrder ? 'Manual' : 'Webshop'),
+            if (order.providerId == ProviderID.KLIKIT &&
+                !order.isManualOrder &&
+                order.tableNo.isNotEmpty)
+              _tagView('Table ${order.tableNo}'),
+            if (type.isNotEmpty) _tagView(_getType()),
+            _tagView(_getStatus()),
+          ],
+        ),
       ),
     );
   }
@@ -98,12 +95,12 @@ class OrderTagsView extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-        border: Border.all(color: AppColors.purpleBlue),
+        border: Border.all(color: AppColors.frenchGrey),
       ),
       child: Text(
         tagName,
         style: getMediumTextStyle(
-          color: AppColors.purpleBlue,
+          color: AppColors.darkGrey,
           fontSize: AppFontSize.s14.rSp,
         ),
       ),

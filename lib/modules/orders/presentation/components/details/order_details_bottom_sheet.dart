@@ -16,6 +16,7 @@ import 'comment_view.dart';
 import 'order_details_header.dart';
 import 'order_item_details.dart';
 import 'order_payment_info.dart';
+import 'order_tags.dart';
 
 void _openBottomSheet({
   required BuildContext context,
@@ -49,9 +50,9 @@ void _openBottomSheet({
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
                   child: Text(
                     AppStrings.order_details.tr(),
-                    style: getRegularTextStyle(
-                      color: AppColors.blackCow,
-                      fontSize: AppFontSize.s14.rSp,
+                    style: getMediumTextStyle(
+                      color: AppColors.balticSea,
+                      fontSize: AppFontSize.s16.rSp,
                     ),
                   ),
                 ),
@@ -60,12 +61,19 @@ void _openBottomSheet({
                     Navigator.pop(context);
                   },
                   icon: Icon(
-                    Icons.cancel_rounded,
+                    Icons.clear,
                     size: AppSize.s18.rSp,
                     color: AppColors.blackCow,
                   ),
                 )
               ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+              child: Divider(
+                color: AppColors.frenchGrey,
+                height: 0,
+              ),
             ),
             if (order.status == OrderStatus.SCHEDULED &&
                 order.scheduledTime.isNotEmpty)
@@ -77,9 +85,10 @@ void _openBottomSheet({
               modalKey: key,
               onCommentActionSuccess: onCommentActionSuccess,
             ),
+            OrderTagsView(order: order),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-              child: Divider(color: AppColors.purpleBlue),
+              child: Divider(color: AppColors.frenchGrey),
             ),
             OrderPaymentInfoView(order: order),
             OrderItemDetails(order: order),
@@ -113,6 +122,7 @@ void showHistoryOrderDetails({
     onCommentActionSuccess: onCommentActionSuccess,
     actionView: PrintButton(
       onPrint: onPrint,
+      expanded: true,
     ),
   );
 }

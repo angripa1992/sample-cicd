@@ -35,6 +35,7 @@ class HistoryOrderItemView extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(right: AppSize.s2.rw),
               child: PrintButton(
+                expanded: false,
                 onPrint: onPrint,
               ),
             ),

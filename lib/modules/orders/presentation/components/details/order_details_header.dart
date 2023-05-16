@@ -12,7 +12,11 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/constants.dart';
+import '../../../../../app/di.dart';
+import '../../../../../app/extensions.dart';
 import '../../../../widgets/snackbars.dart';
+import '../../../domain/entities/provider.dart';
+import '../../../provider/order_information_provider.dart';
 import 'comment_action_view.dart';
 import 'order_tags.dart';
 
@@ -33,17 +37,15 @@ class OrderDetailsHeaderView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
+        vertical: AppSize.s10.rh,
       ),
       child: Column(
         children: [
           _idView(),
-          SizedBox(height: AppSize.s12.rh),
-          OrderTagsView(order: order),
-          SizedBox(height: AppSize.s12.rh),
+          SizedBox(height: AppSize.s8.rh),
           _externalIdView(),
-          SizedBox(height: AppSize.s12.rh),
+          SizedBox(height: AppSize.s8.rh),
           _timeView(),
-          SizedBox(height: AppSize.s12.rh),
         ],
       ),
     );
@@ -70,6 +72,35 @@ class OrderDetailsHeaderView extends StatelessWidget {
               ? order.id.toString()
               : order.shortId,
         ),
+        if (order.providerId > ZERO)
+          Padding(
+            padding: EdgeInsets.only(left: AppSize.s18.rw),
+            child: FutureBuilder<Provider>(
+              future: getIt.get<OrderInformationProvider>().findProviderById(order.providerId),
+              builder: (_, result) {
+                if(result.hasData && result.data != null){
+                  return Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: AppSize.s4.rh,
+                      horizontal: AppSize.s8.rw,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+                      border: Border.all(color: AppColors.purpleBlue),
+                    ),
+                    child: Text(
+                      '${AppStrings.placed_on.tr()} ${result.data!.title}',
+                      style: getMediumTextStyle(
+                        color: AppColors.purpleBlue,
+                        fontSize: AppFontSize.s14.rSp,
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ),
       ],
     );
   }
@@ -89,7 +120,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
       child: Icon(
         Icons.copy,
         size: AppSize.s18.rSp,
-        color: AppColors.black,
+        color: AppColors.dustyGreay,
       ),
     );
   }
@@ -98,17 +129,18 @@ class OrderDetailsHeaderView extends StatelessWidget {
     return Row(
       children: [
         Text(
-          '${AppStrings.id.tr()} : ',
+          AppStrings.id.tr(),
           style: getRegularTextStyle(
             color: AppColors.dustyGrey,
-            fontSize: AppFontSize.s14.rSp,
+            fontSize: AppFontSize.s15.rSp,
           ),
         ),
+        SizedBox(width: AppSize.s6.rw),
         Flexible(
           child: Text(
             order.externalId,
             style: getMediumTextStyle(
-              color: AppColors.black,
+              color: AppColors.dustyGreay,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
@@ -122,18 +154,17 @@ class OrderDetailsHeaderView extends StatelessWidget {
   Widget _timeView() {
     return Row(
       children: [
-        Text(
-          '${AppStrings.time.tr()} : ',
-          style: getRegularTextStyle(
-            color: AppColors.dustyGrey,
-            fontSize: AppFontSize.s14.rSp,
-          ),
+        Icon(
+          Icons.date_range,
+          color: AppColors.dustyGreay,
+          size: AppSize.s18.rSp,
         ),
+        SizedBox(width: AppSize.s6.rw),
         Expanded(
           child: Text(
             DateTimeProvider.parseOrderCreatedDate(order.createdAt),
             style: getMediumTextStyle(
-              color: AppColors.black,
+              color: AppColors.darkGrey,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

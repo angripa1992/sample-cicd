@@ -15,6 +15,8 @@ import '../../../../../resources/values.dart';
 class MenuItemImageView extends StatelessWidget {
   final String image;
   final String? available;
+  static const _outOfStock = 'Out of Stock';
+  static const _unavailable = 'Unavailable';
 
   const MenuItemImageView({Key? key, required this.image, this.available})
       : super(key: key);
@@ -65,8 +67,8 @@ class MenuItemImageView extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              if (available != null) _getBlurImage(),
-              if (available != null) _unavailableMessage(),
+              if (available == _outOfStock) _getBlurImage(),
+              if (available == _outOfStock) _unavailableMessage(),
             ],
           ),
         ),

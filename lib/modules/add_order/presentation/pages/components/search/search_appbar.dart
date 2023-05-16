@@ -29,7 +29,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
       _debounce!.cancel();
     }
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      if(value.isEmpty || value.length > 3){
+      if(value.isEmpty || value.length > 2){
         widget.onTextChanged(value.toLowerCase());
       }
     });
@@ -79,6 +79,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
                   child: TextField(
+                    autofocus:true,
                     onChanged: _onSearchChanged,
                     decoration: InputDecoration(
                       hintText: 'Search for items and categories',

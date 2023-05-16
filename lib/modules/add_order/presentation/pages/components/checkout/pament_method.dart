@@ -13,6 +13,7 @@ import '../cart/tag_title.dart';
 class PaymentMethodView extends StatefulWidget {
   final Function(PaymentMethod?) onChanged;
   final int? initMethod;
+  final bool? required;
   final bool willShowReqTag;
 
   const PaymentMethodView({
@@ -20,6 +21,7 @@ class PaymentMethodView extends StatefulWidget {
     required this.onChanged,
     this.initMethod,
     this.willShowReqTag = true,
+    this.required = false,
   }) : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
         children: [
           TagTitleView(
             title: 'Payment Method',
-            required: false,
+            required: widget.required!,
             willShowReqTag: widget.willShowReqTag,
           ),
           FutureBuilder<List<PaymentMethod>>(
@@ -57,6 +59,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
                 return PaymentMethodDropdown(
                   methods: snap.data!,
                   onChanged: widget.onChanged,
+                  initMethod: widget.initMethod,
                 );
               }
               return const SizedBox();
@@ -126,6 +129,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
           return DropdownMenuItem<PaymentMethod>(
               value: value,
               child: ListTile(
+                tileColor: (_paymentMethod != null && _paymentMethod!.id == value.id) ? AppColors.alabaster : AppColors.white,
                 title: Text(
                   value.title,
                   style: _textStyle,
@@ -135,7 +139,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
                         ? Icon(
                             Icons.check,
                             size: AppSize.s18.rSp,
-                            color: AppColors.balticSea,
+                            color: AppColors.purpleBlue,
                           )
                         : const SizedBox(),
               ));

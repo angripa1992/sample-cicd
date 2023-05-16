@@ -25,7 +25,7 @@ class OrderItemDetails extends StatelessWidget {
   );
 
   final _itemTextStyle = getMediumTextStyle(
-    color: AppColors.black,
+    color: AppColors.darkGrey,
     fontSize: AppFontSize.s14.rSp,
   );
 
@@ -35,7 +35,7 @@ class OrderItemDetails extends StatelessWidget {
   );
 
   final _modifiersItemTextStyle = getRegularTextStyle(
-    color: AppColors.black,
+    color: AppColors.smokeyGrey,
     fontSize: AppFontSize.s14.rSp,
   );
 
@@ -247,7 +247,7 @@ class OrderItemDetails extends StatelessWidget {
           flex: 3,
           child: Row(
             children: [
-              Text('${cartV2.quantity}x', style: _itemTextStyle),
+              Text('${cartV2.quantity} x', style: _itemTextStyle),
               SizedBox(width: AppSize.s4.rw),
               Expanded(child: Text(cartV2.name, style: _itemTextStyle)),
             ],
@@ -283,7 +283,7 @@ class OrderItemDetails extends StatelessWidget {
             padding: EdgeInsets.only(left: (AppSize.s8.rw * paddingLevel)),
             child: Row(
               children: [
-                Text('${modifiers.quantity}x', style: _modifiersItemTextStyle),
+                Text('${modifiers.quantity} x', style: _modifiersItemTextStyle),
                 SizedBox(width: AppSize.s4.rw),
                 Expanded(
                     child:
