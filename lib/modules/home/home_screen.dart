@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SizedBox(
         height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
-        width: ScreenSizes.screenWidth,
+        //width: ScreenSizes.screenWidth,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,

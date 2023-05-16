@@ -66,7 +66,6 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           EasyLoading.dismiss();
           return Center(child: Text(state.failure.message));
         }
-        EasyLoading.dismiss();
         return const SizedBox();
       },
     );

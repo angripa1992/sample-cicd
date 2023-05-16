@@ -19,8 +19,7 @@ class HomeHeaderView extends StatelessWidget {
       color: AppColors.black,
       child: Padding(
         padding: EdgeInsets.only(
-          left: AppSize.s24.rw,
-          right: AppSize.s24.rw,
+          left: AppSize.s16.rw,
           top: AppSize.s16.rh,
           bottom: AppSize.s75.rh,
         ),
@@ -48,6 +47,7 @@ class HomeHeaderView extends StatelessWidget {
               height: AppSize.s12.rh,
             ),
             Container(
+              margin: EdgeInsets.only(right: AppSize.s16.rw),
               decoration: BoxDecoration(
                 color: AppColors.white.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(AppSize.s5.rSp),
