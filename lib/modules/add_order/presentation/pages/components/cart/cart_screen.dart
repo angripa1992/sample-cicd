@@ -49,7 +49,7 @@ class _CartScreenState extends State<CartScreen> {
   int _currentDiscountType = DiscountType.flat;
   num _globalDiscount = 0;
   int? _currentOrderType;
-  AddOrderSource? _currentSource;
+  int _currentSource = 9;
 
   @override
   void initState() {
@@ -131,7 +131,6 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _calculateBill({
-    num? discountValue,
     num? additionalFee,
     num? deliveryFee,
   }) {
@@ -171,7 +170,6 @@ class _CartScreenState extends State<CartScreen> {
                 _globalDiscount = value;
               }
               _calculateBill(
-                discountValue: feeType == FeeType.discount ? value : null,
                 additionalFee: feeType == FeeType.additional ? value : null,
                 deliveryFee: feeType == FeeType.delivery ? value : null,
               );
@@ -186,7 +184,7 @@ class _CartScreenState extends State<CartScreen> {
     final checkoutData = CheckoutData(
       items: CartManager().items(),
       type: _currentOrderType ?? OrderType.DINE_IN,
-      source: _currentSource?.id ?? 9,
+      source: _currentSource,
       cartBill: _cartBill!,
       discountType: _currentDiscountType,
       discountValue: _globalDiscount,
@@ -256,9 +254,9 @@ class _CartScreenState extends State<CartScreen> {
                     if(snap.hasData && snap.data!=null){
                       return SourceSelector(
                         sources: snap.data!,
-                        source: _currentSource,
+                        initialSource: _currentSource,
                         onChangeSource: (source) {
-                          _currentSource = source;
+                          _currentSource = source.id;
                         },
                       );
                     }

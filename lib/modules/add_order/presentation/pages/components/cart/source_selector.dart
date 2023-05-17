@@ -9,14 +9,14 @@ import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/order_source.dart';
 
 class SourceSelector extends StatefulWidget {
-  final AddOrderSource? source;
+  final int initialSource;
   final List<AddOrderSourceType> sources;
   final Function(AddOrderSource) onChangeSource;
 
   const SourceSelector({
     Key? key,
     required this.sources,
-    this.source,
+    required this.initialSource,
     required this.onChangeSource,
   }) : super(key: key);
 
@@ -29,13 +29,13 @@ class _SourceSelectorState extends State<SourceSelector> {
 
   @override
   void initState() {
-    if (widget.source == null) {
-      final source = widget.sources.firstWhere((element) => element.id == 4);
-      _currentSource = source.sources.firstWhere((element) => element.id == 9);
-      widget.onChangeSource(_currentSource);
-    } else {
-      _currentSource = widget.source!;
-    }
+    _currentSource = widget.sources
+        .map((e) => e.sources)
+        .toList()
+        .expand((element) => element)
+        .toList()
+        .firstWhere((element) => element.id == widget.initialSource);
+    widget.onChangeSource(_currentSource);
     super.initState();
   }
 
@@ -82,7 +82,7 @@ class _SourceSelectorState extends State<SourceSelector> {
         ),
         child: Column(
           children: [
-            const TagTitleView(title: 'Order Source',required: true),
+            const TagTitleView(title: 'Order Source', required: true),
             Container(
               margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               padding: EdgeInsets.symmetric(
@@ -131,7 +131,6 @@ class SourceSelectorDropdown extends StatefulWidget {
 }
 
 class _SourceSelectorDropdownState extends State<SourceSelectorDropdown> {
-  AddOrderSourceType? _currentSourceType;
   AddOrderSource? _currentSource;
 
   @override
@@ -177,7 +176,6 @@ class _SourceSelectorDropdownState extends State<SourceSelectorDropdown> {
                     return InkWell(
                       onTap: () {
                         setState(() {
-                          _currentSourceType = sourceType;
                           _currentSource = source;
                         });
                         widget.onChangeSource(_currentSource!);
