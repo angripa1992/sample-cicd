@@ -17,7 +17,6 @@ import '../../../../../segments/segemnt_data_provider.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
-import 'dialogs/action_dialogs.dart';
 import 'order_item/schedule_order_item.dart';
 
 class ScheduleOrderScreen extends StatefulWidget {
@@ -148,6 +147,7 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
                 onCommentActionSuccess: () {
                   _refresh(willBackground: true);
                 },
+                onEdit: () {},
               );
               _sendEvent();
             },

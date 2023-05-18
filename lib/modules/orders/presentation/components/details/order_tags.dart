@@ -60,29 +60,21 @@ class OrderTagsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final type = _getType();
-    return Padding(
-      padding: EdgeInsets.only(
-        left: AppSize.s16.rw,
-        right: AppSize.s16.rw,
-        top: AppSize.s2.rh,
-        bottom: AppSize.s8.rh,
-      ),
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: Wrap(
-          runSpacing: AppSize.s8.rh,
-          spacing: AppSize.s8.rw,
-          children: [
-            if (order.providerId == ProviderID.KLIKIT)
-              _tagView(order.isManualOrder ? 'Manual' : 'Webshop'),
-            if (order.providerId == ProviderID.KLIKIT &&
-                !order.isManualOrder &&
-                order.tableNo.isNotEmpty)
-              _tagView('Table ${order.tableNo}'),
-            if (type.isNotEmpty) _tagView(_getType()),
-            _tagView(_getStatus()),
-          ],
-        ),
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Wrap(
+        runSpacing: AppSize.s8.rh,
+        spacing: AppSize.s8.rw,
+        children: [
+          if (order.providerId == ProviderID.KLIKIT)
+            _tagView(order.isManualOrder ? 'Manual' : 'Webshop'),
+          if (order.providerId == ProviderID.KLIKIT &&
+              !order.isManualOrder &&
+              order.tableNo.isNotEmpty)
+            _tagView('Table ${order.tableNo}'),
+          if (type.isNotEmpty) _tagView(_getType()),
+          _tagView(_getStatus()),
+        ],
       ),
     );
   }
@@ -101,7 +93,7 @@ class OrderTagsView extends StatelessWidget {
         tagName,
         style: getMediumTextStyle(
           color: AppColors.darkGrey,
-          fontSize: AppFontSize.s14.rSp,
+          fontSize: AppFontSize.s13.rSp,
         ),
       ),
     );

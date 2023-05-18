@@ -16,7 +16,6 @@ import 'comment_view.dart';
 import 'order_details_header.dart';
 import 'order_item_details.dart';
 import 'order_payment_info.dart';
-import 'order_tags.dart';
 
 void _openBottomSheet({
   required BuildContext context,
@@ -24,6 +23,7 @@ void _openBottomSheet({
   required Widget actionView,
   required GlobalKey<ScaffoldState> key,
   required VoidCallback onCommentActionSuccess,
+  required VoidCallback onEdit,
 }) {
   showModalBottomSheet(
     context: context,
@@ -84,8 +84,8 @@ void _openBottomSheet({
               order: order,
               modalKey: key,
               onCommentActionSuccess: onCommentActionSuccess,
+              onEdit: onEdit,
             ),
-            OrderTagsView(order: order),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
               child: Divider(color: AppColors.frenchGrey),
@@ -114,12 +114,14 @@ void showHistoryOrderDetails({
   required GlobalKey<ScaffoldState> key,
   required VoidCallback onCommentActionSuccess,
   required VoidCallback onPrint,
+  required VoidCallback onEdit,
 }) {
   _openBottomSheet(
     key: key,
     context: context,
     order: order,
     onCommentActionSuccess: onCommentActionSuccess,
+    onEdit: onEdit,
     actionView: PrintButton(
       onPrint: onPrint,
       expanded: true,
@@ -135,11 +137,13 @@ void showOrderDetails({
   required VoidCallback onPrint,
   required GlobalKey<ScaffoldState> key,
   required VoidCallback onCommentActionSuccess,
+  required VoidCallback onEdit,
 }) {
   _openBottomSheet(
     key: key,
     context: context,
     onCommentActionSuccess: onCommentActionSuccess,
+    onEdit: onEdit,
     order: order,
     actionView: getExpandActionButtons(
       order: order,

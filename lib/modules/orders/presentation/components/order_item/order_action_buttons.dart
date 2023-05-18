@@ -27,12 +27,13 @@ class PrintButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s32.rh,
+      height: AppSize.s28.rh,
       child: ElevatedButton(
         onPressed: onPrint,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
           primary: AppColors.purpleBlue,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp), // <-- Radius
           ),
@@ -42,6 +43,7 @@ class PrintButton extends StatelessWidget {
           children: [
             Icon(
               Icons.print,
+              size: AppSize.s16.rSp,
               color: AppColors.white,
             ),
             if (expanded)
@@ -77,12 +79,12 @@ class ReadyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s32.rh,
+      height: AppSize.s28.rh,
       child: ElevatedButton(
         onPressed: enabled ? onReady : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
           primary: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
@@ -118,7 +120,7 @@ class DeliverButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s32.rh,
+      height: AppSize.s28.rh,
       child: ElevatedButton(
         onPressed: enabled ? onDeliver : null,
         style: ElevatedButton.styleFrom(
@@ -200,13 +202,13 @@ class AcceptButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s32.rh,
+      height: AppSize.s28.rh,
       child: ElevatedButton(
         onPressed: enabled ? onAccept : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          primary: AppColors.purpleBlue,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+          primary: AppColors.frostedMint,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
           ),
@@ -214,14 +216,18 @@ class AcceptButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.check),
+            Icon(
+              Icons.check,
+              size: AppSize.s20.rSp,
+              color: AppColors.green,
+            ),
             if (expanded)
               Padding(
                 padding: EdgeInsets.only(left: AppSize.s8.rw),
                 child: Text(
                   'Accept',
                   style: getMediumTextStyle(
-                    color: AppColors.white,
+                    color: AppColors.green,
                     fontSize: AppFontSize.s14.rSp,
                   ),
                 ),
@@ -248,42 +254,76 @@ class CanceledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s32.rh,
+      height: AppSize.s28.rh,
       child: ElevatedButton(
         onPressed: enabled ? onCanceled : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          primary: AppColors.white,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+          primary: AppColors.veryLightPurple,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            side: BorderSide(
-              color: enabled ? AppColors.black : Colors.transparent,
-            ),
           ),
         ),
         child: expanded
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.clear,color: AppColors.darkGrey),
+                  Icon(Icons.clear, color: AppColors.pink),
                   if (expanded)
                     Padding(
                       padding: EdgeInsets.only(left: AppSize.s8.rw),
                       child: Text(
                         'Reject',
                         style: getMediumTextStyle(
-                          color: AppColors.darkGrey,
+                          color: AppColors.pink,
                           fontSize: AppFontSize.s14.rSp,
                         ),
                       ),
                     ),
                 ],
               )
-            : SvgPicture.asset(
-                AppIcons.canceled,
-                color: enabled ? AppColors.black : AppColors.smokeyGrey,
+            : Icon(
+                Icons.cancel_outlined,
+                size: AppSize.s18.rSp,
+                color: AppColors.pink,
               ),
+      ),
+    );
+  }
+}
+
+class EditButton extends StatelessWidget {
+  final VoidCallback onEdit;
+
+  const EditButton({
+    Key? key,
+    required this.onEdit,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: AppSize.s8.rw),
+      child: SizedBox(
+        height: AppSize.s28.rh,
+        child: ElevatedButton(
+          onPressed: onEdit,
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+            primary: AppColors.lightVioletTwo,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+            ),
+          ),
+          child: SvgPicture.asset(
+            AppIcons.tablerEdit,
+            color: AppColors.black,
+            height: AppSize.s16.rh,
+            width: AppSize.s16.rw,
+          ),
+        ),
       ),
     );
   }
@@ -294,10 +334,13 @@ Widget getActionButtons({
   required Function(String, int) onAction,
   required Function(String) onCancel,
   required VoidCallback onPrint,
+  VoidCallback? onEdit,
 }) {
   final orderStatus = order.status;
   final provider = order.providerId;
   final orderType = order.type;
+  final editButtonEnabled =
+      provider == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty;
   if (orderStatus == OrderStatus.PLACED) {
     return Row(
       children: [
@@ -319,6 +362,7 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
+        if (editButtonEnabled) EditButton(onEdit: onEdit!),
       ],
     );
   }
@@ -364,6 +408,7 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
+        if (editButtonEnabled) EditButton(onEdit: onEdit!),
       ],
     );
   }
@@ -386,6 +431,7 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
+        if (editButtonEnabled) EditButton(onEdit: onEdit!),
       ],
     );
   }

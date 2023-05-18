@@ -26,11 +26,11 @@ class CommentView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Divider(color: AppColors.purpleBlue),
+            Divider(color: AppColors.frenchGrey),
             Text(
               AppStrings.order_instruction.tr(),
-              style: getRegularTextStyle(
-                color: AppColors.smokeyGrey,
+              style: getMediumTextStyle(
+                color: AppColors.darkGrey,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
@@ -38,8 +38,8 @@ class CommentView extends StatelessWidget {
             Text(
               comment,
               style: getRegularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
+                color: AppColors.darkGrey,
+                fontSize: AppFontSize.s12.rSp,
               ),
             ),
           ],

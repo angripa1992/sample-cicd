@@ -33,6 +33,7 @@ class AppIcons {
   static const String editRound = "$ICON_PATH/ic_edit_round.svg";
   static const String edit = "$ICON_PATH/ic_edit.svg";
   static const String emptyBrand = "$ICON_PATH/ic_empty_brand.svg";
+  static const String tablerEdit = "$ICON_PATH/ic_tabler_edit.svg";
   static const String notificationIcon = '@mipmap/ic_launcher';
 }
 

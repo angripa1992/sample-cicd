@@ -34,11 +34,16 @@ class _CommentActionViewState extends State<CommentActionView> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s8.rw,
+        vertical: AppSize.s6.rh,
+      ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-        color: _currentOrder!.klikitComment.isEmpty
-            ? AppColors.lightVioletTwo
-            : AppColors.purpleBlue,
+        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+        color: AppColors.dawnPink,
+        // color: _currentOrder!.klikitComment.isEmpty
+        //     ? AppColors.lightVioletTwo
+        //     : AppColors.purpleBlue,
       ),
       child: InkWell(
         onTap: () {
@@ -53,36 +58,27 @@ class _CommentActionViewState extends State<CommentActionView> {
             },
           );
         },
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s8.rw,
-            vertical: AppSize.s4.rh,
-          ),
-          child: Row(
-            children: [
-              Icon(
-                _currentOrder!.klikitComment.isEmpty
-                    ? Icons.add_comment_outlined
-                    : Icons.comment_outlined,
-                size: AppSize.s16.rSp,
-                color: _currentOrder!.klikitComment.isEmpty
-                    ? AppColors.purpleBlue
-                    : AppColors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              _currentOrder!.klikitComment.isEmpty
+                  ? Icons.add_comment_outlined
+                  : Icons.chat,
+              size: AppSize.s16.rSp,
+              color: AppColors.blackCow,
+            ),
+            SizedBox(width: AppSize.s8.rw),
+            Text(
+              _currentOrder!.klikitComment.isEmpty
+                  ? AppStrings.add_comment.tr()
+                  : AppStrings.see_comment.tr(),
+              style: getRegularTextStyle(
+                color: AppColors.blackCow,
+                fontSize: AppFontSize.s14.rSp,
               ),
-              SizedBox(width: AppSize.s8.rw),
-              Text(
-                _currentOrder!.klikitComment.isEmpty
-                    ? AppStrings.add_comment.tr()
-                    : AppStrings.see_comment.tr(),
-                style: getRegularTextStyle(
-                  color: _currentOrder!.klikitComment.isEmpty
-                      ? AppColors.purpleBlue
-                      : AppColors.white,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -24,12 +24,14 @@ class OrderDetailsHeaderView extends StatelessWidget {
   final GlobalKey<ScaffoldState> modalKey;
   final Order order;
   final VoidCallback onCommentActionSuccess;
+  final VoidCallback onEdit;
 
   const OrderDetailsHeaderView({
     Key? key,
     required this.order,
     required this.modalKey,
     required this.onCommentActionSuccess,
+    required this.onEdit,
   }) : super(key: key);
 
   @override
@@ -40,13 +42,68 @@ class OrderDetailsHeaderView extends StatelessWidget {
         vertical: AppSize.s10.rh,
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _idView(),
           SizedBox(height: AppSize.s8.rh),
           _externalIdView(),
           SizedBox(height: AppSize.s8.rh),
           _timeView(),
+          SizedBox(height: AppSize.s12.rh),
+          OrderTagsView(order: order),
+          SizedBox(height: AppSize.s12.rh),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if(order.providerId == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty)
+              Expanded(
+                child: _editOrderButton(onEdit),
+              ),
+              if(order.providerId == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty)
+              SizedBox(width: AppSize.s16.rw),
+              Expanded(
+                child: CommentActionView(
+                  onCommentActionSuccess: onCommentActionSuccess,
+                  order: order,
+                ),
+              ),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _editOrderButton(VoidCallback onEdit) {
+    return InkWell(
+      onTap: onEdit,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s8.rw,
+          vertical: AppSize.s6.rh,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+          color: AppColors.dawnPink,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.edit,
+              color: AppColors.blackCow,
+              size: AppSize.s16.rSp,
+            ),
+            SizedBox(width: AppSize.s8.rw),
+            Text(
+              'Edit Order',
+              style: getRegularTextStyle(
+                color: AppColors.blackCow,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -76,9 +133,11 @@ class OrderDetailsHeaderView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: AppSize.s18.rw),
             child: FutureBuilder<Provider>(
-              future: getIt.get<OrderInformationProvider>().findProviderById(order.providerId),
+              future: getIt
+                  .get<OrderInformationProvider>()
+                  .findProviderById(order.providerId),
               builder: (_, result) {
-                if(result.hasData && result.data != null){
+                if (result.hasData && result.data != null) {
                   return Container(
                     padding: EdgeInsets.symmetric(
                       vertical: AppSize.s4.rh,
@@ -168,11 +227,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
-        ),
-        SizedBox(width: AppSize.s8.rw),
-        CommentActionView(
-          onCommentActionSuccess: onCommentActionSuccess,
-          order: order,
         ),
       ],
     );

@@ -12,6 +12,7 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../../widgets/menu_item_image_view.dart';
 import '../../../../domain/entities/billing_response.dart';
 import '../modifier/quantity_selector.dart';
 
@@ -44,34 +45,7 @@ class CartItemView extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
             child: Row(
               children: [
-                SizedBox(
-                  height: AppSize.s48.rh,
-                  width: AppSize.s48.rw,
-                  child: CachedNetworkImage(
-                    imageUrl: ImageUrlProvider.getUrl(cartItem.item.image),
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
-                      ),
-                    ),
-                    progressIndicatorBuilder: (_, __, ___) => Center(
-                      child: SizedBox(
-                        height: AppSize.s16.rh,
-                        width: AppSize.s16.rw,
-                        child: const CircularProgressIndicator(),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Center(
-                      child: SvgPicture.asset(
-                        AppImages.placeholder,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
+                MenuItemImageView(url: cartItem.item.image),
                 SizedBox(width: AppSize.s16.rw),
                 Expanded(
                   child: Column(

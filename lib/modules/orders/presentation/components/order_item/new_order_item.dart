@@ -11,6 +11,7 @@ class NewOrderItemView extends StatelessWidget {
   final Function(String, int) onAction;
   final Function(String) onCancel;
   final VoidCallback onPrint;
+  final VoidCallback onEdit;
   final Order order;
 
   const NewOrderItemView({
@@ -20,6 +21,7 @@ class NewOrderItemView extends StatelessWidget {
     required this.onAction,
     required this.onPrint,
     required this.onCancel,
+    required this.onEdit,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class NewOrderItemView extends StatelessWidget {
                 onAction: onAction,
                 onPrint: onPrint,
                 onCancel: onCancel,
+                onEdit: onEdit,
               ),
             ),
           ],
