@@ -22,6 +22,18 @@ class CartV2 {
     required this.cartBrand,
     required this.modifierGroups,
   });
+
+  CartV2 copy() => CartV2(
+        id: id,
+        name: name,
+        image: image,
+        price: price,
+        comment: comment,
+        quantity: quantity,
+        unitPrice: unitPrice,
+        cartBrand: cartBrand.copy(),
+        modifierGroups: modifierGroups.map((e) => e.copy()).toList(),
+      );
 }
 
 class ModifierGroups {
@@ -34,6 +46,12 @@ class ModifierGroups {
     required this.name,
     required this.modifiers,
   });
+
+  ModifierGroups copy() => ModifierGroups(
+        id: id,
+        name: name,
+        modifiers: modifiers.map((e) => e.copy()).toList(),
+      );
 }
 
 class Modifiers {
@@ -52,4 +70,13 @@ class Modifiers {
     required this.unitPrice,
     required this.modifierGroups,
   });
+
+  Modifiers copy() => Modifiers(
+        id: id,
+        name: name,
+        price: price,
+        quantity: quantity,
+        unitPrice: unitPrice,
+        modifierGroups: modifierGroups.map((e) => e.copy()).toList(),
+      );
 }

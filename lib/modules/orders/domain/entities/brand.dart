@@ -74,4 +74,6 @@ class CartBrand {
   final String logo;
 
   CartBrand({required this.id, required this.title, required this.logo});
+
+  CartBrand copy() => CartBrand(id: id, title: title, logo: logo);
 }

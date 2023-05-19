@@ -69,9 +69,11 @@ class InAppNotificationHandler {
     final order = await NotificationDataHandler().getOrderById(
       notificationData.orderId.toInt(),
     );
-    if (order != null && order.status == OrderStatus.ACCEPTED) {
-      _printingHandler.printDocket(order: order, isAutoPrint: true);
-    }
+    // if (order != null && order.status == OrderStatus.ACCEPTED) {
+    //   _printingHandler.printDocket(order: order, isAutoPrint: true);
+    // }
+
+    _printingHandler.printDocket(order: order!, isAutoPrint: true);
   }
 
   void _dismissInAppNotification() {

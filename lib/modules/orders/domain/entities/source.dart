@@ -26,4 +26,11 @@ class OrderSource {
   final SourceTpe sourceType;
 
   OrderSource(this.id, this.title, this.logo, this.sourceType);
+
+  OrderSource copy() => OrderSource(
+        id,
+        title,
+        logo,
+        sourceType,
+      );
 }

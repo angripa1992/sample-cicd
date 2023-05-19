@@ -178,7 +178,13 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
           extendBody: false,
           body: Container(
             margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-            child: EditGrabOrderView(order: order),
+            child: EditGrabOrderView(
+              order: order,
+              copyOrder: order.copy(),
+              onClose: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
         );
       },

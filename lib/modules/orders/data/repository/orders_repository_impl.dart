@@ -172,13 +172,10 @@ class OrderRepositoryImpl extends OrderRepository {
     late OrderSource orderSource;
     if (sourceId > 0) {
       final source = await _orderInformationProvider.findSourceById(sourceId);
-      orderSource =
-          OrderSource(source.id, source.name, source.image, SourceTpe.source);
+      orderSource = OrderSource(source.id, source.name, source.image, SourceTpe.source);
     } else {
-      final provider =
-          await _orderInformationProvider.findProviderById(providerId);
-      orderSource = OrderSource(
-          provider.id, provider.title, provider.logo, SourceTpe.provider);
+      final provider = await _orderInformationProvider.findProviderById(providerId);
+      orderSource = OrderSource(provider.id, provider.title, provider.logo, SourceTpe.provider);
     }
     return orderModel.toEntity(orderSource: orderSource);
   }
