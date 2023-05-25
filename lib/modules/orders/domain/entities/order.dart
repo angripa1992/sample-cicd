@@ -52,6 +52,7 @@ class Order {
   final String userPhone;
   final String userEmail;
   final List<CartBrand> brands;
+  final List<CartV1> cartV1;
   final List<CartV2> cartV2;
   final String klikitStoreId;
   final int type;
@@ -120,6 +121,7 @@ class Order {
     required this.userPhone,
     required this.userEmail,
     required this.brands,
+    required this.cartV1,
     required this.cartV2,
     required this.klikitStoreId,
     required this.type,
@@ -189,6 +191,7 @@ class Order {
         userPhone: userPhone,
         userEmail: userEmail,
         brands: brands.map((e) => e.copy()).toList(),
+        cartV1: cartV1.map((e) => e.copy()).toList(),
         cartV2: cartV2.map((e) => e.copy()).toList(),
         klikitStoreId: klikitStoreId,
         type: type,

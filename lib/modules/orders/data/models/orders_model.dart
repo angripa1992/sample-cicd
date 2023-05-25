@@ -103,6 +103,8 @@ class OrderModel {
   @JsonKey(name: 'user_email')
   String? userEmail;
   List<CartBrandModel>? brands;
+  @JsonKey(name: 'cart')
+  List<CartV1Model>? cartV1;
   @JsonKey(name: 'cart_v2')
   List<CartV2Model>? cartV2;
   @JsonKey(name: 'klikit_store_id')
@@ -139,7 +141,6 @@ class OrderModel {
   bool? canUpdate;
   @JsonKey(name: 'can_mark_ready')
   bool? canMarkReady;
-
   @JsonKey(name: 'discount_display')
   String? discountDisplay;
   @JsonKey(name: 'additional_fee_display')
@@ -201,6 +202,7 @@ class OrderModel {
     this.userEmail,
     this.brands,
     this.cartV2,
+    this.cartV1,
     this.klikitStoreId,
     this.type,
     this.isFake,
@@ -269,6 +271,7 @@ class OrderModel {
       userProfilePic: userProfilePic.orEmpty(),
       userPhone: userPhone.orEmpty(),
       userEmail: userEmail.orEmpty(),
+      cartV1: cartV1?.map((e) => e.toEntity()).toList() ?? [],
       cartV2: cartV2?.map((e) => e.toEntity()).toList() ?? [],
       brands: brands?.map((e) => e.toEntity()).toList() ?? [],
       klikitStoreId: klikitStoreId.orEmpty(),
@@ -439,4 +442,31 @@ class ModifiersModel {
       modifierGroups: modifierGroups?.map((e) => e.toEntity()).toList() ?? [],
     );
   }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CartV1Model {
+  @JsonKey(name: 'item_id')
+  int? itemId;
+  @JsonKey(name: 'discount_type')
+  int? discountType;
+  @JsonKey(name: 'discount_value')
+  num? discountValue;
+
+  CartV1Model({
+    this.itemId,
+    this.discountType,
+    this.discountValue,
+  });
+
+  factory CartV1Model.fromJson(Map<String, dynamic> json) =>
+      _$CartV1ModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CartV1ModelToJson(this);
+
+  CartV1 toEntity() => CartV1(
+        itemId.orZero(),
+        discountType.orZero(),
+        discountValue ?? ZERO,
+      );
 }

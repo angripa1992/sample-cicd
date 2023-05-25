@@ -61,6 +61,9 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       cartV2: (json['cart_v2'] as List<dynamic>?)
           ?.map((e) => CartV2Model.fromJson(e as Map<String, dynamic>))
           .toList(),
+      cartV1: (json['cart'] as List<dynamic>?)
+          ?.map((e) => CartV1Model.fromJson(e as Map<String, dynamic>))
+          .toList(),
       klikitStoreId: json['klikit_store_id'] as String?,
       type: json['type'] as int?,
       isFake: json['is_fake'] as bool?,
@@ -131,6 +134,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'user_phone': instance.userPhone,
       'user_email': instance.userEmail,
       'brands': instance.brands?.map((e) => e.toJson()).toList(),
+      'cart': instance.cartV1?.map((e) => e.toJson()).toList(),
       'cart_v2': instance.cartV2?.map((e) => e.toJson()).toList(),
       'klikit_store_id': instance.klikitStoreId,
       'is_fake': instance.isFake,
@@ -244,4 +248,17 @@ Map<String, dynamic> _$ModifiersModelToJson(ModifiersModel instance) =>
       'unit_price_display': instance.unitPriceDisplay,
       'modifier_groups':
           instance.modifierGroups?.map((e) => e.toJson()).toList(),
+    };
+
+CartV1Model _$CartV1ModelFromJson(Map<String, dynamic> json) => CartV1Model(
+      itemId: json['item_id'] as int?,
+      discountType: json['discount_type'] as int?,
+      discountValue: json['discount_value'] as num?,
+    );
+
+Map<String, dynamic> _$CartV1ModelToJson(CartV1Model instance) =>
+    <String, dynamic>{
+      'item_id': instance.itemId,
+      'discount_type': instance.discountType,
+      'discount_value': instance.discountValue,
     };

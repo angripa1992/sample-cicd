@@ -133,3 +133,17 @@ class Modifiers {
         modifierGroups: modifierGroups.map((e) => e.toModel()).toList(),
       );
 }
+
+class CartV1 {
+  final int itemId;
+  final int discountType;
+  final num discountValue;
+
+  CartV1(
+    this.itemId,
+    this.discountType,
+    this.discountValue,
+  );
+
+  CartV1 copy() => CartV1(itemId, discountType, discountValue);
+}
