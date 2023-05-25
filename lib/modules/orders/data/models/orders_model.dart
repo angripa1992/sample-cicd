@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
-import '../../domain/entities/brand.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/source.dart';
 import 'brand_model.dart';
@@ -136,58 +135,105 @@ class OrderModel {
   int? autoPilotTime;
   @JsonKey(name: 'table_no')
   String? tableNo;
+  @JsonKey(name: 'can_update')
+  bool? canUpdate;
+  @JsonKey(name: 'can_mark_ready')
+  bool? canMarkReady;
 
-  OrderModel(
-      {this.id,
-      this.externalId,
-      this.shortId,
-      this.providerId,
-      this.brandName,
-      this.branchId,
-      this.status,
-      this.itemPrice,
-      this.finalPrice,
-      this.discount,
-      this.merchantDiscount,
-      this.providerDiscount,
-      this.deliveryFee,
-      this.additionalFee,
-      this.gatewayFee,
-      this.serviceFee,
-      this.vat,
-      this.currency,
-      this.currencySymbol,
-      this.itemCount,
-      this.uniqueItemCount,
-      this.scheduledStatus,
-      this.scheduledTime,
-      this.createdAt,
-      this.updatedAt,
-      this.userId,
-      this.userFirstName,
-      this.userLastName,
-      this.userProfilePic,
-      this.userPhone,
-      this.userEmail,
-      this.brands,
-      this.cartV2,
-      this.klikitStoreId,
-      this.type,
-      this.isFake,
-      this.isFoodpandaApiOrder,
-      this.orderComment,
-      this.deliveryComment,
-      this.foodpandaToken,
-      this.klikitComment,
-      this.isManualOrder,
-      this.source,
-      this.paymentMethod,
-      this.paymentStatus,
-      this.autoAccept,
-      this.autoPilot,
-      this.autoPilotTime,
-      this.tableNo,
-      });
+  @JsonKey(name: 'discount_display')
+  String? discountDisplay;
+  @JsonKey(name: 'additional_fee_display')
+  String? additionalFeeDisplay;
+  @JsonKey(name: 'delivery_fee_display')
+  String? deliveryFeeDisplay;
+  @JsonKey(name: 'final_price_display')
+  String? finalPriceDisplay;
+  @JsonKey(name: 'item_price_display')
+  String? itemPriceDisplay;
+  @JsonKey(name: 'merchant_discount_display')
+  String? merchantDiscountDisplay;
+  @JsonKey(name: 'provider_discount_display')
+  String? providerDiscountDisplay;
+  @JsonKey(name: 'vat_display')
+  String? vatDisplay;
+  @JsonKey(name: 'discount_type')
+  int? discountTYpe;
+  @JsonKey(name: 'discount_value')
+  int? discountValue;
+  @JsonKey(name: 'identity')
+  String? identity;
+  @JsonKey(name: 'is_mix_and_match_order')
+  bool? isMixAndMatchOrder;
+  @JsonKey(name: 'triggered_time')
+  String? triggeredTime;
+
+  OrderModel({
+    this.id,
+    this.externalId,
+    this.shortId,
+    this.providerId,
+    this.brandName,
+    this.branchId,
+    this.status,
+    this.itemPrice,
+    this.finalPrice,
+    this.discount,
+    this.merchantDiscount,
+    this.providerDiscount,
+    this.deliveryFee,
+    this.additionalFee,
+    this.gatewayFee,
+    this.serviceFee,
+    this.vat,
+    this.currency,
+    this.currencySymbol,
+    this.itemCount,
+    this.uniqueItemCount,
+    this.scheduledStatus,
+    this.scheduledTime,
+    this.createdAt,
+    this.updatedAt,
+    this.userId,
+    this.userFirstName,
+    this.userLastName,
+    this.userProfilePic,
+    this.userPhone,
+    this.userEmail,
+    this.brands,
+    this.cartV2,
+    this.klikitStoreId,
+    this.type,
+    this.isFake,
+    this.isFoodpandaApiOrder,
+    this.isInterceptorOrder,
+    this.orderComment,
+    this.deliveryComment,
+    this.foodpandaToken,
+    this.klikitComment,
+    this.isManualOrder,
+    this.source,
+    this.paymentMethod,
+    this.paymentStatus,
+    this.autoAccept,
+    this.autoPilot,
+    this.autoPilotTime,
+    this.tableNo,
+    this.canUpdate,
+    this.canMarkReady,
+    this.discountDisplay,
+    this.additionalFeeDisplay,
+    this.deliveryFeeDisplay,
+    this.finalPriceDisplay,
+    this.itemPriceDisplay,
+    this.merchantDiscountDisplay,
+    this.providerDiscountDisplay,
+    this.vatDisplay,
+    this.discountTYpe,
+    this.discountValue,
+    this.identity,
+    this.isMixAndMatchOrder,
+    this.triggeredTime,
+  });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);
@@ -223,8 +269,8 @@ class OrderModel {
       userProfilePic: userProfilePic.orEmpty(),
       userPhone: userPhone.orEmpty(),
       userEmail: userEmail.orEmpty(),
-      cartV2: toCartV2ListEntity(),
-      brands: _brands(),
+      cartV2: cartV2?.map((e) => e.toEntity()).toList() ?? [],
+      brands: brands?.map((e) => e.toEntity()).toList() ?? [],
       klikitStoreId: klikitStoreId.orEmpty(),
       type: type.orZero(),
       isFake: isFake ?? false,
@@ -247,27 +293,22 @@ class OrderModel {
       gatewayFee: gatewayFee.orZero(),
       serviceFee: serviceFee.orZero(),
       tableNo: tableNo.orEmpty(),
+      canMarkReady: canMarkReady.orFalse(),
+      canUpdate: canUpdate.orFalse(),
+      discountDisplay: discountDisplay.orEmpty(),
+      additionalFeeDisplay: additionalFeeDisplay.orEmpty(),
+      deliveryFeeDisplay: deliveryFeeDisplay.orEmpty(),
+      finalPriceDisplay: finalPriceDisplay.orEmpty(),
+      itemPriceDisplay: itemPriceDisplay.orEmpty(),
+      merchantDiscountDisplay: merchantDiscountDisplay.orEmpty(),
+      providerDiscountDisplay: providerDiscountDisplay.orEmpty(),
+      vatDisplay: vatDisplay.orEmpty(),
+      discountTYpe: discountTYpe.orZero(),
+      discountValue: discountValue.orZero(),
+      identity: identity.orEmpty(),
+      isMixAndMatchOrder: isMixAndMatchOrder.orFalse(),
+      triggeredTime: triggeredTime.orEmpty(),
     );
-  }
-
-  List<CartV2> toCartV2ListEntity() {
-    if (cartV2 == null) {
-      return [];
-    }
-    List<CartV2> carts = [];
-    for (var item in cartV2!) {
-      carts.add(item.toEntity());
-    }
-    return carts;
-  }
-
-  List<CartBrand> _brands() {
-    if (brands == null || brands!.isEmpty) return [];
-    List<CartBrand> cartBrands = [];
-    for (var cartBrand in brands!) {
-      cartBrands.add(cartBrand.toEntity());
-    }
-    return cartBrands;
   }
 }
 
@@ -280,20 +321,33 @@ class CartV2Model {
   String? comment;
   int? quantity;
   CartBrandModel? brand;
+  @JsonKey(name: 'modifier_group_price')
+  String? modifierGroupPrice;
+  @JsonKey(name: 'external_id')
+  String? externalId;
+  @JsonKey(name: 'price_display')
+  String? priceDisplay;
   @JsonKey(name: 'unit_price')
   String? unitPrice;
+  @JsonKey(name: 'unit_price_display')
+  String? unitPriceDisplay;
   @JsonKey(name: 'modifier_groups')
   List<ModifierGroupsModel>? modifierGroups;
 
   CartV2Model({
     this.id,
+    this.externalId,
     this.name,
     this.image,
     this.price,
     this.comment,
     this.quantity,
+    this.brand,
     this.unitPrice,
     this.modifierGroups,
+    this.unitPriceDisplay,
+    this.priceDisplay,
+    this.modifierGroupPrice,
   });
 
   factory CartV2Model.fromJson(Map<String, dynamic> json) =>
@@ -304,24 +358,19 @@ class CartV2Model {
   CartV2 toEntity() {
     return CartV2(
       id: id.orEmpty(),
+      externalId: externalId.orEmpty(),
       name: name.orEmpty(),
       image: image.orEmpty(),
       price: price.orEmpty(),
       comment: comment.orEmpty(),
       quantity: quantity.orZero(),
       unitPrice: unitPrice.orEmpty(),
-      modifierGroups: _getModifiersGroup(),
+      unitPriceDisplay: unitPriceDisplay.orEmpty(),
+      priceDisplay: priceDisplay.orEmpty(),
+      modifierGroups: modifierGroups?.map((e) => e.toEntity()).toList() ?? [],
       cartBrand: brand!.toEntity(),
+      modifierGroupPrice: modifierGroupPrice.orEmpty(),
     );
-  }
-
-  List<ModifierGroups> _getModifiersGroup() {
-    if (modifierGroups == null || modifierGroups!.isEmpty) return [];
-    List<ModifierGroups> groups = [];
-    for (var modifiersGroup in modifierGroups!) {
-      groups.add(modifiersGroup.toEntity());
-    }
-    return groups;
   }
 }
 
@@ -342,17 +391,8 @@ class ModifierGroupsModel {
     return ModifierGroups(
       id: id.orEmpty(),
       name: name.orEmpty(),
-      modifiers: _getModifiers(),
+      modifiers: modifiers?.map((e) => e.toEntity()).toList() ?? [],
     );
-  }
-
-  List<Modifiers> _getModifiers() {
-    if (modifiers == null || modifiers!.isEmpty) return [];
-    List<Modifiers> data = [];
-    for (var modifier in modifiers!) {
-      data.add(modifier.toEntity());
-    }
-    return data;
   }
 }
 
@@ -364,6 +404,10 @@ class ModifiersModel {
   int? quantity;
   @JsonKey(name: 'unit_price')
   String? unitPrice;
+  @JsonKey(name: 'price_display')
+  String? priceDisplay;
+  @JsonKey(name: 'unit_price_display')
+  String? unitPriceDisplay;
   @JsonKey(name: 'modifier_groups')
   List<ModifierGroupsModel>? modifierGroups;
 
@@ -374,6 +418,8 @@ class ModifiersModel {
     this.quantity,
     this.unitPrice,
     this.modifierGroups,
+    this.priceDisplay,
+    this.unitPriceDisplay,
   });
 
   factory ModifiersModel.fromJson(Map<String, dynamic> json) =>
@@ -388,16 +434,9 @@ class ModifiersModel {
       price: price.orEmpty(),
       quantity: quantity.orZero(),
       unitPrice: unitPrice.orEmpty(),
-      modifierGroups: _getModifiersGroup(),
+      unitPriceDisplay: unitPriceDisplay.orEmpty(),
+      priceDisplay: priceDisplay.orEmpty(),
+      modifierGroups: modifierGroups?.map((e) => e.toEntity()).toList() ?? [],
     );
-  }
-
-  List<ModifierGroups> _getModifiersGroup() {
-    if (modifierGroups == null || modifierGroups!.isEmpty) return [];
-    List<ModifierGroups> groups = [];
-    for (var modifiersGroup in modifierGroups!) {
-      groups.add(modifiersGroup.toEntity());
-    }
-    return groups;
   }
 }

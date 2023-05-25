@@ -79,7 +79,7 @@ class _BusyModeViewState extends State<BusyModeView> {
                   : _getOfflineIcon((state as Offline).minute),
               SizedBox(width: AppSize.s12.rw),
               Text(
-                AppStrings.busy_mode.tr(),
+                'Pause Store',
                 style: getRegularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,

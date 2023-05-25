@@ -38,17 +38,12 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
-    final isWebshopOrder = widget.order.providerId == ProviderID.KLIKIT &&
-        !widget.order.isManualOrder;
-    final isManualOrderOrder = widget.order.providerId == ProviderID.KLIKIT &&
-        widget.order.isManualOrder;
+    final isWebshopOrder = widget.order.providerId == ProviderID.KLIKIT && !widget.order.isManualOrder;
+    final isManualOrderOrder = widget.order.providerId == ProviderID.KLIKIT && widget.order.isManualOrder;
     final serviceFee = widget.order.serviceFee;
     final gateWayFee = widget.order.gatewayFee;
-    final willShowServiceFee =
-        (isWebshopOrder && serviceFee > 0 && gateWayFee > 0) ||
-            (isManualOrderOrder && serviceFee > 0);
-    final willShowProcessingFee =
-        (isWebshopOrder && serviceFee > 0 && gateWayFee > 0);
+    final willShowServiceFee = (isWebshopOrder && serviceFee > 0 && gateWayFee > 0) || (isManualOrderOrder && serviceFee > 0);
+    final willShowProcessingFee = (isWebshopOrder && serviceFee > 0 && gateWayFee > 0);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(

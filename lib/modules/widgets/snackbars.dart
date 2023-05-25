@@ -39,7 +39,7 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
         ],
       ),
       duration:
-          isOnline ? const Duration(seconds: 3) : const Duration(hours: 1),
+          isOnline ? const Duration(seconds: 1) : const Duration(hours: 1),
       backgroundColor: isOnline ? AppColors.green : AppColors.red,
     ),
   );
@@ -57,7 +57,7 @@ void showErrorSnackBar(BuildContext context, String message) {
           fontSize: AppFontSize.s15.rSp,
         ),
       ),
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 1),
       backgroundColor: AppColors.red,
     ),
   );
@@ -78,7 +78,7 @@ void showApiErrorSnackBar(BuildContext context, Failure failure) {
           fontSize: AppFontSize.s15.rSp,
         ),
       ),
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 1),
       backgroundColor: AppColors.red,
     ),
   );
@@ -124,7 +124,7 @@ void showLoadingSnackBar(BuildContext context) {
           ),
         ],
       ),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 1),
       backgroundColor: AppColors.purpleBlue,
     ),
   );

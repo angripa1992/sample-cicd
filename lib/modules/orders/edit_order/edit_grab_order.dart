@@ -1,28 +1,108 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/edit_order/update_grab_order_cubit.dart';
 
+import '../../../resources/assets.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
 import '../../../resources/strings.dart';
 import '../../../resources/styles.dart';
 import '../../../resources/values.dart';
+import '../../widgets/loading_button.dart';
+import '../../widgets/snackbars.dart';
 import '../domain/entities/cart.dart';
+import 'calculate_grab_order_cubit.dart';
 import 'editing_item.dart';
 import 'editing_manager.dart';
 
-class EditGrabOrderView extends StatelessWidget {
+class EditGrabOrderView extends StatefulWidget {
   final Order order;
-  final Order copyOrder;
   final VoidCallback onClose;
+  final Function(Order order) onEditSuccess;
 
   const EditGrabOrderView({
     Key? key,
     required this.order,
     required this.onClose,
-    required this.copyOrder,
+    required this.onEditSuccess,
   }) : super(key: key);
+
+  @override
+  State<EditGrabOrderView> createState() => _EditGrabOrderViewState();
+}
+
+class _EditGrabOrderViewState extends State<EditGrabOrderView> {
+  final _calculatedText = "Calculated at next step";
+  final _enableButtonNotifier = ValueNotifier<bool>(false);
+  late Order _currentOrder;
+  bool _showPrice = true;
+
+  @override
+  void initState() {
+    _currentOrder = widget.order.copy();
+    super.initState();
+  }
+
+  void _calculateBill() {
+    context
+        .read<CalculateGrabBillCubit>()
+        .calculateBill(_currentOrder.toModel());
+  }
+
+  void _onQuantityChange(String id, String externalId, int quantity) {
+    if (quantity == 0) {
+      _deleteItem(id, externalId);
+    } else {
+      final cartItem = _currentOrder.cartV2.firstWhere((element) => (element.id == id && element.externalId == externalId));
+      cartItem.quantity = quantity;
+    }
+    _updateStateAndCalculate();
+  }
+
+  void _updateStateAndCalculate(){
+    if (_currentOrder.cartV2.isEmpty) {
+      _showPrice = false;
+    } else {
+      final status = EditingManager().enabledButton(widget.order, _currentOrder);
+      _enableButtonNotifier.value = status;
+      _showPrice = !status;
+    }
+    _calculateBill();
+  }
+
+  void _deleteItem(String id, String externalId){
+    _currentOrder.cartV2.removeWhere((element) => (element.id == id && element.externalId == externalId));
+    _updateStateAndCalculate();
+  }
+
+  void _removeAll() {
+    _currentOrder.cartV2.clear();
+    _enableButtonNotifier.value =
+        EditingManager().enabledButton(widget.order, _currentOrder);
+    _showPrice = false;
+    _calculateBill();
+  }
+
+  void _discard() {
+    setState(() {
+      _currentOrder = widget.order.copy();
+      _enableButtonNotifier.value =
+          EditingManager().enabledButton(widget.order, _currentOrder);
+      _showPrice = true;
+    });
+  }
+
+  void _updateOrder(){
+    final requestModel = EditingManager().createRequestModel(widget.order, _currentOrder);
+    context.read<UpdateGrabOrderCubit>().updateGrabOrder(requestModel);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +111,29 @@ class EditGrabOrderView extends StatelessWidget {
       child: Column(
         children: [
           _appBar(),
-          _brandSpecificCartItemsListView(),
-          _priceView(),
+          Expanded(
+            child: BlocConsumer<CalculateGrabBillCubit, ResponseState>(
+              listener: (context, state) {
+                if (state is Loading) {
+                  EasyLoading.show();
+                } else if (state is Success<Order>) {
+                  _currentOrder = state.data;
+                  EasyLoading.dismiss();
+                } else {
+                  EasyLoading.dismiss();
+                }
+              },
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    _brandSpecificCartItemsListView(),
+                    _priceView(),
+                    _bottomView(),
+                  ],
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -54,7 +155,8 @@ class EditGrabOrderView extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
         child: Row(
           children: [
-            IconButton(onPressed: onClose, icon: const Icon(Icons.clear)),
+            IconButton(
+                onPressed: widget.onClose, icon: const Icon(Icons.clear)),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -67,7 +169,7 @@ class EditGrabOrderView extends StatelessWidget {
                 ),
                 SizedBox(height: AppSize.s4.rh),
                 Text(
-                  '#${order.id} (Order ID)',
+                  '#${_currentOrder.id} (Order ID)',
                   style: getRegularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s12.rSp,
@@ -81,59 +183,85 @@ class EditGrabOrderView extends StatelessWidget {
     );
   }
 
+  Widget _emptyCartView() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: AppSize.s16.rh),
+      child: Column(
+        children: [
+          SvgPicture.asset(AppImages.emptyCartSvg),
+          SizedBox(height: AppSize.s16.rh),
+          Text(
+            'Your cart is empty!',
+            style: getMediumTextStyle(
+              color: AppColors.purpleBlue,
+              fontSize: AppFontSize.s20.rSp,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _brandSpecificCartItemsListView() {
-    final brandSpecificCartItems = EditingManager().extractCartItems(order);
+    final brandSpecificCartItems =
+        EditingManager().extractCartItems(_currentOrder);
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-        child: ListView.builder(
-          itemCount: brandSpecificCartItems.length,
-          itemBuilder: (context, index) {
-            final menuBrand = brandSpecificCartItems[index].first.cartBrand;
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-              margin: EdgeInsets.symmetric(vertical: AppSize.s16.rh),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: AppColors.white,
-              ),
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              menuBrand.title,
-                              style: getBoldTextStyle(
-                                color: AppColors.balticSea,
-                                fontSize: AppFontSize.s15.rSp,
-                              ),
+        child: brandSpecificCartItems.isEmpty ||
+                brandSpecificCartItems.first.isEmpty
+            ? _emptyCartView()
+            : ListView.builder(
+                itemCount: brandSpecificCartItems.length,
+                shrinkWrap: true,
+                //  physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final menuBrand =
+                      brandSpecificCartItems[index].first.cartBrand;
+                  return Container(
+                    padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                    margin: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                      color: AppColors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    menuBrand.title,
+                                    style: getBoldTextStyle(
+                                      color: AppColors.balticSea,
+                                      fontSize: AppFontSize.s15.rSp,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: _removeAll,
+                                  child: Text(
+                                    'Remove All',
+                                    style: getMediumTextStyle(
+                                      color: AppColors.red,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Remove All',
-                              style: getMediumTextStyle(
-                                color: AppColors.red,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      const Divider(),
-                      _cartItemListView(brandSpecificCartItems[index]),
-                      const Divider(),
-                      _totalOrder(),
-                    ],
-                  ),
-                ],
+                            const Divider(),
+                            _cartItemListView(brandSpecificCartItems[index]),
+                            const Divider(),
+                            _totalOrder(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }
@@ -145,7 +273,12 @@ class EditGrabOrderView extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final item = items[index];
-        return EditingItemVIew(item: item);
+        return EditingItemVIew(
+          item: item,
+          currencySymbol: _currentOrder.currencySymbol,
+          onQuantityChange: _onQuantityChange,
+          onDeleteItem: _deleteItem,
+        );
       },
       separatorBuilder: (BuildContext context, int index) {
         return const Divider();
@@ -156,7 +289,7 @@ class EditGrabOrderView extends StatelessWidget {
   Widget _totalOrder() {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: AppSize.s12.rh,
+        bottom: AppSize.s8.rh,
         top: AppSize.s8.rh,
       ),
       child: Row(
@@ -171,10 +304,11 @@ class EditGrabOrderView extends StatelessWidget {
             ),
           ),
           Text(
-            'PHP 1324.00',
-            style: getMediumTextStyle(
+            '${_currentOrder.currencySymbol} ${_currentOrder.itemPriceDisplay}',
+            style: TextStyle(
               color: AppColors.balticSea,
-              fontSize: AppFontSize.s14.rSp,
+              fontSize: AppFontSize.s15.rSp,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
@@ -187,12 +321,12 @@ class EditGrabOrderView extends StatelessWidget {
       margin: EdgeInsets.only(
         left: AppSize.s12.rw,
         right: AppSize.s12.rw,
-        bottom: AppSize.s16.rh,
+        bottom: AppSize.s8.rh,
         top: AppSize.s8.rh,
       ),
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s12.rw,
-        vertical: AppSize.s16.rh,
+        vertical: AppSize.s8.rh,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
@@ -200,19 +334,44 @@ class EditGrabOrderView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _item(title: AppStrings.sub_total.tr(), price: 12, subtotal: true),
-          SizedBox(height: AppSize.s8.rh),
-          _item(title: AppStrings.vat.tr(), price: 12, subtotal: false),
+          _item(
+            title: AppStrings.sub_total.tr(),
+            price:
+                '${_currentOrder.currencySymbol} ${_currentOrder.itemPriceDisplay}',
+            subtotal: true,
+          ),
           SizedBox(height: AppSize.s8.rh),
           _item(
-              title: AppStrings.delivery_fee.tr(), price: 12, subtotal: false),
-          SizedBox(height: AppSize.s8.rh),
-          _item(title: AppStrings.discount.tr(), price: 12, subtotal: false),
+            title: AppStrings.vat.tr(),
+            price: _showPrice
+                ? '${_currentOrder.currencySymbol} ${_currentOrder.vatDisplay}'
+                : _calculatedText,
+            subtotal: false,
+          ),
           SizedBox(height: AppSize.s8.rh),
           _item(
-              title: AppStrings.additional_fee.tr(),
-              price: 12,
-              subtotal: false),
+            title: AppStrings.delivery_fee.tr(),
+            price: _showPrice
+                ? '${_currentOrder.currencySymbol} ${_currentOrder.deliveryFeeDisplay}'
+                : _calculatedText,
+            subtotal: false,
+          ),
+          SizedBox(height: AppSize.s8.rh),
+          _item(
+            title: AppStrings.discount.tr(),
+            price: _showPrice
+                ? '${_currentOrder.currencySymbol} ${_currentOrder.discountDisplay}'
+                : _calculatedText,
+            subtotal: false,
+          ),
+          SizedBox(height: AppSize.s8.rh),
+          _item(
+            title: AppStrings.additional_fee.tr(),
+            price: _showPrice
+                ? '${_currentOrder.currencySymbol} ${_currentOrder.additionalFeeDisplay}'
+                : _calculatedText,
+            subtotal: false,
+          ),
         ],
       ),
     );
@@ -220,7 +379,7 @@ class EditGrabOrderView extends StatelessWidget {
 
   Widget _item({
     required String title,
-    required num price,
+    required String price,
     bool subtotal = false,
   }) {
     final textStyle = TextStyle(
@@ -236,7 +395,7 @@ class EditGrabOrderView extends StatelessWidget {
           style: textStyle,
         ),
         Text(
-          'PHP $price.00',
+          price,
           style: textStyle,
         ),
       ],
@@ -247,7 +406,17 @@ class EditGrabOrderView extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
-        vertical: AppSize.s16.rh,
+        vertical: AppSize.s8.rh,
+      ),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0.0, 1.0),
+            blurRadius: 4.0,
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -272,14 +441,66 @@ class EditGrabOrderView extends StatelessWidget {
                 ),
               ),
               Text(
-                'PHP 12.00',
-                style: getMediumTextStyle(
+                _showPrice
+                    ? '${_currentOrder.currencySymbol} ${_currentOrder.finalPriceDisplay}'
+                    : _calculatedText,
+                style: TextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
-          )
+          ),
+          SizedBox(height: AppSize.s8.rh),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: LoadingButton(
+                  isLoading: false,
+                  onTap: _discard,
+                  text: 'Discard',
+                  verticalPadding: AppSize.s8.rh,
+                  bgColor: AppColors.white,
+                  textColor: AppColors.purpleBlue,
+                ),
+              ),
+              SizedBox(width: AppSize.s12.rw),
+              Expanded(
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _enableButtonNotifier,
+                  builder: (_, enabled, __) {
+                    return BlocConsumer<UpdateGrabOrderCubit,ResponseState>(
+                      listener: (context, state) {
+                        if(state is Loading){
+                          EasyLoading.show();
+                        }else if(state is Failed){
+                          EasyLoading.dismiss();
+                          showApiErrorSnackBar(context,state.failure);
+                        }else if(state is Success<ActionSuccess>){
+                          EasyLoading.dismiss();
+                          showSuccessSnackBar(context, state.data.message!);
+                          _currentOrder.canUpdate = false;
+                          widget.onEditSuccess(_currentOrder);
+                          Navigator.pop(context);
+                        }
+                      },
+                      builder: (_,state){
+                        return LoadingButton(
+                          enabled: state is! Loading && enabled,
+                          isLoading: false,
+                          onTap: _updateOrder,
+                          text: 'Save',
+                          verticalPadding: AppSize.s8.rh,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

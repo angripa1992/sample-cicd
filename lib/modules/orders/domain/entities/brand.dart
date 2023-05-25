@@ -1,3 +1,5 @@
+import '../../data/models/brand_model.dart';
+
 class Brands {
   final List<Brand> brands;
 
@@ -76,4 +78,10 @@ class CartBrand {
   CartBrand({required this.id, required this.title, required this.logo});
 
   CartBrand copy() => CartBrand(id: id, title: title, logo: logo);
+
+  CartBrandModel toModel() => CartBrandModel(
+    id: id,
+    title: title,
+    logo: logo
+  );
 }

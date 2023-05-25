@@ -20,7 +20,7 @@ class ModifierGroupInfo extends StatelessWidget {
     if(optional){
       return 'Choose Up to ${rule.max}';
     }else if(rule.typeTitle == RuleType.exact){
-      return 'Choose ${rule.value} options';
+      return 'Choose ${rule.value}';
     }
     return 'Choose ${rule.min} - ${rule.max}';
   }

@@ -21,7 +21,6 @@ import 'comment_action_view.dart';
 import 'order_tags.dart';
 
 class OrderDetailsHeaderView extends StatelessWidget {
-  final GlobalKey<ScaffoldState> modalKey;
   final Order order;
   final VoidCallback onCommentActionSuccess;
   final VoidCallback onEdit;
@@ -29,7 +28,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
   const OrderDetailsHeaderView({
     Key? key,
     required this.order,
-    required this.modalKey,
     required this.onCommentActionSuccess,
     required this.onEdit,
   }) : super(key: key);
@@ -55,11 +53,11 @@ class OrderDetailsHeaderView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if(order.providerId == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty)
+              if(order.providerId == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty && order.canUpdate)
               Expanded(
                 child: _editOrderButton(onEdit),
               ),
-              if(order.providerId == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty)
+              if(order.providerId == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty && order.canUpdate)
               SizedBox(width: AppSize.s16.rw),
               Expanded(
                 child: CommentActionView(

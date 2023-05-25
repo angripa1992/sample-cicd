@@ -65,6 +65,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       type: json['type'] as int?,
       isFake: json['is_fake'] as bool?,
       isFoodpandaApiOrder: json['is_foodpanda_api_order'] as bool?,
+      isInterceptorOrder: json['is_interceptor_order'] as bool?,
       orderComment: json['order_comment'] as String?,
       deliveryComment: json['delivery_comment'] as String?,
       foodpandaToken: json['foodpanda_token'] as String?,
@@ -77,7 +78,22 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       autoPilot: json['auto_pilot'] as bool?,
       autoPilotTime: json['auto_pilot_time'] as int?,
       tableNo: json['table_no'] as String?,
-    )..isInterceptorOrder = json['is_interceptor_order'] as bool?;
+      canUpdate: json['can_update'] as bool?,
+      canMarkReady: json['can_mark_ready'] as bool?,
+      discountDisplay: json['discount_display'] as String?,
+      additionalFeeDisplay: json['additional_fee_display'] as String?,
+      deliveryFeeDisplay: json['delivery_fee_display'] as String?,
+      finalPriceDisplay: json['final_price_display'] as String?,
+      itemPriceDisplay: json['item_price_display'] as String?,
+      merchantDiscountDisplay: json['merchant_discount_display'] as String?,
+      providerDiscountDisplay: json['provider_discount_display'] as String?,
+      vatDisplay: json['vat_display'] as String?,
+      discountTYpe: json['discount_type'] as int?,
+      discountValue: json['discount_value'] as int?,
+      identity: json['identity'] as String?,
+      isMixAndMatchOrder: json['is_mix_and_match_order'] as bool?,
+      triggeredTime: json['triggered_time'] as String?,
+    );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     <String, dynamic>{
@@ -131,22 +147,42 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'auto_pilot': instance.autoPilot,
       'auto_pilot_time': instance.autoPilotTime,
       'table_no': instance.tableNo,
+      'can_update': instance.canUpdate,
+      'can_mark_ready': instance.canMarkReady,
+      'discount_display': instance.discountDisplay,
+      'additional_fee_display': instance.additionalFeeDisplay,
+      'delivery_fee_display': instance.deliveryFeeDisplay,
+      'final_price_display': instance.finalPriceDisplay,
+      'item_price_display': instance.itemPriceDisplay,
+      'merchant_discount_display': instance.merchantDiscountDisplay,
+      'provider_discount_display': instance.providerDiscountDisplay,
+      'vat_display': instance.vatDisplay,
+      'discount_type': instance.discountTYpe,
+      'discount_value': instance.discountValue,
+      'identity': instance.identity,
+      'is_mix_and_match_order': instance.isMixAndMatchOrder,
+      'triggered_time': instance.triggeredTime,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(
       id: json['id'] as String?,
+      externalId: json['external_id'] as String?,
       name: json['name'] as String?,
       image: json['image'] as String?,
       price: json['price'] as String?,
       comment: json['comment'] as String?,
       quantity: json['quantity'] as int?,
+      brand: json['brand'] == null
+          ? null
+          : CartBrandModel.fromJson(json['brand'] as Map<String, dynamic>),
       unitPrice: json['unit_price'] as String?,
       modifierGroups: (json['modifier_groups'] as List<dynamic>?)
           ?.map((e) => ModifierGroupsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-    )..brand = json['brand'] == null
-        ? null
-        : CartBrandModel.fromJson(json['brand'] as Map<String, dynamic>);
+      unitPriceDisplay: json['unit_price_display'] as String?,
+      priceDisplay: json['price_display'] as String?,
+      modifierGroupPrice: json['modifier_group_price'] as String?,
+    );
 
 Map<String, dynamic> _$CartV2ModelToJson(CartV2Model instance) =>
     <String, dynamic>{
@@ -157,7 +193,11 @@ Map<String, dynamic> _$CartV2ModelToJson(CartV2Model instance) =>
       'comment': instance.comment,
       'quantity': instance.quantity,
       'brand': instance.brand?.toJson(),
+      'modifier_group_price': instance.modifierGroupPrice,
+      'external_id': instance.externalId,
+      'price_display': instance.priceDisplay,
       'unit_price': instance.unitPrice,
+      'unit_price_display': instance.unitPriceDisplay,
       'modifier_groups':
           instance.modifierGroups?.map((e) => e.toJson()).toList(),
     };
@@ -189,6 +229,8 @@ ModifiersModel _$ModifiersModelFromJson(Map<String, dynamic> json) =>
       modifierGroups: (json['modifier_groups'] as List<dynamic>?)
           ?.map((e) => ModifierGroupsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      priceDisplay: json['price_display'] as String?,
+      unitPriceDisplay: json['unit_price_display'] as String?,
     );
 
 Map<String, dynamic> _$ModifiersModelToJson(ModifiersModel instance) =>
@@ -198,6 +240,8 @@ Map<String, dynamic> _$ModifiersModelToJson(ModifiersModel instance) =>
       'price': instance.price,
       'quantity': instance.quantity,
       'unit_price': instance.unitPrice,
+      'price_display': instance.priceDisplay,
+      'unit_price_display': instance.unitPriceDisplay,
       'modifier_groups':
           instance.modifierGroups?.map((e) => e.toJson()).toList(),
     };

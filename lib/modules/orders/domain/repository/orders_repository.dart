@@ -2,9 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/data/models/order_status_model.dart';
+import 'package:klikit/modules/orders/data/models/orders_model.dart';
 import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
+
+import '../../edit_order/grab_order_update_request_model.dart';
 
 abstract class OrderRepository {
   Future<Either<Failure, List<OrderStatusModel>>> fetchOrderStatus();
@@ -31,4 +34,8 @@ abstract class OrderRepository {
       Map<String, dynamic> params, int orderID);
 
   Future<Either<Failure, ActionSuccess>> deleteComment(int orderID);
+
+  Future<Either<Failure, ActionSuccess>> updateGrabOrder(GrabOrderUpdateRequestModel model);
+
+  Future<Either<Failure, order.Order>> calculateGrabBill(OrderModel model);
 }

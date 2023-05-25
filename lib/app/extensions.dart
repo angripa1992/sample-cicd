@@ -26,6 +26,16 @@ extension EmptyToNUll on String? {
   }
 }
 
+extension ZeroToNUll on int? {
+  int? notZeroOrNull() {
+    if (this != null && this! > 0) {
+      return this!;
+    } else {
+      return null;
+    }
+  }
+}
+
 extension NonNullInteger on int? {
   int orZero() {
     if (this == null) {

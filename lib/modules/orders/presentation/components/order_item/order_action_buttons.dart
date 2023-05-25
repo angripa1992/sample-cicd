@@ -339,8 +339,7 @@ Widget getActionButtons({
   final orderStatus = order.status;
   final provider = order.providerId;
   final orderType = order.type;
-  final editButtonEnabled =
-      provider == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty;
+  final editButtonEnabled = provider == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty && order.canUpdate;
   if (orderStatus == OrderStatus.PLACED) {
     return Row(
       children: [

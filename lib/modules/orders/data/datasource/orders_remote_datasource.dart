@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/core/network/rest_client.dart';
@@ -11,6 +13,7 @@ import 'package:klikit/modules/orders/data/models/settings_model.dart';
 import 'package:klikit/modules/orders/data/models/source_model.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
 
+import '../../edit_order/grab_order_update_request_model.dart';
 import '../models/order_status_model.dart';
 import '../models/payment_info.dart';
 
@@ -44,6 +47,10 @@ abstract class OrderRemoteDatasource {
   Future<ActionSuccess> addComment(Map<String, dynamic> params, int orderID);
 
   Future<ActionSuccess> deleteComment(int orderID);
+
+  Future<ActionSuccess> updateGrabOrder(GrabOrderUpdateRequestModel model);
+
+  Future<OrderModel> calculateGrabOrder(OrderModel model);
 }
 
 class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
@@ -189,10 +196,10 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<List<PaymentMethodModel>> fetchPaymentMethods() async{
+  Future<List<PaymentMethodModel>> fetchPaymentMethods() async {
     try {
       final List<dynamic> response =
-      await _restClient.request(Urls.paymentMethod, Method.GET, null);
+          await _restClient.request(Urls.paymentMethod, Method.GET, null);
       final data = response.map((e) => PaymentMethodModel.fromJson(e)).toList();
       return data;
     } on DioError {
@@ -201,10 +208,10 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<List<PaymentStatusModel>> fetchPaymentStatus() async{
+  Future<List<PaymentStatusModel>> fetchPaymentStatus() async {
     try {
       final List<dynamic> response =
-      await _restClient.request(Urls.paymentStatus, Method.GET, null);
+          await _restClient.request(Urls.paymentStatus, Method.GET, null);
       final data = response.map((e) => PaymentStatusModel.fromJson(e)).toList();
       return data;
     } on DioError {
@@ -213,9 +220,35 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> updatePaymentInfo(Map<String, dynamic> params) async{
+  Future<ActionSuccess> updatePaymentInfo(Map<String, dynamic> params) async {
     try {
-      final response = await _restClient.request(Urls.updatePaymentInfo, Method.PATCH, params);
+      final response = await _restClient.request(
+          Urls.updatePaymentInfo, Method.PATCH, params);
+      return ActionSuccess.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<OrderModel> calculateGrabOrder(OrderModel model) async {
+    try {
+      final response = await _restClient.request(
+        Urls.calculateGrabOrderBill,
+        Method.POST,
+        model.toJson(),
+      );
+      return OrderModel.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> updateGrabOrder(GrabOrderUpdateRequestModel model) async{
+    try {
+      final payload = model.toJson();
+      final response = await _restClient.request(Urls.updateGrabOrder, Method.PUT, payload);
       return ActionSuccess.fromJson(response);
     } on DioError {
       rethrow;

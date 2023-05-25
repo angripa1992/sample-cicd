@@ -75,6 +75,8 @@ import '../modules/base/chnage_language_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/data/repository/order_info_provider_repo_impl.dart';
 import '../modules/orders/domain/repository/order_info_provider_repo.dart';
+import '../modules/orders/edit_order/calculate_grab_order_cubit.dart';
+import '../modules/orders/edit_order/update_grab_order_cubit.dart';
 import '../modules/orders/presentation/bloc/add_comment_cubit.dart';
 import '../modules/orders/presentation/bloc/busy_mode_cubit.dart';
 import '../modules/orders/presentation/bloc/cancelled_order_cubit.dart';
@@ -158,6 +160,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => DeleteComment(getIt()));
   getIt.registerFactory(() => AddCommentCubit(getIt()));
   getIt.registerFactory(() => DeleteCommentCubit(getIt()));
+  getIt.registerFactory(() => CalculateGrabBillCubit(getIt()));
+  getIt.registerFactory(() => UpdateGrabOrderCubit(getIt()));
 
   ///busy mode
   getIt.registerLazySingleton(() => CheckBusyMode(getIt()));

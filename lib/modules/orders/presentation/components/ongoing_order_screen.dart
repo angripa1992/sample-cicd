@@ -204,7 +204,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 },
                 onCommentActionSuccess: () {
                   _refresh(willBackground: true);
-                }, onEdit: () {  },
+                }, onGrabEditSuccess: () {  },
               );
               _sendEvent();
             },

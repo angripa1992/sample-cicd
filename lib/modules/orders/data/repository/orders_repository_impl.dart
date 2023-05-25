@@ -11,6 +11,7 @@ import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
 import 'package:klikit/modules/orders/domain/entities/source.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
+import 'package:klikit/modules/orders/edit_order/grab_order_update_request_model.dart';
 
 import '../../provider/order_information_provider.dart';
 import '../models/orders_model.dart';
@@ -181,11 +182,39 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> updatePaymentInfo(
-      Map<String, dynamic> params) async {
+  Future<Either<Failure, ActionSuccess>> updatePaymentInfo(Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updatePaymentInfo(params);
+        return Right(response);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, order.Order>> calculateGrabBill(OrderModel model) async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.calculateGrabOrder(model);
+        final order = await _extractOrderWithSource(response);
+        return Right(order);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> updateGrabOrder(GrabOrderUpdateRequestModel model) async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.updateGrabOrder(model);
         return Right(response);
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);

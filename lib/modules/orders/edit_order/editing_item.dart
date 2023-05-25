@@ -5,15 +5,24 @@ import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
 import '../../../resources/styles.dart';
 import '../../../resources/values.dart';
-import '../../add_order/presentation/pages/components/modifier/quantity_selector.dart';
 import '../../widgets/menu_item_image_view.dart';
 import '../domain/entities/cart.dart';
 import 'editing_manager.dart';
+import 'grab_quantity_selecter.dart';
 
 class EditingItemVIew extends StatelessWidget {
+  final Function(String, String, int) onQuantityChange;
+  final Function(String, String) onDeleteItem;
   final CartV2 item;
+  final String currencySymbol;
 
-  const EditingItemVIew({Key? key, required this.item}) : super(key: key);
+  const EditingItemVIew({
+    Key? key,
+    required this.item,
+    required this.onQuantityChange,
+    required this.currencySymbol,
+    required this.onDeleteItem,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +58,8 @@ class EditingItemVIew extends StatelessWidget {
                           color: AppColors.seaShell,
                         ),
                         child: Text(
-                          item.price,
-                          style: getRegularTextStyle(
+                          '$currencySymbol ${item.unitPriceDisplay}',
+                          style: TextStyle(
                             color: AppColors.balticSea,
                             fontSize: AppFontSize.s13.rSp,
                           ),
@@ -75,7 +84,9 @@ class EditingItemVIew extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                onDeleteItem(item.id, item.externalId);
+              },
               child: Row(
                 children: [
                   Icon(
@@ -91,9 +102,11 @@ class EditingItemVIew extends StatelessWidget {
                 ],
               ),
             ),
-            QuantitySelector(
-              quantity: 1,
-              onQuantityChanged: (quantity) {},
+            GrabQuantitySelector(
+              quantity: item.quantity,
+              onQuantityChanged: (quantity) {
+                onQuantityChange(item.id, item.externalId, quantity);
+              },
             ),
           ],
         ),

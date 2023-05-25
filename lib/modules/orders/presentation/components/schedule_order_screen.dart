@@ -147,7 +147,7 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
                 onCommentActionSuccess: () {
                   _refresh(willBackground: true);
                 },
-                onEdit: () {},
+                onGrabEditSuccess: () {},
               );
               _sendEvent();
             },

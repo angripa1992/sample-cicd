@@ -1,5 +1,7 @@
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/source.dart';
 
+import '../../data/models/orders_model.dart';
 import 'brand.dart';
 import 'cart.dart';
 
@@ -66,9 +68,24 @@ class Order {
   final int autoPilotTime;
   final OrderSource orderSource;
   final String tableNo;
+  final bool canMarkReady;
+  final String discountDisplay;
+  final String additionalFeeDisplay;
+  final String deliveryFeeDisplay;
+  final String finalPriceDisplay;
+  final String itemPriceDisplay;
+  final String merchantDiscountDisplay;
+  final String providerDiscountDisplay;
+  final String vatDisplay;
+  final int discountTYpe;
+  final int discountValue;
+  final String identity;
+  final bool isMixAndMatchOrder;
+  final String triggeredTime;
   String klikitComment;
   int paymentMethod;
   int paymentStatus;
+  bool canUpdate;
 
   Order({
     required this.id,
@@ -122,6 +139,21 @@ class Order {
     required this.autoPilotTime,
     required this.orderSource,
     required this.tableNo,
+    required this.canUpdate,
+    required this.canMarkReady,
+    required this.discountDisplay,
+    required this.additionalFeeDisplay,
+    required this.deliveryFeeDisplay,
+    required this.finalPriceDisplay,
+    required this.itemPriceDisplay,
+    required this.merchantDiscountDisplay,
+    required this.providerDiscountDisplay,
+    required this.vatDisplay,
+    required this.discountTYpe,
+    required this.discountValue,
+    required this.identity,
+    required this.isMixAndMatchOrder,
+    required this.triggeredTime,
   });
 
   Order copy() => Order(
@@ -176,5 +208,88 @@ class Order {
         autoPilotTime: autoPilotTime,
         orderSource: orderSource.copy(),
         tableNo: tableNo,
+        canUpdate: canUpdate,
+        canMarkReady: canMarkReady,
+        discountDisplay: discountDisplay,
+        additionalFeeDisplay: additionalFeeDisplay,
+        deliveryFeeDisplay: deliveryFeeDisplay,
+        finalPriceDisplay: finalPriceDisplay,
+        itemPriceDisplay: itemPriceDisplay,
+        merchantDiscountDisplay: merchantDiscountDisplay,
+        providerDiscountDisplay: providerDiscountDisplay,
+        vatDisplay: vatDisplay,
+        discountTYpe: discountTYpe,
+        discountValue: discountValue,
+        identity: identity,
+        isMixAndMatchOrder: isMixAndMatchOrder,
+        triggeredTime: triggeredTime,
+      );
+
+  OrderModel toModel() => OrderModel(
+        id: id,
+        source: source,
+        status: status,
+        vat: vat,
+        type: type,
+        discount: discount,
+        currency: currency,
+        externalId: externalId,
+        shortId: shortId,
+        providerId: providerId,
+        brandName: brandName,
+        branchId: branchId,
+        itemPrice: itemPrice,
+        finalPrice: finalPrice,
+        merchantDiscount: merchantDiscount,
+        providerDiscount: providerDiscount,
+        deliveryFee: deliveryFee,
+        additionalFee: additionalFee,
+        gatewayFee: gatewayFee,
+        serviceFee: serviceFee,
+        currencySymbol: currencySymbol,
+        itemCount: itemCount,
+        uniqueItemCount: uniqueItemCount,
+        scheduledStatus: scheduledStatus,
+        scheduledTime: scheduledTime.notEmptyOrNull(),
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        userId: userId,
+        userFirstName: userFirstName,
+        userLastName: userLastName,
+        userProfilePic: userProfilePic,
+        userPhone: userPhone,
+        userEmail: userEmail,
+        brands: brands.map((e) => e.toModel()).toList(),
+        cartV2: cartV2.map((e) => e.toModel()).toList(),
+        klikitStoreId: klikitStoreId,
+        isFake: isFake,
+        isFoodpandaApiOrder: isFoodpandaApiOrder,
+        isInterceptorOrder: isInterceptorOrder,
+        orderComment: orderComment,
+        deliveryComment: deliveryComment,
+        foodpandaToken: foodpandaToken,
+        klikitComment: klikitComment.notEmptyOrNull(),
+        isManualOrder: isManualOrder,
+        paymentMethod: paymentMethod.notZeroOrNull(),
+        paymentStatus: paymentStatus.notZeroOrNull(),
+        autoAccept: autoAccept,
+        autoPilot: autoPilot,
+        autoPilotTime: autoPilotTime,
+        tableNo: tableNo.notEmptyOrNull(),
+        canUpdate: canUpdate,
+        canMarkReady: canMarkReady,
+        discountDisplay: discountDisplay,
+        additionalFeeDisplay: additionalFeeDisplay,
+        deliveryFeeDisplay: deliveryFeeDisplay,
+        finalPriceDisplay: finalPriceDisplay,
+        itemPriceDisplay: itemPriceDisplay,
+        merchantDiscountDisplay: merchantDiscountDisplay,
+        providerDiscountDisplay: providerDiscountDisplay,
+        vatDisplay: vatDisplay,
+        discountTYpe: discountTYpe.notZeroOrNull(),
+        discountValue: discountValue.notZeroOrNull(),
+        identity: identity,
+        isMixAndMatchOrder: isMixAndMatchOrder,
+        triggeredTime: triggeredTime.notEmptyOrNull(),
       );
 }

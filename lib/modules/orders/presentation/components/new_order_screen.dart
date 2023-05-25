@@ -14,7 +14,9 @@ import '../../../../../app/di.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../../app/size_config.dart';
+import '../../edit_order/calculate_grab_order_cubit.dart';
 import '../../edit_order/edit_grab_order.dart';
+import '../../edit_order/update_grab_order_cubit.dart';
 import '../bloc/new_order_cubit.dart';
 import '../bloc/ongoing_order_cubit.dart';
 import '../filter_observer.dart';
@@ -172,18 +174,26 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          resizeToAvoidBottomInset: false,
-          extendBody: false,
-          body: Container(
-            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-            child: EditGrabOrderView(
-              order: order,
-              copyOrder: order.copy(),
-              onClose: () {
-                Navigator.pop(context);
-              },
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<CalculateGrabBillCubit>(create: (_) => getIt.get()),
+            BlocProvider<UpdateGrabOrderCubit>(create: (_) => getIt.get()),
+          ],
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            extendBody: false,
+            body: Container(
+              margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+              child: EditGrabOrderView(
+                order: order,
+                onClose: () {
+                  Navigator.pop(context);
+                },
+                onEditSuccess: (Order order) {
+                  _refresh(willBackground: true);
+                },
+              ),
             ),
           ),
         );
@@ -227,8 +237,8 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 onCommentActionSuccess: () {
                   _refresh(willBackground: true);
                 },
-                onEdit: () {
-                  _editOrder(item);
+                onGrabEditSuccess: () {
+                  _refresh(willBackground: true);
                 },
               );
               _sendScreenEvent();

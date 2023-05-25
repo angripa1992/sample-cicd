@@ -134,6 +134,8 @@ class RestClient {
         response = await _dio.delete(url);
       } else if (method == Method.PATCH) {
         response = await _dio.patch(url, data: params);
+      }else if (method == Method.PUT) {
+        response = await _dio.put(url, data: params);
       } else {
         response = await _dio.get(
           url,

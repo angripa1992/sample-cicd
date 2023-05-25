@@ -17,6 +17,8 @@ class Urls {
   static const String updatePaymentInfo = '/v1/oni/manualorder/payment';
   static const String tokenRegistration = '/v1/notify-token';
   static const String calculateBill = '/v1/menu/manual-order/calculate-bill';
+  static const String calculateGrabOrderBill = '/v1/oni/grabfoodorder/calculate-bill';
+  static const String updateGrabOrder = '/v1/oni/grabfoodorder';
   static const String manualOrder = '/v1/oni/manualorder';
 
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
