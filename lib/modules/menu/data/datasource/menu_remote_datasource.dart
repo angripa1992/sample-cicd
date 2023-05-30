@@ -13,10 +13,14 @@ import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import '../../../../app/enums.dart';
 import '../../../../core/network/urls.dart';
 import '../../domain/usecase/fetch_menus.dart';
+import '../models/brand_model.dart';
 import '../models/brands_model.dart';
 
 abstract class MenuRemoteDatasource {
   Future<MenuBrandsModel> fetchMenuBrands(Map<String, dynamic> params);
+
+  Future<MenuBrandModel> fetchMenuBrand(
+      {required int brandId, required int branchId});
 
   Future<MenusDataModel> fetchMenus(FetchMenuParams params);
 
@@ -150,6 +154,23 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         param.toJson(),
       );
       return ActionSuccess.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<MenuBrandModel> fetchMenuBrand(
+      {required int brandId, required int branchId}) async {
+    try {
+      final response = await _restClient.request(
+        Urls.menuBrand(brandId),
+        Method.GET,
+        {
+          'filterByBranch' : branchId,
+        },
+      );
+      return MenuBrandModel.fromJson(response);
     } on DioError {
       rethrow;
     }

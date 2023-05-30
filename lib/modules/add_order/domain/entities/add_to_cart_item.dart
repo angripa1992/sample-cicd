@@ -4,7 +4,6 @@ import 'package:klikit/modules/menu/domain/entities/items.dart';
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/price.dart';
 import 'item_modifier_group.dart';
-import 'order_source.dart';
 
 class AddToCartItem {
   final List<ItemModifierGroup> modifiers;

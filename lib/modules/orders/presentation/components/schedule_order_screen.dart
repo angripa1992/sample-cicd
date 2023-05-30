@@ -148,6 +148,7 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
                   _refresh(willBackground: true);
                 },
                 onGrabEditSuccess: () {},
+                onEditManualOrder: () {},
               );
               _sendEvent();
             },

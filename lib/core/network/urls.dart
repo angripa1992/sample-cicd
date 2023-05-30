@@ -25,6 +25,7 @@ class Urls {
 
   static String menus(int branchId) => '/v2/menu/branch/$branchId/menus';
   static const String menuBrands = '/v1/brand';
+  static String menuBrand(int brandId) => '/v1/brand/$brandId';
   static const String sources = '/v1/oni/order-sources';
   static const String paymentMethod = '/v1/oni/payment-methods';
   static const String paymentStatus = '/v1/oni/payment-statuses';

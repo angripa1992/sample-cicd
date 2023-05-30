@@ -66,8 +66,7 @@ class ItemsModel {
       defaultItemId: defaultItemId.orZero(),
       stock: stock?.toEntity() ?? StockModel().toEntity(),
       titleV2: titleV2?.toEntity() ?? TitleV2Model().toEntity(),
-      descriptionV2:
-          descriptionV2?.toEntity() ?? DescriptionV2Model().toEntity(),
+      descriptionV2: descriptionV2?.toEntity() ?? DescriptionV2Model().toEntity(),
     );
   }
 

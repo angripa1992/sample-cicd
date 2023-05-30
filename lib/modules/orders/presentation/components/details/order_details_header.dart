@@ -23,17 +23,26 @@ import 'order_tags.dart';
 class OrderDetailsHeaderView extends StatelessWidget {
   final Order order;
   final VoidCallback onCommentActionSuccess;
-  final VoidCallback onEdit;
+  final VoidCallback onEditGrabOrder;
+  final VoidCallback onEditManualOrder;
 
   const OrderDetailsHeaderView({
     Key? key,
     required this.order,
     required this.onCommentActionSuccess,
-    required this.onEdit,
+    required this.onEditGrabOrder,
+    required this.onEditManualOrder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) &&
+        order.externalId.isNotEmpty &&
+        order.canUpdate;
+    final canUpdateManualOrder = (order.providerId == ProviderID.KLIKIT) &&
+        order.isManualOrder &&
+        (order.status == OrderStatus.ACCEPTED ||
+            order.status == OrderStatus.PLACED);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
@@ -53,12 +62,12 @@ class OrderDetailsHeaderView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if(order.providerId == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty && order.canUpdate)
-              Expanded(
-                child: _editOrderButton(onEdit),
-              ),
-              if(order.providerId == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty && order.canUpdate)
-              SizedBox(width: AppSize.s16.rw),
+              if (canUpdateManualOrder || canUpdateGrabOrder)
+                Expanded(
+                  child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder),
+                ),
+              if (canUpdateManualOrder || canUpdateGrabOrder)
+                SizedBox(width: AppSize.s16.rw),
               Expanded(
                 child: CommentActionView(
                   onCommentActionSuccess: onCommentActionSuccess,

@@ -130,13 +130,14 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     bool isFromDetails = false,
   }) {
     if (status == OrderStatus.DELIVERED &&
-        (order.paymentStatus == PaymentStatusId.pending || order.paymentStatus == PaymentStatusId.failed)) {
+        (order.paymentStatus == PaymentStatusId.pending ||
+            order.paymentStatus == PaymentStatusId.failed)) {
       showAddPaymentStatusMethodDialog(
         title: 'Select payment method and status',
         context: context,
         order: order,
         willOnlyUpdatePaymentInfo: false,
-        onSuccess: (method,status) {
+        onSuccess: (method, status) {
           _onActionSuccess(isFromDetails, status);
         },
       );
@@ -204,7 +205,9 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 },
                 onCommentActionSuccess: () {
                   _refresh(willBackground: true);
-                }, onGrabEditSuccess: () {  },
+                },
+                onGrabEditSuccess: () {},
+                onEditManualOrder: () {},
               );
               _sendEvent();
             },
@@ -226,6 +229,8 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 status: OrderStatus.CANCELLED,
               );
             },
+            onEditGrabOrder: () {},
+            onEditManualOrder: () {},
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,

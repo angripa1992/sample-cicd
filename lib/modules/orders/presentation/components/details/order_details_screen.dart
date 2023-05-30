@@ -26,13 +26,15 @@ class OrderDetailsScreen extends StatefulWidget {
   final VoidCallback onCommentActionSuccess;
   final VoidCallback onGrabEditSuccess;
   final Widget actionView;
+  final VoidCallback onEditManualOrder;
 
   const OrderDetailsScreen(
       {Key? key,
       required this.order,
       required this.onCommentActionSuccess,
       required this.onGrabEditSuccess,
-      required this.actionView})
+      required this.actionView,
+      required this.onEditManualOrder})
       : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     super.initState();
   }
 
-  void _editOrder(Order order) {
+  void _editGrabOrderOrder(Order order) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -100,16 +102,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           ),
         ),
         if (_currentOrder.status == OrderStatus.SCHEDULED &&
-           _currentOrder.scheduledTime.isNotEmpty)
+            _currentOrder.scheduledTime.isNotEmpty)
           ScheduledDetailsView(
             scheduleTime: _currentOrder.scheduledTime,
           ),
         OrderDetailsHeaderView(
           order: _currentOrder,
           onCommentActionSuccess: widget.onCommentActionSuccess,
-          onEdit: () {
-            _editOrder(_currentOrder);
+          onEditGrabOrder: () {
+            _editGrabOrderOrder(_currentOrder);
           },
+          onEditManualOrder: () {},
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),

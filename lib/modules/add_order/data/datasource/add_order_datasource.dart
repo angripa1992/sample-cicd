@@ -12,14 +12,14 @@ import '../models/place_order_data.dart';
 import '../models/placed_order_response.dart';
 
 abstract class AddOrderDatasource {
-  Future<MenusDataModel> fetchMenus(
-      {required int branchId, required int brandId});
+  Future<MenusDataModel> fetchMenus({required int branchId, required int brandId});
 
   Future<List<ItemModifierGroupModel>> fetchModifiers({required int itemId});
 
   Future<CartBillModel> calculateBill({required BillingRequestModel model});
 
   Future<List<AddOrderSourcesModel>> fetchSources();
+
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataModel body);
 }
 
@@ -90,8 +90,6 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataModel body) async{
     try {
-      final jsonBody = body.toJson();
-      log(jsonBody.toString());
       final response = await _restClient.request(
         Urls.manualOrder,
         Method.POST,

@@ -13,6 +13,7 @@ void _openBottomSheet({
   required GlobalKey<ScaffoldState> key,
   required VoidCallback onCommentActionSuccess,
   required VoidCallback onGrabEditSuccess,
+  required VoidCallback onEditManualOrder,
 }) {
   showModalBottomSheet(
     context: context,
@@ -32,6 +33,7 @@ void _openBottomSheet({
           onCommentActionSuccess: onCommentActionSuccess,
           onGrabEditSuccess: onGrabEditSuccess,
           actionView: actionView,
+          onEditManualOrder: onEditManualOrder,
         ),
       ),
     ),
@@ -45,6 +47,7 @@ void showHistoryOrderDetails({
   required VoidCallback onCommentActionSuccess,
   required VoidCallback onPrint,
   required VoidCallback onGrabEditSuccess,
+  required VoidCallback onEditManualOrder,
 }) {
   _openBottomSheet(
     key: key,
@@ -56,6 +59,7 @@ void showHistoryOrderDetails({
       onPrint: onPrint,
       expanded: true,
     ),
+    onEditManualOrder: onEditManualOrder,
   );
 }
 
@@ -68,6 +72,7 @@ void showOrderDetails({
   required GlobalKey<ScaffoldState> key,
   required VoidCallback onCommentActionSuccess,
   required VoidCallback onGrabEditSuccess,
+  required VoidCallback onEditManualOrder,
 }) {
   _openBottomSheet(
     key: key,
@@ -81,5 +86,6 @@ void showOrderDetails({
       onCancel: onCancel,
       onPrint: onPrint,
     ),
+    onEditManualOrder: onEditManualOrder,
   );
 }

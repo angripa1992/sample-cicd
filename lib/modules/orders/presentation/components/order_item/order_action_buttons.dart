@@ -334,12 +334,19 @@ Widget getActionButtons({
   required Function(String, int) onAction,
   required Function(String) onCancel,
   required VoidCallback onPrint,
-  VoidCallback? onEdit,
+  required VoidCallback onEditGrabOrder,
+  required VoidCallback onEditManualOrder,
 }) {
   final orderStatus = order.status;
   final provider = order.providerId;
   final orderType = order.type;
-  final editButtonEnabled = provider == ProviderID.GRAB_FOOD && order.externalId.isNotEmpty && order.canUpdate;
+  final canUpdateGrabOrder = (provider == ProviderID.GRAB_FOOD) &&
+      order.externalId.isNotEmpty &&
+      order.canUpdate;
+  final canUpdateManualOrder = (provider == ProviderID.KLIKIT) &&
+      order.isManualOrder &&
+      (orderStatus == OrderStatus.ACCEPTED ||
+          orderStatus == OrderStatus.PLACED);
   if (orderStatus == OrderStatus.PLACED) {
     return Row(
       children: [
@@ -361,7 +368,16 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
-        if (editButtonEnabled) EditButton(onEdit: onEdit!),
+        if (canUpdateGrabOrder || canUpdateManualOrder)
+          EditButton(
+            onEdit: () {
+              if(canUpdateManualOrder){
+                onEditManualOrder();
+              }else{
+                onEditGrabOrder();
+              }
+            },
+          ),
       ],
     );
   }
@@ -407,7 +423,16 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
-        if (editButtonEnabled) EditButton(onEdit: onEdit!),
+        if (canUpdateGrabOrder || canUpdateManualOrder)
+          EditButton(
+            onEdit: () {
+              if(canUpdateManualOrder){
+                onEditManualOrder();
+              }else{
+                onEditGrabOrder();
+              }
+            },
+          ),
       ],
     );
   }
@@ -430,7 +455,7 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
-        if (editButtonEnabled) EditButton(onEdit: onEdit!),
+        if (canUpdateGrabOrder) EditButton(onEdit: onEditGrabOrder!),
       ],
     );
   }

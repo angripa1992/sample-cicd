@@ -153,6 +153,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                         _onPrint(order: item, isFromDetails: true);
                       },
                       onGrabEditSuccess: () {},
+                      onEditManualOrder: () {},
                     );
                     _sendEvent();
                   },

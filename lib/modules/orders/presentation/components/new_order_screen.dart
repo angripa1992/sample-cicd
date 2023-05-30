@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
@@ -14,9 +16,11 @@ import '../../../../../app/di.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../../app/size_config.dart';
+import '../../../add_order/presentation/pages/add_order_screen.dart';
 import '../../edit_order/calculate_grab_order_cubit.dart';
 import '../../edit_order/edit_grab_order.dart';
 import '../../edit_order/update_grab_order_cubit.dart';
+import '../../provider/update_manual_order_data_provider.dart';
 import '../bloc/new_order_cubit.dart';
 import '../bloc/ongoing_order_cubit.dart';
 import '../filter_observer.dart';
@@ -168,7 +172,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
-  void _editOrder(Order order) {
+  void _editGrabOrder(Order order) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -198,6 +202,30 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
           ),
         );
       },
+    );
+  }
+
+  void _editManualOrder(Order order) async {
+    try {
+      EasyLoading.show();
+      final cartItems = await getIt
+          .get<UpdateManualOrderDataProvider>()
+          .generateCartItem(order);
+      for (var cartItem in cartItems) {
+        await CartManager().addToCart(cartItem);
+      }
+      EasyLoading.dismiss();
+      _gotoCartScreen();
+    } on Exception catch (error) {
+      EasyLoading.dismiss();
+    }
+  }
+
+  void _gotoCartScreen(){
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const AddOrderScreen(fromHome: true),
+      ),
     );
   }
 
@@ -240,6 +268,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 onGrabEditSuccess: () {
                   _refresh(willBackground: true);
                 },
+                onEditManualOrder: () {},
               );
               _sendScreenEvent();
             },
@@ -261,8 +290,11 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 status: OrderStatus.CANCELLED,
               );
             },
-            onEdit: () {
-              _editOrder(item);
+            onEditManualOrder: () {
+              _editManualOrder(item);
+            },
+            onEditGrabOrder: () {
+              _editGrabOrder(item);
             },
           );
         },

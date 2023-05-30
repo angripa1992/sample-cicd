@@ -51,32 +51,13 @@ class SectionsModel {
       title: title.orEmpty(),
       startTime: startTime.orZero(),
       endTime: endTime.orZero(),
-      availableTimes:
-          availableTimes?.toEntity() ?? AvailableTimesModel().toEntity(),
+      availableTimes: availableTimes?.toEntity() ?? AvailableTimesModel().toEntity(),
       days: days.orEmpty(),
       enabled: enabled.orFalse(),
       hidden: hidden.orFalse(),
-      statuses: _statuses(),
+      statuses: statuses?.map((e) => e.toEntity()).toList() ?? [],
       sequence: sequence.orZero(),
-      subSections: _subSections(),
+      subSections: subSections?.map((e) => e.toEntity()).toList() ?? [],
     );
-  }
-
-  List<Statuses> _statuses() {
-    List<Statuses> statusesData = [];
-    if (statuses == null) return statusesData;
-    for (var element in statuses!) {
-      statusesData.add(element.toEntity());
-    }
-    return statusesData;
-  }
-
-  List<SubSections> _subSections() {
-    List<SubSections> subSectionsData = [];
-    if (subSections == null) return subSectionsData;
-    for (var element in subSections!) {
-      subSectionsData.add(element.toEntity());
-    }
-    return subSectionsData;
   }
 }
