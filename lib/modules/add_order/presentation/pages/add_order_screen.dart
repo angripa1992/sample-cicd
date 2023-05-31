@@ -5,12 +5,13 @@ import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cu
 import '../../../../app/di.dart';
 import '../../../../resources/styles.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
+import '../../domain/entities/add_to_cart_item.dart';
 import 'add_order_body.dart';
 
 class AddOrderScreen extends StatelessWidget {
-  final bool fromHome;
+  final bool willOpenCart;
 
-  const AddOrderScreen({Key? key, required this.fromHome}) : super(key: key);
+  const AddOrderScreen({Key? key, required this.willOpenCart}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class AddOrderScreen extends StatelessWidget {
           onBack: () {
             Navigator.pop(context);
           },
-          willOpenCart: fromHome,
+          willOpenCart: willOpenCart,
         ),
       ),
     );

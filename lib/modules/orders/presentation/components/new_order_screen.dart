@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:klikit/modules/add_order/domain/entities/customer_info.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -16,6 +17,7 @@ import '../../../../../app/di.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../../app/size_config.dart';
+import '../../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../../add_order/presentation/pages/add_order_screen.dart';
 import '../../edit_order/calculate_grab_order_cubit.dart';
 import '../../edit_order/edit_grab_order.dart';
@@ -211,20 +213,47 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
       final cartItems = await getIt
           .get<UpdateManualOrderDataProvider>()
           .generateCartItem(order);
+      CartManager().clear();
       for (var cartItem in cartItems) {
         await CartManager().addToCart(cartItem);
       }
       EasyLoading.dismiss();
+      _setEditableInfo(order);
       _gotoCartScreen();
     } on Exception catch (error) {
       EasyLoading.dismiss();
     }
   }
 
-  void _gotoCartScreen(){
+  void _setEditableInfo(Order order) {
+    final editInfo =  EditableOrderInfo(
+      type: order.type,
+      source: order.source,
+      discountType: order.discountTYpe,
+      discountValue: order.discountValue,
+      paymentStatus: order.paymentStatus,
+      paymentMethod: order.paymentMethod,
+      additionalFee: order.additionalFee/100,
+      deliveryFee: order.deliveryFee/100,
+    );
+    final customerInfo = CustomerInfoData(
+      firstName: order.userFirstName,
+      lastName: order.userLastName,
+      email: order.userEmail,
+      phone: order.userPhone,
+      tableNo: order.tableNo,
+    );
+
+    CartManager().setCustomerInfo(customerInfo);
+    CartManager().setEditInfo(editInfo);
+  }
+
+  void _gotoCartScreen() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const AddOrderScreen(fromHome: true),
+        builder: (context) => const AddOrderScreen(
+          willOpenCart: true,
+        ),
       ),
     );
   }

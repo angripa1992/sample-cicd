@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onCartTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const AddOrderScreen(fromHome: true),
+                            builder: (context) => const AddOrderScreen(willOpenCart: true),
                           ),
                         );
                       },

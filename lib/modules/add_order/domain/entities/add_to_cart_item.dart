@@ -3,6 +3,7 @@ import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/price.dart';
+import 'customer_info.dart';
 import 'item_modifier_group.dart';
 
 class AddToCartItem {
@@ -56,5 +57,27 @@ class CheckoutData {
     required this.cartBill,
     required this.discountType,
     required this.discountValue,
+  });
+}
+
+class EditableOrderInfo {
+  final int type;
+  final int source;
+  final int discountType;
+  final num discountValue;
+  final int paymentStatus;
+  final int paymentMethod;
+  final num additionalFee;
+  final num deliveryFee;
+
+  EditableOrderInfo({
+    required this.type,
+    required this.source,
+    required this.discountType,
+    required this.discountValue,
+    required this.paymentStatus,
+    required this.paymentMethod,
+    required this.additionalFee,
+    required this.deliveryFee,
   });
 }

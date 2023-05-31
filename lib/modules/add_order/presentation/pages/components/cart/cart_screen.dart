@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
@@ -48,13 +47,38 @@ class _CartScreenState extends State<CartScreen> {
   CartBill? _cartBill;
   int _currentDiscountType = DiscountType.flat;
   num _globalDiscount = 0;
+  num _globalAdditionalFee = 0;
+  num _globalDeliveryFee = 0;
   int? _currentOrderType;
   int _currentSource = 9;
 
   @override
   void initState() {
+    final editData = CartManager().getEditInfo();
+    if (editData != null) {
+      _currentDiscountType = editData.discountType;
+      _globalDiscount = editData.discountValue;
+      _currentOrderType = editData.type;
+      _currentSource = editData.source;
+      _globalAdditionalFee = editData.additionalFee;
+      _globalDeliveryFee = editData.deliveryFee;
+    }
     _calculateBill();
     super.initState();
+  }
+
+  void _saveCurrentEditInfo(){
+    final editInfo =  EditableOrderInfo(
+      type: _currentOrderType ?? 0,
+      source: _currentSource,
+      discountType: _currentDiscountType,
+      discountValue: _globalDiscount,
+      paymentStatus: 0,
+      paymentMethod: 0,
+      additionalFee: _globalAdditionalFee,
+      deliveryFee: _globalDeliveryFee,
+    );
+    CartManager().setEditInfo(editInfo);
   }
 
   void _removeAll(int brandId) {
@@ -90,7 +114,8 @@ class _CartScreenState extends State<CartScreen> {
           ),
           content: DeleteItemDialogView(
             cartItem: item,
-            itemBill: _cartBill!.items.firstWhere((element) => element.id == item.item.id),
+            itemBill: _cartBill!.items
+                .firstWhere((element) => element.id == item.item.id),
             onDelete: () {
               CartManager().removeFromCart(item);
               _calculateBill();
@@ -116,9 +141,14 @@ class _CartScreenState extends State<CartScreen> {
             initValue: item.discountValue,
             feeType: FeeType.discount,
             onSave: (type, value, feeType) {
-              CartManager().addDiscount(itemId: item.item.id, type: type, value: value);
+              CartManager().addDiscount(
+                itemId: item.item.id,
+                type: type,
+                value: value,
+              );
               _calculateBill();
-            }, subTotal: _cartBill!.subTotal,
+            },
+            subTotal: _cartBill!.subTotal,
           ),
         );
       },
@@ -130,18 +160,16 @@ class _CartScreenState extends State<CartScreen> {
     _calculateBill();
   }
 
-  void _calculateBill({
-    num? additionalFee,
-    num? deliveryFee,
-  }) {
+  void _calculateBill() {
     CartManager().calculateBillingRequestPaylod(
       discountType: _currentDiscountType,
       discountValue: _globalDiscount,
-      additionalFee: additionalFee ?? _cartBill?.additionalFee ?? ZERO,
-      deliveryFee: deliveryFee ?? _cartBill?.deliveryFee ?? ZERO,
+      additionalFee: _globalAdditionalFee,
+      deliveryFee: _globalDeliveryFee,
     ).then((value) {
       if (value != null) {
         context.read<CalculateBillCubit>().calculateBill(value);
+        _saveCurrentEditInfo();
       }
     });
   }
@@ -168,12 +196,14 @@ class _CartScreenState extends State<CartScreen> {
               if (feeType == FeeType.discount) {
                 _currentDiscountType = type;
                 _globalDiscount = value;
+              } else if (feeType == FeeType.additional) {
+                _globalAdditionalFee = value;
+              } else {
+                _globalDeliveryFee = value;
               }
-              _calculateBill(
-                additionalFee: feeType == FeeType.additional ? value : null,
-                deliveryFee: feeType == FeeType.delivery ? value : null,
-              );
-            }, subTotal: _cartBill!.subTotal,
+              _calculateBill();
+            },
+            subTotal: _cartBill!.subTotal,
           ),
         );
       },
@@ -215,10 +245,9 @@ class _CartScreenState extends State<CartScreen> {
                         EasyLoading.dismiss();
                         _cartBill = state.data;
                       }
-                      if(_cartBill != null){
+                      if (_cartBill != null) {
                         return _body();
-                      }
-                      else {
+                      } else {
                         return const SizedBox();
                       }
                     },
@@ -233,7 +262,8 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
-  Widget _body(){
+
+  Widget _body() {
     return Column(
       children: [
         Padding(
@@ -241,8 +271,7 @@ class _CartScreenState extends State<CartScreen> {
             horizontal: AppSize.s10.rw,
             vertical: AppSize.s16.rh,
           ),
-          child: const StepView(
-              stepPosition: StepPosition.cart),
+          child: const StepView(stepPosition: StepPosition.cart),
         ),
         Expanded(
           child: SingleChildScrollView(
@@ -250,13 +279,14 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 FutureBuilder<List<AddOrderSourceType>>(
                   future: getIt.get<AddOrderRepository>().fetchSources(),
-                  builder: (_,snap){
-                    if(snap.hasData && snap.data!=null){
+                  builder: (_, snap) {
+                    if (snap.hasData && snap.data != null) {
                       return SourceSelector(
                         sources: snap.data!,
                         initialSource: _currentSource,
                         onChangeSource: (source) {
                           _currentSource = source.id;
+                          _saveCurrentEditInfo();
                         },
                       );
                     }
@@ -267,6 +297,7 @@ class _CartScreenState extends State<CartScreen> {
                   initialType: _currentOrderType ?? OrderType.DINE_IN,
                   onTypeChange: (type) {
                     _currentOrderType = type;
+                    _saveCurrentEditInfo();
                   },
                 ),
                 CartItemsListView(
@@ -283,7 +314,7 @@ class _CartScreenState extends State<CartScreen> {
                   removeAll: _removeAll,
                   onDeliveryFee: () {
                     _showGlobalFeeDialog(
-                      type: DiscountType.none,
+                      type: _currentDiscountType,
                       value: _cartBill!.deliveryFee,
                       feeType: FeeType.delivery,
                     );
@@ -297,7 +328,7 @@ class _CartScreenState extends State<CartScreen> {
                   },
                   onAdditionalFee: () {
                     _showGlobalFeeDialog(
-                      type: DiscountType.none,
+                      type: _currentDiscountType,
                       value: _cartBill!.additionalFee,
                       feeType: FeeType.additional,
                     );

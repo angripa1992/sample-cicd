@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/add_order/domain/entities/customer_info.dart';
 
 import '../data/models/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
@@ -11,9 +12,11 @@ import 'order_entity_provider.dart';
 class CartManager {
   static final _instance = CartManager._internal();
   static final _carts = <AddToCartItem>[];
-  static final  _cartItemNotifier = ValueNotifier<int>(0);
-  static final  _noOfCartItemNotifier = ValueNotifier<int>(0);
-  static final  _priceNotifier = ValueNotifier<SelectedItemPrice?>(null);
+  static EditableOrderInfo? _editInfo;
+  static CustomerInfoData? _customerInfo;
+  static final _cartItemNotifier = ValueNotifier<int>(0);
+  static final _noOfCartItemNotifier = ValueNotifier<int>(0);
+  static final _priceNotifier = ValueNotifier<SelectedItemPrice?>(null);
 
   factory CartManager() => _instance;
 
@@ -35,7 +38,9 @@ class CartManager {
     required AddToCartItem newItem,
     required AddToCartItem oldItem,
   }) async {
-    _carts.removeWhere((element) => element.item.id == oldItem.item.id && element.quantity == oldItem.quantity);
+    _carts.removeWhere((element) =>
+        element.item.id == oldItem.item.id &&
+        element.quantity == oldItem.quantity);
     await addToCart(newItem);
   }
 
@@ -52,13 +57,13 @@ class CartManager {
     _notifyListener();
   }
 
-  void notifyPriceChanged(){
+  void notifyPriceChanged() {
     _notifyListener();
   }
 
-  int _noOfCartItem(){
+  int _noOfCartItem() {
     int nofOfItem = 0;
-    for(var item in _carts){
+    for (var item in _carts) {
       nofOfItem += item.quantity;
     }
     return nofOfItem;
@@ -112,21 +117,23 @@ class CartManager {
   ValueNotifier<int> cartItemNotifier() => _noOfCartItemNotifier;
 
   void _updatePrice() {
-    if(_carts.isEmpty){
+    if (_carts.isEmpty) {
       _priceNotifier.value = null;
       _noOfCartItemNotifier.value = 0;
-    }else{
+    } else {
       num totalPrice = 0;
       String symbol = EMPTY;
       String code = EMPTY;
       for (var item in _carts) {
-        final price = (item.modifiersPrice + item.itemPrice.price) * item.quantity;
+        final price =
+            (item.modifiersPrice + item.itemPrice.price) * item.quantity;
         totalPrice += price;
         symbol = item.itemPrice.symbol;
         code = item.itemPrice.code;
       }
       final noOfItem = _noOfCartItem();
-      _priceNotifier.value = SelectedItemPrice(noOfItem, symbol, totalPrice,code);
+      _priceNotifier.value =
+          SelectedItemPrice(noOfItem, symbol, totalPrice, code);
       _noOfCartItemNotifier.value = noOfItem;
     }
   }
@@ -151,7 +158,8 @@ class CartManager {
   }
 
   Future<AddToCartItem?> _findDuplicate(AddToCartItem cartItem) async {
-    final searchedItem = _carts.firstWhereOrNull((element) => element.item.id == cartItem.item.id);
+    final searchedItem = _carts
+        .firstWhereOrNull((element) => element.item.id == cartItem.item.id);
     if (searchedItem != null) {
       final newtUniqueId = await ModifierManager().generateCheckingId(
         groups: cartItem.modifiers,
@@ -186,8 +194,22 @@ class CartManager {
     return null;
   }
 
+  CustomerInfoData? getCustomerInfo() => _customerInfo;
+
+  EditableOrderInfo? getEditInfo() => _editInfo;
+
+  void setEditInfo(EditableOrderInfo info){
+    _editInfo = info;
+  }
+
+  void setCustomerInfo(CustomerInfoData data){
+    _customerInfo = data;
+  }
+
   void clear() {
     _carts.clear();
+    _editInfo = null;
+    _customerInfo = null;
     _notifyListener();
   }
 }
