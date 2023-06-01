@@ -11,7 +11,7 @@ import '../../../../../orders/provider/order_information_provider.dart';
 import '../cart/tag_title.dart';
 
 class PaymentMethodView extends StatefulWidget {
-  final Function(PaymentMethod?) onChanged;
+  final Function(int?) onChanged;
   final int? initMethod;
   final bool? required;
   final bool willShowReqTag;
@@ -74,7 +74,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
 class PaymentMethodDropdown extends StatefulWidget {
   final List<PaymentMethod> methods;
   final int? initMethod;
-  final Function(PaymentMethod?) onChanged;
+  final Function(int?) onChanged;
 
   const PaymentMethodDropdown(
       {Key? key,
@@ -162,7 +162,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
             } else {
               _paymentMethod = value;
             }
-            widget.onChanged(_paymentMethod);
+            widget.onChanged(_paymentMethod?.id);
           });
         },
       ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:klikit/modules/add_order/domain/entities/customer_info.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -226,26 +226,34 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   }
 
   void _setEditableInfo(Order order) {
-    final editInfo =  EditableOrderInfo(
+    final editInfo = CartInfo(
       type: order.type,
       source: order.source,
       discountType: order.discountTYpe,
       discountValue: order.discountValue,
-      paymentStatus: order.paymentStatus,
-      paymentMethod: order.paymentMethod,
-      additionalFee: order.additionalFee/100,
-      deliveryFee: order.deliveryFee/100,
+      additionalFee: order.additionalFee / 100,
+      deliveryFee: order.deliveryFee / 100,
     );
-    final customerInfo = CustomerInfoData(
+    final customerInfo = CustomerInfo(
       firstName: order.userFirstName,
       lastName: order.userLastName,
       email: order.userEmail,
       phone: order.userPhone,
       tableNo: order.tableNo,
     );
-
+    final paymentInfo = PaymentInfo(
+      paymentStatus: order.paymentStatus == ZERO ? null : order.paymentStatus,
+      paymentMethod: order.paymentMethod == ZERO ? null : order.paymentMethod,
+    );
+    final updateCartInfo = UpdateCartInfo(
+      id: order.id,
+      externalId: order.externalId,
+      identity: order.identity,
+    );
     CartManager().setCustomerInfo(customerInfo);
     CartManager().setEditInfo(editInfo);
+    CartManager().setPaymentInfo(paymentInfo);
+    CartManager().setUpdateCartInfo(updateCartInfo);
   }
 
   void _gotoCartScreen() {
@@ -253,6 +261,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
       MaterialPageRoute(
         builder: (context) => const AddOrderScreen(
           willOpenCart: true,
+          willUpdateCart: true,
         ),
       ),
     );
@@ -297,7 +306,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 onGrabEditSuccess: () {
                   _refresh(willBackground: true);
                 },
-                onEditManualOrder: () {},
+                onEditManualOrder: () {
+                  Navigator.pop(context);
+                  _editManualOrder(item);
+                },
               );
               _sendScreenEvent();
             },

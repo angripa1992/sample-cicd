@@ -11,8 +11,7 @@ import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../orders/domain/entities/payment_info.dart';
-import '../../../../domain/entities/customer_info.dart';
+import '../../../../../widgets/snackbars.dart';
 import '../../../cubit/place_order_cubit.dart';
 import '../cart/order_action_button.dart';
 import '../cart/step_view.dart';
@@ -36,24 +35,38 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  final _paymentMethodNotifier = ValueNotifier<PaymentMethod?>(null);
-  CustomerInfoData? _customerInfo;
-  PaymentStatus? _paymentStatus;
-  PaymentMethod? _paymentMethod;
+  final _paymentMethodNotifier = ValueNotifier<int?>(null);
+  CustomerInfo? _customerInfo;
+  int? _paymentStatus;
+  int? _paymentMethod;
 
-  void _placeOrder() {
-    context.read<PlaceOrderCubit>().placeOrder(
-          checkoutData: widget.checkoutData,
-          paymentStatus: _paymentMethod == null ? PaymentStatusId.pending : (_paymentStatus?.id ?? PaymentStatusId.pending),
-          paymentMethod: _paymentMethod?.id,
-          info: _customerInfo,
-        );
+  @override
+  void initState() {
+    final paymentInfo = CartManager().getPaymentInfo();
+    if (paymentInfo != null) {
+      _paymentMethod = paymentInfo.paymentMethod;
+      _paymentMethodNotifier.value = paymentInfo.paymentMethod;
+      _paymentStatus = paymentInfo.paymentStatus;
+    }
+    _customerInfo = CartManager().getCustomerInfo();
+    super.initState();
   }
 
   @override
   void dispose() {
     _paymentMethodNotifier.dispose();
     super.dispose();
+  }
+
+  void _placeOrder() {
+    context.read<PlaceOrderCubit>().placeOrder(
+          checkoutData: widget.checkoutData,
+          paymentStatus: _paymentMethod == null
+              ? PaymentStatusId.pending
+              : (_paymentStatus ?? PaymentStatusId.pending),
+          paymentMethod: _paymentMethod,
+          info: _customerInfo,
+        );
   }
 
   @override
@@ -77,12 +90,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       stepPosition: StepPosition.checkout,
                     ),
                   ),
-                  CustomerInfo(
+                  CustomerInfoView(
+                    initInfo: _customerInfo,
                     onCustomerInfoSave: (customerInfoData) {
                       _customerInfo = customerInfoData;
                     },
                   ),
                   PaymentMethodView(
+                    initMethod: _paymentMethod,
                     onChanged: (paymentMethod) {
                       _paymentMethod = paymentMethod;
                       _paymentMethodNotifier.value = _paymentMethod;
@@ -95,6 +110,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         return const SizedBox();
                       } else {
                         return PaymentStatusView(
+                          initStatus: _paymentStatus,
                           onChanged: (paymentStatus) {
                             _paymentStatus = paymentStatus;
                           },
@@ -109,13 +125,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           BlocConsumer<PlaceOrderCubit, ResponseState>(
             listener: (context, state) {
               if (state is Success<PlacedOrderResponse>) {
+                showSuccessSnackBar(context,state.data.message ?? '');
                 CartManager().clear();
                 widget.onSuccess();
               }
             },
             builder: (context, state) {
               return OrderActionButton(
-                buttonText: 'Place Order',
+                buttonText: CartManager().getUpdateCartInfo() == null ? 'Place Order' : 'Update Order',
                 enable: state is Loading ? false : true,
                 totalPrice: widget.checkoutData.cartBill.totalPrice,
                 onProceed: _placeOrder,

@@ -12,7 +12,7 @@ import '../../../../../orders/provider/order_information_provider.dart';
 import '../cart/tag_title.dart';
 
 class PaymentStatusView extends StatefulWidget {
-  final Function(PaymentStatus) onChanged;
+  final Function(int) onChanged;
   final int? initStatus;
   final bool willShowReqTag;
 
@@ -68,7 +68,7 @@ class _PaymentStatusViewState extends State<PaymentStatusView> {
 
 class PaymentStatusDropdown extends StatefulWidget {
   final List<PaymentStatus> statues;
-  final Function(PaymentStatus) onChanged;
+  final Function(int) onChanged;
   final int? initStatus;
 
   const PaymentStatusDropdown(
@@ -146,7 +146,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
         onChanged: (value) {
           setState(() {
             _paymentStatus = value;
-            widget.onChanged(_paymentStatus!);
+            widget.onChanged(_paymentStatus!.id);
           });
         },
       ),

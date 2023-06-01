@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/domain/entities/customer_info.dart';
 
 import '../data/models/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
@@ -12,8 +11,10 @@ import 'order_entity_provider.dart';
 class CartManager {
   static final _instance = CartManager._internal();
   static final _carts = <AddToCartItem>[];
-  static EditableOrderInfo? _editInfo;
-  static CustomerInfoData? _customerInfo;
+  static CartInfo? _cartInfo;
+  static CustomerInfo? _customerInfo;
+  static PaymentInfo? _paymentInfo;
+  static UpdateCartInfo? _updateCartInfo;
   static final _cartItemNotifier = ValueNotifier<int>(0);
   static final _noOfCartItemNotifier = ValueNotifier<int>(0);
   static final _priceNotifier = ValueNotifier<SelectedItemPrice?>(null);
@@ -194,22 +195,36 @@ class CartManager {
     return null;
   }
 
-  CustomerInfoData? getCustomerInfo() => _customerInfo;
+  CustomerInfo? getCustomerInfo() => _customerInfo;
 
-  EditableOrderInfo? getEditInfo() => _editInfo;
+  CartInfo? getEditInfo() => _cartInfo;
 
-  void setEditInfo(EditableOrderInfo info){
-    _editInfo = info;
+  PaymentInfo? getPaymentInfo() => _paymentInfo;
+
+  UpdateCartInfo? getUpdateCartInfo() => _updateCartInfo;
+
+  void setEditInfo(CartInfo info){
+    _cartInfo = info;
   }
 
-  void setCustomerInfo(CustomerInfoData data){
+  void setCustomerInfo(CustomerInfo data){
     _customerInfo = data;
+  }
+
+  void setPaymentInfo(PaymentInfo data){
+    _paymentInfo = data;
+  }
+
+  void setUpdateCartInfo(UpdateCartInfo data){
+    _updateCartInfo = data;
   }
 
   void clear() {
     _carts.clear();
-    _editInfo = null;
+    _cartInfo = null;
     _customerInfo = null;
+    _paymentInfo = null;
+    _updateCartInfo = null;
     _notifyListener();
   }
 }

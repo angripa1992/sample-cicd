@@ -115,10 +115,13 @@ class _BaseScreenState extends State<BaseScreen> {
     }
   }
 
-  void _goToAddOrderScreen(NavigationData data){
+  void _goToAddOrderScreen(NavigationData data) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const AddOrderScreen(willOpenCart: false),
+        builder: (context) => const AddOrderScreen(
+          willOpenCart: false,
+          willUpdateCart: false,
+        ),
       ),
     );
   }

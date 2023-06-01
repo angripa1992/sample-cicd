@@ -46,11 +46,11 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   CartBill? _cartBill;
   int _currentDiscountType = DiscountType.flat;
+  int _currentOrderType = OrderType.DINE_IN;
+  int _currentSource = OrderSource.IN_STORE;
   num _globalDiscount = 0;
   num _globalAdditionalFee = 0;
   num _globalDeliveryFee = 0;
-  int? _currentOrderType;
-  int _currentSource = 9;
 
   @override
   void initState() {
@@ -68,13 +68,11 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _saveCurrentEditInfo(){
-    final editInfo =  EditableOrderInfo(
+    final editInfo =  CartInfo(
       type: _currentOrderType ?? 0,
       source: _currentSource,
       discountType: _currentDiscountType,
       discountValue: _globalDiscount,
-      paymentStatus: 0,
-      paymentMethod: 0,
       additionalFee: _globalAdditionalFee,
       deliveryFee: _globalDeliveryFee,
     );
@@ -213,7 +211,7 @@ class _CartScreenState extends State<CartScreen> {
   void _onCheckout() {
     final checkoutData = CheckoutData(
       items: CartManager().items(),
-      type: _currentOrderType ?? OrderType.DINE_IN,
+      type: _currentOrderType,
       source: _currentSource,
       cartBill: _cartBill!,
       discountType: _currentDiscountType,
@@ -294,7 +292,7 @@ class _CartScreenState extends State<CartScreen> {
                   },
                 ),
                 TypeSelector(
-                  initialType: _currentOrderType ?? OrderType.DINE_IN,
+                  initialType: _currentOrderType,
                   onTypeChange: (type) {
                     _currentOrderType = type;
                     _saveCurrentEditInfo();

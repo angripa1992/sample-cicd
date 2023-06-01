@@ -147,7 +147,7 @@ class _AddPaymentMethodAndStatusViewState
             final previousValue = _statusAndMethodNotifier.value;
             _statusAndMethodNotifier.value = {
               _status: previousValue[_status],
-              _method: method?.id,
+              _method: method,
             };
           },
         ),
@@ -159,7 +159,7 @@ class _AddPaymentMethodAndStatusViewState
           onChanged: (status) {
             final previousValue = _statusAndMethodNotifier.value;
             _statusAndMethodNotifier.value = {
-              _status: status.id,
+              _status: status,
               _method: previousValue[_method],
             };
           },

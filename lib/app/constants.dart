@@ -60,6 +60,9 @@ class OrderType {
   static const int DELIVERY = 2;
   static const int DINE_IN = 3;
 }
+class OrderSource {
+  static const int IN_STORE = 9;
+}
 
 class ProviderID {
   static const int KLIKIT = 1;

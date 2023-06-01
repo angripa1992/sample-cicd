@@ -6,21 +6,22 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../resources/fonts.dart';
-import '../../../../domain/entities/customer_info.dart';
+import '../../../../domain/entities/add_to_cart_item.dart';
 import '../cart/tag_title.dart';
 import 'customer_into_field.dart';
 
-class CustomerInfo extends StatefulWidget {
-  final Function(CustomerInfoData) onCustomerInfoSave;
+class CustomerInfoView extends StatefulWidget {
+  final CustomerInfo? initInfo;
+  final Function(CustomerInfo) onCustomerInfoSave;
 
-  const CustomerInfo({Key? key, required this.onCustomerInfoSave})
+  const CustomerInfoView({Key? key, required this.onCustomerInfoSave, this.initInfo})
       : super(key: key);
 
   @override
-  State<CustomerInfo> createState() => _CustomerInfoState();
+  State<CustomerInfoView> createState() => _CustomerInfoViewState();
 }
 
-class _CustomerInfoState extends State<CustomerInfo> {
+class _CustomerInfoViewState extends State<CustomerInfoView> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -30,7 +31,17 @@ class _CustomerInfoState extends State<CustomerInfo> {
 
   @override
   void initState() {
-    _controller = ExpandedTileController(isExpanded: false);
+    final initInfo = widget.initInfo;
+    if(initInfo != null){
+      _firstNameController.text = initInfo.firstName;
+      _lastNameController.text = initInfo.lastName;
+      _emailController.text = initInfo.email;
+      _phoneController.text = initInfo.phone;
+      _tableNoController.text = initInfo.tableNo;
+      _controller = ExpandedTileController(isExpanded: true);
+    }else{
+      _controller = ExpandedTileController(isExpanded: false);
+    }
     super.initState();
   }
 
@@ -46,7 +57,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
   }
 
   void _onSave() {
-    final customerInfo = CustomerInfoData(
+    final customerInfo = CustomerInfo(
       firstName: _firstNameController.text,
       lastName: _lastNameController.text,
       email: _emailController.text,

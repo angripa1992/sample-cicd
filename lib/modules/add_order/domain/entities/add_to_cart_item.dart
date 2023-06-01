@@ -3,7 +3,6 @@ import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/price.dart';
-import 'customer_info.dart';
 import 'item_modifier_group.dart';
 
 class AddToCartItem {
@@ -60,24 +59,54 @@ class CheckoutData {
   });
 }
 
-class EditableOrderInfo {
+class CartInfo {
   final int type;
   final int source;
   final int discountType;
   final num discountValue;
-  final int paymentStatus;
-  final int paymentMethod;
   final num additionalFee;
   final num deliveryFee;
 
-  EditableOrderInfo({
+  CartInfo({
     required this.type,
     required this.source,
     required this.discountType,
     required this.discountValue,
-    required this.paymentStatus,
-    required this.paymentMethod,
     required this.additionalFee,
     required this.deliveryFee,
+  });
+}
+
+class PaymentInfo {
+  final int? paymentStatus;
+  final int? paymentMethod;
+
+  PaymentInfo({required this.paymentStatus, required this.paymentMethod});
+}
+
+class CustomerInfo {
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String phone;
+  final String tableNo;
+
+  CustomerInfo(
+      {required this.firstName,
+      required this.lastName,
+      required this.email,
+      required this.phone,
+      required this.tableNo});
+}
+
+class UpdateCartInfo {
+  final int id;
+  final String externalId;
+  final String identity;
+
+  UpdateCartInfo({
+    required this.id,
+    required this.externalId,
+    required this.identity,
   });
 }

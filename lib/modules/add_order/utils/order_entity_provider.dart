@@ -18,7 +18,6 @@ import '../../orders/domain/entities/payment_info.dart';
 import '../data/models/billing_item_modifier.dart';
 import '../data/models/billing_request.dart';
 import '../data/models/place_order_data.dart';
-import '../domain/entities/customer_info.dart';
 import '../domain/entities/item_modifier.dart';
 import '../domain/entities/item_modifier_group.dart';
 import 'cart_manager.dart';
@@ -169,7 +168,7 @@ class OrderEntityProvider {
     required CheckoutData checkoutData,
     required int paymentStatus,
     required int? paymentMethod,
-    required CustomerInfoData? info,
+    required CustomerInfo? info,
 }
   ) async {
     final bill = checkoutData.cartBill;
@@ -187,8 +186,11 @@ class OrderEntityProvider {
       user.email =  info.email.notEmptyOrNull();
       user.phone =  info.phone.notEmptyOrNull();
     }
-
+    final updateInfo = CartManager().getUpdateCartInfo();
     return PlaceOrderDataModel(
+      id: updateInfo?.id,
+      externalId: updateInfo?.externalId,
+      identity: updateInfo?.identity,
       branchId: SessionManager().currentUserBranchId(),
       currency: currency.code,
       currencySymbol: currency.symbol,

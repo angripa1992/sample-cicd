@@ -112,7 +112,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           onEditGrabOrder: () {
             _editGrabOrderOrder(_currentOrder);
           },
-          onEditManualOrder: () {},
+          onEditManualOrder: widget.onEditManualOrder,
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
