@@ -8,7 +8,6 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../widgets/snackbars.dart';
 
 enum FeeType { discount, delivery, additional }
 
@@ -62,30 +61,30 @@ class _FeeDialogViewState extends State<FeeDialogView> {
     }
   }
 
-  String? _validate(){
+  String? _validate() {
     final text = _controller.text;
     final amountString = text.isEmpty ? '0' : text;
     final amount = num.parse(amountString);
-    if(_feeType == FeeType.discount){
-      if(_type == DiscountType.flat){
-        if(amount > widget.subTotal){
-          return 'Can\'t be greater than the subtotal' ;
+    if (_feeType == FeeType.discount) {
+      if (_type == DiscountType.flat) {
+        if (amount > widget.subTotal) {
+          return 'Can\'t be greater than the subtotal';
         }
-      }else{
-        if(amount > 100){
-          return 'Can\'t be greater than 100' ;
+      } else {
+        if (amount > 100) {
+          return 'Can\'t be greater than 100';
         }
       }
     }
     return null;
   }
 
-  void _save(){
+  void _save() {
     final validate = _validate();
     setState(() {
       _validateMsg = validate;
     });
-    if(validate == null){
+    if (validate == null) {
       Navigator.pop(context);
       final value = _controller.text.isEmpty ? '0' : _controller.text;
       widget.onSave(_type, num.parse(value), _feeType);
@@ -119,6 +118,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
         ),
         if (_type != DiscountType.none)
           DiscountTypeSelector(
+            feeType: _feeType,
             initValue: _type,
             onChange: (type) {
               _type = type;
@@ -178,6 +178,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
 }
 
 class DiscountTypeSelector extends StatefulWidget {
+  final FeeType feeType;
   final int initValue;
   final Function(int) onChange;
 
@@ -185,6 +186,7 @@ class DiscountTypeSelector extends StatefulWidget {
     Key? key,
     required this.initValue,
     required this.onChange,
+    required this.feeType,
   }) : super(key: key);
 
   @override
@@ -200,6 +202,16 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
     super.initState();
   }
 
+  String _title() {
+    if (widget.feeType == FeeType.discount) {
+      return AppStrings.discount.tr();
+    } else if (widget.feeType == FeeType.delivery) {
+      return AppStrings.delivery_fee.tr();
+    } else {
+      return AppStrings.additional_fee.tr();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -208,7 +220,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Discount Type',
+            '${_title()} Type',
             style: getMediumTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s14.rSp,

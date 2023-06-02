@@ -38,10 +38,8 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
       _emailController.text = initInfo.email;
       _phoneController.text = initInfo.phone;
       _tableNoController.text = initInfo.tableNo;
-      _controller = ExpandedTileController(isExpanded: true);
-    }else{
-      _controller = ExpandedTileController(isExpanded: false);
     }
+    _controller = ExpandedTileController(isExpanded: false);
     super.initState();
   }
 

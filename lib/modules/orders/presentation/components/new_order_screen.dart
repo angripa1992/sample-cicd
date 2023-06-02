@@ -227,7 +227,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
 
   void _setEditableInfo(Order order) {
     final editInfo = CartInfo(
-      type: order.type,
+      type: order.type == ZERO ? OrderType.DINE_IN : order.type,
       source: order.source,
       discountType: order.discountTYpe,
       discountValue: order.discountValue,
@@ -242,8 +242,8 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
       tableNo: order.tableNo,
     );
     final paymentInfo = PaymentInfo(
-      paymentStatus: order.paymentStatus == ZERO ? null : order.paymentStatus,
-      paymentMethod: order.paymentMethod == ZERO ? null : order.paymentMethod,
+      paymentStatus: order.paymentStatus,
+      paymentMethod: order.paymentMethod == ZERO ? PaymentMethodId.CASH : order.paymentMethod,
     );
     final updateCartInfo = UpdateCartInfo(
       id: order.id,

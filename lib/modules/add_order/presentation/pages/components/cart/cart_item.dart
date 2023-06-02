@@ -5,6 +5,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 
+import '../../../../../../app/extensions.dart';
 import '../../../../../../core/provider/image_url_provider.dart';
 import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/assets.dart';
@@ -100,13 +101,14 @@ class CartItemView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: AppSize.s8.rh),
                       FutureBuilder<String>(
-                        future: ModifierManager()
-                            .allCsvModifiersName(cartItem.modifiers),
+                        future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
                         builder: (context, snapShot) {
                           if (snapShot.hasData) {
-                            return Text(snapShot.data!);
+                            return Padding(
+                              padding: EdgeInsets.only(top: snapShot.data!.isNotEmpty ? AppSize.s8.rh : 0),
+                              child: Text(snapShot.data!),
+                            );
                           }
                           return const SizedBox();
                         },

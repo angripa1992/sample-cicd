@@ -64,6 +64,10 @@ class OrderSource {
   static const int IN_STORE = 9;
 }
 
+class PaymentMethodId {
+  static const int CASH = 2;
+}
+
 class ProviderID {
   static const int KLIKIT = 1;
   static const int GRAB_FOOD = 6;
