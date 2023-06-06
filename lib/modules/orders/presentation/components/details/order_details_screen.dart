@@ -94,13 +94,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         _appBar(),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          child: Divider(
-            color: AppColors.frenchGrey,
-            height: 0,
-          ),
-        ),
         if (_currentOrder.status == OrderStatus.SCHEDULED &&
             _currentOrder.scheduledTime.isNotEmpty)
           ScheduledDetailsView(
@@ -134,30 +127,42 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   }
 
   Widget _appBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          child: Text(
-            AppStrings.order_details.tr(),
-            style: getMediumTextStyle(
-              color: AppColors.balticSea,
-              fontSize: AppFontSize.s16.rSp,
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0.0, 1.0),
+            blurRadius: 4.0,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+            child: Text(
+              AppStrings.order_details.tr(),
+              style: getMediumTextStyle(
+                color: AppColors.balticSea,
+                fontSize: AppFontSize.s16.rSp,
+              ),
             ),
           ),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.clear,
-            size: AppSize.s18.rSp,
-            color: AppColors.blackCow,
-          ),
-        )
-      ],
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.clear,
+              size: AppSize.s18.rSp,
+              color: AppColors.blackCow,
+            ),
+          )
+        ],
+      ),
     );
   }
 }
