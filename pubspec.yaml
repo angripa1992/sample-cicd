@@ -55,7 +55,7 @@ dependencies:
 
   docket_design_template:
     git:
-      url: https://sayed_hasan@bitbucket.org/shadowchef/docket_design_template.git
+      url: git@github.com:klikit/docket_design_template.git
       ref: version3.0.2
 
 dev_dependencies:

@@ -7,8 +7,7 @@ import '../../modules/orders/domain/entities/order.dart';
 class PriceCalculator {
   static String calculateItemPrice(Order order, CartV2 cartV2) {
     num itemTotalPrice = num.parse(cartV2.price);
-    if (!order.isInterceptorOrder &&
-        order.providerId != ProviderID.FOOD_PANDA) {
+    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
       num unitPrice = num.parse(cartV2.unitPrice);
       itemTotalPrice = unitPrice * cartV2.quantity;
     }
@@ -26,8 +25,7 @@ class PriceCalculator {
     int itemQuantity,
   ) {
     num modifierTotalPrice = num.parse(modifiers.price);
-    if (!order.isInterceptorOrder &&
-        order.providerId != ProviderID.FOOD_PANDA) {
+    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
       num unitPrice = num.parse(modifiers.unitPrice);
       modifierTotalPrice =
           unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
@@ -39,13 +37,13 @@ class PriceCalculator {
   }
 
   static String calculateSubtotal(Order order) {
-    num subtotal;
-    if (order.providerId == ProviderID.FOOD_PANDA) {
-      subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
-    } else {
-      subtotal = order.itemPrice;
-    }
-    return convertPrice(order, subtotal);
+    // num subtotal;
+    // if (order.providerId == ProviderID.FOOD_PANDA) {
+    //   subtotal = (order.finalPrice + order.discount) - order.deliveryFee;
+    // } else {
+    //   subtotal = order.itemPrice;
+    // }
+    return convertPrice(order, order.itemPrice);
   }
 
   static String formatPrice({

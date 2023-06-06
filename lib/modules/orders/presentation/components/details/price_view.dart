@@ -77,7 +77,7 @@ class _PriceViewState extends State<PriceView> {
               child: Column(
                 children: [
                   _getSubtotalItem(
-                    AppStrings.vat.tr(),
+                    _vatTitle(widget.order),
                     widget.order.vat,
                   ),
                   SizedBox(height: AppSize.s2.rh),
@@ -141,6 +141,14 @@ class _PriceViewState extends State<PriceView> {
         ],
       ),
     );
+  }
+
+
+  String _vatTitle(Order order){
+    if (order.isFoodpandaApiOrder && !order.isVatIncluded) {
+      return  AppStrings.vat.tr();
+    }
+    return 'Inc. Vat';
   }
 
   Widget _getSubtotalItem(String name, num price,

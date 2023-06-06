@@ -83,6 +83,7 @@ class Order {
   final String identity;
   final bool isMixAndMatchOrder;
   final String triggeredTime;
+  final bool isVatIncluded;
   String klikitComment;
   int paymentMethod;
   int paymentStatus;
@@ -156,6 +157,7 @@ class Order {
     required this.identity,
     required this.isMixAndMatchOrder,
     required this.triggeredTime,
+    required this.isVatIncluded,
   });
 
   Order copy() => Order(
@@ -226,6 +228,7 @@ class Order {
         identity: identity,
         isMixAndMatchOrder: isMixAndMatchOrder,
         triggeredTime: triggeredTime,
+        isVatIncluded: isVatIncluded,
       );
 
   OrderModel toModel() => OrderModel(
@@ -294,5 +297,6 @@ class Order {
         identity: identity,
         isMixAndMatchOrder: isMixAndMatchOrder,
         triggeredTime: triggeredTime.notEmptyOrNull(),
+        isVatIncluded: isVatIncluded,
       );
 }

@@ -113,6 +113,8 @@ class OrderModel {
   bool? isFake;
   @JsonKey(name: 'is_foodpanda_api_order')
   bool? isFoodpandaApiOrder;
+  @JsonKey(name: 'is_vat_included')
+  bool? isVatIncluded;
   @JsonKey(name: 'is_interceptor_order')
   bool? isInterceptorOrder;
   @JsonKey(name: 'order_comment')
@@ -235,6 +237,7 @@ class OrderModel {
     this.identity,
     this.isMixAndMatchOrder,
     this.triggeredTime,
+    this.isVatIncluded,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
@@ -311,6 +314,7 @@ class OrderModel {
       identity: identity.orEmpty(),
       isMixAndMatchOrder: isMixAndMatchOrder.orFalse(),
       triggeredTime: triggeredTime.orEmpty(),
+      isVatIncluded: isVatIncluded.orFalse(),
     );
   }
 }

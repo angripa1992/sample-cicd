@@ -96,6 +96,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       identity: json['identity'] as String?,
       isMixAndMatchOrder: json['is_mix_and_match_order'] as bool?,
       triggeredTime: json['triggered_time'] as String?,
+      isVatIncluded: json['is_vat_included'] as bool?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -139,6 +140,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'klikit_store_id': instance.klikitStoreId,
       'is_fake': instance.isFake,
       'is_foodpanda_api_order': instance.isFoodpandaApiOrder,
+      'is_vat_included': instance.isVatIncluded,
       'is_interceptor_order': instance.isInterceptorOrder,
       'order_comment': instance.orderComment,
       'delivery_comment': instance.deliveryComment,
