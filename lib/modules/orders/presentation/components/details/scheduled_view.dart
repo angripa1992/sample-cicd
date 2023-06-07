@@ -21,10 +21,9 @@ class ScheduledDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: AppSize.s16.rw,
-        right: AppSize.s16.rw,
-        bottom: AppSize.s8.rh,
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s16.rw,
+        vertical: AppSize.s8.rh,
       ),
       child: Container(
         decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
@@ -5,6 +6,7 @@ import 'package:klikit/app/size_config.dart';
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 
@@ -24,7 +26,7 @@ class EmptyBrandView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: AppSize.s16.rh),
             child: Text(
-              'Select a brand name to start working on the order',
+              AppStrings.select_brand_name_msg,
               textAlign: TextAlign.center,
               style: getMediumTextStyle(
                 color: AppColors.purpleBlue,
@@ -33,7 +35,7 @@ class EmptyBrandView extends StatelessWidget {
             ),
           ),
           Text(
-            'Click on the button at the top to select a brand name',
+            AppStrings.click_button_to_select_brand,
             textAlign: TextAlign.center,
             style: getRegularTextStyle(
               color: AppColors.coolGrey,

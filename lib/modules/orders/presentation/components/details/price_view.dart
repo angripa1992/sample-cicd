@@ -145,7 +145,7 @@ class _PriceViewState extends State<PriceView> {
 
 
   String _vatTitle(Order order){
-    if (order.isFoodpandaApiOrder && !order.isVatIncluded) {
+    if (order.providerId == ProviderID.FOOD_PANDA && !order.isInterceptorOrder && !order.isVatIncluded) {
       return  AppStrings.vat.tr();
     }
     return 'Inc. Vat';

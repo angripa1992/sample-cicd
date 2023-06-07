@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/modifier_rule.dart';
@@ -18,11 +20,11 @@ class ModifierGroupInfo extends StatelessWidget {
   String _ruleTitle(){
     final optional = rule.value == 0 && rule.min == 0;
     if(optional){
-      return 'Choose Up to ${rule.max}';
+      return '${AppStrings.choose_upto} ${rule.max}';
     }else if(rule.typeTitle == RuleType.exact){
-      return 'Choose ${rule.value}';
+      return '${AppStrings.choose} ${rule.value}';
     }
-    return 'Choose ${rule.min} - ${rule.max}';
+    return '${AppStrings.choose} ${rule.min} - ${rule.max}';
   }
 
   @override
@@ -69,7 +71,7 @@ class ModifierGroupInfo extends StatelessWidget {
                         horizontal: AppSize.s8.rw,
                       ),
                       child: Text(
-                        isOptional ? 'Optional' : 'Required',
+                        isOptional ? AppStrings.optional : AppStrings.required,
                         style: getRegularTextStyle(
                           color: isOptional
                               ? AppColors.smokeyGrey

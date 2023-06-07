@@ -89,7 +89,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      //crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -128,6 +128,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   Widget _appBar() {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [

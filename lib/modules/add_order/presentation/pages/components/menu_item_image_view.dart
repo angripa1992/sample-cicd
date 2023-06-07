@@ -1,25 +1,29 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 
+import '../../../../../app/enums.dart';
 import '../../../../../core/provider/image_url_provider.dart';
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 
 class MenuItemImageView extends StatelessWidget {
   final String image;
-  final String? available;
-  static const _outOfStock = 'Out of Stock';
-  static const _unavailable = 'Unavailable';
+  final Availability availability;
 
-  const MenuItemImageView({Key? key, required this.image, this.available})
-      : super(key: key);
+  const MenuItemImageView({
+    Key? key,
+    required this.image,
+    required this.availability,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +42,8 @@ class MenuItemImageView extends StatelessWidget {
           child: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              if (available == _outOfStock) _getBlurImage(),
-              if (available == _outOfStock) _unavailableMessage(),
+              if (availability == Availability.OUT_OF_STOCK) _getBlurImage(),
+              if (availability == Availability.OUT_OF_STOCK) _outOfStockMessage(),
             ],
           ),
         ),
@@ -47,7 +51,9 @@ class MenuItemImageView extends StatelessWidget {
           child: SizedBox(
             height: AppSize.s14.rh,
             width: AppSize.s16.rw,
-            child: const CircularProgressIndicator(strokeWidth: 1,),
+            child: const CircularProgressIndicator(
+              strokeWidth: 1,
+            ),
           ),
         ),
         errorWidget: (context, url, error) => Container(
@@ -67,8 +73,8 @@ class MenuItemImageView extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              if (available == _outOfStock) _getBlurImage(),
-              if (available == _outOfStock) _unavailableMessage(),
+              if (availability == Availability.OUT_OF_STOCK) _getBlurImage(),
+              if (availability == Availability.OUT_OF_STOCK) _outOfStockMessage(),
             ],
           ),
         ),
@@ -91,9 +97,9 @@ class MenuItemImageView extends StatelessWidget {
     );
   }
 
-  Widget _unavailableMessage() {
+  Widget _outOfStockMessage() {
     return Text(
-      available!,
+      AppStrings.out_of_stock,
       style: getRegularTextStyle(
         color: AppColors.white,
         fontSize: AppFontSize.s14.rSp,

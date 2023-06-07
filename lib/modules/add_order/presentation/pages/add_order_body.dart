@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,6 +11,7 @@ import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 import '../../../../app/di.dart';
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
+import '../../../../resources/strings.dart';
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/items.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
@@ -143,7 +145,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   void _addToCart(AddToCartItem? item) {
     if (item != null) {
       CartManager().addToCart(item);
-      showSuccessSnackBar(null,'Successfully added to cart');
+      showSuccessSnackBar(null,AppStrings.successfully_added_to_cart);
     }
   }
 
@@ -258,8 +260,8 @@ class _AddOrderBodyState extends State<AddOrderBody> {
               } else if (state is Success<List<SubSectionListItem>>) {
                 EasyLoading.dismiss();
                 if(state.data.isEmpty){
-                  return const Center(
-                    child: Text('No items found!'),
+                  return  Center(
+                    child: Text(AppStrings.no_item_found),
                   );
                 }
                 return MenuItemsListView(

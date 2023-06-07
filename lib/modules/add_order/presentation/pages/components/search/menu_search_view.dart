@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/search/search_appbar.dart';
@@ -6,6 +7,7 @@ import 'package:klikit/modules/menu/domain/entities/sub_section.dart';
 import 'package:klikit/resources/fonts.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/sub_section_list_item.dart';
@@ -90,7 +92,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
               top: AppSize.s16.rh,
             ),
             child: Text(
-              'Categories',
+              AppStrings.categories,
               style: getMediumTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,
@@ -106,8 +108,8 @@ class _MenuSearchViewState extends State<MenuSearchView> {
               valueListenable: _sectionNotifier,
               builder: (_, sections, __) {
                 if (sections.isEmpty) {
-                  return const Center(
-                    child: Text('No categories found!'),
+                  return Center(
+                    child: Text(AppStrings.no_categories_found),
                   );
                 }
                 return Wrap(
@@ -139,7 +141,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
               bottom: AppSize.s12.rh,
             ),
             child: Text(
-              'Items',
+              AppStrings.Items,
               style: getMediumTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,
@@ -155,7 +157,10 @@ class _MenuSearchViewState extends State<MenuSearchView> {
                 valueListenable: _itemNotifier,
                 builder: (_, items, __) {
                   if (items.isEmpty) {
-                    return const Center(child: Text('No items found!'));
+                    return Center(
+                        child: Text(
+                      AppStrings.no_item_found,
+                    ));
                   }
                   return GridView.builder(
                     shrinkWrap: true,

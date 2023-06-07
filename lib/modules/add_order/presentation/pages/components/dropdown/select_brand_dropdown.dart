@@ -4,6 +4,7 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/brand.dart';
 
@@ -39,7 +40,9 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
   @override
   void didUpdateWidget(covariant SelectBrandDropDown oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (((_dropDownValue != null && widget.initialBrand != null) && _dropDownValue!.id != widget.initialBrand!.id) || widget.initialBrand != null) {
+    if (((_dropDownValue != null && widget.initialBrand != null) &&
+            _dropDownValue!.id != widget.initialBrand!.id) ||
+        widget.initialBrand != null) {
       setState(() {
         _dropDownValue = widget.initialBrand;
         widget.onChanged(_dropDownValue!);
@@ -63,7 +66,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
           color: AppColors.black,
         ),
         hint: Center(
-          child: Text('Select a brand name', style: _textStyle),
+          child: Text(AppStrings.select_brand_name, style: _textStyle),
         ),
         selectedItemBuilder: (BuildContext context) {
           return widget.brands.map<Widget>((MenuBrand item) {
@@ -77,7 +80,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
           }).toList();
         },
         items: widget.brands.map<DropdownMenuItem<MenuBrand>>(
-              (menu) {
+          (menu) {
             return DropdownMenuItem<MenuBrand>(
               value: menu,
               child: Row(

@@ -1,25 +1,20 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/avilable_times.dart';
 import 'package:klikit/modules/menu/domain/entities/items.dart';
 
+import '../../../../../app/enums.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/item_modifier_group.dart';
 import '../../../utils/available_time_provider.dart';
 import '../../../utils/order_price_provider.dart';
-import 'menu_item_description.dart';
 import 'menu_item_image_view.dart';
 
 class MenuItemView extends StatelessWidget {
   final MenuItems menuItem;
   final DayInfo dayInfo;
   final VoidCallback onAddItem;
-  static const _outOfStock = 'Out of Stock';
-  static const _unavailable = 'Unavailable';
 
   const MenuItemView(
       {Key? key,
@@ -28,13 +23,13 @@ class MenuItemView extends StatelessWidget {
       required this.onAddItem})
       : super(key: key);
 
-  String? _checkAvailability() {
+  Availability _checkAvailability() {
     if (!menuItem.stock.available) {
-      return _outOfStock;
+      return Availability.OUT_OF_STOCK;
     } else if (AvailableTimeProvider().haveAvailableTime(dayInfo) == null) {
-      return _unavailable;
+      return Availability.UNAVAILABLE;
     } else {
-      return null;
+      return Availability.STOCK;
     }
   }
 
@@ -50,7 +45,8 @@ class MenuItemView extends StatelessWidget {
         child: Column(
           children: [
             InkWell(
-              onTap: (availability == null || availability == _unavailable) ? onAddItem : null,
+              onTap:
+                  availability == Availability.OUT_OF_STOCK ? null : onAddItem,
               child: SizedBox(
                 height: AppSize.s100.rh,
                 child: Stack(
@@ -59,7 +55,7 @@ class MenuItemView extends StatelessWidget {
                   children: [
                     MenuItemImageView(
                       image: menuItem.image,
-                      available: availability,
+                      availability: availability,
                     ),
                     Positioned(
                       bottom: 8,
@@ -71,7 +67,8 @@ class MenuItemView extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+                              horizontal: AppSize.s8.rw,
+                              vertical: AppSize.s2.rh),
                           child: Text(
                             OrderPriceProvider.klikitItemPrice(menuItem.prices),
                             textAlign: TextAlign.center,
@@ -95,9 +92,9 @@ class MenuItemView extends StatelessWidget {
                         child: Icon(
                           Icons.add_circle,
                           size: AppSize.s28.rSp,
-                          color: (availability == null)
-                              ? AppColors.purpleBlue
-                              : AppColors.lightGrey,
+                          color: availability == Availability.OUT_OF_STOCK
+                              ? AppColors.lightGrey
+                              : AppColors.purpleBlue,
                         ),
                       ),
                     )
@@ -106,7 +103,8 @@ class MenuItemView extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: (availability == null || availability == _unavailable) ? onAddItem : null,
+              onTap:
+                  availability == Availability.OUT_OF_STOCK ? null : onAddItem,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.s4.rw,
@@ -122,7 +120,7 @@ class MenuItemView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: AppSize.s4.rw),
-                    Icon(Icons.info_outline,size: AppSize.s16.rSp),
+                    Icon(Icons.info_outline, size: AppSize.s16.rSp),
                   ],
                 ),
               ),

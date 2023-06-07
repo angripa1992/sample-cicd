@@ -247,4 +247,50 @@ class AppStrings {
   static const String kitchen = "kitchen";
   static const String customer = "customer";
   static const String dine_in = "dine_in";
+
+  // ///add order
+  // static const String successfully_added_to_cart = "successfully_added_to_cart";
+  // static const String no_item_found = "no_item_found";
+  // static const String out_of_stock = "out_of_stock";
+  // static const String unavailable = "unavailable";
+  // static const String add_to_cart = "add_to_cart";
+  // static const String go_to_cart = "go_to_cart";
+  // static const String select_brand_name_msg = "select_brand_name_msg";
+  // static const String click_button_to_select_brand = "click_button_to_select_brand";
+  // static const String search_for_items = "search_for_items";
+  // static const String categories = "categories";
+  // static const String no_categories_found = "no_categories_found";
+  // static const String Items = "Items";
+  // static const String special_instruction = "special_instruction";
+  // static const String add_instruction = "add_instruction";
+  // static const String optional = "optional";
+  // static const String required = "required";
+  // static const String choose_upto = "choose_upto";
+  // static const String choose = "choose";
+  // static const String for_ = "for";
+  // static const String add_as_new = "add_as_new";
+  // static const String select_brand_name = "select_brand_name";
+
+  // ///add order
+  static const String successfully_added_to_cart = "Successfully added to cart";
+  static const String no_item_found = "No items found!";
+  static const String out_of_stock = "Out of Stock";
+  static const String unavailable = "Unavailable";
+  static const String add_to_cart = "Add to Cart";
+  static const String go_to_cart = "Go to Cart";
+  static const String select_brand_name_msg = "Select a brand name to start working on the order";
+  static const String click_button_to_select_brand = "Click on the button at the top to select a brand name";
+  static const String search_for_items = "Search for items and categories";
+  static const String categories = "Categories";
+  static const String no_categories_found = "No categories found!";
+  static const String Items = "Items";
+  static const String special_instruction = "Special Instruction";
+  static const String add_instruction = "Add Instruction";
+  static const String optional = "Optional";
+  static const String required = "Required";
+  static const String choose_upto = "Choose Up to";
+  static const String choose = "Choose";
+  static const String for_ = "For";
+  static const String add_as_new = "Add as New";
+  static const String select_brand_name = "Select a brand name";
 }

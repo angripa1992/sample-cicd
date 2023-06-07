@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -33,7 +35,7 @@ class SearchActionButtonView extends StatelessWidget {
             ),
             SizedBox(width: AppSize.s8.rw),
             Text(
-              'Search for items and categories',
+              AppStrings.search_for_items,
               style: getRegularTextStyle(
                 color: AppColors.frenchGrey,
                 fontSize: AppSize.s14.rSp,

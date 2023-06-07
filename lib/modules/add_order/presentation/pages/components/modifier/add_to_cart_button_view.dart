@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
@@ -7,6 +8,7 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 
 class AddToCartButtonView extends StatelessWidget {
   final ValueNotifier<bool> enabled;
@@ -65,7 +67,7 @@ class AddToCartButtonView extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              'Add to Cart',
+                              AppStrings.add_to_cart,
                               style: getRegularTextStyle(
                                 color: AppColors.white,
                               ),

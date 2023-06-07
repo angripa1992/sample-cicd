@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
@@ -5,6 +6,7 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../core/utils/price_calculator.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../domain/entities/selected_item_price.dart';
 import '../../../utils/cart_manager.dart';
@@ -46,7 +48,7 @@ class GoToCartButton extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${value.noOfItem} item(s)',
+                            '${value.noOfItem} ${AppStrings.items.tr()}',
                             style: getRegularTextStyle(color: AppColors.white),
                           ),
                           SizedBox(height: AppSize.s2.rh),
@@ -68,7 +70,7 @@ class GoToCartButton extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Go to Cart',
+                            AppStrings.go_to_cart,
                             style: getMediumTextStyle(
                               color: AppColors.white,
                               fontSize: AppFontSize.s14.rSp,

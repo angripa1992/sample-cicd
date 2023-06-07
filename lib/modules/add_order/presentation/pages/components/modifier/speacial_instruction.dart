@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../note_text_field.dart';
@@ -31,7 +33,7 @@ class SpecialInstructionField extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Special Instruction',
+              AppStrings.special_instruction,
               style: getMediumTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s14.rSp,
@@ -40,7 +42,7 @@ class SpecialInstructionField extends StatelessWidget {
             SizedBox(height: AppSize.s8.rh),
             NoteTextField(
               controller: controller,
-              hint: 'Add Instruction',
+              hint:  AppStrings.add_instruction,
               minLines: 5,
             ),
           ],

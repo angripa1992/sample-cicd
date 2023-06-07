@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -82,7 +84,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     autofocus:true,
                     onChanged: _onSearchChanged,
                     decoration: InputDecoration(
-                      hintText: 'Search for items and categories',
+                      hintText: AppStrings.search_for_items,
                       hintStyle: getRegularTextStyle(
                         color: AppColors.dustyGreay,
                         fontSize: AppFontSize.s12.rSp,

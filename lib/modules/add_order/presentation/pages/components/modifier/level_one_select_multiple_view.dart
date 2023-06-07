@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/item_modifier.dart';
 import '../../../../domain/entities/item_modifier_group.dart';
@@ -135,7 +137,7 @@ class _LevelOneSelectMultipleViewState
                   child: Column(
                     children: [
                       ModifierGroupInfo(
-                        title: '${group.title} for ${modifier.title}',
+                        title: '${group.title} ${AppStrings.for_} ${modifier.title}',
                         rule: group.rule,
                       ),
                       (group.rule.typeTitle == RuleType.exact &&

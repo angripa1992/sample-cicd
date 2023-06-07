@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
@@ -7,6 +8,7 @@ import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/items.dart';
@@ -140,7 +142,7 @@ class _EditModifierViewState extends State<EditModifierView> {
                         children: [
                           Icon(Icons.add, color: AppColors.purpleBlue),
                           Text(
-                            'Add as New',
+                            AppStrings.add_as_new,
                             style: getMediumTextStyle(
                               color: AppColors.purpleBlue,
                               fontSize: AppFontSize.s14.rSp,

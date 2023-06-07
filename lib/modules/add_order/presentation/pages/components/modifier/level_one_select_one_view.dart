@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/item_modifier_group.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/item_modifier.dart';
 import 'item_name_price_title.dart';
@@ -106,7 +108,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
                 child: Column(
                   children: [
                     ModifierGroupInfo(
-                        title: '${group.title} for ${_currentModifier!.title}',
+                        title: '${group.title} ${AppStrings.for_} ${_currentModifier!.title}',
                         rule: group.rule),
                     (group.rule.typeTitle == RuleType.exact &&
                             group.rule.value == 1)

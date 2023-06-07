@@ -194,11 +194,32 @@
   "order_instruction": "Order Instruction",
   "order_details": "Order Details",
 
-
   "set_paper_size": "Set Paper Size",
   "select_docket_type": "Select Docket Type",
   "set_docket_type": "Set Docket Type",
   "kitchen ": "Kitchen ",
   "customer ": "Customer ",
-  "dine_in" : "Dine In"
+  "dine_in" : "Dine In",
+
+  "successfully_added_to_cart": "Successfully added to cart",
+  "no_item_found": "No items found!",
+  "out_of_stock": "Out of Stock",
+  "unavailable": "Unavailable",
+  "add_to_cart": "Add to Cart",
+  "go_to_cart": "Go to Cart",
+  "select_brand_name_msg": "Select a brand name to start working on the order",
+  "click_button_to_select_brand": "Click on the button at the top to select a brand name",
+  "search_for_items": "Search for items and categories",
+  "categories": "Categories",
+  "no_categories_found": "No categories found!",
+  "Items": "Items",
+  "special_instruction": "Special Instruction",
+  "add_instruction": "Add Instruction",
+  "optional": "Optional",
+  "required": "Required",
+  "choose_upto": "Choose Up to",
+  "choose": "Choose",
+  "for": "For",
+  "add_as_new": "Add as New",
+  "select_brand_name": "Select a brand name"
 }

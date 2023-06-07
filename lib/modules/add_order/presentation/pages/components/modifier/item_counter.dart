@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -9,7 +8,9 @@ import 'package:klikit/resources/values.dart';
 class ItemCounter extends StatefulWidget {
   final int count;
   final Function(int) onChanged;
-  const ItemCounter({Key? key, required this.count, required this.onChanged}) : super(key: key);
+
+  const ItemCounter({Key? key, required this.count, required this.onChanged})
+      : super(key: key);
 
   @override
   State<ItemCounter> createState() => _ItemCounterState();
@@ -20,38 +21,37 @@ class _ItemCounterState extends State<ItemCounter> {
 
   @override
   void initState() {
-    if(widget.count > 1){
+    if (widget.count > 1) {
       count = widget.count;
-    }else{
+    } else {
       count = 1;
     }
     widget.onChanged(count);
     super.initState();
   }
 
-  void _increment(){
+  void _increment() {
     setState(() {
       count += 1;
       widget.onChanged(count);
     });
   }
 
-  void _decrement(){
+  void _decrement() {
     setState(() {
-      if(count > 1){
+      if (count > 1) {
         count -= 1;
         widget.onChanged(count);
       }
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color:AppColors.blueViolet,
+        color: AppColors.blueViolet,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(

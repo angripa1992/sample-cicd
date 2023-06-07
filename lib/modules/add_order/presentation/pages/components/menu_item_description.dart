@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
@@ -7,6 +8,7 @@ import '../../../../../core/provider/image_url_provider.dart';
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/items.dart';
@@ -171,7 +173,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                         horizontal: AppSize.s16.rw,
                       ),
                       child: Text(
-                        'Add to Cart',
+                        AppStrings.add_to_cart,
                         style: getRegularTextStyle(
                           color: AppColors.white,
                         ),
