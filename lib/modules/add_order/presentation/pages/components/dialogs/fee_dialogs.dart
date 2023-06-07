@@ -118,7 +118,6 @@ class _FeeDialogViewState extends State<FeeDialogView> {
         ),
         if (_type != DiscountType.none)
           DiscountTypeSelector(
-            feeType: _feeType,
             initValue: _type,
             onChange: (type) {
               _type = type;
@@ -178,7 +177,6 @@ class _FeeDialogViewState extends State<FeeDialogView> {
 }
 
 class DiscountTypeSelector extends StatefulWidget {
-  final FeeType feeType;
   final int initValue;
   final Function(int) onChange;
 
@@ -186,7 +184,6 @@ class DiscountTypeSelector extends StatefulWidget {
     Key? key,
     required this.initValue,
     required this.onChange,
-    required this.feeType,
   }) : super(key: key);
 
   @override
@@ -202,16 +199,6 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
     super.initState();
   }
 
-  String _title() {
-    if (widget.feeType == FeeType.discount) {
-      return AppStrings.discount.tr();
-    } else if (widget.feeType == FeeType.delivery) {
-      return AppStrings.delivery_fee.tr();
-    } else {
-      return AppStrings.additional_fee.tr();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -220,7 +207,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${_title()} Type',
+            '${AppStrings.discount.tr()} Type',
             style: getMediumTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s14.rSp,

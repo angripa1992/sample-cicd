@@ -69,7 +69,7 @@ class _CartScreenState extends State<CartScreen> {
 
   void _saveCurrentEditInfo(){
     final editInfo =  CartInfo(
-      type: _currentOrderType ?? 0,
+      type: _currentOrderType,
       source: _currentSource,
       discountType: _currentDiscountType,
       discountValue: _globalDiscount,
@@ -312,7 +312,7 @@ class _CartScreenState extends State<CartScreen> {
                   removeAll: _removeAll,
                   onDeliveryFee: () {
                     _showGlobalFeeDialog(
-                      type: _currentDiscountType,
+                      type: DiscountType.none,
                       value: _cartBill!.deliveryFee,
                       feeType: FeeType.delivery,
                     );
@@ -326,7 +326,7 @@ class _CartScreenState extends State<CartScreen> {
                   },
                   onAdditionalFee: () {
                     _showGlobalFeeDialog(
-                      type: _currentDiscountType,
+                      type: DiscountType.none,
                       value: _cartBill!.additionalFee,
                       feeType: FeeType.additional,
                     );

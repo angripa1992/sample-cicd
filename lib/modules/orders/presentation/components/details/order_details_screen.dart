@@ -128,7 +128,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   Widget _appBar() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+      padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [

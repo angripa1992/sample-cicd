@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/modules/menu/domain/entities/items.dart';
 
+import '../../../app/constants.dart';
 import '../../add_order/data/datasource/add_order_datasource.dart';
 import '../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../add_order/domain/entities/item_modifier_group.dart';
@@ -38,8 +39,7 @@ class UpdateManualOrderDataProvider {
               await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice =
               OrderPriceProvider.klikitPrice(menuItemOrNull.prices);
-          final cartV1Item = order.cartV1
-              .firstWhere((element) => element.itemId.toString() == cartv2.id);
+          final cartV1Item = order.cartV1.firstWhere((element) => element.itemId.toString() == cartv2.id);
           final cartItem = AddToCartItem(
             modifiers: modifierGroups,
             item: menuItemOrNull,
@@ -48,7 +48,7 @@ class UpdateManualOrderDataProvider {
             modifiersPrice: modifiersPrice,
             itemPrice: itemPrice,
             brand: brand,
-            discountType: cartV1Item.discountType,
+            discountType: cartV1Item.discountType == 0 ? DiscountType.flat : cartV1Item.discountType,
             discountValue: cartV1Item.discountValue,
           );
           carts.add(cartItem);
