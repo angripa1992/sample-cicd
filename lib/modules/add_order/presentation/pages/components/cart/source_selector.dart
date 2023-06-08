@@ -4,6 +4,7 @@ import 'package:klikit/modules/add_order/presentation/pages/components/cart/tag_
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/order_source.dart';
@@ -82,7 +83,7 @@ class _SourceSelectorState extends State<SourceSelector> {
         ),
         child: Column(
           children: [
-            const TagTitleView(title: 'Order Source', required: true),
+            const TagTitleView(title: AppStrings.order_source , required: true),
             Container(
               margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               padding: EdgeInsets.symmetric(

@@ -51,7 +51,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
 
   String _title() {
     if (_editable) {
-      return 'Change Amount';
+      return AppStrings.chnage_amount;
     } else if (_feeType == FeeType.discount) {
       return AppStrings.discount.tr();
     } else if (_feeType == FeeType.delivery) {
@@ -68,11 +68,11 @@ class _FeeDialogViewState extends State<FeeDialogView> {
     if (_feeType == FeeType.discount) {
       if (_type == DiscountType.flat) {
         if (amount > widget.subTotal) {
-          return 'Can\'t be greater than the subtotal';
+          return AppStrings.can_not_be_greater_than_subtotal;
         }
       } else {
         if (amount > 100) {
-          return 'Can\'t be greater than 100';
+          return AppStrings.can_not_be_greater_than_100;
         }
       }
     }
@@ -141,7 +141,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 errorText: _validateMsg,
-                hintText: 'Add ${_title()}',
+                hintText: '${AppStrings.add.tr()} ${_title()}',
                 hintStyle: getRegularTextStyle(
                   color: AppColors.dustyGreay,
                   fontSize: AppFontSize.s14.rSp,
@@ -164,7 +164,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
               backgroundColor: AppColors.purpleBlue, // Background color
             ),
             child: Text(
-              'Save',
+              AppStrings.save.tr(),
               style: getMediumTextStyle(
                 color: AppColors.white,
               ),
@@ -207,7 +207,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${AppStrings.discount.tr()} Type',
+            '${AppStrings.discount.tr()} ${AppStrings.type}',
             style: getMediumTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s14.rSp,
@@ -219,7 +219,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
                 contentPadding: EdgeInsets.zero,
                 activeColor: AppColors.purpleBlue,
                 title: Text(
-                  'Flat',
+                  AppStrings.flat,
                   style: getRegularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s14.rSp,
@@ -238,7 +238,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
                 contentPadding: EdgeInsets.zero,
                 activeColor: AppColors.purpleBlue,
                 title: Text(
-                  'Percentage',
+                  AppStrings.percentage,
                   style: getRegularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s14.rSp,

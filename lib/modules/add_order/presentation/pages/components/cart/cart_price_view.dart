@@ -57,7 +57,7 @@ class CartPriceView extends StatelessWidget {
             ),
             SizedBox(height: AppSize.s12.rh),
             _item(
-              title: 'Service Fee',
+              title: AppStrings.service_fee,
               price: cartBill.serviceFee,
             ),
             SizedBox(height: AppSize.s12.rh),
@@ -188,7 +188,7 @@ class CartPriceView extends StatelessWidget {
           Icon(Icons.add,color: AppColors.purpleBlue,size: AppSize.s14.rSp),
           SizedBox(width: AppSize.s4.rw),
           Text(
-            'Add',
+            AppStrings.add.tr(),
             style: getRegularTextStyle(color: AppColors.purpleBlue),
           ),
         ],

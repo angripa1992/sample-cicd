@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
@@ -5,6 +6,7 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../core/provider/date_time_provider.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../domain/entities/order.dart';
 import 'order_item_view.dart';
@@ -38,7 +40,7 @@ class ScheduleOrderItemView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Scheduled',
+                      AppStrings.scheduled.tr(),
                       style: getMediumTextStyle(
                         color: AppColors.dustyOrange,
                         fontSize: AppFontSize.s14.rSp,

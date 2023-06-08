@@ -19,11 +19,6 @@ class OrderItemDetails extends StatelessWidget {
 
   OrderItemDetails({Key? key, required this.order}) : super(key: key);
 
-  final _tableHeaderStyle = getMediumTextStyle(
-    color: AppColors.black,
-    fontSize: AppFontSize.s14.rSp,
-  );
-
   final _itemTextStyle = getMediumTextStyle(
     color: AppColors.darkGrey,
     fontSize: AppFontSize.s14.rSp,

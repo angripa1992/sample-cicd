@@ -4,6 +4,7 @@ import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -37,7 +38,7 @@ class CartItemBrand extends StatelessWidget {
                   removeAll(menuBrand.id);
                 },
                 child: Text(
-                  'Remove All',
+                  AppStrings.remove_all,
                   style: getMediumTextStyle(
                     color: AppColors.red,
                   ),

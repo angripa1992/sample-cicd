@@ -56,7 +56,7 @@ void showEnableModifierDialog({
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? 'Modifier group' : 'Modifier'} ${AppStrings.enabled_success.tr()}');
+                              '${type == ModifierType.GROUP ? AppStrings.modifier_group : AppStrings.modifier} ${AppStrings.enabled_success.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
@@ -144,7 +144,7 @@ void showDisableModifierDialog({
               Text(
                 affected
                     ? AppStrings.modifier_required_msg.tr()
-                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
+                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group : AppStrings.modifier}?',
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -183,7 +183,7 @@ void showDisableModifierDialog({
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? 'Modifier group' : 'Modifier'} ${AppStrings.disabled_success.tr()}');
+                              '${type == ModifierType.GROUP ? AppStrings.modifier_group : AppStrings.modifier } ${AppStrings.disabled_success.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();

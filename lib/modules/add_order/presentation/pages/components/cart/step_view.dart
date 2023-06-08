@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -23,7 +25,7 @@ class StepView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s4.rw),
           child: Text(
-            'Menu',
+            AppStrings.menu.tr() ,
             style: getRegularTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s14.rSp,
@@ -46,7 +48,7 @@ class StepView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(right: AppSize.s4.rw),
           child: Text(
-            'Cart',
+            AppStrings.cart,
             style: getRegularTextStyle(
               color: stepPosition == StepPosition.cart
                   ? AppColors.purpleBlue
@@ -73,7 +75,7 @@ class StepView extends StatelessWidget {
           ),
         ),
         Text(
-          'Checkout',
+          AppStrings.checkout ,
           style: getRegularTextStyle(
             color: stepPosition == StepPosition.checkout
                 ? AppColors.purpleBlue

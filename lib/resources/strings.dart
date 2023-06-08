@@ -241,13 +241,6 @@ class AppStrings {
   static const String brands_selected = "brands_selected";
   static const String set_paper_size = "set_paper_size";
 
-  ///new
-  static const String select_docket_type = "select_docket_type";
-  static const String set_docket_type = "set_docket_type";
-  static const String kitchen = "kitchen";
-  static const String customer = "customer";
-  static const String dine_in = "dine_in";
-
   // ///add order
   // static const String successfully_added_to_cart = "successfully_added_to_cart";
   // static const String no_item_found = "no_item_found";
@@ -271,7 +264,21 @@ class AppStrings {
   // static const String add_as_new = "add_as_new";
   // static const String select_brand_name = "select_brand_name";
 
-  // ///add order
+  ///new
+  static const String select_docket_type = 'Select Docket Type';
+  static const String set_docket_type = "Set Docket Type";
+  static const String set_font_size = 'Set Font Size';
+  static const String kitchen = "Kitchen";
+  static const String customer = "Customer";
+  static const String dine_in = "Dine In";
+  static const String small = "Small";
+  static const String normal = "Normal";
+  static const String large = "Large";
+  static const String huge = "Huge";
+  static const String update_required = 'Update Required';
+  static const String update_app =  'Update App';
+  static const String app_update_msg = 'Update your klikit Cloud to the latest version to keep the app running smoothly.';
+
   static const String successfully_added_to_cart = "Successfully added to cart";
   static const String no_item_found = "No items found!";
   static const String out_of_stock = "Out of Stock";
@@ -293,4 +300,61 @@ class AppStrings {
   static const String for_ = "For";
   static const String add_as_new = "Add as New";
   static const String select_brand_name = "Select a brand name";
+
+  static const String chnage_amount = 'Change Amount';
+  static const String can_not_be_greater_than_subtotal = 'Can\'t be greater than the subtotal';
+  static const String can_not_be_greater_than_100 = 'Can\'t be greater than 100';
+  static const String type = 'Type';
+  static const String flat = 'Flat';
+  static const String percentage = 'Percentage';
+  static const String want_to_delete_item_msg = 'Are you sure you want to delete the following item?';
+  static const String want_to_delete_all_item_msg = 'Are you sure you want to delete all the items from the cart?';
+  static const String payment_status = 'Payment Status';
+  static const String payment_method = 'Payment Method';
+  static const String select_payment_status = 'Select payment status';
+  static const String add_payment_method = 'Add payment method';
+  static const String customer_info = 'Customer Info';
+  static const String add_customer_info = 'Add Customer Info';
+  static const String phone = 'Phone';
+  static const String table_no = 'Table No';
+  static const String submit = 'Submit';
+  static const String placed_order = 'Placed Order';
+  static const String update_order = 'Update Order';
+  static const String order_type = 'Order Type';
+  static const String cart = 'Cart';
+  static const String checkout = 'Checkout';
+  static const String order_source = 'Order Source';
+  static const String inc_vat = 'Inc. Vat';
+  static const String your_cart_is_empty = 'Your cart is empty!';
+  static const String add_items_to_cart_msg = 'Take your time to explore and add items to your cart. Once you are ready, proceed to checkout to place oder';
+  static const String add_items = 'Add Items';
+  static const String procees_to_checkout = 'Proceed to Checkout';
+  static const String service_fee = 'Service Fee';
+  static const String add_more_items = 'Add more items';
+  static const String remove_all = 'Remove All';
+  static const String edit = 'Edit';
+  static const String calculated_at_next_step = 'Calculated at next step';
+  static const String order_id = 'Order ID';
+  static const String delete_item = 'Delete Item';
+  static const String schedule = 'Schedule';
+  static const String history = 'History';
+  static const String select_payment_method_and_status = 'Select payment method and status';
+  static const String pause_store = 'Pause Store';
+  static const String print = 'Print';
+  static const String accept = 'Accept';
+  static const String reject = 'Reject';
+  static const String proceed = 'Proceed';
+  static const String webshop = 'Webshop';
+  static const String update_payment_info = 'Update Payment Info';
+  static const String edit_order = 'Edit Order';
+  static const String modifier_group = 'Modifier group';
+  static const String modifier = 'Modifier';
+  static const String categories_list = 'Categories List';
+  static const String out_of_stock_settings = 'Out of Stock (OOS) Settings';
+  static const String out_of_stock_till= 'OOS till';
+  static const String stock_disabled_successful= "Item stock disabled successful";
+  static const String day= 'Day(s)';
+  static const String hours= 'Hour(s)';
+  static const String untill_trun_back_on= 'Until turned back on';
+  static const String items_list= 'Items List';
 }

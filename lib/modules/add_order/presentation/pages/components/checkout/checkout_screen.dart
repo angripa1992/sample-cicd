@@ -10,6 +10,7 @@ import 'package:klikit/modules/add_order/presentation/pages/components/checkout/
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../cubit/place_order_cubit.dart';
@@ -132,7 +133,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             },
             builder: (context, state) {
               return OrderActionButton(
-                buttonText: CartManager().getUpdateCartInfo() == null ? 'Place Order' : 'Update Order',
+                buttonText: CartManager().getUpdateCartInfo() == null ? AppStrings.placed_order : AppStrings.update_order ,
                 enable: state is Loading ? false : true,
                 totalPrice: widget.checkoutData.cartBill.totalPrice,
                 onProceed: _placeOrder,

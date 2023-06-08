@@ -148,7 +148,7 @@ class _PriceViewState extends State<PriceView> {
     if (order.providerId == ProviderID.FOOD_PANDA && !order.isInterceptorOrder && !order.isVatIncluded) {
       return  AppStrings.vat.tr();
     }
-    return 'Inc. Vat';
+    return AppStrings.inc_vat;
   }
 
   Widget _getSubtotalItem(String name, num price,

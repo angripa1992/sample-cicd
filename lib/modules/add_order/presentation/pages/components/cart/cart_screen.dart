@@ -14,6 +14,7 @@ import 'package:klikit/modules/add_order/presentation/pages/components/cart/type
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/brand.dart';
 import '../../../../domain/entities/order_source.dart';
@@ -337,7 +338,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
         OrderActionButton(
-          buttonText: 'Proceed to Checkout',
+          buttonText: AppStrings.procees_to_checkout,
           enable: true,
           loading: false,
           totalPrice: _cartBill!.totalPrice,

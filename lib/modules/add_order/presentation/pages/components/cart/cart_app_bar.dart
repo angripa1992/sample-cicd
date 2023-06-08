@@ -3,6 +3,7 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -30,7 +31,7 @@ class CartAppBar extends StatelessWidget {
           children: [
             IconButton(onPressed: onClose, icon: const Icon(Icons.clear)),
             Text(
-              'Cart',
+              AppStrings.cart,
               style: getMediumTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s17.rSp,

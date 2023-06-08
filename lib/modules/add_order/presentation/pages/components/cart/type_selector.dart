@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
@@ -5,6 +6,7 @@ import 'package:klikit/modules/add_order/presentation/pages/components/cart/tag_
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -35,11 +37,11 @@ class _TypeSelectorState extends State<TypeSelector> {
   String _typeName(int type) {
     switch (type) {
       case OrderType.DINE_IN:
-        return 'Dine in';
+        return AppStrings.dine_in ;
       case OrderType.DELIVERY:
-        return 'Delivery';
+        return AppStrings.deliver.tr();
       default:
-        return 'Pickup';
+        return AppStrings.pickup.tr();
     }
   }
 
@@ -73,7 +75,7 @@ class _TypeSelectorState extends State<TypeSelector> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const TagTitleView(title: 'Order Type',required: true),
+          const TagTitleView(title: AppStrings.order_type,required: true),
           SizedBox(height: AppSize.s4.rh),
           Wrap(
             alignment: WrapAlignment.center,

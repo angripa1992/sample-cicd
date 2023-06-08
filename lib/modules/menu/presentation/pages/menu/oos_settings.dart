@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import '../../../../../app/di.dart';
 import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../widgets/loading_button.dart';
@@ -105,7 +107,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Out of Stock (OOS) Settings',
+                  AppStrings.out_of_stock_settings,
                   style: getMediumTextStyle(
                     color: AppColors.dustyGrey,
                   ),
@@ -126,7 +128,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
               children: [
                 Flexible(
                   child: Text(
-                    'Out of Stock',
+                    AppStrings.out_of_stock,
                     style: getMediumTextStyle(
                       color: AppColors.balticSea,
                       fontSize: AppFontSize.s14.rSp,
@@ -153,7 +155,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                 if (widget.item.stock.snooze.endTime.isNotEmpty)
                   Flexible(
                     child: Text(
-                      '(OOS till ${DateTimeProvider.parseSnoozeEndTime(widget.item.stock.snooze.endTime)})',
+                      '(${AppStrings.out_of_stock_till} ${DateTimeProvider.parseSnoozeEndTime(widget.item.stock.snooze.endTime)})',
                       style: getMediumTextStyle(
                         color: AppColors.warmRed,
                         fontSize: AppFontSize.s12.rSp,
@@ -180,7 +182,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      text: 'Cancel',
+                      text: AppStrings.cancel.tr(),
                       isLoading: false,
                       bgColor: Colors.transparent,
                       textColor: AppColors.purpleBlue,
@@ -195,7 +197,9 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                           showApiErrorSnackBar(context, state.failure);
                         } else if (state is Success<Stock>) {
                           showSuccessSnackBar(
-                              context, "Item stock disabled successful");
+                            context,
+                            AppStrings.stock_disabled_successful,
+                          );
                           widget.onChanged(state.data);
                           Navigator.pop(context);
                         }
@@ -210,7 +214,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                                   duration: _currentDuration,
                                 );
                           },
-                          text: 'Update',
+                          text: AppStrings.update.tr(),
                           isLoading: state is Loading,
                           verticalPadding: AppSize.s8.rh,
                         );
@@ -309,7 +313,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
     return Column(
       children: [
         RadioListTile<OOS>(
-          title: Text('1 Day', style: _textStyle),
+          title: Text('1 ${AppStrings.day}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_1,
           activeColor: AppColors.purpleBlue,
@@ -321,7 +325,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           },
         ),
         RadioListTile<OOS>(
-          title: Text('3 Days', style: _textStyle),
+          title: Text('3 ${AppStrings.day}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_3,
           activeColor: AppColors.purpleBlue,
@@ -333,7 +337,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           },
         ),
         RadioListTile<OOS>(
-          title: Text('7 Days', style: _textStyle),
+          title: Text('7 ${AppStrings.day}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_7,
           activeColor: AppColors.purpleBlue,
@@ -371,7 +375,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
                 ),
               ),
               SizedBox(width: AppSize.s12.rw),
-              Text('Hour(s)', style: _textStyle),
+              Text(AppStrings.hours, style: _textStyle),
             ],
           ),
           groupValue: _groupValue,
@@ -385,7 +389,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           },
         ),
         RadioListTile<OOS>(
-          title: Text('Until turned back on', style: _textStyle),
+          title: Text(AppStrings.untill_trun_back_on, style: _textStyle),
           groupValue: _groupValue,
           value: OOS.default_,
           activeColor: AppColors.purpleBlue,

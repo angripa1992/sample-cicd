@@ -3,6 +3,7 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -42,7 +43,7 @@ class TagTitleView extends StatelessWidget {
               color: required ? AppColors.lightVioletTwo : AppColors.whiteSmoke,
             ),
             child: Text(
-              required ? 'Required' : 'Optional',
+              required ? AppStrings.required : AppStrings.optional ,
               style: getMediumTextStyle(
                 color: required ? AppColors.purpleBlue : AppColors.balticSea,
                 fontSize: AppFontSize.s10.rSp,

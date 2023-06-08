@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
@@ -6,6 +7,7 @@ import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import '../../../../../../app/extensions.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -40,7 +42,7 @@ class OrderActionButton extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Total',
+                AppStrings.total.tr() ,
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
@@ -48,7 +50,7 @@ class OrderActionButton extends StatelessWidget {
               ),
               SizedBox(width: AppSize.s4.rw),
               Text(
-                '(including VAT)',
+                AppStrings.inc_vat,
                 style: getRegularTextStyle(
                   color: AppColors.dustyGreay,
                 ),

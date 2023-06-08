@@ -46,8 +46,7 @@ class OrderStatusView extends StatelessWidget {
       case OrderType.DELIVERY:
         return AppStrings.deliver.tr();
       case OrderType.DINE_IN:
-        //return AppStrings.dine_in.tr();
-        return 'Dine In';
+        return AppStrings.dine_in;
       default:
         return AppStrings.manual.tr();
     }

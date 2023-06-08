@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
@@ -6,6 +7,7 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../cart/tag_title.dart';
 import 'customer_into_field.dart';
@@ -84,7 +86,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
       child: Column(
         children: [
           const TagTitleView(
-            title: 'Customer Info',
+            title: AppStrings.customer_info,
             required: false,
           ),
           const Divider(),
@@ -105,7 +107,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
             ),
             trailingRotation: 180,
             title: Text(
-              'Add Customer Info',
+              AppStrings.add_customer_info,
               style: getRegularTextStyle(
                 color: AppColors.dustyGreay,
               ),
@@ -113,23 +115,23 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
             content: Column(
               children: [
                 CustomerInfoField(
-                  title: 'First Name',
+                  title: AppStrings.first_name.tr(),
                   controller: _firstNameController,
                 ),
                 CustomerInfoField(
-                  title: 'Last Name',
+                  title: AppStrings.last_name.tr(),
                   controller: _lastNameController,
                 ),
                 CustomerInfoField(
-                  title: 'Email',
+                  title: AppStrings.email.tr(),
                   controller: _emailController,
                 ),
                 CustomerInfoField(
-                  title: 'Phone',
+                  title: AppStrings.phone,
                   controller: _phoneController,
                 ),
                 CustomerInfoField(
-                  title: 'Table No',
+                  title: AppStrings.table_no,
                   controller: _tableNoController,
                 ),
                 ElevatedButton(
@@ -140,7 +142,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(
-                      'Submit',
+                      AppStrings.submit,
                       style: getMediumTextStyle(
                         color: AppColors.white,
                         fontSize: AppFontSize.s12.rSp,

@@ -5,6 +5,7 @@ import 'package:klikit/app/size_config.dart';
 import '../../../../../../resources/assets.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -24,7 +25,7 @@ class EmptyCartView extends StatelessWidget {
           SvgPicture.asset(AppImages.emptyCartSvg),
           SizedBox(height: AppSize.s16.rh),
           Text(
-            'Your cart is empty!',
+            AppStrings.your_cart_is_empty,
             style: getMediumTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s20.rSp,
@@ -32,7 +33,7 @@ class EmptyCartView extends StatelessWidget {
           ),
           SizedBox(height: AppSize.s8.rh),
           Text(
-            'Take your time to explore and add items to your cart. Once you are ready, proceed to checkout to place oder',
+            AppStrings.add_items_to_cart_msg,
             style: getRegularTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s16.rSp,
@@ -48,7 +49,7 @@ class EmptyCartView extends StatelessWidget {
               backgroundColor: AppColors.purpleBlue, // Background color
             ),
             child: Text(
-              'Add items',
+              AppStrings.add_items,
               style: getMediumTextStyle(
                 color: AppColors.white,
                 fontSize: AppFontSize.s14.rSp,

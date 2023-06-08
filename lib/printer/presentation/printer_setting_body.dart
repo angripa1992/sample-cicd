@@ -185,17 +185,16 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
 
                   /// Docket type
 
-                  //_title(AppStrings.set_docket_type.tr()),
-                  _title('Set Docket Type'),
+                  _title(AppStrings.set_docket_type),
                   Row(
                     children: [
                       Expanded(
                         child: PrinterSettingCheckbox(
                           enabled: _kitchenCopyEnabled,
                           onChanged: _changeKitchenCopyEnabled,
-                          // name: AppStrings.kitchen.tr(),
-                          name: 'Kitchen',
-                          willAlwaysChecked: false, activeColor: AppColors.purpleBlue,
+                          name: AppStrings.kitchen,
+                          willAlwaysChecked: false,
+                          activeColor: AppColors.purpleBlue,
                         ),
                       ),
                       DocketCounterView(
@@ -212,9 +211,9 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                         child: PrinterSettingCheckbox(
                           enabled: _customerCopyEnabled,
                           onChanged: _changeKitchenCopyEnabled,
-                          //name: AppStrings.customer.tr(),
-                          name: 'Customer',
-                          willAlwaysChecked: true, activeColor: AppColors.dustyGrey,
+                          name: AppStrings.customer,
+                          willAlwaysChecked: true,
+                          activeColor: AppColors.dustyGrey,
                         ),
                       ),
                       DocketCounterView(
@@ -228,30 +227,30 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                   Divider(color: AppColors.blueViolet),
 
                   /// Font size
-                  _title('Set Font Size'),
+                  _title(AppStrings.set_font_size),
                   PrinterSettingRadioItem(
                     value: PrinterFontSize.small,
                     groupValue: _printerFontId,
                     onChanged: _changePrinterFont,
-                    name: 'Small',
+                    name: AppStrings.small,
                   ),
                   PrinterSettingRadioItem(
                     value: PrinterFontSize.normal,
                     groupValue: _printerFontId,
                     onChanged: _changePrinterFont,
-                    name: 'Normal',
+                    name: AppStrings.normal,
                   ),
                   PrinterSettingRadioItem(
                     value: PrinterFontSize.large,
                     groupValue: _printerFontId,
                     onChanged: _changePrinterFont,
-                    name: 'Large',
+                    name: AppStrings.large,
                   ),
                   PrinterSettingRadioItem(
                     value: PrinterFontSize.huge,
                     groupValue: _printerFontId,
                     onChanged: _changePrinterFont,
-                    name: 'Huge',
+                    name: AppStrings.huge,
                   ),
                 ],
               ),
@@ -284,7 +283,8 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
               SizedBox(width: AppSize.s8.rw),
               Expanded(
                 child: AppButton(
-                  enable: _appPreferences.printerSetting().connectionType == _connectionType,
+                  enable: _appPreferences.printerSetting().connectionType ==
+                      _connectionType,
                   verticalPadding: AppSize.s10.rh,
                   onTap: () {
                     _printingHandler.showDevices();
@@ -292,7 +292,7 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                   text: AppStrings.show_devices.tr(),
                   textSize: AppFontSize.s13.rSp,
                   icon: _appPreferences.printerSetting().connectionType ==
-                      ConnectionType.BLUETOOTH
+                          ConnectionType.BLUETOOTH
                       ? Icons.bluetooth
                       : Icons.usb,
                 ),

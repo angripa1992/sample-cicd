@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
@@ -8,6 +9,7 @@ import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/assets.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
@@ -37,7 +39,7 @@ class DeleteItemDialogView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'Are you sure you want to delete the following item?',
+                AppStrings.want_to_delete_item_msg,
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
@@ -168,7 +170,7 @@ class DeleteItemDialogView extends StatelessWidget {
                 backgroundColor: AppColors.water, // Background color
               ),
               child: Text(
-                'Cancel',
+                AppStrings.cancel.tr(),
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                 ),
@@ -184,7 +186,7 @@ class DeleteItemDialogView extends StatelessWidget {
                 backgroundColor: AppColors.red, // Background color
               ),
               child: Text(
-                'Delete',
+                AppStrings.delete.tr(),
                 style: getMediumTextStyle(
                   color: AppColors.white,
                 ),
@@ -215,7 +217,7 @@ class DeleteAllDialogView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'Are you sure you want to delete all the items from the cart?',
+                AppStrings.want_to_delete_all_item_msg,
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
@@ -244,7 +246,7 @@ class DeleteAllDialogView extends StatelessWidget {
                 backgroundColor: AppColors.water, // Background color
               ),
               child: Text(
-                'Cancel',
+                AppStrings.cancel.tr(),
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                 ),
@@ -260,7 +262,7 @@ class DeleteAllDialogView extends StatelessWidget {
                 backgroundColor: AppColors.red, // Background color
               ),
               child: Text(
-                'Delete',
+                AppStrings.delete.tr(),
                 style: getMediumTextStyle(
                   color: AppColors.white,
                 ),

@@ -7,6 +7,7 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
@@ -39,7 +40,7 @@ class SubMenuListView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: AppSize.s10.rh, left: AppSize.s10.rw),
             child: Text(
-              'Categories List',
+              AppStrings.categories_list,
               style: getRegularTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,

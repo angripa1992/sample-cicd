@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 
@@ -47,7 +49,7 @@ class ScheduledDetailsView extends StatelessWidget {
               SizedBox(width: AppSize.s4.rw),
               Flexible(
                 child: Text(
-                  'Scheduled - ${DateTimeProvider.scheduleDate(scheduleTime)}, ${DateTimeProvider.scheduleTime(scheduleTime)}',
+                  '${AppStrings.scheduled.tr()} - ${DateTimeProvider.scheduleDate(scheduleTime)}, ${DateTimeProvider.scheduleTime(scheduleTime)}',
                   style: _textStyle,
                 ),
               ),

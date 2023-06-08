@@ -4,6 +4,7 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../orders/domain/entities/payment_info.dart';
@@ -48,7 +49,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TagTitleView(
-            title: 'Payment Method',
+            title: AppStrings.payment_method,
             required: widget.required!,
             willShowReqTag: widget.willShowReqTag,
           ),
@@ -120,7 +121,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
         hint: Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Add payment method',
+            AppStrings.add_payment_method,
             style: _textStyle,
           ),
         ),

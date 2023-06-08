@@ -4,6 +4,7 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
@@ -34,7 +35,7 @@ class CheckoutAppBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Place Order',
+                  AppStrings.placed_order,
                   style: getMediumTextStyle(
                     color: AppColors.balticSea,
                     fontSize: AppFontSize.s17.rSp,

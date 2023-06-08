@@ -3,6 +3,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
 
 import '../../../../../../resources/colors.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/brand.dart';
@@ -97,7 +98,7 @@ class CartItemsListView extends StatelessWidget {
                         addMore(cartItems.first.brand);
                       },
                       child: Text(
-                        '+ Add more items',
+                        '+ ${AppStrings.add_more_items}',
                         style: getMediumTextStyle(
                           color: AppColors.purpleBlue,
                         ),

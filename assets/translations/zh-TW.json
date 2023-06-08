@@ -191,6 +191,7 @@
   "select_brand": "選擇品牌",
   "select_aggregator": "選擇聚合器",
   "order_dashboard": "訂單儀表",
+
   "usb_not_connected": "USB printer is not connected",
   "bluetooth_not_connected": "Bluetooth printer is not connected",
   "select_docket_type": "Select Docket Type",

@@ -5,6 +5,7 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../orders/domain/entities/payment_info.dart';
@@ -43,7 +44,7 @@ class _PaymentStatusViewState extends State<PaymentStatusView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TagTitleView(
-            title: 'Payment Status',
+            title: AppStrings.payment_status,
             required: true,
             willShowReqTag: widget.willShowReqTag,
           ),
@@ -108,7 +109,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
         hint: Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Select payment status',
+            AppStrings.select_payment_status,
             style: _textStyle,
           ),
         ),

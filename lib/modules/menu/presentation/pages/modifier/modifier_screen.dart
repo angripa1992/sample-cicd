@@ -31,8 +31,10 @@ class ModifierScreen extends StatefulWidget {
 class _ModifierScreenState extends State<ModifierScreen> {
   @override
   void initState() {
-    SegmentManager()
-        .screen(event: SegmentEvents.MODIFIER_SCREEN, name: 'Modifier Screen');
+    SegmentManager().screen(
+      event: SegmentEvents.MODIFIER_SCREEN,
+      name: 'Modifier Screen',
+    );
     super.initState();
   }
 

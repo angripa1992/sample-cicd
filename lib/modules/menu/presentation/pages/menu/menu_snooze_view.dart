@@ -5,6 +5,7 @@ import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../../../app/extensions.dart';
 import '../../../../../resources/colors.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/stock.dart';
@@ -37,21 +38,20 @@ class MenuSnoozeView extends StatelessWidget {
   String _duration() {
     final duration = items.stock.snooze.duration;
     if (duration == 24) {
-      return '1 Day';
+      return '1 ${AppStrings.day}';
     } else if (duration == 72) {
-      return '3 Days';
+      return '3 ${AppStrings.day}';
     } else if (duration == 168) {
-      return '7 Days';
+      return '7 ${AppStrings.day}';
     } else if (duration == 0) {
-      return 'Until turned back on';
+      return AppStrings.untill_trun_back_on;
     } else {
-      return '$duration Hour(s)';
+      return '$duration ${AppStrings.hours}';
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    print('snooze ${parentEnabled}');
     return !items.stock.available && providerId == ZERO
         ? SizedBox(
             width: width,

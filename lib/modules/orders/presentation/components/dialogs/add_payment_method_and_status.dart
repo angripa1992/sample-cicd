@@ -8,6 +8,7 @@ import '../../../../../app/di.dart';
 import '../../../../../core/utils/response_state.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../add_order/presentation/pages/components/checkout/pament_method.dart';
@@ -181,7 +182,7 @@ class _AddPaymentMethodAndStatusViewState
                 return LoadingButton(
                   isLoading: state is Loading,
                   onTap: _updateStatus,
-                  text: 'Proceed',
+                  text: AppStrings.proceed,
                   enabled: value[_status] != null && value[_method] != null,
                 );
               },

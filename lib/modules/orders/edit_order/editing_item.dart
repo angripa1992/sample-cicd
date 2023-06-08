@@ -3,6 +3,7 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
+import '../../../resources/strings.dart';
 import '../../../resources/styles.dart';
 import '../../../resources/values.dart';
 import '../../widgets/menu_item_image_view.dart';
@@ -96,7 +97,7 @@ class EditingItemVIew extends StatelessWidget {
                   ),
                   SizedBox(width: AppSize.s4.rw),
                   Text(
-                    'Delete Item',
+                    AppStrings.delete_item,
                     style: getMediumTextStyle(color: AppColors.red),
                   ),
                 ],

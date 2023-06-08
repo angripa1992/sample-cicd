@@ -5,14 +5,11 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../../../../app/di.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/provider.dart';
-import '../../../provider/order_information_provider.dart';
 
 class OrderTagsView extends StatelessWidget {
   final Order order;
@@ -51,7 +48,7 @@ class OrderTagsView extends StatelessWidget {
       case OrderType.DELIVERY:
         return AppStrings.deliver.tr();
       case OrderType.DINE_IN:
-        return 'Dine In';
+        return AppStrings.dine_in;
       default:
         return EMPTY;
     }
@@ -67,11 +64,13 @@ class OrderTagsView extends StatelessWidget {
         spacing: AppSize.s8.rw,
         children: [
           if (order.providerId == ProviderID.KLIKIT)
-            _tagView(order.isManualOrder ? 'Manual' : 'Webshop'),
+            _tagView(order.isManualOrder
+                ? AppStrings.manual.tr()
+                : AppStrings.webshop),
           if (order.providerId == ProviderID.KLIKIT &&
               !order.isManualOrder &&
               order.tableNo.isNotEmpty)
-            _tagView('Table ${order.tableNo}'),
+            _tagView('${AppStrings.table_no} ${order.tableNo}'),
           if (type.isNotEmpty) _tagView(_getType()),
           _tagView(_getStatus()),
         ],

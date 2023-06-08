@@ -41,24 +41,8 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
   @override
   void initState() {
     _items.addAll(widget.subSections.items);
-    print('list  ${widget.parentEnabled}');
     super.initState();
   }
-
-  // void _onChangedEnabled(int index, bool enabled) {
-  //   setState(() {
-  //     _items[index].stock.available = enabled;
-  //     widget.onChanged(_items);
-  //   });
-  //   SegmentManager().track(
-  //     event: SegmentEvents.ITEM_TOGGLE,
-  //     properties: {
-  //       'id': _items[index].id,
-  //       'name': _items[index].title,
-  //       'enabled': enabled ? 'Yes' : 'No',
-  //     },
-  //   );
-  // }
 
   void _onChanged(int index, Stock stock) {
     setState(() {

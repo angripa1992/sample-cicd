@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../app/di.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
+import '../../resources/strings.dart';
 import '../../resources/styles.dart';
 import '../../resources/values.dart';
 import '../provider/device_information_provider.dart';
@@ -62,7 +63,7 @@ class AppUpdateManager {
               ),
               const SizedBox(height: AppSize.s8),
               Text(
-                'Update Required',
+                AppStrings.update_required,
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s18.rSp,
@@ -71,7 +72,7 @@ class AppUpdateManager {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSize.s10),
                 child: Text(
-                  'Update your klikit Cloud to the latest version to keep the app running smoothly.',
+                  AppStrings.app_update_msg,
                   textAlign: TextAlign.center,
                   style: getRegularTextStyle(
                     color: AppColors.black,
@@ -86,7 +87,7 @@ class AppUpdateManager {
                 },
                 child: Center(
                   child: Text(
-                    'Update App',
+                    AppStrings.update_app,
                     style: getRegularTextStyle(
                       color: AppColors.pink,
                       fontSize: AppFontSize.s14.rSp,

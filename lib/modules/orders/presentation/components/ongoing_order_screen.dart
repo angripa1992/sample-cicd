@@ -13,6 +13,7 @@ import '../../../../../app/di.dart';
 import '../../../../../printer/printing_handler.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
+import '../../../../resources/strings.dart';
 import '../bloc/ongoing_order_cubit.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
@@ -133,7 +134,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
         (order.paymentStatus == PaymentStatusId.pending ||
             order.paymentStatus == PaymentStatusId.failed)) {
       showAddPaymentStatusMethodDialog(
-        title: 'Select payment method and status',
+        title: AppStrings.select_payment_method_and_status,
         context: context,
         order: order,
         willOnlyUpdatePaymentInfo: false,

@@ -6,6 +6,7 @@ import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/order.dart';
@@ -78,7 +79,7 @@ class OrderPaymentMethodView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Payment Method',
+          AppStrings.payment_method,
           style: getRegularTextStyle(
             color: AppColors.balticSea,
             fontSize: AppFontSize.s14.rSp,
@@ -117,7 +118,7 @@ class OrderPaymentStatusView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Payment Status',
+          AppStrings.payment_status,
           style: getRegularTextStyle(
             color: AppColors.balticSea,
             fontSize: AppFontSize.s14.rSp,
@@ -165,7 +166,7 @@ class PaymentInfoTagView extends StatelessWidget {
       onTap: (){
         if(_isWebshopPostPayment()){
           showAddPaymentStatusMethodDialog(
-            title: 'Update Payment Info',
+            title: AppStrings.update_payment_info,
             context: context,
             willOnlyUpdatePaymentInfo: true,
             onSuccess: onPaymentInfoChanged,

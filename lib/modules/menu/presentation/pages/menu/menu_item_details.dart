@@ -9,6 +9,7 @@ import '../../../../../core/provider/image_url_provider.dart';
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/items.dart';
@@ -169,7 +170,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                 left: AppSize.s10.rw,
               ),
               child: Text(
-                '(OOS till ${DateTimeProvider.parseSnoozeEndTime(widget.items.stock.snooze.endTime)})',
+                '(${AppStrings.out_of_stock_till} ${DateTimeProvider.parseSnoozeEndTime(widget.items.stock.snooze.endTime)})',
                 textAlign: TextAlign.right,
                 style: getMediumTextStyle(
                   color: AppColors.warmRed,

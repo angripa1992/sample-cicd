@@ -39,7 +39,7 @@ class EditGrabOrderView extends StatefulWidget {
 }
 
 class _EditGrabOrderViewState extends State<EditGrabOrderView> {
-  final _calculatedText = "Calculated at next step";
+  final _calculatedText = AppStrings.calculated_at_next_step;
   final _enableButtonNotifier = ValueNotifier<bool>(false);
   late Order _currentOrder;
   bool _showPrice = true;
@@ -161,7 +161,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Cart',
+                  AppStrings.cart,
                   style: getMediumTextStyle(
                     color: AppColors.balticSea,
                     fontSize: AppFontSize.s17.rSp,
@@ -169,7 +169,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 ),
                 SizedBox(height: AppSize.s4.rh),
                 Text(
-                  '#${_currentOrder.id} (Order ID)',
+                  '#${_currentOrder.id} (${AppStrings.order_id})',
                   style: getRegularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s12.rSp,
@@ -191,7 +191,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
           SvgPicture.asset(AppImages.emptyCartSvg),
           SizedBox(height: AppSize.s16.rh),
           Text(
-            'Your cart is empty!',
+            AppStrings.your_cart_is_empty,
             style: getMediumTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s20.rSp,
@@ -243,7 +243,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                                 TextButton(
                                   onPressed: _removeAll,
                                   child: Text(
-                                    'Remove All',
+                                    AppStrings.remove_all,
                                     style: getMediumTextStyle(
                                       color: AppColors.red,
                                     ),
@@ -432,7 +432,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                   ),
                   children: [
                     TextSpan(
-                      text: ' (including VAT)',
+                      text: ' (${AppStrings.inc_vat})',
                       style: getRegularTextStyle(
                         color: AppColors.dustyGreay,
                       ),
@@ -460,7 +460,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 child: LoadingButton(
                   isLoading: false,
                   onTap: _discard,
-                  text: 'Discard',
+                  text: AppStrings.discard.tr(),
                   verticalPadding: AppSize.s8.rh,
                   bgColor: AppColors.white,
                   textColor: AppColors.purpleBlue,
@@ -491,7 +491,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                           enabled: state is! Loading && enabled,
                           isLoading: false,
                           onTap: _updateOrder,
-                          text: 'Save',
+                          text: AppStrings.save.tr(),
                           verticalPadding: AppSize.s8.rh,
                         );
                       },

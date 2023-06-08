@@ -1,16 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 
-import '../../../../../../app/extensions.dart';
-import '../../../../../../core/provider/image_url_provider.dart';
 import '../../../../../../core/utils/price_calculator.dart';
-import '../../../../../../resources/assets.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
+import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/menu_item_image_view.dart';
@@ -70,7 +67,8 @@ class CartItemView extends StatelessWidget {
                               if (haveDiscount)
                                 Text(
                                   PriceCalculator.formatPrice(
-                                    price: itemBill.discountedItemPrice * cartItem.quantity,
+                                    price: itemBill.discountedItemPrice *
+                                        cartItem.quantity,
                                     currencySymbol: cartItem.itemPrice.symbol,
                                     code: cartItem.itemPrice.code,
                                   ),
@@ -102,11 +100,15 @@ class CartItemView extends StatelessWidget {
                         ],
                       ),
                       FutureBuilder<String>(
-                        future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
+                        future: ModifierManager()
+                            .allCsvModifiersName(cartItem.modifiers),
                         builder: (context, snapShot) {
                           if (snapShot.hasData) {
                             return Padding(
-                              padding: EdgeInsets.only(top: snapShot.data!.isNotEmpty ? AppSize.s8.rh : 0),
+                              padding: EdgeInsets.only(
+                                  top: snapShot.data!.isNotEmpty
+                                      ? AppSize.s8.rh
+                                      : 0),
                               child: Text(snapShot.data!),
                             );
                           }
@@ -135,7 +137,7 @@ class CartItemView extends StatelessWidget {
               ),
               onPressed: cartItem.modifiers.isEmpty ? null : onEdit,
               child: Text(
-                'Edit',
+                AppStrings.edit,
                 style: getRegularTextStyle(
                   color: cartItem.modifiers.isEmpty
                       ? AppColors.dustyGreay
@@ -164,7 +166,7 @@ class CartItemView extends StatelessWidget {
                   ),
                   SizedBox(width: AppSize.s4.rw),
                   Text(
-                    'Discount',
+                    AppStrings.discount.tr(),
                     style: getRegularTextStyle(
                       color: AppColors.purpleBlue,
                       fontSize: AppFontSize.s14.rSp,
