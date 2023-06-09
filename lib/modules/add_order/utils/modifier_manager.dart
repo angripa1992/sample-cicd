@@ -1,3 +1,4 @@
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/add_order/data/models/billing_item_modifier.dart';
 import 'package:klikit/modules/add_order/data/models/billing_item_modifier_group.dart';
@@ -14,6 +15,19 @@ class ModifierManager {
   factory ModifierManager() => _instance;
 
   ModifierManager._internal();
+
+  void removeDisabledModifier(List<ItemModifierGroup> groups)  {
+    groups.removeWhere((element) => !element.statuses.firstWhere((element) => element.providerId == ProviderID.KLIKIT).enabled);
+    for(var firstGroups in groups){
+      firstGroups.modifiers.removeWhere((element) => !element.statuses.firstWhere((element) => element.providerId == ProviderID.KLIKIT).enabled);
+      for (var firstModifier in firstGroups.modifiers) {
+        firstModifier.groups.removeWhere((element) => !element.statuses.firstWhere((element) => element.providerId == ProviderID.KLIKIT).enabled);
+        for (var secondGroup in firstModifier.groups) {
+          secondGroup.modifiers.removeWhere((element) => !element.statuses.firstWhere((element) => element.providerId == ProviderID.KLIKIT).enabled);
+        }
+      }
+    }
+  }
 
   Future<bool> verifyRules(List<ItemModifierGroup> groups) async {
     for (var groupLevelOne in groups) {

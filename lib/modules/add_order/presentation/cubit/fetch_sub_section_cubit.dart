@@ -33,9 +33,7 @@ class FetchSubSectionCubit extends Cubit<ResponseState> {
     for (var section in sections) {
       if (section.enabled && !section.hidden) {
         for (var subSection in section.subSections) {
-          if (subSection.enabled &&
-              !subSection.hidden &&
-              subSection.items.isNotEmpty) {
+          if (subSection.enabled && !subSection.hidden && subSection.items.isNotEmpty) {
             final items = <MenuItems>[];
             for (var item in subSection.items) {
               if (!item.hidden) {

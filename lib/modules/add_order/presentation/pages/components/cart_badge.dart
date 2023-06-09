@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as bg;
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/styles.dart';
@@ -26,8 +26,8 @@ class CartBadge extends StatelessWidget {
               horizontal: AppSize.s20.rw,
             ),
             child: count > 0
-                ? Badge(
-                    position: BadgePosition.topEnd(top: -16, end: -8),
+                ? bg.Badge(
+                    position: bg.BadgePosition.topEnd(top: -16, end: -8),
                     badgeContent: Text(
                       '$count',
                       style: getMediumTextStyle(
@@ -35,8 +35,8 @@ class CartBadge extends StatelessWidget {
                         fontSize: AppFontSize.s10.rSp,
                       ),
                     ),
-                    badgeStyle: BadgeStyle(
-                      shape: BadgeShape.circle,
+                    badgeStyle: bg.BadgeStyle(
+                      shape: bg.BadgeShape.circle,
                       badgeColor: AppColors.red,
                       padding: const EdgeInsets.all(5),
                       borderRadius: BorderRadius.circular(AppSize.s16.rSp),

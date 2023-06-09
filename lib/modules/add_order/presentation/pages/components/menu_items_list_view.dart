@@ -20,6 +20,7 @@ import '../../../../menu/domain/entities/items.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/add_to_cart_item.dart';
 import '../../../domain/entities/item_modifier_group.dart';
+import '../../../utils/modifier_manager.dart';
 import '../../../utils/order_price_provider.dart';
 import 'dropdown/select_categories_dropdown.dart';
 import 'menu_item_description.dart';
@@ -67,6 +68,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
       (data) {
         EasyLoading.dismiss();
         if (data.isNotEmpty) {
+          ModifierManager().removeDisabledModifier(data);
           widget.onAddModifier(data, item, widget.brand!);
         } else {
           _showItemDetails(context, item);
