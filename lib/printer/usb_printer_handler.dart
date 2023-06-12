@@ -2,11 +2,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 
 class UsbPrinterHandler {
-  bool isConnected() =>
-      PrinterManager.instance.currentStatusUSB == USBStatus.connected;
+  static final UsbPrinterHandler _instance = UsbPrinterHandler._internal();
+  factory UsbPrinterHandler() => _instance;
+  UsbPrinterHandler._internal();
+  bool isConnected() => PrinterManager.instance.currentStatusUSB == USBStatus.connected;
 
-  Stream<PrinterDevice> getDevices() =>
-      PrinterManager.instance.discovery(type: PrinterType.usb);
+  Stream<PrinterDevice> getDevices() => PrinterManager.instance.discovery(type: PrinterType.usb).asBroadcastStream();
 
   Future<bool> connect(PrinterDevice device) async {
     if (PrinterManager.instance.currentStatusUSB == USBStatus.connected) {

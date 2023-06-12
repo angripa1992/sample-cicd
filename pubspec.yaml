@@ -41,10 +41,11 @@ dependencies:
   device_info_plus: ^4.0.0
   geolocator: ^9.0.2
   geocoding: ^2.0.5
-  scrollable_list_tab_scroller: ^1.1.0
   badges: ^3.1.1
   flutter_expanded_tile: ^0.3.7
   flutter_easyloading: ^3.0.5
+  scrollable_list_tab_scroller: ^1.1.0
+  flutter_blue_plus: ^1.5.2
   # firebase
   firebase_core: ^2.11.0
   firebase_messaging: ^14.5.0
@@ -55,7 +56,7 @@ dependencies:
 
   docket_design_template:
     git:
-      url: https://github.com/klikit/docket_design_template.git
+      url: git@github.com:klikit/docket_design_template.git
       ref: version3.0.2
 
 dev_dependencies:

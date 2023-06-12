@@ -2,10 +2,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 
 class BluetoothPrinterHandler {
+  static final BluetoothPrinterHandler _instance =
+      BluetoothPrinterHandler._internal();
 
-  bool isConnected() => PrinterManager.instance.currentStatusBT == BTStatus.connected;
+  factory BluetoothPrinterHandler() => _instance;
 
-  Stream<PrinterDevice> getDevices() => PrinterManager.instance.discovery(type: PrinterType.bluetooth);
+  BluetoothPrinterHandler._internal();
+
+  bool isConnected() =>
+      PrinterManager.instance.currentStatusBT == BTStatus.connected;
+
+  Stream<PrinterDevice> getDevices() => PrinterManager.instance
+      .discovery(type: PrinterType.bluetooth)
+      .asBroadcastStream();
 
   Future<bool> connect(PrinterDevice device) async {
     if (isConnected()) {
@@ -25,7 +34,8 @@ class BluetoothPrinterHandler {
 
   Future<void> printDocket(List<int> data) async {
     try {
-      await PrinterManager.instance.send(type: PrinterType.bluetooth, bytes: data);
+      await PrinterManager.instance
+          .send(type: PrinterType.bluetooth, bytes: data);
     } on PlatformException {
       //ignored
     }

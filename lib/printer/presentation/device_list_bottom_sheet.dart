@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
@@ -10,6 +11,10 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
+
+import '../bluetooth_printer_handler.dart';
+import '../sticker_printer_handler.dart';
+import '../usb_printer_handler.dart';
 
 class DeviceListBottomSheetManager {
   static final _instance = DeviceListBottomSheetManager._internal();
@@ -22,148 +27,184 @@ class DeviceListBottomSheetManager {
 
   void showBottomSheet({
     required int type,
-    required Function(PrinterDevice) onConnect,
-    required Stream<PrinterDevice> devicesStream,
+    required Function(PrinterDevice) onPOSConnect,
+    required Function(BluetoothDevice) onStickerConnect,
   }) {
     if (!_isAlreadyShowing) {
       _isAlreadyShowing = true;
       _showDeviceListBottomSheet(
         type: type,
-        onConnect: onConnect,
-        devicesStream: devicesStream,
+        onPOSConnect: onPOSConnect,
+        onStickerConnect: onStickerConnect,
       );
     }
   }
 
   void _showDeviceListBottomSheet({
     required int type,
-    required Function(PrinterDevice) onConnect,
-    required Stream<PrinterDevice> devicesStream,
+    required Function(PrinterDevice) onPOSConnect,
+    required Function(BluetoothDevice) onStickerConnect,
   }) {
-    final items = <PrinterDevice>[];
     showModalBottomSheet<void>(
       context: RoutesGenerator.navigatorKey.currentState!.context,
-      isScrollControlled: true,
       isDismissible: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppSize.s16),
-        ),
-      ),
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.5,
-        minChildSize: 0.5,
-        maxChildSize: 0.5,
-        expand: false,
-        builder: (_, controller) => StreamBuilder<PrinterDevice>(
-          stream: devicesStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (!items.contains(snapshot.data)) {
-                items.add(snapshot.data!);
-              }
-            }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.purpleBlue,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(AppSize.s16),
-                      topRight: Radius.circular(AppSize.s16),
-                    ),
+      backgroundColor: Colors.transparent,
+      builder: (context) => DefaultTabController(
+        length: 2,
+        child: Container(
+          color: AppColors.whiteSmoke,
+          margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            extendBody: false,
+            appBar: AppBar(
+              backgroundColor: AppColors.purpleBlue,
+              leading: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              bottom: const TabBar(
+                indicatorColor: Colors.white,
+                tabs: [
+                  Tab(
+                    icon: Text('POS Printer'),
                   ),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.remove,
-                          color: AppColors.lightGrey,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              bottom: AppSize.s12.rh, top: AppSize.s4.rh),
-                          child: Text(
-                            type == ConnectionType.USB
-                                ? ((snapshot.connectionState ==
-                                            ConnectionState.done &&
-                                        items.isEmpty)
-                                    ? AppStrings.no_usb_devices.tr()
-                                    : AppStrings.usb_devices.tr())
-                                : ((snapshot.connectionState ==
-                                            ConnectionState.done &&
-                                        items.isEmpty)
-                                    ? AppStrings.no_bluetooth_devices.tr()
-                                    : AppStrings.bluetooth_devices.tr()),
-                            style: getBoldTextStyle(
-                              color: AppColors.white,
-                              fontSize: AppSize.s18.rSp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  Tab(
+                    icon: Text('Sticker Printer'),
                   ),
+                ],
+              ),
+              title: Text(
+                AppStrings.printer_settings.tr(),
+                style: getBoldTextStyle(
+                  color: AppColors.white,
+                  fontSize: AppSize.s18.rSp,
                 ),
-                if (snapshot.hasData) ...[
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        return _deviceItemView(
-                          icon: type == ConnectionType.BLUETOOTH
-                              ? Icons.bluetooth
-                              : Icons.usb,
-                          name: items[index].name,
-                          onConnect: () {
-                            onConnect(items[index]);
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ] else if (snapshot.connectionState ==
-                    ConnectionState.waiting) ...[
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        AppStrings.looking_for_devices.tr(),
-                        style: getRegularTextStyle(
-                          color: AppColors.black,
-                          fontSize: AppFontSize.s18.rSp,
-                        ),
-                      ),
-                    ),
-                  ),
-                ] else if (snapshot.connectionState ==
-                    ConnectionState.done) ...[
-                  Expanded(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          type == ConnectionType.BLUETOOTH
-                              ? AppStrings.no_bluetooth_devices_message.tr()
-                              : AppStrings.no_usb_devices_message.tr(),
-                          textAlign: TextAlign.center,
-                          style: getRegularTextStyle(
-                            color: AppColors.black,
-                            fontSize: AppFontSize.s16.rSp,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ]
+              ),
+            ),
+            body: TabBarView(
+              children: [
+                _posPrinter(
+                  type: type,
+                  onConnect: onPOSConnect,
+                ),
+                _stickerPrinter(
+                  onConnect: onStickerConnect,
+                ),
               ],
-            );
-          },
+            ),
+          ),
         ),
       ),
     ).then((value) => _isAlreadyShowing = false);
+  }
+
+  Widget _posPrinter({
+    required int type,
+    required Function(PrinterDevice) onConnect,
+  }) {
+    final items = <PrinterDevice>[];
+    return StreamBuilder<PrinterDevice>(
+      stream: type == ConnectionType.BLUETOOTH
+          ? BluetoothPrinterHandler().getDevices()
+          : UsbPrinterHandler().getDevices(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (!items.contains(snapshot.data)) {
+            items.add(snapshot.data!);
+          }
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          Center(
+            child: Text(
+              AppStrings.looking_for_devices.tr(),
+              style: getRegularTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s18.rSp,
+              ),
+            ),
+          );
+        }
+        return items.isEmpty
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    type == ConnectionType.BLUETOOTH
+                        ? AppStrings.no_bluetooth_devices_message.tr()
+                        : AppStrings.no_usb_devices_message.tr(),
+                    textAlign: TextAlign.center,
+                    style: getRegularTextStyle(
+                      color: AppColors.black,
+                      fontSize: AppFontSize.s16.rSp,
+                    ),
+                  ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return _deviceItemView(
+                    icon: type == ConnectionType.BLUETOOTH
+                        ? Icons.bluetooth
+                        : Icons.usb,
+                    name: items[index].name,
+                    onConnect: () {
+                      onConnect(items[index]);
+                    },
+                  );
+                },
+              );
+      },
+    );
+  }
+
+  Widget _stickerPrinter({required Function(BluetoothDevice) onConnect}) {
+    return StreamBuilder<List<ScanResult>>(
+      stream: StickerPrinterHandler().scanDevices(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          final data = snapshot.data!;
+          data.removeWhere((element) => element.device.name.isEmpty);
+          return data.isEmpty
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      AppStrings.no_bluetooth_devices_message.tr(),
+                      textAlign: TextAlign.center,
+                      style: getRegularTextStyle(
+                        color: AppColors.black,
+                        fontSize: AppFontSize.s16.rSp,
+                      ),
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return _deviceItemView(
+                      icon: Icons.bluetooth,
+                      name: data[index].device.name,
+                      onConnect: () {
+                        onConnect(data[index].device);
+                      },
+                    );
+                  },
+                );
+        }
+        return Center(
+          child: Text(
+            AppStrings.looking_for_devices.tr(),
+            style: getRegularTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s18.rSp,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _deviceItemView({
@@ -202,8 +243,6 @@ class DeviceListBottomSheetManager {
                 borderRadius: AppSize.s16,
                 textColor: AppColors.purpleBlue,
                 onTap: () {
-                  Navigator.pop(
-                      RoutesGenerator.navigatorKey.currentState!.context);
                   onConnect();
                 },
                 text: AppStrings.connect.tr(),

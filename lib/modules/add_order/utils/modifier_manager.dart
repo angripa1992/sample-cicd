@@ -1,5 +1,3 @@
-import 'package:dartz/dartz_unsafe.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/add_order/data/models/billing_item_modifier.dart';
 import 'package:klikit/modules/add_order/data/models/billing_item_modifier_group.dart';
 
@@ -16,14 +14,22 @@ class ModifierManager {
 
   ModifierManager._internal();
 
-  void removeDisabledModifier(List<ItemModifierGroup> groups)  {
-    groups.removeWhere((element) => !element.statuses.firstWhere((element) => element.providerId == ProviderID.KLIKIT).enabled);
-    for(var firstGroups in groups){
-      firstGroups.modifiers.removeWhere((element) => !element.statuses.firstWhere((element) => element.providerId == ProviderID.KLIKIT).enabled);
+  void removeDisabledModifier(List<ItemModifierGroup> groups) {
+    groups.removeWhere((element) => !element.statuses
+        .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
+        .enabled);
+    for (var firstGroups in groups) {
+      firstGroups.modifiers.removeWhere((element) => !element.statuses
+          .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
+          .enabled);
       for (var firstModifier in firstGroups.modifiers) {
-        firstModifier.groups.removeWhere((element) => !element.statuses.firstWhere((element) => element.providerId == ProviderID.KLIKIT).enabled);
+        firstModifier.groups.removeWhere((element) => !element.statuses
+            .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
+            .enabled);
         for (var secondGroup in firstModifier.groups) {
-          secondGroup.modifiers.removeWhere((element) => !element.statuses.firstWhere((element) => element.providerId == ProviderID.KLIKIT).enabled);
+          secondGroup.modifiers.removeWhere((element) => !element.statuses
+              .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
+              .enabled);
         }
       }
     }
@@ -98,11 +104,13 @@ class ModifierManager {
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          modifiers.add('${modifierLevelOne.quantity}x ${modifierLevelOne.title}');
+          modifiers
+              .add('${modifierLevelOne.quantity}x ${modifierLevelOne.title}');
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                modifiers.add('${modifierLevelTwo.quantity}x ${modifierLevelTwo.title}');
+                modifiers.add(
+                    '${modifierLevelTwo.quantity}x ${modifierLevelTwo.title}');
               }
             }
           }
@@ -157,7 +165,8 @@ class ModifierManager {
     }
   }
 
-  Future<List<BillingItemModifierGroup>> billingItemModifiers(List<ItemModifierGroup> groups) async {
+  Future<List<BillingItemModifierGroup>> billingItemModifiers(
+      List<ItemModifierGroup> groups) async {
     final billingModifiersGroupsL1 = <BillingItemModifierGroup>[];
     for (var groupLevelOne in groups) {
       final billingModifiersL1 = <BillingItemModifier>[];
@@ -168,18 +177,23 @@ class ModifierManager {
             final billingModifiersL2 = <BillingItemModifier>[];
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                billingModifiersL2.add(OrderEntityProvider().cartToBillingModifier(modifierLevelTwo, []));
+                billingModifiersL2.add(OrderEntityProvider()
+                    .cartToBillingModifier(modifierLevelTwo, []));
               }
             }
             if (billingModifiersL2.isNotEmpty) {
-              billingModifiersGroupsL2.add(OrderEntityProvider().cartToBillingModifierGroup(groupLevelTwo, billingModifiersL2));
+              billingModifiersGroupsL2.add(OrderEntityProvider()
+                  .cartToBillingModifierGroup(
+                      groupLevelTwo, billingModifiersL2));
             }
           }
-          billingModifiersL1.add(OrderEntityProvider().cartToBillingModifier(modifierLevelOne, billingModifiersGroupsL2));
+          billingModifiersL1.add(OrderEntityProvider().cartToBillingModifier(
+              modifierLevelOne, billingModifiersGroupsL2));
         }
       }
       if (billingModifiersL1.isNotEmpty) {
-        billingModifiersGroupsL1.add(OrderEntityProvider().cartToBillingModifierGroup(groupLevelOne, billingModifiersL1));
+        billingModifiersGroupsL1.add(OrderEntityProvider()
+            .cartToBillingModifierGroup(groupLevelOne, billingModifiersL1));
       }
     }
     return billingModifiersGroupsL1;

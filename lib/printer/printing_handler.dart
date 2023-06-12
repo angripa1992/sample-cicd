@@ -15,6 +15,7 @@ import 'package:klikit/printer/data/printer_data_provider.dart';
 import 'package:klikit/printer/presentation/capture_image_preview.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/presentation/select_docket_type_dialog.dart';
+import 'package:klikit/printer/sticker_printer_handler.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:klikit/resources/strings.dart';
 
@@ -24,14 +25,10 @@ import '../modules/orders/provider/order_information_provider.dart';
 
 class PrintingHandler {
   final AppPreferences _preferences;
-  final BluetoothPrinterHandler _bluetoothPrinterHandler;
-  final UsbPrinterHandler _usbPrinterHandler;
   final OrderInformationProvider _infoProvider;
 
   PrintingHandler(
     this._preferences,
-    this._bluetoothPrinterHandler,
-    this._usbPrinterHandler,
     this._infoProvider,
   );
 
@@ -51,13 +48,10 @@ class PrintingHandler {
         type: type == ConnectionType.BLUETOOTH
             ? ConnectionType.BLUETOOTH
             : ConnectionType.USB,
-        devicesStream: type == ConnectionType.BLUETOOTH
-            ? _bluetoothPrinterHandler.getDevices()
-            : _usbPrinterHandler.getDevices(),
-        onConnect: (device) async {
+        onPOSConnect: (device) async {
           final isSuccessfullyConnected = type == ConnectionType.BLUETOOTH
-              ? await _bluetoothPrinterHandler.connect(device)
-              : await _usbPrinterHandler.connect(device);
+              ? await BluetoothPrinterHandler().connect(device)
+              : await UsbPrinterHandler().connect(device);
           if (isSuccessfullyConnected) {
             showSuccessSnackBar(
               RoutesGenerator.navigatorKey.currentState!.context,
@@ -75,6 +69,23 @@ class PrintingHandler {
             );
           }
         },
+        onStickerConnect: (stickerDevice) async {
+          final isConnected = await StickerPrinterHandler().connect(stickerDevice);
+          if (isConnected) {
+            showSuccessSnackBar(
+              RoutesGenerator.navigatorKey.currentState!.context,
+              "Sticker Printer Successfully Connected",
+            );
+            if(order != null){
+              printSticker(order);
+            }
+          } else {
+            showErrorSnackBar(
+              RoutesGenerator.navigatorKey.currentState!.context,
+              AppStrings.usb_not_connected.tr(),
+            );
+          }
+        },
       );
     }
   }
@@ -83,9 +94,8 @@ class PrintingHandler {
     //_doManualPrint(order);
     final permissionGranted = await _isPermissionGranted();
     if (permissionGranted) {
-      if (_preferences.printerSetting().connectionType ==
-          ConnectionType.BLUETOOTH) {
-        if (_bluetoothPrinterHandler.isConnected()) {
+      if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
+        if (BluetoothPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _doAutoPrint(order);
           } else {
@@ -100,7 +110,7 @@ class PrintingHandler {
           showDevices(order: order);
         }
       } else {
-        if (_usbPrinterHandler.isConnected()) {
+        if (UsbPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _doAutoPrint(order);
           } else {
@@ -118,18 +128,21 @@ class PrintingHandler {
     }
   }
 
+  void printSticker(Order order) async{
+    await StickerPrinterHandler().print();
+  }
+
   void _doManualPrint(Order order) {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
-         //_showPreview(order: order, docketType: type);
+        //_showPreview(order: order, docketType: type);
         final printingData =
             await _generatePrintingData(order: order, docketType: type);
         if (printingData != null) {
-          if (_preferences.printerSetting().connectionType ==
-              ConnectionType.BLUETOOTH) {
-            await _bluetoothPrinterHandler.printDocket(printingData);
+          if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
+            await BluetoothPrinterHandler().printDocket(printingData);
           } else {
-            await _usbPrinterHandler.printDocket(printingData);
+            await UsbPrinterHandler().printDocket(printingData);
           }
         }
       },
@@ -138,28 +151,15 @@ class PrintingHandler {
 
   void _doAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
-    final customerCopy = await _generatePrintingData(order: order, docketType: DocketType.customer);
-    final kitchenCopy = await _generatePrintingData(order: order, docketType: DocketType.kitchen);
+    final customerCopy = await _generatePrintingData(
+        order: order, docketType: DocketType.customer);
+    final kitchenCopy = await _generatePrintingData(
+        order: order, docketType: DocketType.kitchen);
     if (printerSetting.connectionType == ConnectionType.BLUETOOTH) {
       if (printerSetting.customerCopyEnabled) {
         if (customerCopy != null) {
           for (int i = 0; i < printerSetting.customerCopyCount; i++) {
-            await _bluetoothPrinterHandler.printDocket(customerCopy);
-          }
-        }
-      }
-      if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
-        if (kitchenCopy != null) {
-          for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
-            await _bluetoothPrinterHandler.printDocket(kitchenCopy);
-          }
-        }
-      }
-    } else {
-      if (printerSetting.customerCopyEnabled) {
-        if (customerCopy != null) {
-          for (int i = 0; i < printerSetting.customerCopyCount; i++) {
-            await _usbPrinterHandler.printDocket(customerCopy);
+            await BluetoothPrinterHandler().printDocket(customerCopy);
           }
         }
       }
@@ -167,21 +167,37 @@ class PrintingHandler {
           printerSetting.kitchenCopyCount > ZERO) {
         if (kitchenCopy != null) {
           for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
-            await _usbPrinterHandler.printDocket(kitchenCopy);
+            await BluetoothPrinterHandler().printDocket(kitchenCopy);
+          }
+        }
+      }
+    } else {
+      if (printerSetting.customerCopyEnabled) {
+        if (customerCopy != null) {
+          for (int i = 0; i < printerSetting.customerCopyCount; i++) {
+            await UsbPrinterHandler().printDocket(customerCopy);
+          }
+        }
+      }
+      if (printerSetting.kitchenCopyEnabled &&
+          printerSetting.kitchenCopyCount > ZERO) {
+        if (kitchenCopy != null) {
+          for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
+            await UsbPrinterHandler().printDocket(kitchenCopy);
           }
         }
       }
     }
   }
 
-  PrinterFonts _printerFonts(){
+  PrinterFonts _printerFonts() {
     final font = _preferences.printerSetting().fonts!;
     return PrinterFonts(
       smallFontSize: font.smallFontSize.toDouble(),
-      regularFontSize:  font.regularFontSize.toDouble(),
-      mediumFontSize:  font.mediumFontSize.toDouble(),
+      regularFontSize: font.regularFontSize.toDouble(),
+      mediumFontSize: font.mediumFontSize.toDouble(),
       largeFontSize: font.largeFontSize.toDouble(),
-      extraLargeFontSize:  font.extraLargeFontSize.toDouble(),
+      extraLargeFontSize: font.extraLargeFontSize.toDouble(),
     );
   }
 
