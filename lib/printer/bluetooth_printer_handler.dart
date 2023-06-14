@@ -34,8 +34,7 @@ class BluetoothPrinterHandler {
 
   Future<void> printDocket(List<int> data) async {
     try {
-      await PrinterManager.instance
-          .send(type: PrinterType.bluetooth, bytes: data);
+      await PrinterManager.instance.send(type: PrinterType.bluetooth, bytes: data);
     } on PlatformException {
       //ignored
     }

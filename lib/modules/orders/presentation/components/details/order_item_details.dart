@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
@@ -11,6 +12,8 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/styles.dart';
+import '../../../../../printer/printing_handler.dart';
+import '../../../../../printer/sticker_printer_handler.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../domain/entities/brand.dart';
 
@@ -242,6 +245,15 @@ class OrderItemDetails extends StatelessWidget {
           flex: 3,
           child: Row(
             children: [
+              IconButton(
+                onPressed: () {
+                  getIt.get<PrintingHandler>().printSticker(order, cartV2);
+                },
+                icon: Icon(
+                  Icons.print,
+                  color: AppColors.purpleBlue,
+                ),
+              ),
               Text('${cartV2.quantity} x', style: _itemTextStyle),
               SizedBox(width: AppSize.s4.rw),
               Expanded(child: Text(cartV2.name, style: _itemTextStyle)),

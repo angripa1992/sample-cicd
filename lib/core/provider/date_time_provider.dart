@@ -29,6 +29,13 @@ class DateTimeProvider {
     return formatted;
   }
 
+  static String getStickerDocketDate(String createdAt) {
+    final DateFormat formatter = DateFormat('yyyy/MM/dd');
+    final dateTime = DateTime.parse(createdAt).toLocal();
+    final String formatted = formatter.format(dateTime);
+    return formatted;
+  }
+
   static String dateRangeString(DateTimeRange dateTimeRange) {
     final formatter = DateFormat('d MMMM yyy');
     final start = formatter.format(dateTimeRange.start);

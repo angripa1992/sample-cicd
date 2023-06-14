@@ -15,11 +15,13 @@ import 'package:klikit/printer/data/printer_data_provider.dart';
 import 'package:klikit/printer/presentation/capture_image_preview.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/presentation/select_docket_type_dialog.dart';
+import 'package:klikit/printer/sticker_docket_generator.dart';
 import 'package:klikit/printer/sticker_printer_handler.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../core/utils/permission_handler.dart';
+import '../modules/orders/domain/entities/cart.dart';
 import '../modules/orders/domain/entities/order.dart';
 import '../modules/orders/provider/order_information_provider.dart';
 
@@ -60,7 +62,7 @@ class PrintingHandler {
                   : AppStrings.usb_successfully_connected.tr(),
             );
             if (order != null) {
-              printDocket(order: order);
+              printDocket(order: order,willPrintSticker: false);
             }
           } else {
             showErrorSnackBar(
@@ -76,13 +78,10 @@ class PrintingHandler {
               RoutesGenerator.navigatorKey.currentState!.context,
               "Sticker Printer Successfully Connected",
             );
-            if(order != null){
-              printSticker(order);
-            }
           } else {
             showErrorSnackBar(
               RoutesGenerator.navigatorKey.currentState!.context,
-              AppStrings.usb_not_connected.tr(),
+              AppStrings.can_not_connect_device.tr(),
             );
           }
         },
@@ -90,7 +89,11 @@ class PrintingHandler {
     }
   }
 
-  void printDocket({required Order order, bool isAutoPrint = false}) async {
+  void printDocket({
+    required Order order,
+    bool isAutoPrint = false,
+    bool willPrintSticker = true,
+  }) async {
     //_doManualPrint(order);
     final permissionGranted = await _isPermissionGranted();
     if (permissionGranted) {
@@ -101,13 +104,11 @@ class PrintingHandler {
           } else {
             _doManualPrint(order);
           }
-        } else if (isAutoPrint) {
+        }else {
           showErrorSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
             AppStrings.bluetooth_not_connected.tr(),
           );
-        } else {
-          showDevices(order: order);
         }
       } else {
         if (UsbPrinterHandler().isConnected()) {
@@ -116,20 +117,27 @@ class PrintingHandler {
           } else {
             _doManualPrint(order);
           }
-        } else if (isAutoPrint) {
+        } else {
           showErrorSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
             AppStrings.usb_not_connected.tr(),
           );
-        } else {
-          showDevices(order: order);
         }
       }
     }
   }
 
-  void printSticker(Order order) async{
-    await StickerPrinterHandler().print();
+  void printSticker(Order order,CartV2 item) async {
+    //final command = StickerDocketGenerator().generateDocket(order, item);
+    if(await StickerPrinterHandler().isConnected()){
+      final command = StickerDocketGenerator().generateDocket(order, item);
+      StickerPrinterHandler().print(command);
+    }else{
+      showErrorSnackBar(
+        RoutesGenerator.navigatorKey.currentState!.context,
+        'Sticker printer not connected',
+      );
+    }
   }
 
   void _doManualPrint(Order order) {
@@ -139,7 +147,8 @@ class PrintingHandler {
         final printingData =
             await _generatePrintingData(order: order, docketType: type);
         if (printingData != null) {
-          if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
+          if (_preferences.printerSetting().connectionType ==
+              ConnectionType.BLUETOOTH) {
             await BluetoothPrinterHandler().printDocket(printingData);
           } else {
             await UsbPrinterHandler().printDocket(printingData);

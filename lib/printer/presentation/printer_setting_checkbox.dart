@@ -24,6 +24,7 @@ class PrinterSettingCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
+      contentPadding: EdgeInsets.zero,
       title: Text(
         name,
         style: getRegularTextStyle(

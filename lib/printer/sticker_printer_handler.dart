@@ -38,7 +38,7 @@ class StickerPrinterHandler {
     }
   }
 
-  Future print() async{
+  Future print(Uint8List command) async{
     if(await isConnected()){
       try{
         BluetoothCharacteristic? writeCharacteristic;
@@ -51,7 +51,7 @@ class StickerPrinterHandler {
           }
         }
         if (writeCharacteristic != null) {
-          await writeCharacteristic.write(_data());
+          await writeCharacteristic.write(command);
         }
       }catch (e){
         //ignore
@@ -99,7 +99,7 @@ class StickerPrinterHandler {
     DIRECTION 1
     REFERENCE 0,0
     OFFSET 0 mm
-    $tslText
+    SELFTEST
     PRINT 1
     CLS
   ''';

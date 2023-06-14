@@ -21,7 +21,9 @@ class PrinterSettingRadioItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return RadioListTile(
+      contentPadding: EdgeInsets.zero,
+      activeColor: AppColors.purpleBlue,
       title: Text(
         name,
         style: getRegularTextStyle(
@@ -29,13 +31,24 @@ class PrinterSettingRadioItem extends StatelessWidget {
           fontSize: AppSize.s16.rSp,
         ),
       ),
-      leading: Radio(
-        fillColor:
-            MaterialStateColor.resolveWith((states) => AppColors.purpleBlue),
-        value: value,
-        groupValue: groupValue,
-        onChanged: (int? type) => onChanged(type!),
-      ),
+      // leading: Container(
+      //   padding: EdgeInsets.zero,
+      //   child: Radio(
+      //     fillColor: MaterialStateColor.resolveWith(
+      //         (states) => AppColors.purpleBlue),
+      //     value: value,
+      //     groupValue: groupValue,
+      //     onChanged: (int? type) => onChanged(type!),
+      //     visualDensity: const VisualDensity(
+      //       horizontal: -4,
+      //       vertical: -4,
+      //     ),
+      //   ),
+      // ),
+      dense: true,
+      value: value,
+      groupValue: groupValue,
+      onChanged: (int? type) => onChanged(type!),
     );
   }
 }

@@ -151,40 +151,13 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                 children: [
                   /// connection type
                   _title(AppStrings.set_printer_connection_type.tr()),
-                  PrinterSettingRadioItem(
-                    value: ConnectionType.BLUETOOTH,
-                    groupValue: _connectionType,
-                    onChanged: _changePrinterConnectionType,
-                    name: AppStrings.bluetooth.tr(),
-                  ),
-                  PrinterSettingRadioItem(
-                    value: ConnectionType.USB,
-                    groupValue: _connectionType,
-                    onChanged: _changePrinterConnectionType,
-                    name: AppStrings.usb.tr(),
-                  ),
-
+                  _connectionTypeSetting(),
                   Divider(color: AppColors.blueViolet),
-
                   /// Paper size
                   _title(AppStrings.set_paper_size.tr()),
-                  PrinterSettingRadioItem(
-                    value: RollId.mm58,
-                    groupValue: _paperSize,
-                    onChanged: _changePrinterPaperSize,
-                    name: '58mm',
-                  ),
-                  PrinterSettingRadioItem(
-                    value: RollId.mm80,
-                    groupValue: _paperSize,
-                    onChanged: _changePrinterPaperSize,
-                    name: '80mm',
-                  ),
-
+                  _paperSizeSetting(),
                   Divider(color: AppColors.blueViolet),
-
                   /// Docket type
-
                   _title(AppStrings.set_docket_type),
                   Row(
                     children: [
@@ -225,8 +198,6 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
                     ],
                   ),
                   Divider(color: AppColors.blueViolet),
-
-                  /// Font size
                   _title(AppStrings.set_font_size),
                   PrinterSettingRadioItem(
                     value: PrinterFontSize.small,
@@ -257,52 +228,129 @@ class _PrinterSettingBodyState extends State<PrinterSettingBody> {
             ),
           ),
           SizedBox(height: AppSize.s8.rh),
-          Row(
-            children: [
-              Expanded(
-                child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
-                  listener: (context, state) {
-                    if (state is Failed) {
-                      showApiErrorSnackBar(context, state.failure);
-                    } else if (state is Success<ActionSuccess>) {
-                      _savePrinterSettingLocally();
-                      showSuccessSnackBar(context, state.data.message ?? '');
-                    }
-                  },
-                  builder: (context, state) {
-                    return LoadingButton(
-                      isLoading: state is Loading,
-                      verticalPadding: AppSize.s12.rh,
-                      onTap: _updatePrinterSetting,
-                      text: AppStrings.save.tr(),
-                      textSize: AppFontSize.s13.rSp,
-                    );
-                  },
-                ),
-              ),
-              SizedBox(width: AppSize.s8.rw),
-              Expanded(
-                child: AppButton(
-                  enable: _appPreferences.printerSetting().connectionType ==
-                      _connectionType,
-                  verticalPadding: AppSize.s10.rh,
-                  onTap: () {
-                    _printingHandler.showDevices();
-                  },
-                  text: AppStrings.show_devices.tr(),
-                  textSize: AppFontSize.s13.rSp,
-                  icon: _appPreferences.printerSetting().connectionType ==
-                          ConnectionType.BLUETOOTH
-                      ? Icons.bluetooth
-                      : Icons.usb,
-                ),
-              ),
-            ],
-          ),
+          _buttons(),
         ],
       ),
     );
   }
+
+  Widget _connectionTypeSetting() => Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Expanded(
+        child: PrinterSettingRadioItem(
+          value: ConnectionType.BLUETOOTH,
+          groupValue: _connectionType,
+          onChanged: _changePrinterConnectionType,
+          name: AppStrings.bluetooth.tr(),
+        ),
+      ),
+      Expanded(
+        child: PrinterSettingRadioItem(
+          value: ConnectionType.USB,
+          groupValue: _connectionType,
+          onChanged: _changePrinterConnectionType,
+          name: AppStrings.usb.tr(),
+        ),
+      ),
+    ],
+  );
+
+  Widget _paperSizeSetting() => Row(
+    children: [
+      Expanded(
+        child: PrinterSettingRadioItem(
+          value: RollId.mm58,
+          groupValue: _paperSize,
+          onChanged: _changePrinterPaperSize,
+          name: '58mm',
+        ),
+      ),
+      Expanded(
+        child: PrinterSettingRadioItem(
+          value: RollId.mm80,
+          groupValue: _paperSize,
+          onChanged: _changePrinterPaperSize,
+          name: '80mm',
+        ),
+      ),
+    ],
+  );
+
+  Widget _fontsSize() => // Font size
+      Expanded(
+        child: Column(
+          children: [
+            PrinterSettingRadioItem(
+              value: PrinterFontSize.small,
+              groupValue: _printerFontId,
+              onChanged: _changePrinterFont,
+              name: AppStrings.small,
+            ),
+            PrinterSettingRadioItem(
+              value: PrinterFontSize.normal,
+              groupValue: _printerFontId,
+              onChanged: _changePrinterFont,
+              name: AppStrings.normal,
+            ),
+            PrinterSettingRadioItem(
+              value: PrinterFontSize.large,
+              groupValue: _printerFontId,
+              onChanged: _changePrinterFont,
+              name: AppStrings.large,
+            ),
+            PrinterSettingRadioItem(
+              value: PrinterFontSize.huge,
+              groupValue: _printerFontId,
+              onChanged: _changePrinterFont,
+              name: AppStrings.huge,
+            ),
+          ],
+        ),
+      );
+
+  Widget _buttons() => Row(
+        children: [
+          Expanded(
+            child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
+              listener: (context, state) {
+                if (state is Failed) {
+                  showApiErrorSnackBar(context, state.failure);
+                } else if (state is Success<ActionSuccess>) {
+                  _savePrinterSettingLocally();
+                  showSuccessSnackBar(context, state.data.message ?? '');
+                }
+              },
+              builder: (context, state) {
+                return LoadingButton(
+                  isLoading: state is Loading,
+                  verticalPadding: AppSize.s12.rh,
+                  onTap: _updatePrinterSetting,
+                  text: AppStrings.save.tr(),
+                  textSize: AppFontSize.s13.rSp,
+                );
+              },
+            ),
+          ),
+          SizedBox(width: AppSize.s8.rw),
+          Expanded(
+            child: AppButton(
+              enable: _appPreferences.printerSetting().connectionType ==
+                  _connectionType,
+              verticalPadding: AppSize.s10.rh,
+              onTap: () {
+                _printingHandler.showDevices();
+              },
+              text: AppStrings.show_devices.tr(),
+              textSize: AppFontSize.s13.rSp,
+              icon: _appPreferences.printerSetting().connectionType ==
+                      ConnectionType.BLUETOOTH
+                  ? Icons.bluetooth
+                  : Icons.usb,
+            ),
+          ),
+        ],
+      );
 
   Widget _title(String title) {
     return Text(
