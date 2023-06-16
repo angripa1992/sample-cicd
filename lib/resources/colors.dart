@@ -36,6 +36,7 @@ class AppColors {
   static Color seaShell= const Color(0xFFF0F0F0);
   static Color water= const Color(0xFFF2F2F2);
   static Color alabaster= const Color(0xFFF9FAFB);
+  static Color bluewood= const Color(0xFF344054);
 }
 
 Color getCheckboxColor(Set<MaterialState> states) {

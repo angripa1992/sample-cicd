@@ -92,7 +92,7 @@ class _BaseScreenState extends State<BaseScreen> {
         _printingHandler.printDocket(order: order, isAutoPrint: true);
       }
     } else {
-      _printingHandler.showDevices();
+      _printingHandler.showDevices(initialIndex: PrinterSelectIndex.docket);
     }
   }
 

@@ -37,22 +37,46 @@ class _PrinterConnectionSettingPageState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.printer_settings.tr()),
-        titleTextStyle: getAppBarTextStyle(),
-        flexibleSpace: getAppBarBackground(),
-      ),
-      body: BlocBuilder<PrinterSettingCubit, ResponseState>(
-        builder: (_, state) {
-          if (state is Loading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is Success<PrinterSetting>) {
-            _savePrinterSettingLocally(printerSetting: state.data);
-            return const PrinterSettingBody();
-          }
-          return const SizedBox();
-        },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppStrings.printer_settings.tr()),
+          titleTextStyle: getAppBarTextStyle(),
+          flexibleSpace: getAppBarBackground(),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: 'Docket'),
+              Tab(text: 'Sticker')
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            BlocBuilder<PrinterSettingCubit, ResponseState>(
+              builder: (_, state) {
+                if (state is Loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is Success<PrinterSetting>) {
+                  _savePrinterSettingLocally(printerSetting: state.data);
+                  return const PrinterSettingBody();
+                }
+                return const SizedBox();
+              },
+            ),
+            BlocBuilder<PrinterSettingCubit, ResponseState>(
+              builder: (_, state) {
+                if (state is Loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is Success<PrinterSetting>) {
+                  _savePrinterSettingLocally(printerSetting: state.data);
+                  return const PrinterSettingBody();
+                }
+                return const SizedBox();
+              },
+            )
+          ],
+        ),
       ),
     );
   }

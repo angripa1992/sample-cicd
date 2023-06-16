@@ -23,49 +23,61 @@ class DocketCounterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-        color: enabled ? AppColors.blueViolet : AppColors.dustyGrey,
+        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+        border: Border.all(
+          color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+        ),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s8.rw,
-          vertical: AppSize.s8.rh,
+          //vertical: AppSize.s2.rh,
         ),
-        child: Row(
-          children: [
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              onPressed: (enabled && count > minCount)
-                  ? () => onChanged(count - 1)
-                  : null,
-              icon: Icon(
-                Icons.remove,
-                color: AppColors.white,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-              child: Text(
-                count.toString(),
-                style: getMediumTextStyle(
-                  color: AppColors.white,
-                  fontSize: AppFontSize.s14.rSp,
+        child: IntrinsicHeight(
+          child: Row(
+            children: [
+              IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                onPressed: (enabled && count > minCount)
+                    ? () => onChanged(count - 1)
+                    : null,
+                icon: Icon(
+                  Icons.remove,
+                  color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
                 ),
               ),
-            ),
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              enableFeedback: false,
-              onPressed:
-                  (enabled && count < 5) ? () => onChanged(count + 1) : null,
-              icon: Icon(
-                Icons.add,
-                color: AppColors.white,
+              VerticalDivider(
+                color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                thickness: 1,
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                child: Text(
+                  count.toString(),
+                  style: getMediumTextStyle(
+                    color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                    fontSize: AppFontSize.s16.rSp,
+                  ),
+                ),
+              ),
+              VerticalDivider(
+                color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                thickness: 1,
+              ),
+              IconButton(
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                enableFeedback: false,
+                onPressed:
+                    (enabled && count < 5) ? () => onChanged(count + 1) : null,
+                icon: Icon(
+                  Icons.add,
+                  color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -154,6 +154,12 @@ class DiscountType{
   static const percentage= 2;
 }
 
+class PrinterSelectIndex{
+  static const docket = 0;
+  static const sticker= 1;
+}
+
+
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
   static const String kNOTIFICATION_DATA = 'notification_data';

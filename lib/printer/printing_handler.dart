@@ -42,11 +42,15 @@ class PrintingHandler {
     }
   }
 
-  void showDevices({Order? order}) async {
+  void showDevices({
+    Order? order,
+    required int initialIndex,
+  }) async {
     final type = _preferences.printerSetting().connectionType;
     final permissionGranted = await _isPermissionGranted();
     if (permissionGranted) {
       DeviceListBottomSheetManager().showBottomSheet(
+        initialIndex: initialIndex,
         type: type == ConnectionType.BLUETOOTH
             ? ConnectionType.BLUETOOTH
             : ConnectionType.USB,
@@ -62,7 +66,7 @@ class PrintingHandler {
                   : AppStrings.usb_successfully_connected.tr(),
             );
             if (order != null) {
-              printDocket(order: order,willPrintSticker: false);
+              printDocket(order: order, willPrintSticker: false);
             }
           } else {
             showErrorSnackBar(
@@ -72,7 +76,8 @@ class PrintingHandler {
           }
         },
         onStickerConnect: (stickerDevice) async {
-          final isConnected = await StickerPrinterHandler().connect(stickerDevice);
+          final isConnected =
+              await StickerPrinterHandler().connect(stickerDevice);
           if (isConnected) {
             showSuccessSnackBar(
               RoutesGenerator.navigatorKey.currentState!.context,
@@ -97,14 +102,15 @@ class PrintingHandler {
     //_doManualPrint(order);
     final permissionGranted = await _isPermissionGranted();
     if (permissionGranted) {
-      if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
+      if (_preferences.printerSetting().connectionType ==
+          ConnectionType.BLUETOOTH) {
         if (BluetoothPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _doAutoPrint(order);
           } else {
             _doManualPrint(order);
           }
-        }else {
+        } else {
           showErrorSnackBar(
             RoutesGenerator.navigatorKey.currentState!.context,
             AppStrings.bluetooth_not_connected.tr(),
@@ -127,12 +133,12 @@ class PrintingHandler {
     }
   }
 
-  void printSticker(Order order,CartV2 item) async {
+  void printSticker(Order order, CartV2 item) async {
     //final command = StickerDocketGenerator().generateDocket(order, item);
-    if(await StickerPrinterHandler().isConnected()){
+    if (await StickerPrinterHandler().isConnected()) {
       final command = StickerDocketGenerator().generateDocket(order, item);
       StickerPrinterHandler().print(command);
-    }else{
+    } else {
       showErrorSnackBar(
         RoutesGenerator.navigatorKey.currentState!.context,
         'Sticker printer not connected',

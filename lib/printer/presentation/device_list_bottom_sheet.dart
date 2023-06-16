@@ -27,6 +27,7 @@ class DeviceListBottomSheetManager {
 
   void showBottomSheet({
     required int type,
+    required int initialIndex,
     required Function(PrinterDevice) onPOSConnect,
     required Function(BluetoothDevice) onStickerConnect,
   }) {
@@ -34,6 +35,7 @@ class DeviceListBottomSheetManager {
       _isAlreadyShowing = true;
       _showDeviceListBottomSheet(
         type: type,
+        initialIndex: initialIndex,
         onPOSConnect: onPOSConnect,
         onStickerConnect: onStickerConnect,
       );
@@ -42,6 +44,7 @@ class DeviceListBottomSheetManager {
 
   void _showDeviceListBottomSheet({
     required int type,
+    required int initialIndex,
     required Function(PrinterDevice) onPOSConnect,
     required Function(BluetoothDevice) onStickerConnect,
   }) {
@@ -49,41 +52,62 @@ class DeviceListBottomSheetManager {
       context: RoutesGenerator.navigatorKey.currentState!.context,
       isDismissible: true,
       backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppSize.s16),
+        ),
+      ),
       builder: (context) => DefaultTabController(
         length: 2,
-        child: Container(
-          color: AppColors.whiteSmoke,
-          margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            resizeToAvoidBottomInset: false,
-            extendBody: false,
-            appBar: AppBar(
-              backgroundColor: AppColors.purpleBlue,
-              leading: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              bottom: const TabBar(
-                indicatorColor: Colors.white,
-                tabs: [
-                  Tab(
-                    icon: Text('POS Printer'),
-                  ),
-                  Tab(
-                    icon: Text('Sticker Printer'),
-                  ),
-                ],
-              ),
-              title: Text(
-                AppStrings.printer_settings.tr(),
-                style: getBoldTextStyle(
-                  color: AppColors.white,
-                  fontSize: AppSize.s18.rSp,
-                ),
+        initialIndex: initialIndex,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          resizeToAvoidBottomInset: false,
+          extendBody: false,
+          appBar: AppBar(
+            backgroundColor: AppColors.whiteSmoke,
+            centerTitle: true,
+            leading: const SizedBox(),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(AppSize.s16),
               ),
             ),
-            body: TabBarView(
+            bottom: TabBar(
+              indicatorColor: AppColors.purpleBlue,
+              unselectedLabelColor: AppColors.darkGrey,
+              labelColor: AppColors.purpleBlue,
+              tabs: const [
+                Tab(
+                  icon: Text('Docket'),
+                ),
+                Tab(
+                  icon: Text('Sticker'),
+                ),
+              ],
+            ),
+            title: Column(
+              children: [
+                Icon(
+                  Icons.remove,
+                  size: AppSize.s32.rSp,
+                  color: AppColors.lightGrey,
+                ),
+                Text(
+                  type == ConnectionType.BLUETOOTH
+                      ? AppStrings.bluetooth_devices.tr()
+                      : AppStrings.usb_devices.tr(),
+                  style: getMediumTextStyle(
+                    color: AppColors.darkGrey,
+                    fontSize: AppSize.s18.rSp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          body: Container(
+            color: AppColors.whiteSmoke,
+            child: TabBarView(
               children: [
                 _posPrinter(
                   type: type,
@@ -121,7 +145,7 @@ class DeviceListBottomSheetManager {
               AppStrings.looking_for_devices.tr(),
               style: getRegularTextStyle(
                 color: AppColors.black,
-                fontSize: AppFontSize.s18.rSp,
+                fontSize: AppFontSize.s14.rSp,
               ),
             ),
           );
@@ -137,7 +161,7 @@ class DeviceListBottomSheetManager {
                     textAlign: TextAlign.center,
                     style: getRegularTextStyle(
                       color: AppColors.black,
-                      fontSize: AppFontSize.s16.rSp,
+                      fontSize: AppFontSize.s14.rSp,
                     ),
                   ),
                 ),
@@ -176,7 +200,7 @@ class DeviceListBottomSheetManager {
                       textAlign: TextAlign.center,
                       style: getRegularTextStyle(
                         color: AppColors.black,
-                        fontSize: AppFontSize.s16.rSp,
+                        fontSize: AppFontSize.s14.rSp,
                       ),
                     ),
                   ),
@@ -199,7 +223,7 @@ class DeviceListBottomSheetManager {
             AppStrings.looking_for_devices.tr(),
             style: getRegularTextStyle(
               color: AppColors.black,
-              fontSize: AppFontSize.s18.rSp,
+              fontSize: AppFontSize.s14.rSp,
             ),
           ),
         );
@@ -241,7 +265,8 @@ class DeviceListBottomSheetManager {
                 bgColor: Colors.transparent,
                 textSize: AppFontSize.s12.rSp,
                 borderRadius: AppSize.s16,
-                textColor: AppColors.purpleBlue,
+                textColor: AppColors.darkGrey,
+                borderColor: AppColors.darkGrey,
                 onTap: () {
                   onConnect();
                 },

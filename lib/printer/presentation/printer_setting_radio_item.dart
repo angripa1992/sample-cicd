@@ -27,24 +27,10 @@ class PrinterSettingRadioItem extends StatelessWidget {
       title: Text(
         name,
         style: getRegularTextStyle(
-          color: AppColors.blueViolet,
+          color: AppColors.bluewood,
           fontSize: AppSize.s16.rSp,
         ),
       ),
-      // leading: Container(
-      //   padding: EdgeInsets.zero,
-      //   child: Radio(
-      //     fillColor: MaterialStateColor.resolveWith(
-      //         (states) => AppColors.purpleBlue),
-      //     value: value,
-      //     groupValue: groupValue,
-      //     onChanged: (int? type) => onChanged(type!),
-      //     visualDensity: const VisualDensity(
-      //       horizontal: -4,
-      //       vertical: -4,
-      //     ),
-      //   ),
-      // ),
       dense: true,
       value: value,
       groupValue: groupValue,

@@ -144,7 +144,7 @@ class StickerDocketGenerator {
     $content1
     $content2
     $content3
-    $content4
+    $content4    
     PRINT 1
     CLS
   ''';
