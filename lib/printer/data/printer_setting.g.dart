@@ -19,7 +19,7 @@ PrinterSettingModel _$PrinterSettingModelFromJson(Map<String, dynamic> json) =>
           ? null
           : PrinterFontsModel.fromJson(json['fonts'] as Map<String, dynamic>),
       fontId: json['font_id'] as int?,
-    );
+    )..stickerPrinterEnabled = json['sticker_printer_enabled'] as bool?;
 
 Map<String, dynamic> _$PrinterSettingModelToJson(
         PrinterSettingModel instance) =>
@@ -27,6 +27,7 @@ Map<String, dynamic> _$PrinterSettingModelToJson(
       'branch_id': instance.branchId,
       'type_id': instance.typeId,
       'roll_id': instance.rollId,
+      'sticker_printer_enabled': instance.stickerPrinterEnabled,
       'docket_customer_copy_enabled': instance.customerCopyEnabled,
       'docket_kitchen_copy_enabled': instance.kitchenCopyEnabled,
       'docket_customer_copy_count': instance.customerCopyCount,
@@ -58,6 +59,7 @@ PrinterSetting _$PrinterSettingFromJson(Map<String, dynamic> json) =>
       branchId: json['branch_id'] as int,
       connectionType: json['type_id'] as int,
       paperSize: json['roll_id'] as int,
+      stickerPrinterEnabled: json['sticker_printer_enabled'] as bool,
       customerCopyEnabled: json['docket_customer_copy_enabled'] as bool,
       kitchenCopyEnabled: json['docket_kitchen_copy_enabled'] as bool,
       customerCopyCount: json['docket_customer_copy_count'] as int,
@@ -73,6 +75,7 @@ Map<String, dynamic> _$PrinterSettingToJson(PrinterSetting instance) =>
       'branch_id': instance.branchId,
       'type_id': instance.connectionType,
       'roll_id': instance.paperSize,
+      'sticker_printer_enabled': instance.stickerPrinterEnabled,
       'docket_customer_copy_enabled': instance.customerCopyEnabled,
       'docket_kitchen_copy_enabled': instance.kitchenCopyEnabled,
       'docket_customer_copy_count': instance.customerCopyCount,

@@ -12,10 +12,11 @@ import '../../resources/values.dart';
 
 class SetPrinterConnectionType extends StatefulWidget {
   final int initType;
+  final bool willUsbEnabled;
   final Function(int) onChanged;
 
   const SetPrinterConnectionType(
-      {Key? key, required this.onChanged, required this.initType})
+      {Key? key, required this.onChanged, required this.initType, required this.willUsbEnabled})
       : super(key: key);
 
   @override
@@ -68,7 +69,7 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
               value: ConnectionType.USB,
               groupValue: _connectionType!,
               onChanged: _changePrinterConnectionType,
-              name: AppStrings.usb.tr(),
+              name: widget.willUsbEnabled ? AppStrings.usb.tr() : AppStrings.disable.tr(),
             ),
           ],
         ),

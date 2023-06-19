@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/language/language.dart';
@@ -98,6 +97,7 @@ class AppPreferences {
           extraLargeFontSize: NormalFontSize.extraLarge,
         ),
         fontId: PrinterFontSize.normal,
+        stickerPrinterEnabled: false,
       );
     }
     final data = json.decode(preferenceData);

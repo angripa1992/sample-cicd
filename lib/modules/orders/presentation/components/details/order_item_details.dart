@@ -12,12 +12,13 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/styles.dart';
+import '../../../../../app/app_preferences.dart';
 import '../../../../../printer/printing_handler.dart';
-import '../../../../../printer/sticker_printer_handler.dart';
 import '../../../../widgets/image_view.dart';
 import '../../../domain/entities/brand.dart';
 
 class OrderItemDetails extends StatelessWidget {
+  final _printerSetting = getIt.get<AppPreferences>().printerSetting();
   final Order order;
 
   OrderItemDetails({Key? key, required this.order}) : super(key: key);
@@ -245,15 +246,19 @@ class OrderItemDetails extends StatelessWidget {
           flex: 3,
           child: Row(
             children: [
-              IconButton(
-                onPressed: () {
-                  getIt.get<PrintingHandler>().printSticker(order, cartV2);
-                },
-                icon: Icon(
-                  Icons.print,
-                  color: AppColors.purpleBlue,
-                ),
-              ),
+              _printerSetting.stickerPrinterEnabled
+                  ? IconButton(
+                      onPressed: () {
+                        getIt
+                            .get<PrintingHandler>()
+                            .printSticker(order, cartV2);
+                      },
+                      icon: Icon(
+                        Icons.print,
+                        color: AppColors.purpleBlue,
+                      ),
+                    )
+                  : const SizedBox(),
               Text('${cartV2.quantity} x', style: _itemTextStyle),
               SizedBox(width: AppSize.s4.rw),
               Expanded(child: Text(cartV2.name, style: _itemTextStyle)),

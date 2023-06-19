@@ -13,7 +13,11 @@ class StickerPrinterHandler {
   StickerPrinterHandler._internal();
 
   Stream<List<ScanResult>> scanDevices() {
-    _flutterBlue.startScan(timeout: const Duration(seconds: 4));
+    try{
+      _flutterBlue.startScan(timeout: const Duration(seconds: 4));
+    }catch (e){
+      //ignore
+    }
     return _flutterBlue.scanResults.asBroadcastStream();
   }
 
@@ -57,82 +61,5 @@ class StickerPrinterHandler {
         //ignore
       }
     }
-  }
-
-  Uint8List _data(){
-    //   String tsplCommands = '''
-    //   SIZE 80 mm, 40 mm
-    //   GAP 3 mm, 0
-    //   SPEED 4
-    //   DENSITY 8
-    //   DIRECTION 1
-    //   REFERENCE 0,0
-    //   OFFSET 0 mm
-    //   CLS
-    //   TEXT 10,10,"TSS24.BF2",0,1,1,"This is a long text"
-    //   TEXT 10,40,"TSS24.BF2",0,1,1,"that needs to be printed"
-    //   PRINT 1
-    // ''';
-
-    // Long text
-    String longText = 'This is a long text that needs to be printed on multiple lines.';
-
-    String tslText = "";
-
-    // Split the long text into multiple lines
-    List<String> lines = splitTextIntoLines(longText, 20); // Specify the desired line length
-
-    double lineHeight = 30; // Specify the desired line height
-    double initialYPosition = 10; // Specify the initial Y position of the text
-    for (int i = 0; i < lines.length; i++) {
-      double yPosition = initialYPosition + i * lineHeight;
-      tslText += '''TEXT 10,$yPosition,"TSS24.BF2",0,1,1,"${lines[i]}"\n''';
-    }
-
-
-    // Prepare TSPL commands with multiline text
-    String tsplCommands = '''
-    SIZE 80 mm, 40 mm
-    GAP 3 mm, 0
-    SPEED 4
-    DENSITY 8
-    DIRECTION 1
-    REFERENCE 0,0
-    OFFSET 0 mm
-    SELFTEST
-    PRINT 1
-    CLS
-  ''';
-
-    // Convert TSPL commands to bytes
-    List<int> tsplBytes = utf8.encode(tsplCommands);
-
-    return Uint8List.fromList(tsplBytes);
-  }
-
-  List<String> splitTextIntoLines(String text, int lineLength) {
-    List<String> lines = [];
-    List<String> words = text.split(' ');
-
-    String line = '';
-    for (String word in words) {
-      if (line.isEmpty) {
-        line = word;
-      } else {
-        String tempLine = '$line $word';
-        if (tempLine.length <= lineLength) {
-          line = tempLine;
-        } else {
-          lines.add(line);
-          line = word;
-        }
-      }
-    }
-
-    if (line.isNotEmpty) {
-      lines.add(line);
-    }
-
-    return lines;
   }
 }

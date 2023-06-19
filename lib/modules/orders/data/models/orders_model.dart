@@ -3,6 +3,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
 import '../../domain/entities/order.dart';
+import '../../domain/entities/rider_info.dart';
 import '../../domain/entities/source.dart';
 import 'brand_model.dart';
 
@@ -169,6 +170,20 @@ class OrderModel {
   bool? isMixAndMatchOrder;
   @JsonKey(name: 'triggered_time')
   String? triggeredTime;
+  @JsonKey(name: 'is_three_pl_order')
+  bool? isThreePlOrder;
+  @JsonKey(name: 'fulfillment_delivered_at_time')
+  String? fulfillmentDeliveredTime;
+  @JsonKey(name: 'fulfillment_expected_pickup_time')
+  String? fulfillmentExpectedPickupTime;
+  @JsonKey(name: 'fulfillment_pickup_pin')
+  String? fulfillmentPickupPin;
+  @JsonKey(name: 'fulfillment_rider')
+  RiderInfo? fulfillmentRider;
+  @JsonKey(name: 'fulfillment_status_id')
+  int? fulfillmentStatusId;
+  @JsonKey(name: 'fulfillment_tracking_url')
+  String? fulfillmentTrackingUrl;
 
   OrderModel({
     this.id,
@@ -238,6 +253,13 @@ class OrderModel {
     this.isMixAndMatchOrder,
     this.triggeredTime,
     this.isVatIncluded,
+    this.isThreePlOrder,
+    this.fulfillmentDeliveredTime,
+    this.fulfillmentExpectedPickupTime,
+    this.fulfillmentPickupPin,
+    this.fulfillmentRider,
+    this.fulfillmentStatusId,
+    this.fulfillmentTrackingUrl,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
@@ -315,6 +337,13 @@ class OrderModel {
       isMixAndMatchOrder: isMixAndMatchOrder.orFalse(),
       triggeredTime: triggeredTime.orEmpty(),
       isVatIncluded: isVatIncluded.orFalse(),
+      isThreePlOrder: isThreePlOrder.orFalse(),
+      fulfillmentDeliveredTime: fulfillmentDeliveredTime.orEmpty(),
+      fulfillmentExpectedPickupTime: fulfillmentExpectedPickupTime.orEmpty(),
+      fulfillmentPickupPin: fulfillmentPickupPin.orEmpty(),
+      fulfillmentRider: fulfillmentRider,
+      fulfillmentStatusId: fulfillmentStatusId.orZero(),
+      fulfillmentTrackingUrl: fulfillmentTrackingUrl.orEmpty(),
     );
   }
 }

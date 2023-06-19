@@ -14,6 +14,8 @@ class PrinterSettingModel {
   int? typeId;
   @JsonKey(name: 'roll_id')
   int? rollId;
+  @JsonKey(name: 'sticker_printer_enabled')
+  bool? stickerPrinterEnabled;
   @JsonKey(name: 'docket_customer_copy_enabled')
   bool? customerCopyEnabled;
   @JsonKey(name: 'docket_kitchen_copy_enabled')
@@ -48,6 +50,7 @@ class PrinterSettingModel {
       branchId: branchId.orZero(),
       connectionType: typeId ?? ConnectionType.BLUETOOTH,
       paperSize: rollId ?? RollId.mm80,
+      stickerPrinterEnabled: stickerPrinterEnabled.orFalse(),
       customerCopyEnabled: customerCopyEnabled.orFalse(),
       kitchenCopyEnabled: kitchenCopyEnabled.orFalse(),
       customerCopyCount: customerCopyCount.orZero(),
@@ -110,6 +113,8 @@ class PrinterSetting {
   int connectionType;
   @JsonKey(name: 'roll_id')
   int paperSize;
+  @JsonKey(name: 'sticker_printer_enabled')
+  bool stickerPrinterEnabled;
   @JsonKey(name: 'docket_customer_copy_enabled')
   bool customerCopyEnabled;
   @JsonKey(name: 'docket_kitchen_copy_enabled')
@@ -126,6 +131,7 @@ class PrinterSetting {
     required this.branchId,
     required this.connectionType,
     required this.paperSize,
+    required this.stickerPrinterEnabled,
     required this.customerCopyEnabled,
     required this.kitchenCopyEnabled,
     required this.customerCopyCount,

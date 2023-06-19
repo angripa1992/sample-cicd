@@ -1,4 +1,5 @@
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
 import 'package:klikit/modules/orders/domain/entities/source.dart';
 
 import '../../data/models/orders_model.dart';
@@ -84,6 +85,13 @@ class Order {
   final bool isMixAndMatchOrder;
   final String triggeredTime;
   final bool isVatIncluded;
+  final bool isThreePlOrder;
+  final String fulfillmentDeliveredTime;
+  final String fulfillmentExpectedPickupTime;
+  final String fulfillmentPickupPin;
+  final RiderInfo? fulfillmentRider;
+  final int fulfillmentStatusId;
+  final String fulfillmentTrackingUrl;
   String klikitComment;
   int paymentMethod;
   int paymentStatus;
@@ -158,6 +166,13 @@ class Order {
     required this.isMixAndMatchOrder,
     required this.triggeredTime,
     required this.isVatIncluded,
+    required this.isThreePlOrder,
+    required this.fulfillmentDeliveredTime,
+    required this.fulfillmentExpectedPickupTime,
+    required this.fulfillmentPickupPin,
+    required this.fulfillmentRider,
+    required this.fulfillmentStatusId,
+    required this.fulfillmentTrackingUrl,
   });
 
   Order copy() => Order(
@@ -229,6 +244,13 @@ class Order {
         isMixAndMatchOrder: isMixAndMatchOrder,
         triggeredTime: triggeredTime,
         isVatIncluded: isVatIncluded,
+        isThreePlOrder: isThreePlOrder,
+        fulfillmentDeliveredTime: fulfillmentDeliveredTime,
+        fulfillmentExpectedPickupTime: fulfillmentExpectedPickupTime,
+        fulfillmentPickupPin: fulfillmentPickupPin,
+        fulfillmentRider: fulfillmentRider,
+        fulfillmentStatusId: fulfillmentStatusId,
+        fulfillmentTrackingUrl: fulfillmentTrackingUrl,
       );
 
   OrderModel toModel() => OrderModel(
@@ -298,5 +320,12 @@ class Order {
         isMixAndMatchOrder: isMixAndMatchOrder,
         triggeredTime: triggeredTime.notEmptyOrNull(),
         isVatIncluded: isVatIncluded,
+        isThreePlOrder: isThreePlOrder,
+        fulfillmentDeliveredTime: fulfillmentDeliveredTime,
+        fulfillmentExpectedPickupTime: fulfillmentExpectedPickupTime,
+        fulfillmentPickupPin: fulfillmentPickupPin,
+        fulfillmentRider: fulfillmentRider,
+        fulfillmentStatusId: fulfillmentStatusId,
+        fulfillmentTrackingUrl: fulfillmentTrackingUrl,
       );
 }

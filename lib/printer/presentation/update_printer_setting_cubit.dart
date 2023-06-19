@@ -21,6 +21,7 @@ class UpdatePrinterSettingCubit extends Cubit<ResponseState> {
       'docket_kitchen_copy_enabled' : printerSetting.kitchenCopyEnabled,
       'docket_customer_copy_count' : printerSetting.customerCopyCount,
       'docket_kitchen_copy_count' : printerSetting.kitchenCopyCount,
+      'sticker_printer_enabled' : printerSetting.stickerPrinterEnabled,
     };
     final response = await _repository.updatePrinterSettings(params);
     response.fold(

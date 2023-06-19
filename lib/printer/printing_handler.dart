@@ -99,7 +99,7 @@ class PrintingHandler {
     bool isAutoPrint = false,
     bool willPrintSticker = true,
   }) async {
-    //_doManualPrint(order);
+   // _doManualPrint(order);
     final permissionGranted = await _isPermissionGranted();
     if (permissionGranted) {
       if (_preferences.printerSetting().connectionType ==

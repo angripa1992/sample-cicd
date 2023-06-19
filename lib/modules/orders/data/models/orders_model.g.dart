@@ -97,6 +97,18 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       isMixAndMatchOrder: json['is_mix_and_match_order'] as bool?,
       triggeredTime: json['triggered_time'] as String?,
       isVatIncluded: json['is_vat_included'] as bool?,
+      isThreePlOrder: json['is_three_pl_order'] as bool?,
+      fulfillmentDeliveredTime:
+          json['fulfillment_delivered_at_time'] as String?,
+      fulfillmentExpectedPickupTime:
+          json['fulfillment_expected_pickup_time'] as String?,
+      fulfillmentPickupPin: json['fulfillment_pickup_pin'] as String?,
+      fulfillmentRider: json['fulfillment_rider'] == null
+          ? null
+          : RiderInfo.fromJson(
+              json['fulfillment_rider'] as Map<String, dynamic>),
+      fulfillmentStatusId: json['fulfillment_status_id'] as int?,
+      fulfillmentTrackingUrl: json['fulfillment_tracking_url'] as String?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -168,6 +180,14 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'identity': instance.identity,
       'is_mix_and_match_order': instance.isMixAndMatchOrder,
       'triggered_time': instance.triggeredTime,
+      'is_three_pl_order': instance.isThreePlOrder,
+      'fulfillment_delivered_at_time': instance.fulfillmentDeliveredTime,
+      'fulfillment_expected_pickup_time':
+          instance.fulfillmentExpectedPickupTime,
+      'fulfillment_pickup_pin': instance.fulfillmentPickupPin,
+      'fulfillment_rider': instance.fulfillmentRider?.toJson(),
+      'fulfillment_status_id': instance.fulfillmentStatusId,
+      'fulfillment_tracking_url': instance.fulfillmentTrackingUrl,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

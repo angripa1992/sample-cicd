@@ -159,6 +159,18 @@ class PrinterSelectIndex{
   static const sticker= 1;
 }
 
+class FulfillmentStatusId{
+  static const ALLOCATING_RIDER = 1; //or 2
+  static const FOUND_RIDER = 3;
+  static const PICKING_UP = 4;
+  static const IN_DELIVERY = 5;
+  static const COMPLETED = 6;
+  static const RETURNED = 7;
+  static const CANCELED = 8; // or 9
+  static const IN_RETURN = 10;
+  static const DISPATCH_FAILED = 11;
+}
+
 
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
