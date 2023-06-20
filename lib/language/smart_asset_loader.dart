@@ -20,7 +20,6 @@ class SmartAssetLoader extends AssetLoader {
   Future<Map<String, dynamic>?> load(String path, Locale locale) async {
     String localeName = '${locale.languageCode}-${locale.countryCode}';
     String content = EMPTY;
-
     if (await _localTranslationExists(localeName)) {
       content = await _loadFromLocalFile(localeName);
       debugPrint('translations loaded from local');

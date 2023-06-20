@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/printer/presentation/sticker_config_tab.dart';
 
 import '../../resources/colors.dart';
+import '../../resources/fonts.dart';
 import '../../resources/strings.dart';
 import '../../resources/styles.dart';
 import 'docket_config_tab.dart';
@@ -20,6 +22,11 @@ class PrinterConnectionSettingPage extends StatelessWidget {
           flexibleSpace: getAppBarBackground(),
           bottom: TabBar(
             indicatorColor: AppColors.canaryYellow,
+            unselectedLabelColor: AppColors.white,
+            labelColor: AppColors.canaryYellow,
+            labelStyle: TextStyle(
+              fontSize: AppFontSize.s14.rSp,
+            ),
             tabs: const [Tab(text: 'Docket'), Tab(text: 'Sticker')],
           ),
         ),

@@ -77,6 +77,9 @@ class DeviceListBottomSheetManager {
               indicatorColor: AppColors.purpleBlue,
               unselectedLabelColor: AppColors.darkGrey,
               labelColor: AppColors.purpleBlue,
+              labelStyle: TextStyle(
+                fontSize: AppFontSize.s14.rSp,
+              ),
               tabs: const [
                 Tab(
                   icon: Text('Docket'),
@@ -86,23 +89,14 @@ class DeviceListBottomSheetManager {
                 ),
               ],
             ),
-            title: Column(
-              children: [
-                Icon(
-                  Icons.remove,
-                  size: AppSize.s32.rSp,
-                  color: AppColors.lightGrey,
-                ),
-                Text(
-                  type == ConnectionType.BLUETOOTH
-                      ? AppStrings.bluetooth_devices.tr()
-                      : AppStrings.usb_devices.tr(),
-                  style: getMediumTextStyle(
-                    color: AppColors.darkGrey,
-                    fontSize: AppSize.s18.rSp,
-                  ),
-                ),
-              ],
+            title: Text(
+              type == ConnectionType.BLUETOOTH
+                  ? AppStrings.bluetooth_devices.tr()
+                  : AppStrings.usb_devices.tr(),
+              style: getMediumTextStyle(
+                color: AppColors.darkGrey,
+                fontSize: AppSize.s18.rSp,
+              ),
             ),
           ),
           body: Container(

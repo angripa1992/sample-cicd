@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
@@ -98,7 +97,13 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
                 items: fonts.map<DropdownMenuItem<int>>((value) {
                   return DropdownMenuItem<int>(
                     value: value,
-                    child: Text(_label(value)),
+                    child: Text(
+                      _label(value),
+                      style: getMediumTextStyle(
+                        color: AppColors.bluewood,
+                        fontSize: AppFontSize.s14.rSp,
+                      ),
+                    ),
                   );
                 }).toList(),
               ),

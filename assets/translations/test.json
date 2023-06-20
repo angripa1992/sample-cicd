@@ -1,229 +1,92 @@
-{
-  "something_went_wrong": "มีบางอย่างผิดพลาด",
-  "no_internet_connection": "ไม่ได้เชื่อมต่ออินเทอร์เน็ต",
-  "internet_connection_reestablished": "เชื่อมต่อใหม่อีกครั้งแล้ว",
-  "cloud": "คลาวด์",
-  "please_wait": "โปรดรอสักครู่...",
-  "existing_account": "เข้าสู่ระบบในบัญชีที่มีอยู่แล้ว",
-  "dont_have_account": "ยังไม่มีบัญชีเหรอ?",
-  "email_address": "ที่อยู่อีเมล",
-  "password": "รหัสผ่าน",
-  "forgot_password": "ลืมรหัสผ่าน?",
-  "reset_password": "รีเซ็ตรหัสผ่าน?",
-  "change_your_password": "เปลี่ยนรหัสผ่าน?",
-  "change_language": "เลือกภาษา",
-  "login": "เข้าสู่ระบบ",
-  "login_as_manager": "แอพมือถือ Klikit นั้นมีให้เฉพาะสำหรับผู้ใช้แบรนด์ผู้จัดการเท่านั้น เร็ว ๆ นี้สำหรับการใช้งานสาธารณะ",
-  "home": "หน้าหลัก",
-  "orders": "คำสั่งซื้อ",
-  "account": "บัญชี",
-  "contact_support": "ติดต่อฝ่ายสนับสนุน",
-  "available": "พร้อม",
-  "live_chat": "แชตสด",
-  "email_support": "การสนับสนุนทางอีเมล",
-  "company_name": "ชื่อบริษัท",
-  "contact_number": "หมายเลขติดต่อ",
-  "enter_valid_email": "กรอกอีเมลที่ถูกต้อง",
-  "same_value_validation_message": "ไม่มีการเปลี่ยนแปลงในข้อมูลที่ระบุ",
-  "logout_confirm_message": "คุณต้องการออกจากระบบหรือไม่? คุณจะถูกพากลับไปยังหน้าเข้าสู่ระบบ",
-  "invalid_information": "ข้อมูลไม่ถูกต้อง",
-  "phone_validation_message": "ความยาวต้องมีความยาวอยู่ระหว่าง 10 ถึง 18 ตัวอักษร",
-  "select": "เลือก",
-  "ok": "ตกลง",
-  "password_reset_page": "ลืมรหัสผ่าน",
-  "type_your_email_here": "พิมพ์อีเมลของคุณที่นี่",
-  "sent_reset_link": "ส่งลิงก์รีเซ็ต",
-  "back_to_login": "กลับไปที่หน้าเข้าสู่ระบบ",
-  "new_and_confirm_not_match": "รหัสผ่านไม่ตรงกัน",
-  "access_denied": "การเข้าถึงถูกปฏิเสธ",
-  "access_denied_message_header_part_one": "เราพบว่าคุณพยายามเข้าสู่ระบบใน klikit cloud จาก",
-  "access_denied_message_header_part_two": "บัญชี",
-  "access_denied_message_middle_part_one": "แอปพลิเคชันนี้",
-  "access_denied_message_middle_part_two": "ใช้ได้เฉพาะผู้จัดการสาขาเท่านั้นในตอนนี้",
-  "access_denied_message_footer": "โปรดติดต่อฝ่ายสนับสนุนสำหรับข้อมูลเพิ่มเติม",
-  "admin": "ผู้ดูแลระบบ",
-  "go_back": "ย้อนกลับ",
-  "total_orders_today": "คำสั่งซื้อทั้งหมดในวันนี้",
-  "total_orders_yesterday": "คำสั่งซื้อทั้งหมดเมื่อวาน",
-  "completed_orders": "คำสั่งซื้อที่เสร็จสมบูรณ์",
-  "cancelled_orders": "คำสั่งซื้อที่ถูกยกเลิก",
-  "new_orders": "คำสั่งซื้อใหม่",
-  "ongoing_orders": "คำสั่งซื้อที่ดำเนินการอยู่",
-  "online_message": "เมื่อออนไลน์ klikit Cloud จะปรับให้ร้านค้าของคุณมองเห็นได้เพื่อรับคำสั่งซื้อต่อไป คุณต้องการดำเนินการต่อหรือไม่?",
-  "offline_message": "เมื่อออฟไลน์ klikit Cloud จะไม่ได้รับคำสั่งซื้อใด ๆ อีกต่อไป คุณต้องการดำเนินการต่อหรือไม่?",
-  "connect": "เชื่อมต่อ",
-  "disconnect": "ตัดการเชื่อมต่อ",
-  "successfully_saved": "บันทึกสำเร็จแล้ว",
-  "usb_successfully_connected": "เชื่อมต่อ USB สำเร็จแล้ว",
-  "bluetooth_successfully_connected": "เชื่อมต่อบลูทูธสำเร็จแล้ว",
-  "can_not_connect_device": "ไม่สามารถเชื่อมต่อกับอุปกรณ์นี้ได้",
-  "show_devices": "แสดงอุปกรณ์",
-  "looking_for_devices": "กำลังค้นหาอุปกรณ์...",
-  "no_usb_devices_message": "เพื่อให้แน่ใจว่าเครื่องพิมพ์ klikit ของคุณพร้อมสำหรับการสั่งพิมพ์แล้ว โปรดเสียบ USB เข้ากับอุปกรณ์ klikit\\n\\nหลังจากเลือกเครื่องพิมพ์ใบเสร็จจากหน้าป็อปอัพของอุปกรณ์แล้ว เครื่องพิมพ์และอุปกรณ์ klikit ของคุณน่าจะเชื่อมต่อได้สำเร็จ",
-  "printer_connection_settings": "การตั้งค่าการเชื่อมต่อเครื่องพิมพ์",
-  "set_printer_connection_type": "กำหนดประเภทการเชื่อมต่อเครื่องพิมพ์",
-  "bluetooth": "บลูทูธ",
-  "bluetooth_devices": "อุปกรณ์บลูทูธ",
-  "no_bluetooth_devices": "ไม่พบอุปกรณ์บลูทูธ",
-  "no_bluetooth_devices_message": "เพื่อให้แน่ใจว่าเครื่องพิมพ์ klikit ของคุณพร้อมสำหรับการสั่งพิมพ์แล้ว โปรดเสียบ USB เข้ากับอุปกรณ์ klikit\\n\\nหลังจากเลือกเครื่องพิมพ์ใบเสร็จจากหน้าป็อปอัพของอุปกรณ์แล้ว เครื่องพิมพ์และอุปกรณ์ klikit ของคุณน่าจะเชื่อมต่อได้สำเร็จ",
-  "usb": "USB",
-  "usb_devices": "อุปกรณ์ USB",
-  "no_usb_devices": "ไม่พบอุปกรณ์ USB",
-  "whatsapp": "WhatsApp",
-  "whatsapp_tile": "ถ้าคุณประสบปัญหา โปรดแจ้งให้เราทราบ!",
-  "email_tile": "ติดต่อเราผ่านทางอีเมล",
-  "whatsapp_not_installed_msg": "อุปกรณ์ของคุณยังไมไ่ด้ติดตั้ง Whatsapp",
-  "could_not_email_msg": "ไม่สามารถส่งอีเมลในอีเมลนี้ได้",
-  "filter_by_brand": "กรองตามแบรนด์",
-  "filter_by_aggregator": "กรองตามผู้รวบรวม",
-  "filter_by_status": "กรองตามสถานะ",
-  "no_menus_found": "ไม่พบเมนู!",
-  "enable_confirmation": "คุณต้องการเปิดใช้งานสิ่งนี้หรือไม่",
-  "disable_confirmation": "คุณต้องการปิดใช้งานสิ่งนี้หรือไม่",
-  "enabled_success": "เปิดใช้งานสำเร็จแล้ว",
-  "disabled_success": "ปิดใช้งานสำเร็จแล้ว",
-  "please_select_a_brand": "โปรดเลือกแบรนด์",
-  "modifiers_group": "กลุ่มตัวดัดแปลง",
-  "delivery_aggregator": "ผู้รวบรวมการจัดส่ง",
-  "enable": "เปิดใช้งาน",
-  "items": "สินค้า",
-  "manage_items": "จัดการสินค้า",
-  "successful": "สำเร็จ",
-  "do_you_want_to": "คุณต้องการ",
-  "order_history": "ประวัติคำสั่งซื้อ",
-  "total_order": "คำสั่งซื้อทั้งหมด",
-  "placed_on": "สั่งซื้อเมื่อ",
-  "accept_order": "ยอมรับคำสั่งซื้อ",
-  "cancel_order": "ยกเลิกคำสั่งซื้อ",
-  "deliver_order": "จัดส่งคำสั่งซื้อ",
-  "ready_order": "ปรับให้คำสั่งซื้อพร้อม",
-  "pickup_order": "รับคำสั่งซื้อ",
-  "status": "สถานะ",
-  "no_orders_found": "ไม่พบคำสั่งซื้อ!",
-  "try_again": "ลองอีกครั้ง",
-  "date_range_validation_msg": "ช่วงวันที่ไม่ควรเกิน 7 วัน",
-  "see_details": "ดูรายละเอียด",
-  "see_comment": "ดูความคิดเห็น",
-  "comment_deleted_successfully": "ลบความคิดเห็นสำเร็จแล้ว",
-  "comment_added_successfully": "เพิ่มความคิดเห็นสำเร็จแล้ว",
-  "comment_updated_successfully": "อัปเดตความคิดเห็นสำเร็จแล้ว",
-  "orders_has_been_canceled": "ยกเลิกคำสั่งซื้อแล้ว",
-  "you_have_received": "คุณได้รับ",
-  "view_orders": "ดูคำสั่งซื้อ",
-  "picked_up": "รับกลับแล้ว",
-  "canceled": "ยกเลิกแล้ว",
-  "pickup": "รับกลับ",
-  "id": "หมายเลข",
-  "time": "เวลา",
-  "aggregators_selected": "เลือกผู้รวบรวมแล้ว",
-  "brands_selected": "เลือกแบรนด์แล้ว",
-  "order_instruction": "คำแนะนำในการสั่งซื้อ",
-  "not_now": "ไม่ใช่ตอนนี้",
-  "busy_mode": "โหมดไม่ว่าง",
-  "online_title": "คุณต้องการเปลี่ยนเป็นออนไลน์หรือไม่?",
-  "offline_title": "คุณต้องการเปลี่ยนเป็นออฟไลน์หรือไม่?",
-  "select_language": "เลือกภาษา",
-  "go_online": "เปลี่ยนเป็นออนไลน์",
-  "loading": "กำลังโหลด...",
-  "apply": "นำไปใช้",
-  "no_modifiers_group_found": "ไม่พบกลุ่มตัวดัดแปลง!",
-  "modifier_required_msg": "จำเป็นต้องใช้ตัวดัดแปลงนี้ การปิดใช้งานตัวดัดแปลงนี้จะทำให้สินค้าที่เชื่อมโยงอยู่ถูกทำเครื่องหมายว่าสินค้าหมด คุณยังคงต้องการปิดใช้งานตัวดัดแปลงนี้หรือไม่?",
-  "discard": "ละทิ้ง",
-  "disable": "ปิดใช้งาน",
-  "title": "ชื่อ",
-  "total": "ทั้งหมด",
-  "menu": "เมนู",
-  "delete": "ลบ",
-  "field_required": "จำเป็นต้องใส่ข้อมูลช่องนี้",
-  "manual": "กำหนดเอง",
-  "select_docket_type": "เลือกประเภทใบปะหน้า",
-  "set_docket_type": "ตั้งค่าประเภทใบปะหน้า",
-  "set_font_size": "ตั้งขนาดตัวอักษร",
-  "kitchen": "ครัว",
-  "customer": "ลูกค้า",
-  "dine_in": "รับประทานอาหารใน",
-  "small": "เล็ก",
-  "normal": "ปกติ",
-  "large": "ใหญ่",
-  "huge": "ใหญ่",
-  "update_required": "ต้องอัปเดต",
-  "update_app": "อัปเดตแอพ",
-  "app_update_msg": "อัปเดต Klikit Cloud ของคุณเป็นเวอร์ชันล่าสุดเพื่อให้แอปทำงานได้อย่างราบรื่น",
-  "successfully_added_to_cart": "เพิ่มความสำเร็จในรถเข็น",
-  "no_item_found": "ไม่พบรายการ!",
-  "out_of_stock": "สินค้าหมด",
-  "unavailable": "ไม่สามารถใช้งานได้",
-  "add_to_cart": "เพิ่มลงในรถเข็น",
-  "go_to_cart": "ไปที่เกวียน",
-  "select_brand_name_msg": "เลือกชื่อแบรนด์เพื่อเริ่มทำงานตามคำสั่งซื้อ",
-  "click_button_to_select_brand": "คลิกที่ปุ่มที่ด้านบนเพื่อเลือกชื่อแบรนด์",
-  "search_for_items": "ค้นหารายการและหมวดหมู่",
-  "categories": "หมวดหมู่",
-  "no_categories_found": "ไม่พบหมวดหมู่!",
-  "Items": "รายการ",
-  "special_instruction": "คำแนะนำพิเศษ",
-  "add_instruction": "เพิ่มคำแนะนำ",
-  "optional": "ไม่จำเป็น",
-  "required": "ที่จำเป็น",
-  "choose_upto": "เลือก",
-  "choose": "เลือก",
-  "for_": "สำหรับ",
-  "add_as_new": "เพิ่มเป็นใหม่",
-  "select_brand_name_msg": "เลือกชื่อแบรนด์เพื่อเริ่มทำงานตามคำสั่งซื้อ",
-  "chnage_amount": "เปลี่ยนจำนวนเงิน",
-  "can_not_be_greater_than_subtotal": "ไม่สามารถมากกว่าผลรวมย่อย",
-  "can_not_be_greater_than_100": "ไม่เกิน 100",
-  "type": "พิมพ์",
-  "flat": "แบน",
-  "percentage": "เปอร์เซ็นต์",
-  "want_to_delete_item_msg": "แน่ใจหรือว่าต้องการลบรายการต่อไปนี้?",
-  "want_to_delete_all_item_msg": "แน่ใจหรือว่าต้องการลบรายการทั้งหมดออกจากรถเข็น?",
-  "payment_status": "สถานะการชำระเงิน",
-  "payment_method": "วิธีการชำระเงิน",
-  "select_payment_status": "เลือกสถานะการชำระเงิน",
-  "add_payment_method": "เพิ่มวิธีการชำระเงิน",
-  "customer_info": "ข้อมูลลูกค้า",
-  "add_customer_info": "เพิ่มข้อมูลลูกค้า",
-  "phone": "โทรศัพท์",
-  "table_no": "หมายเลขตาราง",
-  "submit": "ส่ง",
-  "placed_order": "สั่งซื้อ",
-  "update_order": "อัพเดทคำสั่งซื้อ",
-  "order_type": "ประเภทสั่งซื้อ",
-  "cart": "รถเข็น",
-  "checkout": "เช็คเอาท์",
-  "order_source": "แหล่งสั่งซื้อ",
-  "inc_vat": "VAT Inc.",
-  "your_cart_is_empty": "รถเข็นของคุณว่างเปล่า!",
-  "add_items_to_cart_msg": "ใช้เวลาในการสำรวจและเพิ่มรายการลงในรถเข็นของคุณ เมื่อคุณพร้อมให้ดำเนินการชำระเงินเพื่อวาง Oder",
-  "add_items": "เพิ่มรายการ",
-  "procees_to_checkout": "ดำเนินการชำระเงิน",
-  "service_fee": "ค่าบริการ",
-  "add_more_items": "เพิ่มรายการเพิ่มเติม",
-  "remove_all": "ลบทั้งหมด",
-  "edit": "แก้ไข",
-  "calculated_at_next_step": "คำนวณในขั้นตอนถัดไป",
-  "order_id": "รหัสสั่งซื้อ",
-  "delete_item": "ลบรายการ",
-  "schedule": "กำหนดการ",
-  "history": "ประวัติศาสตร์",
-  "select_payment_method_and_status": "เลือกวิธีการชำระเงินและสถานะ",
-  "pause_store": "หยุดพักชั่วคราว",
-  "print": "พิมพ์",
-  "accept": "ยอมรับ",
-  "reject": "ปฏิเสธ",
-  "proceed": "ดำเนินการ",
-  "webshop": "เว็บช็อป",
-  "update_payment_info": "อัปเดตข้อมูลการชำระเงิน",
-  "edit_order": "แก้ไขคำสั่งซื้อ",
-  "modifier_group": "กลุ่มตัวดัดแปลง",
-  "modifier": "ตัวดัดแปลง",
-  "categories_list": "รายการหมวดหมู่",
-  "out_of_stock_settings": "การตั้งค่านอกสต็อก (OOS)",
-  "out_of_stock_till": "oos จนถึง",
-  "stock_disabled_successful": "รายการปิดใช้งานรายการสำเร็จ",
-  "day": "วัน",
-  "hours": "ชั่วโมง",
-  "untill_trun_back_on": "จนกระทั่งเปิดกลับ",
-  "items_list": "รายการรายการ"
-}
+static  String select_docket_type = 'select_docket_type'.tr();
+static  String set_docket_type = "set_docket_type".tr();
+static  String successfully_added_to_cart = "successfully_added_to_cart".tr();
+static  String kitchen = "kitchen".tr();
+static  String customer = "customer".tr();
+static  String dine_in = "dine_in".tr();
+static String set_font_size = 'set_font_size'.tr().tr();
+static  String small = "small".tr();
+static  String normal = "normal".tr();
+static  String large = "large".tr();
+static  String huge = "huge".tr();
+static  String update_required = 'update_required'.tr();
+static  String update_app =  'update_app'.tr();
+static  String app_update_msg = 'app_update_msg'.tr();
+
+static  String no_item_found = "no_item_found".tr();
+static  String out_of_stock = "out_of_stock".tr();
+static  String unavailable = "unavailable".tr();
+static  String add_to_cart = "add_to_cart".tr();
+static  String go_to_cart = "go_to_cart".tr();
+static  String select_brand_name_msg = "select_brand_name_msg".tr();
+static  String click_button_to_select_brand = "click_button_to_select_brand".tr();
+static  String search_for_items = "search_for_items".tr();
+static  String categories = "categories".tr();
+static  String no_categories_found = "no_categories_found".tr();
+static  String Items = "Items".tr();
+static  String special_instruction = "special_instruction".tr();
+static  String add_instruction = "add_instruction".tr();
+static  String optional = "optional".tr();
+static  String required = "required".tr();
+static  String choose_upto = "choose_upto".tr();
+static  String choose = "choose".tr();
+static  String for_ = "for_".tr();
+static  String add_as_new = "add_as_new".tr();
+static  String select_brand_name = "select_brand_name".tr();
+
+static  String chnage_amount = 'chnage_amount'.tr();
+static  String can_not_be_greater_than_subtotal = 'can_not_be_greater_than_subtotal'.tr();
+static  String can_not_be_greater_than_100 = 'can_not_be_greater_than_100'.tr();
+static  String type = 'type'.tr();
+static  String flat = 'flat'.tr();
+static  String percentage = 'percentage'.tr();
+static  String want_to_delete_item_msg = 'want_to_delete_item_msg'.tr();
+static  String want_to_delete_all_item_msg = 'want_to_delete_all_item_msg'.tr();
+static  String payment_status = 'payment_status'.tr();
+static  String payment_method = 'payment_method'.tr();
+static  String select_payment_status = 'select_payment_status'.tr();
+static  String add_payment_method = 'add_payment_method'.tr();
+static  String customer_info = 'customer_info'.tr();
+static  String add_customer_info = 'add_customer_info'.tr();
+static  String phone = 'phone'.tr();
+static  String table_no = 'table_no'.tr();
+static  String submit = 'submit'.tr();
+static  String placed_order = 'placed_order'.tr();
+static  String update_order = 'update_order'.tr();
+static  String order_type = 'order_type'.tr();
+static  String cart = 'cart'.tr();
+static  String checkout = 'checkout'.tr();
+static  String order_source = 'order_source'.tr();
+static  String inc_vat = 'inc_vat'.tr();
+static  String your_cart_is_empty = 'your_cart_is_empty'.tr();
+static  String add_items_to_cart_msg = 'add_items_to_cart_msg'.tr();
+static  String add_items = 'add_items'.tr();
+static  String procees_to_checkout = 'procees_to_checkout'.tr();
+static  String service_fee = 'service_fee'.tr();
+static  String add_more_items = 'add_more_items'.tr();
+static  String remove_all = 'remove_all'.tr();
+static  String edit = 'edit'.tr();
+static  String calculated_at_next_step = 'calculated_at_next_step'.tr();
+static  String order_id = 'order_id'.tr();
+static  String delete_item = 'delete_item'.tr();
+static  String schedule = 'schedule'.tr();
+static  String history = 'history'.tr();
+static  String select_payment_method_and_status = 'select_payment_method_and_status'.tr();
+static  String pause_store = 'pause_store'.tr();
+static  String print = 'print'.tr();
+static  String accept = 'accept'.tr();
+static  String reject = 'reject'.tr();
+static  String proceed = 'proceed'.tr();
+static  String webshop = 'webshop'.tr();
+static  String update_payment_info = 'update_payment_info'.tr();
+static  String edit_order = 'edit_order'.tr();
+static  String modifier_group = 'modifier_group'.tr();
+static  String modifier = 'modifier'.tr();
+static  String categories_list = 'categories_list'.tr();
+static  String out_of_stock_settings = 'out_of_stock_settings'.tr();
+static  String out_of_stock_till= 'out_of_stock_till'.tr();
+static  String stock_disabled_successful= "stock_disabled_successful".tr();
+static  String day= 'day'.tr();
+static  String hours= 'hours'.tr();
+static  String untill_trun_back_on= 'untill_trun_back_on'.tr();
+static  String items_list= 'items_list'.tr();

@@ -83,7 +83,7 @@ class _SourceSelectorState extends State<SourceSelector> {
         ),
         child: Column(
           children: [
-            const TagTitleView(title: AppStrings.order_source , required: true),
+            TagTitleView(title: AppStrings.order_source , required: true),
             Container(
               margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               padding: EdgeInsets.symmetric(

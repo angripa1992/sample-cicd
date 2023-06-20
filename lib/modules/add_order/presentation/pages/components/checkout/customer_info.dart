@@ -85,7 +85,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
       ),
       child: Column(
         children: [
-          const TagTitleView(
+          TagTitleView(
             title: AppStrings.customer_info,
             required: false,
           ),
