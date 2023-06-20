@@ -16,7 +16,6 @@ class PaymentInfoProvider {
       final response = await _orderRepository.fetchPaymentSources();
       if (response.isRight()) {
         final statues = response.getOrElse(() => []);
-        statues.removeWhere((element) => element.id == PaymentStatusId.refunded);
         _statuses.addAll(statues);
         return _statuses;
       } else {

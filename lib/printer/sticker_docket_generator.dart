@@ -46,12 +46,10 @@ class StickerDocketGenerator {
     String tslText = "";
     double yPosition = 0;
     for (int i = 0; i < lines.length; i++) {
-      yPosition = 10 + (i * _lineHeight);
-      if (i != lines.length - 1) {
-        tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${lines[i]}"\n''';
-      } else {
-        tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${lines[i]}"''';
+      if(i > 0){
+        yPosition += _lineHeight;
       }
+      tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${lines[i]}"\n''';
     }
     return {
       _kYPosition: yPosition,
@@ -64,12 +62,10 @@ class StickerDocketGenerator {
     String tslText = "";
     double yPosition = initialYPosition + _gap;
     for (int i = 0; i < lines.length; i++) {
-      yPosition += (i * _lineHeight);
-      if (i != lines.length - 1) {
-        tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${lines[i]}"\n''';
-      } else {
-        tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${lines[i]}"''';
+      if(i > 0){
+        yPosition += _lineHeight;
       }
+      tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${lines[i]}"\n''';
     }
     return {
       _kYPosition: yPosition,
@@ -85,7 +81,9 @@ class StickerDocketGenerator {
         yPosition += _lineHeight;
         final linesOne = _splitTextIntoLines(modifierOne.name, 20);
         for (int i = 0; i < linesOne.length; i++) {
-          yPosition += (i * _lineHeight);
+          if(i > 0){
+            yPosition += _lineHeight;
+          }
           tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${linesOne[i]}"\n''';
         }
         for (var groupTwo in modifierOne.modifierGroups) {
@@ -93,7 +91,9 @@ class StickerDocketGenerator {
             yPosition += _lineHeight;
             final linesTwo = _splitTextIntoLines(modifierTwo.name, 20);
             for (int i = 0; i < linesTwo.length; i++) {
-              yPosition += (i * _lineHeight);
+              if(i > 0){
+                yPosition += _lineHeight;
+              }
               tslText +=
                   '''TEXT 25,$yPosition,"$_font",0,1,1,"${linesTwo[i]}"\n''';
             }
@@ -117,10 +117,7 @@ class StickerDocketGenerator {
     final itemPosition = order.cartV2.indexOf(item) + 1;
     final itemCount = '$itemPosition/${order.cartV2.length}';
     double yPosition = initialYPosition + _gap;
-    tslText +=
-        '''TEXT 10,$yPosition,"$_font",0,1,1,"$date ........ $itemCount"\n''';
-    // yPosition += _lineHeight;
-    // tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"$itemCount"''';
+    tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"$date ........ $itemCount"\n''';
     return {
       _kYPosition: yPosition,
       _kValue: tslText,
@@ -135,7 +132,7 @@ class StickerDocketGenerator {
   }) {
     String tsplCommands = '''
     SIZE 80 mm, 40 mm
-    GAP 8 mm, 0
+    GAP 4 mm, 0
     SPEED 4
     DENSITY 8
     DIRECTION 1
@@ -148,7 +145,6 @@ class StickerDocketGenerator {
     PRINT 1
     CLS
   ''';
-    print(tsplCommands);
     List<int> tsplBytes = utf8.encode(tsplCommands);
     return Uint8List.fromList(tsplBytes);
   }
