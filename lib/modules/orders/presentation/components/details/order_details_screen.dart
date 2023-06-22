@@ -27,15 +27,17 @@ class OrderDetailsScreen extends StatefulWidget {
   final VoidCallback onGrabEditSuccess;
   final Widget actionView;
   final VoidCallback onEditManualOrder;
+  final VoidCallback onRiderFind;
 
-  const OrderDetailsScreen(
-      {Key? key,
-      required this.order,
-      required this.onCommentActionSuccess,
-      required this.onGrabEditSuccess,
-      required this.actionView,
-      required this.onEditManualOrder})
-      : super(key: key);
+  const OrderDetailsScreen({
+    Key? key,
+    required this.order,
+    required this.onCommentActionSuccess,
+    required this.onGrabEditSuccess,
+    required this.actionView,
+    required this.onEditManualOrder,
+    required this.onRiderFind,
+  }) : super(key: key);
 
   @override
   State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
@@ -94,8 +96,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         _appBar(),
-        if (_currentOrder.status == OrderStatus.SCHEDULED &&
-            _currentOrder.scheduledTime.isNotEmpty)
+        if (_currentOrder.status == OrderStatus.SCHEDULED && _currentOrder.scheduledTime.isNotEmpty)
           ScheduledDetailsView(
             scheduleTime: _currentOrder.scheduledTime,
           ),
@@ -106,12 +107,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             _editGrabOrderOrder(_currentOrder);
           },
           onEditManualOrder: widget.onEditManualOrder,
+          onRiderFind: widget.onRiderFind,
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
           child: Divider(color: AppColors.frenchGrey),
         ),
-        OrderPaymentInfoView(order: _currentOrder),
         OrderItemDetails(order: _currentOrder),
         CommentView(comment: _currentOrder.orderComment),
         PriceView(order: _currentOrder),

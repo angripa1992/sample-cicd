@@ -41,26 +41,20 @@ class _OrderPaymentInfoViewState extends State<OrderPaymentInfoView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-      child: Column(
-        children: [
-          if (widget.order.paymentStatus > 0)
-            OrderPaymentStatusView(
-              order: _order,
-              onPaymentInfoChanged: _onPaymentInfoChanged,
-            ),
-          if (widget.order.paymentStatus > 0)
-            Divider(color: AppColors.frenchGrey),
-          if (widget.order.paymentMethod > 0)
-            OrderPaymentMethodView(
-              order: _order,
-              onPaymentInfoChanged: _onPaymentInfoChanged,
-            ),
-          if (widget.order.paymentMethod > 0)
-            Divider(color: AppColors.frenchGrey),
-        ],
-      ),
+    return Row(
+      children: [
+        if (widget.order.paymentStatus > 0)
+          OrderPaymentStatusView(
+            order: _order,
+            onPaymentInfoChanged: _onPaymentInfoChanged,
+          ),
+        SizedBox(width: AppSize.s8.rw),
+        if (widget.order.paymentMethod > 0)
+          OrderPaymentMethodView(
+            order: _order,
+            onPaymentInfoChanged: _onPaymentInfoChanged,
+          ),
+      ],
     );
   }
 }
@@ -76,30 +70,18 @@ class OrderPaymentMethodView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          AppStrings.payment_method.tr(),
-          style: getRegularTextStyle(
-            color: AppColors.balticSea,
-            fontSize: AppFontSize.s14.rSp,
-          ),
-        ),
-        FutureBuilder<PaymentMethod>(
-          future: _provider.fetchPaymentMethod(order.paymentMethod),
-          builder: (_, snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
-              return PaymentInfoTagView(
-                tagName: snapshot.data!.title,
-                order: order,
-                onPaymentInfoChanged: onPaymentInfoChanged,
-              );
-            }
-            return const SizedBox();
-          },
-        )
-      ],
+    return FutureBuilder<PaymentMethod>(
+      future: _provider.fetchPaymentMethod(order.paymentMethod),
+      builder: (_, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          return PaymentInfoTagView(
+            tagName: snapshot.data!.title,
+            order: order,
+            onPaymentInfoChanged: onPaymentInfoChanged,
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 }
@@ -115,30 +97,18 @@ class OrderPaymentStatusView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          AppStrings.payment_status,
-          style: getRegularTextStyle(
-            color: AppColors.balticSea,
-            fontSize: AppFontSize.s14.rSp,
-          ),
-        ),
-        FutureBuilder<PaymentStatus>(
-          future: _provider.fetchPaymentStatus(order.paymentStatus),
-          builder: (_, snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
-              return PaymentInfoTagView(
-                tagName: snapshot.data!.title,
-                order: order,
-                onPaymentInfoChanged: onPaymentInfoChanged,
-              );
-            }
-            return const SizedBox();
-          },
-        )
-      ],
+    return FutureBuilder<PaymentStatus>(
+      future: _provider.fetchPaymentStatus(order.paymentStatus),
+      builder: (_, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          return PaymentInfoTagView(
+            tagName: snapshot.data!.title,
+            order: order,
+            onPaymentInfoChanged: onPaymentInfoChanged,
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 }
@@ -176,35 +146,33 @@ class PaymentInfoTagView extends StatelessWidget {
         }
       },
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-          color: AppColors.purpleBlue,
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s8.rw,
+          vertical: AppSize.s4.rh,
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s12.rw,
-            vertical: AppSize.s4.rh,
-          ),
-          child: Row(
-            children: [
-              Text(
-                tagName,
-                style: getMediumTextStyle(
-                  color: AppColors.white,
-                  fontSize: AppFontSize.s12.rSp,
-                ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+          border: Border.all(color: AppColors.frenchGrey),
+        ),
+        child: Row(
+          children: [
+            Text(
+              tagName,
+              style: getRegularTextStyle(
+                color: AppColors.bluewood,
+                fontSize: AppFontSize.s12.rSp,
               ),
-              if (_isWebshopPostPayment())
-                Padding(
-                  padding: EdgeInsets.only(left: AppSize.s8.rw),
-                  child: Icon(
-                    Icons.edit,
-                    size: AppSize.s16.rSp,
-                    color: AppColors.white,
-                  ),
-                )
-            ],
-          ),
+            ),
+            if (_isWebshopPostPayment())
+              Padding(
+                padding: EdgeInsets.only(left: AppSize.s8.rw),
+                child: Icon(
+                  Icons.edit,
+                  size: AppSize.s16.rSp,
+                  color: AppColors.bluewood,
+                ),
+              )
+          ],
         ),
       ),
     );

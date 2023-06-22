@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
+import '../../domain/entities/brand.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/rider_info.dart';
 import '../../domain/entities/source.dart';
@@ -184,6 +185,14 @@ class OrderModel {
   int? fulfillmentStatusId;
   @JsonKey(name: 'fulfillment_tracking_url')
   String? fulfillmentTrackingUrl;
+  @JsonKey(name: 'can_find_fulfillment_rider')
+  bool? canFindFulfillmentRider;
+  @JsonKey(name: 'can_mark_accept')
+  bool? canMarkAccept;
+  @JsonKey(name: 'can_mark_cancel')
+  bool? canMarkCancel;
+  @JsonKey(name: 'three_pl_dispatch_type')
+  int? threePlDispatchType;
 
   OrderModel({
     this.id,
@@ -260,6 +269,10 @@ class OrderModel {
     this.fulfillmentRider,
     this.fulfillmentStatusId,
     this.fulfillmentTrackingUrl,
+    this.canFindFulfillmentRider,
+    this.canMarkAccept,
+    this.canMarkCancel,
+    this.threePlDispatchType,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
@@ -344,6 +357,10 @@ class OrderModel {
       fulfillmentRider: fulfillmentRider,
       fulfillmentStatusId: fulfillmentStatusId.orZero(),
       fulfillmentTrackingUrl: fulfillmentTrackingUrl.orEmpty(),
+      canFindFulfillmentRider: canFindFulfillmentRider.orFalse(),
+      canMarkAccept: canMarkAccept.orFalse(),
+      canMarkCancel: canMarkCancel.orFalse(),
+      threePlDispatchType: threePlDispatchType.orZero(),
     );
   }
 }
@@ -404,7 +421,11 @@ class CartV2Model {
       unitPriceDisplay: unitPriceDisplay.orEmpty(),
       priceDisplay: priceDisplay.orEmpty(),
       modifierGroups: modifierGroups?.map((e) => e.toEntity()).toList() ?? [],
-      cartBrand: brand!.toEntity(),
+      cartBrand: brand?.toEntity() ?? CartBrand(
+          id: ZERO,
+          title: EMPTY,
+          logo: EMPTY,
+      ),
       modifierGroupPrice: modifierGroupPrice.orEmpty(),
     );
   }

@@ -83,7 +83,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
                         color: AppColors.purpleBlue,
-                        size: AppSize.s18,
+                        size: AppSize.s18.rSp,
                       ),
                     ),
                     SizedBox(width: AppSize.s24.rw),

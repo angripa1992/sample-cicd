@@ -20,7 +20,7 @@ import '../filter_subject.dart';
 import '../order_screen_navigate_data.dart';
 import 'date_range_picker.dart';
 import 'details/order_details_bottom_sheet.dart';
-import 'order_item/history_order_item.dart';
+import 'order_item/order_item_view.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
   final FilterSubject subject;
@@ -135,11 +135,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
         ),
         SizedBox(height: AppSize.s16.rh),
         Flexible(
-          child: PagedListView<int, Order>(
+          child: PagedListView<int, Order>.separated(
             pagingController: _pagingController!,
             builderDelegate: PagedChildBuilderDelegate<Order>(
               itemBuilder: (context, item, index) {
-                return HistoryOrderItemView(
+                return OrderItemView(
                   order: item,
                   seeDetails: () {
                     showHistoryOrderDetails(
@@ -154,12 +154,18 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
                       },
                       onGrabEditSuccess: () {},
                       onEditManualOrder: () {},
+                      onRiderFind: () {},
                     );
                     _sendEvent();
                   },
                   onPrint: () {
                     _onPrint(order: item, isFromDetails: false);
                   },
+                  onAction: (_, __) {},
+                  onCancel: (_) {},
+                  onEditGrabOrder: () {},
+                  onEditManualOrder: () {},
+                  onRiderFind: () {},
                 );
               },
               firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
@@ -170,6 +176,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
               firstPageErrorIndicatorBuilder: (_) =>
                   getPageErrorIndicator(() => _refresh()),
             ),
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
           ),
         )
       ],

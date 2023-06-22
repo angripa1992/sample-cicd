@@ -14,6 +14,7 @@ void _openBottomSheet({
   required VoidCallback onCommentActionSuccess,
   required VoidCallback onGrabEditSuccess,
   required VoidCallback onEditManualOrder,
+  required VoidCallback onRiderFind,
 }) {
   showModalBottomSheet(
     context: context,
@@ -34,6 +35,7 @@ void _openBottomSheet({
           onGrabEditSuccess: onGrabEditSuccess,
           actionView: actionView,
           onEditManualOrder: onEditManualOrder,
+          onRiderFind: onRiderFind,
         ),
       ),
     ),
@@ -48,6 +50,7 @@ void showHistoryOrderDetails({
   required VoidCallback onPrint,
   required VoidCallback onGrabEditSuccess,
   required VoidCallback onEditManualOrder,
+  required VoidCallback onRiderFind,
 }) {
   _openBottomSheet(
     key: key,
@@ -60,6 +63,7 @@ void showHistoryOrderDetails({
       expanded: true,
     ),
     onEditManualOrder: onEditManualOrder,
+    onRiderFind: onRiderFind,
   );
 }
 
@@ -73,6 +77,7 @@ void showOrderDetails({
   required VoidCallback onCommentActionSuccess,
   required VoidCallback onGrabEditSuccess,
   required VoidCallback onEditManualOrder,
+  required VoidCallback onRiderFind,
 }) {
   _openBottomSheet(
     key: key,
@@ -87,5 +92,6 @@ void showOrderDetails({
       onPrint: onPrint,
     ),
     onEditManualOrder: onEditManualOrder,
+    onRiderFind: onRiderFind,
   );
 }

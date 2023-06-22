@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:slack_logger/slack_logger.dart';
@@ -21,6 +22,9 @@ class SlackLoggerResolver {
   }
 
   void sendApiError(DioError error) async {
+    if(!kReleaseMode){
+      return;
+    }
     List<String> markdownMessageList = await _metadata();
     markdownMessageList.addAll(
       [

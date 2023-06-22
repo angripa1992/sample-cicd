@@ -29,7 +29,7 @@ import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'dialogs/action_dialogs.dart';
-import 'order_item/new_order_item.dart';
+import 'order_item/order_item_view.dart';
 
 class NewOrderScreen extends StatefulWidget {
   final FilterSubject subject;
@@ -243,7 +243,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
     final paymentInfo = PaymentInfo(
       paymentStatus: order.paymentStatus,
-      paymentMethod: order.paymentMethod == ZERO ? PaymentMethodId.CASH : order.paymentMethod,
+      paymentMethod: order.paymentMethod == ZERO
+          ? PaymentMethodId.CASH
+          : order.paymentMethod,
     );
     final updateCartInfo = UpdateCartInfo(
       id: order.id,
@@ -269,11 +271,11 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView<int, Order>(
+    return PagedListView<int, Order>.separated(
       pagingController: _pagingController!,
       builderDelegate: PagedChildBuilderDelegate<Order>(
         itemBuilder: (context, item, index) {
-          return NewOrderItemView(
+          return OrderItemView(
             order: item,
             seeDetails: () {
               showOrderDetails(
@@ -309,7 +311,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 onEditManualOrder: () {
                   Navigator.pop(context);
                   _editManualOrder(item);
-                },
+                }, onRiderFind: () {  },
               );
               _sendScreenEvent();
             },
@@ -336,7 +338,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
             },
             onEditGrabOrder: () {
               _editGrabOrder(item);
-            },
+            }, onRiderFind: () {  },
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
@@ -347,6 +349,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         firstPageErrorIndicatorBuilder: (_) =>
             getPageErrorIndicator(() => _refresh()),
       ),
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
 

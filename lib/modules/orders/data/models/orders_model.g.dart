@@ -109,6 +109,10 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
               json['fulfillment_rider'] as Map<String, dynamic>),
       fulfillmentStatusId: json['fulfillment_status_id'] as int?,
       fulfillmentTrackingUrl: json['fulfillment_tracking_url'] as String?,
+      canFindFulfillmentRider: json['can_find_fulfillment_rider'] as bool?,
+      canMarkAccept: json['can_mark_accept'] as bool?,
+      canMarkCancel: json['can_mark_cancel'] as bool?,
+      threePlDispatchType: json['three_pl_dispatch_type'] as int?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -188,6 +192,10 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'fulfillment_rider': instance.fulfillmentRider?.toJson(),
       'fulfillment_status_id': instance.fulfillmentStatusId,
       'fulfillment_tracking_url': instance.fulfillmentTrackingUrl,
+      'can_find_fulfillment_rider': instance.canFindFulfillmentRider,
+      'can_mark_accept': instance.canMarkAccept,
+      'can_mark_cancel': instance.canMarkCancel,
+      'three_pl_dispatch_type': instance.threePlDispatchType,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

@@ -50,13 +50,13 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
     super.initState();
   }
 
- @override
+  @override
   void didUpdateWidget(covariant MenuSwitchView oldWidget) {
-   if (!widget.parentEnabled) {
-     _enabled = false;
-   } else {
-     _enabled = widget.enabled;
-   }
+    if (!widget.parentEnabled) {
+      _enabled = false;
+    } else {
+      _enabled = widget.enabled;
+    }
     super.didUpdateWidget(oldWidget);
   }
 
@@ -95,12 +95,13 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
   Widget build(BuildContext context) {
     return widget.providerId == ZERO
         ? Container(
-            decoration: !widget.willShowBg ? const BoxDecoration() :  BoxDecoration(
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-              color: (_enabled && widget.parentEnabled)
-                  ? AppColors.peppermint
-                  : AppColors.whiteSmoke,
-            ),
+            decoration: const BoxDecoration(),
+            // decoration: !widget.willShowBg ? const BoxDecoration() :  BoxDecoration(
+            //   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+            //   color: (_enabled && widget.parentEnabled)
+            //       ? AppColors.peppermint
+            //       : AppColors.whiteSmoke,
+            // ),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               child: Transform.scale(

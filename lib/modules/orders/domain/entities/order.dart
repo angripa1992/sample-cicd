@@ -92,6 +92,10 @@ class Order {
   final RiderInfo? fulfillmentRider;
   final int fulfillmentStatusId;
   final String fulfillmentTrackingUrl;
+  final bool canFindFulfillmentRider;
+  final bool canMarkAccept;
+  final bool canMarkCancel;
+  final int threePlDispatchType;
   String klikitComment;
   int paymentMethod;
   int paymentStatus;
@@ -173,6 +177,10 @@ class Order {
     required this.fulfillmentRider,
     required this.fulfillmentStatusId,
     required this.fulfillmentTrackingUrl,
+    required this.canFindFulfillmentRider,
+    required this.canMarkCancel,
+    required this.canMarkAccept,
+    required this.threePlDispatchType,
   });
 
   Order copy() => Order(
@@ -251,6 +259,10 @@ class Order {
         fulfillmentRider: fulfillmentRider,
         fulfillmentStatusId: fulfillmentStatusId,
         fulfillmentTrackingUrl: fulfillmentTrackingUrl,
+        canFindFulfillmentRider: canFindFulfillmentRider,
+        canMarkAccept: canMarkAccept,
+        canMarkCancel: canMarkCancel,
+      threePlDispatchType: threePlDispatchType,
       );
 
   OrderModel toModel() => OrderModel(
@@ -327,5 +339,9 @@ class Order {
         fulfillmentRider: fulfillmentRider,
         fulfillmentStatusId: fulfillmentStatusId,
         fulfillmentTrackingUrl: fulfillmentTrackingUrl,
+        canFindFulfillmentRider: canFindFulfillmentRider,
+        canMarkCancel: canMarkCancel,
+        canMarkAccept: canMarkAccept,
+      threePlDispatchType: threePlDispatchType,
       );
 }

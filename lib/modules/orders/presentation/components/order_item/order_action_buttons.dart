@@ -31,20 +31,21 @@ class PrintButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPrint,
         style: ElevatedButton.styleFrom(
-          minimumSize: Size.zero,
-          primary: AppColors.purpleBlue,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s8.rSp), // <-- Radius
-          ),
-        ),
+            minimumSize: Size.zero,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+            ),
+            side: BorderSide(color: AppColors.purpleBlue)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.print,
               size: AppSize.s16.rSp,
-              color: AppColors.white,
+              color: AppColors.purpleBlue,
             ),
             if (expanded)
               Padding(
@@ -52,8 +53,8 @@ class PrintButton extends StatelessWidget {
                 child: Text(
                   AppStrings.print.tr(),
                   style: getMediumTextStyle(
-                    color: AppColors.white,
-                    fontSize: AppFontSize.s14.rSp,
+                    color: AppColors.purpleBlue,
+                    fontSize: AppFontSize.s12.rSp,
                   ),
                 ),
               ),
@@ -84,8 +85,9 @@ class ReadyButton extends StatelessWidget {
         onPressed: enabled ? onReady : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-          primary: AppColors.white,
+          elevation: 0,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+          backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
@@ -97,7 +99,7 @@ class ReadyButton extends StatelessWidget {
           AppStrings.ready.tr(),
           style: getMediumTextStyle(
             color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
-            fontSize: AppFontSize.s14.rSp,
+            fontSize: AppFontSize.s12.rSp,
           ),
         ),
       ),
@@ -125,8 +127,9 @@ class DeliverButton extends StatelessWidget {
         onPressed: enabled ? onDeliver : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          primary: AppColors.white,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
@@ -138,7 +141,7 @@ class DeliverButton extends StatelessWidget {
           AppStrings.deliver.tr(),
           style: getMediumTextStyle(
             color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
-            fontSize: AppFontSize.s14.rSp,
+            fontSize: AppFontSize.s12.rSp,
           ),
         ),
       ),
@@ -161,13 +164,14 @@ class PickedUpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s32.rh,
+      height: AppSize.s28.rh,
       child: ElevatedButton(
         onPressed: enabled ? onPickedUp : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          primary: AppColors.white,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
@@ -207,10 +211,14 @@ class AcceptButton extends StatelessWidget {
         onPressed: enabled ? onAccept : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
-          primary: AppColors.frostedMint,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+            side: BorderSide(
+              color: AppColors.green,
+            ),
           ),
         ),
         child: Row(
@@ -218,7 +226,7 @@ class AcceptButton extends StatelessWidget {
           children: [
             Icon(
               Icons.check,
-              size: AppSize.s20.rSp,
+              size: AppSize.s16.rSp,
               color: AppColors.green,
             ),
             if (expanded)
@@ -228,7 +236,7 @@ class AcceptButton extends StatelessWidget {
                   AppStrings.accept.tr(),
                   style: getMediumTextStyle(
                     color: AppColors.green,
-                    fontSize: AppFontSize.s14.rSp,
+                    fontSize: AppFontSize.s12.rSp,
                   ),
                 ),
               ),
@@ -259,34 +267,35 @@ class CanceledButton extends StatelessWidget {
         onPressed: enabled ? onCanceled : null,
         style: ElevatedButton.styleFrom(
           minimumSize: Size.zero,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-          primary: AppColors.veryLightPurple,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-          ),
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+              side: BorderSide(color: AppColors.red)),
         ),
         child: expanded
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.clear, color: AppColors.pink),
+                  Icon(Icons.clear, color: AppColors.red),
                   if (expanded)
                     Padding(
                       padding: EdgeInsets.only(left: AppSize.s8.rw),
                       child: Text(
                         AppStrings.reject.tr(),
                         style: getMediumTextStyle(
-                          color: AppColors.pink,
-                          fontSize: AppFontSize.s14.rSp,
+                          color: AppColors.red,
+                          fontSize: AppFontSize.s12.rSp,
                         ),
                       ),
                     ),
                 ],
               )
             : Icon(
-                Icons.cancel_outlined,
-                size: AppSize.s18.rSp,
-                color: AppColors.pink,
+                Icons.clear,
+                size: AppSize.s16.rSp,
+                color: AppColors.red,
               ),
       ),
     );
@@ -311,17 +320,54 @@ class EditButton extends StatelessWidget {
           onPressed: onEdit,
           style: ElevatedButton.styleFrom(
             minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-            primary: AppColors.lightVioletTwo,
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            ),
+                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                side: BorderSide(color: AppColors.purpleBlue)),
           ),
           child: SvgPicture.asset(
             AppIcons.tablerEdit,
-            color: AppColors.black,
+            color: AppColors.purpleBlue,
             height: AppSize.s16.rh,
             width: AppSize.s16.rw,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class FindRiderButton extends StatelessWidget {
+  final VoidCallback onFound;
+
+  const FindRiderButton({
+    Key? key,
+    required this.onFound,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: AppSize.s8.rw),
+      child: SizedBox(
+        height: AppSize.s28.rh,
+        child: ElevatedButton(
+          onPressed: onFound,
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                side: BorderSide(color: AppColors.purpleBlue)),
+          ),
+          child: Icon(
+            Icons.delivery_dining_rounded,
+            size: AppSize.s16.rSp,
+            color: AppColors.purpleBlue,
           ),
         ),
       ),
@@ -336,6 +382,7 @@ Widget getActionButtons({
   required VoidCallback onPrint,
   required VoidCallback onEditGrabOrder,
   required VoidCallback onEditManualOrder,
+  required VoidCallback onRiderFind,
 }) {
   final orderStatus = order.status;
   final provider = order.providerId;
@@ -349,6 +396,7 @@ Widget getActionButtons({
           orderStatus == OrderStatus.PLACED);
   if (orderStatus == OrderStatus.PLACED) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         AcceptButton(
           expanded: false,
@@ -371,9 +419,9 @@ Widget getActionButtons({
         if (canUpdateGrabOrder || canUpdateManualOrder)
           EditButton(
             onEdit: () {
-              if(canUpdateManualOrder){
+              if (canUpdateManualOrder) {
                 onEditManualOrder();
-              }else{
+              } else {
                 onEditGrabOrder();
               }
             },
@@ -385,6 +433,7 @@ Widget getActionButtons({
       provider == ProviderID.GRAB_FOOD &&
       orderType != OrderType.PICKUP) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         PrintButton(
           onPrint: onPrint,
@@ -408,12 +457,17 @@ Widget getActionButtons({
           provider != ProviderID.FOOD_PANDA &&
           orderType != OrderType.PICKUP)) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         PrintButton(
           onPrint: onPrint,
           padding: AppSize.s16,
           expanded: false,
         ),
+        if (order.isThreePlOrder && order.canFindFulfillmentRider)
+          FindRiderButton(
+            onFound: onRiderFind,
+          ),
         SizedBox(width: AppSize.s8.rw),
         ReadyButton(
           expanded: false,
@@ -426,9 +480,9 @@ Widget getActionButtons({
         if (canUpdateGrabOrder || canUpdateManualOrder)
           EditButton(
             onEdit: () {
-              if(canUpdateManualOrder){
+              if (canUpdateManualOrder) {
                 onEditManualOrder();
-              }else{
+              } else {
                 onEditGrabOrder();
               }
             },
@@ -440,6 +494,7 @@ Widget getActionButtons({
       (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) &&
       orderType == OrderType.PICKUP) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         PrintButton(
           onPrint: onPrint,
@@ -455,11 +510,12 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
-        if (canUpdateGrabOrder) EditButton(onEdit: onEditGrabOrder!),
+        if (canUpdateGrabOrder) EditButton(onEdit: onEditGrabOrder),
       ],
     );
   }
   return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
     children: [
       PrintButton(
         onPrint: onPrint,
@@ -467,14 +523,27 @@ Widget getActionButtons({
         expanded: false,
       ),
       SizedBox(width: AppSize.s8.rw),
-      DeliverButton(
-        expanded: false,
-        onDeliver: () {
-          onAction('${AppStrings.deliver_order.tr()} #${order.id}',
-              OrderStatus.DELIVERED);
-        },
-        enabled: !order.isInterceptorOrder,
-      ),
+      if (order.isThreePlOrder && order.canFindFulfillmentRider)
+        FindRiderButton(
+          onFound: onRiderFind,
+        ),
+      if (order.isThreePlOrder && order.canMarkCancel)
+        CanceledButton(
+          onCanceled: () {
+            onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
+          },
+          enabled: true,
+          expanded: false,
+        ),
+      if (!order.isThreePlOrder)
+        DeliverButton(
+          expanded: false,
+          onDeliver: () {
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}',
+                OrderStatus.DELIVERED);
+          },
+          enabled: !order.isInterceptorOrder,
+        ),
     ],
   );
 }
@@ -618,18 +687,29 @@ Widget getExpandActionButtons({
         ),
       ),
       SizedBox(width: AppSize.s8.rw),
-      Expanded(
-        child: DeliverButton(
-          expanded: true,
-          onDeliver: () {
-            onAction(
-              '${AppStrings.deliver_order.tr()} #${order.id}',
-              OrderStatus.DELIVERED,
-            );
-          },
-          enabled: !order.isInterceptorOrder,
+      if (order.isThreePlOrder && order.canMarkCancel)
+        Expanded(
+          child: CanceledButton(
+            onCanceled: () {
+              onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
+            },
+            enabled: true,
+            expanded: false,
+          ),
         ),
-      ),
+      if (!order.isThreePlOrder)
+        Expanded(
+          child: DeliverButton(
+            expanded: true,
+            onDeliver: () {
+              onAction(
+                '${AppStrings.deliver_order.tr()} #${order.id}',
+                OrderStatus.DELIVERED,
+              );
+            },
+            enabled: !order.isInterceptorOrder,
+          ),
+        ),
     ],
   );
 }

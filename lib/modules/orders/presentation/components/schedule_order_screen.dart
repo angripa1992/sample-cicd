@@ -17,7 +17,7 @@ import '../../../../../segments/segemnt_data_provider.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
-import 'order_item/schedule_order_item.dart';
+import 'order_item/order_item_view.dart';
 
 class ScheduleOrderScreen extends StatefulWidget {
   final FilterSubject subject;
@@ -128,11 +128,11 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView<int, Order>(
+    return PagedListView<int, Order>.separated(
       pagingController: _pagingController!,
       builderDelegate: PagedChildBuilderDelegate<Order>(
         itemBuilder: (context, item, index) {
-          return ScheduleOrderItemView(
+          return OrderItemView(
             order: item,
             seeDetails: () {
               showOrderDetails(
@@ -149,12 +149,18 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
                 },
                 onGrabEditSuccess: () {},
                 onEditManualOrder: () {},
+                onRiderFind: () {},
               );
               _sendEvent();
             },
             onPrint: () {
               _onPrint(order: item, isFromDetails: false);
             },
+            onAction: (_, __) {},
+            onCancel: (_) {},
+            onEditGrabOrder: () {},
+            onEditManualOrder: () {},
+            onRiderFind: () {},
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
@@ -165,6 +171,7 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
         firstPageErrorIndicatorBuilder: (_) =>
             getPageErrorIndicator(() => _refresh()),
       ),
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
 

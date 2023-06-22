@@ -17,7 +17,10 @@ import '../../../../../app/extensions.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/provider.dart';
 import '../../../provider/order_information_provider.dart';
+import '../order_item/three_pl_status.dart';
 import 'comment_action_view.dart';
+import 'find_rider_button.dart';
+import 'order_payment_info.dart';
 import 'order_tags.dart';
 
 class OrderDetailsHeaderView extends StatelessWidget {
@@ -25,6 +28,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
   final VoidCallback onCommentActionSuccess;
   final VoidCallback onEditGrabOrder;
   final VoidCallback onEditManualOrder;
+  final VoidCallback onRiderFind;
 
   const OrderDetailsHeaderView({
     Key? key,
@@ -32,6 +36,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
     required this.onCommentActionSuccess,
     required this.onEditGrabOrder,
     required this.onEditManualOrder,
+    required this.onRiderFind,
   }) : super(key: key);
 
   @override
@@ -52,22 +57,39 @@ class OrderDetailsHeaderView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _idView(),
+          SizedBox(height: AppSize.s12.rh),
+          Row(
+            children: [
+              OrderPaymentInfoView(order: order),
+              SizedBox(width: AppSize.s8.rw),
+              Expanded(child: OrderTagsView(order: order)),
+            ],
+          ),
           SizedBox(height: AppSize.s8.rh),
           _externalIdView(),
           SizedBox(height: AppSize.s8.rh),
           _timeView(),
-          SizedBox(height: AppSize.s12.rh),
-          OrderTagsView(order: order),
           SizedBox(height: AppSize.s12.rh),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (canUpdateManualOrder || canUpdateGrabOrder)
                 Expanded(
-                  child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder),
+                  child: _editOrderButton(
+                      canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder),
                 ),
               if (canUpdateManualOrder || canUpdateGrabOrder)
-                SizedBox(width: AppSize.s16.rw),
+                SizedBox(width: AppSize.s8.rw),
+              if (order.isThreePlOrder && order.canFindFulfillmentRider)
+                Expanded(
+                  child: Center(
+                    child: FindRiderView(
+                      onRiderFind: onRiderFind,
+                    ),
+                  ),
+                ),
+              if (order.isThreePlOrder && order.canFindFulfillmentRider)
+                SizedBox(width: AppSize.s8.rw),
               Expanded(
                 child: CommentActionView(
                   onCommentActionSuccess: onCommentActionSuccess,
@@ -102,7 +124,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
               size: AppSize.s16.rSp,
             ),
             SizedBox(width: AppSize.s8.rw),
-            Expanded(
+            Flexible(
               child: Text(
                 AppStrings.edit_order.tr(),
                 style: getRegularTextStyle(
@@ -237,6 +259,11 @@ class OrderDetailsHeaderView extends StatelessWidget {
             ),
           ),
         ),
+        if (order.isThreePlOrder && order.fulfillmentStatusId > 0)
+          Padding(
+            padding: EdgeInsets.only(top: AppSize.s6.rh),
+            child: ThreePlStatus(threePlStatus: order.fulfillmentStatusId),
+          ),
       ],
     );
   }

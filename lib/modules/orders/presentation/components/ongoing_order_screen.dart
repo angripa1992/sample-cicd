@@ -21,7 +21,7 @@ import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'dialogs/action_dialogs.dart';
 import 'dialogs/add_payment_method_and_status.dart';
-import 'order_item/ongoing_order_item.dart';
+import 'order_item/order_item_view.dart';
 
 class OngoingOrderScreen extends StatefulWidget {
   final FilterSubject subject;
@@ -174,11 +174,11 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView<int, Order>(
+    return PagedListView<int, Order>.separated(
       pagingController: _pagingController!,
       builderDelegate: PagedChildBuilderDelegate<Order>(
         itemBuilder: (context, item, index) {
-          return OngoingOrderItemView(
+          return OrderItemView(
             order: item,
             seeDetails: () {
               showOrderDetails(
@@ -209,7 +209,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                   _refresh(willBackground: true);
                 },
                 onGrabEditSuccess: () {},
-                onEditManualOrder: () {},
+                onEditManualOrder: () {}, onRiderFind: () {  },
               );
               _sendEvent();
             },
@@ -232,7 +232,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
               );
             },
             onEditGrabOrder: () {},
-            onEditManualOrder: () {},
+            onEditManualOrder: () {}, onRiderFind: () {  },
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
@@ -243,6 +243,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
         firstPageErrorIndicatorBuilder: (_) =>
             getPageErrorIndicator(() => _refresh()),
       ),
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
 
