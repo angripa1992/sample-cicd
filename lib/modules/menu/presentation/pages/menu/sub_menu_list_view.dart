@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
@@ -40,7 +41,7 @@ class SubMenuListView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: AppSize.s10.rh, left: AppSize.s10.rw),
             child: Text(
-              AppStrings.categories_list,
+              AppStrings.categories_list.tr(),
               style: getRegularTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,

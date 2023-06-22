@@ -137,7 +137,7 @@ class _LevelOneSelectMultipleViewState
                   child: Column(
                     children: [
                       ModifierGroupInfo(
-                        title: '${group.title} ${AppStrings.for_} ${modifier.title}',
+                        title: '${group.title} ${AppStrings.for_.tr()} ${modifier.title}',
                         rule: group.rule,
                       ),
                       (group.rule.typeTitle == RuleType.exact &&

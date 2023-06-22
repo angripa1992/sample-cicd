@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
@@ -79,7 +80,7 @@ class OrderPaymentMethodView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          AppStrings.payment_method,
+          AppStrings.payment_method.tr(),
           style: getRegularTextStyle(
             color: AppColors.balticSea,
             fontSize: AppFontSize.s14.rSp,
@@ -166,7 +167,7 @@ class PaymentInfoTagView extends StatelessWidget {
       onTap: (){
         if(_isWebshopPostPayment()){
           showAddPaymentStatusMethodDialog(
-            title: AppStrings.update_payment_info,
+            title: AppStrings.update_payment_info.tr(),
             context: context,
             willOnlyUpdatePaymentInfo: true,
             onSuccess: onPaymentInfoChanged,

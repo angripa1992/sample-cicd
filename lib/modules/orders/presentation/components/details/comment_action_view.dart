@@ -69,13 +69,15 @@ class _CommentActionViewState extends State<CommentActionView> {
               color: AppColors.blackCow,
             ),
             SizedBox(width: AppSize.s8.rw),
-            Text(
-              _currentOrder!.klikitComment.isEmpty
-                  ? AppStrings.add_comment.tr()
-                  : AppStrings.see_comment.tr(),
-              style: getRegularTextStyle(
-                color: AppColors.blackCow,
-                fontSize: AppFontSize.s14.rSp,
+            Expanded(
+              child: Text(
+                _currentOrder!.klikitComment.isEmpty
+                    ? AppStrings.add_comment.tr()
+                    : AppStrings.see_comment.tr(),
+                style: getRegularTextStyle(
+                  color: AppColors.blackCow,
+                  fontSize: AppFontSize.s14.rSp,
+                ),
               ),
             ),
           ],

@@ -85,7 +85,7 @@ class _SetDocketTypeState extends State<SetDocketType> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              AppStrings.set_docket_type,
+              AppStrings.set_docket_type.tr(),
               style: getMediumTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s16.rSp,
@@ -97,7 +97,7 @@ class _SetDocketTypeState extends State<SetDocketType> {
                   child: PrinterSettingCheckbox(
                     enabled: _kitchenCopyEnabled!,
                     onChanged: _changeKitchenCopyEnabled,
-                    name: AppStrings.kitchen,
+                    name: AppStrings.kitchen.tr(),
                     willAlwaysChecked: false,
                     activeColor: AppColors.purpleBlue,
                   ),
@@ -116,7 +116,7 @@ class _SetDocketTypeState extends State<SetDocketType> {
                   child: PrinterSettingCheckbox(
                     enabled: _customerCopyEnabled!,
                     onChanged: _changeKitchenCopyEnabled,
-                    name: AppStrings.customer,
+                    name: AppStrings.customer.tr(),
                     willAlwaysChecked: true,
                     activeColor: AppColors.dustyGrey,
                   ),

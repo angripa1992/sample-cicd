@@ -145,7 +145,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   void _addToCart(AddToCartItem? item) {
     if (item != null) {
       CartManager().addToCart(item);
-      showSuccessSnackBar(null,AppStrings.successfully_added_to_cart);
+      showSuccessSnackBar(null,AppStrings.successfully_added_to_cart.tr());
     }
   }
 
@@ -261,7 +261,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                 EasyLoading.dismiss();
                 if(state.data.isEmpty){
                   return  Center(
-                    child: Text(AppStrings.no_item_found),
+                    child: Text(AppStrings.no_item_found.tr()),
                   );
                 }
                 return MenuItemsListView(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
@@ -31,7 +32,7 @@ class CartAppBar extends StatelessWidget {
           children: [
             IconButton(onPressed: onClose, icon: const Icon(Icons.clear)),
             Text(
-              AppStrings.cart,
+              AppStrings.cart.tr(),
               style: getMediumTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s17.rSp,

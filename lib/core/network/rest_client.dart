@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/core/network/slack_logger.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/core/network/urls.dart';
 
@@ -71,6 +72,7 @@ class RestClient {
         },
         onError: (error, handler) async {
           _dioLogger.logError(error);
+          SlackLoggerResolver().sendApiError(error);
           var options = error.response?.requestOptions;
           if (error.response?.statusCode == ResponseCode.UPDATE_REQUIRED) {
             AppUpdateManager().showAppUpdateDialog();

@@ -20,11 +20,11 @@ class ModifierGroupInfo extends StatelessWidget {
   String _ruleTitle(){
     final optional = rule.value == 0 && rule.min == 0;
     if(optional){
-      return '${AppStrings.choose_upto} ${rule.max}';
+      return '${AppStrings.choose_upto.tr()} ${rule.max}';
     }else if(rule.typeTitle == RuleType.exact){
-      return '${AppStrings.choose} ${rule.value}';
+      return '${AppStrings.choose.tr()} ${rule.value}';
     }
-    return '${AppStrings.choose} ${rule.min} - ${rule.max}';
+    return '${AppStrings.choose.tr()} ${rule.min} - ${rule.max}';
   }
 
   @override
@@ -71,7 +71,7 @@ class ModifierGroupInfo extends StatelessWidget {
                         horizontal: AppSize.s8.rw,
                       ),
                       child: Text(
-                        isOptional ? AppStrings.optional : AppStrings.required,
+                        isOptional ? AppStrings.optional.tr() : AppStrings.required.tr(),
                         style: getRegularTextStyle(
                           color: isOptional
                               ? AppColors.smokeyGrey

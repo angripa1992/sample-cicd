@@ -51,7 +51,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
 
   String _title() {
     if (_editable) {
-      return AppStrings.chnage_amount;
+      return AppStrings.chnage_amount.tr();
     } else if (_feeType == FeeType.discount) {
       return AppStrings.discount.tr();
     } else if (_feeType == FeeType.delivery) {
@@ -68,11 +68,11 @@ class _FeeDialogViewState extends State<FeeDialogView> {
     if (_feeType == FeeType.discount) {
       if (_type == DiscountType.flat) {
         if (amount > widget.subTotal) {
-          return AppStrings.can_not_be_greater_than_subtotal;
+          return AppStrings.can_not_be_greater_than_subtotal.tr();
         }
       } else {
         if (amount > 100) {
-          return AppStrings.can_not_be_greater_than_100;
+          return AppStrings.can_not_be_greater_than_100.tr();
         }
       }
     }
@@ -207,7 +207,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${AppStrings.discount.tr()} ${AppStrings.type}',
+            '${AppStrings.discount.tr()} ${AppStrings.type.tr()}',
             style: getMediumTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s14.rSp,
@@ -219,7 +219,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
                 contentPadding: EdgeInsets.zero,
                 activeColor: AppColors.purpleBlue,
                 title: Text(
-                  AppStrings.flat,
+                  AppStrings.flat.tr(),
                   style: getRegularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s14.rSp,
@@ -238,7 +238,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
                 contentPadding: EdgeInsets.zero,
                 activeColor: AppColors.purpleBlue,
                 title: Text(
-                  AppStrings.percentage,
+                  AppStrings.percentage.tr(),
                   style: getRegularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s14.rSp,

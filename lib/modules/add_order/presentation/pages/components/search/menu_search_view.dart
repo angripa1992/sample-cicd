@@ -92,7 +92,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
               top: AppSize.s16.rh,
             ),
             child: Text(
-              AppStrings.categories,
+              AppStrings.categories.tr(),
               style: getMediumTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,
@@ -109,7 +109,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
               builder: (_, sections, __) {
                 if (sections.isEmpty) {
                   return Center(
-                    child: Text(AppStrings.no_categories_found),
+                    child: Text(AppStrings.no_categories_found.tr()),
                   );
                 }
                 return Wrap(
@@ -141,7 +141,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
               bottom: AppSize.s12.rh,
             ),
             child: Text(
-              AppStrings.Items,
+              AppStrings.Items.tr(),
               style: getMediumTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,
@@ -159,7 +159,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
                   if (items.isEmpty) {
                     return Center(
                         child: Text(
-                      AppStrings.no_item_found,
+                      AppStrings.no_item_found.tr(),
                     ));
                   }
                   return GridView.builder(
@@ -167,7 +167,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       mainAxisSpacing: AppSize.s10.rh,
-                      childAspectRatio: ScreenSizes.isTablet ? 0.90 : 0.63,
+                      childAspectRatio: ScreenSizes.isTablet ? 0.85 : 0.63,
                     ),
                     itemCount: items.length,
                     itemBuilder: (BuildContext context, int index) {

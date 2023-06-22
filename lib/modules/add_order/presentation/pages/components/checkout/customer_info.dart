@@ -86,7 +86,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
       child: Column(
         children: [
           TagTitleView(
-            title: AppStrings.customer_info,
+            title: AppStrings.customer_info.tr(),
             required: false,
           ),
           const Divider(),
@@ -107,7 +107,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
             ),
             trailingRotation: 180,
             title: Text(
-              AppStrings.add_customer_info,
+              AppStrings.add_customer_info.tr(),
               style: getRegularTextStyle(
                 color: AppColors.dustyGreay,
               ),
@@ -127,11 +127,11 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
                   controller: _emailController,
                 ),
                 CustomerInfoField(
-                  title: AppStrings.phone,
+                  title: AppStrings.phone.tr(),
                   controller: _phoneController,
                 ),
                 CustomerInfoField(
-                  title: AppStrings.table_no,
+                  title: AppStrings.table_no.tr(),
                   controller: _tableNoController,
                 ),
                 ElevatedButton(
@@ -142,7 +142,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(
-                      AppStrings.submit,
+                      AppStrings.submit.tr(),
                       style: getMediumTextStyle(
                         color: AppColors.white,
                         fontSize: AppFontSize.s12.rSp,

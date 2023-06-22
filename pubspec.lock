@@ -1044,7 +1044,7 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "10.2.0"
+    version: "10.3.0"
   permission_handler_android:
     dependency: transitive
     description:
@@ -1058,14 +1058,14 @@ packages:
       name: permission_handler_apple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.0.7"
+    version: "9.1.0"
   permission_handler_platform_interface:
     dependency: transitive
     description:
       name: permission_handler_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.9.0"
+    version: "3.10.0"
   permission_handler_windows:
     dependency: transitive
     description:
@@ -1281,6 +1281,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  slack_logger:
+    dependency: "direct main"
+    description:
+      name: slack_logger
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   sliver_tools:
     dependency: transitive
     description:

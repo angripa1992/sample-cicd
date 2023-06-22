@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
@@ -39,13 +40,13 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
   String _label(int fontId) {
     switch (fontId) {
       case PrinterFontSize.small:
-        return AppStrings.small;
+        return AppStrings.small.tr();
       case PrinterFontSize.normal:
-        return AppStrings.normal;
+        return AppStrings.normal.tr();
       case PrinterFontSize.large:
-        return AppStrings.large;
+        return AppStrings.large.tr();
       default:
-        return AppStrings.huge;
+        return AppStrings.huge.tr();
     }
   }
 
@@ -61,7 +62,7 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              AppStrings.set_font_size,
+              AppStrings.set_font_size.tr(),
               style: getMediumTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s16.rSp,

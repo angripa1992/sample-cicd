@@ -99,7 +99,7 @@ class MenuItemImageView extends StatelessWidget {
 
   Widget _outOfStockMessage() {
     return Text(
-      AppStrings.out_of_stock,
+      AppStrings.out_of_stock.tr(),
       style: getRegularTextStyle(
         color: AppColors.white,
         fontSize: AppFontSize.s14.rSp,

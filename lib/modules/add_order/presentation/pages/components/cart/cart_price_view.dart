@@ -57,7 +57,7 @@ class CartPriceView extends StatelessWidget {
             ),
             SizedBox(height: AppSize.s12.rh),
             _item(
-              title: AppStrings.service_fee,
+              title: AppStrings.service_fee.tr(),
               price: cartBill.serviceFee,
             ),
             SizedBox(height: AppSize.s12.rh),

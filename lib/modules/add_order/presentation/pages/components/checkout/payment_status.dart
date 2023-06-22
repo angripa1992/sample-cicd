@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
@@ -44,7 +45,7 @@ class _PaymentStatusViewState extends State<PaymentStatusView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TagTitleView(
-            title: AppStrings.payment_status,
+            title: AppStrings.payment_status.tr(),
             required: true,
             willShowReqTag: widget.willShowReqTag,
           ),
@@ -109,7 +110,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
         hint: Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            AppStrings.select_payment_status,
+            AppStrings.select_payment_status.tr(),
             style: _textStyle,
           ),
         ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,7 +64,7 @@ class AppUpdateManager {
               ),
               const SizedBox(height: AppSize.s8),
               Text(
-                AppStrings.update_required,
+                AppStrings.update_required.tr(),
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s18.rSp,
@@ -72,7 +73,7 @@ class AppUpdateManager {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSize.s10),
                 child: Text(
-                  AppStrings.app_update_msg,
+                  AppStrings.app_update_msg.tr(),
                   textAlign: TextAlign.center,
                   style: getRegularTextStyle(
                     color: AppColors.black,
@@ -87,7 +88,7 @@ class AppUpdateManager {
                 },
                 child: Center(
                   child: Text(
-                    AppStrings.update_app,
+                    AppStrings.update_app.tr(),
                     style: getRegularTextStyle(
                       color: AppColors.pink,
                       fontSize: AppFontSize.s14.rSp,

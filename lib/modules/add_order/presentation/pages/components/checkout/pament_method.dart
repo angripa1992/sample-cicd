@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
@@ -49,7 +50,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TagTitleView(
-            title: AppStrings.payment_method,
+            title: AppStrings.payment_method.tr(),
             required: widget.required!,
             willShowReqTag: widget.willShowReqTag,
           ),
@@ -121,7 +122,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
         hint: Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            AppStrings.add_payment_method,
+            AppStrings.add_payment_method.tr(),
             style: _textStyle,
           ),
         ),

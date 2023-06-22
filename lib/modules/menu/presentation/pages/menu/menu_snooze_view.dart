@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
@@ -38,15 +39,15 @@ class MenuSnoozeView extends StatelessWidget {
   String _duration() {
     final duration = items.stock.snooze.duration;
     if (duration == 24) {
-      return '1 ${AppStrings.day}';
+      return '1 ${AppStrings.day.tr()}';
     } else if (duration == 72) {
-      return '3 ${AppStrings.day}';
+      return '3 ${AppStrings.day.tr()}';
     } else if (duration == 168) {
-      return '7 ${AppStrings.day}';
+      return '7 ${AppStrings.day.tr()}';
     } else if (duration == 0) {
-      return AppStrings.untill_trun_back_on;
+      return AppStrings.untill_trun_back_on.tr();
     } else {
-      return '$duration ${AppStrings.hours}';
+      return '$duration ${AppStrings.hours.tr()}';
     }
   }
 

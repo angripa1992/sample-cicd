@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
@@ -25,7 +26,7 @@ class EmptyCartView extends StatelessWidget {
           SvgPicture.asset(AppImages.emptyCartSvg),
           SizedBox(height: AppSize.s16.rh),
           Text(
-            AppStrings.your_cart_is_empty,
+            AppStrings.your_cart_is_empty.tr(),
             style: getMediumTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s20.rSp,
@@ -33,7 +34,7 @@ class EmptyCartView extends StatelessWidget {
           ),
           SizedBox(height: AppSize.s8.rh),
           Text(
-            AppStrings.add_items_to_cart_msg,
+            AppStrings.add_items_to_cart_msg.tr(),
             style: getRegularTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s16.rSp,
@@ -49,7 +50,7 @@ class EmptyCartView extends StatelessWidget {
               backgroundColor: AppColors.purpleBlue, // Background color
             ),
             child: Text(
-              AppStrings.add_items,
+              AppStrings.add_items.tr(),
               style: getMediumTextStyle(
                 color: AppColors.white,
                 fontSize: AppFontSize.s14.rSp,

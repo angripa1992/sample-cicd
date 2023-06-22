@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
@@ -38,7 +39,7 @@ class CartItemBrand extends StatelessWidget {
                   removeAll(menuBrand.id);
                 },
                 child: Text(
-                  AppStrings.remove_all,
+                  AppStrings.remove_all.tr(),
                   style: getMediumTextStyle(
                     color: AppColors.red,
                   ),

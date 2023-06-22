@@ -50,7 +50,7 @@ class PrintButton extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: AppSize.s8.rw),
                 child: Text(
-                  AppStrings.print,
+                  AppStrings.print.tr(),
                   style: getMediumTextStyle(
                     color: AppColors.white,
                     fontSize: AppFontSize.s14.rSp,
@@ -225,7 +225,7 @@ class AcceptButton extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: AppSize.s8.rw),
                 child: Text(
-                  AppStrings.accept,
+                  AppStrings.accept.tr(),
                   style: getMediumTextStyle(
                     color: AppColors.green,
                     fontSize: AppFontSize.s14.rSp,
@@ -274,7 +274,7 @@ class CanceledButton extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: AppSize.s8.rw),
                       child: Text(
-                        AppStrings.reject,
+                        AppStrings.reject.tr(),
                         style: getMediumTextStyle(
                           color: AppColors.pink,
                           fontSize: AppFontSize.s14.rSp,

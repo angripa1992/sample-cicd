@@ -12,9 +12,15 @@ class StickerPrinterHandler {
 
   StickerPrinterHandler._internal();
 
-  Stream<List<ScanResult>> scanDevices() {
+  Stream<List<ScanResult>> scanDevices(){
     try{
-      _flutterBlue.startScan(timeout: const Duration(seconds: 4));
+      if(_flutterBlue.isScanningNow){
+        _flutterBlue.stopScan().then((value) {
+          _flutterBlue.startScan(timeout: const Duration(seconds: 10));
+        });
+      }else{
+        _flutterBlue.startScan(timeout: const Duration(seconds: 10));
+      }
     }catch (e){
       //ignore
     }

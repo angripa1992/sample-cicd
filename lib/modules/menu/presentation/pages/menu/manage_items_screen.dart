@@ -52,13 +52,14 @@ class ManageItemsScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     vertical: AppSize.s16.rh, horizontal: AppSize.s8.rw),
                 child: Text(
-                  AppStrings.items_list,
+                  AppStrings.items_list.tr(),
                   style: getRegularTextStyle(
                     color: AppColors.dustyGreay,
-                    fontSize: AppFontSize.s14.rSp,
+                    fontSize: AppFontSize.s15.rSp,
                   ),
                 ),
               ),
+
               SubMenuItemsListView(
                 subSections: subSections,
                 onChanged: (modifiedItems) {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -338,7 +339,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
         OrderActionButton(
-          buttonText: AppStrings.procees_to_checkout,
+          buttonText: AppStrings.procees_to_checkout.tr(),
           enable: true,
           loading: false,
           totalPrice: _cartBill!.totalPrice,

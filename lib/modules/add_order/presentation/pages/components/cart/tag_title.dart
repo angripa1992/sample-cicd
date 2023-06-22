@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
@@ -43,7 +44,7 @@ class TagTitleView extends StatelessWidget {
               color: required ? AppColors.lightVioletTwo : AppColors.whiteSmoke,
             ),
             child: Text(
-              required ? AppStrings.required : AppStrings.optional ,
+              required ? AppStrings.required.tr() : AppStrings.optional.tr() ,
               style: getMediumTextStyle(
                 color: required ? AppColors.purpleBlue : AppColors.balticSea,
                 fontSize: AppFontSize.s10.rSp,

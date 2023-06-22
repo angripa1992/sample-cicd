@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
@@ -170,7 +171,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                 left: AppSize.s10.rw,
               ),
               child: Text(
-                '(${AppStrings.out_of_stock_till} ${DateTimeProvider.parseSnoozeEndTime(widget.items.stock.snooze.endTime)})',
+                '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.items.stock.snooze.endTime)})',
                 textAlign: TextAlign.right,
                 style: getMediumTextStyle(
                   color: AppColors.warmRed,

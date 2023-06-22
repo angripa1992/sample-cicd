@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
@@ -97,7 +98,7 @@ class EditingItemVIew extends StatelessWidget {
                   ),
                   SizedBox(width: AppSize.s4.rw),
                   Text(
-                    AppStrings.delete_item,
+                    AppStrings.delete_item.tr(),
                     style: getMediumTextStyle(color: AppColors.red),
                   ),
                 ],

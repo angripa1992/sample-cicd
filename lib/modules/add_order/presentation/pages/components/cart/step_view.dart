@@ -48,7 +48,7 @@ class StepView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(right: AppSize.s4.rw),
           child: Text(
-            AppStrings.cart,
+            AppStrings.cart.tr(),
             style: getRegularTextStyle(
               color: stepPosition == StepPosition.cart
                   ? AppColors.purpleBlue
@@ -75,7 +75,7 @@ class StepView extends StatelessWidget {
           ),
         ),
         Text(
-          AppStrings.checkout ,
+          AppStrings.checkout.tr() ,
           style: getRegularTextStyle(
             color: stepPosition == StepPosition.checkout
                 ? AppColors.purpleBlue

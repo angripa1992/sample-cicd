@@ -107,7 +107,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppStrings.out_of_stock_settings,
+                  AppStrings.out_of_stock_settings.tr(),
                   style: getMediumTextStyle(
                     color: AppColors.dustyGrey,
                   ),
@@ -128,7 +128,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
               children: [
                 Flexible(
                   child: Text(
-                    AppStrings.out_of_stock,
+                    AppStrings.out_of_stock.tr(),
                     style: getMediumTextStyle(
                       color: AppColors.balticSea,
                       fontSize: AppFontSize.s14.rSp,
@@ -155,7 +155,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                 if (widget.item.stock.snooze.endTime.isNotEmpty)
                   Flexible(
                     child: Text(
-                      '(${AppStrings.out_of_stock_till} ${DateTimeProvider.parseSnoozeEndTime(widget.item.stock.snooze.endTime)})',
+                      '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.item.stock.snooze.endTime)})',
                       style: getMediumTextStyle(
                         color: AppColors.warmRed,
                         fontSize: AppFontSize.s12.rSp,
@@ -198,7 +198,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                         } else if (state is Success<Stock>) {
                           showSuccessSnackBar(
                             context,
-                            AppStrings.stock_disabled_successful,
+                            AppStrings.stock_disabled_successful.tr(),
                           );
                           widget.onChanged(state.data);
                           Navigator.pop(context);
@@ -313,7 +313,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
     return Column(
       children: [
         RadioListTile<OOS>(
-          title: Text('1 ${AppStrings.day}', style: _textStyle),
+          title: Text('1 ${AppStrings.day.tr()}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_1,
           activeColor: AppColors.purpleBlue,
@@ -325,7 +325,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           },
         ),
         RadioListTile<OOS>(
-          title: Text('3 ${AppStrings.day}', style: _textStyle),
+          title: Text('3 ${AppStrings.day.tr()}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_3,
           activeColor: AppColors.purpleBlue,
@@ -337,7 +337,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           },
         ),
         RadioListTile<OOS>(
-          title: Text('7 ${AppStrings.day}', style: _textStyle),
+          title: Text('7 ${AppStrings.day.tr()}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_7,
           activeColor: AppColors.purpleBlue,
@@ -375,7 +375,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
                 ),
               ),
               SizedBox(width: AppSize.s12.rw),
-              Text(AppStrings.hours, style: _textStyle),
+              Text(AppStrings.hours.tr(), style: _textStyle),
             ],
           ),
           groupValue: _groupValue,
@@ -389,7 +389,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           },
         ),
         RadioListTile<OOS>(
-          title: Text(AppStrings.untill_trun_back_on, style: _textStyle),
+          title: Text(AppStrings.untill_trun_back_on.tr(), style: _textStyle),
           groupValue: _groupValue,
           value: OOS.default_,
           activeColor: AppColors.purpleBlue,

@@ -84,7 +84,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                     autofocus:true,
                     onChanged: _onSearchChanged,
                     decoration: InputDecoration(
-                      hintText: AppStrings.search_for_items,
+                      hintText: AppStrings.search_for_items.tr(),
                       hintStyle: getRegularTextStyle(
                         color: AppColors.dustyGreay,
                         fontSize: AppFontSize.s12.rSp,

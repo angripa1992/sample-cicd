@@ -39,7 +39,7 @@ class DeleteItemDialogView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                AppStrings.want_to_delete_item_msg,
+                AppStrings.want_to_delete_item_msg.tr(),
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
@@ -217,7 +217,7 @@ class DeleteAllDialogView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                AppStrings.want_to_delete_all_item_msg,
+                AppStrings.want_to_delete_all_item_msg.tr(),
                 style: getMediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,

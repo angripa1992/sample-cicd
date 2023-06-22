@@ -75,7 +75,7 @@ class _TypeSelectorState extends State<TypeSelector> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TagTitleView(title: AppStrings.order_type,required: true),
+          TagTitleView(title: AppStrings.order_type.tr(),required: true),
           SizedBox(height: AppSize.s4.rh),
           Wrap(
             alignment: WrapAlignment.center,

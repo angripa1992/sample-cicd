@@ -39,7 +39,7 @@ class EditGrabOrderView extends StatefulWidget {
 }
 
 class _EditGrabOrderViewState extends State<EditGrabOrderView> {
-  final _calculatedText = AppStrings.calculated_at_next_step;
+  final _calculatedText = AppStrings.calculated_at_next_step.tr();
   final _enableButtonNotifier = ValueNotifier<bool>(false);
   late Order _currentOrder;
   bool _showPrice = true;
@@ -161,7 +161,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppStrings.cart,
+                  AppStrings.cart.tr(),
                   style: getMediumTextStyle(
                     color: AppColors.balticSea,
                     fontSize: AppFontSize.s17.rSp,
@@ -169,7 +169,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 ),
                 SizedBox(height: AppSize.s4.rh),
                 Text(
-                  '#${_currentOrder.id} (${AppStrings.order_id})',
+                  '#${_currentOrder.id} (${AppStrings.order_id.tr()})',
                   style: getRegularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s12.rSp,
@@ -191,7 +191,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
           SvgPicture.asset(AppImages.emptyCartSvg),
           SizedBox(height: AppSize.s16.rh),
           Text(
-            AppStrings.your_cart_is_empty,
+            AppStrings.your_cart_is_empty.tr(),
             style: getMediumTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s20.rSp,
@@ -243,7 +243,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                                 TextButton(
                                   onPressed: _removeAll,
                                   child: Text(
-                                    AppStrings.remove_all,
+                                    AppStrings.remove_all.tr(),
                                     style: getMediumTextStyle(
                                       color: AppColors.red,
                                     ),
@@ -432,7 +432,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                   ),
                   children: [
                     TextSpan(
-                      text: ' (${AppStrings.inc_vat})',
+                      text: ' (${AppStrings.inc_vat.tr()})',
                       style: getRegularTextStyle(
                         color: AppColors.dustyGreay,
                       ),

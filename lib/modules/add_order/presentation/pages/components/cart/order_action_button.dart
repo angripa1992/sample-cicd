@@ -50,7 +50,7 @@ class OrderActionButton extends StatelessWidget {
               ),
               SizedBox(width: AppSize.s4.rw),
               Text(
-                AppStrings.inc_vat,
+                AppStrings.inc_vat.tr(),
                 style: getRegularTextStyle(
                   color: AppColors.dustyGreay,
                 ),

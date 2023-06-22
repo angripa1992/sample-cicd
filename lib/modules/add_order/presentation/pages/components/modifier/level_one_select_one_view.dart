@@ -108,7 +108,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
                 child: Column(
                   children: [
                     ModifierGroupInfo(
-                        title: '${group.title} ${AppStrings.for_} ${_currentModifier!.title}',
+                        title: '${group.title} ${AppStrings.for_.tr()} ${_currentModifier!.title}',
                         rule: group.rule),
                     (group.rule.typeTitle == RuleType.exact &&
                             group.rule.value == 1)

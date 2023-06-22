@@ -33,7 +33,7 @@ class SpecialInstructionField extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.special_instruction,
+              AppStrings.special_instruction.tr(),
               style: getMediumTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s14.rSp,
@@ -42,7 +42,7 @@ class SpecialInstructionField extends StatelessWidget {
             SizedBox(height: AppSize.s8.rh),
             NoteTextField(
               controller: controller,
-              hint:  AppStrings.add_instruction,
+              hint:  AppStrings.add_instruction.tr(),
               minLines: 5,
             ),
           ],

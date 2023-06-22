@@ -211,10 +211,20 @@ class DeviceListBottomSheetManager {
                     );
                   },
                 );
+        }else if(snapshot.connectionState == ConnectionState.waiting){
+          return Center(
+            child: Text(
+              AppStrings.looking_for_devices.tr(),
+              style: getRegularTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+          );
         }
         return Center(
           child: Text(
-            AppStrings.looking_for_devices.tr(),
+            AppStrings.no_bluetooth_devices.tr(),
             style: getRegularTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,

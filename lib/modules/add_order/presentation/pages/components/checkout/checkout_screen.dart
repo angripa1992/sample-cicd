@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
@@ -133,7 +134,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             },
             builder: (context, state) {
               return OrderActionButton(
-                buttonText: CartManager().getUpdateCartInfo() == null ? AppStrings.placed_order : AppStrings.update_order ,
+                buttonText: CartManager().getUpdateCartInfo() == null ? AppStrings.placed_order.tr() : AppStrings.update_order.tr() ,
                 enable: state is Loading ? false : true,
                 totalPrice: widget.checkoutData.cartBill.totalPrice,
                 onProceed: _placeOrder,

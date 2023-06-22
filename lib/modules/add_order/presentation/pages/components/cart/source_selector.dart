@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/tag_title.dart';
@@ -83,7 +84,7 @@ class _SourceSelectorState extends State<SourceSelector> {
         ),
         child: Column(
           children: [
-            TagTitleView(title: AppStrings.order_source , required: true),
+            TagTitleView(title: AppStrings.order_source.tr() , required: true),
             Container(
               margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               padding: EdgeInsets.symmetric(

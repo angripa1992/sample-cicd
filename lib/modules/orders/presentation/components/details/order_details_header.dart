@@ -102,11 +102,13 @@ class OrderDetailsHeaderView extends StatelessWidget {
               size: AppSize.s16.rSp,
             ),
             SizedBox(width: AppSize.s8.rw),
-            Text(
-              AppStrings.edit_order,
-              style: getRegularTextStyle(
-                color: AppColors.blackCow,
-                fontSize: AppFontSize.s14.rSp,
+            Expanded(
+              child: Text(
+                AppStrings.edit_order.tr(),
+                style: getRegularTextStyle(
+                  color: AppColors.blackCow,
+                  fontSize: AppFontSize.s14.rSp,
+                ),
               ),
             ),
           ],

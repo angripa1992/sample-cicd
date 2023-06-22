@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
@@ -98,7 +99,7 @@ class CartItemsListView extends StatelessWidget {
                         addMore(cartItems.first.brand);
                       },
                       child: Text(
-                        '+ ${AppStrings.add_more_items}',
+                        '+ ${AppStrings.add_more_items.tr()}',
                         style: getMediumTextStyle(
                           color: AppColors.purpleBlue,
                         ),

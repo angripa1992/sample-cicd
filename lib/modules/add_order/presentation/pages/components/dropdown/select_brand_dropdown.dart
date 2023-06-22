@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -66,7 +67,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
           color: AppColors.black,
         ),
         hint: Center(
-          child: Text(AppStrings.select_brand_name, style: _textStyle),
+          child: Text(AppStrings.select_brand_name.tr(), style: _textStyle),
         ),
         selectedItemBuilder: (BuildContext context) {
           return widget.brands.map<Widget>((MenuBrand item) {

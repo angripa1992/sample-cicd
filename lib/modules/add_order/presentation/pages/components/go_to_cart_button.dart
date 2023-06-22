@@ -70,7 +70,7 @@ class GoToCartButton extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            AppStrings.go_to_cart,
+                            AppStrings.go_to_cart.tr(),
                             style: getMediumTextStyle(
                               color: AppColors.white,
                               fontSize: AppFontSize.s14.rSp,

@@ -137,7 +137,7 @@ class CartItemView extends StatelessWidget {
               ),
               onPressed: cartItem.modifiers.isEmpty ? null : onEdit,
               child: Text(
-                AppStrings.edit,
+                AppStrings.edit.tr(),
                 style: getRegularTextStyle(
                   color: cartItem.modifiers.isEmpty
                       ? AppColors.dustyGreay

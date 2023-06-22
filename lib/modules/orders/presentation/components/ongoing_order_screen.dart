@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -134,7 +135,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
         (order.paymentStatus == PaymentStatusId.pending ||
             order.paymentStatus == PaymentStatusId.failed)) {
       showAddPaymentStatusMethodDialog(
-        title: AppStrings.select_payment_method_and_status,
+        title: AppStrings.select_payment_method_and_status.tr(),
         context: context,
         order: order,
         willOnlyUpdatePaymentInfo: false,

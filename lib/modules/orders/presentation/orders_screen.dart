@@ -163,13 +163,13 @@ class _OrdersScreenState extends State<OrdersScreen>
                                   getRegularTextStyle(color: AppColors.white),
                             ),
                             badgeStyle: _badgeStyle,
-                            child: Text(AppStrings.schedule),
+                            child: Text(AppStrings.schedule.tr()),
                           );
                         }
-                        return Text(AppStrings.schedule);
+                        return Text(AppStrings.schedule.tr());
                       },
                     ),
-                    Tab(text: AppStrings.history),
+                    Tab(text: AppStrings.history.tr()),
                   ],
                   labelPadding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                   unselectedLabelColor: AppColors.lightViolet,

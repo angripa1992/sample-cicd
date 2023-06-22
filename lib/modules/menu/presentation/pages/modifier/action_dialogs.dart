@@ -56,7 +56,7 @@ void showEnableModifierDialog({
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? AppStrings.modifier_group : AppStrings.modifier} ${AppStrings.enabled_success.tr()}');
+                              '${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()} ${AppStrings.enabled_success.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
@@ -144,7 +144,7 @@ void showDisableModifierDialog({
               Text(
                 affected
                     ? AppStrings.modifier_required_msg.tr()
-                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group : AppStrings.modifier}?',
+                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()}?',
                 style: getMediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -183,7 +183,7 @@ void showDisableModifierDialog({
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? AppStrings.modifier_group : AppStrings.modifier } ${AppStrings.disabled_success.tr()}');
+                              '${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr() } ${AppStrings.disabled_success.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
@@ -35,7 +36,7 @@ class CheckoutAppBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppStrings.placed_order,
+                  AppStrings.placed_order.tr(),
                   style: getMediumTextStyle(
                     color: AppColors.balticSea,
                     fontSize: AppFontSize.s17.rSp,

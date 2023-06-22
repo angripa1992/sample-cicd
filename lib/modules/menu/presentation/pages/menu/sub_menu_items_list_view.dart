@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/domain/entities/sub_section.dart';
@@ -8,6 +9,9 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../app/constants.dart';
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
+import '../../../../../resources/styles.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/items.dart';
@@ -85,89 +89,116 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-        key: UniqueKey(),
-        itemCount: _items.length,
-        itemBuilder: (_, index) {
-          return Card(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: AppSize.s8.rh,
-                horizontal: AppSize.s10.rw,
-              ),
-              child: IntrinsicHeight(
-                child: InkWell(
-                  onTap: () {
-                    _showItemDetails(index);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
+      child: _items.isNotEmpty
+          ? ListView.builder(
+              key: UniqueKey(),
+              itemCount: _items.length,
+              itemBuilder: (_, index) {
+                return Card(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: AppSize.s8.rh,
+                      horizontal: AppSize.s10.rw,
+                    ),
+                    child: IntrinsicHeight(
+                      child: InkWell(
+                        onTap: () {
+                          _showItemDetails(index);
+                        },
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(right: AppSize.s10.rw),
-                              child: ImageView(
-                                path: _items[index].image,
-                                width: AppSize.s36.rw,
-                                height: AppSize.s36.rh,
-                              ),
-                            ),
                             Flexible(
                               child: Row(
                                 children: [
-                                  Text('${index + 1}.'),
-                                  SizedBox(width: AppSize.s4.rw),
-                                  Expanded(child: Text(_items[index].title)),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(right: AppSize.s10.rw),
+                                    child: ImageView(
+                                      path: _items[index].image,
+                                      width: AppSize.s36.rw,
+                                      height: AppSize.s36.rh,
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          '${index + 1}.',
+                                          style: getRegularTextStyle(
+                                            color: AppColors.bluewood,
+                                            fontSize: AppFontSize.s14.rSp,
+                                          ),
+                                        ),
+                                        SizedBox(width: AppSize.s4.rw),
+                                        Expanded(
+                                          child: Text(
+                                            _items[index].title,
+                                            style: getRegularTextStyle(
+                                              color: AppColors.bluewood,
+                                              fontSize: AppFontSize.s14.rSp,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AppSize.s8.rw),
+                                  child: MenuSnoozeView(
+                                    items: _items[index],
+                                    providerId: widget.providerID,
+                                    borderRadius: AppSize.s8.rSp,
+                                    width: AppSize.s80.rw,
+                                    bgColor: AppColors.whiteSmoke,
+                                    parentEnabled: widget.parentEnabled &&
+                                        widget.subSections.enabled,
+                                    brandId: widget.brandID,
+                                    iconPath: AppIcons.editRound,
+                                    onChanged: (stock) {
+                                      _onChanged(index, stock);
+                                    },
+                                  ),
+                                ),
+                                MenuSwitchView(
+                                  id: _items[index].id,
+                                  brandId: widget.brandID,
+                                  providerId: widget.providerID,
+                                  type: MenuType.ITEM,
+                                  enabled: _items[index].stock.available,
+                                  parentEnabled: widget.parentEnabled &&
+                                      widget.subSections.enabled,
+                                  onItemChanged: (stock) {
+                                    _onChanged(index, stock);
+                                  },
+                                  onMenuChanged: (enabled) {},
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-                            child: MenuSnoozeView(
-                              items: _items[index],
-                              providerId: widget.providerID,
-                              borderRadius: AppSize.s8.rSp,
-                              width: AppSize.s80.rw,
-                              bgColor: AppColors.whiteSmoke,
-                              parentEnabled: widget.parentEnabled && widget.subSections.enabled,
-                              brandId: widget.brandID,
-                              iconPath: AppIcons.editRound,
-                              onChanged: (stock) {
-                                _onChanged(index, stock);
-                              },
-                            ),
-                          ),
-                          MenuSwitchView(
-                            id: _items[index].id,
-                            brandId: widget.brandID,
-                            providerId: widget.providerID,
-                            type: MenuType.ITEM,
-                            enabled: _items[index].stock.available,
-                            parentEnabled: widget.parentEnabled && widget.subSections.enabled,
-                            onItemChanged: (stock) {
-                              _onChanged(index, stock);
-                            },
-                            onMenuChanged: (enabled) {},
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
+                );
+              },
+            )
+          : Center(
+              child: Text(
+                AppStrings.no_item_found.tr(),
+                style: getRegularTextStyle(
+                  color: AppColors.bluewood,
+                  fontSize: AppFontSize.s14.rSp,
                 ),
               ),
             ),
-          );
-        },
-      ),
     );
     ;
   }

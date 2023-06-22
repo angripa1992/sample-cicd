@@ -60,14 +60,14 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
         color: AppColors.black,
       ),
       hint: Center(
-        child: Text(AppStrings.categories, style: _textStyle),
+        child: Text(AppStrings.categories.tr(), style: _textStyle),
       ),
       selectedItemBuilder: (BuildContext context) {
         return widget.items.map<Widget>((SubSectionListItem item) {
           return Container(
             alignment: Alignment.centerLeft,
             child: Text(
-              AppStrings.categories,
+              AppStrings.categories.tr(),
               style: _textStyle,
             ),
           );

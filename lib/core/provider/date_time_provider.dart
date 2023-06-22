@@ -3,6 +3,12 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeProvider {
+  static String currentDateTime() {
+    final formatter = DateFormat('d MMM yyyy • h:mm a');
+    final String formatted = formatter.format(DateTime.now().toLocal());
+    return formatted;
+  }
+
   static String today() {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String formatted = formatter.format(DateTime.now());

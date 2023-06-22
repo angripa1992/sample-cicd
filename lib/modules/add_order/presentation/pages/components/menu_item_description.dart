@@ -173,7 +173,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                         horizontal: AppSize.s16.rw,
                       ),
                       child: Text(
-                        AppStrings.add_to_cart,
+                        AppStrings.add_to_cart.tr(),
                         style: getRegularTextStyle(
                           color: AppColors.white,
                         ),

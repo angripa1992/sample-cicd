@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/klikit.dart';
+import 'package:klikit/core/network/slack_logger.dart';
 import 'package:klikit/environment_variables.dart';
 import 'package:klikit/language/smart_asset_loader.dart';
 import 'package:klikit/resources/assets.dart';
@@ -31,6 +32,8 @@ void mainCommon(EnvironmentVariables environmentVariables) async {
   FcmService().registerRefreshTokenListener();
   await FcmService().getFcmToken();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  SlackLoggerResolver().initLogger();
 
   final supportedLocale = await getIt.get<LanguageManager>().getSupportedLocale();
   final startLocale = await getIt.get<LanguageManager>().getStartLocale();
