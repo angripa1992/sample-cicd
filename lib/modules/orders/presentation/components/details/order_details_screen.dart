@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/details/price_view.dart';
+import 'package:klikit/modules/orders/presentation/components/details/rider_info_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/scheduled_view.dart';
 
 import '../../../../../app/constants.dart';
@@ -19,7 +20,6 @@ import '../../../edit_order/update_grab_order_cubit.dart';
 import 'comment_view.dart';
 import 'order_details_header.dart';
 import 'order_item_details.dart';
-import 'order_payment_info.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   final Order order;
@@ -96,7 +96,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         _appBar(),
-        if (_currentOrder.status == OrderStatus.SCHEDULED && _currentOrder.scheduledTime.isNotEmpty)
+        if (_currentOrder.status == OrderStatus.SCHEDULED &&
+            _currentOrder.scheduledTime.isNotEmpty)
           ScheduledDetailsView(
             scheduleTime: _currentOrder.scheduledTime,
           ),
@@ -115,6 +116,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ),
         OrderItemDetails(order: _currentOrder),
         CommentView(comment: _currentOrder.orderComment),
+        if (_currentOrder.isThreePlOrder &&
+            _currentOrder.fulfillmentStatusId ==
+                FulfillmentStatusId.FOUND_RIDER &&
+            _currentOrder.fulfillmentRider != null)
+          RiderInfoView(
+            riderInfo: _currentOrder.fulfillmentRider!,
+            pickUpTime: _currentOrder.fulfillmentExpectedPickupTime,
+          ),
         PriceView(order: _currentOrder),
         Padding(
           padding: EdgeInsets.symmetric(

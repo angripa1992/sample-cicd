@@ -37,5 +37,7 @@ abstract class OrderRepository {
 
   Future<Either<Failure, ActionSuccess>> updateGrabOrder(GrabOrderUpdateRequestModel model);
 
+  Future<Either<Failure, ActionSuccess>> findRider(int id);
+
   Future<Either<Failure, order.Order>> calculateGrabBill(OrderModel model);
 }

@@ -173,16 +173,20 @@ class OrderRepositoryImpl extends OrderRepository {
     late OrderSource orderSource;
     if (sourceId > 0) {
       final source = await _orderInformationProvider.findSourceById(sourceId);
-      orderSource = OrderSource(source.id, source.name, source.image, SourceTpe.source);
+      orderSource =
+          OrderSource(source.id, source.name, source.image, SourceTpe.source);
     } else {
-      final provider = await _orderInformationProvider.findProviderById(providerId);
-      orderSource = OrderSource(provider.id, provider.title, provider.logo, SourceTpe.provider);
+      final provider =
+          await _orderInformationProvider.findProviderById(providerId);
+      orderSource = OrderSource(
+          provider.id, provider.title, provider.logo, SourceTpe.provider);
     }
     return orderModel.toEntity(orderSource: orderSource);
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> updatePaymentInfo(Map<String, dynamic> params) async {
+  Future<Either<Failure, ActionSuccess>> updatePaymentInfo(
+      Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updatePaymentInfo(params);
@@ -196,7 +200,8 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, order.Order>> calculateGrabBill(OrderModel model) async{
+  Future<Either<Failure, order.Order>> calculateGrabBill(
+      OrderModel model) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.calculateGrabOrder(model);
@@ -211,10 +216,25 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> updateGrabOrder(GrabOrderUpdateRequestModel model) async{
+  Future<Either<Failure, ActionSuccess>> updateGrabOrder(
+      GrabOrderUpdateRequestModel model) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updateGrabOrder(model);
+        return Right(response);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> findRider(int id) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.findRider(id);
         return Right(response);
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);

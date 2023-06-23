@@ -19,6 +19,7 @@ import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../../app/size_config.dart';
 import '../../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../../add_order/presentation/pages/add_order_screen.dart';
+import '../../../widgets/snackbars.dart';
 import '../../edit_order/calculate_grab_order_cubit.dart';
 import '../../edit_order/edit_grab_order.dart';
 import '../../edit_order/update_grab_order_cubit.dart';
@@ -269,6 +270,22 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
+  void _findRider(int id) async {
+    EasyLoading.show();
+    final response = await _orderRepository.findRider(id);
+    response.fold(
+      (error) {
+        EasyLoading.dismiss();
+        showApiErrorSnackBar(context, error);
+      },
+      (success){
+        EasyLoading.dismiss();
+        showSuccessSnackBar(context,success.message ?? '');
+        _refresh(willBackground: true);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, Order>.separated(
@@ -311,7 +328,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                 onEditManualOrder: () {
                   Navigator.pop(context);
                   _editManualOrder(item);
-                }, onRiderFind: () {  },
+                },
+                onRiderFind: () {
+                  _findRider(item.id);
+                },
               );
               _sendScreenEvent();
             },
@@ -338,7 +358,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
             },
             onEditGrabOrder: () {
               _editGrabOrder(item);
-            }, onRiderFind: () {  },
+            },
+            onRiderFind: () {
+              _findRider(item.id);
+            },
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,

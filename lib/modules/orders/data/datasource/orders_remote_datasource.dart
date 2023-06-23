@@ -50,6 +50,8 @@ abstract class OrderRemoteDatasource {
 
   Future<ActionSuccess> updateGrabOrder(GrabOrderUpdateRequestModel model);
 
+  Future<ActionSuccess> findRider(int id);
+
   Future<OrderModel> calculateGrabOrder(OrderModel model);
 }
 
@@ -249,6 +251,17 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
     try {
       final payload = model.toJson();
       final response = await _restClient.request(Urls.updateGrabOrder, Method.PUT, payload);
+      return ActionSuccess.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> findRider(int id) async{
+    try {
+      final response = await _restClient.request(Urls.findRider(id), Method.PATCH,
+          {});
       return ActionSuccess.fromJson(response);
     } on DioError {
       rethrow;

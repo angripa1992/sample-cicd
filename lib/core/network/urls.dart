@@ -20,6 +20,7 @@ class Urls {
   static const String calculateGrabOrderBill = '/v1/oni/grabfoodorder/calculate-bill';
   static const String updateGrabOrder = '/v1/oni/grabfoodorder';
   static const String manualOrder = '/v1/oni/manualorder';
+  static String findRider(int id) => '/v1/oni/order/fulfillment/dispatch/$id';
 
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
 

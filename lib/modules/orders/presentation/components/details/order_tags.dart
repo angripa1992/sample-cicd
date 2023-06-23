@@ -10,6 +10,7 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import 'order_payment_info.dart';
 
 class OrderTagsView extends StatelessWidget {
   final Order order;
@@ -63,6 +64,7 @@ class OrderTagsView extends StatelessWidget {
         runSpacing: AppSize.s8.rh,
         spacing: AppSize.s8.rw,
         children: [
+          OrderPaymentInfoView(order: order),
           if (order.providerId == ProviderID.KLIKIT)
             _tagView(
               order.isManualOrder

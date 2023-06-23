@@ -95,8 +95,17 @@ class OrderItemView extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: AppSize.s2.rh),
                     Text(
                       order.orderSource.title,
+                      style: getRegularTextStyle(
+                        color: AppColors.bluewood,
+                        fontSize: AppFontSize.s14.rSp,
+                      ),
+                    ),
+                    SizedBox(height: AppSize.s4.rh),
+                    Text(
+                      DateTimeProvider.parseOrderCreatedDate(order.createdAt),
                       style: getRegularTextStyle(
                         color: AppColors.bluewood,
                         fontSize: AppFontSize.s12.rSp,
@@ -105,7 +114,8 @@ class OrderItemView extends StatelessWidget {
                     if (order.isThreePlOrder && order.fulfillmentStatusId > 0)
                       Padding(
                         padding: EdgeInsets.only(top: AppSize.s6.rh),
-                        child: ThreePlStatus(threePlStatus: order.fulfillmentStatusId),
+                        child: ThreePlStatus(
+                            threePlStatus: order.fulfillmentStatusId),
                       ),
                   ],
                 ),
@@ -117,7 +127,7 @@ class OrderItemView extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.only(
               top: AppSize.s8.rh,
-              right: AppSize.s8.rw,
+              right: AppSize.s4.rw,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -126,7 +136,10 @@ class OrderItemView extends StatelessWidget {
                 TextButton(
                   style: TextButton.styleFrom(
                     minimumSize: Size.zero,
-                    padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+                    padding: EdgeInsets.only(
+                      top: AppSize.s10.rh,
+                      bottom: AppSize.s4.rh,
+                    ),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   onPressed: seeDetails,
@@ -137,12 +150,13 @@ class OrderItemView extends StatelessWidget {
                         AppStrings.see_details.tr(),
                         style: getMediumTextStyle(
                           color: AppColors.purpleBlue,
-                          fontSize: AppFontSize.s11.rSp,
+                          fontSize: AppFontSize.s12.rSp,
                         ),
                       ),
                       Icon(
                         Icons.arrow_forward_rounded,
                         color: AppColors.purpleBlue,
+                        size: AppSize.s16.rSp,
                       ),
                     ],
                   ),

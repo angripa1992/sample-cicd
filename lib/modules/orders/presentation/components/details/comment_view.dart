@@ -29,17 +29,17 @@ class CommentView extends StatelessWidget {
             Divider(color: AppColors.frenchGrey),
             Text(
               AppStrings.order_instruction.tr(),
-              style: getMediumTextStyle(
-                color: AppColors.darkGrey,
-                fontSize: AppFontSize.s14.rSp,
+              style: getBoldTextStyle(
+                color: AppColors.bluewood,
+                fontSize: AppFontSize.s15.rSp,
               ),
             ),
             SizedBox(height: AppSize.s4.rh),
             Text(
               comment,
               style: getRegularTextStyle(
-                color: AppColors.darkGrey,
-                fontSize: AppFontSize.s12.rSp,
+                color: AppColors.bluewood,
+                fontSize: AppFontSize.s14.rSp,
               ),
             ),
           ],

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -15,6 +16,7 @@ import '../../../../../printer/printing_handler.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../../resources/strings.dart';
+import '../../../widgets/snackbars.dart';
 import '../bloc/ongoing_order_cubit.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
@@ -172,6 +174,22 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     );
   }
 
+  void _findRider(int id) async {
+    EasyLoading.show();
+    final response = await _orderRepository.findRider(id);
+    response.fold(
+      (error) {
+        EasyLoading.dismiss();
+        showApiErrorSnackBar(context, error);
+      },
+      (success) {
+        EasyLoading.dismiss();
+        showSuccessSnackBar(context, success.message ?? '');
+        _refresh(willBackground: true);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return PagedListView<int, Order>.separated(
@@ -209,7 +227,10 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                   _refresh(willBackground: true);
                 },
                 onGrabEditSuccess: () {},
-                onEditManualOrder: () {}, onRiderFind: () {  },
+                onEditManualOrder: () {},
+                onRiderFind: () {
+                  _findRider(item.id);
+                },
               );
               _sendEvent();
             },
@@ -232,7 +253,10 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
               );
             },
             onEditGrabOrder: () {},
-            onEditManualOrder: () {}, onRiderFind: () {  },
+            onEditManualOrder: () {},
+            onRiderFind: () {
+              _findRider(item.id);
+            },
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,

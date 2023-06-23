@@ -312,27 +312,24 @@ class EditButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: AppSize.s8.rw),
-      child: SizedBox(
-        height: AppSize.s28.rh,
-        child: ElevatedButton(
-          onPressed: onEdit,
-          style: ElevatedButton.styleFrom(
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                side: BorderSide(color: AppColors.purpleBlue)),
-          ),
-          child: SvgPicture.asset(
-            AppIcons.tablerEdit,
-            color: AppColors.purpleBlue,
-            height: AppSize.s16.rh,
-            width: AppSize.s16.rw,
-          ),
+    return SizedBox(
+      height: AppSize.s28.rh,
+      child: ElevatedButton(
+        onPressed: onEdit,
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+              side: BorderSide(color: AppColors.purpleBlue)),
+        ),
+        child: SvgPicture.asset(
+          AppIcons.tablerEdit,
+          color: AppColors.purpleBlue,
+          height: AppSize.s16.rh,
+          width: AppSize.s16.rw,
         ),
       ),
     );
@@ -349,26 +346,23 @@ class FindRiderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: AppSize.s8.rw),
-      child: SizedBox(
-        height: AppSize.s28.rh,
-        child: ElevatedButton(
-          onPressed: onFound,
-          style: ElevatedButton.styleFrom(
-            minimumSize: Size.zero,
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                side: BorderSide(color: AppColors.purpleBlue)),
-          ),
-          child: Icon(
-            Icons.delivery_dining_rounded,
-            size: AppSize.s16.rSp,
-            color: AppColors.purpleBlue,
-          ),
+    return SizedBox(
+      height: AppSize.s28.rh,
+      child: ElevatedButton(
+        onPressed: onFound,
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+              side: BorderSide(color: AppColors.purpleBlue)),
+        ),
+        child: Icon(
+          Icons.delivery_dining_rounded,
+          size: AppSize.s16.rSp,
+          color: AppColors.purpleBlue,
         ),
       ),
     );
@@ -408,7 +402,7 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
-        SizedBox(width: AppSize.s8.rw),
+        if(ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
         CanceledButton(
           expanded: false,
           onCanceled: () {
@@ -440,7 +434,7 @@ Widget getActionButtons({
           padding: AppSize.s16,
           expanded: false,
         ),
-        SizedBox(width: AppSize.s8.rw),
+        if(ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
         DeliverButton(
           expanded: false,
           onDeliver: () {
@@ -468,15 +462,6 @@ Widget getActionButtons({
           FindRiderButton(
             onFound: onRiderFind,
           ),
-        SizedBox(width: AppSize.s8.rw),
-        ReadyButton(
-          expanded: false,
-          onReady: () {
-            onAction('${AppStrings.ready_order.tr()} #${order.id}',
-                OrderStatus.READY);
-          },
-          enabled: !order.isInterceptorOrder,
-        ),
         if (canUpdateGrabOrder || canUpdateManualOrder)
           EditButton(
             onEdit: () {
@@ -487,6 +472,15 @@ Widget getActionButtons({
               }
             },
           ),
+        if(ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+        ReadyButton(
+          expanded: false,
+          onReady: () {
+            onAction('${AppStrings.ready_order.tr()} #${order.id}',
+                OrderStatus.READY);
+          },
+          enabled: !order.isInterceptorOrder,
+        ),
       ],
     );
   }
@@ -501,7 +495,7 @@ Widget getActionButtons({
           padding: AppSize.s16,
           expanded: false,
         ),
-        SizedBox(width: AppSize.s8.rw),
+        if(ScreenSizes.isTablet)  SizedBox(width: AppSize.s8.rw),
         PickedUpButton(
           expanded: false,
           onPickedUp: () {
@@ -522,7 +516,7 @@ Widget getActionButtons({
         padding: AppSize.s16,
         expanded: false,
       ),
-      SizedBox(width: AppSize.s8.rw),
+      if(ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
       if (order.isThreePlOrder && order.canFindFulfillmentRider)
         FindRiderButton(
           onFound: onRiderFind,

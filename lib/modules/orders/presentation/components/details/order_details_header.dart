@@ -58,13 +58,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         children: [
           _idView(),
           SizedBox(height: AppSize.s12.rh),
-          Row(
-            children: [
-              OrderPaymentInfoView(order: order),
-              SizedBox(width: AppSize.s8.rw),
-              Expanded(child: OrderTagsView(order: order)),
-            ],
-          ),
+          OrderTagsView(order: order),
           SizedBox(height: AppSize.s8.rh),
           _externalIdView(),
           SizedBox(height: AppSize.s8.rh),
