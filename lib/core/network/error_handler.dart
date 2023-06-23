@@ -55,7 +55,14 @@ class ErrorHandler implements Exception {
       final dataMap = error.response?.data as Map<String, dynamic>?;
       if (dataMap != null) {
         if (dataMap.containsKey('validation_error')) {
-          message = dataMap['validation_error']['comment'];
+          final validationMap = dataMap['validation_error'] as Map<String, dynamic>?;
+          if(validationMap != null){
+            if(validationMap.containsKey('comment')){
+              message = validationMap['comment'];
+            }else if(validationMap.containsKey('new_password')){
+              message = validationMap['new_password'];
+            }
+          }
         } else if (dataMap.containsKey('message')) {
           message = dataMap['message'];
         }

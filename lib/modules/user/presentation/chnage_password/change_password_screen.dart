@@ -37,12 +37,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   void _validateANdChangePassword(BuildContext context) {
     if (_key.currentState!.validate()) {
-      context
-          .read<ChangePasswordCubit>()
-          .changePasswordAndLogout(ChangePasswordRequestModel(
-            _currentPasswordController.text,
-            _newPasswordController.text,
-          ));
+      context.read<ChangePasswordCubit>().changePasswordAndLogout(
+            ChangePasswordRequestModel(
+              _currentPasswordController.text,
+              _newPasswordController.text,
+            ),
+          );
     }
   }
 
@@ -125,14 +125,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       }
                     },
                   ),
-                  SizedBox(height: AppSize.s24.rh),
-                  UrlTextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    text: AppStrings.goto_profile.tr(),
-                    color: AppColors.black,
-                  )
                 ],
               ),
             ),

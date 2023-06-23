@@ -102,12 +102,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     await SessionManager().setLoginState(isLoggedIn: true);
     SessionManager().saveUser(user.userInfo).then((_) {
-      _registerFcmToken();
+      _registerFcmToken(user);
       SegmentManager().identify(event: SegmentEvents.USER_LOGGED_IN);
     });
   }
 
-  Future _registerFcmToken() async {
+  Future _registerFcmToken(User user) async {
     final fcmToken = await FcmService().getFcmToken();
     final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
     response.fold(
@@ -115,13 +115,15 @@ class _LoginScreenState extends State<LoginScreen> {
         showApiErrorSnackBar(context, failure);
       },
       (success) {
-        _navigate();
+        _navigate(user);
       },
     );
   }
 
-  void _navigate() {
-    if (args == null) {
+  void _navigate(User user) {
+    if (user.userInfo.firstLogin) {
+      Navigator.of(context).pushReplacementNamed(Routes.changePassword);
+    } else if (args == null) {
       Navigator.of(context).pushReplacementNamed(Routes.base);
     } else {
       NotificationHandler().navigateToOrderScreen(
