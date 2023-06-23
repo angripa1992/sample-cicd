@@ -80,12 +80,14 @@ class PrinterDataProvider {
   }
 
   QrInfo? _createQrInfo(Brand? brand) {
-    if (brand == null) return null;
-    return QrInfo(
-      brandId: brand.id,
-      qrLabel: brand.qrLabel,
-      qrContent: brand.qrContent,
-    );
+    if (brand != null && brand.qrContent.isNotEmpty){
+      return QrInfo(
+        brandId: brand.id,
+        qrLabel: brand.qrLabel,
+        qrContent: brand.qrContent,
+      );
+    }
+    return null;
   }
 
   TemplateCart _createTemplateCart(CartV2 cartV2) {

@@ -95,7 +95,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
           ? (_customerCopyEnabled ? _customerCopyCount : 1)
           : _customerCopyCount,
       kitchenCopyCount: isUpdating
-          ? (_kitchenCopyEnabled ? _kitchenCopyCount : 1)
+          ? (_kitchenCopyEnabled ? (_kitchenCopyCount > 0 ? _kitchenCopyCount : 1) : 0)
           : _kitchenCopyCount,
       fonts: PrinterFonts.fromId(_printerFontId),
       fontId: _printerFontId,

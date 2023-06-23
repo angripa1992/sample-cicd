@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
+import '../../domain/entities/brand.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/rider_info.dart';
 import '../../domain/entities/source.dart';
@@ -404,7 +405,11 @@ class CartV2Model {
       unitPriceDisplay: unitPriceDisplay.orEmpty(),
       priceDisplay: priceDisplay.orEmpty(),
       modifierGroups: modifierGroups?.map((e) => e.toEntity()).toList() ?? [],
-      cartBrand: brand!.toEntity(),
+      cartBrand: brand?.toEntity() ?? CartBrand(
+        id: ZERO,
+        title: EMPTY,
+        logo: EMPTY,
+      ),
       modifierGroupPrice: modifierGroupPrice.orEmpty(),
     );
   }
