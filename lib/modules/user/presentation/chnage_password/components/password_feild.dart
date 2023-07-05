@@ -31,6 +31,7 @@ class PasswordField extends StatefulWidget {
 
 class _PasswordFieldState extends State<PasswordField> {
   String newPassword = '';
+  bool _obscureText = true;
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _PasswordFieldState extends State<PasswordField> {
         ),
         SizedBox(height: AppSize.s12.rh),
         TextFormField(
-          obscureText: true,
+          obscureText: _obscureText,
           controller: widget.editingController,
           cursorColor: AppColors.smokeyGrey,
           style: getRegularTextStyle(
@@ -62,6 +63,17 @@ class _PasswordFieldState extends State<PasswordField> {
             fontSize: AppFontSize.s14.rSp,
           ),
           decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+              icon: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: AppColors.smokeyGrey,
+              ),
+            ),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.smokeyGrey),
             ),

@@ -116,10 +116,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         ),
         OrderItemDetails(order: _currentOrder),
         CommentView(comment: _currentOrder.orderComment),
-        if (_currentOrder.isThreePlOrder &&
-            _currentOrder.fulfillmentStatusId ==
-                FulfillmentStatusId.FOUND_RIDER &&
-            _currentOrder.fulfillmentRider != null)
+        if (_currentOrder.isThreePlOrder && _currentOrder.fulfillmentRider != null)
           RiderInfoView(
             riderInfo: _currentOrder.fulfillmentRider!,
             pickUpTime: _currentOrder.fulfillmentExpectedPickupTime,

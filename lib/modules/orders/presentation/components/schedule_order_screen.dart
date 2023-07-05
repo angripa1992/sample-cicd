@@ -61,9 +61,9 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
     final params = await _orderParamProvider.getScheduleOrderParams(
       _brands,
       _providers,
+      page: pageKey,
       pageSize: _pageSize,
     );
-    params['page'] = pageKey;
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {

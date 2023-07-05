@@ -10,59 +10,134 @@ class OrderParameterProvider {
 
   OrderParameterProvider(this._informationProvider);
 
+  Future<Map<String, dynamic>> getAllOrderParams(
+    List<int>? brandsID,
+    List<int>? providersID, {
+    int? page,
+    int? pageSize,
+  }) async {
+    final status = [
+      OrderStatus.PLACED,
+      OrderStatus.ACCEPTED,
+      OrderStatus.READY,
+      OrderStatus.SCHEDULED,
+      OrderStatus.DRIVER_ARRIVED,
+      OrderStatus.DRIVER_ASSIGNED,
+      OrderStatus.PICKED_UP,
+    ];
+    return _getParams(
+      brandsID,
+      providersID,
+      status,
+      pageSize: pageSize,
+      page: page,
+    );
+  }
+
   Future<Map<String, dynamic>> getNewOrderParams(
     List<int>? brandsID,
     List<int>? providersID, {
+    int? page,
     int? pageSize,
   }) async {
     final status = [OrderStatus.PLACED, OrderStatus.ACCEPTED];
-    return _getParams(brandsID, providersID, status, pageSize: pageSize);
+    return _getParams(
+      brandsID,
+      providersID,
+      status,
+      pageSize: pageSize,
+      page: page,
+    );
   }
 
   Future<Map<String, dynamic>> getScheduleOrderParams(
     List<int>? brandsID,
     List<int>? providersID, {
+    int? page,
     int? pageSize,
   }) async {
     final status = [OrderStatus.SCHEDULED];
-    return _getParams(brandsID, providersID, status, pageSize: pageSize);
+    return _getParams(
+      brandsID,
+      providersID,
+      status,
+      pageSize: pageSize,
+      page: page,
+    );
   }
 
   Future<Map<String, dynamic>> getOrderHistoryParam({
+    int? page,
     int? pageSize,
     List<int>? brandsID,
     List<int>? providersID,
     List<int>? status,
   }) async {
-    return _getParams(brandsID, providersID, status, pageSize: pageSize);
+    return _getParams(
+      brandsID,
+      providersID,
+      status,
+      pageSize: pageSize,
+      page: page,
+    );
   }
 
   Future<Map<String, dynamic>> getOngoingOrderParams(
     List<int>? brandsID,
     List<int>? providersID, {
+    int? page,
     int? pageSize,
   }) async {
     final status = [OrderStatus.READY];
-    return _getParams(brandsID, providersID, status, pageSize: pageSize);
+    return _getParams(
+      brandsID,
+      providersID,
+      status,
+      pageSize: pageSize,
+      page: page,
+    );
+  }
+
+  Future<Map<String, dynamic>> getOthersOrderParams(
+    List<int>? brandsID,
+    List<int>? providersID, {
+    int? page,
+    int? pageSize,
+  }) async {
+    final status = [
+      OrderStatus.DRIVER_ASSIGNED,
+      OrderStatus.DRIVER_ARRIVED,
+      OrderStatus.PICKED_UP,
+    ];
+    return _getParams(
+      brandsID,
+      providersID,
+      status,
+      pageSize: pageSize,
+      page: page,
+    );
   }
 
   Future<Map<String, dynamic>> _getParams(
     List<int>? brandsID,
     List<int>? providersID,
     List<int>? status, {
+    int? page,
     int? pageSize,
   }) async {
     final brands = brandsID ?? await _informationProvider.findBrandsIds();
     final providers =
         providersID ?? await _informationProvider.findProvidersIds();
     final branch = SessionManager().currentUserBranchId();
-    return {
-      "size": pageSize ?? 1,
+    final params = {
+      "page": page ?? 1,
+      "size": pageSize ?? 10,
       "filterByBranch": branch,
       "filterByBrand": ListParam<int>(brands, ListFormat.csv),
       "filterByProvider": ListParam<int>(providers, ListFormat.csv),
       "filterByStatus": ListParam<int>(status ?? [], ListFormat.csv),
     };
+    return params;
   }
 
   Map<String, dynamic> getOrderActionParams(Order order, bool willCancel) {

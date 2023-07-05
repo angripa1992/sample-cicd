@@ -34,8 +34,10 @@ class HistoryNavData {
 class ObserverTag {
   static const TOTAL_ORDER = "total_order";
   static const NEW_ORDER = "new_order";
+  static const ALL_ORDER = "all_order";
   static const ONGOING_ORDER = "ongoing_order";
   static const SCHEDULE_ORDER = "schedule_order";
+  static const OTHERS_ORDER = "others_order";
   static const ORDER_HISTORY = "order_history";
   static const ORDER_SCREEN = "order_screen";
 }
@@ -51,8 +53,10 @@ class BottomNavItem {
 class OrderTab {
   static const int NEW = 0;
   static const int ONGOING = 1;
-  static const int SCHEDULE = 2;
-  static const int History = 3;
+  static const int ALL = 2;
+  static const int SCHEDULE = 3;
+  static const int History = 4;
+  static const int OTHERS = 5;
 }
 
 class OrderType {

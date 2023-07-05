@@ -38,6 +38,16 @@ class OrderItemView extends StatelessWidget {
     required this.onRiderFind,
   }) : super(key: key);
 
+  String _id(){
+    if(order.providerId == ProviderID.KLIKIT){
+      return order.id.toString();
+    }else if(order.shortId.isNotEmpty){
+      return order.shortId;
+    }else{
+      return order.externalId;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -63,9 +73,7 @@ class OrderItemView extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.only(bottom: AppSize.s2.rh),
                             child: Text(
-                              (order.providerId == ProviderID.KLIKIT)
-                                  ? '#${order.id}'
-                                  : '#${order.shortId}',
+                              '# ${_id()}',
                               style: getBoldTextStyle(
                                 color: AppColors.purpleBlue,
                                 fontSize: AppFontSize.s16.rSp,
@@ -78,9 +86,7 @@ class OrderItemView extends StatelessWidget {
                           onTap: () {
                             Clipboard.setData(
                               ClipboardData(
-                                text: (order.providerId == ProviderID.KLIKIT)
-                                    ? order.id.toString()
-                                    : order.shortId,
+                                text: _id(),
                               ),
                             ).then((value) {
                               showSuccessSnackBar(

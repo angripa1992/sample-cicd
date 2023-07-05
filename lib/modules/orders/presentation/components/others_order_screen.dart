@@ -1,12 +1,11 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
+import 'package:klikit/modules/orders/presentation/bloc/schedule_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
 import 'package:klikit/modules/orders/provider/order_parameter_provider.dart';
 
@@ -15,26 +14,22 @@ import '../../../../../app/di.dart';
 import '../../../../../printer/printing_handler.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../../resources/strings.dart';
-import '../../../widgets/snackbars.dart';
-import '../bloc/ongoing_order_cubit.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
-import 'dialogs/action_dialogs.dart';
-import 'dialogs/add_payment_method_and_status.dart';
 import 'order_item/order_item_view.dart';
 
-class OngoingOrderScreen extends StatefulWidget {
+class OthersOrderScreen extends StatefulWidget {
   final FilterSubject subject;
 
-  const OngoingOrderScreen({Key? key, required this.subject}) : super(key: key);
+  const OthersOrderScreen({Key? key, required this.subject})
+      : super(key: key);
 
   @override
-  State<OngoingOrderScreen> createState() => _OngoingOrderScreenState();
+  State<OthersOrderScreen> createState() => _OthersOrderScreenState();
 }
 
-class _OngoingOrderScreenState extends State<OngoingOrderScreen>
+class _OthersOrderScreenState extends State<OthersOrderScreen>
     with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
@@ -52,18 +47,18 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
     filterSubject = widget.subject;
-    filterSubject?.addObserver(this, ObserverTag.ONGOING_ORDER);
+    filterSubject?.addObserver(this, ObserverTag.OTHERS_ORDER);
     _providers = filterSubject?.getProviders();
     _brands = filterSubject?.getBrands();
     _startTimer();
     _pagingController?.addPageRequestListener((pageKey) {
-      _fetchOngoingOrder(pageKey);
+      _fetchOthersOrder(pageKey);
     });
     super.initState();
   }
 
-  void _fetchOngoingOrder(int pageKey) async {
-    final params = await _orderParamProvider.getOngoingOrderParams(
+  void _fetchOthersOrder(int pageKey) async {
+    final params = await _orderParamProvider.getOthersOrderParams(
       _brands,
       _providers,
       page: pageKey,
@@ -71,10 +66,10 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     );
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
-      (failure) {
+          (failure) {
         _pagingController?.error = failure;
       },
-      (orders) {
+          (orders) {
         final isLastPage = orders.total <= (pageKey * _pageSize);
         if (isLastPage) {
           _pagingController?.appendLastPage(orders.data);
@@ -89,23 +84,13 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
   void _startTimer() {
     _timer = Timer.periodic(
       const Duration(seconds: AppConstant.refreshTime),
-      (timer) {
-        _refreshOngoingOrderCount();
+          (timer) {
         _refresh(willBackground: true);
       },
     );
   }
 
-  void _refreshOngoingOrderCount() {
-    context.read<OngoingOrderCubit>().fetchOngoingOrder(
-          willShowLoading: false,
-          providersID: _providers,
-          brandsID: _brands,
-        );
-  }
-
   void _refresh({bool willBackground = false}) {
-    _refreshOngoingOrderCount();
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);
@@ -114,80 +99,8 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     }
   }
 
-  void _onActionSuccess(bool isFromDetails, int status) {
-    _refresh(willBackground: true);
-    if (isFromDetails) {
-      Navigator.of(context).pop();
-    }
-    SegmentManager().trackOrderSegment(
-      sourceTab: 'Ready Order',
-      status: status,
-      isFromDetails: isFromDetails,
-    );
-  }
-
-  void _onAction({
-    required String title,
-    required Order order,
-    required int status,
-    bool willCancel = false,
-    bool isFromDetails = false,
-  }) {
-    if (status == OrderStatus.DELIVERED &&
-        (order.paymentStatus == PaymentStatusId.pending ||
-            order.paymentStatus == PaymentStatusId.failed)) {
-      showAddPaymentStatusMethodDialog(
-        title: AppStrings.select_payment_method_and_status.tr(),
-        context: context,
-        order: order,
-        willOnlyUpdatePaymentInfo: false,
-        onSuccess: (method, status) {
-          _onActionSuccess(isFromDetails, status);
-        },
-      );
-    } else {
-      showOrderActionDialog(
-        params: _orderParamProvider.getOrderActionParams(order, willCancel),
-        context: context,
-        onSuccess: () {
-          _onActionSuccess(isFromDetails, status);
-        },
-        title: title,
-      );
-    }
-  }
-
   void _onPrint({required Order order, required bool isFromDetails}) {
     _printingHandler.printDocket(order: order);
-    SegmentManager().trackOrderSegment(
-      sourceTab: 'Ready Order',
-      isFromDetails: isFromDetails,
-      willPrint: true,
-    );
-  }
-
-  void _sendEvent() {
-    SegmentManager().screen(
-      event: SegmentEvents.SEE_DETAILS,
-      name: 'See Details',
-      properties: {'source_tab': 'Ready Order'},
-    );
-  }
-
-  void _findRider(int id) async {
-    EasyLoading.show();
-    final response = await _orderRepository.findRider(id);
-    response.fold(
-      (error) {
-        EasyLoading.dismiss();
-        showApiErrorSnackBar(context, error);
-      },
-      (success) {
-        EasyLoading.dismiss();
-        showSuccessSnackBar(context, success.message ?? '');
-        _refresh(willBackground: true);
-      },
-    );
   }
 
   @override
@@ -203,60 +116,27 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
                 key: _modelScaffoldKey,
                 context: context,
                 order: item,
-                onAction: (title, status) {
-                  _onAction(
-                    title: title,
-                    order: item,
-                    status: status,
-                    isFromDetails: true,
-                  );
-                },
+                onAction: (title, status) {},
                 onPrint: () {
                   _onPrint(order: item, isFromDetails: true);
                 },
-                onCancel: (title) {
-                  _onAction(
-                    title: title,
-                    order: item,
-                    status: OrderStatus.CANCELLED,
-                    isFromDetails: true,
-                    willCancel: true,
-                  );
-                },
+                onCancel: (title) {},
                 onCommentActionSuccess: () {
                   _refresh(willBackground: true);
                 },
                 onGrabEditSuccess: () {},
                 onEditManualOrder: () {},
-                onRiderFind: () {
-                  _findRider(item.id);
-                },
-              );
-              _sendEvent();
-            },
-            onAction: (title, status) {
-              _onAction(
-                title: title,
-                status: status,
-                order: item,
+                onRiderFind: () {},
               );
             },
             onPrint: () {
               _onPrint(order: item, isFromDetails: false);
             },
-            onCancel: (title) {
-              _onAction(
-                title: title,
-                order: item,
-                willCancel: true,
-                status: OrderStatus.CANCELLED,
-              );
-            },
+            onAction: (_, __) {},
+            onCancel: (_) {},
             onEditGrabOrder: () {},
             onEditManualOrder: () {},
-            onRiderFind: () {
-              _findRider(item.id);
-            },
+            onRiderFind: () {},
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,

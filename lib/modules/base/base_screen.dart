@@ -39,6 +39,7 @@ import '../../resources/strings.dart';
 import '../add_order/presentation/pages/add_order_screen.dart';
 import '../home/home_screen.dart';
 import '../menu/presentation/pages/stock_screen.dart';
+import '../orders/presentation/bloc/all_order_cubit.dart';
 import '../orders/presentation/bloc/schedule_order_cubit.dart';
 import '../user/presentation/account/account_screen.dart';
 
@@ -142,6 +143,7 @@ class _BaseScreenState extends State<BaseScreen> {
         BlocProvider<CancelledOrderCubit>(
             create: (_) => getIt.get<CancelledOrderCubit>()),
         BlocProvider<NewOrderCubit>(create: (_) => getIt.get<NewOrderCubit>()),
+        BlocProvider<AllOrderCubit>(create: (_) => getIt.get<AllOrderCubit>()),
         BlocProvider<ScheduleOrderCubit>(
             create: (_) => getIt.get<ScheduleOrderCubit>()),
         BlocProvider<OngoingOrderCubit>(

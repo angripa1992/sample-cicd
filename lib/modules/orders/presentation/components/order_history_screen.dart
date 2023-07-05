@@ -66,9 +66,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
       brandsID: _brands,
       providersID: _providers,
       status: _status,
+      page: pageKey,
       pageSize: _pageSize,
     );
-    params['page'] = pageKey;
     params['start'] = DateTimeProvider.getDate(_dateRange!.start);
     params['end'] =
         DateTimeProvider.getDate(_dateRange!.end.add(const Duration(days: 1)));

@@ -5,24 +5,21 @@ import '../../domain/entities/order.dart';
 import '../../domain/usecases/fetch_new_order.dart';
 import '../../provider/order_parameter_provider.dart';
 
-class NewOrderCubit extends Cubit<ResponseState> {
+class AllOrderCubit extends Cubit<ResponseState> {
   final FetchNewOrder _fetchNewOrder;
   final OrderParameterProvider _orderParameterProvider;
 
-  NewOrderCubit(
+  AllOrderCubit(
     this._fetchNewOrder,
     this._orderParameterProvider,
   ) : super(Empty());
 
-  void fetchNewOrder({
-    required bool willShowLoading,
+  void fetchAllOrder({
     List<int>? providersID,
     List<int>? brandsID,
   }) async {
-    if (willShowLoading) {
-      emit(Loading());
-    }
-    final params = await _orderParameterProvider.getNewOrderParams(brandsID, providersID);
+    final params =
+        await _orderParameterProvider.getAllOrderParams(brandsID, providersID);
     final response = await _fetchNewOrder(params);
     response.fold(
       (failure) {

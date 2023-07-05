@@ -14,8 +14,6 @@ import 'package:klikit/printer/printing_handler.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../../../../../segments/event_manager.dart';
-import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../../app/size_config.dart';
 import '../../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../../add_order/presentation/pages/add_order_screen.dart';
@@ -24,6 +22,7 @@ import '../../edit_order/calculate_grab_order_cubit.dart';
 import '../../edit_order/edit_grab_order.dart';
 import '../../edit_order/update_grab_order_cubit.dart';
 import '../../provider/update_manual_order_data_provider.dart';
+import '../bloc/all_order_cubit.dart';
 import '../bloc/new_order_cubit.dart';
 import '../bloc/ongoing_order_cubit.dart';
 import '../filter_observer.dart';
@@ -32,16 +31,16 @@ import 'details/order_details_bottom_sheet.dart';
 import 'dialogs/action_dialogs.dart';
 import 'order_item/order_item_view.dart';
 
-class NewOrderScreen extends StatefulWidget {
+class AllOrderScreen extends StatefulWidget {
   final FilterSubject subject;
 
-  const NewOrderScreen({Key? key, required this.subject}) : super(key: key);
+  const AllOrderScreen({Key? key, required this.subject}) : super(key: key);
 
   @override
-  State<NewOrderScreen> createState() => _NewOrderScreenState();
+  State<AllOrderScreen> createState() => _AllOrderScreenState();
 }
 
-class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
+class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParameterProvider = getIt.get<OrderParameterProvider>();
   final _printingHandler = getIt.get<PrintingHandler>();
@@ -57,18 +56,18 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
     filterSubject = widget.subject;
-    filterSubject?.addObserver(this, ObserverTag.NEW_ORDER);
+    filterSubject?.addObserver(this, ObserverTag.ALL_ORDER);
     _providers = filterSubject?.getProviders();
     _brands = filterSubject?.getBrands();
     _startTimer();
     _pagingController?.addPageRequestListener((pageKey) {
-      _fetchNewOrder(pageKey);
+      _fetchAllOrder(pageKey);
     });
     super.initState();
   }
 
-  void _fetchNewOrder(int pageKey) async {
-    final params = await _orderParameterProvider.getNewOrderParams(
+  void _fetchAllOrder(int pageKey) async {
+    final params = await _orderParameterProvider.getAllOrderParams(
       _brands,
       _providers,
       page: pageKey,
@@ -91,6 +90,13 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
+  void _refreshAllOrderCount() {
+    context.read<AllOrderCubit>().fetchAllOrder(
+          providersID: _providers,
+          brandsID: _brands,
+        );
+  }
+
   void _refreshNewOrderCount() {
     context.read<NewOrderCubit>().fetchNewOrder(
           willShowLoading: false,
@@ -111,17 +117,15 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     _timer = Timer.periodic(
       const Duration(seconds: AppConstant.refreshTime),
       (timer) {
-        _refreshNewOrderCount();
         _refresh(willBackground: true);
       },
     );
   }
 
   void _refresh({bool willBackground = false, bool isFromAction = false}) {
+    _refreshAllOrderCount();
     _refreshNewOrderCount();
-    if (isFromAction) {
-      _refreshOngoingOrderCount();
-    }
+    _refreshOngoingOrderCount();
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);
@@ -148,11 +152,6 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         if (!willCancel && status == OrderStatus.ACCEPTED) {
           _printDocket(order: order, isFromDetails: isFromDetails);
         }
-        SegmentManager().trackOrderSegment(
-          sourceTab: 'New Order',
-          status: status,
-          isFromDetails: isFromDetails,
-        );
       },
       title: title,
     );
@@ -160,19 +159,6 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
 
   void _printDocket({required Order order, required bool isFromDetails}) {
     _printingHandler.printDocket(order: order);
-    SegmentManager().trackOrderSegment(
-      sourceTab: 'New Order',
-      isFromDetails: isFromDetails,
-      willPrint: true,
-    );
-  }
-
-  void _sendScreenEvent() {
-    SegmentManager().screen(
-      event: SegmentEvents.SEE_DETAILS,
-      name: 'See Details',
-      properties: {'source_tab': 'New Order'},
-    );
   }
 
   void _editGrabOrder(Order order) {
@@ -278,9 +264,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         EasyLoading.dismiss();
         showApiErrorSnackBar(context, error);
       },
-      (success){
+      (success) {
         EasyLoading.dismiss();
-        showSuccessSnackBar(context,success.message ?? '');
+        showSuccessSnackBar(context, success.message ?? '');
         _refresh(willBackground: true);
       },
     );
@@ -333,7 +319,6 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                   _findRider(item.id);
                 },
               );
-              _sendScreenEvent();
             },
             onAction: (title, status) {
               _onAction(

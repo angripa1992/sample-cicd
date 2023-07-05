@@ -423,9 +423,7 @@ Widget getActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.PICKED_UP &&
-      provider == ProviderID.GRAB_FOOD &&
-      orderType != OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.PICKED_UP && provider == ProviderID.GRAB_FOOD && orderType != OrderType.PICKUP) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -446,10 +444,7 @@ Widget getActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.ACCEPTED ||
-      (orderStatus == OrderStatus.PICKED_UP &&
-          provider != ProviderID.FOOD_PANDA &&
-          orderType != OrderType.PICKUP)) {
+  if (orderStatus == OrderStatus.ACCEPTED || (orderStatus == OrderStatus.PICKED_UP && provider != ProviderID.FOOD_PANDA && orderType != OrderType.PICKUP)) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -476,8 +471,7 @@ Widget getActionButtons({
         ReadyButton(
           expanded: false,
           onReady: () {
-            onAction('${AppStrings.ready_order.tr()} #${order.id}',
-                OrderStatus.READY);
+            onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
           },
           enabled: !order.isInterceptorOrder,
         ),
@@ -643,9 +637,7 @@ Widget getExpandActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.READY &&
-      (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) &&
-      orderType == OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) && orderType == OrderType.PICKUP) {
     return Row(
       children: [
         Expanded(

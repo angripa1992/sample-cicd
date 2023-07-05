@@ -11,18 +11,21 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:klikit/segments/event_manager.dart';
-import 'package:badges/badges.dart' as badges;
 
 import '../../../../app/constants.dart';
 import '../../../../resources/styles.dart';
 import '../../../../segments/segemnt_data_provider.dart';
+import 'bloc/all_order_cubit.dart';
 import 'bloc/new_order_cubit.dart';
 import 'bloc/ongoing_order_cubit.dart';
 import 'bloc/schedule_order_cubit.dart';
+import 'components/all_order_screen.dart';
 import 'components/new_order_screen.dart';
 import 'components/ongoing_order_screen.dart';
 import 'components/order_header.dart';
 import 'components/order_history_screen.dart';
+import 'components/order_tab_item.dart';
+import 'components/others_order_screen.dart';
 import 'components/tabbar_delegate.dart';
 import 'filter_observer.dart';
 import 'filter_subject.dart';
@@ -46,19 +49,9 @@ class _OrdersScreenState extends State<OrdersScreen>
   List<int>? _providers;
   List<int>? _brands;
 
-  final _badgeStyle = BadgeStyle(
-    shape: BadgeShape.square,
-    badgeColor: AppColors.red,
-    padding: EdgeInsets.symmetric(
-      horizontal: AppSize.s12.rw,
-      vertical: AppSize.s2.rh,
-    ),
-    borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-  );
-
   @override
   void initState() {
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 6, vsync: this);
     OrderScreenNavigateDataHandler().setData(widget.data);
     _tabController!.index = widget.tabIndex;
     filterSubject = _filterSubject;
@@ -78,6 +71,10 @@ class _OrdersScreenState extends State<OrdersScreen>
         );
     context.read<OngoingOrderCubit>().fetchOngoingOrder(
           willShowLoading: false,
+          providersID: _providers,
+          brandsID: _brands,
+        );
+    context.read<AllOrderCubit>().fetchAllOrder(
           providersID: _providers,
           brandsID: _brands,
         );
@@ -120,73 +117,71 @@ class _OrdersScreenState extends State<OrdersScreen>
                   tabs: [
                     BlocBuilder<NewOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        if (state is Success<Orders> && state.data.total > 0) {
-                          return badges.Badge(
-                            position: BadgePosition.topEnd(top: -22, end: -20),
-                            badgeContent: Text(
-                              '${state.data.total}',
-                              style:
-                                  getRegularTextStyle(color: AppColors.white),
-                            ),
-                            badgeStyle: _badgeStyle,
-                            child: Text(AppStrings.newOrder.tr()),
-                          );
-                        }
-                        return Text(AppStrings.newOrder.tr());
+                        return OrderTabItem(
+                          title: 'New',
+                          count:
+                              state is Success<Orders> ? state.data.total : 0,
+                        );
                       },
                     ),
                     BlocBuilder<OngoingOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        if (state is Success<Orders> && state.data.total > 0) {
-                          return badges.Badge(
-                            position: BadgePosition.topEnd(top: -22, end: -16),
-                            badgeContent: Text(
-                              '${state.data.total}',
-                              style:
-                                  getRegularTextStyle(color: AppColors.white),
-                            ),
-                            badgeStyle: _badgeStyle,
-                            child: Text(AppStrings.ready.tr()),
-                          );
-                        }
-                        return Text(AppStrings.ready.tr());
+                        return OrderTabItem(
+                          title: AppStrings.ready.tr(),
+                          count:
+                              state is Success<Orders> ? state.data.total : 0,
+                        );
+                      },
+                    ),
+                    BlocBuilder<AllOrderCubit, ResponseState>(
+                      builder: (context, state) {
+                        return OrderTabItem(
+                          title: 'All',
+                          count:
+                          state is Success<Orders> ? state.data.total : 0,
+                        );
                       },
                     ),
                     BlocBuilder<ScheduleOrderCubit, ResponseState>(
                       builder: (context, state) {
-                        if (state is Success<Orders> && state.data.total > 0) {
-                          return badges.Badge(
-                            position: BadgePosition.topEnd(top: -22, end: -6),
-                            badgeContent: Text(
-                              '${state.data.total}',
-                              style:
-                                  getRegularTextStyle(color: AppColors.white),
-                            ),
-                            badgeStyle: _badgeStyle,
-                            child: Text(AppStrings.schedule.tr()),
-                          );
-                        }
-                        return Text(AppStrings.schedule.tr());
+                        return OrderTabItem(
+                          title: AppStrings.schedule.tr(),
+                          count:
+                              state is Success<Orders> ? state.data.total : 0,
+                        );
                       },
                     ),
-                    Tab(text: AppStrings.history.tr()),
+                    OrderTabItem(
+                      title: AppStrings.history.tr(),
+                      count: 0,
+                    ),
+                    const OrderTabItem(
+                      title: 'Others',
+                      count: 0,
+                    ),
                   ],
-                  labelPadding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-                  unselectedLabelColor: AppColors.lightViolet,
-                  labelColor: AppColors.white,
+                  labelPadding: EdgeInsets.symmetric(
+                    vertical: AppSize.s8.rh,
+                    horizontal: AppSize.s10.rw,
+                  ),
+                  unselectedLabelColor: AppColors.bluewood,
+                  labelColor: AppColors.purpleBlue,
+                  indicatorColor: AppColors.purpleBlue,
                   labelStyle: TextStyle(
                     fontSize: AppFontSize.s14.rSp,
                     fontFamily: AppFonts.Aeonik,
-                    fontWeight: AppFontWeight.regular,
+                    fontWeight: AppFontWeight.medium,
                   ),
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-                    border: Border.all(color: AppColors.purpleBlue),
-                    color: AppColors.purpleBlue,
+                  unselectedLabelStyle: TextStyle(
+                    fontSize: AppFontSize.s14.rSp,
+                    fontFamily: AppFonts.Aeonik,
+                    fontWeight: AppFontWeight.medium,
                   ),
+                  isScrollable: true,
                 ),
               ),
               pinned: true,
+              floating: true,
             ),
           ];
         },
@@ -201,8 +196,10 @@ class _OrdersScreenState extends State<OrdersScreen>
             children: [
               NewOrderScreen(subject: _filterSubject),
               OngoingOrderScreen(subject: _filterSubject),
+              AllOrderScreen(subject: _filterSubject),
               ScheduleOrderScreen(subject: _filterSubject),
               OrderHistoryScreen(subject: _filterSubject),
+              OthersOrderScreen(subject: _filterSubject),
             ],
           ),
         ),

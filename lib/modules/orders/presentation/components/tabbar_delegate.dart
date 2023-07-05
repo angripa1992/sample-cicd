@@ -18,8 +18,8 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
     return Align(
       child: Container(
         margin: EdgeInsets.symmetric(
-          horizontal: AppSize.s12.rw,
-          vertical: AppSize.s8.rh,
+          horizontal: AppSize.s8.rw,
+          //vertical: AppSize.s8.rh,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s4.rSp),
@@ -31,10 +31,10 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => tabBar.preferredSize.height+24;
+  double get maxExtent => tabBar.preferredSize.height;
 
   @override
-  double get minExtent => tabBar.preferredSize.height+24;
+  double get minExtent => tabBar.preferredSize.height;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

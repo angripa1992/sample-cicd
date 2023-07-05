@@ -55,6 +55,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     _connectionStateListener.dispose();
     super.dispose();
   }
+
   void _initPrinterSetting() {
     final printerSetting = _appPreferences.printerSetting();
     _branchId = printerSetting.branchId;
@@ -70,11 +71,13 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
 
   void _savePrinterSettingLocally({PrinterSetting? savingData}) async {
     await _appPreferences.savePrinterSettings(
-      printerSetting: savingData ?? _createPrinterSettingFromLocalVariables(false),
+      printerSetting:
+          savingData ?? _createPrinterSettingFromLocalVariables(false),
     );
-    if(savingData == null){
+    if (savingData == null) {
       _connectionStateListener.value = 0;
-      _connectionStateListener.value = _appPreferences.printerSetting().connectionType;
+      _connectionStateListener.value =
+          _appPreferences.printerSetting().connectionType;
     }
   }
 
@@ -95,11 +98,12 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
           ? (_customerCopyEnabled ? _customerCopyCount : 1)
           : _customerCopyCount,
       kitchenCopyCount: isUpdating
-          ? (_kitchenCopyEnabled ? _kitchenCopyCount : 1)
+          ? (_kitchenCopyEnabled ? (_kitchenCopyCount > 0 ? _kitchenCopyCount : 1) : 0)
           : _kitchenCopyCount,
       fonts: PrinterFonts.fromId(_printerFontId),
       fontId: _printerFontId,
-      stickerPrinterEnabled: _appPreferences.printerSetting().stickerPrinterEnabled,
+      stickerPrinterEnabled:
+          _appPreferences.printerSetting().stickerPrinterEnabled,
     );
   }
 
@@ -120,61 +124,61 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   }
 
   Widget _body() => Padding(
-    padding: EdgeInsets.symmetric(
-      vertical: AppSize.s10.rh,
-      horizontal: AppSize.s8.rw,
-    ),
-    child: Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SetPrinterConnectionType(
-                  initType: _connectionType,
-                  willUsbEnabled: true,
-                  onChanged: (type) {
-                    _connectionType = type;
-                    _connectionStateListener.value = type;
-                  },
-                ),
-                SetPaperSize(
-                  initSize: _paperSize,
-                  onChanged: (size) {
-                    _paperSize = size;
-                  },
-                ),
-                SetDocketType(
-                  initCustomerCopyEnabled: _customerCopyEnabled,
-                  initCustomerCopyCount: _customerCopyCount,
-                  initKitchenCopyEnabled: _kitchenCopyEnabled,
-                  initKitchenCopyCount: _kitchenCopyCount,
-                  changeCustomerCopyCount: (count) {
-                    _customerCopyCount = count;
-                  },
-                  changeKitchenCopyCount: (count) {
-                    _kitchenCopyCount = count;
-                  },
-                  changeKitchenCopyEnabled: (enabled) {
-                    _kitchenCopyEnabled = enabled;
-                  },
-                ),
-                SetFontSizeDropDown(
-                  initFont: _printerFontId,
-                  onChanged: (font) {
-                    _printerFontId = font;
-                  },
-                ),
-              ],
-            ),
-          ),
+        padding: EdgeInsets.symmetric(
+          vertical: AppSize.s10.rh,
+          horizontal: AppSize.s8.rw,
         ),
-        _buttons(),
-      ],
-    ),
-  );
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SetPrinterConnectionType(
+                      initType: _connectionType,
+                      willUsbEnabled: true,
+                      onChanged: (type) {
+                        _connectionType = type;
+                        _connectionStateListener.value = type;
+                      },
+                    ),
+                    SetPaperSize(
+                      initSize: _paperSize,
+                      onChanged: (size) {
+                        _paperSize = size;
+                      },
+                    ),
+                    SetDocketType(
+                      initCustomerCopyEnabled: _customerCopyEnabled,
+                      initCustomerCopyCount: _customerCopyCount,
+                      initKitchenCopyEnabled: _kitchenCopyEnabled,
+                      initKitchenCopyCount: _kitchenCopyCount,
+                      changeCustomerCopyCount: (count) {
+                        _customerCopyCount = count;
+                      },
+                      changeKitchenCopyCount: (count) {
+                        _kitchenCopyCount = count;
+                      },
+                      changeKitchenCopyEnabled: (enabled) {
+                        _kitchenCopyEnabled = enabled;
+                      },
+                    ),
+                    SetFontSizeDropDown(
+                      initFont: _printerFontId,
+                      onChanged: (font) {
+                        _printerFontId = font;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            _buttons(),
+          ],
+        ),
+      );
 
   Widget _buttons() => Row(
         children: [
@@ -201,28 +205,31 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
           ),
           SizedBox(width: AppSize.s8.rw),
           Expanded(
-            child: ValueListenableBuilder(valueListenable: _connectionStateListener,
-            builder: (_,value,__){
-              return AppButton(
-                enable: _appPreferences.printerSetting().connectionType == value,
-                verticalPadding: AppSize.s10.rh,
-                onTap: () {
-                  _printingHandler.showDevices(initialIndex: PrinterSelectIndex.docket);
-                },
-                text: AppStrings.show_devices.tr(),
-                textSize: AppFontSize.s13.rSp,
-                disableColor: AppColors.white,
-                disableBorderColor: AppColors.dustyGreay,
-                enableColor: AppColors.white,
-                enableBorderColor: AppColors.bluewood,
-                enableTextColor: AppColors.bluewood,
-                disableTextColor: AppColors.dustyGreay,
-                icon: _appPreferences.printerSetting().connectionType ==
-                    ConnectionType.BLUETOOTH
-                    ? Icons.bluetooth
-                    : Icons.usb,
-              );
-            },
+            child: ValueListenableBuilder(
+              valueListenable: _connectionStateListener,
+              builder: (_, value, __) {
+                return AppButton(
+                  enable:
+                      _appPreferences.printerSetting().connectionType == value,
+                  verticalPadding: AppSize.s10.rh,
+                  onTap: () {
+                    _printingHandler.showDevices(
+                        initialIndex: PrinterSelectIndex.docket);
+                  },
+                  text: AppStrings.show_devices.tr(),
+                  textSize: AppFontSize.s13.rSp,
+                  disableColor: AppColors.white,
+                  disableBorderColor: AppColors.dustyGreay,
+                  enableColor: AppColors.white,
+                  enableBorderColor: AppColors.bluewood,
+                  enableTextColor: AppColors.bluewood,
+                  disableTextColor: AppColors.dustyGreay,
+                  icon: _appPreferences.printerSetting().connectionType ==
+                          ConnectionType.BLUETOOTH
+                      ? Icons.bluetooth
+                      : Icons.usb,
+                );
+              },
             ),
           ),
         ],

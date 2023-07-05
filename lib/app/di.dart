@@ -78,6 +78,7 @@ import '../modules/orders/domain/repository/order_info_provider_repo.dart';
 import '../modules/orders/edit_order/calculate_grab_order_cubit.dart';
 import '../modules/orders/edit_order/update_grab_order_cubit.dart';
 import '../modules/orders/presentation/bloc/add_comment_cubit.dart';
+import '../modules/orders/presentation/bloc/all_order_cubit.dart';
 import '../modules/orders/presentation/bloc/busy_mode_cubit.dart';
 import '../modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import '../modules/orders/presentation/bloc/completed_order_cubit.dart';
@@ -152,6 +153,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => CancelledOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchNewOrder(getIt()));
   getIt.registerFactory(() => NewOrderCubit(getIt(), getIt()));
+  getIt.registerFactory(() => AllOrderCubit(getIt(), getIt()));
   getIt.registerFactory(() => ScheduleOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchOngoingOrder(getIt()));
   getIt.registerFactory(() => OngoingOrderCubit(getIt(), getIt()));

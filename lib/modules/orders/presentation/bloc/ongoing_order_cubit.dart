@@ -19,8 +19,7 @@ class OngoingOrderCubit extends Cubit<ResponseState> {
     if (willShowLoading) {
       emit(Loading());
     }
-    final params = await _orderParameterProvider.getOngoingOrderParams(
-        brandsID, providersID);
+    final params = await _orderParameterProvider.getOngoingOrderParams(brandsID, providersID);
     final response = await _fetchOngoingOrder(params);
     response.fold(
       (failure) {
