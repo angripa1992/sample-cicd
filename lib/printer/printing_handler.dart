@@ -99,38 +99,38 @@ class PrintingHandler {
     bool isAutoPrint = false,
     bool willPrintSticker = true,
   }) async {
-    _doManualPrint(order);
-   //  final permissionGranted = await _isPermissionGranted();
-   //  if (permissionGranted) {
-   //    if (_preferences.printerSetting().connectionType ==
-   //        ConnectionType.BLUETOOTH) {
-   //      if (BluetoothPrinterHandler().isConnected()) {
-   //        if (isAutoPrint) {
-   //          _doAutoPrint(order);
-   //        } else {
-   //          _doManualPrint(order);
-   //        }
-   //      } else {
-   //        showErrorSnackBar(
-   //          RoutesGenerator.navigatorKey.currentState!.context,
-   //          AppStrings.bluetooth_not_connected.tr(),
-   //        );
-   //      }
-   //    } else {
-   //      if (UsbPrinterHandler().isConnected()) {
-   //        if (isAutoPrint) {
-   //          _doAutoPrint(order);
-   //        } else {
-   //          _doManualPrint(order);
-   //        }
-   //      } else {
-   //        showErrorSnackBar(
-   //          RoutesGenerator.navigatorKey.currentState!.context,
-   //          AppStrings.usb_not_connected.tr(),
-   //        );
-   //      }
-   //    }
-   //  }
+    //_doManualPrint(order);
+    final permissionGranted = await _isPermissionGranted();
+    if (permissionGranted) {
+      if (_preferences.printerSetting().connectionType ==
+          ConnectionType.BLUETOOTH) {
+        if (BluetoothPrinterHandler().isConnected()) {
+          if (isAutoPrint) {
+            _doAutoPrint(order);
+          } else {
+            _doManualPrint(order);
+          }
+        } else {
+          showErrorSnackBar(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            AppStrings.bluetooth_not_connected.tr(),
+          );
+        }
+      } else {
+        if (UsbPrinterHandler().isConnected()) {
+          if (isAutoPrint) {
+            _doAutoPrint(order);
+          } else {
+            _doManualPrint(order);
+          }
+        } else {
+          showErrorSnackBar(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            AppStrings.usb_not_connected.tr(),
+          );
+        }
+      }
+    }
   }
 
   void printSticker(Order order, CartV2 item) async {
@@ -149,7 +149,7 @@ class PrintingHandler {
   void _doManualPrint(Order order) {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
-        _showPreview(order: order, docketType: type);
+        //_showPreview(order: order, docketType: type);
         final printingData = await _generatePrintingData(order: order, docketType: type);
         if (printingData != null) {
           if (_preferences.printerSetting().connectionType ==
