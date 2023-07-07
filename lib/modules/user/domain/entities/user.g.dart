@@ -35,6 +35,7 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       updatedAt: json['updatedAt'] as String,
       lastLoginAt: json['lastLoginAt'] as String,
       firstLogin: json['firstLogin'] as bool,
+      orderNotificationEnabled: json['orderNotificationEnabled'] as bool,
       roles: (json['roles'] as List<dynamic>).map((e) => e as String).toList(),
       roleIds: (json['roleIds'] as List<dynamic>).map((e) => e as int).toList(),
       displayRoles: (json['displayRoles'] as List<dynamic>)
@@ -67,6 +68,7 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'updatedAt': instance.updatedAt,
       'lastLoginAt': instance.lastLoginAt,
       'firstLogin': instance.firstLogin,
+      'orderNotificationEnabled': instance.orderNotificationEnabled,
       'roles': instance.roles,
       'roleIds': instance.roleIds,
       'displayRoles': instance.displayRoles,

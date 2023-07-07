@@ -18,6 +18,7 @@ class AppPreferences {
   final String _kLoginEmail = "login_email";
   final String _kPrinterSetting = "printer_setting";
   final String _kLanguage = "language";
+  final String _kNotificationSetting = "notification_setting";
 
   AppPreferences(this._preferences);
 
@@ -104,10 +105,23 @@ class AppPreferences {
     return PrinterSetting.fromJson(data);
   }
 
+  Future<void> setNotificationEnable(bool enable) async {
+    await _preferences.setBool(_kNotificationSetting, enable);
+  }
+
+  bool notificationEnable() {
+    return _preferences.getBool(_kNotificationSetting) ?? true;
+  }
+
+  Future<void> reload() async {
+    await _preferences.reload();
+  }
+
   Future<void> clearPreferences() async {
     await _preferences.remove(_kAccessToken);
     await _preferences.remove(_kRefreshToken);
     await _preferences.remove(_kUser);
     await _preferences.remove(_kPrinterSetting);
+    await _preferences.remove(_kNotificationSetting);
   }
 }

@@ -32,6 +32,7 @@ class UserInfoModel {
   String? updated_at;
   String? last_login_at;
   bool? first_login;
+  bool? order_notification_enabled;
   List<String>? roles;
   List<int>? role_ids;
   List<String>? display_roles;
@@ -55,6 +56,7 @@ class UserInfoModel {
       this.updated_at,
       this.last_login_at,
       this.first_login,
+      this.order_notification_enabled,
       this.roles,
       this.role_ids,
       this.display_roles,

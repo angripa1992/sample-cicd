@@ -93,6 +93,7 @@ import '../modules/orders/presentation/bloc/update_payment_info_cubit.dart';
 import '../modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import '../modules/orders/provider/order_parameter_provider.dart';
 import '../modules/orders/provider/update_manual_order_data_provider.dart';
+import '../modules/user/presentation/account/cubit/change_notificcation_setting_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
 import '../segments/segemnt_data_provider.dart';
 
@@ -100,19 +101,15 @@ final getIt = GetIt.instance;
 
 Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
-  getIt.registerSingleton<SharedPreferences>(
-      await SharedPreferences.getInstance());
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
   getIt.registerSingleton<LocationProvider>(LocationProvider());
-  getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
-  getIt.registerSingleton<SegmentDataProvider>(
-      SegmentDataProvider(getIt(), getIt()));
+  await registerLocalDB();
+  getIt.registerSingleton<SegmentDataProvider>(SegmentDataProvider(getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider());
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
-  getIt.registerSingleton<FcmTokenManager>(
-      FcmTokenManager(getIt.get(), getIt.get()));
+  getIt.registerSingleton<FcmTokenManager>(FcmTokenManager(getIt.get(), getIt.get()));
 
   ///base
   getIt.registerFactory(() => BaseScreenCubit());
@@ -133,6 +130,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => ForgetPasswordCubit(getIt()));
   getIt.registerLazySingleton(() => ChangePassword(getIt()));
   getIt.registerFactory(() => ChangePasswordCubit(getIt(), getIt()));
+  getIt.registerFactory(() => ChangeNotificationSettingCubit(getIt()));
 
   ///order
   getIt.registerLazySingleton<OrderRemoteDatasource>(
@@ -220,4 +218,13 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => FetchSubSectionCubit(getIt.get()));
   getIt.registerFactory(() => CalculateBillCubit(getIt.get()));
   getIt.registerFactory(() => PlaceOrderCubit(getIt.get()));
+}
+
+Future<void> registerLocalDB() async{
+  if(!getIt.isRegistered<SharedPreferences>()){
+    getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
+  }
+  if(!getIt.isRegistered<AppPreferences>()){
+    getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
+  }
 }

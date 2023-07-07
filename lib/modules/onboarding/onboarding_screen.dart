@@ -62,8 +62,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     Timer(const Duration(seconds: 2), () {
       if (SessionManager().isLoggedIn() && !SessionManager().currentUser().firstLogin) {
         _registerFcmToken().then((value) {
-          Navigator.of(context)
-              .pushReplacementNamed(Routes.base, arguments: null);
+          Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
         });
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);

@@ -80,7 +80,6 @@ class LocalNotificationService {
   }
 
   void showNotification({required Map<String, dynamic> payload}) async {
-    print(payload);
     final notificationData = NotificationDataHandler().getNotificationData(payload);
     final notificationType = int.parse(notificationData.type);
     final providerByteArrayAndroidBitmap = await getByteArrayAndroidBitmap(notificationData.providerUrl);

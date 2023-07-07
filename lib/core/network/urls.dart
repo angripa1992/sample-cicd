@@ -7,6 +7,7 @@ class Urls {
   static const String userUpdate = '/v1/user';
   static const String forgetPassword = '/v1/password/forgot';
   static const String changePassword = '/v1/password/change';
+  static const String userSettings = '/v1/user/settings';
   static const String status = '/v1/oni/statuses';
   static const String order = '/v1/oni/order';
   static const String brand = '/v1/brand';

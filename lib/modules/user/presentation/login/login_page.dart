@@ -101,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
       refreshToken: user.refreshToken,
     );
     await SessionManager().setLoginState(isLoggedIn: true);
+    await SessionManager().setNotificationEnabled(user.userInfo.orderNotificationEnabled);
     SessionManager().saveUser(user.userInfo).then((_) {
       _registerFcmToken(user);
       SegmentManager().identify(event: SegmentEvents.USER_LOGGED_IN);

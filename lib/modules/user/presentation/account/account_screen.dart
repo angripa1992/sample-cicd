@@ -29,6 +29,7 @@ import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
 import 'component/account_action_header.dart';
 import 'component/app_version_info.dart';
+import 'component/notification_settings/notification_settings_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -150,13 +151,15 @@ class _AccountScreenState extends State<AccountScreen> {
                       );
                     },
                   ),
+                  SizedBox(height: AppSize.s16.rh),
+                  const NotificationSettingScreen(),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(
                       AppStrings.edit_profile.tr(),
-                      style: getMediumTextStyle(
-                        color: AppColors.black,
-                        fontSize: AppSize.s20.rSp,
+                      style: getBoldTextStyle(
+                        color: AppColors.bluewood,
+                        fontSize: AppSize.s16.rSp,
                       ),
                     ),
                   ),

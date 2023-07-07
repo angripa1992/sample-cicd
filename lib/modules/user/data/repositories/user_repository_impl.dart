@@ -10,6 +10,7 @@ import 'package:klikit/modules/user/data/request_model/reset_link_request_model.
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
+import 'package:klikit/modules/user/domain/entities/user_settings.dart';
 import 'package:klikit/modules/user/domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl extends UserRepository {
@@ -89,6 +90,35 @@ class UserRepositoryImpl extends UserRepository {
         final response =
             await _userRemoteDataSource.changePassword(requestModel);
         return Right(mapSuccessResponse(response));
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SuccessResponse>> changeSettings(
+      Map<String, dynamic> params) async {
+    if (await _networkConnectivity.hasConnection()) {
+      try {
+        final response = await _userRemoteDataSource.changeUserSetting(params);
+        return Right(mapSuccessResponse(response));
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserSettings>> getUserSettings(int userId) async {
+    if (await _networkConnectivity.hasConnection()) {
+      try {
+        final response = await _userRemoteDataSource.getUserSettings(userId);
+        return Right(response.toEntity());
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

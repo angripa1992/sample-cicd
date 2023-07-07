@@ -37,6 +37,7 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       updated_at: json['updated_at'] as String?,
       last_login_at: json['last_login_at'] as String?,
       first_login: json['first_login'] as bool?,
+      order_notification_enabled: json['order_notification_enabled'] as bool?,
       roles:
           (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList(),
       role_ids:
@@ -73,6 +74,7 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'updated_at': instance.updated_at,
       'last_login_at': instance.last_login_at,
       'first_login': instance.first_login,
+      'order_notification_enabled': instance.order_notification_enabled,
       'roles': instance.roles,
       'role_ids': instance.role_ids,
       'display_roles': instance.display_roles,

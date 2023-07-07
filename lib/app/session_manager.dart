@@ -39,6 +39,10 @@ class SessionManager {
     _appPreferences.setLoginState(isLoggedIn);
   }
 
+  Future<void> setNotificationEnabled(bool enable) async {
+    await _appPreferences.setNotificationEnable(enable);
+  }
+
   Future<void> saveToken({
     required accessToken,
     required String refreshToken,
@@ -60,6 +64,8 @@ class SessionManager {
   String? refreshToken() => _appPreferences.retrieveRefreshToken();
 
   bool isLoggedIn() => _appPreferences.isLoggedIn();
+
+  bool notificationEnable() => _appPreferences.notificationEnable();
 
   Future<void> logout() async {
     CartManager().clear();

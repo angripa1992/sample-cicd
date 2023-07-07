@@ -62,12 +62,12 @@ class LoadingButton extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: verticalPadding ?? AppSize.s12.rh,
-              horizontal: horizontalPadding ?? AppSize.s12.rh,
+              vertical: verticalPadding ?? AppSize.s8.rh,
+              horizontal: horizontalPadding ?? AppSize.s12.rw,
             ),
             child: isLoading
                 ? SizedBox(
-                    height: progressHeight ?? AppSize.s16.rh,
+                    height: progressHeight ?? AppSize.s18.rh,
                     width: progressWidth ?? AppSize.s18.rw,
                     child: CircularProgressIndicator(
                         color: loaderColor ?? AppColors.purpleBlue),
@@ -76,7 +76,7 @@ class LoadingButton extends StatelessWidget {
                     text,
                     style: getMediumTextStyle(
                       color: textColor ?? AppColors.white,
-                      fontSize: textSize ?? AppFontSize.s16.rSp,
+                      fontSize: textSize ?? AppFontSize.s14.rSp,
                     ),
                   ),
           ),
