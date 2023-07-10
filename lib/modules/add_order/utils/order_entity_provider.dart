@@ -14,7 +14,6 @@ import '../../../app/constants.dart';
 import '../../../app/session_manager.dart';
 import '../../menu/domain/entities/status.dart';
 import '../../menu/domain/entities/stock.dart';
-import '../../orders/domain/entities/payment_info.dart';
 import '../data/models/billing_item_modifier.dart';
 import '../data/models/billing_request.dart';
 import '../data/models/place_order_data.dart';
@@ -55,8 +54,7 @@ class OrderEntityProvider {
   ) async {
     final items = <BillingItem>[];
     for (var item in cartsItems) {
-      final groups =
-          await ModifierManager().billingItemModifiers(item.modifiers);
+      final groups = await ModifierManager().billingItemModifiers(item.modifiers);
       items.add(_cartItemToBillingItem(item, groups));
     }
     return items;
@@ -89,6 +87,7 @@ class OrderEntityProvider {
       unitPrice: cartItem.itemPrice.price,
       discountValue: cartItem.discountValue,
       discountType: cartItem.discountType,
+      comment: cartItem.itemInstruction,
     );
   }
 
@@ -163,14 +162,12 @@ class OrderEntityProvider {
         code: price.code,
       );
 
-  Future<PlaceOrderDataModel> placeOrderRequestData(
-  {
+  Future<PlaceOrderDataModel> placeOrderRequestData({
     required CheckoutData checkoutData,
     required int paymentStatus,
     required int? paymentMethod,
     required CustomerInfo? info,
-}
-  ) async {
+  }) async {
     final bill = checkoutData.cartBill;
     final cartItems = await _cartsToBillingItems(checkoutData.items);
     int totalItems = 0;
@@ -180,11 +177,11 @@ class OrderEntityProvider {
     final uniqueItems = cartItems.length;
     final currency = CartManager().currency();
     CustomerInfoModel user = CustomerInfoModel();
-    if(info != null){
-      user.firstName =  info.firstName.notEmptyOrNull();
-      user.lastName =  info.lastName.notEmptyOrNull();
-      user.email =  info.email.notEmptyOrNull();
-      user.phone =  info.phone.notEmptyOrNull();
+    if (info != null) {
+      user.firstName = info.firstName.notEmptyOrNull();
+      user.lastName = info.lastName.notEmptyOrNull();
+      user.email = info.email.notEmptyOrNull();
+      user.phone = info.phone.notEmptyOrNull();
     }
     final updateInfo = CartManager().getUpdateCartInfo();
     return PlaceOrderDataModel(
@@ -213,6 +210,7 @@ class OrderEntityProvider {
       finalPrice: bill.totalPriceCent.toInt(),
       itemPrice: bill.subTotalCent.toInt(),
       cart: cartItems,
+      orderComment: checkoutData.instruction,
     );
   }
 }

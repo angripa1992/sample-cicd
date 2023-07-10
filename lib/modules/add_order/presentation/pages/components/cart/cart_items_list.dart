@@ -10,12 +10,14 @@ import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/brand.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../utils/cart_manager.dart';
+import '../modifier/speacial_instruction.dart';
 import 'cart_item.dart';
 import 'cart_item_brand.dart';
 import 'cart_price_view.dart';
 
 class CartItemsListView extends StatelessWidget {
   final CartBill cartBill;
+  final TextEditingController textController;
   final VoidCallback onDeliveryFee;
   final VoidCallback onDiscount;
   final VoidCallback onAdditionalFee;
@@ -38,6 +40,7 @@ class CartItemsListView extends StatelessWidget {
     required this.onDelete,
     required this.onQuantityChanged,
     required this.removeAll,
+    required this.textController,
   }) : super(key: key);
 
   @override
@@ -111,6 +114,7 @@ class CartItemsListView extends StatelessWidget {
             );
           },
         ),
+        SpecialInstructionField(controller: textController),
         CartPriceView(
           cartBill: cartBill,
           onDeliveryFee: onDeliveryFee,

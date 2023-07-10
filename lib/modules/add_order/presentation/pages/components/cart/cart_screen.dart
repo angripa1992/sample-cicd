@@ -46,6 +46,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final _textController = TextEditingController();
   CartBill? _cartBill;
   int _currentDiscountType = DiscountType.flat;
   int _currentOrderType = OrderType.DINE_IN;
@@ -64,19 +65,21 @@ class _CartScreenState extends State<CartScreen> {
       _currentSource = editData.source;
       _globalAdditionalFee = editData.additionalFee;
       _globalDeliveryFee = editData.deliveryFee;
+      _textController.text = editData.comment;
     }
     _calculateBill();
     super.initState();
   }
 
-  void _saveCurrentEditInfo(){
-    final editInfo =  CartInfo(
+  void _saveCurrentEditInfo() {
+    final editInfo = CartInfo(
       type: _currentOrderType,
       source: _currentSource,
       discountType: _currentDiscountType,
       discountValue: _globalDiscount,
       additionalFee: _globalAdditionalFee,
       deliveryFee: _globalDeliveryFee,
+      comment: _textController.text,
     );
     CartManager().setEditInfo(editInfo);
   }
@@ -161,12 +164,14 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _calculateBill() {
-    CartManager().calculateBillingRequestPaylod(
+    CartManager()
+        .calculateBillingRequestPaylod(
       discountType: _currentDiscountType,
       discountValue: _globalDiscount,
       additionalFee: _globalAdditionalFee,
       deliveryFee: _globalDeliveryFee,
-    ).then((value) {
+    )
+        .then((value) {
       if (value != null) {
         context.read<CalculateBillCubit>().calculateBill(value);
         _saveCurrentEditInfo();
@@ -218,6 +223,7 @@ class _CartScreenState extends State<CartScreen> {
       cartBill: _cartBill!,
       discountType: _currentDiscountType,
       discountValue: _globalDiscount,
+      instruction: _textController.text,
     );
     widget.onCheckout(checkoutData);
   }
@@ -333,6 +339,7 @@ class _CartScreenState extends State<CartScreen> {
                       feeType: FeeType.additional,
                     );
                   },
+                  textController: _textController,
                 ),
               ],
             ),

@@ -77,13 +77,13 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
     );
   }
 
-  void _addNonModifierItem(MenuItems item, int quantity) {
+  void _addNonModifierItem(MenuItems item, int quantity,String instruction) {
     widget.onAddToCart(
       AddToCartItem(
         modifiers: [],
         item: item,
         quantity: quantity,
-        itemInstruction: '',
+        itemInstruction: instruction,
         modifiersPrice: 0,
         itemPrice: OrderPriceProvider.klikitPrice(item.prices),
         brand: widget.brand!,
@@ -96,20 +96,26 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
   void _showItemDetails(BuildContext context, MenuItems item) {
     showModalBottomSheet<void>(
       context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppSize.s14.rSp),
-        ),
-      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return SizedBox(
-          height: AppSize.s250.rh,
-          child: MenuItemDescription(
-            items: item,
-            addToCart: (quantity) {
-              Navigator.pop(context);
-              _addNonModifierItem(item, quantity);
-            },
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight + AppSize.s32.rh),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppSize.s24.rSp),
+                  topRight: Radius.circular(AppSize.s24.rSp)),
+              color: AppColors.whiteSmoke,
+            ),
+            child: MenuItemDescription(
+              items: item,
+              addToCart: (quantity,instruction) {
+                Navigator.pop(context);
+                _addNonModifierItem(item, quantity,instruction);
+              },
+            ),
           ),
         );
       },

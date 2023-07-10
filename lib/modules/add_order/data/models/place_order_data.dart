@@ -28,6 +28,7 @@ class PlaceOrderDataModel {
   int? currencyId;
   int? discountValue;
   int? discountType;
+  String? orderComment;
 
   PlaceOrderDataModel({
     this.id,
@@ -57,6 +58,7 @@ class PlaceOrderDataModel {
     this.currencyId,
     this.discountValue,
     this.discountType,
+    this.orderComment,
   });
 
   Map<String, dynamic> toJson() {
@@ -105,6 +107,9 @@ class PlaceOrderDataModel {
     }
     if (paymentMethod != null) {
       data['payment_method'] = paymentMethod;
+    }
+    if(orderComment != null){
+      data['order_comment'] = orderComment;
     }
     return data;
   }

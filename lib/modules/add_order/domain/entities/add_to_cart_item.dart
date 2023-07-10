@@ -48,6 +48,7 @@ class CheckoutData {
   final CartBill cartBill;
   final int discountType;
   final num discountValue;
+  final String instruction;
 
   CheckoutData({
     required this.items,
@@ -56,6 +57,7 @@ class CheckoutData {
     required this.cartBill,
     required this.discountType,
     required this.discountValue,
+    required this.instruction,
   });
 }
 
@@ -66,6 +68,7 @@ class CartInfo {
   final num discountValue;
   final num additionalFee;
   final num deliveryFee;
+  final String comment;
 
   CartInfo({
     required this.type,
@@ -74,6 +77,7 @@ class CartInfo {
     required this.discountValue,
     required this.additionalFee,
     required this.deliveryFee,
+    required this.comment,
   });
 }
 

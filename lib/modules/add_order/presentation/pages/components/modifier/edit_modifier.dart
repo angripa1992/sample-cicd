@@ -100,7 +100,7 @@ class _EditModifierViewState extends State<EditModifierView> {
       modifiers: _groups,
       item: _item,
       quantity: _quantity,
-      itemInstruction: '',
+      itemInstruction:  _textEditingController.text,
       modifiersPrice: _modifierPrice,
       itemPrice: _itemPrice,
       brand: _brand!,

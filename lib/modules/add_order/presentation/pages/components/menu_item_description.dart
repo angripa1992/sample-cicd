@@ -14,10 +14,11 @@ import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/items.dart';
 import '../../../utils/order_price_provider.dart';
 import 'modifier/quantity_selector.dart';
+import 'modifier/speacial_instruction.dart';
 
 class MenuItemDescription extends StatefulWidget {
   final MenuItems items;
-  final Function(int) addToCart;
+  final Function(int,String) addToCart;
 
   const MenuItemDescription({
     Key? key,
@@ -30,11 +31,14 @@ class MenuItemDescription extends StatefulWidget {
 }
 
 class _MenuItemDescriptionState extends State<MenuItemDescription> {
+  final _textController = TextEditingController();
   int _quantity = 1;
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
           width: AppSize.s36.rw,
@@ -45,107 +49,99 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
           ),
         ),
         Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: AppSize.s16.rw),
-                child: SizedBox(
-                  height: AppSize.s120.rh,
-                  width: AppSize.s150.rw,
-                  child: CachedNetworkImage(
-                    imageUrl: ImageUrlProvider.getUrl(widget.items.image),
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    placeholder: (context, url) => Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
-                        child: CircularProgressIndicator(
-                            strokeWidth: AppSize.s2.rSp),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => Padding(
-                      padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          AppImages.placeholder,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSize.s16.rw,
-                    vertical: AppSize.s8.rh,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.items.title,
-                          style: getBoldTextStyle(
-                            fontSize: AppFontSize.s17.rSp,
-                            color: AppColors.balticSea,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(AppSize.s16.rSp),
-                            color: AppColors.purpleBlue,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSize.s10.rw,
-                              vertical: AppSize.s4.rh,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding:  EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: AppSize.s16.rw),
+                      child: SizedBox(
+                        height: AppSize.s120.rh,
+                        width: AppSize.s150.rw,
+                        child: CachedNetworkImage(
+                          imageUrl: ImageUrlProvider.getUrl(widget.items.image),
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                            child: Text(
-                              OrderPriceProvider.klikitItemPrice(
-                                  widget.items.prices),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: AppColors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: AppFontSize.s14.rSp,
+                          ),
+                          placeholder: (context, url) => Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
+                              child: CircularProgressIndicator(
+                                  strokeWidth: AppSize.s2.rSp),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Padding(
+                            padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                AppImages.placeholder,
                               ),
                             ),
                           ),
                         ),
-                        Text(
-                          widget.items.description,
-                          style: getRegularTextStyle(
-                            fontSize: AppFontSize.s14.rSp,
-                            color: AppColors.black,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                  Text(
+                    widget.items.title,
+                    style: getBoldTextStyle(
+                      fontSize: AppFontSize.s17.rSp,
+                      color: AppColors.balticSea,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+                    decoration: BoxDecoration(
+                      borderRadius:
+                      BorderRadius.circular(AppSize.s16.rSp),
+                      color: AppColors.purpleBlue,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: AppSize.s10.rw,
+                        vertical: AppSize.s4.rh,
+                      ),
+                      child: Text(
+                        OrderPriceProvider.klikitItemPrice(
+                            widget.items.prices),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppFontSize.s14.rSp,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    widget.items.description,
+                    style: getRegularTextStyle(
+                      fontSize: AppFontSize.s14.rSp,
+                      color: AppColors.black,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
+        SpecialInstructionField(controller: _textController),
         Container(
           margin: EdgeInsets.only(top: AppSize.s1.rh),
           padding: EdgeInsets.symmetric(
               horizontal: AppSize.s12.rw, vertical: AppSize.s8.rh),
           decoration: BoxDecoration(
-            color: AppColors.whiteSmoke,
+            color: AppColors.white,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
@@ -160,7 +156,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                 const Spacer(),
                 InkWell(
                   onTap: () {
-                    widget.addToCart(_quantity);
+                    widget.addToCart(_quantity,_textController.text);
                   },
                   child: Container(
                     decoration: BoxDecoration(

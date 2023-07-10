@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -15,7 +14,6 @@ import 'package:klikit/printer/printing_handler.dart';
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../../app/size_config.dart';
-import '../../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../../add_order/presentation/pages/add_order_screen.dart';
 import '../../../widgets/snackbars.dart';
 import '../../edit_order/calculate_grab_order_cubit.dart';
@@ -197,52 +195,19 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
   void _editManualOrder(Order order) async {
     try {
       EasyLoading.show();
-      final cartItems = await getIt
-          .get<UpdateManualOrderDataProvider>()
+      final provider = getIt.get<UpdateManualOrderDataProvider>();
+      final cartItems = await provider
           .generateCartItem(order);
       CartManager().clear();
       for (var cartItem in cartItems) {
         await CartManager().addToCart(cartItem);
       }
       EasyLoading.dismiss();
-      _setEditableInfo(order);
+      provider.setEditableInfo(order);
       _gotoCartScreen();
     } on Exception catch (error) {
       EasyLoading.dismiss();
     }
-  }
-
-  void _setEditableInfo(Order order) {
-    final editInfo = CartInfo(
-      type: order.type == ZERO ? OrderType.DINE_IN : order.type,
-      source: order.source,
-      discountType: order.discountTYpe,
-      discountValue: order.discountValue,
-      additionalFee: order.additionalFee / 100,
-      deliveryFee: order.deliveryFee / 100,
-    );
-    final customerInfo = CustomerInfo(
-      firstName: order.userFirstName,
-      lastName: order.userLastName,
-      email: order.userEmail,
-      phone: order.userPhone,
-      tableNo: order.tableNo,
-    );
-    final paymentInfo = PaymentInfo(
-      paymentStatus: order.paymentStatus,
-      paymentMethod: order.paymentMethod == ZERO
-          ? PaymentMethodId.CASH
-          : order.paymentMethod,
-    );
-    final updateCartInfo = UpdateCartInfo(
-      id: order.id,
-      externalId: order.externalId,
-      identity: order.identity,
-    );
-    CartManager().setCustomerInfo(customerInfo);
-    CartManager().setEditInfo(editInfo);
-    CartManager().setPaymentInfo(paymentInfo);
-    CartManager().setUpdateCartInfo(updateCartInfo);
   }
 
   void _gotoCartScreen() {

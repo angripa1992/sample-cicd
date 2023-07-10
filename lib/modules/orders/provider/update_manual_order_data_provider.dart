@@ -3,9 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../app/constants.dart';
+import '../../../app/extensions.dart';
 import '../../add_order/data/datasource/add_order_datasource.dart';
 import '../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../add_order/domain/entities/item_modifier_group.dart';
+import '../../add_order/utils/cart_manager.dart';
 import '../../add_order/utils/modifier_manager.dart';
 import '../../add_order/utils/order_price_provider.dart';
 import '../../menu/data/datasource/menu_remote_datasource.dart';
@@ -44,7 +46,7 @@ class UpdateManualOrderDataProvider {
             modifiers: modifierGroups,
             item: menuItemOrNull,
             quantity: cartv2.quantity,
-            itemInstruction: '',
+            itemInstruction: cartv2.comment,
             modifiersPrice: modifiersPrice,
             itemPrice: itemPrice,
             brand: brand,
@@ -134,5 +136,39 @@ class UpdateManualOrderDataProvider {
     } on Exception {
       rethrow;
     }
+  }
+
+  void setEditableInfo(Order order) {
+    final editInfo = CartInfo(
+      type: order.type == ZERO ? OrderType.DINE_IN : order.type,
+      source: order.source,
+      discountType: order.discountTYpe,
+      discountValue: order.discountValue,
+      additionalFee: order.additionalFee / 100,
+      deliveryFee: order.deliveryFee / 100,
+      comment: order.orderComment,
+    );
+    final customerInfo = CustomerInfo(
+      firstName: order.userFirstName,
+      lastName: order.userLastName,
+      email: order.userEmail,
+      phone: order.userPhone,
+      tableNo: order.tableNo,
+    );
+    final paymentInfo = PaymentInfo(
+      paymentStatus: order.paymentStatus,
+      paymentMethod: order.paymentMethod == ZERO
+          ? PaymentMethodId.CASH
+          : order.paymentMethod,
+    );
+    final updateCartInfo = UpdateCartInfo(
+      id: order.id,
+      externalId: order.externalId,
+      identity: order.identity,
+    );
+    CartManager().setCustomerInfo(customerInfo);
+    CartManager().setEditInfo(editInfo);
+    CartManager().setPaymentInfo(paymentInfo);
+    CartManager().setUpdateCartInfo(updateCartInfo);
   }
 }

@@ -31,32 +31,35 @@ class BillingItem {
   int? quantity;
   bool? hasModifierGroups;
   ItemBrandModel? brand;
+  String? comment;
 
-  BillingItem(
-      {this.id,
-      this.title,
-      this.prices,
-      this.vat,
-      this.description,
-      this.skuId,
-      this.image,
-      this.enabled,
-      this.hidden,
-      this.statuses,
-      this.sequence,
-      this.defaultItemId,
-      this.stock,
-      this.titleV2,
-      this.descriptionV2,
-      this.cartId,
-      this.itemId,
-      this.unitPrice,
-      this.discountType,
-      this.discountValue,
-      this.groups,
-      this.quantity,
-      this.hasModifierGroups,
-      this.brand});
+  BillingItem({
+    this.id,
+    this.title,
+    this.prices,
+    this.vat,
+    this.description,
+    this.skuId,
+    this.image,
+    this.enabled,
+    this.hidden,
+    this.statuses,
+    this.sequence,
+    this.defaultItemId,
+    this.stock,
+    this.titleV2,
+    this.descriptionV2,
+    this.cartId,
+    this.itemId,
+    this.unitPrice,
+    this.discountType,
+    this.discountValue,
+    this.groups,
+    this.quantity,
+    this.hasModifierGroups,
+    this.brand,
+    this.comment,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -75,10 +78,10 @@ class BillingItem {
     data['unit_price'] = unitPrice;
     data['quantity'] = quantity;
     data['has_modifier_groups'] = hasModifierGroups;
-    if(discountType != null){
+    if (discountType != null) {
       data['discount_type'] = discountType;
     }
-    if(discountValue != null){
+    if (discountValue != null) {
       data['discount_value'] = discountValue;
     }
     if (prices != null) {
@@ -101,6 +104,9 @@ class BillingItem {
     }
     if (statuses != null) {
       data['statuses'] = statuses!.map((v) => v.toJson()).toList();
+    }
+    if(comment != null){
+      data['comment'] = comment;
     }
     return data;
   }
