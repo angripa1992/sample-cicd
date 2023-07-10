@@ -49,7 +49,7 @@ class GoToCartButton extends StatelessWidget {
                         children: [
                           Text(
                             '${value.noOfItem} ${AppStrings.items.tr()}',
-                            style: getRegularTextStyle(color: AppColors.white),
+                            style: regularTextStyle(color: AppColors.white),
                           ),
                           SizedBox(height: AppSize.s2.rh),
                           Text(
@@ -71,7 +71,7 @@ class GoToCartButton extends StatelessWidget {
                         children: [
                           Text(
                             AppStrings.go_to_cart.tr(),
-                            style: getMediumTextStyle(
+                            style: mediumTextStyle(
                               color: AppColors.white,
                               fontSize: AppFontSize.s14.rSp,
                             ),

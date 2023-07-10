@@ -56,7 +56,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                         children: [
                           Text(
                             AppStrings.total_orders_today.tr(),
-                            style: getRegularTextStyle(
+                            style: regularTextStyle(
                               color: AppColors.blackCow,
                               fontSize: AppFontSize.s14.rSp,
                             ),
@@ -65,7 +65,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                             (state is Success<Orders>)
                                 ? state.data.total.toString()
                                 : '0',
-                            style: getRegularTextStyle(
+                            style: regularTextStyle(
                               color: AppColors.purpleBlue,
                               fontSize: AppFontSize.s30.rSp,
                             ),
@@ -106,7 +106,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                         children: [
                           Text(
                             AppStrings.total_orders_yesterday.tr(),
-                            style: getRegularTextStyle(
+                            style: regularTextStyle(
                               color: AppColors.blackCow,
                               fontSize: AppFontSize.s14.rSp,
                             ),
@@ -115,7 +115,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                             (state is Success<Orders>)
                                 ? state.data.total.toString()
                                 : '0',
-                            style: getRegularTextStyle(
+                            style: regularTextStyle(
                               color: AppColors.purpleBlue,
                               fontSize: AppFontSize.s30.rSp,
                             ),

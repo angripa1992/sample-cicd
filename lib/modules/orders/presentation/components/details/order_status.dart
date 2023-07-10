@@ -82,7 +82,7 @@ class OrderStatusView extends StatelessWidget {
         ),
         child: Text(
           text.toUpperCase(),
-          style: getBoldTextStyle(
+          style: boldTextStyle(
             color: AppColors.white,
             fontSize: AppFontSize.s12.rSp,
           ),

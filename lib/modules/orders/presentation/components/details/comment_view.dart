@@ -29,7 +29,7 @@ class CommentView extends StatelessWidget {
             Divider(color: AppColors.frenchGrey),
             Text(
               AppStrings.order_instruction.tr(),
-              style: getBoldTextStyle(
+              style: boldTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s15.rSp,
               ),
@@ -37,7 +37,7 @@ class CommentView extends StatelessWidget {
             SizedBox(height: AppSize.s4.rh),
             Text(
               comment,
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s14.rSp,
               ),

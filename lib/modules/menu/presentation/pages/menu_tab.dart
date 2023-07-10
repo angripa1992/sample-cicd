@@ -44,7 +44,7 @@ class MenuTab extends StatelessWidget {
             child: Center(
               child: Text(
                 name,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: isSelected ? AppColors.white : AppColors.black,
                   fontSize: AppFontSize.s15.rSp,
                 ),

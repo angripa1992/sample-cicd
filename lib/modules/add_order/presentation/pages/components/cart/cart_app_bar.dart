@@ -33,7 +33,7 @@ class CartAppBar extends StatelessWidget {
             IconButton(onPressed: onClose, icon: const Icon(Icons.clear)),
             Text(
               AppStrings.cart.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s17.rSp,
               ),

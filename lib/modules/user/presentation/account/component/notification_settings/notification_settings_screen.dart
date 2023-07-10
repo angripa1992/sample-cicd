@@ -30,7 +30,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
       children: [
         Text(
           'Notification',
-          style: getBoldTextStyle(
+          style: boldTextStyle(
             color: AppColors.bluewood,
             fontSize: AppSize.s16.rSp,
           ),
@@ -40,7 +40,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           children: [
             Text(
               'Pause Notification',
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.purpleBlue,
                 fontSize: AppSize.s14.rSp,
               ),

@@ -74,7 +74,7 @@ class LoadingButton extends StatelessWidget {
                   )
                 : Text(
                     text,
-                    style: getMediumTextStyle(
+                    style: mediumTextStyle(
                       color: textColor ?? AppColors.white,
                       fontSize: textSize ?? AppFontSize.s14.rSp,
                     ),

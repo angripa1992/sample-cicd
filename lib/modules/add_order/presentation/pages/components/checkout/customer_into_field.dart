@@ -23,7 +23,7 @@ class CustomerInfoField extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s4.rw),
           child: Text(
             title,
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.dustyGreay,
             ),
           ),
@@ -39,7 +39,7 @@ class CustomerInfoField extends StatelessWidget {
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                hintStyle: getRegularTextStyle(
+                hintStyle: regularTextStyle(
                   color: AppColors.dustyGreay,
                   fontSize: AppFontSize.s14.rSp,
                 ),

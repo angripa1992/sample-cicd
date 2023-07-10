@@ -125,7 +125,7 @@ class CartPriceView extends StatelessWidget {
       children: [
         Text(
           title,
-          style: getRegularTextStyle(
+          style: regularTextStyle(
             color: AppColors.balticSea,
             fontSize: AppFontSize.s14.rSp,
           ),
@@ -189,7 +189,7 @@ class CartPriceView extends StatelessWidget {
           SizedBox(width: AppSize.s4.rw),
           Text(
             AppStrings.add.tr(),
-            style: getRegularTextStyle(color: AppColors.purpleBlue),
+            style: regularTextStyle(color: AppColors.purpleBlue),
           ),
         ],
       ),

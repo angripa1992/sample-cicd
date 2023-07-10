@@ -54,7 +54,7 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
           children: [
             Text(
               AppStrings.set_printer_connection_type.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s16.rSp,
               ),

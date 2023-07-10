@@ -125,7 +125,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                                       children: [
                                         Text(
                                           '${index + 1}.',
-                                          style: getRegularTextStyle(
+                                          style: regularTextStyle(
                                             color: AppColors.bluewood,
                                             fontSize: AppFontSize.s14.rSp,
                                           ),
@@ -134,7 +134,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                                         Expanded(
                                           child: Text(
                                             _items[index].title,
-                                            style: getRegularTextStyle(
+                                            style: regularTextStyle(
                                               color: AppColors.bluewood,
                                               fontSize: AppFontSize.s14.rSp,
                                             ),
@@ -193,7 +193,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
           : Center(
               child: Text(
                 AppStrings.no_item_found.tr(),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.bluewood,
                   fontSize: AppFontSize.s14.rSp,
                 ),

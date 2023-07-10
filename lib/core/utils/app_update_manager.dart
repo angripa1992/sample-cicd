@@ -65,7 +65,7 @@ class AppUpdateManager {
               const SizedBox(height: AppSize.s8),
               Text(
                 AppStrings.update_required.tr(),
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s18.rSp,
                 ),
@@ -75,7 +75,7 @@ class AppUpdateManager {
                 child: Text(
                   AppStrings.app_update_msg.tr(),
                   textAlign: TextAlign.center,
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s14.rSp,
                   ),
@@ -89,7 +89,7 @@ class AppUpdateManager {
                 child: Center(
                   child: Text(
                     AppStrings.update_app.tr(),
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.pink,
                       fontSize: AppFontSize.s14.rSp,
                     ),

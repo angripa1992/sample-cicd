@@ -153,7 +153,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
             child: Text(
               AppStrings.order_details.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s16.rSp,
               ),

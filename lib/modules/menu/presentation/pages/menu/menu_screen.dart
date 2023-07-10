@@ -45,7 +45,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ? Center(
               child: Text(
                 AppStrings.please_select_a_brand.tr(),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),

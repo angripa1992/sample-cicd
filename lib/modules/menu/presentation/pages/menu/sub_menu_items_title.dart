@@ -30,7 +30,7 @@ class SubMenuItemsTitle extends StatelessWidget {
             Expanded(
               child: Text(
                 subSections.title,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s15.rSp,
                 ),
@@ -38,7 +38,7 @@ class SubMenuItemsTitle extends StatelessWidget {
             ),
             Text(
               '${subSections.items.length} ${AppStrings.items.tr()}',
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s15.rSp,
               ),

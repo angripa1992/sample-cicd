@@ -50,7 +50,7 @@ class _InputFieldState extends State<InputField> {
       children: [
         Text(
           widget.label,
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: widget.labelColor ?? AppColors.blueViolet,
             fontSize: AppFontSize.s16.rSp,
           ),
@@ -60,7 +60,7 @@ class _InputFieldState extends State<InputField> {
           obscureText: _obscureText!,
           keyboardType: widget.inputType,
           cursorColor: widget.textColor ?? AppColors.black,
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: widget.textColor ?? AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
@@ -79,7 +79,7 @@ class _InputFieldState extends State<InputField> {
                     ),
                   )
                 : const SizedBox(),
-            hintStyle: getRegularTextStyle(
+            hintStyle: regularTextStyle(
               color: widget.textColor ?? AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),

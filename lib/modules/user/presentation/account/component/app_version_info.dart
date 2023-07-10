@@ -14,7 +14,7 @@ class AppVersionInfo extends StatelessWidget {
 
   AppVersionInfo({Key? key}) : super(key: key);
 
-  final _textStyle = getMediumTextStyle(
+  final _textStyle = mediumTextStyle(
     color: AppColors.darkViolet,
     fontSize: AppFontSize.s16.rSp,
   );

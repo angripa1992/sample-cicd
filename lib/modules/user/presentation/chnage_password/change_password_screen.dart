@@ -69,7 +69,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 children: [
                   Text(
                     AppStrings.change_password.tr(),
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.black,
                       fontSize: AppFontSize.s20.rSp,
                     ),

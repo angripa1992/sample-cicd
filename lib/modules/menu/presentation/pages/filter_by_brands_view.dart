@@ -31,7 +31,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
     super.initState();
   }
 
-  final dropDownTextStyle = getRegularTextStyle(
+  final dropDownTextStyle = regularTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
@@ -45,7 +45,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
           padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
           child: Text(
             AppStrings.filter_by_brand.tr(),
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s16.rSp,
             ),

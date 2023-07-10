@@ -162,7 +162,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
               children: [
                 Text(
                   AppStrings.cart.tr(),
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.balticSea,
                     fontSize: AppFontSize.s17.rSp,
                   ),
@@ -170,7 +170,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 SizedBox(height: AppSize.s4.rh),
                 Text(
                   '#${_currentOrder.id} (${AppStrings.order_id.tr()})',
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s12.rSp,
                   ),
@@ -192,7 +192,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
           SizedBox(height: AppSize.s16.rh),
           Text(
             AppStrings.your_cart_is_empty.tr(),
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s20.rSp,
             ),
@@ -234,7 +234,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                                 Expanded(
                                   child: Text(
                                     menuBrand.title,
-                                    style: getBoldTextStyle(
+                                    style: boldTextStyle(
                                       color: AppColors.balticSea,
                                       fontSize: AppFontSize.s15.rSp,
                                     ),
@@ -244,7 +244,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                                   onPressed: _removeAll,
                                   child: Text(
                                     AppStrings.remove_all.tr(),
-                                    style: getMediumTextStyle(
+                                    style: mediumTextStyle(
                                       color: AppColors.red,
                                     ),
                                   ),
@@ -297,7 +297,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
           Expanded(
             child: Text(
               AppStrings.total.tr(),
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s15.rSp,
               ),
@@ -426,14 +426,14 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
               RichText(
                 text: TextSpan(
                   text: AppStrings.total.tr(),
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.balticSea,
                     fontSize: AppFontSize.s16.rSp,
                   ),
                   children: [
                     TextSpan(
                       text: ' (${AppStrings.inc_vat.tr()})',
-                      style: getRegularTextStyle(
+                      style: regularTextStyle(
                         color: AppColors.dustyGreay,
                       ),
                     ),

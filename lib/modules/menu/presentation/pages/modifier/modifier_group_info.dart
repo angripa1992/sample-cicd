@@ -37,7 +37,7 @@ class ModifierGroupInfoView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                 child: Text(
                   AppStrings.name.tr(),
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s16.rSp,
                   ),
@@ -70,7 +70,7 @@ class ModifierGroupInfoView extends StatelessWidget {
             ),
             child: Text(
               modifiersGroup.title,
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),

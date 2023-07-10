@@ -29,7 +29,7 @@ void showSelectDocketTypeDialog({
           children: [
             Text(
               AppStrings.select_docket_type.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s20.rSp,
               ),
@@ -74,7 +74,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
         ListTile(
           title: Text(
             AppStrings.kitchen.tr(),
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.blueViolet,
               fontSize: AppSize.s16.rSp,
             ),
@@ -90,7 +90,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
         ListTile(
           title: Text(
             AppStrings.customer.tr(),
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.blueViolet,
               fontSize: AppSize.s16.rSp,
             ),

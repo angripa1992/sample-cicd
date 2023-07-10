@@ -18,7 +18,7 @@ Widget totalOrderShimmer(String text) {
         baseColor: AppColors.blackCow,
         highlightColor: AppColors.whiteSmoke,
         text: text,
-        textStyle: getRegularTextStyle(
+        textStyle: regularTextStyle(
           color: AppColors.blackCow,
           fontSize: AppFontSize.s14.rSp,
         ),
@@ -44,7 +44,7 @@ Widget yesterdayTotalOrderShimmer() {
         baseColor: AppColors.coolGrey,
         highlightColor: AppColors.whiteSmoke,
         text: AppStrings.yesterday.tr(),
-        textStyle: getRegularTextStyle(
+        textStyle: regularTextStyle(
           color: AppColors.coolGrey,
           fontSize: AppFontSize.s14.rSp,
         ),

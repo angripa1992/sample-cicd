@@ -36,7 +36,7 @@ class SearchActionButtonView extends StatelessWidget {
             SizedBox(width: AppSize.s8.rw),
             Text(
               AppStrings.search_for_items.tr(),
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.frenchGrey,
                 fontSize: AppSize.s14.rSp,
               ),

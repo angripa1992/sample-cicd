@@ -52,7 +52,7 @@ class ModifierGroupInfo extends StatelessWidget {
                 Flexible(
                   child: Text(
                     title,
-                    style: getMediumTextStyle(
+                    style: mediumTextStyle(
                       color: AppColors.balticSea,
                       fontSize: AppFontSize.s16.rSp,
                     ),
@@ -72,7 +72,7 @@ class ModifierGroupInfo extends StatelessWidget {
                       ),
                       child: Text(
                         isOptional ? AppStrings.optional.tr() : AppStrings.required.tr(),
-                        style: getRegularTextStyle(
+                        style: regularTextStyle(
                           color: isOptional
                               ? AppColors.smokeyGrey
                               : AppColors.purpleBlue,
@@ -86,7 +86,7 @@ class ModifierGroupInfo extends StatelessWidget {
             SizedBox(height: AppSize.s2.rh),
             Text(
               _ruleTitle(),
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.smokeyGrey,
               ),
             ),

@@ -108,7 +108,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
             trailingRotation: 180,
             title: Text(
               AppStrings.add_customer_info.tr(),
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.dustyGreay,
               ),
             ),
@@ -143,7 +143,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(
                       AppStrings.submit.tr(),
-                      style: getMediumTextStyle(
+                      style: mediumTextStyle(
                         color: AppColors.white,
                         fontSize: AppFontSize.s12.rSp,
                       ),

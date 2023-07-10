@@ -80,7 +80,7 @@ class _BusyModeViewState extends State<BusyModeView> {
               SizedBox(width: AppSize.s12.rw),
               Text(
                 AppStrings.pause_store.tr(),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
@@ -161,7 +161,7 @@ class _BusyModeViewState extends State<BusyModeView> {
                       ? AppStrings.offline_title.tr()
                       : AppStrings.online_title.tr(),
                   textAlign: TextAlign.center,
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s17.rSp,
                   ),
@@ -174,7 +174,7 @@ class _BusyModeViewState extends State<BusyModeView> {
                       ? AppStrings.offline_message.tr()
                       : AppStrings.online_message.tr(),
                   textAlign: TextAlign.center,
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s14.rSp,
                   ),
@@ -222,7 +222,7 @@ class _BusyModeViewState extends State<BusyModeView> {
                           child: Center(
                             child: Text(
                               AppStrings.not_now.tr(),
-                              style: getMediumTextStyle(
+                              style: mediumTextStyle(
                                 color: AppColors.purpleBlue,
                                 fontSize: AppFontSize.s16.rSp,
                               ),

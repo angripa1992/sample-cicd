@@ -35,7 +35,7 @@ class FindRiderView extends StatelessWidget {
             Flexible(
               child: Text(
                 'Find Rider',
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.blackCow,
                   fontSize: AppFontSize.s14.rSp,
                 ),

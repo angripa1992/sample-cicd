@@ -28,7 +28,7 @@ class CategoriesDropDown extends StatefulWidget {
 
 class _CategoriesDropDownState extends State<CategoriesDropDown> {
   SubSectionListItem? _dropDownValue;
-  final _textStyle = getMediumTextStyle(
+  final _textStyle = mediumTextStyle(
     color: AppColors.balticSea,
     fontSize: AppFontSize.s15.rSp,
   );

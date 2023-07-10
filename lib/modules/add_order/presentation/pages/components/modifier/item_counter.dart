@@ -74,7 +74,7 @@ class _ItemCounterState extends State<ItemCounter> {
               padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
               child: Text(
                 count.toString(),
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.white,
                   fontSize: AppFontSize.s14.rSp,
                 ),

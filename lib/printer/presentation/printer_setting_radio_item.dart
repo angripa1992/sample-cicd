@@ -26,7 +26,7 @@ class PrinterSettingRadioItem extends StatelessWidget {
       activeColor: AppColors.purpleBlue,
       title: Text(
         name,
-        style: getRegularTextStyle(
+        style: regularTextStyle(
           color: AppColors.bluewood,
           fontSize: AppSize.s16.rSp,
         ),

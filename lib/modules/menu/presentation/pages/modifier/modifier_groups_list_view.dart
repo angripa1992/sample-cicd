@@ -82,7 +82,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                             EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                         child: Text(
                           group.title,
-                          style: getRegularTextStyle(
+                          style: regularTextStyle(
                             color: AppColors.black,
                             fontSize: AppFontSize.s14.rSp,
                           ),

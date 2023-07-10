@@ -69,7 +69,7 @@ class _GrabQuantitySelectorState extends State<GrabQuantitySelector> {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
           child: Text(
             '$_quantity',
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s16.rSp,
             ),

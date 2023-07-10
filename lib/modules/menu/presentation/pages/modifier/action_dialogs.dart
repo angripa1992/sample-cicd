@@ -38,7 +38,7 @@ void showEnableModifierDialog({
             children: [
               Text(
                 '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -101,7 +101,7 @@ void showEnableModifierDialog({
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
                           AppStrings.discard.tr(),
-                          style: getMediumTextStyle(
+                          style: mediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,
                           ),
@@ -145,7 +145,7 @@ void showDisableModifierDialog({
                 affected
                     ? AppStrings.modifier_required_msg.tr()
                     : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()}?',
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -161,7 +161,7 @@ void showDisableModifierDialog({
                         child: SingleChildScrollView(
                           child: Text(
                             items!,
-                            style: getMediumTextStyle(
+                            style: mediumTextStyle(
                               color: AppColors.blueViolet,
                               fontSize: AppFontSize.s14.rSp,
                             ),
@@ -228,7 +228,7 @@ void showDisableModifierDialog({
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
                           AppStrings.discard.tr(),
-                          style: getMediumTextStyle(
+                          style: mediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,
                           ),

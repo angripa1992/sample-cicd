@@ -26,7 +26,7 @@ class RiderInfoView extends StatelessWidget {
           Divider(color: AppColors.frenchGrey),
           Text(
             'Rider Info',
-            style: getBoldTextStyle(
+            style: boldTextStyle(
               color: AppColors.bluewood,
               fontSize: AppFontSize.s15.rSp,
             ),
@@ -67,7 +67,7 @@ class RiderInfoView extends StatelessWidget {
       children: [
         Text(
           title,
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: AppColors.bluewood,
             fontSize: AppFontSize.s14.rSp,
           ),
@@ -75,7 +75,7 @@ class RiderInfoView extends StatelessWidget {
         SizedBox(height: AppSize.s2.rh),
         Text(
           description,
-          style: getRegularTextStyle(
+          style: regularTextStyle(
             color: AppColors.bluewood,
             fontSize: AppFontSize.s14.rSp,
           ),

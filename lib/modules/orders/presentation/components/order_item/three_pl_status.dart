@@ -50,7 +50,7 @@ class ThreePlStatus extends StatelessWidget {
       ),
       child: Text(
         _status(),
-        style: getRegularTextStyle(color: AppColors.bluewood),
+        style: regularTextStyle(color: AppColors.bluewood),
       ),
     );
   }

@@ -93,7 +93,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                           if (!widget.controller.isExpanded)
                             Text(
                               '${widget.index + 1}. ',
-                              style: getRegularTextStyle(
+                              style: regularTextStyle(
                                 color: AppColors.balticSea,
                                 fontSize: AppFontSize.s17.rSp,
                               ),
@@ -102,7 +102,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                           Expanded(
                             child: Text(
                               '${widget.sections.title} ${widget.controller.isExpanded ? '(${widget.sections.subSections.length})' : ''}',
-                              style: getRegularTextStyle(
+                              style: regularTextStyle(
                                 color: AppColors.balticSea,
                                 fontSize: AppFontSize.s16.rSp,
                               ),

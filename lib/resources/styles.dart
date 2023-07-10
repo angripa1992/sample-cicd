@@ -5,79 +5,65 @@ import 'colors.dart';
 import 'fonts.dart';
 
 TextStyle _getTextStyle(
-  double fontSize,
-  String fontFamily,
+  double? fontSize,
+  Color? color,
   FontWeight fontWeight,
-  Color color,
-  FontStyle fontStyle,
 ) {
   return TextStyle(
-    fontSize: fontSize,
-    fontFamily: fontFamily,
-    color: color,
+    fontSize: fontSize ?? AppFontSize.s14.rSp,
+    fontFamily: AppFonts.Aeonik,
+    color: color ?? AppColors.bluewood,
     fontWeight: fontWeight,
-    fontStyle: fontStyle,
+    letterSpacing: -0.07,
   );
 }
 
-TextStyle getRegularTextStyle({
-  double fontSize = AppFontSize.s12,
-  FontStyle fontStyle = FontStyle.normal,
-  required Color color,
+TextStyle regularTextStyle({
+  double? fontSize,
+  Color? color,
 }) {
   return _getTextStyle(
     fontSize,
-    AppFonts.Aeonik,
+    color,
     AppFontWeight.regular,
-    color,
-    fontStyle,
   );
 }
 
-TextStyle getLightTextStyle({
-  double fontSize = AppFontSize.s12,
-  FontStyle fontStyle = FontStyle.normal,
-  required Color color,
+TextStyle lightTextStyle({
+  double? fontSize,
+  Color? color,
 }) {
   return _getTextStyle(
     fontSize,
-    AppFonts.Aeonik,
+    color,
     AppFontWeight.light,
-    color,
-    fontStyle,
   );
 }
 
-TextStyle getBoldTextStyle({
-  double fontSize = AppFontSize.s12,
-  FontStyle fontStyle = FontStyle.normal,
-  required Color color,
+TextStyle boldTextStyle({
+  double? fontSize,
+  Color? color,
 }) {
   return _getTextStyle(
     fontSize,
-    AppFonts.Aeonik,
+    color,
     AppFontWeight.bold,
-    color,
-    fontStyle,
   );
 }
 
-TextStyle getMediumTextStyle({
-  double fontSize = AppFontSize.s12,
-  FontStyle fontStyle = FontStyle.normal,
-  required Color color,
+TextStyle mediumTextStyle({
+  double? fontSize,
+  Color? color,
 }) {
   return _getTextStyle(
     fontSize,
-    AppFonts.Aeonik,
-    AppFontWeight.medium,
     color,
-    fontStyle,
+    AppFontWeight.medium,
   );
 }
 
 TextStyle getAppBarTextStyle() {
-  return getRegularTextStyle(
+  return regularTextStyle(
     color: AppColors.white,
     fontSize: AppFontSize.s17.rSp,
   );

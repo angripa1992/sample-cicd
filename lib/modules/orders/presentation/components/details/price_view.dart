@@ -209,7 +209,7 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
       children: [
         Text(
           AppStrings.sub_total.tr(),
-          style: getBoldTextStyle(
+          style: boldTextStyle(
             color: AppColors.darkGrey,
             fontSize: AppFontSize.s14.rSp,
           ),

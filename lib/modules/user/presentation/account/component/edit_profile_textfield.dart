@@ -31,7 +31,7 @@ class EditProfileTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: getRegularTextStyle(
+          style: regularTextStyle(
             color: AppColors.purpleBlue,
             fontSize: AppSize.s14.rSp,
           ),
@@ -41,7 +41,7 @@ class EditProfileTextField extends StatelessWidget {
           controller: editingController,
           cursorColor: AppColors.black,
           keyboardType: inputType ?? TextInputType.text,
-          style: getRegularTextStyle(
+          style: regularTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),

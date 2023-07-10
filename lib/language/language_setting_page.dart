@@ -73,7 +73,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
             ),
             child: Text(
               AppStrings.select_language.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.purpleBlue,
                 fontSize: AppFontSize.s16.rSp,
               ),
@@ -91,7 +91,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
                       contentPadding: const EdgeInsets.all(AppSize.ZERO),
                       title: Text(
                         language.title!,
-                        style: getRegularTextStyle(
+                        style: regularTextStyle(
                           color: AppColors.bluewood,
                           fontSize: AppFontSize.s14.rSp,
                         ),
@@ -125,7 +125,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
                   },
                   child: Text(
                     AppStrings.cancel.tr(),
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.warmRed,
                       fontSize: AppFontSize.s14.rSp,
                     ),

@@ -54,7 +54,7 @@ class CartItemView extends StatelessWidget {
                           Expanded(
                             child: Text(
                               '${cartItem.quantity}x ${cartItem.item.title}',
-                              style: getMediumTextStyle(
+                              style: mediumTextStyle(
                                 color: AppColors.purpleBlue,
                                 fontSize: AppFontSize.s14.rSp,
                               ),
@@ -138,7 +138,7 @@ class CartItemView extends StatelessWidget {
               onPressed: cartItem.modifiers.isEmpty ? null : onEdit,
               child: Text(
                 AppStrings.edit.tr(),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: cartItem.modifiers.isEmpty
                       ? AppColors.dustyGreay
                       : AppColors.purpleBlue,
@@ -167,7 +167,7 @@ class CartItemView extends StatelessWidget {
                   SizedBox(width: AppSize.s4.rw),
                   Text(
                     AppStrings.discount.tr(),
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.purpleBlue,
                       fontSize: AppFontSize.s14.rSp,
                     ),

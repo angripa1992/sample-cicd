@@ -50,7 +50,7 @@ class _ModifierScreenState extends State<ModifierScreen> {
           ? Center(
               child: Text(
                 AppStrings.please_select_a_brand.tr(),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -66,7 +66,7 @@ class _ModifierScreenState extends State<ModifierScreen> {
                   ),
                   child: Text(
                     AppStrings.modifiers_group.tr().toUpperCase(),
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.black,
                       fontSize: AppFontSize.s16.rSp,
                     ),

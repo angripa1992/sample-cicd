@@ -27,7 +27,7 @@ class PrinterSettingCheckbox extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       title: Text(
         name,
-        style: getRegularTextStyle(
+        style: regularTextStyle(
           color: AppColors.bluewood,
           fontSize: AppSize.s16.rSp,
         ),

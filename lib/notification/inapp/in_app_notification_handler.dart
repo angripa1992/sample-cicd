@@ -105,7 +105,7 @@ class InAppNotificationHandler {
                       padding: const EdgeInsets.only(bottom: AppSize.s24),
                       child: Text(
                         '$value ${AppStrings.orders_has_been_canceled.tr()}',
-                        style: getRegularTextStyle(
+                        style: regularTextStyle(
                           color: AppColors.warmRed,
                           fontSize: AppFontSize.s18.rSp,
                         ),
@@ -123,7 +123,7 @@ class InAppNotificationHandler {
                       padding: const EdgeInsets.only(bottom: AppSize.s24),
                       child: Text(
                         '${AppStrings.you_have_received.tr()} $value ${AppStrings.new_orders.tr()}',
-                        style: getRegularTextStyle(
+                        style: regularTextStyle(
                           color: AppColors.black,
                           fontSize: AppFontSize.s18.rSp,
                         ),

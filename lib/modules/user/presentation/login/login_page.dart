@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           AppStrings.existing_account.tr(),
-                          style: getRegularTextStyle(
+                          style: regularTextStyle(
                             color: AppColors.manilla,
                             fontSize: AppSize.s14.rSp,
                           ),
@@ -193,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text(
                             AppStrings.dont_have_account.tr(),
-                            style: getBoldTextStyle(
+                            style: boldTextStyle(
                               color: AppColors.manilla,
                               fontSize: AppFontSize.s14.rSp,
                             ),

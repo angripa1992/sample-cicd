@@ -69,7 +69,7 @@ class ManageModifiersScreen extends StatelessWidget {
                   ),
                   child: Text(
                     AppStrings.modifiers.tr().toUpperCase(),
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.black,
                       fontSize: AppFontSize.s16.rSp,
                     ),

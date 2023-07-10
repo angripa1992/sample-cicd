@@ -103,7 +103,7 @@ class CartItemsListView extends StatelessWidget {
                       },
                       child: Text(
                         '+ ${AppStrings.add_more_items.tr()}',
-                        style: getMediumTextStyle(
+                        style: mediumTextStyle(
                           color: AppColors.purpleBlue,
                         ),
                       ),

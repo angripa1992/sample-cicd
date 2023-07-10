@@ -48,7 +48,7 @@ class _PasswordFieldState extends State<PasswordField> {
       children: [
         Text(
           widget.label,
-          style: getRegularTextStyle(
+          style: regularTextStyle(
             color: AppColors.smokeyGrey,
             fontSize: AppFontSize.s16.rSp,
           ),
@@ -58,7 +58,7 @@ class _PasswordFieldState extends State<PasswordField> {
           obscureText: _obscureText,
           controller: widget.editingController,
           cursorColor: AppColors.smokeyGrey,
-          style: getRegularTextStyle(
+          style: regularTextStyle(
             color: AppColors.smokeyGrey,
             fontSize: AppFontSize.s14.rSp,
           ),
@@ -88,7 +88,7 @@ class _PasswordFieldState extends State<PasswordField> {
               vertical: AppSize.ZERO,
             ),
             hintText: widget.hint,
-            hintStyle: getRegularTextStyle(
+            hintStyle: regularTextStyle(
               color: AppColors.smokeyGrey,
               fontSize: AppFontSize.s14.rSp,
             ),

@@ -143,7 +143,7 @@ class _EditModifierViewState extends State<EditModifierView> {
                           Icon(Icons.add, color: AppColors.purpleBlue),
                           Text(
                             AppStrings.add_as_new.tr(),
-                            style: getMediumTextStyle(
+                            style: mediumTextStyle(
                               color: AppColors.purpleBlue,
                               fontSize: AppFontSize.s14.rSp,
                             ),

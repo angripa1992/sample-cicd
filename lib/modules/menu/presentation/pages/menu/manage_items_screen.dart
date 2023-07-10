@@ -53,7 +53,7 @@ class ManageItemsScreen extends StatelessWidget {
                     vertical: AppSize.s16.rh, horizontal: AppSize.s8.rw),
                 child: Text(
                   AppStrings.items_list.tr(),
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s15.rSp,
                   ),

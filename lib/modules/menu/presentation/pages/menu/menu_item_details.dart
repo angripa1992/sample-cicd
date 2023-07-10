@@ -108,7 +108,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
                     child: Text(
                       widget.items.title,
-                      style: getRegularTextStyle(
+                      style: regularTextStyle(
                         fontSize: AppFontSize.s16.rSp,
                         color: AppColors.black,
                       ),
@@ -173,7 +173,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
               child: Text(
                 '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.items.stock.snooze.endTime)})',
                 textAlign: TextAlign.right,
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.warmRed,
                   fontSize: AppFontSize.s12.rSp,
                 ),
@@ -186,7 +186,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                 child: Text(
                   widget.items.description,
                   textAlign: TextAlign.start,
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                       fontSize: AppFontSize.s14.rSp, color: AppColors.coolGrey),
                 ),
               ),

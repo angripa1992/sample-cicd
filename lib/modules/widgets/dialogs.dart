@@ -21,7 +21,7 @@ void showLogoutDialog(
           children: [
             Text(
               AppStrings.logout.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s20.rSp,
               ),
@@ -32,7 +32,7 @@ void showLogoutDialog(
             Text(
               AppStrings.logout_confirm_message.tr(),
               textAlign: TextAlign.center,
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
@@ -52,7 +52,7 @@ void showLogoutDialog(
                     child: Center(
                       child: Text(
                         AppStrings.cancel.tr(),
-                        style: getRegularTextStyle(
+                        style: regularTextStyle(
                           color: AppColors.purpleBlue,
                           fontSize: AppFontSize.s18.rSp,
                         ),
@@ -68,7 +68,7 @@ void showLogoutDialog(
                     child: Center(
                       child: Text(
                         AppStrings.logout.tr(),
-                        style: getRegularTextStyle(
+                        style: regularTextStyle(
                           color: AppColors.purpleBlue,
                           fontSize: AppFontSize.s18.rSp,
                         ),
@@ -103,7 +103,7 @@ void showValidationDialog({
           children: [
             Text(
               title,
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s20.rSp,
               ),
@@ -114,7 +114,7 @@ void showValidationDialog({
             Text(
               message,
               textAlign: TextAlign.center,
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
@@ -131,7 +131,7 @@ void showValidationDialog({
               child: Center(
                 child: Text(
                   AppStrings.ok.tr(),
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.purpleBlue,
                     fontSize: AppFontSize.s18.rSp,
                   ),
@@ -149,12 +149,12 @@ void showAccessDeniedDialog({
   required BuildContext context,
   required String role,
 }) {
-  final regularStyle = getRegularTextStyle(
+  final regularStyle = regularTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s14.rSp,
   );
 
-  final boldStyle = getBoldTextStyle(
+  final boldStyle = boldTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s14.rSp,
   );
@@ -176,7 +176,7 @@ void showAccessDeniedDialog({
             Text(
               AppStrings.access_denied.tr(),
               textAlign: TextAlign.start,
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s24.rSp,
               ),

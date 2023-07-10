@@ -51,7 +51,7 @@ class _ModifierListViewState extends State<ModifierListView> {
                             EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                         child: Text(
                           widget.modifiersGroup.modifiers[index].title,
-                          style: getRegularTextStyle(
+                          style: regularTextStyle(
                             color: AppColors.black,
                             fontSize: AppFontSize.s14.rSp,
                           ),

@@ -30,7 +30,7 @@ class CartBadge extends StatelessWidget {
                     position: bg.BadgePosition.topEnd(top: -16, end: -8),
                     badgeContent: Text(
                       '$count',
-                      style: getMediumTextStyle(
+                      style: mediumTextStyle(
                         color: AppColors.white,
                         fontSize: AppFontSize.s10.rSp,
                       ),

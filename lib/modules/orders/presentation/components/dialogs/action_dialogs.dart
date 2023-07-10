@@ -38,7 +38,7 @@ void showOrderActionDialog({
             children: [
               Text(
                 title,
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s20.rSp,
                 ),
@@ -97,7 +97,7 @@ void showOrderActionDialog({
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
                           AppStrings.no.tr(),
-                          style: getMediumTextStyle(
+                          style: mediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,
                           ),

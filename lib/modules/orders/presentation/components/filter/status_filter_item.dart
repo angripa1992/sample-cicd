@@ -51,7 +51,7 @@ class _StatusFilterItemState extends State<StatusFilterItem> {
             padding: EdgeInsets.only(left: AppSize.s8.rw),
             child: Text(
               widget.statusItem.name,
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),

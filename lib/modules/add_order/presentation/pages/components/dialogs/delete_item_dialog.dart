@@ -40,7 +40,7 @@ class DeleteItemDialogView extends StatelessWidget {
             Expanded(
               child: Text(
                 AppStrings.want_to_delete_item_msg.tr(),
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -98,7 +98,7 @@ class DeleteItemDialogView extends StatelessWidget {
                         Expanded(
                           child: Text(
                             '${cartItem.quantity}x ${cartItem.item.title}',
-                            style: getMediumTextStyle(
+                            style: mediumTextStyle(
                               color: AppColors.purpleBlue,
                               fontSize: AppFontSize.s14.rSp,
                             ),
@@ -171,7 +171,7 @@ class DeleteItemDialogView extends StatelessWidget {
               ),
               child: Text(
                 AppStrings.cancel.tr(),
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.balticSea,
                 ),
               ),
@@ -187,7 +187,7 @@ class DeleteItemDialogView extends StatelessWidget {
               ),
               child: Text(
                 AppStrings.delete.tr(),
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.white,
                 ),
               ),
@@ -218,7 +218,7 @@ class DeleteAllDialogView extends StatelessWidget {
             Expanded(
               child: Text(
                 AppStrings.want_to_delete_all_item_msg.tr(),
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -247,7 +247,7 @@ class DeleteAllDialogView extends StatelessWidget {
               ),
               child: Text(
                 AppStrings.cancel.tr(),
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.balticSea,
                 ),
               ),
@@ -263,7 +263,7 @@ class DeleteAllDialogView extends StatelessWidget {
               ),
               child: Text(
                 AppStrings.delete.tr(),
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.white,
                 ),
               ),

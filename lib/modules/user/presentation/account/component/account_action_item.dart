@@ -55,7 +55,7 @@ class AccountActionItem extends StatelessWidget {
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.purpleBlue,
                     fontSize: AppFontSize.s14.rSp,
                   ),

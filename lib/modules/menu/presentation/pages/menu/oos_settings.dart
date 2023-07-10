@@ -108,7 +108,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
               children: [
                 Text(
                   AppStrings.out_of_stock_settings.tr(),
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.dustyGrey,
                   ),
                 ),
@@ -129,7 +129,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                 Flexible(
                   child: Text(
                     AppStrings.out_of_stock.tr(),
-                    style: getMediumTextStyle(
+                    style: mediumTextStyle(
                       color: AppColors.balticSea,
                       fontSize: AppFontSize.s14.rSp,
                     ),
@@ -156,7 +156,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                   Flexible(
                     child: Text(
                       '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.item.stock.snooze.endTime)})',
-                      style: getMediumTextStyle(
+                      style: mediumTextStyle(
                         color: AppColors.warmRed,
                         fontSize: AppFontSize.s12.rSp,
                       ),
@@ -249,7 +249,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
   final MAX_DURATION = 8760;
   OOS? _groupValue;
   late TextEditingController _textEditingController;
-  final _textStyle = getRegularTextStyle(
+  final _textStyle = regularTextStyle(
     color: AppColors.balticSea,
     fontSize: AppFontSize.s14.rSp,
   );

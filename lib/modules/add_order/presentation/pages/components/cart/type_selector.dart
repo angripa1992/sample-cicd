@@ -93,7 +93,7 @@ class _TypeSelectorState extends State<TypeSelector> {
                 selected: _currentType == type,
                 selectedColor: AppColors.purpleBlue,
                 backgroundColor: AppColors.whiteSmoke,
-                labelStyle: getMediumTextStyle(
+                labelStyle: mediumTextStyle(
                   color: _currentType == type
                       ? AppColors.white
                       : AppColors.dustyGreay,

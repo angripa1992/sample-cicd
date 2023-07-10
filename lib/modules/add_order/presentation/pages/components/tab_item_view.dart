@@ -35,7 +35,7 @@ class TabItemView extends StatelessWidget {
           ),
           child: Text(
            title,
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s14.rSp,
             ),

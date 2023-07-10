@@ -50,7 +50,7 @@ class _SetPaperSizeState extends State<SetPaperSize> {
           children: [
             Text(
               AppStrings.set_paper_size.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s16.rSp,
               ),

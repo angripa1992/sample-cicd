@@ -68,7 +68,7 @@ class AddToCartButtonView extends StatelessWidget {
                           children: [
                             Text(
                               AppStrings.add_to_cart,
-                              style: getRegularTextStyle(
+                              style: regularTextStyle(
                                 color: AppColors.white,
                               ),
                             ),

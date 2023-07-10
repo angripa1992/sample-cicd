@@ -43,7 +43,7 @@ class ModifierHeaderView extends StatelessWidget {
             Expanded(
               child: Text(
                 itemName,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
                 ),

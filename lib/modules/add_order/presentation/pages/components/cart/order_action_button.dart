@@ -43,7 +43,7 @@ class OrderActionButton extends StatelessWidget {
             children: [
               Text(
                 AppStrings.total.tr() ,
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -51,7 +51,7 @@ class OrderActionButton extends StatelessWidget {
               SizedBox(width: AppSize.s4.rw),
               Text(
                 AppStrings.inc_vat.tr(),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.dustyGreay,
                 ),
               ),
@@ -89,7 +89,7 @@ class OrderActionButton extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(
                       buttonText,
-                      style: getMediumTextStyle(
+                      style: mediumTextStyle(
                         color: AppColors.white,
                         fontSize: AppFontSize.s14.rSp,
                       ),

@@ -110,7 +110,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
           widget.order.klikitComment.isEmpty
               ? AppStrings.add_comment.tr()
               : AppStrings.edit_comment.tr(),
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
@@ -124,13 +124,13 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
               keyboardType: TextInputType.multiline,
               minLines: 1,
               maxLines: 5,
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.blackCow,
                 fontSize: AppFontSize.s14.rSp,
               ),
               decoration: InputDecoration(
                 hintText: AppStrings.order_comment.tr(),
-                hintStyle: getRegularTextStyle(
+                hintStyle: regularTextStyle(
                   color: AppColors.blackCow,
                   fontSize: AppFontSize.s14.rSp,
                 ),

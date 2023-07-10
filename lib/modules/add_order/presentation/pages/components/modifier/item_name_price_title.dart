@@ -20,7 +20,7 @@ class ItemNamePriceTitle extends StatelessWidget {
         Flexible(
           child: Text(
             name,
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s15.rSp,
             ),

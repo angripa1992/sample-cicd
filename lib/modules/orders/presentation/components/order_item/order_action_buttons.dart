@@ -52,7 +52,7 @@ class PrintButton extends StatelessWidget {
                 padding: EdgeInsets.only(left: AppSize.s8.rw),
                 child: Text(
                   AppStrings.print.tr(),
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.purpleBlue,
                     fontSize: AppFontSize.s12.rSp,
                   ),
@@ -97,7 +97,7 @@ class ReadyButton extends StatelessWidget {
         ),
         child: Text(
           AppStrings.ready.tr(),
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
             fontSize: AppFontSize.s12.rSp,
           ),
@@ -139,7 +139,7 @@ class DeliverButton extends StatelessWidget {
         ),
         child: Text(
           AppStrings.deliver.tr(),
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
             fontSize: AppFontSize.s12.rSp,
           ),
@@ -181,7 +181,7 @@ class PickedUpButton extends StatelessWidget {
         ),
         child: Text(
           AppStrings.picked_up.tr(),
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
             fontSize: AppFontSize.s14.rSp,
           ),
@@ -234,7 +234,7 @@ class AcceptButton extends StatelessWidget {
                 padding: EdgeInsets.only(left: AppSize.s8.rw),
                 child: Text(
                   AppStrings.accept.tr(),
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.green,
                     fontSize: AppFontSize.s12.rSp,
                   ),
@@ -284,7 +284,7 @@ class CanceledButton extends StatelessWidget {
                       padding: EdgeInsets.only(left: AppSize.s8.rw),
                       child: Text(
                         AppStrings.reject.tr(),
-                        style: getMediumTextStyle(
+                        style: mediumTextStyle(
                           color: AppColors.red,
                           fontSize: AppFontSize.s12.rSp,
                         ),

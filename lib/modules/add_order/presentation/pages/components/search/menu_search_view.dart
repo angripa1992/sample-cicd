@@ -93,7 +93,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
             ),
             child: Text(
               AppStrings.categories.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,
               ),
@@ -142,7 +142,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
             ),
             child: Text(
               AppStrings.Items.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,
               ),

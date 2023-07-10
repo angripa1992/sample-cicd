@@ -34,7 +34,7 @@ void showPauseNotificationConfirmationDialog({
                 enable
                     ? 'Are you sure to resume notifications?'
                     : 'Are you sure to pause notifications?',
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.bluewood,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -44,7 +44,7 @@ void showPauseNotificationConfirmationDialog({
                 enable
                     ? 'You will be receiving any notifications of upcoming orders.'
                     : 'You won\'t be receiving any notifications of upcoming orders.',
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.smokeyGrey,
                   fontSize: AppFontSize.s14.rSp,
                 ),

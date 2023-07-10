@@ -46,7 +46,7 @@ class HomeOrderNavCardShimmer extends StatelessWidget {
                 highlightColor: textHighlightColor,
                 child: Text(
                   text,
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: textBaseColor,
                     fontSize: AppFontSize.s15.rSp,
                   ),

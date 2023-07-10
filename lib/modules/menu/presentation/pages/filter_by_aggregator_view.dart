@@ -22,7 +22,7 @@ class FilterByAggregatorView extends StatefulWidget {
 }
 
 class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
-  final dropDownTextStyle = getRegularTextStyle(
+  final dropDownTextStyle = regularTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
@@ -50,7 +50,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
           padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
           child: Text(
             AppStrings.delivery_aggregator.tr(),
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.purpleBlue,
               fontSize: AppFontSize.s16.rSp,
             ),

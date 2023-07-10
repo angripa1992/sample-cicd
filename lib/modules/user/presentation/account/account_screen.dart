@@ -157,7 +157,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                     child: Text(
                       AppStrings.edit_profile.tr(),
-                      style: getBoldTextStyle(
+                      style: boldTextStyle(
                         color: AppColors.bluewood,
                         fontSize: AppSize.s16.rSp,
                       ),

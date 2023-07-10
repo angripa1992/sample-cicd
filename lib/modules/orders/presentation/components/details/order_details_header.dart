@@ -121,7 +121,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
             Flexible(
               child: Text(
                 AppStrings.edit_order.tr(),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.blackCow,
                   fontSize: AppFontSize.s14.rSp,
                 ),
@@ -142,7 +142,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
             (order.providerId == ProviderID.KLIKIT)
                 ? '#${order.id}'
                 : '#${order.shortId}',
-            style: getBoldTextStyle(
+            style: boldTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s20.rSp,
             ),
@@ -174,7 +174,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
                     ),
                     child: Text(
                       '${AppStrings.placed_on.tr()} ${result.data!.title}',
-                      style: getMediumTextStyle(
+                      style: mediumTextStyle(
                         color: AppColors.purpleBlue,
                         fontSize: AppFontSize.s14.rSp,
                       ),
@@ -214,7 +214,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
       children: [
         Text(
           AppStrings.id.tr(),
-          style: getRegularTextStyle(
+          style: regularTextStyle(
             color: AppColors.dustyGrey,
             fontSize: AppFontSize.s15.rSp,
           ),
@@ -223,7 +223,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         Flexible(
           child: Text(
             order.externalId,
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.dustyGreay,
               fontSize: AppFontSize.s14.rSp,
             ),
@@ -247,7 +247,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         Expanded(
           child: Text(
             DateTimeProvider.parseOrderCreatedDate(order.createdAt),
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.darkGrey,
               fontSize: AppFontSize.s14.rSp,
             ),

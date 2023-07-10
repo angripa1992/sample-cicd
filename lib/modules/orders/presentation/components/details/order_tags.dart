@@ -94,7 +94,7 @@ class OrderTagsView extends StatelessWidget {
       ),
       child: Text(
         tagName,
-        style: getRegularTextStyle(
+        style: regularTextStyle(
           color: AppColors.bluewood,
           fontSize: AppFontSize.s12.rSp,
         ),

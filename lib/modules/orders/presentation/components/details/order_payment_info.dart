@@ -158,7 +158,7 @@ class PaymentInfoTagView extends StatelessWidget {
           children: [
             Text(
               tagName,
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s12.rSp,
               ),

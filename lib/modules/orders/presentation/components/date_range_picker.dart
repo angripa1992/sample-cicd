@@ -89,7 +89,7 @@ class _DateSelectorState extends State<DateSelector> {
               SizedBox(width: AppSize.s8.rw),
               Text(
                 DateTimeProvider.dateRangeString(_dateTimeRange!),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.purpleBlue,
                   fontSize: AppFontSize.s13.rSp,
                 ),

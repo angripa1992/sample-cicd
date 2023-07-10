@@ -15,7 +15,7 @@ class ScheduledDetailsView extends StatelessWidget {
   ScheduledDetailsView({Key? key, required this.scheduleTime})
       : super(key: key);
 
-  final _textStyle = getMediumTextStyle(
+  final _textStyle = mediumTextStyle(
     color: AppColors.white,
     fontSize: AppFontSize.s14.rSp,
   );

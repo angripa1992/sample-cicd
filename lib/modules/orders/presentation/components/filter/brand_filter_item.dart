@@ -59,7 +59,7 @@ class _BrandFilterItemState extends State<BrandFilterItem> {
             padding: EdgeInsets.only(left: AppSize.s8.rw),
             child: Text(
               widget.brand.title,
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),

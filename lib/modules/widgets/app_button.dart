@@ -81,7 +81,7 @@ class AppButton extends StatelessWidget {
                   ),
                   Text(
                     text,
-                    style: getMediumTextStyle(
+                    style: mediumTextStyle(
                       color: enable
                           ? (enableTextColor ?? AppColors.white)
                           : (disableTextColor ?? AppColors.white),

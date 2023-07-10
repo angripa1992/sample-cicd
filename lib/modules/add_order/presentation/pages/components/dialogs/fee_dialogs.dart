@@ -101,7 +101,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
           children: [
             Text(
               _title(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s16.rSp,
               ),
@@ -142,7 +142,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
               decoration: InputDecoration(
                 errorText: _validateMsg,
                 hintText: '${AppStrings.add.tr()} ${_title()}',
-                hintStyle: getRegularTextStyle(
+                hintStyle: regularTextStyle(
                   color: AppColors.dustyGreay,
                   fontSize: AppFontSize.s14.rSp,
                 ),
@@ -165,7 +165,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
             ),
             child: Text(
               AppStrings.save.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.white,
               ),
             ),
@@ -208,7 +208,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
         children: [
           Text(
             '${AppStrings.discount.tr()} ${AppStrings.type.tr()}',
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s14.rSp,
             ),
@@ -220,7 +220,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
                 activeColor: AppColors.purpleBlue,
                 title: Text(
                   AppStrings.flat.tr(),
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s14.rSp,
                   ),
@@ -239,7 +239,7 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
                 activeColor: AppColors.purpleBlue,
                 title: Text(
                   AppStrings.percentage.tr(),
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s14.rSp,
                   ),

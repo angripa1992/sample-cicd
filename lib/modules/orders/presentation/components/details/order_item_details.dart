@@ -23,17 +23,17 @@ class OrderItemDetails extends StatelessWidget {
 
   OrderItemDetails({Key? key, required this.order}) : super(key: key);
 
-  final _itemTextStyle = getMediumTextStyle(
+  final _itemTextStyle = mediumTextStyle(
     color: AppColors.darkGrey,
     fontSize: AppFontSize.s14.rSp,
   );
 
-  final _modifiersTextStyle = getRegularTextStyle(
+  final _modifiersTextStyle = regularTextStyle(
     color: AppColors.smokeyGrey,
     fontSize: AppFontSize.s14.rSp,
   );
 
-  final _modifiersItemTextStyle = getRegularTextStyle(
+  final _modifiersItemTextStyle = regularTextStyle(
     color: AppColors.smokeyGrey,
     fontSize: AppFontSize.s14.rSp,
   );
@@ -225,7 +225,7 @@ class OrderItemDetails extends StatelessWidget {
         Flexible(
           child: Text(
             cartBrand.title,
-            style: getBoldTextStyle(
+            style: boldTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
@@ -326,13 +326,13 @@ class OrderItemDetails extends StatelessWidget {
       visible: comment.isNotEmpty,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          vertical: AppSize.s2.rh,
+          vertical: AppSize.s4.rh,
         ),
         child: Center(
           child: Text(
             '${AppStrings.note.tr()}: $comment',
-            style: getBoldTextStyle(
-              color: AppColors.blueViolet,
+            style: regularTextStyle(
+              color: AppColors.bluewood,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

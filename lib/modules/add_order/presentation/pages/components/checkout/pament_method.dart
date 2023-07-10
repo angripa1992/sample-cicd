@@ -92,7 +92,7 @@ class PaymentMethodDropdown extends StatefulWidget {
 class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
   PaymentMethod? _paymentMethod;
 
-  final _textStyle = getRegularTextStyle(
+  final _textStyle = regularTextStyle(
     color: AppColors.balticSea,
     fontSize: AppFontSize.s13.rSp,
   );

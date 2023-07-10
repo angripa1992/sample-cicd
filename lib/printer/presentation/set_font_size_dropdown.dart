@@ -63,7 +63,7 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
           children: [
             Text(
               AppStrings.set_font_size.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s16.rSp,
               ),
@@ -100,7 +100,7 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
                     value: value,
                     child: Text(
                       _label(value),
-                      style: getMediumTextStyle(
+                      style: mediumTextStyle(
                         color: AppColors.bluewood,
                         fontSize: AppFontSize.s14.rSp,
                       ),

@@ -44,7 +44,7 @@ class _SelectAllViewState extends State<SelectAllView> {
                 padding: EdgeInsets.only(left: AppSize.s8.rw),
                 child: Text(
                   AppStrings.select_all.tr(),
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s14.rSp,
                   ),

@@ -26,7 +26,7 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
               isOnline
                   ? AppStrings.internet_connection_reestablished.tr()
                   : AppStrings.noInternetError.tr(),
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.white,
                 fontSize: AppFontSize.s15.rSp,
               ),
@@ -52,7 +52,7 @@ void showErrorSnackBar(BuildContext context, String message) {
       behavior: SnackBarBehavior.floating,
       content: Text(
         message,
-        style: getRegularTextStyle(
+        style: regularTextStyle(
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,
         ),
@@ -73,7 +73,7 @@ void showApiErrorSnackBar(BuildContext context, Failure failure) {
       behavior: SnackBarBehavior.floating,
       content: Text(
         failure.message,
-        style: getRegularTextStyle(
+        style: regularTextStyle(
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,
         ),
@@ -90,7 +90,7 @@ void showSuccessSnackBar(BuildContext? context, String message) {
       behavior: SnackBarBehavior.floating,
       content: Text(
         message,
-        style: getRegularTextStyle(
+        style: regularTextStyle(
           color: AppColors.white,
           fontSize: AppFontSize.s15.rSp,
         ),
@@ -117,7 +117,7 @@ void showLoadingSnackBar(BuildContext context) {
           SizedBox(width: AppSize.s14.rw),
           Text(
             AppStrings.please_wait.tr(),
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.white,
               fontSize: AppFontSize.s15.rSp,
             ),

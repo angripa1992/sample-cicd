@@ -25,7 +25,7 @@ class LoggedOutConsumerProtectionView extends StatelessWidget {
           child: Text(
             consumerProtection.header,
             textAlign: TextAlign.center,
-            style: getBoldTextStyle(color: AppColors.white),
+            style: boldTextStyle(color: AppColors.white),
           ),
         ),
         SizedBox(
@@ -45,7 +45,7 @@ class LoggedOutConsumerProtectionView extends StatelessWidget {
               child: Text(
                 consumerProtection.orgPhone,
                 textAlign: TextAlign.center,
-                style: getRegularTextStyle(color: AppColors.white),
+                style: regularTextStyle(color: AppColors.white),
               ),
             ),
             SizedBox(width: AppSize.s16.rw),
@@ -59,7 +59,7 @@ class LoggedOutConsumerProtectionView extends StatelessWidget {
               child: Text(
                 consumerProtection.orgEmail,
                 textAlign: TextAlign.center,
-                style: getRegularTextStyle(color: AppColors.white),
+                style: regularTextStyle(color: AppColors.white),
               ),
             ),
           ],
@@ -69,20 +69,20 @@ class LoggedOutConsumerProtectionView extends StatelessWidget {
           child: Text(
             consumerProtection.directorateTitle,
             textAlign: TextAlign.center,
-            style: getMediumTextStyle(color: AppColors.white),
+            style: mediumTextStyle(color: AppColors.white),
           ),
         ),
         Text(
           consumerProtection.directorateSubtitle,
           textAlign: TextAlign.center,
-          style: getMediumTextStyle(color: AppColors.white),
+          style: mediumTextStyle(color: AppColors.white),
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
           child: Text(
             consumerProtection.directorateSocialContact,
             textAlign: TextAlign.center,
-            style: getMediumTextStyle(color: AppColors.white),
+            style: mediumTextStyle(color: AppColors.white),
           ),
         ),
       ],

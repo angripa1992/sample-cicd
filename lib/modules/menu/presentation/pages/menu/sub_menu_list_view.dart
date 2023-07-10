@@ -42,7 +42,7 @@ class SubMenuListView extends StatelessWidget {
             padding: EdgeInsets.only(top: AppSize.s10.rh, left: AppSize.s10.rw),
             child: Text(
               AppStrings.categories_list.tr(),
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.dustyGreay,
                 fontSize: AppFontSize.s14.rSp,
               ),
@@ -80,7 +80,7 @@ class SubMenuListView extends StatelessWidget {
                                   left: AppSize.s20.rw, right: AppSize.s4.rw),
                               child: Text(
                                 '${index + 1}.',
-                                style: getRegularTextStyle(
+                                style: regularTextStyle(
                                   color: AppColors.black,
                                   fontSize: AppFontSize.s14.rSp,
                                 ),
@@ -89,7 +89,7 @@ class SubMenuListView extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 subSections[index].title,
-                                style: getRegularTextStyle(
+                                style: regularTextStyle(
                                   color: AppColors.black,
                                   fontSize: AppFontSize.s14.rSp,
                                 ),

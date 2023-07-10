@@ -41,7 +41,7 @@ class HomeOrderNavCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   text,
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: textColor,
                     fontSize: AppFontSize.s15.rSp,
                   ),
@@ -50,7 +50,7 @@ class HomeOrderNavCard extends StatelessWidget {
               const Spacer(),
               Text(
                 numberOfOrders,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: textColor,
                   fontSize: AppFontSize.s25.rSp,
                 ),

@@ -61,7 +61,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
           child: Text(
             '$_quantity',
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s16.rSp,
             ),

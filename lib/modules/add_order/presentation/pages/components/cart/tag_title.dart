@@ -27,7 +27,7 @@ class TagTitleView extends StatelessWidget {
       children: [
         Text(
           title,
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: AppColors.balticSea,
             fontSize: AppFontSize.s14.rSp,
           ),
@@ -45,7 +45,7 @@ class TagTitleView extends StatelessWidget {
             ),
             child: Text(
               required ? AppStrings.required.tr() : AppStrings.optional.tr() ,
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: required ? AppColors.purpleBlue : AppColors.balticSea,
                 fontSize: AppFontSize.s10.rSp,
               ),

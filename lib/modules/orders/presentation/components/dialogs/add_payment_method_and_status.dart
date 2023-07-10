@@ -125,7 +125,7 @@ class _AddPaymentMethodAndStatusViewState
             Expanded(
               child: Text(
                 widget.title,
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
                 ),

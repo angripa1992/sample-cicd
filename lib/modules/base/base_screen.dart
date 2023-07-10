@@ -207,11 +207,11 @@ class _BaseScreenState extends State<BaseScreen> {
                   type: BottomNavigationBarType.fixed,
                   selectedItemColor: AppColors.purpleBlue,
                   unselectedItemColor: AppColors.smokeyGrey,
-                  selectedLabelStyle: getRegularTextStyle(
+                  selectedLabelStyle: regularTextStyle(
                     color: AppColors.purpleBlue,
                     fontSize: AppFontSize.s14.rSp,
                   ),
-                  unselectedLabelStyle: getRegularTextStyle(
+                  unselectedLabelStyle: regularTextStyle(
                     color: AppColors.smokeyGrey,
                     fontSize: AppFontSize.s14.rSp,
                   ),

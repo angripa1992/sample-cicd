@@ -43,7 +43,7 @@ class ContactItem extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: getMediumTextStyle(
+                      style: mediumTextStyle(
                         color: AppColors.purpleBlue,
                         fontSize: AppFontSize.s16.rSp,
                       ),
@@ -51,7 +51,7 @@ class ContactItem extends StatelessWidget {
                     SizedBox(height: AppSize.s4.rh),
                     Text(
                       description,
-                      style: getRegularTextStyle(
+                      style: regularTextStyle(
                         color: AppColors.blackCow,
                         fontSize: AppFontSize.s14.rSp,
                       ),

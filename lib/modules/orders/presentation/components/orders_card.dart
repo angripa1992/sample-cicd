@@ -51,7 +51,7 @@ class OrdersCard extends StatelessWidget {
             children: [
               Text(
                 orders,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: orderColor,
                   fontSize: orderFontSize,
                 ),
@@ -60,7 +60,7 @@ class OrdersCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   text,
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: textColor ?? AppColors.blackCow,
                     fontSize: fontSize,
                   ),

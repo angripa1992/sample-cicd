@@ -82,7 +82,7 @@ class _ForgetScreenState extends State<ForgetScreen> {
                           children: [
                             Text(
                               AppStrings.password_reset_page.tr(),
-                              style: getMediumTextStyle(
+                              style: mediumTextStyle(
                                 color: AppColors.black,
                                 fontSize: AppSize.s24.rSp,
                               ),

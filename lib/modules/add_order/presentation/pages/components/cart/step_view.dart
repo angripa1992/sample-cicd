@@ -26,7 +26,7 @@ class StepView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s4.rw),
           child: Text(
             AppStrings.menu.tr() ,
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.balticSea,
               fontSize: AppFontSize.s14.rSp,
             ),
@@ -49,7 +49,7 @@ class StepView extends StatelessWidget {
           padding: EdgeInsets.only(right: AppSize.s4.rw),
           child: Text(
             AppStrings.cart.tr(),
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: stepPosition == StepPosition.cart
                   ? AppColors.purpleBlue
                   : AppColors.balticSea,
@@ -76,7 +76,7 @@ class StepView extends StatelessWidget {
         ),
         Text(
           AppStrings.checkout.tr() ,
-          style: getRegularTextStyle(
+          style: regularTextStyle(
             color: stepPosition == StepPosition.checkout
                 ? AppColors.purpleBlue
                 : AppColors.dustyGreay,
@@ -98,7 +98,7 @@ class StepView extends StatelessWidget {
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.white,
               fontSize: AppFontSize.s10.rSp,
             ),

@@ -16,7 +16,7 @@ Widget getNewPageProgressIndicator(BuildContext context) {
       padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
       child: Text(
         AppStrings.loading.tr(),
-        style: getMediumTextStyle(color: AppColors.purpleBlue),
+        style: mediumTextStyle(color: AppColors.purpleBlue),
       ),
     ),
   );
@@ -43,7 +43,7 @@ Widget getPageErrorIndicator(VoidCallback onRetry) {
       children: [
         Text(
           AppStrings.defaultError.tr(),
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: AppColors.blackCow,
             fontSize: AppFontSize.s16.rSp,
           ),
@@ -83,7 +83,7 @@ Widget noItemsFoundIndicator(BuildContext context) {
         ),
         Text(
           AppStrings.no_orders_found.tr(),
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),

@@ -51,7 +51,7 @@ class _AggregatorItemState extends State<AggregatorItem> {
               SizedBox(width: AppSize.s16.rw),
               Text(
                 widget.provider.title,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),

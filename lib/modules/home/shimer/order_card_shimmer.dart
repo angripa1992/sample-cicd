@@ -46,7 +46,7 @@ class OrdersCardShimmer extends StatelessWidget {
               enabled: true,
               child: Text(
                 text,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.blackCow,
                   fontSize: fontSize,
                 ),

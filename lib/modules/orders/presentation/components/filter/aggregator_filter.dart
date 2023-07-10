@@ -126,7 +126,7 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
       trailingRotation: 180,
       title: Text(
         _title,
-        style: getRegularTextStyle(
+        style: regularTextStyle(
           color: AppColors.black,
           fontSize: AppFontSize.s14.rSp,
         ),

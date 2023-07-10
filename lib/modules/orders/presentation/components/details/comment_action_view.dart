@@ -74,7 +74,7 @@ class _CommentActionViewState extends State<CommentActionView> {
                 _currentOrder!.klikitComment.isEmpty
                     ? AppStrings.add_comment.tr()
                     : AppStrings.see_comment.tr(),
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.blackCow,
                   fontSize: AppFontSize.s14.rSp,
                 ),

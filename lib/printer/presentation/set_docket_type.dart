@@ -86,7 +86,7 @@ class _SetDocketTypeState extends State<SetDocketType> {
           children: [
             Text(
               AppStrings.set_docket_type.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.bluewood,
                 fontSize: AppFontSize.s16.rSp,
               ),

@@ -55,7 +55,7 @@ class DocketCounterView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                 child: Text(
                   count.toString(),
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
                     fontSize: AppFontSize.s16.rSp,
                   ),

@@ -44,7 +44,7 @@ class EditingItemVIew extends StatelessWidget {
                       Expanded(
                         child: Text(
                           item.name,
-                          style: getMediumTextStyle(
+                          style: mediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s14.rSp,
                           ),
@@ -72,7 +72,7 @@ class EditingItemVIew extends StatelessWidget {
                   SizedBox(height: AppSize.s8.rh),
                   Text(
                     EditingManager().allCsvModifiersName(item.modifierGroups),
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.smokeyGrey,
                       fontSize: AppFontSize.s13.rSp,
                     ),
@@ -99,7 +99,7 @@ class EditingItemVIew extends StatelessWidget {
                   SizedBox(width: AppSize.s4.rw),
                   Text(
                     AppStrings.delete_item.tr(),
-                    style: getMediumTextStyle(color: AppColors.red),
+                    style: mediumTextStyle(color: AppColors.red),
                   ),
                 ],
               ),

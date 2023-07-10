@@ -28,7 +28,7 @@ class CartItemBrand extends StatelessWidget {
               Expanded(
                 child: Text(
                   menuBrand.title,
-                  style: getBoldTextStyle(
+                  style: boldTextStyle(
                     color: AppColors.balticSea,
                     fontSize: AppFontSize.s15.rSp,
                   ),
@@ -40,7 +40,7 @@ class CartItemBrand extends StatelessWidget {
                 },
                 child: Text(
                   AppStrings.remove_all.tr(),
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.red,
                   ),
                 ),

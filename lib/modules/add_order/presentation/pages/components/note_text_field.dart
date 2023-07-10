@@ -33,7 +33,7 @@ class NoteTextField extends StatelessWidget {
           maxLines: minLines,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: getRegularTextStyle(
+            hintStyle: regularTextStyle(
               color: AppColors.dustyGreay,
               fontSize: AppFontSize.s14.rSp,
             ),

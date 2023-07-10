@@ -93,7 +93,7 @@ class DeviceListBottomSheetManager {
               type == ConnectionType.BLUETOOTH
                   ? AppStrings.bluetooth_devices.tr()
                   : AppStrings.usb_devices.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.darkGrey,
                 fontSize: AppSize.s18.rSp,
               ),
@@ -137,7 +137,7 @@ class DeviceListBottomSheetManager {
           Center(
             child: Text(
               AppStrings.looking_for_devices.tr(),
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
@@ -153,7 +153,7 @@ class DeviceListBottomSheetManager {
                         ? AppStrings.no_bluetooth_devices_message.tr()
                         : AppStrings.no_usb_devices_message.tr(),
                     textAlign: TextAlign.center,
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.black,
                       fontSize: AppFontSize.s14.rSp,
                     ),
@@ -192,7 +192,7 @@ class DeviceListBottomSheetManager {
                     child: Text(
                       AppStrings.no_bluetooth_devices_message.tr(),
                       textAlign: TextAlign.center,
-                      style: getRegularTextStyle(
+                      style: regularTextStyle(
                         color: AppColors.black,
                         fontSize: AppFontSize.s14.rSp,
                       ),
@@ -215,7 +215,7 @@ class DeviceListBottomSheetManager {
           return Center(
             child: Text(
               AppStrings.looking_for_devices.tr(),
-              style: getRegularTextStyle(
+              style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
@@ -225,7 +225,7 @@ class DeviceListBottomSheetManager {
         return Center(
           child: Text(
             AppStrings.no_bluetooth_devices.tr(),
-            style: getRegularTextStyle(
+            style: regularTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
@@ -256,7 +256,7 @@ class DeviceListBottomSheetManager {
                   padding: const EdgeInsets.symmetric(horizontal: AppSize.s8),
                   child: Text(
                     name,
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.black,
                       fontSize: AppFontSize.s16.rSp,
                     ),

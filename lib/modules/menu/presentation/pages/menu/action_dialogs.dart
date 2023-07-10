@@ -40,7 +40,7 @@ void showMenuItemActionDialog({
             children: [
               Text(
                 '${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this menu item?',
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -105,7 +105,7 @@ void showMenuItemActionDialog({
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
                           AppStrings.discard.tr(),
-                          style: getMediumTextStyle(
+                          style: mediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,
                           ),
@@ -145,7 +145,7 @@ void showMenuActionDialog({
             children: [
               Text(
                 '${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this ${type == MenuType.SECTION ? 'entire menu' : 'category'}?',
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -209,7 +209,7 @@ void showMenuActionDialog({
                         padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: Text(
                           AppStrings.discard.tr(),
-                          style: getMediumTextStyle(
+                          style: mediumTextStyle(
                             color: AppColors.purpleBlue,
                             fontSize: AppFontSize.s16.rSp,
                           ),

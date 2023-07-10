@@ -25,7 +25,7 @@ class LoggedInConsumerProtectionView extends StatelessWidget {
           padding: EdgeInsets.only(top: AppSize.s24.rh),
           child: Text(
             consumerProtection.header,
-            style: getBoldTextStyle(
+            style: boldTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
@@ -53,7 +53,7 @@ class LoggedInConsumerProtectionView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
               child: Text(
                 consumerProtection.orgPhone,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
@@ -74,7 +74,7 @@ class LoggedInConsumerProtectionView extends StatelessWidget {
               child: Text(
                 consumerProtection.orgEmail,
                 textAlign: TextAlign.center,
-                style: getRegularTextStyle(
+                style: regularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
@@ -86,7 +86,7 @@ class LoggedInConsumerProtectionView extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: AppSize.s12.rh),
           child: Text(
             consumerProtection.directorateTitle,
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
@@ -94,7 +94,7 @@ class LoggedInConsumerProtectionView extends StatelessWidget {
         ),
         Text(
           consumerProtection.directorateSubtitle,
-          style: getMediumTextStyle(
+          style: mediumTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
@@ -103,7 +103,7 @@ class LoggedInConsumerProtectionView extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: AppSize.s12.rh),
           child: Text(
             consumerProtection.directorateSocialContact,
-            style: getMediumTextStyle(
+            style: mediumTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),

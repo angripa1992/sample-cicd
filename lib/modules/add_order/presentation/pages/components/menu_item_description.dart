@@ -94,7 +94,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                   ),
                   Text(
                     widget.items.title,
-                    style: getBoldTextStyle(
+                    style: boldTextStyle(
                       fontSize: AppFontSize.s17.rSp,
                       color: AppColors.balticSea,
                     ),
@@ -125,7 +125,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                   ),
                   Text(
                     widget.items.description,
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       fontSize: AppFontSize.s14.rSp,
                       color: AppColors.black,
                     ),
@@ -170,7 +170,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                       ),
                       child: Text(
                         AppStrings.add_to_cart.tr(),
-                        style: getRegularTextStyle(
+                        style: regularTextStyle(
                           color: AppColors.white,
                         ),
                       ),

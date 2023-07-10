@@ -100,7 +100,7 @@ class _SourceSelectorState extends State<SourceSelector> {
                 children: [
                   Text(
                     _currentSource.name,
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.balticSea,
                       fontSize: AppFontSize.s14.rSp,
                     ),
@@ -161,7 +161,7 @@ class _SourceSelectorDropdownState extends State<SourceSelectorDropdown> {
                 ),
                 child: Text(
                   sourceType.name,
-                  style: getMediumTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.balticSea,
                     fontSize: AppFontSize.s14.rSp,
                   ),
@@ -191,7 +191,7 @@ class _SourceSelectorDropdownState extends State<SourceSelectorDropdown> {
                           children: [
                             Text(
                               source.name,
-                              style: getRegularTextStyle(
+                              style: regularTextStyle(
                                 color: AppColors.balticSea,
                                 fontSize: AppFontSize.s14.rSp,
                               ),

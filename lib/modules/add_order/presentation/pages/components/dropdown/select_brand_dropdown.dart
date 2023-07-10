@@ -27,7 +27,7 @@ class SelectBrandDropDown extends StatefulWidget {
 
 class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
   MenuBrand? _dropDownValue;
-  final _textStyle = getMediumTextStyle(
+  final _textStyle = mediumTextStyle(
     color: AppColors.balticSea,
     fontSize: AppFontSize.s16.rSp,
   );

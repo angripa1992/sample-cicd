@@ -34,7 +34,7 @@ class SubsectionInfoView extends StatelessWidget {
             Expanded(
               child: Text(
                 item.subSections.title,
-                style: getMediumTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
                 ),
@@ -50,7 +50,7 @@ class SubsectionInfoView extends StatelessWidget {
                 SizedBox(width: AppSize.s4.rw),
                 Text(
                   AvailableTimeProvider().availableTime(item.availableTimes),
-                  style: getRegularTextStyle(color: AppColors.purpleBlue),
+                  style: regularTextStyle(color: AppColors.purpleBlue),
                 ),
               ],
             ),

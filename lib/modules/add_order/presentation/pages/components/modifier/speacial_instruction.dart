@@ -34,7 +34,7 @@ class SpecialInstructionField extends StatelessWidget {
           children: [
             Text(
               AppStrings.special_instruction.tr(),
-              style: getMediumTextStyle(
+              style: mediumTextStyle(
                 color: AppColors.balticSea,
                 fontSize: AppFontSize.s14.rSp,
               ),

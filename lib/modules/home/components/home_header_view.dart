@@ -31,7 +31,7 @@ class HomeHeaderView extends StatelessWidget {
                 Expanded(
                   child: Text(
                     '${userInfo.firstName} ${userInfo.lastName}',
-                    style: getRegularTextStyle(
+                    style: regularTextStyle(
                       color: AppColors.white,
                       fontSize: AppFontSize.s25.rSp,
                     ),
@@ -59,7 +59,7 @@ class HomeHeaderView extends StatelessWidget {
                 ),
                 child: Text(
                   '${userInfo.displayRoles[0]}, ${userInfo.businessName}, ${userInfo.branchName} ',
-                  style: getRegularTextStyle(
+                  style: regularTextStyle(
                     color: AppColors.white,
                     fontSize: AppFontSize.s12.rSp,
                   ),

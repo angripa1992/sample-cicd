@@ -76,7 +76,7 @@ class ItemDescriptionView extends StatelessWidget {
                   children: [
                     Text(
                       item.title,
-                      style: getBoldTextStyle(
+                      style: boldTextStyle(
                         fontSize: AppFontSize.s17.rSp,
                         color: AppColors.balticSea,
                       ),
@@ -84,7 +84,7 @@ class ItemDescriptionView extends StatelessWidget {
                     SizedBox(height: AppSize.s4.rh),
                     Text(
                       item.description,
-                      style: getRegularTextStyle(
+                      style: regularTextStyle(
                         fontSize: AppFontSize.s14.rSp,
                         color: AppColors.black,
                       ),
