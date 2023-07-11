@@ -5,19 +5,52 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-class DocketCounterView extends StatelessWidget {
+class CounterView extends StatefulWidget {
   final bool enabled;
   final int count;
   final int minCount;
+  final int? maxCount;
   final Function(int) onChanged;
 
-  const DocketCounterView({
+  const CounterView({
     Key? key,
     required this.enabled,
     required this.count,
     required this.onChanged,
     required this.minCount,
+    this.maxCount,
   }) : super(key: key);
+
+  @override
+  State<CounterView> createState() => _CounterViewState();
+}
+
+class _CounterViewState extends State<CounterView> {
+  late int _count;
+
+  @override
+  void initState() {
+    _count = widget.count;
+    super.initState();
+  }
+
+  void _increment(){
+    if(widget.enabled && _count < (widget.maxCount ?? 1000)){
+      setState(() {
+        _count += 1;
+      });
+      widget.onChanged(_count);
+    }
+  }
+
+  void _decrement(){
+    if(widget.enabled && _count > widget.minCount){
+      setState(() {
+        _count -= 1;
+      });
+      widget.onChanged(_count);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +58,12 @@ class DocketCounterView extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
         border: Border.all(
-          color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+          color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
         ),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s8.rw,
-          //vertical: AppSize.s2.rh,
+          horizontal: AppSize.s4.rw,
         ),
         child: IntrinsicHeight(
           child: Row(
@@ -39,41 +71,38 @@ class DocketCounterView extends StatelessWidget {
               IconButton(
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
-                onPressed: (enabled && count > minCount)
-                    ? () => onChanged(count - 1)
-                    : null,
+                onPressed: _decrement,
                 icon: Icon(
                   Icons.remove,
-                  color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                  color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
                 ),
               ),
               VerticalDivider(
-                color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
                 thickness: 1,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                padding: EdgeInsets.symmetric(horizontal: AppSize.s4.rw),
                 child: Text(
-                  count.toString(),
+                  _count.toString(),
                   style: mediumTextStyle(
-                    color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                    color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
                     fontSize: AppFontSize.s16.rSp,
                   ),
                 ),
               ),
               VerticalDivider(
-                color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
                 thickness: 1,
               ),
               IconButton(
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
                 enableFeedback: false,
-                onPressed:
-                    (enabled && count < 5) ? () => onChanged(count + 1) : null,
+                onPressed: _increment,
                 icon: Icon(
                   Icons.add,
-                  color: enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                  color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
                 ),
               ),
             ],

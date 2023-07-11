@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/printer/presentation/printer_setting_checkbox.dart';
 
-import '../../app/constants.dart';
+import '../../modules/widgets/counter_view.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../resources/strings.dart';
 import '../../resources/styles.dart';
 import '../../resources/values.dart';
-import 'docket_counter_view.dart';
 
 class SetDocketType extends StatefulWidget {
   final bool initKitchenCopyEnabled;
@@ -58,19 +57,14 @@ class _SetDocketTypeState extends State<SetDocketType> {
   }
 
   void _changeKitchenCopyCount(int count) {
-    setState(() {
-      _kitchenCopyCount = count;
-      widget.changeKitchenCopyCount(_kitchenCopyCount!);
-    });
+    _kitchenCopyCount = count;
+    widget.changeKitchenCopyCount(_kitchenCopyCount!);
   }
 
   void _changeCustomerCopyCount(int count) {
-    setState(() {
-      _customerCopyCount = count;
-      widget.changeCustomerCopyCount(_customerCopyCount!);
-    });
+    _customerCopyCount = count;
+    widget.changeCustomerCopyCount(_customerCopyCount!);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +96,12 @@ class _SetDocketTypeState extends State<SetDocketType> {
                     activeColor: AppColors.purpleBlue,
                   ),
                 ),
-                DocketCounterView(
+                CounterView(
                   enabled: _kitchenCopyEnabled!,
                   count: _kitchenCopyCount!,
                   onChanged: _changeKitchenCopyCount,
                   minCount: 0,
+                  maxCount: 5,
                 ),
               ],
             ),
@@ -121,11 +116,12 @@ class _SetDocketTypeState extends State<SetDocketType> {
                     activeColor: AppColors.dustyGrey,
                   ),
                 ),
-                DocketCounterView(
+                CounterView(
                   enabled: _customerCopyEnabled!,
                   count: _customerCopyCount!,
                   onChanged: _changeCustomerCopyCount,
                   minCount: 1,
+                  maxCount: 5,
                 ),
               ],
             ),

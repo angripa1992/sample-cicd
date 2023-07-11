@@ -22,6 +22,7 @@ import '../../../../domain/entities/order_source.dart';
 import '../../../cubit/calculate_bill_cubit.dart';
 import '../dialogs/delete_item_dialog.dart';
 import '../dialogs/fee_dialogs.dart';
+import '../promo/item_level_sc_discount_dialog.dart';
 import 'cart_app_bar.dart';
 import 'cart_items_list.dart';
 import 'empty_cart_view.dart';
@@ -340,6 +341,9 @@ class _CartScreenState extends State<CartScreen> {
                     );
                   },
                   textController: _textController,
+                  onCitizenDiscount: () {
+                    showItemLevelCitizenDiscountDialog(context: context);
+                  },
                 ),
               ],
             ),

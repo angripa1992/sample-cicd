@@ -22,6 +22,7 @@ class QuantitySelector extends StatefulWidget {
 
 class _QuantitySelectorState extends State<QuantitySelector> {
   late int _quantity;
+
   @override
   void initState() {
     _quantity = widget.quantity;
