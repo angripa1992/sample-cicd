@@ -139,6 +139,10 @@ class CartManager {
     }
   }
 
+  List<int> availableBrands(){
+    return _carts.map((e) => e.brand.id).toList();
+  }
+
   List<List<AddToCartItem>> cartItemsMapWithBrands() {
     Map<int, List<AddToCartItem>> cartsByBrand = {};
     for (var item in _carts) {

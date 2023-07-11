@@ -402,7 +402,7 @@ Widget getActionButtons({
           },
           enabled: !order.isInterceptorOrder,
         ),
-        if(ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
         CanceledButton(
           expanded: false,
           onCanceled: () {
@@ -411,19 +411,26 @@ Widget getActionButtons({
           enabled: !order.isInterceptorOrder,
         ),
         if (canUpdateGrabOrder || canUpdateManualOrder)
-          EditButton(
-            onEdit: () {
-              if (canUpdateManualOrder) {
-                onEditManualOrder();
-              } else {
-                onEditGrabOrder();
-              }
-            },
+          Padding(
+            padding: EdgeInsets.only(
+              left: ScreenSizes.isTablet ? AppSize.s8.rw : 0,
+            ),
+            child: EditButton(
+              onEdit: () {
+                if (canUpdateManualOrder) {
+                  onEditManualOrder();
+                } else {
+                  onEditGrabOrder();
+                }
+              },
+            ),
           ),
       ],
     );
   }
-  if (orderStatus == OrderStatus.PICKED_UP && provider == ProviderID.GRAB_FOOD && orderType != OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.PICKED_UP &&
+      provider == ProviderID.GRAB_FOOD &&
+      orderType != OrderType.PICKUP) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -432,7 +439,7 @@ Widget getActionButtons({
           padding: AppSize.s16,
           expanded: false,
         ),
-        if(ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
         DeliverButton(
           expanded: false,
           onDeliver: () {
@@ -444,7 +451,10 @@ Widget getActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.ACCEPTED || (orderStatus == OrderStatus.PICKED_UP && provider != ProviderID.FOOD_PANDA && orderType != OrderType.PICKUP)) {
+  if (orderStatus == OrderStatus.ACCEPTED ||
+      (orderStatus == OrderStatus.PICKED_UP &&
+          provider != ProviderID.FOOD_PANDA &&
+          orderType != OrderType.PICKUP)) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -458,20 +468,26 @@ Widget getActionButtons({
             onFound: onRiderFind,
           ),
         if (canUpdateGrabOrder || canUpdateManualOrder)
-          EditButton(
-            onEdit: () {
-              if (canUpdateManualOrder) {
-                onEditManualOrder();
-              } else {
-                onEditGrabOrder();
-              }
-            },
+          Padding(
+            padding: EdgeInsets.only(
+              left: ScreenSizes.isTablet ? AppSize.s8.rw : 0,
+            ),
+            child: EditButton(
+              onEdit: () {
+                if (canUpdateManualOrder) {
+                  onEditManualOrder();
+                } else {
+                  onEditGrabOrder();
+                }
+              },
+            ),
           ),
-        if(ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
         ReadyButton(
           expanded: false,
           onReady: () {
-            onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
+            onAction('${AppStrings.ready_order.tr()} #${order.id}',
+                OrderStatus.READY);
           },
           enabled: !order.isInterceptorOrder,
         ),
@@ -489,7 +505,7 @@ Widget getActionButtons({
           padding: AppSize.s16,
           expanded: false,
         ),
-        if(ScreenSizes.isTablet)  SizedBox(width: AppSize.s8.rw),
+        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
         PickedUpButton(
           expanded: false,
           onPickedUp: () {
@@ -510,7 +526,7 @@ Widget getActionButtons({
         padding: AppSize.s16,
         expanded: false,
       ),
-      if(ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+      if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
       if (order.isThreePlOrder && order.canFindFulfillmentRider)
         FindRiderButton(
           onFound: onRiderFind,
@@ -637,7 +653,9 @@ Widget getExpandActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) && orderType == OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.READY &&
+      (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) &&
+      orderType == OrderType.PICKUP) {
     return Row(
       children: [
         Expanded(

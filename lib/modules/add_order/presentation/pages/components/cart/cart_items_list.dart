@@ -21,7 +21,6 @@ class CartItemsListView extends StatelessWidget {
   final VoidCallback onDeliveryFee;
   final VoidCallback onDiscount;
   final VoidCallback onAdditionalFee;
-  final VoidCallback onCitizenDiscount;
   final Function(AddToCartItem) onEdit;
   final Function(MenuBrand) addMore;
   final Function(AddToCartItem) addDiscount;
@@ -42,7 +41,6 @@ class CartItemsListView extends StatelessWidget {
     required this.onQuantityChanged,
     required this.removeAll,
     required this.textController,
-    required this.onCitizenDiscount,
   }) : super(key: key);
 
   @override
@@ -89,7 +87,6 @@ class CartItemsListView extends StatelessWidget {
                             addDiscount: addDiscount,
                             onDelete: onDelete,
                             onQuantityChanged: onQuantityChanged,
-                            onCitizenDiscount: onCitizenDiscount,
                             itemBill: cartBill.items.firstWhere((element) => element.id == cartItem.item.id),
                           );
                         },

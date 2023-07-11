@@ -12,15 +12,15 @@ import '../../../../../../resources/values.dart';
 enum FeeType { discount, delivery, additional }
 
 class FeeDialogView extends StatefulWidget {
-  final int initType;
+  //final int initType;
   final num initValue;
   final FeeType feeType;
   final num subTotal;
-  final Function(int, num, FeeType) onSave;
+  final Function(num, FeeType) onSave;
 
   const FeeDialogView({
     Key? key,
-    required this.initType,
+    //required this.initType,
     required this.initValue,
     required this.feeType,
     required this.onSave,
@@ -33,10 +33,10 @@ class FeeDialogView extends StatefulWidget {
 
 class _FeeDialogViewState extends State<FeeDialogView> {
   final _controller = TextEditingController();
-  late int _type;
+  //late int _type;
   bool _editable = false;
   late FeeType _feeType;
-  String? _validateMsg;
+  //String? _validateMsg;
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
       _editable = true;
       _controller.text = widget.initValue.toString();
     }
-    _type = widget.initType;
+    //_type = widget.initType;
     _feeType = widget.feeType;
     super.initState();
   }
@@ -61,34 +61,37 @@ class _FeeDialogViewState extends State<FeeDialogView> {
     }
   }
 
-  String? _validate() {
-    final text = _controller.text;
-    final amountString = text.isEmpty ? '0' : text;
-    final amount = num.parse(amountString);
-    if (_feeType == FeeType.discount) {
-      if (_type == DiscountType.flat) {
-        if (amount > widget.subTotal) {
-          return AppStrings.can_not_be_greater_than_subtotal.tr();
-        }
-      } else {
-        if (amount > 100) {
-          return AppStrings.can_not_be_greater_than_100.tr();
-        }
-      }
-    }
-    return null;
-  }
+  // String? _validate() {
+  //   final text = _controller.text;
+  //   final amountString = text.isEmpty ? '0' : text;
+  //   final amount = num.parse(amountString);
+  //   if (_feeType == FeeType.discount) {
+  //     if (_type == DiscountType.flat) {
+  //       if (amount > widget.subTotal) {
+  //         return AppStrings.can_not_be_greater_than_subtotal.tr();
+  //       }
+  //     } else {
+  //       if (amount > 100) {
+  //         return AppStrings.can_not_be_greater_than_100.tr();
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // }
 
   void _save() {
-    final validate = _validate();
-    setState(() {
-      _validateMsg = validate;
-    });
-    if (validate == null) {
-      Navigator.pop(context);
-      final value = _controller.text.isEmpty ? '0' : _controller.text;
-      widget.onSave(_type, num.parse(value), _feeType);
-    }
+    Navigator.pop(context);
+    final value = _controller.text.isEmpty ? '0' : _controller.text;
+    widget.onSave(num.parse(value), _feeType);
+    // final validate = _validate();
+    // setState(() {
+    //   _validateMsg = validate;
+    // });
+    // if (validate == null) {
+    //   Navigator.pop(context);
+    //   final value = _controller.text.isEmpty ? '0' : _controller.text;
+    //   widget.onSave(_type, num.parse(value), _feeType);
+    // }
   }
 
   @override
@@ -116,14 +119,6 @@ class _FeeDialogViewState extends State<FeeDialogView> {
             ),
           ],
         ),
-        if (_type != DiscountType.none)
-          DiscountTypeSelector(
-            initValue: _type,
-            onChange: (type) {
-              _type = type;
-              _controller.text = '0';
-            },
-          ),
         Container(
           margin: EdgeInsets.symmetric(
             vertical: AppSize.s16.rh,
@@ -140,7 +135,6 @@ class _FeeDialogViewState extends State<FeeDialogView> {
               controller: _controller,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                errorText: _validateMsg,
                 hintText: '${AppStrings.add.tr()} ${_title()}',
                 hintStyle: regularTextStyle(
                   color: AppColors.dustyGreay,
@@ -172,91 +166,6 @@ class _FeeDialogViewState extends State<FeeDialogView> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class DiscountTypeSelector extends StatefulWidget {
-  final int initValue;
-  final Function(int) onChange;
-
-  const DiscountTypeSelector({
-    Key? key,
-    required this.initValue,
-    required this.onChange,
-  }) : super(key: key);
-
-  @override
-  State<DiscountTypeSelector> createState() => _DiscountTypeSelector();
-}
-
-class _DiscountTypeSelector extends State<DiscountTypeSelector> {
-  late int _type;
-
-  @override
-  void initState() {
-    _type = widget.initValue;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${AppStrings.discount.tr()} ${AppStrings.type.tr()}',
-            style: mediumTextStyle(
-              color: AppColors.balticSea,
-              fontSize: AppFontSize.s14.rSp,
-            ),
-          ),
-          Column(
-            children: [
-              RadioListTile<int>(
-                contentPadding: EdgeInsets.zero,
-                activeColor: AppColors.purpleBlue,
-                title: Text(
-                  AppStrings.flat.tr(),
-                  style: regularTextStyle(
-                    color: AppColors.dustyGreay,
-                    fontSize: AppFontSize.s14.rSp,
-                  ),
-                ),
-                value: DiscountType.flat,
-                groupValue: _type,
-                onChanged: (value) {
-                  setState(() {
-                    _type = value!;
-                    widget.onChange(_type);
-                  });
-                },
-              ),
-              RadioListTile<int>(
-                contentPadding: EdgeInsets.zero,
-                activeColor: AppColors.purpleBlue,
-                title: Text(
-                  AppStrings.percentage.tr(),
-                  style: regularTextStyle(
-                    color: AppColors.dustyGreay,
-                    fontSize: AppFontSize.s14.rSp,
-                  ),
-                ),
-                value: DiscountType.percentage,
-                groupValue: _type,
-                onChanged: (value) {
-                  setState(() {
-                    _type = value!;
-                    widget.onChange(_type);
-                  });
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

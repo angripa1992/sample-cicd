@@ -15,7 +15,6 @@ import '../../../../../../resources/values.dart';
 import '../../../../../widgets/counter_view.dart';
 import '../../../../../widgets/menu_item_image_view.dart';
 import '../../../../domain/entities/billing_response.dart';
-import '../promo/item_level_sc_discount_dialog.dart';
 
 class CartItemView extends StatelessWidget {
   final ItemBill itemBill;
@@ -24,7 +23,6 @@ class CartItemView extends StatelessWidget {
   final Function(AddToCartItem) addDiscount;
   final Function(AddToCartItem) onDelete;
   final Function(int, int) onQuantityChanged;
-  final VoidCallback onCitizenDiscount;
 
   const CartItemView({
     Key? key,
@@ -34,7 +32,6 @@ class CartItemView extends StatelessWidget {
     required this.onDelete,
     required this.onQuantityChanged,
     required this.itemBill,
-    required this.onCitizenDiscount,
   }) : super(key: key);
 
   @override
@@ -145,32 +142,8 @@ class CartItemView extends StatelessWidget {
           ),
         ),
         _actionButtons(),
-        _buildScDiscountButton(),
         const Divider(),
       ],
-    );
-  }
-
-  TextButton _buildScDiscountButton() {
-    return TextButton(
-      onPressed: onCitizenDiscount,
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            AppIcons.discount,
-            height: AppSize.s18.rh,
-            width: AppSize.s18.rw,
-          ),
-          SizedBox(width: AppSize.s8.rw),
-          Text(
-            'Add SC Discount',
-            style: mediumTextStyle(
-              color: AppColors.purpleBlue,
-              fontSize: AppFontSize.s14.rSp,
-            ),
-          ),
-        ],
-      ),
     );
   }
 

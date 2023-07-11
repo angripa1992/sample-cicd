@@ -22,7 +22,7 @@ import '../../../../domain/entities/order_source.dart';
 import '../../../cubit/calculate_bill_cubit.dart';
 import '../dialogs/delete_item_dialog.dart';
 import '../dialogs/fee_dialogs.dart';
-import '../promo/item_level_sc_discount_dialog.dart';
+import '../dialogs/promo_and_discount_modal.dart';
 import 'cart_app_bar.dart';
 import 'cart_items_list.dart';
 import 'empty_cart_view.dart';
@@ -130,29 +130,48 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  void _addDiscount(AddToCartItem item) {
-    showDialog(
+  void _addDiscount({
+    required bool isItemDiscount,
+    AddToCartItem? cartItem,
+    int? discountType,
+    num? discountValue,
+  }) {
+    showModalBottomSheet(
       context: context,
-      builder: (dContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(AppSize.s16.rSp),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight + AppSize.s32.rh),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppSize.s12.rSp),
+                  topRight: Radius.circular(AppSize.s12.rSp)),
+              color: AppColors.whiteSmoke,
             ),
-          ),
-          content: FeeDialogView(
-            initType: item.discountType,
-            initValue: item.discountValue,
-            feeType: FeeType.discount,
-            onSave: (type, value, feeType) {
-              CartManager().addDiscount(
-                itemId: item.item.id,
-                type: type,
-                value: value,
-              );
-              _calculateBill();
-            },
-            subTotal: _cartBill!.subTotal,
+            child: OrderDiscountModalView(
+              initialDiscountType:
+              isItemDiscount ? cartItem!.discountType : discountType!,
+              initialDiscountVale:
+              isItemDiscount ? cartItem!.discountValue : discountValue!,
+              brands: isItemDiscount ? [cartItem!.brand.id] : CartManager().availableBrands(),
+              subtotal: _cartBill!.subTotal,
+              onApply: (discountType, discountValue) {
+                if (isItemDiscount) {
+                  CartManager().addDiscount(
+                    itemId: cartItem!.item.id,
+                    type: discountType,
+                    value: discountValue,
+                  );
+                }else{
+                  _currentDiscountType = discountType;
+                  _globalDiscount = discountValue;
+                }
+                _calculateBill();
+              },
+            ),
           ),
         );
       },
@@ -181,7 +200,6 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _showGlobalFeeDialog({
-    required int type,
     required num value,
     required FeeType feeType,
   }) {
@@ -195,14 +213,10 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
           content: FeeDialogView(
-            initType: type,
             initValue: value,
             feeType: feeType,
-            onSave: (type, value, feeType) {
-              if (feeType == FeeType.discount) {
-                _currentDiscountType = type;
-                _globalDiscount = value;
-              } else if (feeType == FeeType.additional) {
+            onSave: (value, feeType) {
+              if (feeType == FeeType.additional) {
                 _globalAdditionalFee = value;
               } else {
                 _globalDeliveryFee = value;
@@ -315,35 +329,32 @@ class _CartScreenState extends State<CartScreen> {
                   addMore: (brand) {
                     widget.addMore(brand);
                   },
-                  addDiscount: _addDiscount,
+                  addDiscount: (item) {
+                    _addDiscount(isItemDiscount: true, cartItem: item);
+                  },
                   onDelete: _remove,
                   onQuantityChanged: _quantityChanged,
                   removeAll: _removeAll,
                   onDeliveryFee: () {
                     _showGlobalFeeDialog(
-                      type: DiscountType.none,
                       value: _cartBill!.deliveryFee,
                       feeType: FeeType.delivery,
                     );
                   },
                   onDiscount: () {
-                    _showGlobalFeeDialog(
-                      type: _currentDiscountType,
-                      value: _cartBill!.discountAmount,
-                      feeType: FeeType.discount,
+                    _addDiscount(
+                      isItemDiscount: false,
+                      discountType: _currentDiscountType,
+                      discountValue: _cartBill!.discountAmount,
                     );
                   },
                   onAdditionalFee: () {
                     _showGlobalFeeDialog(
-                      type: DiscountType.none,
                       value: _cartBill!.additionalFee,
                       feeType: FeeType.additional,
                     );
                   },
                   textController: _textController,
-                  onCitizenDiscount: () {
-                    showItemLevelCitizenDiscountDialog(context: context);
-                  },
                 ),
               ],
             ),

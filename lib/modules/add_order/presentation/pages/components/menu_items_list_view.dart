@@ -105,8 +105,8 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
             margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight + AppSize.s32.rh),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(AppSize.s24.rSp),
-                  topRight: Radius.circular(AppSize.s24.rSp)),
+                  topLeft: Radius.circular(AppSize.s12.rSp),
+                  topRight: Radius.circular(AppSize.s12.rSp)),
               color: AppColors.whiteSmoke,
             ),
             child: MenuItemDescription(

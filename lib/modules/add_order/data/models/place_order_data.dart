@@ -1,3 +1,4 @@
+import 'applied_promo.dart';
 import 'billing_item.dart';
 
 class PlaceOrderDataModel {
@@ -29,6 +30,9 @@ class PlaceOrderDataModel {
   int? discountValue;
   int? discountType;
   String? orderComment;
+  int? numberOfSeniorCitizen;
+  int? numberOfCustomer;
+  AppliedPromo? appliedPromoModel;
 
   PlaceOrderDataModel({
     this.id,
@@ -59,6 +63,9 @@ class PlaceOrderDataModel {
     this.discountValue,
     this.discountType,
     this.orderComment,
+    this.numberOfSeniorCitizen,
+    this.numberOfCustomer,
+    this.appliedPromoModel,
   });
 
   Map<String, dynamic> toJson() {
@@ -108,8 +115,17 @@ class PlaceOrderDataModel {
     if (paymentMethod != null) {
       data['payment_method'] = paymentMethod;
     }
-    if(orderComment != null){
+    if (orderComment != null) {
       data['order_comment'] = orderComment;
+    }
+    if (numberOfCustomer != null) {
+      data['number_of_customer'] = numberOfCustomer;
+    }
+    if (numberOfSeniorCitizen != null) {
+      data['number_of_senior_citizen'] = numberOfSeniorCitizen;
+    }
+    if (appliedPromoModel != null) {
+      data['applied_promo'] = appliedPromoModel;
     }
     return data;
   }

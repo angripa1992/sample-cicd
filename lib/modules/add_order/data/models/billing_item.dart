@@ -1,5 +1,6 @@
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 
+import 'applied_promo.dart';
 import 'billing_item_modifier_group.dart';
 import 'item_brand.dart';
 import 'item_price.dart';
@@ -32,6 +33,8 @@ class BillingItem {
   bool? hasModifierGroups;
   ItemBrandModel? brand;
   String? comment;
+  int? quantityOfScPromoItem;
+  AppliedPromo? appliedPromoModel;
 
   BillingItem({
     this.id,
@@ -59,6 +62,8 @@ class BillingItem {
     this.hasModifierGroups,
     this.brand,
     this.comment,
+    this.quantityOfScPromoItem,
+    this.appliedPromoModel,
   });
 
   Map<String, dynamic> toJson() {
@@ -107,6 +112,12 @@ class BillingItem {
     }
     if(comment != null){
       data['comment'] = comment;
+    }
+    if(quantityOfScPromoItem != null){
+      data['quantity_of_sc_promo_item'] = quantityOfScPromoItem;
+    }
+    if(appliedPromoModel != null){
+      data['applied_promo'] = appliedPromoModel;
     }
     return data;
   }

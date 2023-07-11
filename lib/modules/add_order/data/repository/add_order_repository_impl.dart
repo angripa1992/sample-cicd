@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 import 'package:klikit/modules/add_order/data/models/billing_request.dart';
 import 'package:klikit/modules/add_order/data/models/place_order_data.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
@@ -87,6 +88,20 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.placeOrder(body);
+        return Right(response);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<AppliedPromo>>> fetchPromos(Map<String, dynamic> params) async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchPromos(params);
         return Right(response);
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);

@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'dart:developer';
 import '../../../../app/enums.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
 import '../../../menu/data/models/menues_model.dart';
+import '../models/applied_promo.dart';
 import '../models/billing_request.dart';
 import '../models/billing_response.dart';
 import '../models/item_modifier_group.dart';
@@ -23,6 +23,8 @@ abstract class AddOrderDatasource {
   Future<List<AddOrderSourcesModel>> fetchSources();
 
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataModel body);
+
+  Future<List<AppliedPromo>> fetchPromos(Map<String,dynamic> params);
 }
 
 class AddOrderDatasourceImpl extends AddOrderDatasource {
@@ -98,6 +100,20 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         body.toJson(),
       );
       return PlacedOrderResponse.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<AppliedPromo>> fetchPromos(Map<String, dynamic> params) async{
+    try {
+      final List<dynamic>? response = await _restClient.request(
+        Urls.promos,
+        Method.GET,
+        params,
+      );
+      return response?.map((e) => AppliedPromo.fromJson(e)).toList() ?? [];
     } on DioError {
       rethrow;
     }
