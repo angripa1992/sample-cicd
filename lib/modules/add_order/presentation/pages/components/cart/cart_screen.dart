@@ -49,6 +49,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final _textController = TextEditingController();
   CartBill? _cartBill;
+  PromoInfo? _promoInfo;
   int _currentDiscountType = DiscountType.flat;
   int _currentOrderType = OrderType.DINE_IN;
   int _currentSource = OrderSource.IN_STORE;
@@ -144,7 +145,8 @@ class _CartScreenState extends State<CartScreen> {
         return Scaffold(
           backgroundColor: Colors.transparent,
           body: Container(
-            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight + AppSize.s32.rh),
+            margin: EdgeInsets.only(
+                top: ScreenSizes.statusBarHeight + AppSize.s32.rh),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(AppSize.s12.rSp),
@@ -152,25 +154,34 @@ class _CartScreenState extends State<CartScreen> {
               color: AppColors.whiteSmoke,
             ),
             child: OrderDiscountModalView(
+              promoInfo: isItemDiscount ? cartItem!.promoInfo : _promoInfo,
               initialDiscountType:
-              isItemDiscount ? cartItem!.discountType : discountType!,
+                  isItemDiscount ? cartItem!.discountType : discountType!,
               initialDiscountVale:
-              isItemDiscount ? cartItem!.discountValue : discountValue!,
-              brands: isItemDiscount ? [cartItem!.brand.id] : CartManager().availableBrands(),
+                  isItemDiscount ? cartItem!.discountValue : discountValue!,
+              brands: isItemDiscount
+                  ? [cartItem!.brand.id]
+                  : CartManager().availableBrands(),
               subtotal: _cartBill!.subTotal,
-              onApply: (discountType, discountValue) {
+              onApply: (discountType, discountValue, promoInfo) {
                 if (isItemDiscount) {
                   CartManager().addDiscount(
                     itemId: cartItem!.item.id,
                     type: discountType,
                     value: discountValue,
                   );
-                }else{
+                  CartManager().addPromoToItem(cartItem.item.id, promoInfo);
+                } else {
                   _currentDiscountType = discountType;
                   _globalDiscount = discountValue;
+                  _promoInfo = promoInfo;
                 }
                 _calculateBill();
               },
+              isItemDiscount: isItemDiscount,
+              itemQuantity: isItemDiscount
+                  ? cartItem!.quantity
+                  : CartManager().totalItemQuantity(),
             ),
           ),
         );

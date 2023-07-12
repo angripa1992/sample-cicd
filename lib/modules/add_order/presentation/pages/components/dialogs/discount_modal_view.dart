@@ -51,9 +51,7 @@ class AddDiscountModalView extends StatelessWidget {
               onChange: onTypeChanged,
             ),
             Container(
-              margin: EdgeInsets.symmetric(
-                vertical: AppSize.s16.rh,
-              ),
+              margin: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                 color: AppColors.seaShell,

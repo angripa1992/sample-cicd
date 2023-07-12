@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 
 import '../data/models/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
@@ -221,6 +222,23 @@ class CartManager {
 
   void setUpdateCartInfo(UpdateCartInfo data){
     _updateCartInfo = data;
+  }
+
+  void addPromoToItem(int itemId,PromoInfo? promoInfo){
+    final item =
+    _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    if (item != null) {
+      item.promoInfo = promoInfo;
+    }
+    print('ad++++++++++++ $promoInfo');
+  }
+
+  int totalItemQuantity(){
+    int quantity = 0;
+    for(var item in _carts){
+      quantity += item.quantity;
+    }
+    return quantity;
   }
 
   void clear() {

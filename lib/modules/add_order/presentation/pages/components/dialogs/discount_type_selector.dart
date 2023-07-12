@@ -34,51 +34,48 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RadioListTile<int>(
-            contentPadding: EdgeInsets.zero,
-            activeColor: AppColors.purpleBlue,
-            title: Text(
-              AppStrings.flat.tr(),
-              style: regularTextStyle(
-                color: AppColors.bluewood,
-                fontSize: AppFontSize.s14.rSp,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RadioListTile<int>(
+          contentPadding: EdgeInsets.zero,
+          activeColor: AppColors.purpleBlue,
+          title: Text(
+            AppStrings.flat.tr(),
+            style: regularTextStyle(
+              color: AppColors.bluewood,
+              fontSize: AppFontSize.s14.rSp,
             ),
-            value: DiscountType.flat,
-            groupValue: _type,
-            onChanged: (value) {
-              setState(() {
-                _type = value!;
-                widget.onChange(_type);
-              });
-            },
           ),
-          RadioListTile<int>(
-            contentPadding: EdgeInsets.zero,
-            activeColor: AppColors.purpleBlue,
-            title: Text(
-              AppStrings.percentage.tr(),
-              style: regularTextStyle(
-                color: AppColors.bluewood,
-                fontSize: AppFontSize.s14.rSp,
-              ),
+          value: DiscountType.flat,
+          groupValue: _type,
+          onChanged: (value) {
+            setState(() {
+              _type = value!;
+              widget.onChange(_type);
+            });
+          },
+        ),
+        RadioListTile<int>(
+          contentPadding: EdgeInsets.zero,
+          activeColor: AppColors.purpleBlue,
+          title: Text(
+            AppStrings.percentage.tr(),
+            style: regularTextStyle(
+              color: AppColors.bluewood,
+              fontSize: AppFontSize.s14.rSp,
             ),
-            value: DiscountType.percentage,
-            groupValue: _type,
-            onChanged: (value) {
-              setState(() {
-                _type = value!;
-                widget.onChange(_type);
-              });
-            },
           ),
-        ],
-      ),
+          value: DiscountType.percentage,
+          groupValue: _type,
+          onChanged: (value) {
+            setState(() {
+              _type = value!;
+              widget.onChange(_type);
+            });
+          },
+        ),
+      ],
     );
   }
 }

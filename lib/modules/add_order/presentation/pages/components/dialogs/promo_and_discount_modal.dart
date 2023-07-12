@@ -1,12 +1,7 @@
-import 'package:dartz/dartz.dart' as dartz;
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/di.dart';
-import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/network/error_handler.dart';
-import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/promo_modal_view.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
@@ -16,22 +11,29 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../../data/models/applied_promo.dart';
+import '../../../../domain/entities/add_to_cart_item.dart';
 import 'discount_modal_view.dart';
 
 class OrderDiscountModalView extends StatefulWidget {
+  final PromoInfo? promoInfo;
   final int initialDiscountType;
   final num initialDiscountVale;
   final num subtotal;
   final List<int> brands;
-  final Function(int, num) onApply;
+  final bool isItemDiscount;
+  final int itemQuantity;
+  final Function(int,num,PromoInfo?) onApply;
 
   const OrderDiscountModalView({
     Key? key,
+    this.promoInfo,
     required this.initialDiscountType,
     required this.initialDiscountVale,
     required this.onApply,
     required this.subtotal,
     required this.brands,
+    required this.isItemDiscount,
+    required this.itemQuantity,
   }) : super(key: key);
 
   @override
@@ -40,12 +42,19 @@ class OrderDiscountModalView extends StatefulWidget {
 
 class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
   final _discountController = TextEditingController();
+  bool _deleted = false;
   late int _discountType;
+  AppliedPromo? _appliedPromo;
+  int? _citizen;
+  int? _customer;
 
   @override
   void initState() {
     _discountType = widget.initialDiscountType;
     _discountController.text = widget.initialDiscountVale.toString();
+    _appliedPromo = widget.promoInfo?.promo;
+    _citizen = widget.promoInfo?.citizen;
+    _customer = widget.promoInfo?.customer;
     super.initState();
   }
 
@@ -69,24 +78,15 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
     final validatedMsg = _validate();
     if (validatedMsg == null) {
       Navigator.pop(context);
-      final value =
-          _discountController.text.isEmpty ? '0' : _discountController.text;
-      widget.onApply(_discountType, num.parse(value));
+      final value = _discountController.text.isEmpty ? '0' : _discountController.text;
+      PromoInfo? promoInfo;
+      if(_appliedPromo != null){
+        promoInfo = PromoInfo(promo: _appliedPromo!, citizen: _citizen ?? 1,customer: _customer);
+      }
+      widget.onApply(_discountType, num.parse(value),promoInfo);
     } else {
       showErrorSnackBar(context, validatedMsg);
     }
-  }
-
-  Map<String, dynamic> _params() {
-    final user = SessionManager().currentUser();
-    return {
-      'country': user.countryIds.first,
-      'business': user.businessId,
-      'branch': user.branchId,
-      'product_type': 'add_order',
-      'order_amount': widget.subtotal,
-      'brands' : ListParam<int>(widget.brands, ListFormat.csv),
-    };
   }
 
   @override
@@ -129,24 +129,26 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
               discountValueController: _discountController,
             ),
           ),
-          FutureBuilder<dartz.Either<Failure, List<AppliedPromo>>>(
-            future: getIt.get<AddOrderRepository>().fetchPromos(_params()),
-            builder: (context, snap) {
-              if (snap.hasData && snap.data != null) {
-                return snap.data!.fold(
-                  (l) {
-                    return Text(l.message);
-                  },
-                  (data) {
-                    return Text(data.length.toString());
-                  },
-                );
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
+          Expanded(
+            child: PromoModalView(
+              isItemDiscount: widget.isItemDiscount,
+              subtotal: widget.subtotal,
+              brands: widget.brands,
+              promoInfo: widget.promoInfo,
+              citizenMaxCount: widget.itemQuantity,
+              onCitizenChanged: (citizen) {
+                _citizen = citizen;
+              },
+              onCustomerChanged: (customer) {
+                _customer = customer;
+              },
+              onPromoChanged: (promo,deleted) {
+                _appliedPromo = promo;
+                _deleted = deleted;
+              },
+            ),
           ),
-          Spacer(),
+          SizedBox(height: AppSize.s8.rh),
           ElevatedButton(
             onPressed: _apply,
             style: ElevatedButton.styleFrom(

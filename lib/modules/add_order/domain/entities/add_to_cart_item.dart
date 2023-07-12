@@ -3,6 +3,7 @@ import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/price.dart';
+import '../../data/models/applied_promo.dart';
 import 'item_modifier_group.dart';
 
 class AddToCartItem {
@@ -15,6 +16,7 @@ class AddToCartItem {
   int quantity;
   int discountType;
   num discountValue;
+  PromoInfo? promoInfo;
 
   AddToCartItem({
     required this.modifiers,
@@ -26,6 +28,7 @@ class AddToCartItem {
     required this.brand,
     required this.discountType,
     required this.discountValue,
+    this.promoInfo,
   });
 
   AddToCartItem copy() => AddToCartItem(
@@ -112,5 +115,17 @@ class UpdateCartInfo {
     required this.id,
     required this.externalId,
     required this.identity,
+  });
+}
+
+class PromoInfo {
+  AppliedPromo promo;
+  int citizen;
+  int? customer;
+
+  PromoInfo({
+    required this.promo,
+    required this.citizen,
+    this.customer,
   });
 }

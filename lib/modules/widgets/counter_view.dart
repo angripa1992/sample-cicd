@@ -31,7 +31,16 @@ class _CounterViewState extends State<CounterView> {
   @override
   void initState() {
     _count = widget.count;
+    print(_count);
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant CounterView oldWidget) {
+    setState(() {
+      _count = widget.count;
+    });
+    super.didUpdateWidget(oldWidget);
   }
 
   void _increment(){
