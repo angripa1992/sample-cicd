@@ -102,11 +102,11 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
         return Scaffold(
           backgroundColor: Colors.transparent,
           body: Container(
-            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight + AppSize.s32.rh),
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(AppSize.s12.rSp),
-                  topRight: Radius.circular(AppSize.s12.rSp)),
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(AppSize.s12.rSp),
+              //     topRight: Radius.circular(AppSize.s12.rSp)),
               color: AppColors.whiteSmoke,
             ),
             child: MenuItemDescription(

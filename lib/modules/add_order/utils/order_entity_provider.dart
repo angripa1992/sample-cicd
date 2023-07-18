@@ -17,6 +17,7 @@ import '../../menu/domain/entities/stock.dart';
 import '../data/models/billing_item_modifier.dart';
 import '../data/models/billing_request.dart';
 import '../data/models/place_order_data.dart';
+import '../domain/entities/billing_response.dart';
 import '../domain/entities/item_modifier.dart';
 import '../domain/entities/item_modifier_group.dart';
 import 'cart_manager.dart';
@@ -31,13 +32,16 @@ class OrderEntityProvider {
 
   Future<BillingRequestModel> billingRequestModel({
     required List<AddToCartItem> cartItems,
+    required int orderType,
     required int discountType,
     required num discountValue,
     required num additionalFee,
     required num deliveryFee,
   }) async {
     final cartItem = cartItems.first;
+    final orderPromoInfo = CartManager().getPromoInfo();
     return BillingRequestModel(
+      orderType: orderType,
       brandId: cartItem.brand.id,
       branchId: SessionManager().currentUserBranchId(),
       deliveryFee: deliveryFee,
@@ -45,25 +49,60 @@ class OrderEntityProvider {
       discountValue: discountValue,
       additionalFee: additionalFee,
       currency: _billingCurrency(cartItem.itemPrice),
-      items: await _cartsToBillingItems(cartItems),
+      appliedPromoModel: orderPromoInfo?.promo,
+      numberOfSeniorCitizen: orderPromoInfo?.citizen,
+      numberOfCustomer: orderPromoInfo?.customer,
+      items: await _cartsToBillingItemsForCalculateBill(cartsItems: cartItems),
     );
   }
 
-  Future<List<BillingItem>> _cartsToBillingItems(
-    List<AddToCartItem> cartsItems,
-  ) async {
+  Future<List<BillingItem>> _cartsToBillingItemsForCalculateBill({
+    required List<AddToCartItem> cartsItems,
+  }) async {
     final items = <BillingItem>[];
     for (var item in cartsItems) {
-      final groups = await ModifierManager().billingItemModifiers(item.modifiers);
-      items.add(_cartItemToBillingItem(item, groups));
+      final groups =
+          await ModifierManager().billingItemModifiers(item.modifiers);
+      items.add(
+        _cartItemToBillingItem(
+          cartItem: item,
+          groups: groups,
+          promoDiscount: null,
+          promoInfo: item.promoInfo,
+        ),
+      );
     }
     return items;
   }
 
-  BillingItem _cartItemToBillingItem(
-    AddToCartItem cartItem,
-    List<BillingItemModifierGroup> groups,
-  ) {
+  Future<List<BillingItem>> _cartsToBillingItemsForPlaceOrder({
+    required List<AddToCartItem> cartsItems,
+    required List<ItemBill> itemBills,
+  }) async {
+    final items = <BillingItem>[];
+    for (var item in cartsItems) {
+      final groups =
+          await ModifierManager().billingItemModifiers(item.modifiers);
+      final itemBill =
+          itemBills.firstWhere((element) => element.id == item.item.id);
+      items.add(
+        _cartItemToBillingItem(
+          cartItem: item,
+          groups: groups,
+          promoDiscount: itemBill.promoDiscountCent,
+          promoInfo: item.promoInfo,
+        ),
+      );
+    }
+    return items;
+  }
+
+  BillingItem _cartItemToBillingItem({
+    required AddToCartItem cartItem,
+    required List<BillingItemModifierGroup> groups,
+    required num? promoDiscount,
+    required PromoInfo? promoInfo,
+  }) {
     final item = cartItem.item;
     return BillingItem(
       id: item.id,
@@ -88,6 +127,9 @@ class OrderEntityProvider {
       discountValue: cartItem.discountValue,
       discountType: cartItem.discountType,
       comment: cartItem.itemInstruction,
+      appliedPromoModel: promoInfo?.promo,
+      quantityOfScPromoItem: promoInfo?.citizen,
+      promoDiscount: promoDiscount,
     );
   }
 
@@ -169,7 +211,10 @@ class OrderEntityProvider {
     required CustomerInfo? info,
   }) async {
     final bill = checkoutData.cartBill;
-    final cartItems = await _cartsToBillingItems(checkoutData.items);
+    final cartItems = await _cartsToBillingItemsForPlaceOrder(
+      cartsItems: checkoutData.items,
+      itemBills: bill.items,
+    );
     int totalItems = 0;
     for (var element in cartItems) {
       totalItems += element.quantity ?? 0;
@@ -211,6 +256,12 @@ class OrderEntityProvider {
       itemPrice: bill.subTotalCent.toInt(),
       cart: cartItems,
       orderComment: checkoutData.instruction,
+      numberOfSeniorCitizen:
+          bill.numberOfSeniorCitizen > 0 ? bill.numberOfSeniorCitizen : null,
+      numberOfCustomer:
+          bill.numberOfSeniorCustomer > 0 ? bill.numberOfSeniorCustomer : null,
+      orderPromoDiscount: bill.orderPromoDiscountCent,
+      appliedPromoModel: bill.appliedPromo,
     );
   }
 }

@@ -27,11 +27,12 @@ class CounterView extends StatefulWidget {
 
 class _CounterViewState extends State<CounterView> {
   late int _count;
+  late int _maxCount;
 
   @override
   void initState() {
     _count = widget.count;
-    print(_count);
+    _maxCount = widget.maxCount ?? 100;
     super.initState();
   }
 
@@ -39,12 +40,13 @@ class _CounterViewState extends State<CounterView> {
   void didUpdateWidget(covariant CounterView oldWidget) {
     setState(() {
       _count = widget.count;
+      _maxCount = widget.maxCount ?? 100;
     });
     super.didUpdateWidget(oldWidget);
   }
 
   void _increment(){
-    if(widget.enabled && _count < (widget.maxCount ?? 1000)){
+    if(widget.enabled && _count < (_maxCount)){
       setState(() {
         _count += 1;
       });

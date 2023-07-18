@@ -165,7 +165,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => CalculateGrabBillCubit(getIt()));
   getIt.registerFactory(() => UpdateGrabOrderCubit(getIt()));
   getIt.registerLazySingleton(
-      () => UpdateManualOrderDataProvider(getIt(), getIt()));
+      () => UpdateManualOrderDataProvider(getIt(), getIt(),getIt()));
 
   ///busy mode
   getIt.registerLazySingleton(() => CheckBusyMode(getIt()));

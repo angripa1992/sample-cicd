@@ -11,7 +11,7 @@ class AddToCartItem {
   final MenuItems item;
   final num modifiersPrice;
   final Prices itemPrice;
-  final String itemInstruction;
+  String itemInstruction;
   MenuBrand brand;
   int quantity;
   int discountType;
@@ -120,7 +120,7 @@ class UpdateCartInfo {
 
 class PromoInfo {
   AppliedPromo promo;
-  int citizen;
+  int? citizen;
   int? customer;
 
   PromoInfo({

@@ -25,8 +25,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           'Notification',
@@ -35,36 +35,24 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             fontSize: AppSize.s16.rSp,
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Pause Notification',
-              style: regularTextStyle(
-                color: AppColors.purpleBlue,
-                fontSize: AppSize.s14.rSp,
-              ),
-            ),
-            Transform.scale(
-              scale: 0.7,
-              child: CupertinoSwitch(
-                value: _isEnable!,
-                activeColor: AppColors.purpleBlue,
-                trackColor: AppColors.smokeyGrey,
-                onChanged: (enable) {
-                  showPauseNotificationConfirmationDialog(
-                    context: context,
-                    enable: enable,
-                    onSuccess: () {
-                      setState(() {
-                        _isEnable = enable;
-                      });
-                    },
-                  );
+        Transform.scale(
+          scale: 0.7,
+          child: CupertinoSwitch(
+            value: _isEnable!,
+            activeColor: AppColors.purpleBlue,
+            trackColor: AppColors.smokeyGrey,
+            onChanged: (enable) {
+              showPauseNotificationConfirmationDialog(
+                context: context,
+                enable: enable,
+                onSuccess: () {
+                  setState(() {
+                    _isEnable = enable;
+                  });
                 },
-              ),
-            ),
-          ],
+              );
+            },
+          ),
         ),
       ],
     );

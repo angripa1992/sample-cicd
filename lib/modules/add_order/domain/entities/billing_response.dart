@@ -1,3 +1,5 @@
+import '../../data/models/applied_promo.dart';
+
 class CartBill {
   final num subTotal;
   final num subTotalCent;
@@ -13,7 +15,15 @@ class CartBill {
   final num additionalFeeCent;
   final num serviceFee;
   final num serviceFeeCent;
+  final num itemPromoDiscount;
+  final num orderPromoDiscount;
+  final num orderPromoDiscountCent;
+  final num totalPromoDiscount;
+  final num manualDiscount;
   final List<ItemBill> items;
+  final int numberOfSeniorCitizen;
+  final int numberOfSeniorCustomer;
+  final AppliedPromo? appliedPromo;
 
   CartBill({
     required this.subTotal,
@@ -30,7 +40,15 @@ class CartBill {
     required this.additionalFeeCent,
     required this.serviceFee,
     required this.serviceFeeCent,
+    required this.itemPromoDiscount,
+    required this.orderPromoDiscount,
+    required this.orderPromoDiscountCent,
+    required this.totalPromoDiscount,
+    required this.manualDiscount,
     required this.items,
+    required this.numberOfSeniorCitizen,
+    required this.numberOfSeniorCustomer,
+    required this.appliedPromo,
   });
 }
 
@@ -42,7 +60,11 @@ class ItemBill {
   final num discount;
   final num discountedItemPrice;
   final num quantity;
+  final num promoDiscount;
+  final num promoDiscountCent;
   final num itemFinalPrice;
+  final int quantityOfPromoItem;
+  final AppliedPromo? appliedPromo;
 
   ItemBill({
     required this.id,
@@ -50,8 +72,12 @@ class ItemBill {
     required this.modifiersPrice,
     required this.itemPrice,
     required this.discount,
+    required this.promoDiscount,
+    required this.promoDiscountCent,
     required this.discountedItemPrice,
     required this.quantity,
     required this.itemFinalPrice,
+    required this.quantityOfPromoItem,
+    required this.appliedPromo,
   });
 }

@@ -132,9 +132,8 @@ class CartPriceView extends StatelessWidget {
         ),
         InkWell(
           onTap: onTap,
-          child: price < 1
-              ? _addView()
-              : Container(
+          child: price > 0
+              ? Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                     color: AppColors.whiteSmoke,
@@ -167,7 +166,8 @@ class CartPriceView extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
+                )
+              : _addView(),
         ),
       ],
     );
@@ -185,7 +185,7 @@ class CartPriceView extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.add,color: AppColors.purpleBlue,size: AppSize.s14.rSp),
+          Icon(Icons.add, color: AppColors.purpleBlue, size: AppSize.s14.rSp),
           SizedBox(width: AppSize.s4.rw),
           Text(
             AppStrings.add.tr(),

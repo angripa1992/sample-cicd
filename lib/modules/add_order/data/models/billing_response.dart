@@ -1,6 +1,7 @@
 import 'package:klikit/app/extensions.dart';
 
 import '../../domain/entities/billing_response.dart';
+import 'applied_promo.dart';
 
 class CartBillModel {
   num? subTotal;
@@ -17,24 +18,41 @@ class CartBillModel {
   num? additionalFeeCent;
   num? serviceFee;
   num? serviceFeeCent;
+  num? itemPromoDiscount;
+  num? orderPromoDiscount;
+  num? orderPromoDiscountCent;
+  num? totalPromoDiscount;
+  num? manualDiscount;
   List<ItemBillModel>? items;
+  int? numberOfSeniorCitizen;
+  int? numberOfSeniorCustomer;
+  AppliedPromo? appliedPromo;
 
-  CartBillModel(
-      {this.subTotal,
-      this.subTotalCent,
-      this.totalPrice,
-      this.totalPriceCent,
-      this.discountAmount,
-      this.discountAmountCent,
-      this.vatPrice,
-      this.vatPriceCent,
-      this.deliveryFee,
-      this.deliveryFeeCent,
-      this.additionalFee,
-      this.additionalFeeCent,
-      this.serviceFee,
-      this.serviceFeeCent,
-      this.items});
+  CartBillModel({
+    this.subTotal,
+    this.subTotalCent,
+    this.totalPrice,
+    this.totalPriceCent,
+    this.discountAmount,
+    this.discountAmountCent,
+    this.vatPrice,
+    this.vatPriceCent,
+    this.deliveryFee,
+    this.deliveryFeeCent,
+    this.additionalFee,
+    this.additionalFeeCent,
+    this.serviceFee,
+    this.serviceFeeCent,
+    this.items,
+    this.numberOfSeniorCitizen,
+    this.numberOfSeniorCustomer,
+    this.appliedPromo,
+    this.itemPromoDiscount,
+    this.orderPromoDiscount,
+    this.orderPromoDiscountCent,
+    this.totalPromoDiscount,
+    this.manualDiscount,
+  });
 
   CartBillModel.fromJson(Map<String, dynamic> json) {
     subTotal = json['sub_total'];
@@ -51,6 +69,16 @@ class CartBillModel {
     additionalFeeCent = json['additional_fee_cent'];
     serviceFee = json['service_fee'];
     serviceFeeCent = json['service_fee_cent'];
+    itemPromoDiscount = json['item_promo_discount'];
+    orderPromoDiscount = json['order_promo_discount'];
+    orderPromoDiscountCent = json['order_promo_discount_cent'];
+    totalPromoDiscount = json['total_promo_discount'];
+    manualDiscount = json['manual_discount_amount'];
+    numberOfSeniorCitizen = json['number_of_senior_citizen'];
+    numberOfSeniorCustomer = json['number_of_customer'];
+    appliedPromo = json['applied_promo'] != null
+        ? AppliedPromo.fromJson(json['applied_promo'])
+        : null;
     if (json['items'] != null) {
       items = <ItemBillModel>[];
       json['items'].forEach((v) {
@@ -74,7 +102,15 @@ class CartBillModel {
         additionalFeeCent: additionalFeeCent ?? ZERO,
         serviceFee: serviceFee ?? ZERO,
         serviceFeeCent: serviceFeeCent ?? ZERO,
+        itemPromoDiscount: itemPromoDiscount ?? ZERO,
+        orderPromoDiscount: orderPromoDiscount ?? ZERO,
+        orderPromoDiscountCent: orderPromoDiscountCent ?? ZERO,
+        totalPromoDiscount: totalPromoDiscount ?? ZERO,
+        manualDiscount: manualDiscount ?? ZERO,
         items: items?.map((e) => e.toEntity()).toList() ?? [],
+        numberOfSeniorCitizen: numberOfSeniorCitizen ?? ZERO,
+        numberOfSeniorCustomer: numberOfSeniorCustomer ?? ZERO,
+        appliedPromo: appliedPromo,
       );
 }
 
@@ -84,9 +120,13 @@ class ItemBillModel {
   num? modifiersPrice;
   num? itemPrice;
   num? discount;
+  num? promoDiscount;
+  num? promoDiscountCent;
   num? discountedItemPrice;
   num? quantity;
   num? itemFinalPrice;
+  int? quantityOfPromoItem;
+  AppliedPromo? appliedPromo;
 
   ItemBillModel({
     this.id,
@@ -97,6 +137,10 @@ class ItemBillModel {
     this.discountedItemPrice,
     this.quantity,
     this.itemFinalPrice,
+    this.quantityOfPromoItem,
+    this.appliedPromo,
+    this.promoDiscount,
+    this.promoDiscountCent,
   });
 
   ItemBillModel.fromJson(Map<String, dynamic> json) {
@@ -105,9 +149,15 @@ class ItemBillModel {
     modifiersPrice = json['modifiers_price'];
     itemPrice = json['item_price'];
     discount = json['discount'];
+    promoDiscount = json['promo_discount'];
+    promoDiscountCent = json['promo_discount_cent'];
     discountedItemPrice = json['discounted_item_price'];
     quantity = json['quantity'];
     itemFinalPrice = json['item_final_price'];
+    quantityOfPromoItem = json['quantity_of_sc_promo_item'];
+    appliedPromo = json['applied_promo'] != null
+        ? AppliedPromo.fromJson(json['applied_promo'])
+        : null;
   }
 
   ItemBill toEntity() => ItemBill(
@@ -116,8 +166,12 @@ class ItemBillModel {
         modifiersPrice: modifiersPrice ?? ZERO,
         itemPrice: itemPrice ?? ZERO,
         discount: discount ?? ZERO,
+        promoDiscount: promoDiscount ?? ZERO,
+        promoDiscountCent: promoDiscountCent ?? ZERO,
         discountedItemPrice: discountedItemPrice ?? ZERO,
         quantity: quantity ?? ZERO,
         itemFinalPrice: itemFinalPrice ?? ZERO,
+        quantityOfPromoItem: quantityOfPromoItem ?? ZERO,
+        appliedPromo: appliedPromo,
       );
 }

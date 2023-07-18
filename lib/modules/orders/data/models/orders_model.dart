@@ -7,6 +7,7 @@ import '../../domain/entities/order.dart';
 import '../../domain/entities/rider_info.dart';
 import '../../domain/entities/source.dart';
 import 'brand_model.dart';
+import 'order_applied_promo.dart';
 
 part 'orders_model.g.dart';
 
@@ -193,6 +194,10 @@ class OrderModel {
   bool? canMarkCancel;
   @JsonKey(name: 'three_pl_dispatch_type')
   int? threePlDispatchType;
+  @JsonKey(name: 'order_applied_promo')
+  OrderAppliedPromo? orderAppliedPromo;
+  @JsonKey(name: 'item_applied_promos')
+  List<OrderAppliedPromo>? itemAppliedPromos;
 
   OrderModel({
     this.id,
@@ -273,6 +278,8 @@ class OrderModel {
     this.canMarkAccept,
     this.canMarkCancel,
     this.threePlDispatchType,
+    this.orderAppliedPromo,
+    this.itemAppliedPromos,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
@@ -361,6 +368,8 @@ class OrderModel {
       canMarkAccept: canMarkAccept.orFalse(),
       canMarkCancel: canMarkCancel.orFalse(),
       threePlDispatchType: threePlDispatchType.orZero(),
+      orderAppliedPromo: orderAppliedPromo,
+      itemAppliedPromos: itemAppliedPromos ?? [],
     );
   }
 }

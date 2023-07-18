@@ -78,7 +78,7 @@ void showApiErrorSnackBar(BuildContext context, Failure failure) {
           fontSize: AppFontSize.s15.rSp,
         ),
       ),
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 2),
       backgroundColor: AppColors.red,
     ),
   );

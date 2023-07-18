@@ -86,7 +86,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: AppSize.s10.rw,
-                      vertical: AppSize.s16.rh,
+                      vertical: AppSize.s8.rh,
                     ),
                     child: const StepView(
                       stepPosition: StepPosition.checkout,
@@ -130,6 +130,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 showSuccessSnackBar(context,state.data.message ?? '');
                 CartManager().clear();
                 widget.onSuccess();
+              }else if(state is Failed){
+                showApiErrorSnackBar(context, state.failure);
               }
             },
             builder: (context, state) {

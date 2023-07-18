@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
@@ -18,11 +19,12 @@ import '../../../../domain/entities/add_to_cart_item.dart';
 
 class PromoModalView extends StatefulWidget {
   final num subtotal;
+  final int orderType;
   final List<int> brands;
   final bool isItemDiscount;
   final PromoInfo? promoInfo;
   final int citizenMaxCount;
-  final Function(AppliedPromo?,bool) onPromoChanged;
+  final Function(AppliedPromo?, bool) onPromoChanged;
   final Function(int) onCitizenChanged;
   final Function(int) onCustomerChanged;
 
@@ -30,6 +32,7 @@ class PromoModalView extends StatefulWidget {
     Key? key,
     required this.subtotal,
     required this.brands,
+    required this.orderType,
     required this.onPromoChanged,
     required this.citizenMaxCount,
     required this.onCitizenChanged,
@@ -56,8 +59,9 @@ class _PromoModalViewState extends State<PromoModalView> {
     _valueNotifier.value = _appliedPromo?.id;
     super.initState();
   }
+
   @override
-  void dispose(){
+  void dispose() {
     _valueNotifier.dispose();
     super.dispose();
   }
@@ -105,7 +109,8 @@ class _PromoModalViewState extends State<PromoModalView> {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                      child: FutureBuilder<dartz.Either<Failure, List<AppliedPromo>>>(
+                      child: FutureBuilder<
+                          dartz.Either<Failure, List<AppliedPromo>>>(
                         future: getIt
                             .get<AddOrderRepository>()
                             .fetchPromos(_params()),
@@ -117,22 +122,17 @@ class _PromoModalViewState extends State<PromoModalView> {
                               },
                               (data) {
                                 if (data.isNotEmpty) {
+                                  if (widget.orderType != OrderType.DINE_IN) {
+                                    data.removeWhere((element) =>
+                                        element.isSeniorCitizenPromo!);
+                                  }
                                   return PromoSelectorView(
                                     initialPromo: widget.promoInfo?.promo,
                                     promos: data,
-                                    onChanged: (promo,deleted) {
-                                      print(promo);
+                                    onChanged: (promo, deleted) {
                                       _appliedPromo = promo;
-                                      // if (promo != null && widget.promoInfo?.promo != null &&
-                                      //     promo.id == widget.promoInfo!.promo.id) {
-                                      //   _citizen = widget.promoInfo?.citizen;
-                                      //   _customer = widget.promoInfo?.customer;
-                                      // } else {
-                                      //   _citizen = 1;
-                                      //   _customer = 1;
-                                      // }
                                       _valueNotifier.value = promo?.id;
-                                      widget.onPromoChanged(promo,deleted);
+                                      widget.onPromoChanged(promo, deleted);
                                     },
                                   );
                                 } else {
@@ -141,7 +141,8 @@ class _PromoModalViewState extends State<PromoModalView> {
                                       padding:
                                           EdgeInsets.only(top: AppSize.s32.rh),
                                       child: const Text(
-                                          'No promos available right now'),
+                                        'No promos available right now',
+                                      ),
                                     ),
                                   );
                                 }
@@ -163,7 +164,9 @@ class _PromoModalViewState extends State<PromoModalView> {
                     ValueListenableBuilder<int?>(
                       valueListenable: _valueNotifier,
                       builder: (_, data, __) {
-                        if (data != null && _appliedPromo != null && _appliedPromo!.isSeniorCitizenPromo!){
+                        if (data != null &&
+                            _appliedPromo != null &&
+                            _appliedPromo!.isSeniorCitizenPromo!) {
                           return SeniorCitizenDiscountView(
                             initialCustomerCount: _customer,
                             initialCitizenCount: _citizen,
@@ -172,7 +175,7 @@ class _PromoModalViewState extends State<PromoModalView> {
                             onCustomerChanged: widget.onCustomerChanged,
                             isItemDiscount: widget.isItemDiscount,
                           );
-                        }else{
+                        } else {
                           return const SizedBox();
                         }
                       },

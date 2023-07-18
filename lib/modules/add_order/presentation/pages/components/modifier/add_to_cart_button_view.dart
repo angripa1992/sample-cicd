@@ -34,7 +34,10 @@ class AddToCartButtonView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: AppSize.s1.rh),
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s12.rw,
+        vertical: AppSize.s4.rh,
+      ),
       decoration: BoxDecoration(
         color: AppColors.white,
       ),
@@ -67,8 +70,8 @@ class AddToCartButtonView extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              AppStrings.add_to_cart,
-                              style: regularTextStyle(
+                              AppStrings.add_to_cart.tr(),
+                              style: mediumTextStyle(
                                 color: AppColors.white,
                               ),
                             ),

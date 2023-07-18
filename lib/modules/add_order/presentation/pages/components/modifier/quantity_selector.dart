@@ -47,37 +47,58 @@ class _QuantitySelectorState extends State<QuantitySelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          onPressed: _decrement,
-          icon: Icon(
-            Icons.remove_circle,
-            color: AppColors.purpleBlue,
-          ),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s8.rw,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+        border: Border.all(
+          color: AppColors.bluewood,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
-          child: Text(
-            '$_quantity',
-            style: mediumTextStyle(
-              color: AppColors.balticSea,
-              fontSize: AppFontSize.s16.rSp,
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: _decrement,
+              icon: Icon(
+                Icons.remove,
+                color: AppColors.bluewood,
+              ),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
             ),
-          ),
+            VerticalDivider(
+              color: AppColors.bluewood,
+              thickness: 1,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+              child: Text(
+                '$_quantity',
+                style: mediumTextStyle(
+                  color: AppColors.bluewood,
+                  fontSize: AppFontSize.s16.rSp,
+                ),
+              ),
+            ),
+            VerticalDivider(
+              color: AppColors.bluewood,
+              thickness: 1,
+            ),
+            IconButton(
+              onPressed: _increment,
+              icon: Icon(
+                Icons.add,
+                color: AppColors.bluewood,
+              ),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
         ),
-        IconButton(
-          onPressed: _increment,
-          icon: Icon(
-            Icons.add_circle,
-            color: AppColors.purpleBlue,
-          ),
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-        ),
-      ],
+      ),
     );
   }
 }

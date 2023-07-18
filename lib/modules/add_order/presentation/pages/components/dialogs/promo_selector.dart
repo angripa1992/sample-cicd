@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/promo_info_dialog.dart';
 
-import '../../../../../../resources/assets.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
@@ -11,7 +10,7 @@ import '../../../../../../resources/values.dart';
 
 class PromoSelectorView extends StatefulWidget {
   final AppliedPromo? initialPromo;
-  final Function(AppliedPromo?,bool) onChanged;
+  final Function(AppliedPromo?, bool) onChanged;
   final List<AppliedPromo> promos;
 
   const PromoSelectorView({
@@ -34,7 +33,7 @@ class _PromoSelectorViewState extends State<PromoSelectorView> {
     super.initState();
   }
 
-  void _changePromo(int? promoId,bool deleted) {
+  void _changePromo(int? promoId, bool deleted) {
     setState(() {
       _appliedPromoId = promoId;
     });
@@ -42,7 +41,7 @@ class _PromoSelectorViewState extends State<PromoSelectorView> {
     if (promoId != null) {
       promo = widget.promos.firstWhere((element) => element.id == promoId);
     }
-    widget.onChanged(promo,deleted);
+    widget.onChanged(promo, deleted);
   }
 
   @override
@@ -53,31 +52,46 @@ class _PromoSelectorViewState extends State<PromoSelectorView> {
           title: Row(
             children: [
               Expanded(
-                child: Text(
-                  promo.code!,
-                  style: regularTextStyle(
-                    color: AppColors.bluewood,
-                    fontSize: AppFontSize.s14.rSp,
-                  ),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Text(
+                        promo.code!,
+                        style: regularTextStyle(
+                          color: AppColors.bluewood,
+                          fontSize: AppFontSize.s14.rSp,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showPromoInfoDialog(context, promo);
+                      },
+                      icon: Icon(
+                        Icons.info_outline,
+                        size: AppSize.s16.rSp,
+                        color: AppColors.bluewood,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               if (promo.id == _appliedPromoId)
                 IconButton(
                   onPressed: () {
-                    _changePromo(null,true);
+                    _changePromo(null, true);
                   },
-                  icon: SvgPicture.asset(
-                    AppIcons.delete,
-                    width: AppSize.s18.rw,
-                    height: AppSize.s18.rh,
+                  icon: Icon(
+                    Icons.remove_circle,
+                    color: AppColors.red,
                   ),
                 ),
             ],
           ),
           value: promo.id!,
           groupValue: _appliedPromoId,
-          onChanged: (promoId){
-            _changePromo(promoId,false);
+          onChanged: (promoId) {
+            _changePromo(promoId, false);
           },
           activeColor: AppColors.purpleBlue,
         );

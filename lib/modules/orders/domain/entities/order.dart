@@ -2,6 +2,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
 import 'package:klikit/modules/orders/domain/entities/source.dart';
 
+import '../../data/models/order_applied_promo.dart';
 import '../../data/models/orders_model.dart';
 import 'brand.dart';
 import 'cart.dart';
@@ -96,6 +97,8 @@ class Order {
   final bool canMarkAccept;
   final bool canMarkCancel;
   final int threePlDispatchType;
+  final OrderAppliedPromo? orderAppliedPromo;
+  final List<OrderAppliedPromo> itemAppliedPromos;
   String klikitComment;
   int paymentMethod;
   int paymentStatus;
@@ -181,6 +184,8 @@ class Order {
     required this.canMarkCancel,
     required this.canMarkAccept,
     required this.threePlDispatchType,
+    required this.orderAppliedPromo,
+    required this.itemAppliedPromos,
   });
 
   Order copy() => Order(
@@ -262,7 +267,9 @@ class Order {
         canFindFulfillmentRider: canFindFulfillmentRider,
         canMarkAccept: canMarkAccept,
         canMarkCancel: canMarkCancel,
-      threePlDispatchType: threePlDispatchType,
+        threePlDispatchType: threePlDispatchType,
+        orderAppliedPromo: orderAppliedPromo,
+        itemAppliedPromos: itemAppliedPromos,
       );
 
   OrderModel toModel() => OrderModel(
@@ -342,6 +349,8 @@ class Order {
         canFindFulfillmentRider: canFindFulfillmentRider,
         canMarkCancel: canMarkCancel,
         canMarkAccept: canMarkAccept,
-      threePlDispatchType: threePlDispatchType,
+        threePlDispatchType: threePlDispatchType,
+        orderAppliedPromo: orderAppliedPromo,
+        itemAppliedPromos: itemAppliedPromos,
       );
 }

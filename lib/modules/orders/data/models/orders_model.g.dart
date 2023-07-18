@@ -113,6 +113,13 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       canMarkAccept: json['can_mark_accept'] as bool?,
       canMarkCancel: json['can_mark_cancel'] as bool?,
       threePlDispatchType: json['three_pl_dispatch_type'] as int?,
+      orderAppliedPromo: json['order_applied_promo'] == null
+          ? null
+          : OrderAppliedPromo.fromJson(
+              json['order_applied_promo'] as Map<String, dynamic>),
+      itemAppliedPromos: (json['item_applied_promos'] as List<dynamic>?)
+          ?.map((e) => OrderAppliedPromo.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -196,6 +203,9 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'can_mark_accept': instance.canMarkAccept,
       'can_mark_cancel': instance.canMarkCancel,
       'three_pl_dispatch_type': instance.threePlDispatchType,
+      'order_applied_promo': instance.orderAppliedPromo?.toJson(),
+      'item_applied_promos':
+          instance.itemAppliedPromos?.map((e) => e.toJson()).toList(),
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

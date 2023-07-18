@@ -211,14 +211,8 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   void _editManualOrder(Order order) async {
     try {
       EasyLoading.show();
-      final provider = getIt.get<UpdateManualOrderDataProvider>();
-      final cartItems = await provider.generateCartItem(order);
-      CartManager().clear();
-      for (var cartItem in cartItems) {
-        await CartManager().addToCart(cartItem);
-      }
+      await getIt.get<UpdateManualOrderDataProvider>().generateCartData(order);
       EasyLoading.dismiss();
-      provider.setEditableInfo(order);
       _gotoCartScreen();
     } on Exception catch (error) {
       EasyLoading.dismiss();

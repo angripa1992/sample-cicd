@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 
+import '../../../app/constants.dart';
 import '../data/models/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
+import '../domain/entities/billing_response.dart';
 import '../domain/entities/selected_item_price.dart';
 import 'modifier_manager.dart';
 import 'order_entity_provider.dart';
@@ -16,6 +18,7 @@ class CartManager {
   static CustomerInfo? _customerInfo;
   static PaymentInfo? _paymentInfo;
   static UpdateCartInfo? _updateCartInfo;
+  static PromoInfo? _promoInfo;
   static final _cartItemNotifier = ValueNotifier<int>(0);
   static final _noOfCartItemNotifier = ValueNotifier<int>(0);
   static final _priceNotifier = ValueNotifier<SelectedItemPrice?>(null);
@@ -44,6 +47,14 @@ class CartManager {
         element.item.id == oldItem.item.id &&
         element.quantity == oldItem.quantity);
     await addToCart(newItem);
+  }
+
+  AddToCartItem? findCartItem(int itemId){
+    try{
+      return _carts.firstWhere((element) => element.item.id == itemId);
+    }catch (e){
+      return null;
+    }
   }
 
   void removeFromCart(AddToCartItem item) {
@@ -134,8 +145,7 @@ class CartManager {
         code = item.itemPrice.code;
       }
       final noOfItem = _noOfCartItem();
-      _priceNotifier.value =
-          SelectedItemPrice(noOfItem, symbol, totalPrice, code);
+      _priceNotifier.value = SelectedItemPrice(noOfItem, symbol, totalPrice, code);
       _noOfCartItemNotifier.value = noOfItem;
     }
   }
@@ -183,6 +193,7 @@ class CartManager {
   }
 
   Future<BillingRequestModel?> calculateBillingRequestPaylod({
+    required int orderType,
     required int discountType,
     required num discountValue,
     required num additionalFee,
@@ -195,6 +206,7 @@ class CartManager {
         discountValue: discountValue,
         additionalFee: additionalFee,
         deliveryFee: deliveryFee,
+        orderType: orderType,
       );
     }
     return null;
@@ -207,6 +219,8 @@ class CartManager {
   PaymentInfo? getPaymentInfo() => _paymentInfo;
 
   UpdateCartInfo? getUpdateCartInfo() => _updateCartInfo;
+
+  PromoInfo? getPromoInfo() => _promoInfo;
 
   void setEditInfo(CartInfo info){
     _cartInfo = info;
@@ -224,13 +238,16 @@ class CartManager {
     _updateCartInfo = data;
   }
 
+  void setPromoInfo(PromoInfo? data){
+    _promoInfo = data;
+  }
+
   void addPromoToItem(int itemId,PromoInfo? promoInfo){
     final item =
     _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.promoInfo = promoInfo;
     }
-    print('ad++++++++++++ $promoInfo');
   }
 
   int totalItemQuantity(){
@@ -241,12 +258,69 @@ class CartManager {
     return quantity;
   }
 
+  bool willShowPromo(bool isItemDiscount){
+    if(isItemDiscount){
+      return _promoInfo == null;
+    }else{
+      bool flag = true;
+      for(var item in _carts){
+        if(item.promoInfo != null){
+          flag = false;
+          break;
+        }
+      }
+      return flag;
+    }
+  }
+
+  void removePromoForOrderType(int orderType){
+    if(orderType != OrderType.DINE_IN){
+      if(_promoInfo != null && _promoInfo!.promo.isSeniorCitizenPromo!){
+        _promoInfo = null;
+      }
+      for(var item in _carts){
+        if(item.promoInfo != null && item.promoInfo!.promo.isSeniorCitizenPromo!){
+          item.promoInfo = null;
+        }
+      }
+    }
+  }
+
+  void syncPromoWithCalculateBill(CartBill cartBill) {
+    for (var element in cartBill.items) {
+      final cartItem = findCartItem(element.id.toInt());
+      if (cartItem != null) {
+        if (element.appliedPromo != null) {
+          final promoInfo = PromoInfo(
+            promo: element.appliedPromo!,
+            citizen: element.quantityOfPromoItem > 0 ? element.quantityOfPromoItem : null,
+          );
+          cartItem.promoInfo = promoInfo;
+        } else {
+          cartItem.promoInfo = null;
+        }
+      }
+    }
+    if (cartBill.appliedPromo != null) {
+      final promoInfo = PromoInfo(
+        promo: cartBill.appliedPromo!,
+        citizen: cartBill.numberOfSeniorCitizen > 0 ? cartBill.numberOfSeniorCitizen : null,
+        customer: cartBill.numberOfSeniorCustomer > 0 ? cartBill.numberOfSeniorCustomer : null,
+      );
+      setPromoInfo(promoInfo);
+    } else {
+      setPromoInfo(null);
+    }
+  }
+
+
   void clear() {
     _carts.clear();
     _cartInfo = null;
     _customerInfo = null;
     _paymentInfo = null;
     _updateCartInfo = null;
+    _promoInfo = null;
     _notifyListener();
   }
 }

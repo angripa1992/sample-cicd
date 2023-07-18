@@ -15,6 +15,7 @@ import '../../../../../../resources/values.dart';
 import '../../../../../widgets/counter_view.dart';
 import '../../../../../widgets/menu_item_image_view.dart';
 import '../../../../domain/entities/billing_response.dart';
+import 'cart_item_note_view.dart';
 
 class CartItemView extends StatelessWidget {
   final ItemBill itemBill;
@@ -134,6 +135,7 @@ class CartItemView extends StatelessWidget {
                           return const SizedBox();
                         },
                       ),
+                      CartItemNoteView(cartItem: cartItem),
                     ],
                   ),
                 ),
@@ -142,8 +144,46 @@ class CartItemView extends StatelessWidget {
           ),
         ),
         _actionButtons(),
+        if (cartItem.promoInfo != null) _appliedPromoView(),
         const Divider(),
       ],
+    );
+  }
+
+  Widget _appliedPromoView() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+      padding: EdgeInsets.symmetric(
+        vertical: AppSize.s8.rh,
+        horizontal: AppSize.s8.rw,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+        color: AppColors.whiteSmoke,
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(AppIcons.discount),
+          SizedBox(width: AppSize.s8.rw),
+          Expanded(
+            child: Text(
+              cartItem.promoInfo!.promo.code!,
+              style: mediumTextStyle(
+                color: AppColors.bluewood,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+          ),
+          if(cartItem.promoInfo!.promo.isSeniorCitizenPromo!)
+            Text(
+              '${cartItem.promoInfo!.citizen} Pieces',
+              style: mediumTextStyle(
+                color: AppColors.bluewood,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+        ],
+      ),
     );
   }
 

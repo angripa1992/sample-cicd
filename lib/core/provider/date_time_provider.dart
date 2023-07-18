@@ -55,6 +55,12 @@ class DateTimeProvider {
     return formatter.format(dateTime);
   }
 
+  static String dateTime(String dateTimeStr) {
+    final formatter = DateFormat('d MMM yyyy • h:mm a');
+    final dateTime = DateTime.parse(dateTimeStr).toLocal();
+    return formatter.format(dateTime);
+  }
+
   static String parseSnoozeEndTime(String endTime) {
     final formatter = DateFormat('d MMM yyyy, h:mm a');
     final dateTime = DateTime.parse(endTime).toLocal();

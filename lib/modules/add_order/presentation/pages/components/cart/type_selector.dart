@@ -37,7 +37,7 @@ class _TypeSelectorState extends State<TypeSelector> {
   String _typeName(int type) {
     switch (type) {
       case OrderType.DINE_IN:
-        return AppStrings.dine_in ;
+        return AppStrings.dine_in.tr() ;
       case OrderType.DELIVERY:
         return AppStrings.deliver.tr();
       default:

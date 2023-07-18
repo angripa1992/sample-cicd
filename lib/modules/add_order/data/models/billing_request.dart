@@ -1,3 +1,4 @@
+import 'applied_promo.dart';
 import 'billing_item.dart';
 
 class BillingRequestModel {
@@ -9,6 +10,10 @@ class BillingRequestModel {
   num? additionalFee;
   BillingCurrency? currency;
   List<BillingItem>? items;
+  int? numberOfSeniorCitizen;
+  int? numberOfCustomer;
+  AppliedPromo? appliedPromoModel;
+  int? orderType;
 
   BillingRequestModel({
     this.brandId,
@@ -19,6 +24,10 @@ class BillingRequestModel {
     this.additionalFee,
     this.currency,
     this.items,
+    this.numberOfSeniorCitizen,
+    this.numberOfCustomer,
+    this.appliedPromoModel,
+    this.orderType,
   });
 
   Map<String, dynamic> toJson() {
@@ -34,6 +43,18 @@ class BillingRequestModel {
     }
     if (items != null) {
       data['items'] = items!.map((v) => v.toJson()).toList();
+    }
+    if (numberOfCustomer != null) {
+      data['number_of_customer'] = numberOfCustomer;
+    }
+    if (numberOfSeniorCitizen != null) {
+      data['number_of_senior_citizen'] = numberOfSeniorCitizen;
+    }
+    if (appliedPromoModel != null) {
+      data['applied_promo'] = appliedPromoModel;
+    }
+    if (orderType != null) {
+      data['order_type'] = orderType;
     }
     return data;
   }

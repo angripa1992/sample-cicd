@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
@@ -18,8 +16,8 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/brand.dart';
+import '../../../../../widgets/snackbars.dart';
 import '../../../../domain/entities/order_source.dart';
-import '../../../cubit/calculate_bill_cubit.dart';
 import '../dialogs/delete_item_dialog.dart';
 import '../dialogs/fee_dialogs.dart';
 import '../dialogs/promo_and_discount_modal.dart';
@@ -48,8 +46,8 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final _textController = TextEditingController();
+  final _calculateBillNotifier = ValueNotifier<CartBill?>(null);
   CartBill? _cartBill;
-  PromoInfo? _promoInfo;
   int _currentDiscountType = DiscountType.flat;
   int _currentOrderType = OrderType.DINE_IN;
   int _currentSource = OrderSource.IN_STORE;
@@ -71,6 +69,12 @@ class _CartScreenState extends State<CartScreen> {
     }
     _calculateBill();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    //_calculateBillNotifier.dispose();
+    super.dispose();
   }
 
   void _saveCurrentEditInfo() {
@@ -131,83 +135,9 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  void _addDiscount({
-    required bool isItemDiscount,
-    AddToCartItem? cartItem,
-    int? discountType,
-    num? discountValue,
-  }) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Container(
-            margin: EdgeInsets.only(
-                top: ScreenSizes.statusBarHeight + AppSize.s32.rh),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(AppSize.s12.rSp),
-                  topRight: Radius.circular(AppSize.s12.rSp)),
-              color: AppColors.whiteSmoke,
-            ),
-            child: OrderDiscountModalView(
-              promoInfo: isItemDiscount ? cartItem!.promoInfo : _promoInfo,
-              initialDiscountType:
-                  isItemDiscount ? cartItem!.discountType : discountType!,
-              initialDiscountVale:
-                  isItemDiscount ? cartItem!.discountValue : discountValue!,
-              brands: isItemDiscount
-                  ? [cartItem!.brand.id]
-                  : CartManager().availableBrands(),
-              subtotal: _cartBill!.subTotal,
-              onApply: (discountType, discountValue, promoInfo) {
-                if (isItemDiscount) {
-                  CartManager().addDiscount(
-                    itemId: cartItem!.item.id,
-                    type: discountType,
-                    value: discountValue,
-                  );
-                  CartManager().addPromoToItem(cartItem.item.id, promoInfo);
-                } else {
-                  _currentDiscountType = discountType;
-                  _globalDiscount = discountValue;
-                  _promoInfo = promoInfo;
-                }
-                _calculateBill();
-              },
-              isItemDiscount: isItemDiscount,
-              itemQuantity: isItemDiscount
-                  ? cartItem!.quantity
-                  : CartManager().totalItemQuantity(),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   void _quantityChanged(int itemId, int quantity) {
     CartManager().changeQuantity(itemId, quantity);
     _calculateBill();
-  }
-
-  void _calculateBill() {
-    CartManager()
-        .calculateBillingRequestPaylod(
-      discountType: _currentDiscountType,
-      discountValue: _globalDiscount,
-      additionalFee: _globalAdditionalFee,
-      deliveryFee: _globalDeliveryFee,
-    )
-        .then((value) {
-      if (value != null) {
-        context.read<CalculateBillCubit>().calculateBill(value);
-        _saveCurrentEditInfo();
-      }
-    });
   }
 
   void _showGlobalFeeDialog({
@@ -254,6 +184,93 @@ class _CartScreenState extends State<CartScreen> {
     widget.onCheckout(checkoutData);
   }
 
+  void _addDiscount({
+    required bool isItemDiscount,
+    AddToCartItem? cartItem,
+    int? discountType,
+    num? discountValue,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
+            color: AppColors.whiteSmoke,
+            child: OrderDiscountModalView(
+              promoInfo: isItemDiscount
+                  ? cartItem!.promoInfo
+                  : CartManager().getPromoInfo(),
+              initialDiscountType:
+                  isItemDiscount ? cartItem!.discountType : discountType!,
+              initialDiscountVale:
+                  isItemDiscount ? cartItem!.discountValue : discountValue!,
+              brands: isItemDiscount
+                  ? [cartItem!.brand.id]
+                  : CartManager().availableBrands(),
+              subtotal: _cartBill!.subTotal,
+              isItemDiscount: isItemDiscount,
+              itemQuantity: isItemDiscount
+                  ? cartItem!.quantity
+                  : CartManager().totalItemQuantity(),
+              willShowPromo: isItemDiscount
+                  ? _cartBill!.orderPromoDiscount <= 0
+                  : _cartBill!.itemPromoDiscount <= 0,
+              orderType: _currentOrderType,
+              onApply: (discountType, discountValue, promoInfo) {
+                if (isItemDiscount) {
+                  CartManager().addDiscount(
+                    itemId: cartItem!.item.id,
+                    type: discountType,
+                    value: discountValue,
+                  );
+                  CartManager().addPromoToItem(cartItem.item.id, promoInfo);
+                } else {
+                  _currentDiscountType = discountType;
+                  _globalDiscount = discountValue;
+                  CartManager().setPromoInfo(promoInfo);
+                }
+                _calculateBill();
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _calculateBill() async {
+    final payload = await CartManager().calculateBillingRequestPaylod(
+      orderType: _currentOrderType,
+      discountType: _currentDiscountType,
+      discountValue: _globalDiscount,
+      additionalFee: _globalAdditionalFee,
+      deliveryFee: _globalDeliveryFee,
+    );
+    if (payload == null) return;
+    EasyLoading.show();
+    final response =
+        await getIt.get<AddOrderRepository>().calculateBill(model: payload);
+    EasyLoading.dismiss();
+    response.fold(
+      (failure) {
+        if (_cartBill != null) {
+          CartManager().syncPromoWithCalculateBill(_cartBill!);
+        }
+        showErrorSnackBar(context, failure.message);
+      },
+      (bill) {
+        _cartBill = bill;
+        CartManager().syncPromoWithCalculateBill(_cartBill!);
+        _saveCurrentEditInfo();
+        _calculateBillNotifier.value = bill;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -266,18 +283,10 @@ class _CartScreenState extends State<CartScreen> {
               valueListenable: CartManager().getNotifyListener(),
               builder: (_, value, __) {
                 if (value > 0) {
-                  return BlocBuilder<CalculateBillCubit, ResponseState>(
-                    builder: (_, state) {
-                      if (state is Loading) {
-                        EasyLoading.show();
-                      } else if (state is Failed) {
-                        EasyLoading.dismiss();
-                        return Center(child: Text(state.failure.message));
-                      } else if (state is Success<CartBill>) {
-                        EasyLoading.dismiss();
-                        _cartBill = state.data;
-                      }
-                      if (_cartBill != null) {
+                  return ValueListenableBuilder<CartBill?>(
+                    valueListenable: _calculateBillNotifier,
+                    builder: (_, cartBill, __) {
+                      if (cartBill != null) {
                         return _body();
                       } else {
                         return const SizedBox();
@@ -301,7 +310,7 @@ class _CartScreenState extends State<CartScreen> {
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: AppSize.s10.rw,
-            vertical: AppSize.s16.rh,
+            vertical: AppSize.s8.rh,
           ),
           child: const StepView(stepPosition: StepPosition.cart),
         ),
@@ -329,7 +338,8 @@ class _CartScreenState extends State<CartScreen> {
                   initialType: _currentOrderType,
                   onTypeChange: (type) {
                     _currentOrderType = type;
-                    _saveCurrentEditInfo();
+                    CartManager().removePromoForOrderType(_currentOrderType);
+                    _calculateBill();
                   },
                 ),
                 CartItemsListView(
@@ -356,7 +366,7 @@ class _CartScreenState extends State<CartScreen> {
                     _addDiscount(
                       isItemDiscount: false,
                       discountType: _currentDiscountType,
-                      discountValue: _cartBill!.discountAmount,
+                      discountValue: _cartBill!.manualDiscount,
                     );
                   },
                   onAdditionalFee: () {

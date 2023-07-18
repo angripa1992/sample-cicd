@@ -35,6 +35,7 @@ class BillingItem {
   String? comment;
   int? quantityOfScPromoItem;
   AppliedPromo? appliedPromoModel;
+  num? promoDiscount;
 
   BillingItem({
     this.id,
@@ -64,6 +65,7 @@ class BillingItem {
     this.comment,
     this.quantityOfScPromoItem,
     this.appliedPromoModel,
+    this.promoDiscount,
   });
 
   Map<String, dynamic> toJson() {
@@ -116,8 +118,11 @@ class BillingItem {
     if(quantityOfScPromoItem != null){
       data['quantity_of_sc_promo_item'] = quantityOfScPromoItem;
     }
+    if(promoDiscount != null){
+      data['promo_discount'] = promoDiscount;
+    }
     if(appliedPromoModel != null){
-      data['applied_promo'] = appliedPromoModel;
+      data['applied_promo'] = appliedPromoModel!.toJson();
     }
     return data;
   }

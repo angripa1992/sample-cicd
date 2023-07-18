@@ -7,7 +7,7 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/counter_view.dart';
 
-class SeniorCitizenDiscountView extends StatelessWidget {
+class SeniorCitizenDiscountView extends StatefulWidget {
   final int? initialCitizenCount;
   final int? initialCustomerCount;
   final int? citizenMaxCount;
@@ -26,13 +26,41 @@ class SeniorCitizenDiscountView extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<SeniorCitizenDiscountView> createState() => _SeniorCitizenDiscountViewState();
+}
+
+class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
+  late int _citizenCount;
+  late int _citizenMaxCount;
+  late int _customerCount;
+  late int _customerMaxCount;
+
+  @override
+  void initState() {
+    if(widget.isItemDiscount){
+      _citizenCount = widget.initialCitizenCount ?? 1;
+      _customerCount = widget.initialCustomerCount ?? 1;
+      _citizenMaxCount = widget.citizenMaxCount ?? 1;
+      _customerMaxCount = widget.citizenMaxCount ?? 1;
+    }else{
+      _citizenCount = widget.initialCitizenCount ?? 1;
+      _customerCount = widget.initialCustomerCount ?? 1;
+      _citizenMaxCount = widget.initialCustomerCount ?? 1;
+      _customerMaxCount = widget.citizenMaxCount ?? 1;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          'Enter the number of senior citizens in your order',
+          widget.isItemDiscount
+              ? 'Enter the number of items for senior citizens in your order'
+              : 'Enter the number of senior citizens in your order',
           style: regularTextStyle(
             fontSize: AppFontSize.s12.rSp,
             color: AppColors.dustyGreay,
@@ -43,14 +71,19 @@ class SeniorCitizenDiscountView extends StatelessWidget {
           children: [
             CounterView(
               enabled: true,
-              count: initialCitizenCount ?? 1,
+              count: _citizenCount,
               minCount: 1,
-              maxCount: citizenMaxCount ?? 100,
-              onChanged: onCitizenChanged,
+              maxCount: _citizenMaxCount,
+              onChanged: (count){
+                setState(() {
+                  _citizenCount = count;
+                  widget.onCitizenChanged(_citizenCount);
+                });
+              },
             ),
           ],
         ),
-        if (!isItemDiscount)
+        if (!widget.isItemDiscount)
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -59,7 +92,7 @@ class SeniorCitizenDiscountView extends StatelessWidget {
                 child: const Divider(),
               ),
               Text(
-                'Enter the number of other customers in your order',
+                'Enter the number of total customers in your order',
                 style: regularTextStyle(
                   fontSize: AppFontSize.s12.rSp,
                   color: AppColors.dustyGreay,
@@ -70,10 +103,16 @@ class SeniorCitizenDiscountView extends StatelessWidget {
                 children: [
                   CounterView(
                     enabled: true,
-                    count: initialCustomerCount ?? 1,
+                    count: _customerCount,
                     minCount: 1,
-                    maxCount: 100,
-                    onChanged: onCustomerChanged,
+                    maxCount: _customerMaxCount,
+                    onChanged: (count){
+                      setState(() {
+                        _citizenMaxCount = count;
+                        _customerCount = count;
+                        widget.onCustomerChanged(count);
+                      });
+                    },
                   ),
                 ],
               ),

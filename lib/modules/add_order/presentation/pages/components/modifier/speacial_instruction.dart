@@ -43,7 +43,7 @@ class SpecialInstructionField extends StatelessWidget {
             NoteTextField(
               controller: controller,
               hint:  AppStrings.add_instruction.tr(),
-              minLines: 5,
+              minLines: 2,
             ),
           ],
         ),

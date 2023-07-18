@@ -32,6 +32,7 @@ class PlaceOrderDataModel {
   String? orderComment;
   int? numberOfSeniorCitizen;
   int? numberOfCustomer;
+  num? orderPromoDiscount;
   AppliedPromo? appliedPromoModel;
 
   PlaceOrderDataModel({
@@ -66,6 +67,7 @@ class PlaceOrderDataModel {
     this.numberOfSeniorCitizen,
     this.numberOfCustomer,
     this.appliedPromoModel,
+    this.orderPromoDiscount,
   });
 
   Map<String, dynamic> toJson() {
@@ -124,8 +126,11 @@ class PlaceOrderDataModel {
     if (numberOfSeniorCitizen != null) {
       data['number_of_senior_citizen'] = numberOfSeniorCitizen;
     }
+    if (orderPromoDiscount != null) {
+      data['order_promo_discount'] = orderPromoDiscount;
+    }
     if (appliedPromoModel != null) {
-      data['applied_promo'] = appliedPromoModel;
+      data['applied_promo'] = appliedPromoModel!.toJson();
     }
     return data;
   }
