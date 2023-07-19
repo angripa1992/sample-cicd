@@ -137,10 +137,8 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
               builder: (context, state) {
                 return LoadingButton(
                   isLoading: state is Loading,
-                  verticalPadding: AppSize.s12.rh,
                   onTap: _updatePrinterSetting,
                   text: AppStrings.save.tr(),
-                  textSize: AppFontSize.s13.rSp,
                 );
               },
             ),
@@ -150,22 +148,16 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
             child: ValueListenableBuilder(
               valueListenable: _stickerPrinterStateListener,
               builder: (_, value, __) {
-                print('$value ${_appPreferences.printerSetting().stickerPrinterEnabled}');
                 return AppButton(
                   enable: _appPreferences.printerSetting().stickerPrinterEnabled,
-                  verticalPadding: AppSize.s10.rh,
                   onTap: () {
                     _printingHandler.showDevices(
                         initialIndex: PrinterSelectIndex.sticker);
                   },
                   text: AppStrings.show_devices.tr(),
-                  textSize: AppFontSize.s13.rSp,
-                  disableColor: AppColors.white,
-                  disableBorderColor: AppColors.dustyGreay,
-                  enableColor: AppColors.white,
-                  enableBorderColor: AppColors.bluewood,
-                  enableTextColor: AppColors.bluewood,
-                  disableTextColor: AppColors.dustyGreay,
+                  color: AppColors.white,
+                  borderColor: AppColors.bluewood,
+                  textColor: AppColors.bluewood,
                   icon: _appPreferences.printerSetting().stickerPrinterEnabled
                       ? Icons.bluetooth
                       : Icons.bluetooth_disabled,

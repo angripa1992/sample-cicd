@@ -10,78 +10,70 @@ class LoadingButton extends StatelessWidget {
   final bool isLoading;
   final bool enabled;
   final VoidCallback onTap;
-  final double? verticalPadding;
-  final double? horizontalPadding;
-  final double? textSize;
-  final double? progressHeight;
-  final double? progressWidth;
-  final double? borderRadius;
+  final Color? color;
   final Color? borderColor;
-  final Color? loadingBorderColor;
-  final Color? bgColor;
-  final Color? loadingBgColor;
   final Color? textColor;
-  final Color? loaderColor;
 
   const LoadingButton({
     Key? key,
     required this.isLoading,
     required this.onTap,
     required this.text,
-    this.verticalPadding,
-    this.textSize,
-    this.progressHeight,
-    this.progressWidth,
-    this.horizontalPadding,
-    this.borderColor,
-    this.bgColor,
-    this.loadingBgColor,
-    this.loadingBorderColor,
     this.textColor,
-    this.loaderColor,
-    this.borderRadius,
     this.enabled = true,
+    this.color,
+    this.borderColor,
   }) : super(key: key);
+
+  Color _bgColor() {
+    if (!enabled) {
+      return AppColors.smokeyGrey;
+    } else if (isLoading) {
+      return AppColors.white;
+    } else {
+      return color ?? AppColors.purpleBlue;
+    }
+  }
+
+  Color _borderColor() {
+    if (!enabled) {
+      return AppColors.smokeyGrey;
+    } else if (isLoading) {
+      return AppColors.purpleBlue;
+    } else {
+      return borderColor ?? AppColors.purpleBlue;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (!enabled || isLoading) ? null : onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: (!enabled || isLoading)
-              ? (loadingBgColor ?? AppColors.lightViolet)
-              : (bgColor ?? AppColors.purpleBlue),
-          borderRadius: BorderRadius.circular(borderRadius ?? AppSize.s8.rSp),
-          border: Border.all(
-            color: (!enabled || isLoading)
-                ? (loadingBorderColor ?? AppColors.lightViolet)
-                : (borderColor ?? AppColors.purpleBlue),
-          ),
+    return ElevatedButton(
+      onPressed: (!enabled || isLoading) ? null : onTap,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: _bgColor(),
+        disabledBackgroundColor:
+            isLoading ? AppColors.white : AppColors.smokeyGrey,
+        side: BorderSide(
+          width: AppSize.s1.rw,
+          color: _borderColor(),
         ),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: verticalPadding ?? AppSize.s8.rh,
-              horizontal: horizontalPadding ?? AppSize.s12.rw,
-            ),
-            child: isLoading
-                ? SizedBox(
-                    height: progressHeight ?? AppSize.s18.rh,
-                    width: progressWidth ?? AppSize.s18.rw,
-                    child: CircularProgressIndicator(
-                        color: loaderColor ?? AppColors.purpleBlue),
-                  )
-                : Text(
-                    text,
-                    style: mediumTextStyle(
-                      color: textColor ?? AppColors.white,
-                      fontSize: textSize ?? AppFontSize.s14.rSp,
-                    ),
-                  ),
-          ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
         ),
       ),
+      child: isLoading
+          ? SizedBox(
+              height: AppSize.s12.rh,
+              width: AppSize.s12.rw,
+              child: CircularProgressIndicator(color: AppColors.purpleBlue),
+            )
+          : Text(
+              text,
+              style: mediumTextStyle(
+                color: textColor ?? AppColors.white,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
     );
   }
 }

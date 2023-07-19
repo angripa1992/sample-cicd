@@ -16,6 +16,7 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../../widgets/app_button.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../domain/entities/items.dart';
 import '../../../domain/entities/stock.dart';
@@ -178,15 +179,14 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: LoadingButton(
+                    child: AppButton(
                       onTap: () {
                         Navigator.pop(context);
                       },
                       text: AppStrings.cancel.tr(),
-                      isLoading: false,
-                      bgColor: Colors.transparent,
-                      textColor: AppColors.purpleBlue,
-                      verticalPadding: AppSize.s8.rh,
+                      textColor: AppColors.bluewood,
+                      color: AppColors.white,
+                      borderColor: AppColors.bluewood,
                     ),
                   ),
                   SizedBox(width: AppSize.s8.rw),
@@ -216,7 +216,6 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                           },
                           text: AppStrings.update.tr(),
                           isLoading: state is Loading,
-                          verticalPadding: AppSize.s8.rh,
                         );
                       },
                     ),

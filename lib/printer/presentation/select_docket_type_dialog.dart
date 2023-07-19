@@ -107,9 +107,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
           onTap: () {
             widget.onChange(_currentDocketType);
           },
-          enable: true,
           text: AppStrings.select.tr(),
-          verticalPadding: AppSize.s8.rh,
         ),
       ],
     );

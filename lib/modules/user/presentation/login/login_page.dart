@@ -232,7 +232,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           builder: (context, state) {
                             return LoadingButton(
                               text: AppStrings.login.tr(),
-                              verticalPadding: AppSize.s12.rh,
                               isLoading: (state is LoginStateLoading),
                               onTap: () {
                                 _login(context);

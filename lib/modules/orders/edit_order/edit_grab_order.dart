@@ -15,6 +15,7 @@ import '../../../resources/fonts.dart';
 import '../../../resources/strings.dart';
 import '../../../resources/styles.dart';
 import '../../../resources/values.dart';
+import '../../widgets/app_button.dart';
 import '../../widgets/loading_button.dart';
 import '../../widgets/snackbars.dart';
 import '../domain/entities/cart.dart';
@@ -457,12 +458,11 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: LoadingButton(
-                  isLoading: false,
+                child: AppButton(
                   onTap: _discard,
                   text: AppStrings.discard.tr(),
-                  verticalPadding: AppSize.s8.rh,
-                  bgColor: AppColors.white,
+                  color: AppColors.white,
+                  borderColor: AppColors.purpleBlue,
                   textColor: AppColors.purpleBlue,
                 ),
               ),
@@ -492,7 +492,6 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                           isLoading: false,
                           onTap: _updateOrder,
                           text: AppStrings.save.tr(),
-                          verticalPadding: AppSize.s8.rh,
                         );
                       },
                     );

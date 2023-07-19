@@ -163,16 +163,12 @@ class _BrandFilterState extends State<BrandFilter> {
                         },
                       ),
                       AppButton(
-                        enable: true,
                         onTap: () {
                           _apply();
                         },
                         text: AppStrings.apply.tr(),
-                        enableColor: AppColors.purpleBlue,
-                        verticalPadding: AppSize.s6.rh,
+                        color: AppColors.purpleBlue,
                         icon: Icons.search,
-                        textSize: AppFontSize.s14,
-                        enableBorderColor: AppColors.purpleBlue,
                       ),
                     ],
                   );

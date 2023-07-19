@@ -9,88 +9,62 @@ class AppButton extends StatelessWidget {
   final String text;
   final bool enable;
   final VoidCallback onTap;
-  final double? verticalPadding;
-  final double? horizontalPadding;
-  final double? textSize;
-  final double? borderRadius;
-  final Color? enableBorderColor;
-  final Color? disableBorderColor;
-  final Color? enableColor;
-  final Color? disableColor;
-  final Color? enableTextColor;
-  final Color? disableTextColor;
+  final Color? color;
+  final Color? borderColor;
+  final Color? textColor;
   final IconData? icon;
-  final double? iconSize;
 
   const AppButton({
     Key? key,
-    required this.enable,
+    this.enable = true,
     required this.onTap,
     required this.text,
-    this.verticalPadding,
-    this.textSize,
-    this.horizontalPadding,
-    this.enableBorderColor,
-    this.enableColor,
-    this.disableColor,
-    this.disableBorderColor,
-    this.enableTextColor,
-    this.disableTextColor,
-    this.borderRadius,
     this.icon,
-    this.iconSize,
+    this.color,
+    this.borderColor,
+    this.textColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: enable ? onTap : null,
-      child: Container(
-        decoration: BoxDecoration(
+    return ElevatedButton(
+      onPressed: enable ? onTap : null,
+      style: ElevatedButton.styleFrom(
+        backgroundColor:
+            enable ? (color ?? AppColors.purpleBlue) : AppColors.smokeyGrey,
+        disabledBackgroundColor: AppColors.smokeyGrey,
+        side: BorderSide(
+          width: AppSize.s1.rw,
           color: enable
-              ? (enableColor ?? AppColors.purpleBlue)
-              : (disableColor ?? AppColors.lightGrey),
-          borderRadius: BorderRadius.circular(borderRadius ?? AppSize.s8.rSp),
-          border: Border.all(
-            color: enable
-                ? (enableBorderColor ?? AppColors.purpleBlue)
-                : (disableBorderColor ?? AppColors.lightGrey),
-          ),
+              ? (borderColor ?? AppColors.purpleBlue)
+              : AppColors.smokeyGrey,
         ),
-        child: Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: verticalPadding ?? AppSize.s12.rh,
-                horizontal: horizontalPadding ?? AppSize.s12.rh,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSize.s8.rSp), // <-- Radius
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Visibility(
+            visible: icon != null,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+              child: Icon(
+                icon,
+                color: enable ? (textColor ?? AppColors.white) : AppColors.white,
+                size: AppSize.s18.rSp,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Visibility(
-                    visible: icon != null,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-                      child: Icon(
-                        icon,
-                        color: enable
-                            ? (enableTextColor ?? AppColors.white)
-                            : (disableTextColor ?? AppColors.white),
-                        size: iconSize ?? AppSize.s20,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    text,
-                    style: mediumTextStyle(
-                      color: enable
-                          ? (enableTextColor ?? AppColors.white)
-                          : (disableTextColor ?? AppColors.white),
-                      fontSize: textSize ?? AppFontSize.s16.rSp,
-                    ),
-                  ),
-                ],
-              )),
-        ),
+            ),
+          ),
+          Text(
+            text,
+            style: mediumTextStyle(
+              color: enable ? (textColor ?? AppColors.white) : AppColors.white,
+              fontSize: AppFontSize.s14.rSp,
+            ),
+          ),
+        ],
       ),
     );
   }

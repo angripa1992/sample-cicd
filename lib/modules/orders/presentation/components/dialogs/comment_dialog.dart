@@ -13,6 +13,7 @@ import '../../../../../../../resources/fonts.dart';
 import '../../../../../../../resources/styles.dart';
 import '../../../../../../../resources/values.dart';
 import '../../../../../../core/utils/response_state.dart';
+import '../../../../widgets/app_button.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../domain/entities/order.dart';
 import '../../bloc/add_comment_cubit.dart';
@@ -173,12 +174,10 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                   builder: (context, state) {
                     return LoadingButton(
                       isLoading: (state is Loading),
-                      verticalPadding: AppSize.s8.rh,
                       text: AppStrings.delete.tr(),
                       borderColor: AppColors.black,
-                      bgColor: AppColors.black,
+                      color: AppColors.black,
                       textColor: AppColors.white,
-                      textSize: AppFontSize.s12.rSp,
                       onTap: () {
                         _delete(context);
                       },
@@ -211,28 +210,23 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                 builder: (context, state) {
                   return LoadingButton(
                     isLoading: (state is Loading),
-                    verticalPadding: AppSize.s8.rh,
                     onTap: () {
                       _validate(context);
                     },
                     text: widget.order.klikitComment.isEmpty
                         ? AppStrings.add.tr()
                         : AppStrings.save.tr(),
-                    textSize: AppFontSize.s12.rSp,
                   );
                 },
               ),
             ),
             SizedBox(width: AppSize.s8.rw),
             Expanded(
-              child: LoadingButton(
-                isLoading: false,
-                verticalPadding: AppSize.s8.rh,
+              child: AppButton(
                 text: AppStrings.cancel.tr(),
                 borderColor: AppColors.black,
-                bgColor: AppColors.white,
+                color: AppColors.white,
                 textColor: AppColors.black,
-                textSize: AppFontSize.s12.rSp,
                 onTap: _pop,
               ),
             ),

@@ -66,7 +66,6 @@ void showEnableModifierDialog({
                       builder: (context, state) {
                         return LoadingButton(
                           isLoading: (state is Loading),
-                          verticalPadding: AppSize.s8.rh,
                           onTap: () {
                             context.read<UpdateModifierCubit>().updateModifier(
                                   type: type,
@@ -193,7 +192,6 @@ void showDisableModifierDialog({
                       builder: (context, state) {
                         return LoadingButton(
                           isLoading: (state is Loading),
-                          verticalPadding: AppSize.s8.rh,
                           onTap: () {
                             context.read<UpdateModifierCubit>().updateModifier(
                                   type: type,

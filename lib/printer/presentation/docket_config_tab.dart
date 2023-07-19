@@ -195,10 +195,8 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
               builder: (context, state) {
                 return LoadingButton(
                   isLoading: state is Loading,
-                  verticalPadding: AppSize.s12.rh,
                   onTap: _updatePrinterSetting,
                   text: AppStrings.save.tr(),
-                  textSize: AppFontSize.s13.rSp,
                 );
               },
             ),
@@ -209,21 +207,15 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
               valueListenable: _connectionStateListener,
               builder: (_, value, __) {
                 return AppButton(
-                  enable:
-                      _appPreferences.printerSetting().connectionType == value,
-                  verticalPadding: AppSize.s10.rh,
+                  enable: _appPreferences.printerSetting().connectionType == value,
                   onTap: () {
                     _printingHandler.showDevices(
                         initialIndex: PrinterSelectIndex.docket);
                   },
                   text: AppStrings.show_devices.tr(),
-                  textSize: AppFontSize.s13.rSp,
-                  disableColor: AppColors.white,
-                  disableBorderColor: AppColors.dustyGreay,
-                  enableColor: AppColors.white,
-                  enableBorderColor: AppColors.bluewood,
-                  enableTextColor: AppColors.bluewood,
-                  disableTextColor: AppColors.dustyGreay,
+                  color: AppColors.white,
+                  borderColor: AppColors.bluewood,
+                  textColor: AppColors.bluewood,
                   icon: _appPreferences.printerSetting().connectionType ==
                           ConnectionType.BLUETOOTH
                       ? Icons.bluetooth

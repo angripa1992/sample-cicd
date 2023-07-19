@@ -8,6 +8,7 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../../widgets/app_button.dart';
 import '../../../../../widgets/loading_button.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../../domain/entities/success_response.dart';
@@ -53,11 +54,10 @@ void showPauseNotificationConfirmationDialog({
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  LoadingButton(
+                  AppButton(
                     text: 'Cancel',
-                    isLoading: false,
-                    bgColor: AppColors.lightGrey,
-                    borderColor: AppColors.lightGrey,
+                    color: AppColors.white,
+                    borderColor: AppColors.bluewood,
                     textColor: AppColors.bluewood,
                     onTap: () {
                       Navigator.of(context).pop();
@@ -79,7 +79,6 @@ void showPauseNotificationConfirmationDialog({
                       return LoadingButton(
                         text: enable ? 'Resume' : 'Pause',
                         isLoading: state is Loading,
-                        bgColor: AppColors.purpleBlue,
                         onTap: () {
                           context
                               .read<ChangeNotificationSettingCubit>()

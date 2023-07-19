@@ -12,6 +12,7 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../modules/widgets/app_button.dart';
 import '../bluetooth_printer_handler.dart';
 import '../sticker_printer_handler.dart';
 import '../usb_printer_handler.dart';
@@ -263,12 +264,8 @@ class DeviceListBottomSheetManager {
                   ),
                 ),
               ),
-              LoadingButton(
-                isLoading: false,
-                verticalPadding: AppSize.s8,
-                bgColor: Colors.transparent,
-                textSize: AppFontSize.s12.rSp,
-                borderRadius: AppSize.s16,
+              AppButton(
+                color: AppColors.white,
                 textColor: AppColors.darkGrey,
                 borderColor: AppColors.darkGrey,
                 onTap: () {

@@ -70,7 +70,6 @@ void showMenuItemActionDialog({
                       builder: (context, state) {
                         return LoadingButton(
                           isLoading: (state is Loading),
-                          verticalPadding: AppSize.s8.rh,
                           onTap: () {
                             context.read<UpdateItemCubit>().updateItem(
                                   brandId: brandId,
@@ -173,7 +172,6 @@ void showMenuActionDialog({
                       builder: (context, state) {
                         return LoadingButton(
                           isLoading: (state is Loading),
-                          verticalPadding: AppSize.s8.rh,
                           onTap: () {
                             context.read<UpdateMenuCubit>().updateMenu(
                                   brandId: brandId,

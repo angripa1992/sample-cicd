@@ -204,12 +204,8 @@ class _BusyModeViewState extends State<BusyModeView> {
                               text: isBusy
                                   ? AppStrings.go_offline.tr()
                                   : AppStrings.go_online.tr(),
-                              bgColor:
-                                  isBusy ? AppColors.warmRed : AppColors.green,
-                              borderColor:
-                                  isBusy ? AppColors.warmRed : AppColors.green,
-                              textSize: AppFontSize.s14.rSp,
-                              verticalPadding: AppSize.s8.rh,
+                              color: isBusy ? AppColors.warmRed : AppColors.green,
+                              borderColor: isBusy ? AppColors.warmRed : AppColors.green,
                             );
                           },
                         ),

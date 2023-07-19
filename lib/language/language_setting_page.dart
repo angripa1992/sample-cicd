@@ -139,9 +139,6 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
                     Navigator.pop(context);
                   },
                   text: AppStrings.select.tr(),
-                  verticalPadding: AppSize.s4.rh,
-                  textSize: AppFontSize.s14.rSp,
-                  borderRadius: AppSize.s16.rSp,
                 ),
               ],
             ),

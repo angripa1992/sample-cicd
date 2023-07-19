@@ -119,7 +119,6 @@ class _ForgetScreenState extends State<ForgetScreen> {
                                 return LoadingButton(
                                   isLoading: (state is Loading),
                                   text: AppStrings.sent_reset_link.tr(),
-                                  verticalPadding: AppSize.s12.rh,
                                   onTap: () {
                                     _validateAndSentResetLink(context);
                                   },

@@ -219,13 +219,9 @@ class _AccountScreenState extends State<AccountScreen> {
                             return LoadingButton(
                               isLoading: (state is Loading),
                               text: AppStrings.logout.tr(),
-                              verticalPadding: AppSize.s8.rh,
-                              bgColor: Colors.transparent,
+                              color: AppColors.white,
                               borderColor: AppColors.warmRed,
                               textColor: AppColors.warmRed,
-                              loadingBgColor: Colors.transparent,
-                              loaderColor: AppColors.warmRed,
-                              loadingBorderColor: AppColors.warmRed,
                               onTap: () {
                                 showLogoutDialog(
                                   context: context,
@@ -255,7 +251,6 @@ class _AccountScreenState extends State<AccountScreen> {
                             return LoadingButton(
                               isLoading: (state is Loading),
                               text: AppStrings.update.tr(),
-                              verticalPadding: AppSize.s8.rh,
                               onTap: () {
                                 _validateAndUpdate(context);
                               },

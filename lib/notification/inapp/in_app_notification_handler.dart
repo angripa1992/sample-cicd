@@ -10,6 +10,7 @@ import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../../core/route/routes_generator.dart';
+import '../../modules/widgets/app_button.dart';
 import '../../modules/widgets/loading_button.dart';
 import '../../printer/printing_handler.dart';
 import '../../resources/colors.dart';
@@ -137,9 +138,7 @@ class InAppNotificationHandler {
                   horizontal: AppSize.s32,
                   vertical: AppSize.s8,
                 ),
-                child: LoadingButton(
-                  isLoading: false,
-                  verticalPadding: AppSize.s8,
+                child: AppButton(
                   onTap: () {
                     _navigateToOrderScreen(data);
                   },

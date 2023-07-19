@@ -169,16 +169,12 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
                       Padding(
                         padding: EdgeInsets.only(top: AppSize.s12.rh),
                         child: AppButton(
-                          enable: true,
                           onTap: () {
                             _apply();
                           },
                           text: AppStrings.apply.tr(),
-                          enableColor: AppColors.purpleBlue,
-                          verticalPadding: AppSize.s6.rh,
                           icon: Icons.search,
-                          textSize: AppFontSize.s14,
-                          enableBorderColor: AppColors.purpleBlue,
+                          color: AppColors.purpleBlue,
                         ),
                       ),
                     ],
