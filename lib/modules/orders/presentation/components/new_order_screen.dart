@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
@@ -17,7 +15,6 @@ import '../../../../../app/di.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../../app/size_config.dart';
-import '../../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../../add_order/presentation/pages/add_order_screen.dart';
 import '../../../widgets/snackbars.dart';
 import '../../edit_order/calculate_grab_order_cubit.dart';
@@ -159,7 +156,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   }
 
   void _printDocket({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(order: order);
+    _printingHandler.printDocket(
+      order: order,
+      isAutoPrint: order.status == OrderStatus.PLACED,
+    );
     SegmentManager().trackOrderSegment(
       sourceTab: 'New Order',
       isFromDetails: isFromDetails,
@@ -238,9 +238,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         EasyLoading.dismiss();
         showApiErrorSnackBar(context, error);
       },
-      (success){
+      (success) {
         EasyLoading.dismiss();
-        showSuccessSnackBar(context,success.message ?? '');
+        showSuccessSnackBar(context, success.message ?? '');
         _refresh(willBackground: true);
       },
     );

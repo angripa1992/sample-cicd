@@ -102,8 +102,7 @@ class PrintingHandler {
     //_doManualPrint(order);
     final permissionGranted = await _isPermissionGranted();
     if (permissionGranted) {
-      if (_preferences.printerSetting().connectionType ==
-          ConnectionType.BLUETOOTH) {
+      if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
         if (BluetoothPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _doAutoPrint(order);

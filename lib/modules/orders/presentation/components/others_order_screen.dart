@@ -1,19 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
-import 'package:klikit/modules/orders/presentation/bloc/schedule_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
 import 'package:klikit/modules/orders/provider/order_parameter_provider.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../../../printer/printing_handler.dart';
-import '../../../../../segments/event_manager.dart';
-import '../../../../../segments/segemnt_data_provider.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
@@ -22,8 +18,7 @@ import 'order_item/order_item_view.dart';
 class OthersOrderScreen extends StatefulWidget {
   final FilterSubject subject;
 
-  const OthersOrderScreen({Key? key, required this.subject})
-      : super(key: key);
+  const OthersOrderScreen({Key? key, required this.subject}) : super(key: key);
 
   @override
   State<OthersOrderScreen> createState() => _OthersOrderScreenState();
@@ -66,10 +61,10 @@ class _OthersOrderScreenState extends State<OthersOrderScreen>
     );
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
-          (failure) {
+      (failure) {
         _pagingController?.error = failure;
       },
-          (orders) {
+      (orders) {
         final isLastPage = orders.total <= (pageKey * _pageSize);
         if (isLastPage) {
           _pagingController?.appendLastPage(orders.data);
@@ -84,7 +79,7 @@ class _OthersOrderScreenState extends State<OthersOrderScreen>
   void _startTimer() {
     _timer = Timer.periodic(
       const Duration(seconds: AppConstant.refreshTime),
-          (timer) {
+      (timer) {
         _refresh(willBackground: true);
       },
     );
@@ -100,7 +95,10 @@ class _OthersOrderScreenState extends State<OthersOrderScreen>
   }
 
   void _onPrint({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(order: order);
+    _printingHandler.printDocket(
+      order: order,
+      isAutoPrint: order.status == OrderStatus.PLACED,
+    );
   }
 
   @override

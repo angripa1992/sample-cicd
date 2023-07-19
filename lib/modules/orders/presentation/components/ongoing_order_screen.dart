@@ -158,7 +158,10 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
   }
 
   void _onPrint({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(order: order);
+    _printingHandler.printDocket(
+      order: order,
+      isAutoPrint: order.status == OrderStatus.PLACED,
+    );
     SegmentManager().trackOrderSegment(
       sourceTab: 'Ready Order',
       isFromDetails: isFromDetails,

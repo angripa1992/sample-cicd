@@ -110,7 +110,10 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
   }
 
   void _onPrint({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(order: order);
+    _printingHandler.printDocket(
+      order: order,
+      isAutoPrint: order.status == OrderStatus.PLACED,
+    );
     SegmentManager().trackOrderSegment(
       sourceTab: 'Schedule Order',
       isFromDetails: isFromDetails,

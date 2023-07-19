@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
@@ -156,7 +155,10 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
   }
 
   void _printDocket({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(order: order);
+    _printingHandler.printDocket(
+      order: order,
+      isAutoPrint: order.status == OrderStatus.PLACED,
+    );
   }
 
   void _editGrabOrder(Order order) {
