@@ -41,13 +41,12 @@ class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
       _citizenCount = widget.initialCitizenCount ?? 1;
       _customerCount = widget.initialCustomerCount ?? 1;
       _citizenMaxCount = widget.citizenMaxCount ?? 1;
-      _customerMaxCount = widget.citizenMaxCount ?? 1;
     }else{
       _citizenCount = widget.initialCitizenCount ?? 1;
       _customerCount = widget.initialCustomerCount ?? 1;
       _citizenMaxCount = widget.initialCustomerCount ?? 1;
-      _customerMaxCount = widget.citizenMaxCount ?? 1;
     }
+    _customerMaxCount = 100;
     super.initState();
   }
 
