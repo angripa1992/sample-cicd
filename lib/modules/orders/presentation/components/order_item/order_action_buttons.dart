@@ -217,7 +217,7 @@ class AcceptButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
-              color: AppColors.green,
+              color: AppColors.purpleBlue,
             ),
           ),
         ),
@@ -227,7 +227,7 @@ class AcceptButton extends StatelessWidget {
             Icon(
               Icons.check,
               size: AppSize.s16.rSp,
-              color: AppColors.green,
+              color: AppColors.purpleBlue,
             ),
             if (expanded)
               Padding(
@@ -235,7 +235,7 @@ class AcceptButton extends StatelessWidget {
                 child: Text(
                   AppStrings.accept.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.green,
+                    color: AppColors.purpleBlue,
                     fontSize: AppFontSize.s12.rSp,
                   ),
                 ),

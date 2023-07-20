@@ -26,7 +26,7 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   void initState() {
-    _controller = ExpandedTileController(isExpanded: false);
+    _controller = ExpandedTileController(isExpanded: true);
     super.initState();
   }
 
@@ -48,7 +48,7 @@ class _PriceViewState extends State<PriceView> {
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
         children: [
-          Divider(color: AppColors.frenchGrey),
+          const Divider(),
           ExpandedTile(
             theme: ExpandedTileThemeData(
               headerColor: Colors.transparent,
@@ -108,7 +108,7 @@ class _PriceViewState extends State<PriceView> {
             ),
             controller: _controller!,
           ),
-          Divider(color: AppColors.frenchGrey),
+          const Divider(),
           Padding(
             padding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,

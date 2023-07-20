@@ -18,6 +18,7 @@ import '../../../edit_order/calculate_grab_order_cubit.dart';
 import '../../../edit_order/edit_grab_order.dart';
 import '../../../edit_order/update_grab_order_cubit.dart';
 import 'comment_view.dart';
+import 'customer_info_view.dart';
 import 'order_details_header.dart';
 import 'order_item_details.dart';
 
@@ -91,41 +92,59 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      //crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         _appBar(),
-        if (_currentOrder.status == OrderStatus.SCHEDULED &&
-            _currentOrder.scheduledTime.isNotEmpty)
-          ScheduledDetailsView(
-            scheduleTime: _currentOrder.scheduledTime,
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                if (_currentOrder.status == OrderStatus.SCHEDULED &&
+                    _currentOrder.scheduledTime.isNotEmpty)
+                  ScheduledDetailsView(
+                    scheduleTime: _currentOrder.scheduledTime,
+                  ),
+                OrderDetailsHeaderView(
+                  order: _currentOrder,
+                  onCommentActionSuccess: widget.onCommentActionSuccess,
+                  onEditGrabOrder: () {
+                    _editGrabOrderOrder(_currentOrder);
+                  },
+                  onEditManualOrder: widget.onEditManualOrder,
+                  onRiderFind: widget.onRiderFind,
+                ),
+                OrderItemDetails(order: _currentOrder),
+                CommentView(comment: _currentOrder.orderComment),
+                if (_currentOrder.isThreePlOrder &&
+                    _currentOrder.fulfillmentRider != null)
+                  RiderInfoView(
+                    riderInfo: _currentOrder.fulfillmentRider!,
+                    pickUpTime: _currentOrder.fulfillmentExpectedPickupTime,
+                  ),
+                if (_currentOrder.status != OrderStatus.CANCELLED &&
+                    _currentOrder.status != OrderStatus.DELIVERED &&
+                    _currentOrder.status != OrderStatus.PICKED_UP)
+                  OrderCustomerInfoView(order: _currentOrder),
+                PriceView(order: _currentOrder),
+              ],
+            ),
           ),
-        OrderDetailsHeaderView(
-          order: _currentOrder,
-          onCommentActionSuccess: widget.onCommentActionSuccess,
-          onEditGrabOrder: () {
-            _editGrabOrderOrder(_currentOrder);
-          },
-          onEditManualOrder: widget.onEditManualOrder,
-          onRiderFind: widget.onRiderFind,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          child: Divider(color: AppColors.frenchGrey),
-        ),
-        OrderItemDetails(order: _currentOrder),
-        CommentView(comment: _currentOrder.orderComment),
-        if (_currentOrder.isThreePlOrder && _currentOrder.fulfillmentRider != null)
-          RiderInfoView(
-            riderInfo: _currentOrder.fulfillmentRider!,
-            pickUpTime: _currentOrder.fulfillmentExpectedPickupTime,
-          ),
-        PriceView(order: _currentOrder),
-        Padding(
+        Container(
           padding: EdgeInsets.symmetric(
             vertical: AppSize.s8.rh,
             horizontal: AppSize.s16.rw,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(1.0, 0.0),
+                blurRadius: 4.0,
+              ),
+            ],
           ),
           child: widget.actionView,
         ),

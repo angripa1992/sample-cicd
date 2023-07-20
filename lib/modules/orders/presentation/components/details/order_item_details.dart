@@ -56,161 +56,161 @@ class OrderItemDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s16.rw,
-          ),
-          child: FutureBuilder<Map<int, List<CartV2>>>(
-            future: _filterOrder(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final cartsMap = snapshot.data!;
-                return ListView.builder(
-                  itemCount: order.brands.length,
-                  itemBuilder: (_, brandIndex) {
-                    final cartBrand = order.brands[brandIndex];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                          child: _brandView(cartBrand),
-                        ),
-                        ListView.builder(
-                          itemCount: cartsMap[cartBrand.id]?.length ?? ZERO,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (_, index) {
-                            CartV2 cart = cartsMap[cartBrand.id]![index];
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                top: AppSize.s4.rh,
-                                bottom: AppSize.s4.rh,
-                                left: AppSize.s4.rw,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  ///cart item
-                                  _cartItemView(
-                                    cartV2: cart,
-                                    currencySymbol: order.currencySymbol,
-                                    paddingLevel: 1,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: cart.modifierGroups.map(
-                                      (modifiersGroupOne) {
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            ///level 1 modifiers group
-                                            _showModifierGroupName(
-                                              name: modifiersGroupOne.name,
-                                              paddingLevel: 2,
-                                            ),
-                                            Column(
-                                              children: modifiersGroupOne
-                                                  .modifiers
-                                                  .map(
-                                                (modifiersOne) {
-                                                  return Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .stretch,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      ///level 1 modifiers
-                                                      _modifierItemView(
-                                                        modifiers: modifiersOne,
-                                                        prevQuantity:
-                                                            modifiersOne
-                                                                .quantity,
-                                                        itemQuantity:
-                                                            cart.quantity,
-                                                        paddingLevel: 3,
-                                                      ),
-                                                      Column(
-                                                        children: modifiersOne
-                                                            .modifierGroups
-                                                            .map(
-                                                          (secondModifierGroups) {
-                                                            return Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .stretch,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                ///level 2 modifiers group
-                                                                _showModifierGroupName(
-                                                                  name:
-                                                                      secondModifierGroups
-                                                                          .name,
-                                                                  paddingLevel:
-                                                                      4,
-                                                                ),
-                                                                Column(
-                                                                  children:
-                                                                      secondModifierGroups
-                                                                          .modifiers
-                                                                          .map(
-                                                                    (secondModifier) {
-                                                                      return _modifierItemView(
-                                                                        modifiers:
-                                                                            secondModifier,
-                                                                        prevQuantity:
-                                                                            secondModifier.quantity,
-                                                                        itemQuantity:
-                                                                            cart.quantity,
-                                                                        paddingLevel:
-                                                                            5,
-                                                                      );
-                                                                    },
-                                                                  ).toList(),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          },
-                                                        ).toList(),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ).toList(),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
+    return Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s16.rw,
+        ),
+        child: FutureBuilder<Map<int, List<CartV2>>>(
+          future: _filterOrder(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final cartsMap = snapshot.data!;
+              return ListView.builder(
+                itemCount: order.brands.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (_, brandIndex) {
+                  final cartBrand = order.brands[brandIndex];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+                        child: _brandView(cartBrand),
+                      ),
+                      ListView.builder(
+                        itemCount: cartsMap[cartBrand.id]?.length ?? ZERO,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, index) {
+                          CartV2 cart = cartsMap[cartBrand.id]![index];
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              top: AppSize.s4.rh,
+                              bottom: AppSize.s4.rh,
+                              left: AppSize.s4.rw,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ///cart item
+                                _cartItemView(
+                                  cartV2: cart,
+                                  currencySymbol: order.currencySymbol,
+                                  paddingLevel: 1,
+                                ),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: cart.modifierGroups.map(
+                                    (modifiersGroupOne) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          ///level 1 modifiers group
+                                          _showModifierGroupName(
+                                            name: modifiersGroupOne.name,
+                                            paddingLevel: 2,
+                                          ),
+                                          Column(
+                                            children: modifiersGroupOne
+                                                .modifiers
+                                                .map(
+                                              (modifiersOne) {
+                                                return Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    ///level 1 modifiers
+                                                    _modifierItemView(
+                                                      modifiers: modifiersOne,
+                                                      prevQuantity:
+                                                          modifiersOne
+                                                              .quantity,
+                                                      itemQuantity:
+                                                          cart.quantity,
+                                                      paddingLevel: 3,
+                                                    ),
+                                                    Column(
+                                                      children: modifiersOne
+                                                          .modifierGroups
+                                                          .map(
+                                                        (secondModifierGroups) {
+                                                          return Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .stretch,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              ///level 2 modifiers group
+                                                              _showModifierGroupName(
+                                                                name:
+                                                                    secondModifierGroups
+                                                                        .name,
+                                                                paddingLevel:
+                                                                    4,
+                                                              ),
+                                                              Column(
+                                                                children:
+                                                                    secondModifierGroups
+                                                                        .modifiers
+                                                                        .map(
+                                                                  (secondModifier) {
+                                                                    return _modifierItemView(
+                                                                      modifiers:
+                                                                          secondModifier,
+                                                                      prevQuantity:
+                                                                          secondModifier.quantity,
+                                                                      itemQuantity:
+                                                                          cart.quantity,
+                                                                      paddingLevel:
+                                                                          5,
+                                                                    );
+                                                                  },
+                                                                ).toList(),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      ).toList(),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ).toList(),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ).toList(),
+                                ),
 
-                                  ///comment
-                                  _itemComment(cart.comment),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }
-              return const CircularProgressIndicator();
-            },
-          )),
-    );
+                                ///comment
+                                _itemComment(cart.comment),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+            return const CircularProgressIndicator();
+          },
+        ));
   }
 
   Widget _brandView(CartBrand cartBrand) {

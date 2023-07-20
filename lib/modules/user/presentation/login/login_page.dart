@@ -170,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: AppSize.s8.rh,
                     ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
                           AppStrings.existing_account.tr(),

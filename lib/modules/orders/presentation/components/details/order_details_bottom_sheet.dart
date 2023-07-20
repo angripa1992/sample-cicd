@@ -29,13 +29,15 @@ void _openBottomSheet({
       body: Container(
         margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
         color: AppColors.pearl,
-        child: OrderDetailsScreen(
-          order: order,
-          onCommentActionSuccess: onCommentActionSuccess,
-          onGrabEditSuccess: onGrabEditSuccess,
-          actionView: actionView,
-          onEditManualOrder: onEditManualOrder,
-          onRiderFind: onRiderFind,
+        child: Scaffold(
+          body: OrderDetailsScreen(
+            order: order,
+            onCommentActionSuccess: onCommentActionSuccess,
+            onGrabEditSuccess: onGrabEditSuccess,
+            actionView: actionView,
+            onEditManualOrder: onEditManualOrder,
+            onRiderFind: onRiderFind,
+          ),
         ),
       ),
     ),

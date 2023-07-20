@@ -143,7 +143,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
                 ? '#${order.id}'
                 : '#${order.shortId}',
             style: boldTextStyle(
-              color: AppColors.black,
+              color: AppColors.bluewood,
               fontSize: AppFontSize.s20.rSp,
             ),
           ),
@@ -204,7 +204,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
       child: Icon(
         Icons.copy,
         size: AppSize.s18.rSp,
-        color: AppColors.dustyGreay,
+        color: AppColors.bluewood,
       ),
     );
   }
@@ -215,7 +215,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         Text(
           AppStrings.id.tr(),
           style: regularTextStyle(
-            color: AppColors.dustyGrey,
+            color: AppColors.bluewood,
             fontSize: AppFontSize.s15.rSp,
           ),
         ),
@@ -224,7 +224,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           child: Text(
             order.externalId,
             style: mediumTextStyle(
-              color: AppColors.dustyGreay,
+              color: AppColors.bluewood,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
@@ -240,7 +240,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
       children: [
         Icon(
           Icons.date_range,
-          color: AppColors.dustyGreay,
+          color: AppColors.purpleBlue,
           size: AppSize.s18.rSp,
         ),
         SizedBox(width: AppSize.s6.rw),
@@ -248,7 +248,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           child: Text(
             DateTimeProvider.parseOrderCreatedDate(order.createdAt),
             style: mediumTextStyle(
-              color: AppColors.darkGrey,
+              color: AppColors.bluewood,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

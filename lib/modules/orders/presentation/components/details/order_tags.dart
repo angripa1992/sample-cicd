@@ -49,7 +49,7 @@ class OrderTagsView extends StatelessWidget {
       case OrderType.DELIVERY:
         return AppStrings.deliver.tr();
       case OrderType.DINE_IN:
-        return AppStrings.dine_in;
+        return AppStrings.dine_in.tr();
       default:
         return EMPTY;
     }

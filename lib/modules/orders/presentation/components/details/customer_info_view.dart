@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/provider/date_time_provider.dart';
-import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
+import 'package:klikit/modules/orders/domain/entities/order.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 
-class RiderInfoView extends StatelessWidget {
-  final RiderInfo riderInfo;
-  final String? pickUpTime;
+class OrderCustomerInfoView extends StatelessWidget {
+  final Order order;
 
-  const RiderInfoView({Key? key, required this.riderInfo, this.pickUpTime})
+  const OrderCustomerInfoView({Key? key, required this.order})
       : super(key: key);
 
   @override
@@ -28,7 +25,7 @@ class RiderInfoView extends StatelessWidget {
         children: [
           const Divider(),
           Text(
-            'Rider Info',
+            'Customer Info',
             style: boldTextStyle(
               color: AppColors.bluewood,
               fontSize: AppFontSize.s15.rSp,
@@ -38,25 +35,12 @@ class RiderInfoView extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _infoItem('Name', riderInfo.name ?? EMPTY),
-              ),
-              Expanded(
                 child: _infoItem(
-                    'Vehicle Registration', riderInfo.licensePlate ?? EMPTY),
+                    'Name', '${order.userFirstName} ${order.userLastName}'),
               ),
-            ],
-          ),
-          SizedBox(height: AppSize.s4.rh),
-          Row(
-            children: [
               Expanded(
-                child: _infoItem('Contact', riderInfo.phone ?? EMPTY),
+                child: _infoItem('Phone Number', order.userPhone),
               ),
-              if (pickUpTime != null)
-                Expanded(
-                  child: _infoItem('Estimated Pickup Time',
-                      DateTimeProvider.parseOrderCreatedDate(pickUpTime!)),
-                ),
             ],
           ),
         ],
