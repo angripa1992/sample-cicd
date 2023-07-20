@@ -85,11 +85,12 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
           _discountController.text.isEmpty ? '0' : _discountController.text;
       PromoInfo? promoInfo;
       if (_appliedPromo != null) {
+        final willApplyCitizen = (_appliedPromo!.isSeniorCitizenPromo! &&
+            ((!widget.isItemDiscount && widget.orderType == OrderType.DINE_IN) || widget.isItemDiscount));
         promoInfo = PromoInfo(
           promo: _appliedPromo!,
-          citizen:
-              (_appliedPromo!.isSeniorCitizenPromo!) ? (_citizen ?? 1) : null,
-          customer: (_appliedPromo!.isSeniorCitizenPromo!)
+          citizen: willApplyCitizen ? (_citizen ?? 1) : null,
+          customer: willApplyCitizen
               ? ((!widget.isItemDiscount && _customer == null) ? 1 : _customer)
               : null,
         );
@@ -124,7 +125,7 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(
-               // vertical: AppSize.s8.rh,
+                // vertical: AppSize.s8.rh,
                 horizontal: AppSize.s8.rw,
               ),
               child: PromoModalView(

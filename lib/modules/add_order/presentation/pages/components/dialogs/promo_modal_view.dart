@@ -122,10 +122,6 @@ class _PromoModalViewState extends State<PromoModalView> {
                               },
                               (data) {
                                 if (data.isNotEmpty) {
-                                  if (widget.orderType != OrderType.DINE_IN) {
-                                    data.removeWhere((element) =>
-                                        element.isSeniorCitizenPromo!);
-                                  }
                                   return PromoSelectorView(
                                     initialPromo: widget.promoInfo?.promo,
                                     promos: data,
@@ -166,7 +162,10 @@ class _PromoModalViewState extends State<PromoModalView> {
                       builder: (_, data, __) {
                         if (data != null &&
                             _appliedPromo != null &&
-                            _appliedPromo!.isSeniorCitizenPromo!) {
+                            _appliedPromo!.isSeniorCitizenPromo! &&
+                            ((!widget.isItemDiscount &&
+                                    widget.orderType == OrderType.DINE_IN) ||
+                                widget.isItemDiscount)) {
                           return SeniorCitizenDiscountView(
                             initialCustomerCount: _customer,
                             initialCitizenCount: _citizen,

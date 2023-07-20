@@ -252,8 +252,7 @@ class _CartScreenState extends State<CartScreen> {
     );
     if (payload == null) return;
     EasyLoading.show();
-    final response =
-        await getIt.get<AddOrderRepository>().calculateBill(model: payload);
+    final response = await getIt.get<AddOrderRepository>().calculateBill(model: payload);
     EasyLoading.dismiss();
     response.fold(
       (failure) {

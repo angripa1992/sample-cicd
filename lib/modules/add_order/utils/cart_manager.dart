@@ -274,16 +274,22 @@ class CartManager {
   }
 
   void removePromoForOrderType(int orderType){
-    if(orderType != OrderType.DINE_IN){
-      if(_promoInfo != null && _promoInfo!.promo.isSeniorCitizenPromo!){
-        _promoInfo = null;
-      }
-      for(var item in _carts){
-        if(item.promoInfo != null && item.promoInfo!.promo.isSeniorCitizenPromo!){
-          item.promoInfo = null;
-        }
-      }
+    _promoInfo = null;
+    for(var item in _carts){
+      item.promoInfo = null;
     }
+    // if(orderType != OrderType.DINE_IN){
+    //   if(_promoInfo != null && _promoInfo!.promo.isSeniorCitizenPromo!){
+    //     _promoInfo?.citizen = null;
+    //     _promoInfo?.customer = null;
+    //   }
+    //   for(var item in _carts){
+    //     if(item.promoInfo != null && item.promoInfo!.promo.isSeniorCitizenPromo!){
+    //       item.promoInfo?.citizen = null;
+    //       item.promoInfo?.customer = null;
+    //     }
+    //   }
+    // }
   }
 
   void syncPromoWithCalculateBill(CartBill cartBill) {
