@@ -17,35 +17,34 @@ class OrderTabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        children: [
-          Text(
-            title,
-          ),
-          if (count > 0) SizedBox(width: AppSize.s6.rw),
-          if (count > 0)
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s6.rw,
-                //vertical: AppSize.s2.rh,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-                color: AppColors.purpleBlue,
-              ),
-              child: Text(
-                count.toString(),
-                style: TextStyle(
-                  fontSize: AppFontSize.s12.rSp,
-                  fontFamily: AppFonts.Aeonik,
-                  fontWeight: AppFontWeight.regular,
-                  color: AppColors.white,
-                ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          title,
+        ),
+        if (count > 0) SizedBox(width: AppSize.s6.rw),
+        if (count > 0)
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSize.s8.rw,
+              vertical: AppSize.s1.rh,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s4.rSp),
+              color: AppColors.purpleBlue,
+            ),
+            child: Text(
+              count.toString(),
+              style: TextStyle(
+                fontSize: AppFontSize.s12.rSp,
+                fontFamily: AppFonts.Aeonik,
+                fontWeight: AppFontWeight.regular,
+                color: AppColors.white,
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }

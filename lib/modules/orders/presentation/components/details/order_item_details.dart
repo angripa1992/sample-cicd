@@ -219,7 +219,7 @@ class OrderItemDetails extends StatelessWidget {
         ImageView(
           path: cartBrand.logo,
           height: AppSize.s32.rh,
-          width: AppSize.s36.rw,
+          width: AppSize.s32.rw,
         ),
         SizedBox(width: AppSize.s12.rw),
         Flexible(

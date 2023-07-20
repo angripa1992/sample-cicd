@@ -191,6 +191,7 @@ class _OrdersScreenState extends State<OrdersScreen>
             right: AppSize.s12.rw,
             top: AppSize.s12.rh,
           ),
+          color: AppColors.white,
           child: TabBarView(
             controller: _tabController,
             children: [
