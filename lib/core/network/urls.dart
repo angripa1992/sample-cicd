@@ -22,6 +22,7 @@ class Urls {
   static const String updateGrabOrder = '/v1/oni/grabfoodorder';
   static const String manualOrder = '/v1/oni/manualorder';
   static const String promos = '/v1/promoit/promo/common/search';
+  static const String cancellationReasons = '/v1/oni/cancel-order-reasons';
 
   static String findRider(int id) => '/v1/oni/order/fulfillment/dispatch/$id';
 

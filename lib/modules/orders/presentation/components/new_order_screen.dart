@@ -21,12 +21,14 @@ import '../../edit_order/calculate_grab_order_cubit.dart';
 import '../../edit_order/edit_grab_order.dart';
 import '../../edit_order/update_grab_order_cubit.dart';
 import '../../provider/update_manual_order_data_provider.dart';
+import '../bloc/all_order_cubit.dart';
 import '../bloc/new_order_cubit.dart';
 import '../bloc/ongoing_order_cubit.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'dialogs/action_dialogs.dart';
+import 'dialogs/cancellation_reason.dart';
 import 'order_item/order_item_view.dart';
 
 class NewOrderScreen extends StatefulWidget {
@@ -88,6 +90,13 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     );
   }
 
+  void _refreshAllOrderCount() {
+    context.read<AllOrderCubit>().fetchAllOrder(
+      providersID: _providers,
+      brandsID: _brands,
+    );
+  }
+
   void _refreshNewOrderCount() {
     context.read<NewOrderCubit>().fetchNewOrder(
           willShowLoading: false,
@@ -117,6 +126,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   void _refresh({bool willBackground = false, bool isFromAction = false}) {
     _refreshNewOrderCount();
     if (isFromAction) {
+      _refreshAllOrderCount();
       _refreshOngoingOrderCount();
     }
     if (willBackground) {
@@ -127,22 +137,45 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
     }
   }
 
+  void _cancelOrder({
+    required String title,
+    required Order order,
+    required bool isFromDetails,
+  }) {
+    showCancellationReasonDialog(
+        context: context,
+        title: title,
+        order: order,
+        successCallback: (){
+          _refresh(willBackground: true, isFromAction: true);
+          if (isFromDetails) {
+            Navigator.of(context).pop();
+          }
+          SegmentManager().trackOrderSegment(
+            sourceTab: 'New Order',
+            status: OrderStatus.CANCELLED,
+            isFromDetails: isFromDetails,
+          );
+        }
+    );
+  }
+
   void _onAction({
     required String title,
     required Order order,
     required int status,
-    bool willCancel = false,
     bool isFromDetails = false,
   }) {
     showOrderActionDialog(
-      params: _orderParameterProvider.getOrderActionParams(order, willCancel),
+      params: _orderParameterProvider.getOrderActionParams(order),
       context: context,
+      title: title,
       onSuccess: () {
         _refresh(willBackground: true, isFromAction: true);
         if (isFromDetails) {
           Navigator.of(context).pop();
         }
-        if (!willCancel && status == OrderStatus.ACCEPTED) {
+        if (status == OrderStatus.ACCEPTED) {
           _printDocket(order: order, isFromDetails: isFromDetails);
         }
         SegmentManager().trackOrderSegment(
@@ -151,7 +184,6 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
           isFromDetails: isFromDetails,
         );
       },
-      title: title,
     );
   }
 
@@ -271,12 +303,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
                   _printDocket(order: item, isFromDetails: true);
                 },
                 onCancel: (title) {
-                  _onAction(
+                  _cancelOrder(
                     title: title,
                     order: item,
                     isFromDetails: true,
-                    willCancel: true,
-                    status: OrderStatus.CANCELLED,
                   );
                 },
                 onCommentActionSuccess: () {
@@ -306,11 +336,10 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
               _printDocket(order: item, isFromDetails: false);
             },
             onCancel: (title) {
-              _onAction(
+              _cancelOrder(
                 title: title,
                 order: item,
-                willCancel: true,
-                status: OrderStatus.CANCELLED,
+                isFromDetails: false,
               );
             },
             onEditManualOrder: () {

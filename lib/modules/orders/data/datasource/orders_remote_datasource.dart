@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/core/network/rest_client.dart';
@@ -14,6 +12,7 @@ import 'package:klikit/modules/orders/data/models/source_model.dart';
 import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
 
 import '../../edit_order/grab_order_update_request_model.dart';
+import '../models/cancellation_reason_model.dart';
 import '../models/order_status_model.dart';
 import '../models/payment_info.dart';
 
@@ -53,6 +52,8 @@ abstract class OrderRemoteDatasource {
   Future<ActionSuccess> findRider(int id);
 
   Future<OrderModel> calculateGrabOrder(OrderModel model);
+
+  Future<List<CancellationReasonModel>> fetchCancellationReasons();
 }
 
 class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
@@ -247,10 +248,12 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> updateGrabOrder(GrabOrderUpdateRequestModel model) async{
+  Future<ActionSuccess> updateGrabOrder(
+      GrabOrderUpdateRequestModel model) async {
     try {
       final payload = model.toJson();
-      final response = await _restClient.request(Urls.updateGrabOrder, Method.PUT, payload);
+      final response =
+          await _restClient.request(Urls.updateGrabOrder, Method.PUT, payload);
       return ActionSuccess.fromJson(response);
     } on DioError {
       rethrow;
@@ -258,11 +261,25 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> findRider(int id) async{
+  Future<ActionSuccess> findRider(int id) async {
     try {
-      final response = await _restClient.request(Urls.findRider(id), Method.PATCH,
-          {});
+      final response =
+          await _restClient.request(Urls.findRider(id), Method.PATCH, {});
       return ActionSuccess.fromJson(response);
+    } on DioError {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<CancellationReasonModel>> fetchCancellationReasons() async {
+    try {
+      final List<dynamic> response = await _restClient.request(
+        Urls.cancellationReasons,
+        Method.GET,
+        {'type_id': 1},
+      );
+      return response.map((e) => CancellationReasonModel.fromJson(e)).toList();
     } on DioError {
       rethrow;
     }

@@ -120,6 +120,8 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       itemAppliedPromos: (json['item_applied_promos'] as List<dynamic>?)
           ?.map((e) => OrderAppliedPromo.fromJson(e as Map<String, dynamic>))
           .toList(),
+      cancellationReasonId: json['cancellation_reason_id'] as int?,
+      cancellationReason: json['cancellation_reason'] as String?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -206,6 +208,8 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'order_applied_promo': instance.orderAppliedPromo?.toJson(),
       'item_applied_promos':
           instance.itemAppliedPromos?.map((e) => e.toJson()).toList(),
+      'cancellation_reason_id': instance.cancellationReasonId,
+      'cancellation_reason': instance.cancellationReason,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

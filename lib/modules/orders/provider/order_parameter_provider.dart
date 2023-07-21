@@ -140,13 +140,11 @@ class OrderParameterProvider {
     return params;
   }
 
-  Map<String, dynamic> getOrderActionParams(Order order, bool willCancel) {
+  Map<String, dynamic> getOrderActionParams(Order order) {
     final orderStatus = order.status;
     final provider = order.providerId;
     late int status;
-    if (willCancel) {
-      status = OrderStatus.CANCELLED;
-    } else if (orderStatus == OrderStatus.PLACED) {
+    if (orderStatus == OrderStatus.PLACED) {
       status = OrderStatus.ACCEPTED;
     } else if (orderStatus == OrderStatus.ACCEPTED) {
       status = OrderStatus.READY;

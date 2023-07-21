@@ -1,0 +1,271 @@
+import 'package:dartz/dartz.dart' as dartz;
+import 'package:docket_design_template/utils/extension.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/di.dart';
+import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/network/error_handler.dart';
+
+import '../../../../../app/constants.dart';
+import '../../../../../core/utils/response_state.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
+import '../../../../../resources/styles.dart';
+import '../../../../../resources/values.dart';
+import '../../../../widgets/app_button.dart';
+import '../../../../widgets/loading_button.dart';
+import '../../../../widgets/snackbars.dart';
+import '../../../data/models/action_success_model.dart';
+import '../../../domain/entities/cancellation_reason.dart';
+import '../../../domain/entities/order.dart';
+import '../../../domain/repository/orders_repository.dart';
+import '../../bloc/order_action_cubit.dart';
+
+void showCancellationReasonDialog({
+  required BuildContext context,
+  required String title,
+  required Order order,
+  required VoidCallback successCallback,
+}) {
+  showDialog(
+    context: context,
+    builder: (dContext) {
+      return BlocProvider<OrderActionCubit>(
+        create: (_) => getIt.get<OrderActionCubit>(),
+        child: AlertDialog(
+          icon: Icon(
+            Icons.warning_amber,
+            color: AppColors.warmRed,
+          ),
+          title: Text(title),
+          content:
+              FutureBuilder<dartz.Either<Failure, List<CancellationReason>>>(
+            future: getIt.get<OrderRepository>().fetchCancellationReason(),
+            builder: (context, snap) {
+              if (snap.hasData && snap.data != null) {
+                return snap.data!.fold(
+                  (failure) {
+                    return Center(child: Text(failure.message));
+                  },
+                  (reasons) {
+                    return CancellationReasonDialogContent(
+                      reasons: reasons,
+                      order: order,
+                      successCallback: successCallback,
+                    );
+                  },
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        ),
+      );
+    },
+  );
+}
+
+class CancellationReasonDialogContent extends StatefulWidget {
+  final Order order;
+  final List<CancellationReason> reasons;
+  final VoidCallback successCallback;
+
+  const CancellationReasonDialogContent({
+    Key? key,
+    required this.reasons,
+    required this.order,
+    required this.successCallback,
+  }) : super(key: key);
+
+  @override
+  State<CancellationReasonDialogContent> createState() =>
+      _CancellationReasonDialogContentState();
+}
+
+class _CancellationReasonDialogContentState extends State<CancellationReasonDialogContent> {
+  final _textController = TextEditingController();
+  int? _cancellationReasonId;
+
+  void _cancelOrder() {
+    if(_cancellationReasonId ==null){
+      showErrorSnackBar(context, 'Please select cancellation reason');
+      return;
+    }
+    final params = {
+      'status': OrderStatus.CANCELLED,
+      'id': widget.order.id,
+      "platform": "enterprise",
+      "cancellation_reason_id": _cancellationReasonId,
+      "cancellation_reason": _textController.text,
+    };
+    context.read<OrderActionCubit>().updateOrderStatus(params);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            'Are you sure you want to cancel this order? This action cannot be undone.',
+            style: regularTextStyle(
+              color: AppColors.smokeyGrey,
+              fontSize: AppFontSize.s16.rSp,
+            ),
+          ),
+          SizedBox(height: AppSize.s16.rh),
+          Text(
+            'Cancellation Reason',
+            style: mediumTextStyle(
+              color: AppColors.bluewood,
+              fontSize: AppFontSize.s16.rSp,
+            ),
+          ),
+          SizedBox(height: AppSize.s8.rh),
+          CancellationReasonSelector(
+            reasons: widget.reasons,
+            onReasonChanged: (reasonId) {
+              _cancellationReasonId = reasonId;
+            },
+          ),
+          SizedBox(height: AppSize.s16.rh),
+          Text(
+            'Notes',
+            style: mediumTextStyle(
+              color: AppColors.bluewood,
+              fontSize: AppFontSize.s16.rSp,
+            ),
+          ),
+          SizedBox(height: AppSize.s10.rh),
+          TextField(
+            controller: _textController,
+            cursorColor: AppColors.bluewood,
+            decoration: InputDecoration(
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                borderSide: BorderSide(color: AppColors.dustyGreay),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                borderSide: BorderSide(color: AppColors.dustyGreay),
+              ),
+              labelText: 'Enter Description',
+              labelStyle: regularTextStyle(
+                color: AppColors.bluewood,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+            ),
+          ),
+          SizedBox(height: AppSize.s16.rh),
+          Row(
+            children: [
+              Expanded(
+                child: AppButton(
+                  text: 'Dismiss',
+                  borderColor: AppColors.dustyGreay,
+                  color: AppColors.white,
+                  textColor: AppColors.bluewood,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              SizedBox(width: AppSize.s8.rw),
+              Expanded(
+                child: BlocConsumer<OrderActionCubit, ResponseState>(
+                  listener: (context, state) {
+                    if (state is Success<ActionSuccess>) {
+                      Navigator.of(context).pop();
+                      showSuccessSnackBar(context, state.data.message!.orEmpty());
+                      widget.successCallback();
+                    } else if (state is Failed) {
+                      showApiErrorSnackBar(context, state.failure);
+                    }
+                  },
+                  builder: (context,state){
+                    return LoadingButton(
+                      isLoading: state is Loading,
+                      color: AppColors.warmRed,
+                      textColor: AppColors.white,
+                      borderColor: AppColors.warmRed,
+                      text: AppStrings.cancel.tr(),
+                      onTap: _cancelOrder,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CancellationReasonSelector extends StatefulWidget {
+  final List<CancellationReason> reasons;
+  final Function(int?) onReasonChanged;
+
+  const CancellationReasonSelector({
+    Key? key,
+    required this.reasons,
+    required this.onReasonChanged,
+  }) : super(key: key);
+
+  @override
+  State<CancellationReasonSelector> createState() =>
+      _CancellationReasonSelectorState();
+}
+
+class _CancellationReasonSelectorState
+    extends State<CancellationReasonSelector> {
+  int? _value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.dustyGreay),
+        borderRadius: BorderRadius.all(Radius.circular(AppSize.s8.rSp)),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+      child: DropdownButton<int>(
+        value: _value,
+        underline: const SizedBox(),
+        isExpanded: true,
+        hint: Text(
+          'Select a reason',
+          style: regularTextStyle(
+            color: AppColors.bluewood,
+            fontSize: AppFontSize.s16.rSp,
+          ),
+        ),
+        items: widget.reasons.map((value) {
+          return DropdownMenuItem<int>(
+            value: value.id,
+            child: Text(
+              value.title,
+              style: regularTextStyle(
+                color: AppColors.bluewood,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+            ),
+          );
+        }).toList(),
+        onChanged: (newValue) {
+          setState(() {
+            _value = newValue;
+            widget.onReasonChanged(newValue);
+          });
+        },
+      ),
+    );
+  }
+}

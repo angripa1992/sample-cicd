@@ -38,8 +38,6 @@ class LoadingButton extends StatelessWidget {
   Color _borderColor() {
     if (!enabled) {
       return AppColors.smokeyGrey;
-    } else if (isLoading) {
-      return AppColors.purpleBlue;
     } else {
       return borderColor ?? AppColors.purpleBlue;
     }
@@ -65,7 +63,7 @@ class LoadingButton extends StatelessWidget {
           ? SizedBox(
               height: AppSize.s12.rh,
               width: AppSize.s12.rw,
-              child: CircularProgressIndicator(color: AppColors.purpleBlue),
+              child: CircularProgressIndicator(color: color ?? AppColors.purpleBlue),
             )
           : Text(
               text,

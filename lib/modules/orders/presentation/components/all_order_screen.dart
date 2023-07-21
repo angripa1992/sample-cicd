@@ -13,6 +13,7 @@ import 'package:klikit/printer/printing_handler.dart';
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../../app/size_config.dart';
+import '../../../../segments/event_manager.dart';
 import '../../../add_order/presentation/pages/add_order_screen.dart';
 import '../../../widgets/snackbars.dart';
 import '../../edit_order/calculate_grab_order_cubit.dart';
@@ -26,6 +27,7 @@ import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'dialogs/action_dialogs.dart';
+import 'dialogs/cancellation_reason.dart';
 import 'order_item/order_item_view.dart';
 
 class AllOrderScreen extends StatefulWidget {
@@ -119,7 +121,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
     );
   }
 
-  void _refresh({bool willBackground = false, bool isFromAction = false}) {
+  void _refresh({bool willBackground = false}) {
     _refreshAllOrderCount();
     _refreshNewOrderCount();
     _refreshOngoingOrderCount();
@@ -131,26 +133,53 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
     }
   }
 
+  void _cancelOrder({
+    required String title,
+    required Order order,
+    required bool isFromDetails,
+  }) {
+    showCancellationReasonDialog(
+        context: context,
+        title: title,
+        order: order,
+        successCallback: (){
+          _refresh(willBackground: true);
+          if (isFromDetails) {
+            Navigator.of(context).pop();
+          }
+          SegmentManager().trackOrderSegment(
+            sourceTab: 'All Order',
+            status: OrderStatus.CANCELLED,
+            isFromDetails: isFromDetails,
+          );
+        }
+    );
+  }
+
   void _onAction({
     required String title,
     required Order order,
     required int status,
-    bool willCancel = false,
     bool isFromDetails = false,
   }) {
     showOrderActionDialog(
-      params: _orderParameterProvider.getOrderActionParams(order, willCancel),
+      params: _orderParameterProvider.getOrderActionParams(order),
       context: context,
+      title: title,
       onSuccess: () {
-        _refresh(willBackground: true, isFromAction: true);
+        _refresh(willBackground: true);
         if (isFromDetails) {
           Navigator.of(context).pop();
         }
-        if (!willCancel && status == OrderStatus.ACCEPTED) {
+        if (status == OrderStatus.ACCEPTED) {
           _printDocket(order: order, isFromDetails: isFromDetails);
         }
+        SegmentManager().trackOrderSegment(
+          sourceTab: 'All Order',
+          status: status,
+          isFromDetails: isFromDetails,
+        );
       },
-      title: title,
     );
   }
 
@@ -257,12 +286,10 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
                   _printDocket(order: item, isFromDetails: true);
                 },
                 onCancel: (title) {
-                  _onAction(
+                  _cancelOrder(
                     title: title,
                     order: item,
                     isFromDetails: true,
-                    willCancel: true,
-                    status: OrderStatus.CANCELLED,
                   );
                 },
                 onCommentActionSuccess: () {
@@ -291,11 +318,10 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
               _printDocket(order: item, isFromDetails: false);
             },
             onCancel: (title) {
-              _onAction(
+              _cancelOrder(
                 title: title,
                 order: item,
-                willCancel: true,
-                status: OrderStatus.CANCELLED,
+                isFromDetails: false,
               );
             },
             onEditManualOrder: () {

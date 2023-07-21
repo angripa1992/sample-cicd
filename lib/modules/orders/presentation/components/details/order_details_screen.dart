@@ -17,6 +17,7 @@ import '../../../../../resources/values.dart';
 import '../../../edit_order/calculate_grab_order_cubit.dart';
 import '../../../edit_order/edit_grab_order.dart';
 import '../../../edit_order/update_grab_order_cubit.dart';
+import 'cancellation_reason.dart';
 import 'comment_view.dart';
 import 'customer_info_view.dart';
 import 'order_details_header.dart';
@@ -114,6 +115,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   onEditManualOrder: widget.onEditManualOrder,
                   onRiderFind: widget.onRiderFind,
                 ),
+                if(_currentOrder.status == OrderStatus.CANCELLED)
+                  CancellationReasonView(cancellationReason: _currentOrder.cancellationReason),
                 OrderItemDetails(order: _currentOrder),
                 CommentView(comment: _currentOrder.orderComment),
                 if (_currentOrder.isThreePlOrder &&

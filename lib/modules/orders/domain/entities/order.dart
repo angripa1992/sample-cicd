@@ -99,6 +99,8 @@ class Order {
   final int threePlDispatchType;
   final OrderAppliedPromo? orderAppliedPromo;
   final List<OrderAppliedPromo> itemAppliedPromos;
+  final int cancellationReasonId;
+  final String cancellationReason;
   String klikitComment;
   int paymentMethod;
   int paymentStatus;
@@ -186,6 +188,8 @@ class Order {
     required this.threePlDispatchType,
     required this.orderAppliedPromo,
     required this.itemAppliedPromos,
+    required this.cancellationReasonId,
+    required this.cancellationReason,
   });
 
   Order copy() => Order(
@@ -270,6 +274,8 @@ class Order {
         threePlDispatchType: threePlDispatchType,
         orderAppliedPromo: orderAppliedPromo,
         itemAppliedPromos: itemAppliedPromos,
+        cancellationReasonId: cancellationReasonId,
+        cancellationReason: cancellationReason,
       );
 
   OrderModel toModel() => OrderModel(
@@ -352,5 +358,7 @@ class Order {
         threePlDispatchType: threePlDispatchType,
         orderAppliedPromo: orderAppliedPromo,
         itemAppliedPromos: itemAppliedPromos,
+        cancellationReasonId: cancellationReasonId,
+        cancellationReason: cancellationReason,
       );
 }

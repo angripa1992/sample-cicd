@@ -198,6 +198,10 @@ class OrderModel {
   OrderAppliedPromo? orderAppliedPromo;
   @JsonKey(name: 'item_applied_promos')
   List<OrderAppliedPromo>? itemAppliedPromos;
+  @JsonKey(name: 'cancellation_reason_id')
+  int? cancellationReasonId;
+  @JsonKey(name: 'cancellation_reason')
+  String? cancellationReason;
 
   OrderModel({
     this.id,
@@ -280,6 +284,8 @@ class OrderModel {
     this.threePlDispatchType,
     this.orderAppliedPromo,
     this.itemAppliedPromos,
+    this.cancellationReasonId,
+    this.cancellationReason,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
@@ -370,6 +376,8 @@ class OrderModel {
       threePlDispatchType: threePlDispatchType.orZero(),
       orderAppliedPromo: orderAppliedPromo,
       itemAppliedPromos: itemAppliedPromos ?? [],
+      cancellationReasonId: cancellationReasonId.orZero(),
+      cancellationReason: cancellationReason.orEmpty(),
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.d
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/data/models/order_status_model.dart';
 import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
+import 'package:klikit/modules/orders/domain/entities/cancellation_reason.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
 import 'package:klikit/modules/orders/domain/entities/source.dart';
@@ -236,6 +237,20 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.findRider(id);
         return Right(response);
+      } on DioError catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CancellationReason>>> fetchCancellationReason() async{
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchCancellationReasons();
+        return Right(response.map((e) => e.toEntity()).toList());
       } on DioError catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

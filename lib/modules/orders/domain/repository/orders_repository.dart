@@ -8,6 +8,7 @@ import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
 
 import '../../edit_order/grab_order_update_request_model.dart';
+import '../entities/cancellation_reason.dart';
 
 abstract class OrderRepository {
   Future<Either<Failure, List<OrderStatusModel>>> fetchOrderStatus();
@@ -40,4 +41,6 @@ abstract class OrderRepository {
   Future<Either<Failure, ActionSuccess>> findRider(int id);
 
   Future<Either<Failure, order.Order>> calculateGrabBill(OrderModel model);
+
+  Future<Either<Failure, List<CancellationReason>>> fetchCancellationReason();
 }

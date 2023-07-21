@@ -147,7 +147,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
       );
     } else {
       showOrderActionDialog(
-        params: _orderParamProvider.getOrderActionParams(order, willCancel),
+        params: _orderParamProvider.getOrderActionParams(order),
         context: context,
         onSuccess: () {
           _onActionSuccess(isFromDetails, status);
