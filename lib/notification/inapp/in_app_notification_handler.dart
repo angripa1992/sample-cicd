@@ -9,6 +9,7 @@ import 'package:klikit/notification/notification_data.dart';
 import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/strings.dart';
 
+import '../../app/session_manager.dart';
 import '../../core/route/routes_generator.dart';
 import '../../modules/widgets/app_button.dart';
 import '../../modules/widgets/loading_button.dart';
@@ -32,6 +33,10 @@ class InAppNotificationHandler {
   InAppNotificationHandler._internal();
 
   void handleNotification(NotificationData data) {
+    if(!SessionManager().notificationEnable()){
+      _handleDocketPrinting(data);
+      return;
+    }
     final isNewOrder = data.type.toInt() == NotificationOrderType.NEW;
     if (!_isShowing) {
       _newOrderCounter = ValueNotifier<int>(0);
@@ -67,6 +72,10 @@ class InAppNotificationHandler {
   }
 
   void _handleDocketPrinting(NotificationData notificationData) async {
+    final isNewOrder = notificationData.type.toInt() == NotificationOrderType.NEW;
+    if(!isNewOrder){
+      return;
+    }
     final order = await NotificationDataHandler().getOrderById(
       notificationData.orderId.toInt(),
     );

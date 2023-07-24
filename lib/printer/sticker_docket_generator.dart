@@ -37,10 +37,10 @@ class StickerDocketGenerator {
   }
 
   Map<String, dynamic> _orderDetails(Order order) {
-    final klikitOrderId = order.id;
+    final id = order.id;
     final type = _type(order.type);
     final customerName = '${order.userFirstName} ${order.userLastName}';
-    final orderDetails = '$klikitOrderId/$type${order.providerId == ProviderID.KLIKIT && customerName.isNotEmpty ? '/$customerName' : ''}';
+    final orderDetails = '$id/$type${order.providerId == ProviderID.KLIKIT && customerName.isNotEmpty ? '/$customerName' : ''}';
     final lines = _splitTextIntoLines(orderDetails, 20);
     String tslText = "";
     double yPosition = 0;

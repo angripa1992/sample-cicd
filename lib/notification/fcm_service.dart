@@ -4,7 +4,6 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/notification/local_notification_service.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app/app_preferences.dart';
 import '../app/session_manager.dart';
@@ -33,15 +32,16 @@ class FcmService {
   }
 
   void registerForegroundListener() async {
-    FirebaseMessaging.onMessage.listen((message) {
-      if (SessionManager().isLoggedIn() && SessionManager().notificationEnable()) {
-        InAppNotificationHandler().handleNotification(
-          NotificationDataHandler().getNotificationData(
-            message.data,
-          ),
-        );
-      }
-    }
+    FirebaseMessaging.onMessage.listen(
+      (message) {
+        if (SessionManager().isLoggedIn()) {
+          InAppNotificationHandler().handleNotification(
+            NotificationDataHandler().getNotificationData(
+              message.data,
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -56,7 +56,7 @@ class FcmService {
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await registerLocalDB();
   await getIt.get<AppPreferences>().reload();
-  if(SessionManager().notificationEnable()){
+  if (SessionManager().notificationEnable()) {
     LocalNotificationService().showNotification(
       payload: message.data,
     );
