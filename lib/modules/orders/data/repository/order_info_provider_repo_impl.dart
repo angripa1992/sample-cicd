@@ -25,7 +25,7 @@ class OrderInfoProviderRepoImpl extends OrderInfoProviderRepo {
         final response = await _datasource.fetchProvider(param);
         final data = response.map((e) => e.toEntity()).toList();
         return Right(data);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -40,7 +40,7 @@ class OrderInfoProviderRepoImpl extends OrderInfoProviderRepo {
       try {
         final response = await _datasource.fetchBrand(requestModel);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -55,7 +55,7 @@ class OrderInfoProviderRepoImpl extends OrderInfoProviderRepo {
         final response = await _datasource.fetchSources();
         final data = response.map((e) => e.toEntity()).toList();
         return Right(data);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -70,7 +70,7 @@ class OrderInfoProviderRepoImpl extends OrderInfoProviderRepo {
         final response = await _datasource.fetchPaymentMethods();
         final data = response.map((e) => e.toEntity()).toList();
         return Right(data);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -85,7 +85,7 @@ class OrderInfoProviderRepoImpl extends OrderInfoProviderRepo {
         final response = await _datasource.fetchPaymentStatus();
         final data = response.map((e) => e.toEntity()).toList();
         return Right(data);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {

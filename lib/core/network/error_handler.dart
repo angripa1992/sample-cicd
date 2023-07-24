@@ -14,7 +14,7 @@ class ErrorHandler implements Exception {
   late Failure failure;
 
   ErrorHandler.handle(dynamic error) {
-    if (error is DioError) {
+    if (error is DioException) {
       failure = _handleError(error);
     } else {
       failure = Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
@@ -26,27 +26,31 @@ class ErrorHandler implements Exception {
         ResponseMessage.NO_INTERNET_CONNECTION);
   }
 
-  Failure _handleError(DioError error) {
+  Failure _handleError(DioException error) {
     switch (error.type) {
-      case DioErrorType.connectTimeout:
+      case DioExceptionType.connectionTimeout:
         return Failure(
             ResponseCode.CONNECT_TIMEOUT, ResponseMessage.CONNECT_TIMEOUT);
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.sendTimeout:
         return Failure(ResponseCode.SEND_TIMEOUT, ResponseMessage.SEND_TIMEOUT);
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.receiveTimeout:
         return Failure(
             ResponseCode.RECEIVE_TIMEOUT, ResponseMessage.RECEIVE_TIMEOUT);
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         return Failure(ResponseCode.CANCEL, ResponseMessage.CANCEL);
-      case DioErrorType.other:
+      case DioExceptionType.unknown:
         return Failure(error.response?.statusCode ?? ResponseCode.DEFAULT,
             ResponseMessage.DEFAULT);
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         return _handleResponseError(error);
+      case DioExceptionType.badCertificate:
+        return Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
+      case DioExceptionType.connectionError:
+        return Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT);
     }
   }
 
-  Failure _handleResponseError(DioError error) {
+  Failure _handleResponseError(DioException error) {
     if (error.response?.statusCode == ResponseCode.UPDATE_REQUIRED) {
       return Failure(ResponseCode.UPDATE_REQUIRED, ResponseMessage.DEFAULT);
     }

@@ -41,7 +41,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       final response =
       await _restClient.request(Urls.login, Method.POST, params.toJson());
       return UserModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -52,7 +52,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       final response =
       await _restClient.request(Urls.logout, Method.POST, null);
       return SuccessResponseModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -64,7 +64,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       final response = await _restClient.request(
           '${Urls.userUpdate}/$userID', Method.PATCH, params.toJson());
       return SuccessResponseModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -76,7 +76,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       final response = await _restClient.request(
           Urls.forgetPassword, Method.POST, requestModel.toJson());
       return SuccessResponseModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -88,7 +88,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       final response = await _restClient.request(
           Urls.changePassword, Method.POST, requestModel.toJson());
       return SuccessResponseModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -99,7 +99,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     try {
       final response = await _restClient.request(Urls.userSettings, Method.POST, params);
           return SuccessResponseModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -109,7 +109,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     try {
       final response = await _restClient.request('${Urls.userSettings}/$userId', Method.GET, null);
       return UserSettingsModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }

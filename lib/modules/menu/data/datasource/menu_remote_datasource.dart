@@ -48,7 +48,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
       final response =
           await _restClient.request(Urls.menuBrands, Method.GET, params);
       return MenuBrandsModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -65,7 +65,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         },
       );
       return MenusDataModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -85,7 +85,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         },
       );
       return StockModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -103,7 +103,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         },
       );
       return ActionSuccess.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -115,7 +115,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
       final List<dynamic> response =
           await _restClient.request(Urls.modifiersGroup, Method.GET, params);
       return response.map((e) => ModifiersGroupModel.fromJson(e)).toList();
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -135,7 +135,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         param.toJson(),
       );
       return ModifierDisabledResponseModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -154,7 +154,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         param.toJson(),
       );
       return ActionSuccess.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -171,7 +171,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         },
       );
       return MenuBrandModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }

@@ -1,5 +1,5 @@
 import '../../app/di.dart';
-import '../../environment_variables.dart';
+import '../../env/environment_variables.dart';
 
 class ImageUrlProvider {
   static final _envVariables = getIt.get<EnvironmentVariables>();

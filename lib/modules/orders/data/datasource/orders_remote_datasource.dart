@@ -69,7 +69,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final List<OrderStatusModel> result =
           response.map((e) => OrderStatusModel.fromJson(e)).toList();
       return result;
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -80,7 +80,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response = await _restClient.request(
           Urls.brand, Method.GET, requestModel.toJson());
       return BrandModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -92,7 +92,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
           await _restClient.request(Urls.provider, Method.GET, param);
       final data = response.map((e) => ProviderModel.fromJson(e)).toList();
       return data;
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -103,7 +103,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response = await _restClient.request(
           '${Urls.printerSettings}/$id', Method.GET, null);
       return SettingsModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -114,7 +114,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response =
           await _restClient.request(Urls.order, Method.GET, params);
       return OrdersModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -124,7 +124,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
     try {
       final response = await _restClient.request(Urls.busy, Method.GET, params);
       return BusyModeGetResponseModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -136,7 +136,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response =
           await _restClient.request(Urls.busy, Method.POST, params);
       return BusyModePostResponseModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -147,7 +147,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response =
           await _restClient.request(Urls.updateStatus, Method.PATCH, params);
       return ActionSuccess.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -159,7 +159,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response = await _restClient.request(
           Urls.comment(orderID), Method.PATCH, params);
       return ActionSuccess.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -170,7 +170,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response =
           await _restClient.request(Urls.comment(orderID), Method.DELETE, null);
       return ActionSuccess.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -181,7 +181,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response =
           await _restClient.request('${Urls.order}/$id', Method.GET, null);
       return OrderModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -193,7 +193,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
           await _restClient.request(Urls.sources, Method.GET, null);
       final data = response.map((e) => SourcesModel.fromJson(e)).toList();
       return data;
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -205,7 +205,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
           await _restClient.request(Urls.paymentMethod, Method.GET, null);
       final data = response.map((e) => PaymentMethodModel.fromJson(e)).toList();
       return data;
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -217,7 +217,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
           await _restClient.request(Urls.paymentStatus, Method.GET, null);
       final data = response.map((e) => PaymentStatusModel.fromJson(e)).toList();
       return data;
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -228,7 +228,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response = await _restClient.request(
           Urls.updatePaymentInfo, Method.PATCH, params);
       return ActionSuccess.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -242,7 +242,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
         model.toJson(),
       );
       return OrderModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -255,7 +255,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response =
           await _restClient.request(Urls.updateGrabOrder, Method.PUT, payload);
       return ActionSuccess.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -266,7 +266,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final response =
           await _restClient.request(Urls.findRider(id), Method.PATCH, {});
       return ActionSuccess.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -280,7 +280,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
         {'type_id': 1},
       );
       return response.map((e) => CancellationReasonModel.fromJson(e)).toList();
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }

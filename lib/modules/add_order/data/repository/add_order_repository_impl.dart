@@ -30,7 +30,7 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
         final response =
             await _datasource.fetchMenus(branchId: branchId, brandId: brandId);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -45,7 +45,7 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
       try {
         final response = await _datasource.fetchModifiers(itemId: itemId);
         return Right(response.map((e) => e.toEntity()).toList());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -60,7 +60,7 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
       try {
         final response = await _datasource.calculateBill(model: model);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -74,7 +74,7 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
       try {
         final response = await _datasource.fetchSources();
         return response.map((e) => e.toEntity()).toList();
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Future.error(error);
       }
     } else {
@@ -89,7 +89,7 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
       try {
         final response = await _datasource.placeOrder(body);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -103,7 +103,7 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
       try {
         final response = await _datasource.fetchPromos(params);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {

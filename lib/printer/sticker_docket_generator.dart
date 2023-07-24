@@ -40,8 +40,7 @@ class StickerDocketGenerator {
     final klikitOrderId = order.id;
     final type = _type(order.type);
     final customerName = '${order.userFirstName} ${order.userLastName}';
-    final orderDetails =
-        '$klikitOrderId/$type${order.providerId == ProviderID.KLIKIT && customerName.isNotEmpty ? '/$customerName' : ''}';
+    final orderDetails = '$klikitOrderId/$type${order.providerId == ProviderID.KLIKIT && customerName.isNotEmpty ? '/$customerName' : ''}';
     final lines = _splitTextIntoLines(orderDetails, 20);
     String tslText = "";
     double yPosition = 0;

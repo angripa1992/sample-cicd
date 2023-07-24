@@ -3,22 +3,25 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/klikit.dart';
 import 'package:klikit/core/network/slack_logger.dart';
-import 'package:klikit/environment_variables.dart';
+import 'package:klikit/env/environment_variables.dart';
 import 'package:klikit/language/smart_asset_loader.dart';
 import 'package:klikit/resources/assets.dart';
 
 import 'app/crashlytics_config.dart';
 import 'app/di.dart';
+import 'env/env_manager.dart';
 import 'language/language_manager.dart';
 import 'modules/widgets/loader.dart';
 import 'notification/fcm_service.dart';
 import 'notification/local_notification_service.dart';
 
-void mainCommon(EnvironmentVariables environmentVariables) async {
+void mainCommon(Env env) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final environmentVariables = await EnvManager().fetchEnv(env);
   CrashlyticsConfiguration().initialize();
   await EasyLocalization.ensureInitialized();
   await initAppModule(environmentVariables);

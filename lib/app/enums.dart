@@ -5,3 +5,5 @@ enum PasswordFieldType { CURRENT, NEW, CONFIRM }
 
 enum Availability { STOCK, UNAVAILABLE, OUT_OF_STOCK }
 
+enum Env{DEV,STAGE,LIVE}
+

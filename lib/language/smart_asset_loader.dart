@@ -10,7 +10,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:path_provider/path_provider.dart' as paths;
 
-import '../environment_variables.dart';
+import '../env/environment_variables.dart';
 
 class SmartAssetLoader extends AssetLoader {
   final _envVariables = getIt.get<EnvironmentVariables>();

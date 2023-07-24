@@ -37,7 +37,7 @@ class PrinterSettingRepositoryImpl extends PrinterSettingRepository {
             .map((e) => PrinterSettingModel.fromJson(e).toEntity())
             .toList();
         return Right(settings);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -53,7 +53,7 @@ class PrinterSettingRepositoryImpl extends PrinterSettingRepository {
         final response = await _restClient.request(
             Urls.printerSettings, Method.POST, params);
         return Right(ActionSuccess.fromJson(response));
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {

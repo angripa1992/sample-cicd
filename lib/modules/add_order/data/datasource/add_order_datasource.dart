@@ -44,7 +44,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         {'brand_ids': brandId},
       );
       return MenusDataModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -62,7 +62,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
               ?.map((e) => ItemModifierGroupModel.fromJson(e))
               .toList() ??
           [];
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -76,7 +76,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         model.toJson(),
       );
       return CartBillModel.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -86,7 +86,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     try {
       final List<dynamic>? responses = await _restClient.request(Urls.sources, Method.GET, null);
       return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ?? [];
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -100,7 +100,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         body.toJson(),
       );
       return PlacedOrderResponse.fromJson(response);
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
@@ -114,7 +114,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         params,
       );
       return response?.map((e) => AppliedPromo.fromJson(e)).toList() ?? [];
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }

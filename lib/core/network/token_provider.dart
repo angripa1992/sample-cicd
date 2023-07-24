@@ -2,15 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/urls.dart';
-import 'package:klikit/environment_variables.dart';
+import 'package:klikit/env/environment_variables.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../app/di.dart';
-import 'dio_logger.dart';
 import 'error_handler.dart';
 
 class TokenProvider {
   final Dio _tokenDio = Dio();
-  final DioLogger _dioLogger = DioLogger();
 
   TokenProvider() {
     _initInterceptor();
@@ -19,19 +18,14 @@ class TokenProvider {
 
   void _initInterceptor() {
     _tokenDio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          _dioLogger.logRequest(options);
-          return handler.next(options);
-        },
-        onResponse: (response, handler) {
-          _dioLogger.logResponse(response);
-          return handler.next(response);
-        },
-        onError: (error, handler) {
-          _dioLogger.logError(error);
-          return handler.next(error);
-        },
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 90,
       ),
     );
   }

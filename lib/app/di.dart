@@ -66,7 +66,7 @@ import '../consumer_protection/presentation/cubit/consumer_protection_cubit.dart
 import '../core/network/rest_client.dart';
 import '../core/network/token_provider.dart';
 import '../core/provider/location_provider.dart';
-import '../environment_variables.dart';
+import '../env/environment_variables.dart';
 import '../language/language_manager.dart';
 import '../modules/add_order/presentation/cubit/calculate_bill_cubit.dart';
 import '../modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';

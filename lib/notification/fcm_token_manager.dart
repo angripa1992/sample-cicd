@@ -26,7 +26,7 @@ class FcmTokenManager {
     try {
       await _restClient.request(Urls.tokenRegistration, Method.POST, params);
       return const Right(true);
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
   }

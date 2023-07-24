@@ -40,7 +40,7 @@ class OrderRepositoryImpl extends OrderRepository {
           orders.add(orderWithSource);
         }
         return Right(response.toEntity(orders));
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -54,7 +54,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.fetchOrderStatus();
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -68,7 +68,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.fetchSettings(id);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -84,7 +84,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.isBusy(params);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -100,7 +100,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.updateBusyMode(params);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -115,7 +115,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.updateOrderStatus(params);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -132,7 +132,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.addComment(params, orderID);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -146,7 +146,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.deleteComment(orderID);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -160,7 +160,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.fetchOrderById(id);
         return _extractOrderWithSource(response);
-      } on DioError {
+      } on DioException {
         return null;
       }
     } else {
@@ -192,7 +192,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.updatePaymentInfo(params);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -208,7 +208,7 @@ class OrderRepositoryImpl extends OrderRepository {
         final response = await _datasource.calculateGrabOrder(model);
         final order = await _extractOrderWithSource(response);
         return Right(order);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -223,7 +223,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.updateGrabOrder(model);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -237,7 +237,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.findRider(id);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -251,7 +251,7 @@ class OrderRepositoryImpl extends OrderRepository {
       try {
         final response = await _datasource.fetchCancellationReasons();
         return Right(response.map((e) => e.toEntity()).toList());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {

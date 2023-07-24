@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:klikit/core/network/error_handler.dart';
 
 import '../../../core/network/network_connectivity.dart';
-import '../../../environment_variables.dart';
+import '../../../env/environment_variables.dart';
 import '../model/consumer_protection.dart';
 import '../model/consumer_protection_model.dart';
 

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/environment_variables.dart';
+import 'package:klikit/env/environment_variables.dart';
 import 'package:klikit/segments/segemnt_data_provider.dart';
 
 import '../app/constants.dart';

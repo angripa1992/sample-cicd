@@ -28,7 +28,7 @@ class UserRepositoryImpl extends UserRepository {
       try {
         final response = await _userRemoteDataSource.login(params);
         return Right(mapUserModelToUser(response));
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -42,7 +42,7 @@ class UserRepositoryImpl extends UserRepository {
       try {
         final response = await _userRemoteDataSource.logout();
         return Right(mapSuccessResponse(response));
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -58,7 +58,7 @@ class UserRepositoryImpl extends UserRepository {
         final response =
             await _userRemoteDataSource.updateUserInfo(params, userID);
         return Right(mapSuccessResponse(response));
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -74,7 +74,7 @@ class UserRepositoryImpl extends UserRepository {
         final response =
             await _userRemoteDataSource.sendResetLink(requestModel);
         return Right(mapSuccessResponse(response));
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -90,7 +90,7 @@ class UserRepositoryImpl extends UserRepository {
         final response =
             await _userRemoteDataSource.changePassword(requestModel);
         return Right(mapSuccessResponse(response));
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -105,7 +105,7 @@ class UserRepositoryImpl extends UserRepository {
       try {
         final response = await _userRemoteDataSource.changeUserSetting(params);
         return Right(mapSuccessResponse(response));
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -119,7 +119,7 @@ class UserRepositoryImpl extends UserRepository {
       try {
         final response = await _userRemoteDataSource.getUserSettings(userId);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {

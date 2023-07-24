@@ -29,7 +29,7 @@ class MenuRepositoryImpl extends MenuRepository {
       try {
         final response = await _datasource.fetchMenuBrands(params);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -43,7 +43,7 @@ class MenuRepositoryImpl extends MenuRepository {
       try {
         final response = await _datasource.fetchMenus(params);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -57,7 +57,7 @@ class MenuRepositoryImpl extends MenuRepository {
       try {
         final response = await _datasource.updateItem(params);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -72,7 +72,7 @@ class MenuRepositoryImpl extends MenuRepository {
       try {
         final response = await _datasource.updateMenu(params);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -87,7 +87,7 @@ class MenuRepositoryImpl extends MenuRepository {
       try {
         final response = await _datasource.fetchModifiersGroup(params);
         return Right(response.map((e) => e.toEntity()).toList());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -102,7 +102,7 @@ class MenuRepositoryImpl extends MenuRepository {
       try {
         final response = await _datasource.disableModifier(params);
         return Right(response.toEntity());
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
@@ -117,7 +117,7 @@ class MenuRepositoryImpl extends MenuRepository {
       try {
         final response = await _datasource.enableModifier(params);
         return Right(response);
-      } on DioError catch (error) {
+      } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     } else {
