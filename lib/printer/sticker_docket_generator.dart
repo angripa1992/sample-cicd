@@ -37,7 +37,7 @@ class StickerDocketGenerator {
   }
 
   Map<String, dynamic> _orderDetails(Order order) {
-    final id = order.id;
+    final id = order.shortId.isNotEmpty ? order.shortId : order.externalId;
     final type = _type(order.type);
     final customerName = '${order.userFirstName} ${order.userLastName}';
     final orderDetails = '$id/$type${order.providerId == ProviderID.KLIKIT && customerName.isNotEmpty ? '/$customerName' : ''}';
