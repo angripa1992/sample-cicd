@@ -31,8 +31,8 @@ class EditProfileTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: regularTextStyle(
-            color: AppColors.purpleBlue,
+          style: mediumTextStyle(
+            color: AppColors.bluewood,
             fontSize: AppSize.s14.rSp,
           ),
         ),
@@ -49,10 +49,18 @@ class EditProfileTextField extends StatelessWidget {
             enabled: enabled,
             isDense: true,
             filled: true,
-            fillColor: enabled ? AppColors.blueChalk : AppColors.lightGrey,
+            fillColor: enabled ? Colors.transparent : AppColors.lightGrey,
             contentPadding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,
               horizontal: AppSize.s10.rw,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+              borderSide: BorderSide(color: AppColors.dustyGreay),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+              borderSide: BorderSide(color: AppColors.dustyGreay),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(

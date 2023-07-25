@@ -94,6 +94,7 @@ import '../modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import '../modules/orders/provider/order_parameter_provider.dart';
 import '../modules/orders/provider/update_manual_order_data_provider.dart';
 import '../modules/user/presentation/account/cubit/change_notificcation_setting_cubit.dart';
+import '../modules/user/presentation/account/cubit/device_setting_cubit.dart';
 import '../modules/user/presentation/login/bloc/login_bloc.dart';
 import '../segments/segemnt_data_provider.dart';
 
@@ -131,6 +132,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => ChangePassword(getIt()));
   getIt.registerFactory(() => ChangePasswordCubit(getIt(), getIt()));
   getIt.registerFactory(() => ChangeNotificationSettingCubit(getIt()));
+  getIt.registerFactory(() => DeviceSettingCubit(getIt()));
 
   ///order
   getIt.registerLazySingleton<OrderRemoteDatasource>(

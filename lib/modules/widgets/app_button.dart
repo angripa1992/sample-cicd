@@ -53,7 +53,6 @@ class AppButton extends StatelessWidget {
               child: Icon(
                 icon,
                 color: enable ? (textColor ?? AppColors.white) : AppColors.white,
-                size: AppSize.s18.rSp,
               ),
             ),
           ),
@@ -61,7 +60,7 @@ class AppButton extends StatelessWidget {
             text,
             style: mediumTextStyle(
               color: enable ? (textColor ?? AppColors.white) : AppColors.white,
-              fontSize: AppFontSize.s14.rSp,
+              fontSize: AppFontSize.s16.rSp,
             ),
           ),
         ],

@@ -13,6 +13,7 @@ class LoadingButton extends StatelessWidget {
   final Color? color;
   final Color? borderColor;
   final Color? textColor;
+  final IconData? icon;
 
   const LoadingButton({
     Key? key,
@@ -23,6 +24,7 @@ class LoadingButton extends StatelessWidget {
     this.enabled = true,
     this.color,
     this.borderColor,
+    this.icon,
   }) : super(key: key);
 
   Color _bgColor() {
@@ -63,14 +65,29 @@ class LoadingButton extends StatelessWidget {
           ? SizedBox(
               height: AppSize.s12.rh,
               width: AppSize.s12.rw,
-              child: CircularProgressIndicator(color: color ?? AppColors.purpleBlue),
-            )
-          : Text(
-              text,
-              style: mediumTextStyle(
-                color: textColor ?? AppColors.white,
-                fontSize: AppFontSize.s14.rSp,
+              child: CircularProgressIndicator(
+                color: textColor ?? AppColors.purpleBlue,
               ),
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null)
+                  Padding(
+                    padding: EdgeInsets.only(right: AppSize.s8.rw),
+                    child: Icon(
+                      icon,
+                      color: textColor ?? AppColors.white,
+                    ),
+                  ),
+                Text(
+                  text,
+                  style: mediumTextStyle(
+                    color: textColor ?? AppColors.white,
+                    fontSize: AppFontSize.s16.rSp,
+                  ),
+                ),
+              ],
             ),
     );
   }

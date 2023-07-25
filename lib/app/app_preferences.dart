@@ -19,6 +19,7 @@ class AppPreferences {
   final String _kPrinterSetting = "printer_setting";
   final String _kLanguage = "language";
   final String _kNotificationSetting = "notification_setting";
+  final String _kSunmiDevice = "sunmi_device";
 
   AppPreferences(this._preferences);
 
@@ -109,8 +110,16 @@ class AppPreferences {
     await _preferences.setBool(_kNotificationSetting, enable);
   }
 
+  Future<void> setSunmiDevice(bool isSunmiDevice) async {
+    await _preferences.setBool(_kSunmiDevice, isSunmiDevice);
+  }
+
   bool notificationEnable() {
     return _preferences.getBool(_kNotificationSetting) ?? true;
+  }
+
+  bool sunmiDevice() {
+    return _preferences.getBool(_kSunmiDevice) ?? false;
   }
 
   Future<void> reload() async {

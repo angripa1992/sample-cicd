@@ -158,6 +158,11 @@ class DiscountType{
   static const percentage= 2;
 }
 
+class Device{
+  static const android = 0;
+  static const sunmi= 1;
+}
+
 class PrinterSelectIndex{
   static const docket = 0;
   static const sticker= 1;

@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    getIt.get<DeviceInfoProvider>().getOsVersion();
     _fetchOrder(true);
     _startTimer();
     SegmentManager().screen(event: SegmentEvents.HOME_TAB, name: 'Home Tab');

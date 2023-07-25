@@ -25,6 +25,7 @@ User mapUserModelToUser(UserModel userModel) {
       lastLoginAt: userModel.user?.last_login_at?.orEmpty() ?? EMPTY,
       firstLogin: userModel.user?.first_login ?? false,
       orderNotificationEnabled: userModel.user?.order_notification_enabled ?? true,
+      sunmiDevice: userModel.user?.sunmi_device ?? false,
       roles: userModel.user?.roles ?? [],
       roleIds: userModel.user?.role_ids ?? [],
       displayRoles: userModel.user?.display_roles ?? [],

@@ -43,6 +43,10 @@ class SessionManager {
     await _appPreferences.setNotificationEnable(enable);
   }
 
+  Future<void> setSunmiDevice(bool isSunmiDevice) async {
+    await _appPreferences.setSunmiDevice(isSunmiDevice);
+  }
+
   Future<void> saveToken({
     required accessToken,
     required String refreshToken,
@@ -66,6 +70,8 @@ class SessionManager {
   bool isLoggedIn() => _appPreferences.isLoggedIn();
 
   bool notificationEnable() => _appPreferences.notificationEnable();
+
+  bool isSunmiDevice() => _appPreferences.sunmiDevice();
 
   Future<void> logout() async {
     CartManager().clear();

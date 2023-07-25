@@ -38,6 +38,7 @@ class UserInfo {
   final String lastLoginAt;
   final bool firstLogin;
   final bool orderNotificationEnabled;
+  final bool sunmiDevice;
   final List<String> roles;
   final List<int> roleIds;
   final List<String> displayRoles;
@@ -63,6 +64,7 @@ class UserInfo {
     required this.lastLoginAt,
     required this.firstLogin,
     required this.orderNotificationEnabled,
+    required this.sunmiDevice,
     required this.roles,
     required this.roleIds,
     required this.displayRoles,
@@ -95,6 +97,7 @@ class UserInfo {
       lastLoginAt: lastLoginAt,
       firstLogin: firstLogin,
       orderNotificationEnabled: orderNotificationEnabled,
+      sunmiDevice: sunmiDevice,
       roles: roles,
       roleIds: roleIds,
       displayRoles: displayRoles,

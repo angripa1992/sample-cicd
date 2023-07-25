@@ -12,7 +12,8 @@ class NotificationSettingScreen extends StatefulWidget {
   const NotificationSettingScreen({Key? key}) : super(key: key);
 
   @override
-  State<NotificationSettingScreen> createState() => _NotificationSettingScreenState();
+  State<NotificationSettingScreen> createState() =>
+      _NotificationSettingScreenState();
 }
 
 class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
@@ -23,16 +24,27 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
     _isEnable = SessionManager().notificationEnable();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          'Notification',
-          style: boldTextStyle(
-            color: AppColors.bluewood,
-            fontSize: AppSize.s16.rSp,
+        Icon(
+          Icons.notifications_active_outlined,
+          color: AppColors.blackCow,
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSize.s16.rw,
+            ),
+            child: Text(
+              'Notification',
+              style: mediumTextStyle(
+                color: AppColors.blackCow,
+                fontSize: AppSize.s16.rSp,
+              ),
+            ),
           ),
         ),
         Transform.scale(

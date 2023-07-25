@@ -17,6 +17,8 @@ import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 
 import '../../modules/base/chnage_language_cubit.dart';
 import '../../modules/support/contact_support.dart';
+import '../../modules/user/presentation/account/component/device_setting_view.dart';
+import '../../modules/user/presentation/account/component/edit_profile_screen.dart';
 
 class RoutesGenerator {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -73,6 +75,16 @@ class RoutesGenerator {
       case Routes.manageModifiers:
         return MaterialPageRoute(
           builder: (_) => const ManageModifiersScreen(),
+          settings: routeSettings,
+        );
+      case Routes.editProfile:
+        return MaterialPageRoute(
+          builder: (_) => const EditProfileScreen(),
+          settings: routeSettings,
+        );
+      case Routes.deviceSetting:
+        return MaterialPageRoute(
+          builder: (_) => const DeviceSettingScreen(),
           settings: routeSettings,
         );
       case Routes.printerSettings:

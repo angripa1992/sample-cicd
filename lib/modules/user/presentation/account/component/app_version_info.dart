@@ -14,43 +14,27 @@ class AppVersionInfo extends StatelessWidget {
 
   AppVersionInfo({Key? key}) : super(key: key);
 
-  final _textStyle = mediumTextStyle(
-    color: AppColors.darkViolet,
-    fontSize: AppFontSize.s16.rSp,
-  );
-
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
           AppImages.splashLogo,
-          color: AppColors.darkViolet,
+          color: AppColors.blackCow,
           height: AppSize.s24.rh,
           width: AppSize.s24.rw,
         ),
-        SizedBox(width: AppSize.s8.rw),
-        FutureBuilder<String>(
-          future: _deviceInfoProvider.appName(),
-          builder: (_, name) {
-            if (name.hasData) {
-              return Text(
-                name.data!,
-                style: _textStyle,
-              );
-            }
-            return const SizedBox();
-          },
-        ),
-        SizedBox(width: AppSize.s4.rw),
+        SizedBox(width: AppSize.s16.rw),
         FutureBuilder<String>(
           future: _deviceInfoProvider.versionName(),
           builder: (_, version) {
             if (version.hasData) {
               return Text(
-                version.data!,
-                style: _textStyle,
+               'App Version :  ${version.data!}',
+                style: mediumTextStyle(
+                  color: AppColors.blackCow,
+                  fontSize: AppFontSize.s16.rSp,
+                ),
               );
             }
             return const SizedBox();

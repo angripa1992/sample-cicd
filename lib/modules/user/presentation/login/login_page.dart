@@ -101,11 +101,16 @@ class _LoginScreenState extends State<LoginScreen> {
       refreshToken: user.refreshToken,
     );
     await SessionManager().setLoginState(isLoggedIn: true);
-    await SessionManager().setNotificationEnabled(user.userInfo.orderNotificationEnabled);
+    await _saveUserSetting(user.userInfo);
     SessionManager().saveUser(user.userInfo).then((_) {
       _registerFcmToken(user);
       SegmentManager().identify(event: SegmentEvents.USER_LOGGED_IN);
     });
+  }
+
+  Future<void> _saveUserSetting(UserInfo userInfo) async{
+    await SessionManager().setNotificationEnabled(userInfo.orderNotificationEnabled);
+    await SessionManager().setSunmiDevice(userInfo.sunmiDevice);
   }
 
   Future _registerFcmToken(User user) async {
