@@ -1,12 +1,14 @@
 import 'package:docket_design_template/docket_design_template.dart';
 import 'package:docket_design_template/model/font_size.dart';
 import 'package:docket_design_template/model/order.dart';
+import 'package:docket_design_template/sunmi_design_template.dart';
 import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -94,44 +96,6 @@ class PrintingHandler {
     }
   }
 
-  void printDocket({
-    required Order order,
-    bool isAutoPrint = false,
-    bool willPrintSticker = true,
-  }) async {
-    //_doManualPrint(order);
-    final permissionGranted = await _isPermissionGranted();
-    if (permissionGranted) {
-      if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
-        if (BluetoothPrinterHandler().isConnected()) {
-          if (isAutoPrint) {
-            _doAutoPrint(order);
-          } else {
-            _doManualPrint(order);
-          }
-        } else {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.bluetooth_not_connected.tr(),
-          );
-        }
-      } else {
-        if (UsbPrinterHandler().isConnected()) {
-          if (isAutoPrint) {
-            _doAutoPrint(order);
-          } else {
-            _doManualPrint(order);
-          }
-        } else {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.usb_not_connected.tr(),
-          );
-        }
-      }
-    }
-  }
-
   void printSticker(Order order, CartV2 item) async {
     //final command = StickerDocketGenerator().generateDocket(order, item);
     if (await StickerPrinterHandler().isConnected()) {
@@ -145,61 +109,142 @@ class PrintingHandler {
     }
   }
 
+  void printDocket({
+    required Order order,
+    bool isAutoPrint = false,
+    bool willPrintSticker = true,
+  }) async {
+    //_doManualPrint(order);
+    final permissionGranted = await _isPermissionGranted();
+    if (permissionGranted) {
+      if (SessionManager().isSunmiDevice()) {
+        if (isAutoPrint) {
+          _sunmiAutoPrint(order);
+        } else {
+          _doManualPrint(order);
+        }
+      } else if (_preferences.printerSetting().connectionType ==
+          ConnectionType.BLUETOOTH) {
+        if (BluetoothPrinterHandler().isConnected()) {
+          if (isAutoPrint) {
+            _bluetoothAutoPrint(order);
+          } else {
+            _doManualPrint(order);
+          }
+        } else {
+          showErrorSnackBar(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            AppStrings.bluetooth_not_connected.tr(),
+          );
+        }
+      } else {
+        if (UsbPrinterHandler().isConnected()) {
+          if (isAutoPrint) {
+            _usbAutoPrint(order);
+          } else {
+            _doManualPrint(order);
+          }
+        } else {
+          showErrorSnackBar(
+            RoutesGenerator.navigatorKey.currentState!.context,
+            AppStrings.usb_not_connected.tr(),
+          );
+        }
+      }
+    }
+  }
+
   void _doManualPrint(Order order) {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
         //_showPreview(order: order, docketType: type);
-        final printingData = await _generatePrintingData(order: order, docketType: type);
-        if (printingData != null) {
-          if (_preferences.printerSetting().connectionType ==
-              ConnectionType.BLUETOOTH) {
-            await BluetoothPrinterHandler().printDocket(printingData);
-          } else {
-            await UsbPrinterHandler().printDocket(printingData);
+        if (SessionManager().isSunmiDevice()) {
+          final templateOrder = await _generateTemplateOrder(order);
+          await SunmiDesignTemplate().printSunmi(
+            templateOrder,
+            type == DocketType.customer,
+          );
+        } else {
+          final printingData =
+              await _generatePrintingData(order: order, docketType: type);
+          if (printingData != null) {
+            if (_preferences.printerSetting().connectionType ==
+                ConnectionType.BLUETOOTH) {
+              await BluetoothPrinterHandler().printDocket(printingData);
+            } else {
+              await UsbPrinterHandler().printDocket(printingData);
+            }
           }
         }
       },
     );
   }
 
-  void _doAutoPrint(Order order) async {
+  void _bluetoothAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
     final customerCopy = await _generatePrintingData(
-        order: order, docketType: DocketType.customer);
+      order: order,
+      docketType: DocketType.customer,
+    );
     final kitchenCopy = await _generatePrintingData(
-        order: order, docketType: DocketType.kitchen);
-    if (printerSetting.connectionType == ConnectionType.BLUETOOTH) {
-      if (printerSetting.customerCopyEnabled) {
-        if (customerCopy != null) {
-          for (int i = 0; i < printerSetting.customerCopyCount; i++) {
-            await BluetoothPrinterHandler().printDocket(customerCopy);
-          }
+      order: order,
+      docketType: DocketType.kitchen,
+    );
+    if (printerSetting.customerCopyEnabled) {
+      if (customerCopy != null) {
+        for (int i = 0; i < printerSetting.customerCopyCount; i++) {
+          await BluetoothPrinterHandler().printDocket(customerCopy);
         }
       }
-      if (printerSetting.kitchenCopyEnabled &&
-          printerSetting.kitchenCopyCount > ZERO) {
-        if (kitchenCopy != null) {
-          for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
-            await BluetoothPrinterHandler().printDocket(kitchenCopy);
-          }
+    }
+    if (printerSetting.kitchenCopyEnabled &&
+        printerSetting.kitchenCopyCount > ZERO) {
+      if (kitchenCopy != null) {
+        for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
+          await BluetoothPrinterHandler().printDocket(kitchenCopy);
         }
       }
-    } else {
-      if (printerSetting.customerCopyEnabled) {
-        if (customerCopy != null) {
-          for (int i = 0; i < printerSetting.customerCopyCount; i++) {
-            await UsbPrinterHandler().printDocket(customerCopy);
-          }
+    }
+  }
+
+  void _usbAutoPrint(Order order) async {
+    final printerSetting = _preferences.printerSetting();
+    final customerCopy = await _generatePrintingData(
+      order: order,
+      docketType: DocketType.customer,
+    );
+    final kitchenCopy = await _generatePrintingData(
+      order: order,
+      docketType: DocketType.kitchen,
+    );
+    if (printerSetting.customerCopyEnabled) {
+      if (customerCopy != null) {
+        for (int i = 0; i < printerSetting.customerCopyCount; i++) {
+          await UsbPrinterHandler().printDocket(customerCopy);
         }
       }
-      if (printerSetting.kitchenCopyEnabled &&
-          printerSetting.kitchenCopyCount > ZERO) {
-        if (kitchenCopy != null) {
-          for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
-            await UsbPrinterHandler().printDocket(kitchenCopy);
-          }
+    }
+    if (printerSetting.kitchenCopyEnabled &&
+        printerSetting.kitchenCopyCount > ZERO) {
+      if (kitchenCopy != null) {
+        for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
+          await UsbPrinterHandler().printDocket(kitchenCopy);
         }
       }
+    }
+  }
+
+  void _sunmiAutoPrint(Order order) async {
+    final printerSetting = _preferences.printerSetting();
+    final templateOrder = await _generateTemplateOrder(order);
+    if (printerSetting.customerCopyEnabled) {
+      for (int i = 0; i < printerSetting.customerCopyCount; i++) {
+        await SunmiDesignTemplate().printSunmi(templateOrder, true);
+      }
+    }
+    if (printerSetting.kitchenCopyEnabled &&
+        printerSetting.kitchenCopyCount > ZERO) {
+      await SunmiDesignTemplate().printSunmi(templateOrder, false);
     }
   }
 
@@ -233,6 +278,17 @@ class PrintingHandler {
     return rawBytes;
   }
 
+  Future<TemplateOrder> _generateTemplateOrder(Order order) async {
+    Brand? brand;
+    if (order.brands.length == 1) {
+      brand = await _infoProvider.findBrandById(order.brands.first.id);
+    }
+    return PrinterDataProvider().createTemplateOrderData(
+      brand: brand,
+      order: order,
+    );
+  }
+
   void _showPreview({
     required Order order,
     required int docketType,
@@ -257,17 +313,6 @@ class PrintingHandler {
           capturedImage: pdfImage,
         ),
       ),
-    );
-  }
-
-  Future<TemplateOrder> _generateTemplateOrder(Order order) async {
-    Brand? brand;
-    if (order.brands.length == 1) {
-      brand = await _infoProvider.findBrandById(order.brands.first.id);
-    }
-    return PrinterDataProvider().createTemplateOrderData(
-      brand: brand,
-      order: order,
     );
   }
 }

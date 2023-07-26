@@ -355,8 +355,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "version3.0.2"
-      resolved-ref: "816c7c8244e261c20173e53c49af1101be9f8ac1"
+      ref: "feature/sumni-printer"
+      resolved-ref: "64ee3d76bde9d21ed2fea1acf9b7d7d76b93b01a"
       url: "git@github.com:klikit/docket_design_template.git"
     source: git
     version: "0.0.1"
@@ -1365,6 +1365,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+  sunmi_printer_plus:
+    dependency: transitive
+    description:
+      name: sunmi_printer_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.01"
   synchronized:
     dependency: transitive
     description:

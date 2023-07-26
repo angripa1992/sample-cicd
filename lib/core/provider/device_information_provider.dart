@@ -43,7 +43,6 @@ class DeviceInfoProvider {
   Future<String> getOsVersion() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    final base = await deviceInfo.androidInfo;
     return androidInfo.version.release.toString();
   }
 

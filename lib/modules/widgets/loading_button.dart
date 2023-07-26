@@ -30,8 +30,6 @@ class LoadingButton extends StatelessWidget {
   Color _bgColor() {
     if (!enabled) {
       return AppColors.smokeyGrey;
-    } else if (isLoading) {
-      return AppColors.white;
     } else {
       return color ?? AppColors.purpleBlue;
     }
@@ -51,8 +49,7 @@ class LoadingButton extends StatelessWidget {
       onPressed: (!enabled || isLoading) ? null : onTap,
       style: ElevatedButton.styleFrom(
         backgroundColor: _bgColor(),
-        disabledBackgroundColor:
-            isLoading ? AppColors.white : AppColors.smokeyGrey,
+        disabledBackgroundColor: isLoading ? AppColors.white : AppColors.smokeyGrey,
         side: BorderSide(
           width: AppSize.s1.rw,
           color: _borderColor(),

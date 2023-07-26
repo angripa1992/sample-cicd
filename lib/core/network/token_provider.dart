@@ -1,34 +1,33 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/core/network/public_rest_client.dart';
 import 'package:klikit/core/network/urls.dart';
 import 'package:klikit/env/environment_variables.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../app/di.dart';
+import '../../app/enums.dart';
 import 'error_handler.dart';
 
 class TokenProvider {
-  final Dio _tokenDio = Dio();
-
-  TokenProvider() {
-    _initInterceptor();
-    _tokenDio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
-  }
-
-  void _initInterceptor() {
-    _tokenDio.interceptors.add(
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-        compact: true,
-        maxWidth: 90,
-      ),
-    );
-  }
+  // TokenProvider() {
+  //   _initInterceptor();
+  //   _tokenDio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
+  // }
+  //
+  // void _initInterceptor() {
+  //   _tokenDio.interceptors.add(
+  //     PrettyDioLogger(
+  //       requestHeader: true,
+  //       requestBody: true,
+  //       responseBody: true,
+  //       responseHeader: false,
+  //       error: true,
+  //       compact: true,
+  //       maxWidth: 90,
+  //     ),
+  //   );
+  // }
 
   String? getAccessToken() => SessionManager().accessToke();
 
@@ -36,12 +35,13 @@ class TokenProvider {
 
   Future<Either<String, int>> fetchTokenFromServer() async {
     try {
-      final response = await _tokenDio.post(
-        Urls.refreshToken,
-        data: {"refresh_token": getRefreshToken()},
+      final response = await PublicRestClient().request(
+        '${getIt.get<EnvironmentVariables>().baseUrl}${Urls.refreshToken}',
+        Method.POST,
+        {"refresh_token": getRefreshToken()},
       );
-      final accessToken = response.data['access_token'];
-      final refreshToken = response.data['refresh_token'];
+      final accessToken = response['access_token'];
+      final refreshToken = response['refresh_token'];
       await SessionManager().saveToken(
         accessToken: accessToken,
         refreshToken: refreshToken,

@@ -18,7 +18,7 @@ import 'modules/widgets/loader.dart';
 import 'notification/fcm_service.dart';
 import 'notification/local_notification_service.dart';
 
-void mainCommon(Env env) async {
+void mainCommon(EnvironmentVariables env) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final environmentVariables = await EnvManager().fetchEnv(env);

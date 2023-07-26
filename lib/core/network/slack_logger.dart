@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
+import 'package:klikit/env/environment_variables.dart';
 import 'package:slack_logger/slack_logger.dart';
 
 import '../../app/di.dart';
@@ -16,24 +17,26 @@ class SlackLoggerResolver {
 
   void initLogger() {
     SlackLogger(
-      webhookUrl:
-          'https://hooks.slack.com/services/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',
+      webhookUrl: getIt.get<EnvironmentVariables>().slackUrl,
     );
   }
 
-  void sendApiError(DioError error) async {
+  void sendApiError(DioException error) async {
     if(!kReleaseMode){
       return;
     }
-    List<String> markdownMessageList = await _metadata();
+    List<String> metadata = await _metadata();
+    List<String> business = await _businessInfo();
+    List<String> markdownMessageList = [];
+    markdownMessageList.addAll(metadata);
+    markdownMessageList.addAll(business);
     markdownMessageList.addAll(
       [
-        "*API ERROR*",
-        'BASE URL: ${error.requestOptions.baseUrl}',
-        'PATH: ${error.requestOptions.path}',
-        'PARAMS: ${error.requestOptions.queryParameters}',
-        'STATUS CODE: ${error.response?.statusCode?.toString()}',
-        'BODY: ${error.response?.toString()}',
+        "********** API ERROR **********",
+        'Url: ${error.requestOptions.baseUrl}${error.requestOptions.path}',
+        'Params: ${error.requestOptions.queryParameters}',
+        'Status Code: ${error.response?.statusCode?.toString()}',
+        'Response: ${error.response?.toString()}',
       ],
     );
     SlackLogger.instance.sendMarkdownAsAttachment(
@@ -43,18 +46,24 @@ class SlackLoggerResolver {
   }
 
   Future<List<String>> _metadata() async {
-    final user = SessionManager().currentUser();
     final deviceInfo = getIt.get<DeviceInfoProvider>();
     return [
-      "*METADATA*",
       "CREATED AT: ${DateTimeProvider.currentDateTime()}",
-      "BRANCH: ${user.branchName} (${user.branchId})",
-      "BRAND: ${user.brandName} (${user.branchId})",
-      "BUSINESS: ${user.businessName} (${user.businessId})",
-      "VERSION: ${await deviceInfo.versionName()}",
-      "PACKAGE: ${await deviceInfo.packageName()}",
+      "********** METADATA **********",
+      "Version: ${await deviceInfo.versionName()}",
+      "Package: ${await deviceInfo.packageName()}",
       "OS: ${await deviceInfo.getOsVersion()}",
-      "DEVICE: ${await deviceInfo.getDeviceModel()}",
+      "Device: ${await deviceInfo.getDeviceModel()}",
+    ];
+  }
+
+  Future<List<String>> _businessInfo() async {
+    final user = SessionManager().currentUser();
+    return [
+      "********** BUSINESS **********",
+      "Branch: ${user.branchName} (${user.branchId})",
+      "Brand: ${user.brandName} (${user.branchId})",
+      "Business: ${user.businessName} (${user.businessId})",
     ];
   }
 }
