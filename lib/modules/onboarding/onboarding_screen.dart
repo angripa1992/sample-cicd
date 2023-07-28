@@ -44,8 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       (_) async {
         if (mounted) {
           final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-              await flutterLocalNotificationsPlugin
-                  .getNotificationAppLaunchDetails();
+              await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
           if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
             NotificationHandler().handleBackgroundNotification(
                 notificationAppLaunchDetails?.notificationResponse?.payload);
