@@ -12,8 +12,7 @@ class MenusDataModel {
 
   MenusDataModel({this.sections});
 
-  factory MenusDataModel.fromJson(Map<String, dynamic> json) =>
-      _$MenusDataModelFromJson(json);
+  factory MenusDataModel.fromJson(Map<String, dynamic> json) => _$MenusDataModelFromJson(json);
 
   MenusData toEntity() {
     return MenusData(

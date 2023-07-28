@@ -23,8 +23,7 @@ class PricesModel {
     this.price,
   });
 
-  factory PricesModel.fromJson(Map<String, dynamic> json) =>
-      _$PricesModelFromJson(json);
+  factory PricesModel.fromJson(Map<String, dynamic> json) => _$PricesModelFromJson(json);
 
   Prices toEntity() {
     return Prices(

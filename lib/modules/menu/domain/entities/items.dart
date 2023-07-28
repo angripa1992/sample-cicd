@@ -40,3 +40,4 @@ class MenuItems {
     this.availableTimes,
   });
 }
+

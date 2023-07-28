@@ -19,8 +19,7 @@ import '../models/brands_model.dart';
 abstract class MenuRemoteDatasource {
   Future<MenuBrandsModel> fetchMenuBrands(Map<String, dynamic> params);
 
-  Future<MenuBrandModel> fetchMenuBrand(
-      {required int brandId, required int branchId});
+  Future<MenuBrandModel> fetchMenuBrand({required int brandId, required int branchId});
 
   Future<MenusDataModel> fetchMenus(FetchMenuParams params);
 
@@ -28,11 +27,9 @@ abstract class MenuRemoteDatasource {
 
   Future<ActionSuccess> updateMenu(UpdateMenuParams params);
 
-  Future<List<ModifiersGroupModel>> fetchModifiersGroup(
-      Map<String, dynamic> params);
+  Future<List<ModifiersGroupModel>> fetchModifiersGroup(Map<String, dynamic> params);
 
-  Future<ModifierDisabledResponseModel> disableModifier(
-      ModifierRequestModel param);
+  Future<ModifierDisabledResponseModel> disableModifier(ModifierRequestModel param);
 
   Future<ActionSuccess> enableModifier(ModifierRequestModel param);
 }

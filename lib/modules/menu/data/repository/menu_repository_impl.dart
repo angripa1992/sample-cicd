@@ -67,7 +67,8 @@ class MenuRepositoryImpl extends MenuRepository {
 
   @override
   Future<Either<Failure, ActionSuccess>> updateMenu(
-      UpdateMenuParams params) async {
+    UpdateMenuParams params,
+  ) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updateMenu(params);
@@ -82,7 +83,8 @@ class MenuRepositoryImpl extends MenuRepository {
 
   @override
   Future<Either<Failure, List<ModifiersGroup>>> fetchModifiersGroups(
-      Map<String, dynamic> params) async {
+    Map<String, dynamic> params,
+  ) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchModifiersGroup(params);
@@ -97,7 +99,8 @@ class MenuRepositoryImpl extends MenuRepository {
 
   @override
   Future<Either<Failure, ModifierDisabledResponse>> disableModifier(
-      ModifierRequestModel params) async {
+    ModifierRequestModel params,
+  ) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.disableModifier(params);
@@ -112,7 +115,8 @@ class MenuRepositoryImpl extends MenuRepository {
 
   @override
   Future<Either<Failure, ActionSuccess>> enableModifier(
-      ModifierRequestModel params) async {
+    ModifierRequestModel params,
+  ) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.enableModifier(params);
