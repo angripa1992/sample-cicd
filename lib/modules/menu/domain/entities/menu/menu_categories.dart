@@ -1,5 +1,5 @@
-import 'menu_available_times.dart';
 import 'menu_item.dart';
+import 'menu_available_times.dart';
 import 'menu_visibility.dart';
 
 class MenuCategory{

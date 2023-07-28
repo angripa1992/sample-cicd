@@ -11,8 +11,8 @@ class MenuItem {
   final int vat;
   final String image;
   final bool enabled;
-  final List<MenuVisibility> visibilities;
   final int sequence;
+  final List<MenuVisibility> visibilities;
   final MenuAvailableTimes availableTimes;
   MenuOutOfStock outOfStock;
 
