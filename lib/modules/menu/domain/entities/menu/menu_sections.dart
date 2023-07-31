@@ -1,3 +1,4 @@
+import 'menu_available_times.dart';
 import 'menu_categories.dart';
 import 'menu_visibility.dart';
 
@@ -7,6 +8,7 @@ class MenuSections{
   final String description;
   final List<MenuVisibility> visibilities;
   final int sequence;
+  final MenuAvailableTimes availableTimes;
   bool enabled;
   List<MenuCategory> categories;
 
@@ -18,5 +20,6 @@ class MenuSections{
     required this.sequence,
     required this.visibilities,
     required this.categories,
+    required this.availableTimes,
   });
 }

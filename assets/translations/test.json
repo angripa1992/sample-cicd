@@ -1,92 +1,17 @@
-static  String select_docket_type = 'select_docket_type'.tr();
-static  String set_docket_type = "set_docket_type".tr();
-static  String successfully_added_to_cart = "successfully_added_to_cart".tr();
-static  String kitchen = "kitchen".tr();
-static  String customer = "customer".tr();
-static  String dine_in = "dine_in".tr();
-static String set_font_size = 'set_font_size'.tr().tr();
-static  String small = "small".tr();
-static  String normal = "normal".tr();
-static  String large = "large".tr();
-static  String huge = "huge".tr();
-static  String update_required = 'update_required'.tr();
-static  String update_app =  'update_app'.tr();
-static  String app_update_msg = 'app_update_msg'.tr();
 
-static  String no_item_found = "no_item_found".tr();
-static  String out_of_stock = "out_of_stock".tr();
-static  String unavailable = "unavailable".tr();
-static  String add_to_cart = "add_to_cart".tr();
-static  String go_to_cart = "go_to_cart".tr();
-static  String select_brand_name_msg = "select_brand_name_msg".tr();
-static  String click_button_to_select_brand = "click_button_to_select_brand".tr();
-static  String search_for_items = "search_for_items".tr();
-static  String categories = "categories".tr();
-static  String no_categories_found = "no_categories_found".tr();
-static  String Items = "Items".tr();
-static  String special_instruction = "special_instruction".tr();
-static  String add_instruction = "add_instruction".tr();
-static  String optional = "optional".tr();
-static  String required = "required".tr();
-static  String choose_upto = "choose_upto".tr();
-static  String choose = "choose".tr();
-static  String for_ = "for_".tr();
-static  String add_as_new = "add_as_new".tr();
-static  String select_brand_name = "select_brand_name".tr();
-
-static  String chnage_amount = 'chnage_amount'.tr();
-static  String can_not_be_greater_than_subtotal = 'can_not_be_greater_than_subtotal'.tr();
-static  String can_not_be_greater_than_100 = 'can_not_be_greater_than_100'.tr();
-static  String type = 'type'.tr();
-static  String flat = 'flat'.tr();
-static  String percentage = 'percentage'.tr();
-static  String want_to_delete_item_msg = 'want_to_delete_item_msg'.tr();
-static  String want_to_delete_all_item_msg = 'want_to_delete_all_item_msg'.tr();
-static  String payment_status = 'payment_status'.tr();
-static  String payment_method = 'payment_method'.tr();
-static  String select_payment_status = 'select_payment_status'.tr();
-static  String add_payment_method = 'add_payment_method'.tr();
-static  String customer_info = 'customer_info'.tr();
-static  String add_customer_info = 'add_customer_info'.tr();
-static  String phone = 'phone'.tr();
-static  String table_no = 'table_no'.tr();
-static  String submit = 'submit'.tr();
-static  String placed_order = 'placed_order'.tr();
-static  String update_order = 'update_order'.tr();
-static  String order_type = 'order_type'.tr();
-static  String cart = 'cart'.tr();
-static  String checkout = 'checkout'.tr();
-static  String order_source = 'order_source'.tr();
-static  String inc_vat = 'inc_vat'.tr();
-static  String your_cart_is_empty = 'your_cart_is_empty'.tr();
-static  String add_items_to_cart_msg = 'add_items_to_cart_msg'.tr();
-static  String add_items = 'add_items'.tr();
-static  String procees_to_checkout = 'procees_to_checkout'.tr();
-static  String service_fee = 'service_fee'.tr();
-static  String add_more_items = 'add_more_items'.tr();
-static  String remove_all = 'remove_all'.tr();
-static  String edit = 'edit'.tr();
-static  String calculated_at_next_step = 'calculated_at_next_step'.tr();
-static  String order_id = 'order_id'.tr();
-static  String delete_item = 'delete_item'.tr();
-static  String schedule = 'schedule'.tr();
-static  String history = 'history'.tr();
-static  String select_payment_method_and_status = 'select_payment_method_and_status'.tr();
-static  String pause_store = 'pause_store'.tr();
-static  String print = 'print'.tr();
-static  String accept = 'accept'.tr();
-static  String reject = 'reject'.tr();
-static  String proceed = 'proceed'.tr();
-static  String webshop = 'webshop'.tr();
-static  String update_payment_info = 'update_payment_info'.tr();
-static  String edit_order = 'edit_order'.tr();
-static  String modifier_group = 'modifier_group'.tr();
-static  String modifier = 'modifier'.tr();
-static  String categories_list = 'categories_list'.tr();
-static  String out_of_stock_settings = 'out_of_stock_settings'.tr();
-static  String out_of_stock_till= 'out_of_stock_till'.tr();
-static  String stock_disabled_successful= "stock_disabled_successful".tr();
-static  String day= 'day'.tr();
-static  String hours= 'hours'.tr();
-static  String untill_trun_back_on= 'untill_trun_back_on'.tr();
-static  String items_list= 'items_list'.tr();
+{
+  "resources": {
+    "image": [
+      {
+        "providerId": 1,
+        "paths": [
+          {
+            "path": "/images/8b040ed0dfa2dad9bf66bbcece98ba028990001a.jpg",
+            "sequence": 6,
+            "default": true
+          }
+        ]
+      }
+    ]
+  }
+}
