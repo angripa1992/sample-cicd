@@ -1,3 +1,4 @@
+import 'menu_available_times.dart';
 import 'menu_item.dart';
 import 'menu_visibility.dart';
 
@@ -8,6 +9,7 @@ class MenuCategory{
   final List<MenuVisibility> visibilities;
   final bool alcBeverages;
   final int sequence;
+  final MenuAvailableTimes availableTimes;
   bool enabled;
   List<MenuItem> items;
 
@@ -20,5 +22,6 @@ class MenuCategory{
     required this.alcBeverages,
     required this.sequence,
     required this.items,
+    required this.availableTimes,
   });
 }

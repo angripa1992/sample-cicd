@@ -1,8 +1,8 @@
-class OutOfStock {
+class MenuOutOfStock {
   bool available;
   MenuSnooze menuSnooze;
 
-  OutOfStock({
+  MenuOutOfStock({
     required this.available,
     required this.menuSnooze,
   });
