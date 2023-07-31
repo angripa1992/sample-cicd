@@ -17,8 +17,7 @@ class EnvManager {
   Future<EnvironmentVariables> fetchEnv(EnvironmentVariables env) async {
     final remoteConfigEnv = await _fetchEnvFromRemoteConfig();
     final mainEnv = remoteConfigEnv ?? env;
-    final remoteEnvUrls =
-        await _fetchRemoteUrls('${mainEnv.baseUrl}/v1/app/settings');
+    final remoteEnvUrls = await _fetchRemoteUrls('${mainEnv.baseUrl}/v1/app/settings');
     if (remoteEnvUrls != null) {
       mainEnv.baseUrl = remoteEnvUrls.urls?.baseUrl ?? mainEnv.baseUrl;
       mainEnv.cdnUrl = remoteEnvUrls.urls?.cdnUrl ?? mainEnv.cdnUrl;

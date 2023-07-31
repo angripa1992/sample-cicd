@@ -112,8 +112,7 @@ class PrinterDataProvider {
       price: modifiers.price,
       quantity: modifiers.quantity,
       unitPrice: modifiers.unitPrice,
-      modifierGroups:
-          __createTemplateModifiersGroupsList(modifiers.modifierGroups),
+      modifierGroups: __createTemplateModifiersGroupsList(modifiers.modifierGroups),
     );
   }
 

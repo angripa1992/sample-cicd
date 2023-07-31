@@ -75,8 +75,7 @@ class OrderItemDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+                        padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         child: _brandView(cartBrand),
                       ),
                       ListView.builder(
@@ -119,9 +118,8 @@ class OrderItemDetails extends StatelessWidget {
                                             paddingLevel: 2,
                                           ),
                                           Column(
-                                            children: modifiersGroupOne
-                                                .modifiers
-                                                .map(
+                                            children:
+                                                modifiersGroupOne.modifiers.map(
                                               (modifiersOne) {
                                                 return Column(
                                                   crossAxisAlignment:
@@ -134,8 +132,7 @@ class OrderItemDetails extends StatelessWidget {
                                                     _modifierItemView(
                                                       modifiers: modifiersOne,
                                                       prevQuantity:
-                                                          modifiersOne
-                                                              .quantity,
+                                                          modifiersOne.quantity,
                                                       itemQuantity:
                                                           cart.quantity,
                                                       paddingLevel: 3,
@@ -158,8 +155,7 @@ class OrderItemDetails extends StatelessWidget {
                                                                 name:
                                                                     secondModifierGroups
                                                                         .name,
-                                                                paddingLevel:
-                                                                    4,
+                                                                paddingLevel: 4,
                                                               ),
                                                               Column(
                                                                 children:
@@ -171,7 +167,8 @@ class OrderItemDetails extends StatelessWidget {
                                                                       modifiers:
                                                                           secondModifier,
                                                                       prevQuantity:
-                                                                          secondModifier.quantity,
+                                                                          secondModifier
+                                                                              .quantity,
                                                                       itemQuantity:
                                                                           cart.quantity,
                                                                       paddingLevel:
@@ -287,6 +284,12 @@ class OrderItemDetails extends StatelessWidget {
     required int itemQuantity,
     required int paddingLevel,
   }) {
+    final modifierPrice = PriceCalculator.calculateModifierPrice(
+      order,
+      modifiers,
+      prevQuantity,
+      itemQuantity,
+    );
     return Row(
       children: [
         Expanded(
@@ -304,19 +307,23 @@ class OrderItemDetails extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
-          flex: 2,
-          child: Text(
-            PriceCalculator.calculateModifierPrice(
-                order, modifiers, prevQuantity, itemQuantity),
-            textAlign: TextAlign.end,
-            style: TextStyle(
-              fontWeight: AppFontWeight.regular,
-              fontSize: AppFontSize.s14.rSp,
-              color: AppColors.black,
+        if (modifierPrice > 0)
+          Expanded(
+            flex: 2,
+            child: Text(
+              PriceCalculator.formatPrice(
+                price: modifierPrice,
+                currencySymbol: order.currencySymbol,
+                code: order.currency,
+              ),
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                fontWeight: AppFontWeight.regular,
+                fontSize: AppFontSize.s14.rSp,
+                color: AppColors.black,
+              ),
             ),
           ),
-        ),
       ],
     );
   }
@@ -325,17 +332,30 @@ class OrderItemDetails extends StatelessWidget {
     return Visibility(
       visible: comment.isNotEmpty,
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: AppSize.s4.rh,
+        padding: EdgeInsets.only(
+          top: AppSize.s8.rh,
+          left: AppSize.s8.rw,
         ),
-        child: Center(
-          child: Text(
-            '${AppStrings.note.tr()}: $comment',
-            style: regularTextStyle(
-              color: AppColors.bluewood,
-              fontSize: AppFontSize.s14.rSp,
+        child: Row(
+          children: [
+            Text(
+              '${AppStrings.note.tr()}:',
+              style: boldTextStyle(
+                color: AppColors.bluewood,
+                fontSize: AppFontSize.s14.rSp,
+              ),
             ),
-          ),
+            SizedBox(width: AppSize.s4.rw),
+            Expanded(
+              child: Text(
+                comment,
+                style: regularTextStyle(
+                  color: AppColors.bluewood,
+                  fontSize: AppFontSize.s14.rSp,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

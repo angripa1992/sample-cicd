@@ -39,30 +39,42 @@ void showCancellationReasonDialog({
             Icons.warning_amber,
             color: AppColors.warmRed,
           ),
-          title: Text(title),
-          content:
+          title: Text(
+            title,
+            style: boldTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s18.rSp,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               FutureBuilder<dartz.Either<Failure, List<CancellationReason>>>(
-            future: getIt.get<OrderRepository>().fetchCancellationReason(),
-            builder: (context, snap) {
-              if (snap.hasData && snap.data != null) {
-                return snap.data!.fold(
-                  (failure) {
-                    return Center(child: Text(failure.message));
-                  },
-                  (reasons) {
-                    return CancellationReasonDialogContent(
-                      reasons: reasons,
-                      order: order,
-                      successCallback: successCallback,
+                future: getIt.get<OrderRepository>().fetchCancellationReason(),
+                builder: (context, snap) {
+                  if (snap.hasData && snap.data != null) {
+                    return snap.data!.fold(
+                      (failure) {
+                        return Center(child: Text(failure.message));
+                      },
+                      (reasons) {
+                        return CancellationReasonDialogContent(
+                          reasons: reasons,
+                          order: order,
+                          successCallback: successCallback,
+                        );
+                      },
                     );
-                  },
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.purpleBlue,
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
           ),
         ),
       );
@@ -87,15 +99,13 @@ class CancellationReasonDialogContent extends StatefulWidget {
       _CancellationReasonDialogContentState();
 }
 
-class _CancellationReasonDialogContentState extends State<CancellationReasonDialogContent> {
+class _CancellationReasonDialogContentState
+    extends State<CancellationReasonDialogContent> {
+  final _valueNotifier = ValueNotifier<int?>(null);
   final _textController = TextEditingController();
   int? _cancellationReasonId;
 
   void _cancelOrder() {
-    if(_cancellationReasonId ==null){
-      showErrorSnackBar(context, 'Please select cancellation reason');
-      return;
-    }
     final params = {
       'status': OrderStatus.CANCELLED,
       'id': widget.order.id,
@@ -104,6 +114,13 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
       "cancellation_reason": _textController.text,
     };
     context.read<OrderActionCubit>().updateOrderStatus(params);
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _valueNotifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -133,6 +150,7 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
             reasons: widget.reasons,
             onReasonChanged: (reasonId) {
               _cancellationReasonId = reasonId;
+              _valueNotifier.value = _cancellationReasonId;
             },
           ),
           SizedBox(height: AppSize.s16.rh),
@@ -183,20 +201,27 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
                   listener: (context, state) {
                     if (state is Success<ActionSuccess>) {
                       Navigator.of(context).pop();
-                      showSuccessSnackBar(context, state.data.message!.orEmpty());
+                      showSuccessSnackBar(
+                          context, state.data.message!.orEmpty());
                       widget.successCallback();
                     } else if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
                     }
                   },
-                  builder: (context,state){
-                    return LoadingButton(
-                      isLoading: state is Loading,
-                      color: AppColors.warmRed,
-                      textColor: AppColors.white,
-                      borderColor: AppColors.warmRed,
-                      text: AppStrings.cancel.tr(),
-                      onTap: _cancelOrder,
+                  builder: (context, state) {
+                    return ValueListenableBuilder<int?>(
+                      valueListenable: _valueNotifier,
+                      builder: (_, value, __) {
+                        return LoadingButton(
+                          enabled: value != null,
+                          isLoading: state is Loading,
+                          color: AppColors.warmRed,
+                          textColor: AppColors.white,
+                          borderColor: AppColors.warmRed,
+                          text: AppStrings.reject.tr(),
+                          onTap: _cancelOrder,
+                        );
+                      },
                     );
                   },
                 ),

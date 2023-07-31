@@ -49,7 +49,8 @@ class LoadingButton extends StatelessWidget {
       onPressed: (!enabled || isLoading) ? null : onTap,
       style: ElevatedButton.styleFrom(
         backgroundColor: _bgColor(),
-        disabledBackgroundColor: isLoading ? AppColors.white : AppColors.smokeyGrey,
+        disabledBackgroundColor:
+            isLoading ? AppColors.white : AppColors.smokeyGrey,
         side: BorderSide(
           width: AppSize.s1.rw,
           color: _borderColor(),
@@ -57,13 +58,17 @@ class LoadingButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
         ),
+        padding: EdgeInsets.symmetric(
+          vertical: AppSize.s8.rh,
+          horizontal: AppSize.s8.rw,
+        ),
       ),
       child: isLoading
           ? SizedBox(
               height: AppSize.s12.rh,
               width: AppSize.s12.rw,
               child: CircularProgressIndicator(
-                color: textColor ?? AppColors.purpleBlue,
+                color: borderColor ?? AppColors.purpleBlue,
               ),
             )
           : Row(

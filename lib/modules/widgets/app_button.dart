@@ -42,6 +42,10 @@ class AppButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp), // <-- Radius
         ),
+        padding: EdgeInsets.symmetric(
+          vertical: AppSize.s8.rh,
+          horizontal: AppSize.s8.rw,
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +56,8 @@ class AppButton extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
               child: Icon(
                 icon,
-                color: enable ? (textColor ?? AppColors.white) : AppColors.white,
+                color:
+                    enable ? (textColor ?? AppColors.white) : AppColors.white,
               ),
             ),
           ),

@@ -10,12 +10,11 @@ import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../../resources/colors.dart';
-import '../../../../../../../resources/fonts.dart';
-import '../../../../../../../resources/styles.dart';
 import '../../../../../../../resources/values.dart';
 import '../../../../../../app/di.dart';
-import '../../../../add_order/presentation/pages/components/checkout/pament_method.dart';
-import '../../../../add_order/presentation/pages/components/checkout/payment_status.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/styles.dart';
+import '../../../../widgets/app_button.dart';
 import '../../bloc/order_action_cubit.dart';
 
 void showOrderActionDialog({
@@ -31,87 +30,60 @@ void showOrderActionDialog({
       return BlocProvider<OrderActionCubit>(
         create: (_) => getIt.get<OrderActionCubit>(),
         child: AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title,
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s20.rSp,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                child: const Divider(),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: BlocConsumer<OrderActionCubit, ResponseState>(
-                      listener: (context, state) {
-                        if (state is Success<ActionSuccess>) {
-                          Navigator.of(context).pop();
-                          showSuccessSnackBar(
-                              context, state.data.message.orEmpty());
-                          onSuccess();
-                        } else if (state is Failed) {
-                          Navigator.of(context).pop();
-                          showApiErrorSnackBar(context, state.failure);
-                        }
-                      },
-                      builder: (context, state) {
-                        return LoadingButton(
-                          isLoading: (state is Loading),
-                          onTap: () {
-                            context
-                                .read<OrderActionCubit>()
-                                .updateOrderStatus(params);
-                          },
-                          text: AppStrings.yes.tr(),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(width: AppSize.s8.rw),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-                        primary: AppColors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          side: BorderSide(color: AppColors.purpleBlue),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                        child: Text(
-                          AppStrings.no.tr(),
-                          style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s16.rSp,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
+          title: Text(
+            title,
+            style: boldTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s16.rSp,
+            ),
           ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: BlocConsumer<OrderActionCubit, ResponseState>(
+                    listener: (context, state) {
+                      if (state is Success<ActionSuccess>) {
+                        Navigator.of(context).pop();
+                        showSuccessSnackBar(
+                            context, state.data.message.orEmpty());
+                        onSuccess();
+                      } else if (state is Failed) {
+                        Navigator.of(context).pop();
+                        showApiErrorSnackBar(context, state.failure);
+                      }
+                    },
+                    builder: (context, state) {
+                      return LoadingButton(
+                        isLoading: (state is Loading),
+                        onTap: () {
+                          context
+                              .read<OrderActionCubit>()
+                              .updateOrderStatus(params);
+                        },
+                        text: AppStrings.yes.tr(),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: AppSize.s8.rw),
+                Expanded(
+                  child: AppButton(
+                    text: AppStrings.no.tr(),
+                    borderColor: AppColors.blackCow,
+                    color: AppColors.white,
+                    textColor: AppColors.blackCow,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       );
     },
   );
 }
-
-

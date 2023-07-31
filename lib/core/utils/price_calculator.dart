@@ -19,7 +19,7 @@ class PriceCalculator {
     );
   }
 
-  static String calculateModifierPrice(
+  static num calculateModifierPrice(
     Order order,
     Modifiers modifiers,
     int prevQuantity,
@@ -32,10 +32,7 @@ class PriceCalculator {
       modifierTotalPrice =
           unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
     }
-    return formatPrice(
-        price: modifierTotalPrice,
-        currencySymbol: order.currencySymbol,
-        code: order.currency);
+    return modifierTotalPrice;
   }
 
   static String calculateSubtotal(Order order) {
