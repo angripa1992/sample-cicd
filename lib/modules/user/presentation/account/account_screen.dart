@@ -94,6 +94,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 Navigator.of(dContext).pop();
               },
             ),
+            SizedBox(height: AppSize.s8.rh),
             AppButton(
               text: AppStrings.logout.tr(),
               color: AppColors.white,
