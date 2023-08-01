@@ -59,15 +59,22 @@ class CartManager {
 
   void removeFromCart(AddToCartItem item) {
     _carts.removeWhere(
-      (element) =>
-          element.item.id == item.item.id && element.quantity == item.quantity,
+      (element) => element.item.id == item.item.id && element.quantity == item.quantity,
     );
-    _notifyListener();
+    _checkCartAndClearIfNeeded();
   }
 
   void removeAll(int brandId) {
     _carts.removeWhere((element) => element.brand.id == brandId);
-    _notifyListener();
+    _checkCartAndClearIfNeeded();
+  }
+
+  void _checkCartAndClearIfNeeded(){
+    if(_carts.isEmpty){
+      clear();
+    }else{
+      _notifyListener();
+    }
   }
 
   void notifyPriceChanged() {

@@ -356,7 +356,7 @@ packages:
     description:
       path: "."
       ref: "feature/sumni-printer"
-      resolved-ref: "42ea27a9e66c927688dc8bb9de29c3bff433a1a5"
+      resolved-ref: "6bd200e6489e133e8e2f69a3ca7ae6b1bdc06eb5"
       url: "git@github.com:klikit/docket_design_template.git"
     source: git
     version: "0.0.1"

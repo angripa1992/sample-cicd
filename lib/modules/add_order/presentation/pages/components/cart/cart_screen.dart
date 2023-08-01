@@ -74,6 +74,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void dispose() {
     //_calculateBillNotifier.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -181,6 +182,7 @@ class _CartScreenState extends State<CartScreen> {
       discountValue: _globalDiscount,
       instruction: _textController.text,
     );
+    _saveCurrentEditInfo();
     widget.onCheckout(checkoutData);
   }
 
@@ -252,7 +254,8 @@ class _CartScreenState extends State<CartScreen> {
     );
     if (payload == null) return;
     EasyLoading.show();
-    final response = await getIt.get<AddOrderRepository>().calculateBill(model: payload);
+    final response =
+        await getIt.get<AddOrderRepository>().calculateBill(model: payload);
     EasyLoading.dismiss();
     response.fold(
       (failure) {
@@ -276,7 +279,11 @@ class _CartScreenState extends State<CartScreen> {
       color: AppColors.whiteSmoke,
       child: Column(
         children: [
-          CartAppBar(onClose: widget.onClose),
+          CartAppBar(
+            onClose: () {
+              widget.onClose();
+            },
+          ),
           Expanded(
             child: ValueListenableBuilder<int>(
               valueListenable: CartManager().getNotifyListener(),

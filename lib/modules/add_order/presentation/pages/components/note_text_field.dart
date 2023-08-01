@@ -31,6 +31,7 @@ class NoteTextField extends StatelessWidget {
           controller: controller,
           minLines: minLines,
           maxLines: minLines,
+          textInputAction: TextInputAction.go,
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: regularTextStyle(
