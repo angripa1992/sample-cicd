@@ -1,3 +1,4 @@
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_available_times.dart';
@@ -10,7 +11,7 @@ import '../../domain/entities/menu/menu_item_price.dart';
 import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/entities/menu/menu_sections.dart';
 import '../../domain/entities/menu/menu_visibility.dart';
-import '../models/menu_v1_data.dart';
+import '../models/menu/menu_v1_data.dart';
 
 MenuData mapMMV1toMenu(MenuV1MenusDataModel menusData) {
   final branchInfo = _menuV1dataToMenuBranchInfo(menusData.branchInfo!);
@@ -84,6 +85,7 @@ MenuCategoryItem _menuV1ItemToMenuItem(
   MenuAvailableTimes availableTimes,
 ) {
   return MenuCategoryItem(
+    menuVersion: MenuVersion.v1,
     id: data.id.orZero(),
     defaultItemId: data.defaultItemId.orZero(),
     title: data.title.orEmpty(),

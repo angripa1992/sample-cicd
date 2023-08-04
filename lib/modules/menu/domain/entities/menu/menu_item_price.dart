@@ -5,8 +5,8 @@ class MenuItemPrice {
   final int currencyId;
   final String currencyCode;
   final String currencySymbol;
-  final double price;
-  final double takeAwayPrice;
+  final num price;
+  final num takeAwayPrice;
 
   MenuItemPrice({
     required this.providerId,

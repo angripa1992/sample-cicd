@@ -168,6 +168,11 @@ class PrinterSelectIndex{
   static const sticker= 1;
 }
 
+class MenuVersion{
+  static const v1 = 1;
+  static const v2= 2;
+}
+
 class FulfillmentStatusId{
   static const ALLOCATING_RIDER = 1; //or 2
   static const ALLOCATING_RIDER_TWO = 2;

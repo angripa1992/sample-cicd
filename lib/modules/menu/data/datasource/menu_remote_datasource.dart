@@ -14,7 +14,7 @@ import '../../domain/usecase/fetch_menus.dart';
 import '../models/brand_model.dart';
 import '../models/brands_model.dart';
 import '../models/menu/menu_out_of_stock_model.dart';
-import '../models/menu_v1_data.dart';
+import '../models/menu/menu_v1_data.dart';
 
 abstract class MenuRemoteDatasource {
   Future<MenuBrandsModel> fetchMenuBrands(Map<String, dynamic> params);

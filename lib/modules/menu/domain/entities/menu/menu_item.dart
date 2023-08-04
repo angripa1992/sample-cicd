@@ -3,9 +3,11 @@ import 'package:klikit/app/constants.dart';
 import 'menu_available_times.dart';
 import 'menu_item_price.dart';
 import 'menu_out_of_stock.dart';
+import 'menu_resources.dart';
 import 'menu_visibility.dart';
 
 class MenuCategoryItem {
+  final int menuVersion;
   final int id;
   final int defaultItemId;
   final String title;
@@ -17,9 +19,11 @@ class MenuCategoryItem {
   final int sequence;
   final List<MenuVisibility> visibilities;
   final MenuAvailableTimes availableTimes;
+  final List<MenuResource>? resources;
   MenuOutOfStock outOfStock;
 
   MenuCategoryItem({
+    required this.menuVersion,
     required this.id,
     required this.defaultItemId,
     required this.title,
@@ -32,6 +36,7 @@ class MenuCategoryItem {
     required this.sequence,
     required this.outOfStock,
     required this.availableTimes,
+    this.resources,
   });
 
   MenuItemPrice klikitPrice() => prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
