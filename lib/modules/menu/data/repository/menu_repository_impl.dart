@@ -4,7 +4,6 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
 import 'package:klikit/modules/menu/domain/entities/brands.dart';
-import 'package:klikit/modules/menu/domain/entities/menues.dart';
 import 'package:klikit/modules/menu/domain/entities/modifier_disabled_response.dart';
 import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
@@ -13,8 +12,10 @@ import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../core/network/network_connectivity.dart';
-import '../../domain/entities/stock.dart';
+import '../../domain/entities/menu/menu_data.dart';
+import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/usecase/fetch_menus.dart';
+import '../mapper/mmv1_to_menu.dart';
 
 class MenuRepositoryImpl extends MenuRepository {
   final MenuRemoteDatasource _datasource;
@@ -38,11 +39,11 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, MenusData>> fetchMenus(FetchMenuParams params) async {
+  Future<Either<Failure, MenuData>> fetchMenuV1(FetchMenuParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchMenus(params);
-        return Right(response.toEntity());
+        final response = await _datasource.fetchMenuV1(params);
+        return Right(mapMMV1toMenu(response));
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
@@ -52,7 +53,8 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, Stock>> updateItem(UpdateItemParam params) async {
+  Future<Either<Failure, MenuOutOfStock>> updateItem(
+      UpdateItemParam params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updateItem(params);

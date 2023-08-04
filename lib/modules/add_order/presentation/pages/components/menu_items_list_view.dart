@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/menu_category_info_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/search/menu_search_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/search/search_button.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/subsection_info_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/tab_item_view.dart';
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
@@ -16,26 +15,27 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
-import '../../../../menu/domain/entities/items.dart';
+import '../../../../menu/domain/entities/menu/menu_categories.dart';
+import '../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/add_to_cart_item.dart';
 import '../../../domain/entities/item_modifier_group.dart';
 import '../../../utils/modifier_manager.dart';
-import '../../../utils/order_price_provider.dart';
 import 'dropdown/select_categories_dropdown.dart';
+import 'menu_category_item_view.dart';
 import 'menu_item_description.dart';
-import 'menu_item_view.dart';
 
-class MenuItemsListView extends StatefulWidget {
+class MenuCategoryItemsListView extends StatefulWidget {
   final MenuBrand? brand;
-  final List<SubSectionListItem> items;
+  final List<MenuCategory> categories;
   final VoidCallback onCartTap;
   final Function(AddToCartItem?) onAddToCart;
-  final Function(List<ItemModifierGroup>, MenuItems, MenuBrand) onAddModifier;
+  final Function(List<ItemModifierGroup>, MenuCategoryItem, MenuBrand)
+      onAddModifier;
 
-  const MenuItemsListView({
+  const MenuCategoryItemsListView({
     Key? key,
-    required this.items,
+    required this.categories,
     required this.onCartTap,
     this.brand,
     required this.onAddToCart,
@@ -43,21 +43,23 @@ class MenuItemsListView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MenuItemsListView> createState() => _MenuItemsListViewState();
+  State<MenuCategoryItemsListView> createState() =>
+      _MenuCategoryItemsListViewState();
 }
 
-class _MenuItemsListViewState extends State<MenuItemsListView> {
-  final _categoriesNotifier = ValueNotifier<SubSectionListItem?>(null);
+class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
+  late ValueNotifier<MenuCategory?> _categoriesNotifier;
   late ItemScrollController _itemScrollController;
   final _addOrderRepository = getIt.get<AddOrderRepository>();
 
   @override
   void initState() {
+    _categoriesNotifier = ValueNotifier<MenuCategory?>(null);
     _itemScrollController = ItemScrollController();
     super.initState();
   }
 
-  void _fetchModifier(MenuItems item) async {
+  void _fetchModifier(MenuCategoryItem item) async {
     EasyLoading.show();
     final response = await _addOrderRepository.fetchModifiers(itemId: item.id);
     response.fold(
@@ -77,7 +79,11 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
     );
   }
 
-  void _addNonModifierItem(MenuItems item, int quantity,String instruction) {
+  void _addNonModifierItem(
+    MenuCategoryItem item,
+    int quantity,
+    String instruction,
+  ) {
     widget.onAddToCart(
       AddToCartItem(
         modifiers: [],
@@ -85,7 +91,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
         quantity: quantity,
         itemInstruction: instruction,
         modifiersPrice: 0,
-        itemPrice: OrderPriceProvider.klikitPrice(item.prices),
+        itemPrice: item.klikitPrice(),
         brand: widget.brand!,
         discountType: DiscountType.flat,
         discountValue: 0,
@@ -93,7 +99,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
     );
   }
 
-  void _showItemDetails(BuildContext context, MenuItems item) {
+  void _showItemDetails(BuildContext context, MenuCategoryItem item) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -104,16 +110,13 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
           body: Container(
             margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
             decoration: BoxDecoration(
-              // borderRadius: BorderRadius.only(
-              //     topLeft: Radius.circular(AppSize.s12.rSp),
-              //     topRight: Radius.circular(AppSize.s12.rSp)),
               color: AppColors.whiteSmoke,
             ),
             child: MenuItemDescription(
-              items: item,
-              addToCart: (quantity,instruction) {
+              menuCategoryItem: item,
+              addToCart: (quantity, instruction) {
                 Navigator.pop(context);
-                _addNonModifierItem(item, quantity,instruction);
+                _addNonModifierItem(item, quantity, instruction);
               },
             ),
           ),
@@ -133,7 +136,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
           body: Container(
             margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
             child: MenuSearchView(
-              items: widget.items,
+              categories: widget.categories,
               onBack: () {
                 Navigator.pop(context);
               },
@@ -156,8 +159,8 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
   }
 
   void _jumpToCategoryIndexById(int id) {
-    widget.items.asMap().forEach((index, value) {
-      if (value.subSections.id == id) {
+    widget.categories.asMap().forEach((index, category) {
+      if (category.id == id) {
         _itemScrollController.jumpTo(index: index);
         return;
       }
@@ -182,11 +185,11 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
             right: AppSize.s16.rw,
             bottom: AppSize.s8.rh,
           ),
-          child: ValueListenableBuilder<SubSectionListItem?>(
+          child: ValueListenableBuilder<MenuCategory?>(
             valueListenable: _categoriesNotifier,
             builder: (_, category, __) {
               return CategoriesDropDown(
-                items: widget.items,
+                categories: widget.categories,
                 onChanged: (index) {
                   _itemScrollController.jumpTo(index: index);
                 },
@@ -198,7 +201,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
         Expanded(
           child: ScrollableListTabScroller(
             itemScrollController: _itemScrollController,
-            itemCount: widget.items.length,
+            itemCount: widget.categories.length,
             earlyChangePositionOffset: -50,
             headerContainerBuilder: (context, widget) {
               return Padding(
@@ -213,24 +216,24 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
             tabBuilder: (BuildContext context, int index, bool active) {
               if (active) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _categoriesNotifier.value = widget.items[index];
+                  _categoriesNotifier.value = widget.categories[index];
                 });
               }
               return TabItemView(
-                title: widget.items[index].subSections.title,
+                title: widget.categories[index].title,
                 index: index,
                 active: active,
               );
             },
             itemBuilder: (BuildContext context, int index) {
-              final listItem = widget.items[index];
+              final category = widget.categories[index];
               return Container(
                 color: AppColors.pearl,
                 child: Column(
                   children: [
-                    SubsectionInfoView(
+                    MenuCategoryInfoView(
                       index: index,
-                      item: listItem,
+                      category: category,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -245,14 +248,14 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
                           mainAxisSpacing: AppSize.s10.rh,
                           childAspectRatio: ScreenSizes.isTablet ? 0.85 : 0.63,
                         ),
-                        itemCount: listItem.subSections.items.length,
+                        itemCount: category.items.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return MenuItemView(
-                            menuItem: listItem.subSections.items[index],
+                          return MenuCategoryItemView(
+                            menuItem: category.items[index],
                             dayInfo: AvailableTimeProvider()
-                                .todayInfo(listItem.availableTimes),
+                                .todayInfo(category.availableTimes),
                             onAddItem: () {
-                              _fetchModifier(listItem.subSections.items[index]);
+                              _fetchModifier(category.items[index]);
                             },
                           );
                         },

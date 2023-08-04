@@ -1,12 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/menu/domain/entities/menues.dart';
 
 import '../../../../app/session_manager.dart';
-import '../../domain/entities/items.dart';
-import '../../domain/entities/sections.dart';
-import '../../domain/entities/sub_section.dart';
+import '../../domain/entities/menu/menu_categories.dart';
+import '../../domain/entities/menu/menu_data.dart';
+import '../../domain/entities/menu/menu_item.dart';
+import '../../domain/entities/menu/menu_sections.dart';
+import '../../domain/entities/menu/menu_visibility.dart';
 import '../../domain/usecase/fetch_menus.dart';
 
 class MenusCubit extends Cubit<ResponseState> {
@@ -31,58 +32,51 @@ class MenusCubit extends Cubit<ResponseState> {
       },
       (data) async {
         final filteredData = await _filterHiddenMenu(providerId, data);
-        emit(Success<MenusData>(filteredData));
+        emit(Success<MenuData>(filteredData));
       },
     );
   }
 
-  Future<MenusData> _filterHiddenMenu(int? providerId, MenusData data) async {
-    MenusData tempData = data;
+  Future<MenuData> _filterHiddenMenu(int? providerId, MenuData data) async {
+    MenuData tempData = data;
     if (providerId == null) return tempData;
     _filterHiddenSections(providerId, tempData.sections);
-    await Future.forEach<Sections>(tempData.sections, (sections) async {
-      _filterHiddenSubSections(providerId, sections.subSections);
-      await Future.forEach<SubSections>(sections.subSections,
-          (subSections) async {
-        _filterHiddenSubSectionsItems(providerId, subSections.items);
+    await Future.forEach<MenuSection>(tempData.sections, (sections) async {
+      _filterHiddenSubSections(providerId, sections.categories);
+      await Future.forEach<MenuCategory>(sections.categories, (category) async {
+        _filterHiddenSubSectionsItems(providerId, category.items);
       });
     });
     return tempData;
   }
 
-  void _filterHiddenSections(int? providerId, List<Sections> data) {
+  void _filterHiddenSections(int? providerId, List<MenuSection> data) {
     data.removeWhere((section) {
-      return section.statuses.any((status) {
-        if (providerId == ZERO) {
-          return status.hidden;
-        } else {
-          return providerId == status.providerId && status.hidden;
-        }
-      });
+      return section.visibilities
+          .any((visibility) => _willRemove(visibility, providerId));
     });
   }
 
-  void _filterHiddenSubSections(int? providerId, List<SubSections> data) {
-    data.removeWhere((section) {
-      return section.statuses.any((status) {
-        if (providerId == ZERO) {
-          return status.hidden;
-        } else {
-          return providerId == status.providerId && status.hidden;
-        }
-      });
+  void _filterHiddenSubSections(int? providerId, List<MenuCategory> data) {
+    data.removeWhere((category) {
+      return category.visibilities
+          .any((visibility) => _willRemove(visibility, providerId));
     });
   }
 
-  void _filterHiddenSubSectionsItems(int? providerId, List<MenuItems> data) {
-    data.removeWhere((section) {
-      return section.statuses.any((status) {
-        if (providerId == ZERO) {
-          return status.hidden;
-        } else {
-          return providerId == status.providerId && status.hidden;
-        }
-      });
+  void _filterHiddenSubSectionsItems(
+      int? providerId, List<MenuCategoryItem> data) {
+    data.removeWhere((categoryItem) {
+      return categoryItem.visibilities
+          .any((visibility) => _willRemove(visibility, providerId));
     });
+  }
+
+  bool _willRemove(MenuVisibility menuVisibility, int? providerId) {
+    if (providerId == ZERO) {
+      return !menuVisibility.visible;
+    } else {
+      return providerId == menuVisibility.providerID && !menuVisibility.visible;
+    }
   }
 }

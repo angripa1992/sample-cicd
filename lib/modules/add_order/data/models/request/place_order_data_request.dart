@@ -1,7 +1,7 @@
-import 'applied_promo.dart';
-import 'billing_item.dart';
+import '../applied_promo.dart';
+import 'billing_item_request.dart';
 
-class PlaceOrderDataModel {
+class PlaceOrderDataRequestModel {
   int? id;
   String? externalId;
   String? identity;
@@ -23,7 +23,7 @@ class PlaceOrderDataModel {
   int? discountAmount;
   int? additionalFee;
   int? serviceFee;
-  List<BillingItem>? cart;
+  List<BillingItemRequestModel>? cart;
   int? uniqueItems;
   int? totalItems;
   int? currencyId;
@@ -35,7 +35,7 @@ class PlaceOrderDataModel {
   num? orderPromoDiscount;
   AppliedPromo? appliedPromoModel;
 
-  PlaceOrderDataModel({
+  PlaceOrderDataRequestModel({
     this.id,
     this.externalId,
     this.identity,

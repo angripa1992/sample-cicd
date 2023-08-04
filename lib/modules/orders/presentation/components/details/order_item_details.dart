@@ -313,8 +313,8 @@ class OrderItemDetails extends StatelessWidget {
             child: Text(
               PriceCalculator.formatPrice(
                 price: modifierPrice,
-                currencySymbol: order.currencySymbol,
                 code: order.currency,
+                symbol: order.currencySymbol,
               ),
               textAlign: TextAlign.end,
               style: TextStyle(
@@ -361,19 +361,22 @@ class OrderItemDetails extends StatelessWidget {
     );
   }
 
-  Widget _showModifierGroupName(
-      {required String name, required int paddingLevel}) {
+  Widget _showModifierGroupName({
+    required String name,
+    required int paddingLevel,
+  }) {
     if (name.isEmpty) {
       return const SizedBox();
     }
     return Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: AppSize.s4.rh,
-          horizontal: (AppSize.s8.rw * paddingLevel),
-        ),
-        child: Text(
-          name,
-          style: _modifiersTextStyle,
-        ));
+      padding: EdgeInsets.symmetric(
+        vertical: AppSize.s4.rh,
+        horizontal: (AppSize.s8.rw * paddingLevel),
+      ),
+      child: Text(
+        name,
+        style: _modifiersTextStyle,
+      ),
+    );
   }
 }

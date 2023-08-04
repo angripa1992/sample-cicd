@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/extensions.dart';
@@ -18,8 +17,8 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../widgets/app_button.dart';
 import '../../../../widgets/loading_button.dart';
-import '../../../domain/entities/items.dart';
-import '../../../domain/entities/stock.dart';
+import '../../../domain/entities/menu/menu_item.dart';
+import '../../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../cubit/update_item_cubit.dart';
 import 'menu_switch_view.dart';
 
@@ -32,8 +31,8 @@ enum OOS {
 }
 
 void showOosDialog({
-  required MenuItems items,
-  required Function(Stock) onChanged,
+  required MenuCategoryItem menuCategoryItem,
+  required Function(MenuOutOfStock) onChanged,
   required int brandId,
   required int providerId,
   required bool parentEnabled,
@@ -51,7 +50,7 @@ void showOosDialog({
           ),
           contentPadding: EdgeInsets.zero,
           content: OutOfStockSettingScreen(
-            item: items,
+            menuCategoryItem: menuCategoryItem,
             brandId: brandId,
             providerId: providerId,
             parentEnabled: parentEnabled,
@@ -64,15 +63,15 @@ void showOosDialog({
 }
 
 class OutOfStockSettingScreen extends StatefulWidget {
-  final MenuItems item;
+  final MenuCategoryItem menuCategoryItem;
   final int brandId;
   final int providerId;
   final bool parentEnabled;
-  final Function(Stock) onChanged;
+  final Function(MenuOutOfStock) onChanged;
 
   const OutOfStockSettingScreen({
     Key? key,
-    required this.item,
+    required this.menuCategoryItem,
     required this.brandId,
     required this.providerId,
     required this.parentEnabled,
@@ -89,7 +88,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
 
   @override
   void initState() {
-    _currentDuration = widget.item.stock.snooze.duration;
+    _currentDuration = widget.menuCategoryItem.outOfStock.menuSnooze.duration;
     super.initState();
   }
 
@@ -139,24 +138,24 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                   child: MenuSwitchView(
-                    id: widget.item.id,
+                    id: widget.menuCategoryItem.id,
                     brandId: widget.brandId,
                     providerId: widget.providerId,
                     type: MenuType.ITEM,
-                    enabled: widget.item.stock.available,
+                    enabled: widget.menuCategoryItem.outOfStock.available,
                     parentEnabled: widget.parentEnabled,
                     willShowBg: false,
-                    onItemChanged: (stock) {
-                      widget.onChanged(stock);
+                    onItemChanged: (oos) {
+                      widget.onChanged(oos);
                       Navigator.pop(context);
                     },
                     onMenuChanged: (enabled) {},
                   ),
                 ),
-                if (widget.item.stock.snooze.endTime.isNotEmpty)
+                if (widget.menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
                   Flexible(
                     child: Text(
-                      '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.item.stock.snooze.endTime)})',
+                      '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
                       style: mediumTextStyle(
                         color: AppColors.warmRed,
                         fontSize: AppFontSize.s12.rSp,
@@ -167,7 +166,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
             ),
             Divider(color: AppColors.blueViolet),
             OutOfStockRadioGroup(
-              stock: widget.item.stock,
+              oos: widget.menuCategoryItem.outOfStock,
               onDurationChanged: (duration) {
                 _currentDuration = duration;
               },
@@ -195,7 +194,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                       listener: (BuildContext context, state) {
                         if (state is Failed) {
                           showApiErrorSnackBar(context, state.failure);
-                        } else if (state is Success<Stock>) {
+                        } else if (state is Success<MenuOutOfStock>) {
                           showSuccessSnackBar(
                             context,
                             AppStrings.stock_disabled_successful.tr(),
@@ -209,7 +208,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                           onTap: () {
                             context.read<UpdateItemCubit>().updateItem(
                                   brandId: widget.brandId,
-                                  itemId: widget.item.id,
+                                  itemId: widget.menuCategoryItem.id,
                                   enabled: false,
                                   duration: _currentDuration,
                                 );
@@ -231,12 +230,12 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
 }
 
 class OutOfStockRadioGroup extends StatefulWidget {
-  final Stock stock;
+  final MenuOutOfStock oos;
   final Function(int) onDurationChanged;
 
   const OutOfStockRadioGroup({
     Key? key,
-    required this.stock,
+    required this.oos,
     required this.onDurationChanged,
   }) : super(key: key);
 
@@ -245,7 +244,7 @@ class OutOfStockRadioGroup extends StatefulWidget {
 }
 
 class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
-  final MAX_DURATION = 8760;
+  static const maxDuration = 8760;
   OOS? _groupValue;
   late TextEditingController _textEditingController;
   final _textStyle = regularTextStyle(
@@ -267,11 +266,11 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
     final text = _textEditingController.text.trim();
     if (text.isNotEmpty) {
       final duration = text.toInt();
-      if (duration > MAX_DURATION) {
-        _textEditingController.text = MAX_DURATION.toString();
+      if (duration > maxDuration) {
+        _textEditingController.text = maxDuration.toString();
         _textEditingController.selection =
             TextSelection.collapsed(offset: _textEditingController.text.length);
-        widget.onDurationChanged(MAX_DURATION);
+        widget.onDurationChanged(maxDuration);
       } else {
         widget.onDurationChanged(text.toInt());
       }
@@ -283,7 +282,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
   }
 
   void _setInitGroupValue() {
-    final duration = widget.stock.snooze.duration;
+    final duration = widget.oos.menuSnooze.duration;
     switch (duration) {
       case DurationType.day_1:
         _groupValue = OOS.day_1;

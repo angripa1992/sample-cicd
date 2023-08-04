@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/sub_section.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_switch_view.dart';
 import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/values.dart';
@@ -14,21 +13,22 @@ import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../domain/entities/items.dart';
-import '../../../domain/entities/stock.dart';
+import '../../../domain/entities/menu/menu_categories.dart';
+import '../../../domain/entities/menu/menu_item.dart';
+import '../../../domain/entities/menu/menu_out_of_stock.dart';
 import 'menu_item_details.dart';
 import 'menu_snooze_view.dart';
 
-class SubMenuItemsListView extends StatefulWidget {
-  final SubSections subSections;
+class MenuCategoryItemListView extends StatefulWidget {
+  final MenuCategory menuCategory;
   final bool parentEnabled;
   final int brandID;
   final int providerID;
-  final Function(List<MenuItems>) onChanged;
+  final Function(List<MenuCategoryItem>) onChanged;
 
-  const SubMenuItemsListView({
+  const MenuCategoryItemListView({
     Key? key,
-    required this.subSections,
+    required this.menuCategory,
     required this.onChanged,
     required this.parentEnabled,
     required this.brandID,
@@ -36,21 +36,22 @@ class SubMenuItemsListView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SubMenuItemsListView> createState() => _SubMenuItemsListViewState();
+  State<MenuCategoryItemListView> createState() =>
+      _MenuCategoryItemListViewState();
 }
 
-class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
-  final List<MenuItems> _items = [];
+class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
+  final List<MenuCategoryItem> _items = [];
 
   @override
   void initState() {
-    _items.addAll(widget.subSections.items);
+    _items.addAll(widget.menuCategory.items);
     super.initState();
   }
 
-  void _onChanged(int index, Stock stock) {
+  void _onChanged(int index, MenuOutOfStock oos) {
     setState(() {
-      _items[index].stock = stock;
+      _items[index].outOfStock = oos;
       widget.onChanged(_items);
     });
     SegmentManager().track(
@@ -58,7 +59,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
       properties: {
         'id': _items[index].id,
         'name': _items[index].title,
-        'enabled': stock.available ? 'Yes' : 'No',
+        'enabled': oos.available ? 'Yes' : 'No',
       },
     );
   }
@@ -73,13 +74,13 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
       ),
       builder: (BuildContext context) {
         return MenuItemDetails(
-          items: _items[index],
-          parentEnabled: widget.parentEnabled && widget.subSections.enabled,
+          menuCategoryItem: _items[index],
+          parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
           brandID: widget.brandID,
           providerID: widget.providerID,
           brandId: widget.brandID,
-          onChanged: (stock) {
-            _onChanged(index, stock);
+          onChanged: (oos) {
+            _onChanged(index, oos);
           },
         );
       },
@@ -153,17 +154,17 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: AppSize.s8.rw),
                                   child: MenuSnoozeView(
-                                    items: _items[index],
+                                    menuCategoryItem: _items[index],
                                     providerId: widget.providerID,
                                     borderRadius: AppSize.s8.rSp,
                                     width: AppSize.s80.rw,
                                     bgColor: AppColors.whiteSmoke,
                                     parentEnabled: widget.parentEnabled &&
-                                        widget.subSections.enabled,
+                                        widget.menuCategory.enabled,
                                     brandId: widget.brandID,
                                     iconPath: AppIcons.editRound,
-                                    onChanged: (stock) {
-                                      _onChanged(index, stock);
+                                    onChanged: (oos) {
+                                      _onChanged(index, oos);
                                     },
                                   ),
                                 ),
@@ -172,9 +173,9 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                                   brandId: widget.brandID,
                                   providerId: widget.providerID,
                                   type: MenuType.ITEM,
-                                  enabled: _items[index].stock.available,
+                                  enabled: _items[index].outOfStock.available,
                                   parentEnabled: widget.parentEnabled &&
-                                      widget.subSections.enabled,
+                                      widget.menuCategory.enabled,
                                   onItemChanged: (stock) {
                                     _onChanged(index, stock);
                                   },
@@ -200,6 +201,5 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
               ),
             ),
     );
-    ;
   }
 }

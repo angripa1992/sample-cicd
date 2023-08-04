@@ -14,8 +14,8 @@ class PriceCalculator {
     }
     return formatPrice(
       price: itemTotalPrice,
-      currencySymbol: order.currencySymbol,
       code: order.currency,
+      symbol: order.currencySymbol,
     );
   }
 
@@ -47,19 +47,18 @@ class PriceCalculator {
 
   static String formatPrice({
     required num price,
-    required String currencySymbol,
     required String code,
+    required String symbol,
   }) {
     if (code.toUpperCase() == 'IDR') {
       return NumberFormat.currency(
         locale: 'id',
-        symbol: currencySymbol,
+        symbol: symbol,
         decimalDigits: 2,
       ).format(price);
     }
     return NumberFormat.currency(
       name: code,
-      symbol: currencySymbol,
       decimalDigits: 2,
     ).format(price);
   }
@@ -68,7 +67,7 @@ class PriceCalculator {
     final price = priceInCent / 100;
     return formatPrice(
       price: price,
-      currencySymbol: order.currencySymbol,
+      symbol: order.currencySymbol,
       code: order.currency,
     );
   }

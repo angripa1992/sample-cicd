@@ -12,18 +12,18 @@ import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../domain/entities/sub_section.dart';
+import '../../../domain/entities/menu/menu_categories.dart';
 
-class SubMenuListView extends StatelessWidget {
-  final List<SubSections> subSections;
+class MenuCategoryListView extends StatelessWidget {
+  final List<MenuCategory> categories;
   final bool parentEnabled;
   final int brandID;
   final int providerID;
-  final Function(List<SubSections>) onChanged;
+  final Function(List<MenuCategory>) onChanged;
 
-  const SubMenuListView({
+  const MenuCategoryListView({
     Key? key,
-    required this.subSections,
+    required this.categories,
     required this.parentEnabled,
     required this.onChanged,
     required this.brandID,
@@ -49,24 +49,24 @@ class SubMenuListView extends StatelessWidget {
             ),
           ),
           ListView.separated(
-            itemCount: subSections.length,
+            itemCount: categories.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (_, index) {
               return InkWell(
                 onTap: () async {
-                  final modifiedSubsections = await Navigator.pushNamed(
+                  final modifiedCategory = await Navigator.pushNamed(
                     context,
                     Routes.manageItems,
                     arguments: {
-                      ArgumentKey.kSECTIONS: subSections[index],
+                      ArgumentKey.kMENU_CATEGORY: categories[index],
                       ArgumentKey.kENABLED: parentEnabled,
                       ArgumentKey.kBRAND_ID: brandID,
                       ArgumentKey.kPROVIDER_ID: providerID,
                     },
-                  ) as SubSections;
-                  subSections[index] = modifiedSubsections;
-                  onChanged(subSections);
+                  ) as MenuCategory;
+                  categories[index] = modifiedCategory;
+                  onChanged(categories);
                 },
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
@@ -88,7 +88,7 @@ class SubMenuListView extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                subSections[index].title,
+                                categories[index].title,
                                 style: regularTextStyle(
                                   color: AppColors.black,
                                   fontSize: AppFontSize.s14.rSp,
@@ -99,24 +99,25 @@ class SubMenuListView extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSize.s10.rw,
+                        ),
                         child: MenuSwitchView(
-                          enabled: subSections[index].enabled,
+                          enabled: categories[index].enabled,
                           parentEnabled: parentEnabled,
-                          id: subSections[index].id,
+                          id: categories[index].id,
                           brandId: brandID,
                           providerId: providerID,
                           type: MenuType.SUB_SECTION,
                           onItemChanged: (stock) {},
                           onMenuChanged: (enabled) {
-                            subSections[index].enabled = enabled;
-                            onChanged(subSections);
+                            categories[index].enabled = enabled;
+                            onChanged(categories);
                             SegmentManager().track(
                               event: SegmentEvents.CATEGORY_TOGGLE,
                               properties: {
-                                'id': subSections[index].id,
-                                'name': subSections[index].title,
+                                'id': categories[index].id,
+                                'name': categories[index].title,
                                 'enabled': enabled ? 'Yes' : 'No',
                               },
                             );

@@ -1,5 +1,5 @@
-import 'applied_promo.dart';
-import 'billing_item.dart';
+import '../applied_promo.dart';
+import 'billing_item_request.dart';
 
 class BillingRequestModel {
   int? brandId;
@@ -9,7 +9,7 @@ class BillingRequestModel {
   num? discountValue;
   num? additionalFee;
   BillingCurrency? currency;
-  List<BillingItem>? items;
+  List<BillingItemRequestModel>? items;
   int? numberOfSeniorCitizen;
   int? numberOfCustomer;
   AppliedPromo? appliedPromoModel;

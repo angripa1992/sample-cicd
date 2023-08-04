@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/avilable_times.dart';
-import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../../../app/enums.dart';
+import '../../../../../core/utils/price_calculator.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/values.dart';
+import '../../../../menu/domain/entities/menu/menu_available_times.dart';
+import '../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../utils/available_time_provider.dart';
-import '../../../utils/order_price_provider.dart';
 import 'menu_item_image_view.dart';
 
-class MenuItemView extends StatelessWidget {
-  final MenuItems menuItem;
-  final DayInfo dayInfo;
+class MenuCategoryItemView extends StatelessWidget {
+  final MenuCategoryItem menuItem;
+  final MenuDay dayInfo;
   final VoidCallback onAddItem;
 
-  const MenuItemView(
+  const MenuCategoryItemView(
       {Key? key,
       required this.menuItem,
       required this.dayInfo,
@@ -24,7 +24,7 @@ class MenuItemView extends StatelessWidget {
       : super(key: key);
 
   Availability _checkAvailability() {
-    if (!menuItem.stock.available) {
+    if (!menuItem.outOfStock.available) {
       return Availability.OUT_OF_STOCK;
     } else if (AvailableTimeProvider().haveAvailableTime(dayInfo) == null) {
       return Availability.UNAVAILABLE;
@@ -36,6 +36,7 @@ class MenuItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final availability = _checkAvailability();
+    final menuItemPrice = menuItem.klikitPrice();
     return SizedBox(
       width: AppSize.s100.rw,
       child: Card(
@@ -70,7 +71,11 @@ class MenuItemView extends StatelessWidget {
                               horizontal: AppSize.s8.rw,
                               vertical: AppSize.s2.rh),
                           child: Text(
-                            OrderPriceProvider.klikitItemPrice(menuItem.prices),
+                            PriceCalculator.formatPrice(
+                              price: menuItemPrice.price,
+                              code: menuItemPrice.currencyCode,
+                              symbol: menuItemPrice.currencySymbol,
+                            ),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppColors.white,

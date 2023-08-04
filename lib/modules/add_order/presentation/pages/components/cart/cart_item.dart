@@ -84,8 +84,8 @@ class CartItemView extends StatelessWidget {
                               PriceCalculator.formatPrice(
                                 price: itemBill.discountedItemPrice *
                                     cartItem.quantity,
-                                currencySymbol: cartItem.itemPrice.symbol,
-                                code: cartItem.itemPrice.code,
+                                code: cartItem.itemPrice.currencyCode,
+                                symbol: cartItem.itemPrice.currencySymbol,
                               ),
                               style: TextStyle(
                                 color: AppColors.bluewood,
@@ -97,8 +97,8 @@ class CartItemView extends StatelessWidget {
                           Text(
                             PriceCalculator.formatPrice(
                               price: itemBill.itemPrice * cartItem.quantity,
-                              currencySymbol: cartItem.itemPrice.symbol,
-                              code: cartItem.itemPrice.code,
+                              code: cartItem.itemPrice.currencyCode,
+                              symbol: cartItem.itemPrice.currencySymbol,
                             ),
                             style: TextStyle(
                               color: haveDiscount
@@ -174,7 +174,7 @@ class CartItemView extends StatelessWidget {
               ),
             ),
           ),
-          if(cartItem.promoInfo!.promo.isSeniorCitizenPromo!)
+          if (cartItem.promoInfo!.promo.isSeniorCitizenPromo!)
             Text(
               '${cartItem.promoInfo!.citizen} Pieces',
               style: mediumTextStyle(

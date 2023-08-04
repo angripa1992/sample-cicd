@@ -5,15 +5,16 @@ import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/sub_section_list_item.dart';
+import '../../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../utils/available_time_provider.dart';
 import '../../../utils/color_provider.dart';
 
-class SubsectionInfoView extends StatelessWidget {
-  final SubSectionListItem item;
+class MenuCategoryInfoView extends StatelessWidget {
+  final MenuCategory category;
   final int index;
 
-  const SubsectionInfoView({Key? key, required this.item, required this.index})
+  const MenuCategoryInfoView(
+      {Key? key, required this.category, required this.index})
       : super(key: key);
 
   @override
@@ -33,7 +34,7 @@ class SubsectionInfoView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                item.subSections.title,
+                category.title,
                 style: mediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
@@ -49,7 +50,8 @@ class SubsectionInfoView extends StatelessWidget {
                 ),
                 SizedBox(width: AppSize.s4.rw),
                 Text(
-                  AvailableTimeProvider().availableTime(item.availableTimes),
+                  AvailableTimeProvider()
+                      .availableTime(category.availableTimes),
                   style: regularTextStyle(color: AppColors.purpleBlue),
                 ),
               ],

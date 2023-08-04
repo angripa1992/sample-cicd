@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
-import 'package:klikit/modules/add_order/data/models/billing_request.dart';
-import 'package:klikit/modules/add_order/data/models/place_order_data.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_request.dart';
+import 'package:klikit/modules/add_order/data/models/request/place_order_data_request.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/item_modifier_group.dart';
@@ -10,7 +10,6 @@ import 'package:klikit/modules/add_order/domain/entities/order_source.dart';
 
 import '../../../../core/network/error_handler.dart';
 import '../../../../core/network/network_connectivity.dart';
-import '../../../menu/domain/entities/menues.dart';
 import '../../data/datasource/add_order_datasource.dart';
 import '../../domain/repository/add_order_repository.dart';
 
@@ -19,24 +18,6 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   final NetworkConnectivity _connectivity;
 
   AddOrderRepositoryImpl(this._datasource, this._connectivity);
-
-  @override
-  Future<Either<Failure, MenusData>> fetchMenus({
-    required int branchId,
-    required int brandId,
-  }) async {
-    if (await _connectivity.hasConnection()) {
-      try {
-        final response =
-            await _datasource.fetchMenus(branchId: branchId, brandId: brandId);
-        return Right(response.toEntity());
-      } on DioException catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    } else {
-      return Left(ErrorHandler.handleInternetConnection().failure);
-    }
-  }
 
   @override
   Future<Either<Failure, List<ItemModifierGroup>>> fetchModifiers(
@@ -84,7 +65,7 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
 
   @override
   Future<Either<Failure, PlacedOrderResponse>> placeOrder(
-      {required PlaceOrderDataModel body}) async {
+      {required PlaceOrderDataRequestModel body}) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.placeOrder(body);
@@ -98,7 +79,8 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   }
 
   @override
-  Future<Either<Failure, List<AppliedPromo>>> fetchPromos(Map<String, dynamic> params) async{
+  Future<Either<Failure, List<AppliedPromo>>> fetchPromos(
+      Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchPromos(params);

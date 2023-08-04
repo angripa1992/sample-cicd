@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/utils/usecase.dart';
-import 'package:klikit/modules/menu/domain/entities/stock.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
+
+import '../entities/menu/menu_out_of_stock.dart';
 
 class UpdateItemParam {
   final int itemId;
@@ -22,13 +23,13 @@ class UpdateItemParam {
   });
 }
 
-class UpdateItem extends UseCase<Stock, UpdateItemParam> {
+class UpdateItem extends UseCase<MenuOutOfStock, UpdateItemParam> {
   final MenuRepository _repository;
 
   UpdateItem(this._repository);
 
   @override
-  Future<Either<Failure, Stock>> call(UpdateItemParam params) {
+  Future<Either<Failure, MenuOutOfStock>> call(UpdateItemParam params) {
     return _repository.updateItem(params);
   }
 }

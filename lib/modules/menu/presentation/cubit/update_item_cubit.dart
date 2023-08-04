@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/menu/domain/entities/stock.dart';
 
 import '../../../../app/session_manager.dart';
 import '../../../../core/provider/date_time_provider.dart';
+import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/usecase/update_item.dart';
 
 class UpdateItemCubit extends Cubit<ResponseState> {
@@ -31,7 +31,7 @@ class UpdateItemCubit extends Cubit<ResponseState> {
         emit(Failed(failure));
       },
       (data) {
-        emit(Success<Stock>(data));
+        emit(Success<MenuOutOfStock>(data));
       },
     );
   }

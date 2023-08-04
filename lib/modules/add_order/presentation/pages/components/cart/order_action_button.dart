@@ -42,7 +42,7 @@ class OrderActionButton extends StatelessWidget {
           Row(
             children: [
               Text(
-                AppStrings.total.tr() ,
+                AppStrings.total.tr(),
                 style: mediumTextStyle(
                   color: AppColors.balticSea,
                   fontSize: AppFontSize.s16.rSp,
@@ -59,8 +59,8 @@ class OrderActionButton extends StatelessWidget {
               Text(
                 PriceCalculator.formatPrice(
                   price: totalPrice,
-                  currencySymbol: currency.symbol ?? EMPTY,
                   code: currency.code ?? EMPTY,
+                  symbol: currency.symbol ?? EMPTY,
                 ),
                 style: TextStyle(
                   color: AppColors.balticSea,

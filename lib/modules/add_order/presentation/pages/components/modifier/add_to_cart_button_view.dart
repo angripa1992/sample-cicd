@@ -14,8 +14,8 @@ class AddToCartButtonView extends StatelessWidget {
   final ValueNotifier<bool> enabled;
   final ValueNotifier<num> price;
   final int quantity;
-  final String currencySymbol;
   final String currencyCode;
+  final String currencySymbol;
   final Function(int) onQuantityChanged;
   final VoidCallback onAddToCart;
 
@@ -25,9 +25,9 @@ class AddToCartButtonView extends StatelessWidget {
     required this.price,
     required this.quantity,
     required this.onQuantityChanged,
-    required this.currencySymbol,
     required this.onAddToCart,
     required this.currencyCode,
+    required this.currencySymbol,
   }) : super(key: key);
 
   @override
@@ -81,8 +81,8 @@ class AddToCartButtonView extends StatelessWidget {
                                   return Text(
                                     PriceCalculator.formatPrice(
                                       price: price,
-                                      currencySymbol: currencySymbol,
                                       code: currencyCode,
+                                      symbol: currencySymbol,
                                     ),
                                     style: TextStyle(
                                       color: AppColors.white,

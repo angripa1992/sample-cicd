@@ -1,10 +1,10 @@
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 
-import 'billing_item_modifier_group.dart';
-import 'item_price.dart';
-import 'item_status.dart';
+import 'billing_item_modifier_group_request.dart';
+import '../item_price.dart';
+import '../item_status.dart';
 
-class BillingItemModifier {
+class BillingItemModifierRequestModel {
   int? id;
   int? modifierId;
   int? immgId;
@@ -13,28 +13,29 @@ class BillingItemModifier {
   TitleV2Model? titleV2;
   List<ItemStatusModel>? statuses;
   List<ItemPriceModel>? prices;
-  List<BillingItemModifierGroup>? groups;
+  List<BillingItemModifierGroupRequestModel>? groups;
   bool? isSelected;
   int? modifierQuantity;
   num? extraPrice;
   String? selectedTitle;
 
-  BillingItemModifier(
-      {this.id,
-        this.modifierId,
-        this.immgId,
-        this.title,
-        this.sequence,
-        this.titleV2,
-        this.statuses,
-        this.prices,
-        this.groups,
-        this.isSelected,
-        this.modifierQuantity,
-        this.extraPrice,
-        this.selectedTitle});
+  BillingItemModifierRequestModel({
+    this.id,
+    this.modifierId,
+    this.immgId,
+    this.title,
+    this.sequence,
+    this.titleV2,
+    this.statuses,
+    this.prices,
+    this.groups,
+    this.isSelected,
+    this.modifierQuantity,
+    this.extraPrice,
+    this.selectedTitle,
+  });
 
-  BillingItemModifier.fromJson(Map<String, dynamic> json) {
+  BillingItemModifierRequestModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     modifierId = json['modifier_id'];
     immgId = json['immg_id'];
@@ -56,15 +57,15 @@ class BillingItemModifier {
       });
     }
     if (json['groups'] != null) {
-      groups = <BillingItemModifierGroup>[];
+      groups = <BillingItemModifierGroupRequestModel>[];
       json['groups'].forEach((v) {
-        groups!.add(BillingItemModifierGroup.fromJson(v));
+        groups!.add(BillingItemModifierGroupRequestModel.fromJson(v));
       });
     }
     isSelected = json['is_selected'];
     modifierQuantity = json['modifier_quantity'];
     extraPrice = json['extra_price'];
-    if(selectedTitle != null){
+    if (selectedTitle != null) {
       selectedTitle = json['selectedTitle'];
     }
   }

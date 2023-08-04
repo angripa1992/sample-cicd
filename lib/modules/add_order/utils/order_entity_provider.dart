@@ -1,22 +1,22 @@
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/data/models/billing_item.dart';
-import 'package:klikit/modules/add_order/data/models/billing_item_modifier_group.dart';
-import 'package:klikit/modules/add_order/data/models/item_brand.dart';
 import 'package:klikit/modules/add_order/data/models/item_price.dart';
 import 'package:klikit/modules/add_order/data/models/item_status.dart';
 import 'package:klikit/modules/add_order/data/models/item_stock.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_group_request.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_item_request.dart';
+import 'package:klikit/modules/add_order/data/models/request/item_brand_request.dart';
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
-import 'package:klikit/modules/menu/domain/entities/price.dart';
 
 import '../../../app/constants.dart';
 import '../../../app/session_manager.dart';
-import '../../menu/domain/entities/status.dart';
-import '../../menu/domain/entities/stock.dart';
-import '../data/models/billing_item_modifier.dart';
-import '../data/models/billing_request.dart';
-import '../data/models/place_order_data.dart';
+import '../../menu/domain/entities/menu/menu_item_price.dart';
+import '../../menu/domain/entities/menu/menu_out_of_stock.dart';
+import '../../menu/domain/entities/menu/menu_visibility.dart';
+import '../data/models/request/billing_item_modifier_request.dart';
+import '../data/models/request/billing_request.dart';
+import '../data/models/request/place_order_data_request.dart';
 import '../domain/entities/billing_response.dart';
 import '../domain/entities/item_modifier.dart';
 import '../domain/entities/item_modifier_group.dart';
@@ -48,7 +48,11 @@ class OrderEntityProvider {
       discountType: discountType,
       discountValue: discountValue,
       additionalFee: additionalFee,
-      currency: _billingCurrency(cartItem.itemPrice),
+      currency: BillingCurrency(
+        id: cartItem.itemPrice.currencyId,
+        code: cartItem.itemPrice.currencyCode,
+        symbol: cartItem.itemPrice.currencySymbol,
+      ),
       appliedPromoModel: orderPromoInfo?.promo,
       numberOfSeniorCitizen: orderPromoInfo?.citizen,
       numberOfCustomer: orderPromoInfo?.customer,
@@ -56,10 +60,10 @@ class OrderEntityProvider {
     );
   }
 
-  Future<List<BillingItem>> _cartsToBillingItemsForCalculateBill({
+  Future<List<BillingItemRequestModel>> _cartsToBillingItemsForCalculateBill({
     required List<AddToCartItem> cartsItems,
   }) async {
-    final items = <BillingItem>[];
+    final items = <BillingItemRequestModel>[];
     for (var item in cartsItems) {
       final groups =
           await ModifierManager().billingItemModifiers(item.modifiers);
@@ -75,11 +79,11 @@ class OrderEntityProvider {
     return items;
   }
 
-  Future<List<BillingItem>> _cartsToBillingItemsForPlaceOrder({
+  Future<List<BillingItemRequestModel>> _cartsToBillingItemsForPlaceOrder({
     required List<AddToCartItem> cartsItems,
     required List<ItemBill> itemBills,
   }) async {
-    final items = <BillingItem>[];
+    final items = <BillingItemRequestModel>[];
     for (var item in cartsItems) {
       final groups =
           await ModifierManager().billingItemModifiers(item.modifiers);
@@ -97,30 +101,32 @@ class OrderEntityProvider {
     return items;
   }
 
-  BillingItem _cartItemToBillingItem({
+  BillingItemRequestModel _cartItemToBillingItem({
     required AddToCartItem cartItem,
-    required List<BillingItemModifierGroup> groups,
+    required List<BillingItemModifierGroupRequestModel> groups,
     required num? promoDiscount,
     required PromoInfo? promoInfo,
   }) {
     final item = cartItem.item;
-    return BillingItem(
+    return BillingItemRequestModel(
       id: item.id,
       itemId: item.id,
       defaultItemId: item.defaultItemId,
       title: item.title,
-      titleV2: TitleV2Model(en: item.titleV2.en),
+      titleV2: TitleV2Model(en: item.title),
       description: item.description,
-      descriptionV2: TitleV2Model(en: item.descriptionV2.en),
+      descriptionV2: TitleV2Model(en: item.description),
       image: item.image,
       quantity: cartItem.quantity,
       sequence: item.sequence,
-      hidden: item.hidden,
+      hidden: item.visible(ProviderID.KLIKIT),
       enabled: item.enabled,
       vat: item.vat,
       brand: _toBrandModel(cartItem.brand),
-      stock: _stockModel(item.stock),
-      statuses: item.statuses.map((e) => _statusModel(e)).toList(),
+      stock: _stockModel(item.outOfStock),
+      statuses: item.visibilities
+          .map((visibility) => _statusModel(item.enabled, visibility))
+          .toList(),
       prices: item.prices.map((e) => _priceModel(e)).toList(),
       groups: groups,
       unitPrice: cartItem.itemPrice.price,
@@ -133,11 +139,11 @@ class OrderEntityProvider {
     );
   }
 
-  BillingItemModifierGroup cartToBillingModifierGroup(
+  BillingItemModifierGroupRequestModel cartToBillingModifierGroup(
     ItemModifierGroup group,
-    List<BillingItemModifier> modifiers,
+    List<BillingItemModifierRequestModel> modifiers,
   ) =>
-      BillingItemModifierGroup(
+      BillingItemModifierGroupRequestModel(
         groupId: group.groupId,
         title: group.title,
         label: group.label,
@@ -148,11 +154,11 @@ class OrderEntityProvider {
         modifiers: modifiers,
       );
 
-  BillingItemModifier cartToBillingModifier(
+  BillingItemModifierRequestModel cartToBillingModifier(
     ItemModifier modifier,
-    List<BillingItemModifierGroup> groups,
+    List<BillingItemModifierGroupRequestModel> groups,
   ) =>
-      BillingItemModifier(
+      BillingItemModifierRequestModel(
         id: modifier.id,
         modifierId: modifier.modifierId,
         immgId: modifier.immgId,
@@ -168,43 +174,37 @@ class OrderEntityProvider {
             .price,
       );
 
-  ItemStockModel _stockModel(Stock stock) => ItemStockModel(
+  ItemStockModel _stockModel(MenuOutOfStock stock) => ItemStockModel(
         available: stock.available,
-        snooze: _snoozeModel(stock.snooze),
+        snooze: _snoozeModel(stock.menuSnooze),
       );
 
-  ItemSnoozeModel _snoozeModel(Snooze snooze) => ItemSnoozeModel(
+  ItemSnoozeModel _snoozeModel(MenuSnooze snooze) => ItemSnoozeModel(
         endTime: snooze.endTime,
         duration: snooze.duration,
       );
 
-  ItemStatusModel _statusModel(Statuses status) => ItemStatusModel(
-        providerId: status.providerId,
-        enabled: status.enabled,
-        hidden: status.hidden,
+  ItemStatusModel _statusModel(bool enabled, MenuVisibility visibility) =>
+      ItemStatusModel(
+        providerId: visibility.providerID,
+        enabled: enabled,
+        hidden: visibility.visible,
       );
 
-  ItemPriceModel _priceModel(Prices prices) => ItemPriceModel(
-        providerId: prices.providerId,
-        currencyId: prices.currencyId,
-        symbol: prices.symbol,
-        code: prices.code,
-        price: prices.price,
+  ItemPriceModel _priceModel(MenuItemPrice price) => ItemPriceModel(
+        providerId: price.providerId,
+        currencyId: price.currencyId,
+        code: price.currencyCode,
+        price: price.price,
       );
 
-  ItemBrandModel _toBrandModel(MenuBrand brand) => ItemBrandModel(
+  ItemBrandRequestModel _toBrandModel(MenuBrand brand) => ItemBrandRequestModel(
         id: brand.id,
         logo: brand.logo,
         title: brand.title,
       );
 
-  BillingCurrency _billingCurrency(Prices price) => BillingCurrency(
-        id: price.currencyId,
-        symbol: price.symbol,
-        code: price.code,
-      );
-
-  Future<PlaceOrderDataModel> placeOrderRequestData({
+  Future<PlaceOrderDataRequestModel> placeOrderRequestData({
     required CheckoutData checkoutData,
     required int paymentStatus,
     required int? paymentMethod,
@@ -229,7 +229,7 @@ class OrderEntityProvider {
       user.phone = info.phone.notEmptyOrNull();
     }
     final updateInfo = CartManager().getUpdateCartInfo();
-    return PlaceOrderDataModel(
+    return PlaceOrderDataRequestModel(
       id: updateInfo?.id,
       externalId: updateInfo?.externalId,
       identity: updateInfo?.identity,

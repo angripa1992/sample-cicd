@@ -1,6 +1,9 @@
-class MenuVisibility{
+class MenuVisibility {
   final int providerID;
-  final bool visibility;
+  final bool visible;
 
-  MenuVisibility(this.providerID, this.visibility);
+  MenuVisibility({
+    required this.providerID,
+    required this.visible,
+  });
 }

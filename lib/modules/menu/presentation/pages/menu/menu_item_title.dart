@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/sections.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -10,40 +9,40 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../domain/entities/stock.dart';
+import '../../../domain/entities/menu/menu_sections.dart';
 import 'menu_switch_view.dart';
 
-class MenuItemTitle extends StatefulWidget {
+class MenuSectionItem extends StatefulWidget {
   final ExpandedTileController controller;
   final int index;
   final int brandId;
   final int providerID;
-  final Sections sections;
+  final MenuSection section;
   final Function(bool) onChanged;
 
-  const MenuItemTitle({
+  const MenuSectionItem({
     Key? key,
     required this.controller,
     required this.index,
-    required this.sections,
+    required this.section,
     required this.onChanged,
     required this.brandId,
     required this.providerID,
   }) : super(key: key);
 
   @override
-  State<MenuItemTitle> createState() => _MenuItemTitleState();
+  State<MenuSectionItem> createState() => _MenuSectionItemState();
 }
 
-class _MenuItemTitleState extends State<MenuItemTitle> {
+class _MenuSectionItemState extends State<MenuSectionItem> {
   @override
-  void didUpdateWidget(covariant MenuItemTitle oldWidget) {
+  void didUpdateWidget(covariant MenuSectionItem oldWidget) {
     if (widget.controller.isExpanded) {
       SegmentManager().track(
         event: SegmentEvents.MENUE_CLICK,
         properties: {
-          'id': widget.sections.id,
-          'name': widget.sections.title,
+          'id': widget.section.id,
+          'name': widget.section.title,
         },
       );
     }
@@ -53,7 +52,6 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      //color: widget.controller.isExpanded ? AppColors.purpleBlue : AppColors.white,
       child: IntrinsicHeight(
         child: Row(
           children: [
@@ -101,7 +99,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                           SizedBox(width: AppSize.s4.rw),
                           Expanded(
                             child: Text(
-                              '${widget.sections.title} ${widget.controller.isExpanded ? '(${widget.sections.subSections.length})' : ''}',
+                              '${widget.section.title} ${widget.controller.isExpanded ? '(${widget.section.categories.length})' : ''}',
                               style: regularTextStyle(
                                 color: AppColors.balticSea,
                                 fontSize: AppFontSize.s16.rSp,
@@ -112,10 +110,10 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                       ),
                     ),
                     MenuSwitchView(
-                      enabled: widget.sections.enabled,
+                      enabled: widget.section.enabled,
                       parentEnabled: true,
                       providerId: widget.providerID,
-                      id: widget.sections.id,
+                      id: widget.section.id,
                       brandId: widget.brandId,
                       type: MenuType.SECTION,
                       onItemChanged: (stock) {},

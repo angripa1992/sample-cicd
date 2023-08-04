@@ -111,9 +111,10 @@ class DeleteItemDialogView extends StatelessWidget {
                             if (haveDiscount)
                               Text(
                                 PriceCalculator.formatPrice(
-                                  price: itemBill.discountedItemPrice * cartItem.quantity,
-                                  currencySymbol: cartItem.itemPrice.symbol,
-                                  code: cartItem.itemPrice.code,
+                                  price: itemBill.discountedItemPrice *
+                                      cartItem.quantity,
+                                  code: cartItem.itemPrice.currencyCode,
+                                  symbol: cartItem.itemPrice.currencySymbol,
                                 ),
                                 style: TextStyle(
                                   color: AppColors.balticSea,
@@ -124,8 +125,8 @@ class DeleteItemDialogView extends StatelessWidget {
                             Text(
                               PriceCalculator.formatPrice(
                                 price: itemBill.itemPrice * cartItem.quantity,
-                                currencySymbol: cartItem.itemPrice.symbol,
-                                code: cartItem.itemPrice.code,
+                                code: cartItem.itemPrice.currencyCode,
+                                symbol: cartItem.itemPrice.currencySymbol,
                               ),
                               style: TextStyle(
                                 color: haveDiscount

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/menu/domain/entities/menues.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_list_view.dart';
 import 'package:klikit/resources/colors.dart';
@@ -15,6 +14,7 @@ import 'package:klikit/resources/styles.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/brand.dart';
+import '../../../domain/entities/menu/menu_data.dart';
 
 class MenuScreen extends StatefulWidget {
   final MenuBrand? brand;
@@ -53,7 +53,7 @@ class _MenuScreenState extends State<MenuScreen> {
             )
           : BlocBuilder<MenusCubit, ResponseState>(
               builder: (context, state) {
-                if (state is Success<MenusData>) {
+                if (state is Success<MenuData>) {
                   if (state.data.sections.isEmpty) {
                     return Center(
                       child: Text(AppStrings.no_menus_found.tr()),

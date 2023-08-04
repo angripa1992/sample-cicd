@@ -2,30 +2,29 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/search/search_appbar.dart';
-import 'package:klikit/modules/menu/domain/entities/items.dart';
-import 'package:klikit/modules/menu/domain/entities/sub_section.dart';
 import 'package:klikit/resources/fonts.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../domain/entities/sub_section_list_item.dart';
+import '../../../../../menu/domain/entities/menu/menu_categories.dart';
+import '../../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../utils/available_time_provider.dart';
 import '../go_to_cart_button.dart';
-import '../menu_item_view.dart';
+import '../menu_category_item_view.dart';
 import '../tab_item_view.dart';
 
 class MenuSearchView extends StatefulWidget {
   final VoidCallback onBack;
   final VoidCallback goToCart;
-  final List<SubSectionListItem> items;
+  final List<MenuCategory> categories;
   final Function(int) onCategorySelected;
-  final Function(MenuItems) onItemSelected;
+  final Function(MenuCategoryItem) onItemSelected;
 
   const MenuSearchView({
     Key? key,
-    required this.items,
+    required this.categories,
     required this.onBack,
     required this.onCategorySelected,
     required this.goToCart,
@@ -37,36 +36,36 @@ class MenuSearchView extends StatefulWidget {
 }
 
 class _MenuSearchViewState extends State<MenuSearchView> {
-  final _sectionNotifier = ValueNotifier<List<SubSections>>([]);
-  final _itemNotifier = ValueNotifier<List<MenuItems>>([]);
-  final _sections = <SubSections>[];
-  final _items = <MenuItems>[];
+  final _categoriesNotifier = ValueNotifier<List<MenuCategory>>([]);
+  final _itemNotifier = ValueNotifier<List<MenuCategoryItem>>([]);
+  final _categories = <MenuCategory>[];
+  final _items = <MenuCategoryItem>[];
 
   @override
   void initState() {
-    for (var element in widget.items) {
-      _sections.add(element.subSections);
-      _items.addAll(element.subSections.items);
+    _categories.addAll(widget.categories);
+    for (var category in _categories) {
+      _items.addAll(category.items);
     }
-    _sectionNotifier.value = _sections;
+    _categoriesNotifier.value = _categories;
     _itemNotifier.value = _items;
     super.initState();
   }
 
   void _applySearchQuery(String query) {
     if (query.isEmpty) {
-      _sectionNotifier.value = _sections;
+      _categoriesNotifier.value = _categories;
       _itemNotifier.value = _items;
       return;
     }
-    final filteredSection = <SubSections>[];
-    final filteredItems = <MenuItems>[];
-    for (var element in _sections) {
-      if (element.title.toLowerCase().contains(query)) {
-        filteredSection.add(element);
+    final filteredSection = <MenuCategory>[];
+    final filteredItems = <MenuCategoryItem>[];
+    for (var category in _categories) {
+      if (category.title.toLowerCase().contains(query)) {
+        filteredSection.add(category);
       }
     }
-    _sectionNotifier.value = filteredSection;
+    _categoriesNotifier.value = filteredSection;
     for (var element in _items) {
       if (element.title.toLowerCase().contains(query)) {
         filteredItems.add(element);
@@ -104,8 +103,8 @@ class _MenuSearchViewState extends State<MenuSearchView> {
               vertical: AppSize.s16.rh,
               horizontal: AppSize.s12.rw,
             ),
-            child: ValueListenableBuilder<List<SubSections>>(
-              valueListenable: _sectionNotifier,
+            child: ValueListenableBuilder<List<MenuCategory>>(
+              valueListenable: _categoriesNotifier,
               builder: (_, sections, __) {
                 if (sections.isEmpty) {
                   return Center(
@@ -153,7 +152,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
               padding: EdgeInsets.symmetric(
                 horizontal: AppSize.s12.rw,
               ),
-              child: ValueListenableBuilder<List<MenuItems>>(
+              child: ValueListenableBuilder<List<MenuCategoryItem>>(
                 valueListenable: _itemNotifier,
                 builder: (_, items, __) {
                   if (items.isEmpty) {
@@ -171,10 +170,10 @@ class _MenuSearchViewState extends State<MenuSearchView> {
                     ),
                     itemCount: items.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return MenuItemView(
+                      return MenuCategoryItemView(
                         menuItem: items[index],
                         dayInfo: AvailableTimeProvider()
-                            .todayInfo(items[index].availableTimes!),
+                            .todayInfo(items[index].availableTimes),
                         onAddItem: () {
                           widget.onItemSelected(items[index]);
                         },

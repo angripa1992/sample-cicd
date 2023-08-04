@@ -1,18 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/sub_section.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../domain/entities/menu/menu_categories.dart';
 
-class SubMenuItemsTitle extends StatelessWidget {
-  final SubSections subSections;
+class MenuCategoryTitle extends StatelessWidget {
+  final MenuCategory menuCategory;
 
-  const SubMenuItemsTitle({Key? key, required this.subSections})
+  const MenuCategoryTitle({Key? key, required this.menuCategory})
       : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class SubMenuItemsTitle extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                subSections.title,
+                menuCategory.title,
                 style: regularTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s15.rSp,
@@ -37,7 +37,7 @@ class SubMenuItemsTitle extends StatelessWidget {
               ),
             ),
             Text(
-              '${subSections.items.length} ${AppStrings.items.tr()}',
+              '${menuCategory.items.length} ${AppStrings.items.tr()}',
               style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s15.rSp,

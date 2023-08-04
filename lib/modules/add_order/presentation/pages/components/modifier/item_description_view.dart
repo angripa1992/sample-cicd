@@ -2,18 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../../../../core/provider/image_url_provider.dart';
+import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/assets.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../utils/order_price_provider.dart';
+import '../../../../../menu/domain/entities/menu/menu_item.dart';
 
 class ItemDescriptionView extends StatelessWidget {
-  final MenuItems item;
+  final MenuCategoryItem item;
 
   const ItemDescriptionView({Key? key, required this.item}) : super(key: key);
 
@@ -103,7 +103,11 @@ class ItemDescriptionView extends StatelessWidget {
                             vertical: AppSize.s4.rh,
                           ),
                           child: Text(
-                            OrderPriceProvider.klikitItemPrice(item.prices),
+                            PriceCalculator.formatPrice(
+                              price: item.klikitPrice().price,
+                              code: item.klikitPrice().currencyCode,
+                              symbol: item.klikitPrice().currencySymbol,
+                            ),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: AppColors.white,

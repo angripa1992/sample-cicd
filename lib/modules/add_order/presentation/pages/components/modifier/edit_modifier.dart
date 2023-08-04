@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
-import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
@@ -11,8 +10,8 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../menu/domain/entities/items.dart';
-import '../../../../../menu/domain/entities/price.dart';
+import '../../../../../menu/domain/entities/menu/menu_item.dart';
+import '../../../../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../domain/entities/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
@@ -46,9 +45,9 @@ class _EditModifierViewState extends State<EditModifierView> {
   final _enabled = ValueNotifier<bool>(true);
   final _price = ValueNotifier<num>(0);
   late List<ItemModifierGroup> _groups;
-  late MenuItems _item;
+  late MenuCategoryItem _item;
   late MenuBrand? _brand;
-  late Prices _itemPrice;
+  late MenuItemPrice _itemPrice;
   late num _modifierPrice;
   late int _quantity;
 
@@ -100,7 +99,7 @@ class _EditModifierViewState extends State<EditModifierView> {
       modifiers: _groups,
       item: _item,
       quantity: _quantity,
-      itemInstruction:  _textEditingController.text,
+      itemInstruction: _textEditingController.text,
       modifiersPrice: _modifierPrice,
       itemPrice: _itemPrice,
       brand: _brand!,
@@ -190,8 +189,8 @@ class _EditModifierViewState extends State<EditModifierView> {
             enabled: _enabled,
             price: _price,
             quantity: _quantity,
-            currencySymbol: _itemPrice.symbol,
-            currencyCode: _itemPrice.code,
+            currencyCode: _itemPrice.currencyCode,
+            currencySymbol: _itemPrice.currencySymbol,
             onQuantityChanged: _onQuantityChanged,
             onAddToCart: () => widget.onClose(_createCartItem()),
           ),

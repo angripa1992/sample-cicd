@@ -1,30 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stock_model.dart';
+part of 'menu_out_of_stock_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StockModel _$StockModelFromJson(Map<String, dynamic> json) => StockModel(
+MenuOutOfStockModel _$MenuOutOfStockModelFromJson(Map<String, dynamic> json) =>
+    MenuOutOfStockModel(
       available: json['available'] as bool?,
       snooze: json['snooze'] == null
           ? null
-          : SnoozeModel.fromJson(json['snooze'] as Map<String, dynamic>),
+          : MenuSnoozeModel.fromJson(json['snooze'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$StockModelToJson(StockModel instance) =>
+Map<String, dynamic> _$MenuOutOfStockModelToJson(
+        MenuOutOfStockModel instance) =>
     <String, dynamic>{
       'available': instance.available,
       'snooze': instance.snooze,
     };
 
-SnoozeModel _$SnoozeModelFromJson(Map<String, dynamic> json) => SnoozeModel(
+MenuSnoozeModel _$MenuSnoozeModelFromJson(Map<String, dynamic> json) =>
+    MenuSnoozeModel(
       endTime: json['end_time'] as String?,
       duration: json['duration'] as int?,
     );
 
-Map<String, dynamic> _$SnoozeModelToJson(SnoozeModel instance) =>
+Map<String, dynamic> _$MenuSnoozeModelToJson(MenuSnoozeModel instance) =>
     <String, dynamic>{
       'end_time': instance.endTime,
       'duration': instance.duration,

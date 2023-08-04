@@ -7,12 +7,12 @@ import 'package:klikit/modules/menu/presentation/pages/menu/action_dialogs.dart'
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/stock.dart';
+import '../../../domain/entities/menu/menu_out_of_stock.dart';
 
 class MenuSwitchView extends StatefulWidget {
   final bool enabled;
   final bool parentEnabled;
-  final Function(Stock) onItemChanged;
+  final Function(MenuOutOfStock) onItemChanged;
   final Function(bool) onMenuChanged;
   final int brandId;
   final int id;
@@ -96,12 +96,6 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
     return widget.providerId == ZERO
         ? Container(
             decoration: const BoxDecoration(),
-            // decoration: !widget.willShowBg ? const BoxDecoration() :  BoxDecoration(
-            //   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            //   color: (_enabled && widget.parentEnabled)
-            //       ? AppColors.peppermint
-            //       : AppColors.whiteSmoke,
-            // ),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               child: Transform.scale(

@@ -1,11 +1,11 @@
-class ItemBrandModel {
+class ItemBrandRequestModel {
   int? id;
   String? logo;
   String? title;
 
-  ItemBrandModel({this.id, this.logo, this.title});
+  ItemBrandRequestModel({this.id, this.logo, this.title});
 
-  ItemBrandModel.fromJson(Map<String, dynamic> json) {
+  ItemBrandRequestModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     logo = json['logo'];
     title = json['title'];

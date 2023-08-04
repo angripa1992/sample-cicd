@@ -105,8 +105,8 @@ class CartPriceView extends StatelessWidget {
         Text(
           PriceCalculator.formatPrice(
             price: price,
-            currencySymbol: currency.symbol ?? EMPTY,
             code: currency.code ?? EMPTY,
+            symbol: currency.symbol ?? EMPTY,
           ),
           style: textStyle,
         ),
@@ -148,8 +148,8 @@ class CartPriceView extends StatelessWidget {
                         Text(
                           PriceCalculator.formatPrice(
                             price: price,
-                            currencySymbol: currency.symbol ?? EMPTY,
                             code: currency.code ?? EMPTY,
+                            symbol: currency.symbol ?? EMPTY,
                           ),
                           style: TextStyle(
                             color: AppColors.balticSea,

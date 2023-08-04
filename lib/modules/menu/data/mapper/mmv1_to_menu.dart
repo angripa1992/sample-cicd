@@ -4,17 +4,21 @@ import 'package:klikit/modules/menu/domain/entities/menu/menu_available_times.da
 import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
 
 import '../../domain/entities/menu/menu_categories.dart';
+import '../../domain/entities/menu/menu_data.dart';
 import '../../domain/entities/menu/menu_item.dart';
+import '../../domain/entities/menu/menu_item_price.dart';
 import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/entities/menu/menu_sections.dart';
 import '../../domain/entities/menu/menu_visibility.dart';
 import '../models/menu_v1_data.dart';
 
-void mapMMV1toMenu(
-  List<MenuV1SectionsModel>? sections,
-  MenuV1BranchInfo? v1branchInfo,
-) {
-  final branchInfo = _menuV1dataToMenuBranchInfo(v1branchInfo!);
+MenuData mapMMV1toMenu(MenuV1MenusDataModel menusData) {
+  final branchInfo = _menuV1dataToMenuBranchInfo(menusData.branchInfo!);
+  final menuData = MenuData(
+    branchInfo: branchInfo,
+    sections: menusData.sections?.map((e) => _menuV1SectionsToMenuSections(e)).toList() ?? [],
+  );
+  return menuData;
 }
 
 MenuBranchInfo _menuV1dataToMenuBranchInfo(MenuV1BranchInfo data) {
@@ -33,9 +37,10 @@ MenuBranchInfo _menuV1dataToMenuBranchInfo(MenuV1BranchInfo data) {
   );
 }
 
-MenuSections _menuV1SectionsToMenuSections(MenuV1SectionsModel data) {
-  final menuAvailableTimes = _menuV1AvailableTimesModelToMenuAvailableTimes(data.availableTimes!);
-  return MenuSections(
+MenuSection _menuV1SectionsToMenuSections(MenuV1SectionsModel data) {
+  final menuAvailableTimes =
+      _menuV1AvailableTimesModelToMenuAvailableTimes(data.availableTimes!);
+  return MenuSection(
     id: data.id.orZero(),
     title: data.title.orEmpty(),
     description: EMPTY,
@@ -45,8 +50,7 @@ MenuSections _menuV1SectionsToMenuSections(MenuV1SectionsModel data) {
         data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ??
             [],
     categories: data.subSections
-            ?.map(
-                (e) => _menuV1SubSectionToMenuCategory(e,menuAvailableTimes))
+            ?.map((e) => _menuV1SubSectionToMenuCategory(e, menuAvailableTimes))
             .toList() ??
         [],
     availableTimes: menuAvailableTimes,
@@ -75,14 +79,16 @@ MenuCategory _menuV1SubSectionToMenuCategory(
   );
 }
 
-MenuItem _menuV1ItemToMenuItem(
+MenuCategoryItem _menuV1ItemToMenuItem(
   MenuV1ItemsModel data,
   MenuAvailableTimes availableTimes,
 ) {
-  return MenuItem(
+  return MenuCategoryItem(
     id: data.id.orZero(),
+    defaultItemId: data.defaultItemId.orZero(),
     title: data.title.orEmpty(),
-    prices: [],
+    prices:
+        data.prices?.map((e) => _mmV1PriceToMenuItemPrice(e)).toList() ?? [],
     vat: data.vat.orZero(),
     description: data.description.orEmpty(),
     image: data.image.orEmpty(),
@@ -98,8 +104,8 @@ MenuItem _menuV1ItemToMenuItem(
 
 MenuVisibility _menuV1StatusToMenuVisibility(MenuV1StatusesModel status) {
   return MenuVisibility(
-    status.providerId.orZero(),
-    status.enabled.orFalse(),
+    providerID: status.providerId.orZero(),
+    visible: !status.enabled.orFalse(),
   );
 }
 
@@ -118,13 +124,13 @@ MenuAvailableTimes _menuV1AvailableTimesModelToMenuAvailableTimes(
   MenuV1AvailableTimesModel data,
 ) {
   return MenuAvailableTimes(
-    monday: _v1MenuDayToMenuDay(data.monday!),
-    tuesday: _v1MenuDayToMenuDay(data.tuesday!),
-    wednesday: _v1MenuDayToMenuDay(data.wednesday!),
-    thursday: _v1MenuDayToMenuDay(data.thursday!),
-    friday: _v1MenuDayToMenuDay(data.friday!),
-    saturday: _v1MenuDayToMenuDay(data.saturday!),
-    sunday: _v1MenuDayToMenuDay(data.sunday!),
+    monday: _v1MenuDayToMenuDay(data.monday ?? MenuV1DayInfoModel()),
+    tuesday: _v1MenuDayToMenuDay(data.tuesday ?? MenuV1DayInfoModel()),
+    wednesday: _v1MenuDayToMenuDay(data.wednesday ?? MenuV1DayInfoModel()),
+    thursday: _v1MenuDayToMenuDay(data.thursday ?? MenuV1DayInfoModel()),
+    friday: _v1MenuDayToMenuDay(data.friday ?? MenuV1DayInfoModel()),
+    saturday: _v1MenuDayToMenuDay(data.saturday ?? MenuV1DayInfoModel()),
+    sunday: _v1MenuDayToMenuDay(data.sunday ?? MenuV1DayInfoModel()),
   );
 }
 
@@ -139,5 +145,16 @@ MenuSlots _v1SlotsToMenuSlots(MenuV1SlotsModel data) {
   return MenuSlots(
     startTime: data.startTime.orZero(),
     endTime: data.endTime.orZero(),
+  );
+}
+
+MenuItemPrice _mmV1PriceToMenuItemPrice(MenuV1PricesModel data) {
+  return MenuItemPrice(
+    providerId: data.providerId.orZero(),
+    currencyId: data.currencyId.orZero(),
+    currencyCode: data.code.orEmpty(),
+    price: data.price.orZero(),
+    takeAwayPrice: data.price.orZero(),
+    currencySymbol: data.symbol.orEmpty(),
   );
 }

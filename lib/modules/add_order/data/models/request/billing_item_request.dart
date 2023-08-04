@@ -1,13 +1,13 @@
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 
-import 'applied_promo.dart';
-import 'billing_item_modifier_group.dart';
-import 'item_brand.dart';
-import 'item_price.dart';
-import 'item_status.dart';
-import 'item_stock.dart';
+import '../applied_promo.dart';
+import 'billing_item_modifier_group_request.dart';
+import 'item_brand_request.dart';
+import '../item_price.dart';
+import '../item_status.dart';
+import '../item_stock.dart';
 
-class BillingItem {
+class BillingItemRequestModel {
   int? id;
   String? title;
   List<ItemPriceModel>? prices;
@@ -28,16 +28,16 @@ class BillingItem {
   num? unitPrice;
   int? discountType;
   num? discountValue;
-  List<BillingItemModifierGroup>? groups;
+  List<BillingItemModifierGroupRequestModel>? groups;
   int? quantity;
   bool? hasModifierGroups;
-  ItemBrandModel? brand;
+  ItemBrandRequestModel? brand;
   String? comment;
   int? quantityOfScPromoItem;
   AppliedPromo? appliedPromoModel;
   num? promoDiscount;
 
-  BillingItem({
+  BillingItemRequestModel({
     this.id,
     this.title,
     this.prices,

@@ -1,16 +1,16 @@
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
-import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../menu/domain/entities/brand.dart';
-import '../../../menu/domain/entities/price.dart';
+import '../../../menu/domain/entities/menu/menu_item.dart';
+import '../../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../data/models/applied_promo.dart';
 import 'item_modifier_group.dart';
 
 class AddToCartItem {
   final List<ItemModifierGroup> modifiers;
-  final MenuItems item;
+  final MenuCategoryItem item;
   final num modifiersPrice;
-  final Prices itemPrice;
+  final MenuItemPrice itemPrice;
   String itemInstruction;
   MenuBrand brand;
   int quantity;

@@ -1,3 +1,4 @@
+import '../../../../app/constants.dart';
 import 'item_modifier_group.dart';
 import 'item_price.dart';
 import 'item_status.dart';
@@ -39,4 +40,6 @@ class ItemModifier {
         isSelected: isSelected,
         quantity: quantity,
       );
+
+ ItemPrice klikitPrice() => prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
 }

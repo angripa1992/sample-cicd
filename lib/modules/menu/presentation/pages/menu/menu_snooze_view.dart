@@ -2,18 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/items.dart';
 
 import '../../../../../app/extensions.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/stock.dart';
+import '../../../domain/entities/menu/menu_item.dart';
+import '../../../domain/entities/menu/menu_out_of_stock.dart';
 import 'oos_settings.dart';
 
 class MenuSnoozeView extends StatelessWidget {
-  final MenuItems items;
+  final MenuCategoryItem menuCategoryItem;
   final int brandId;
   final int providerId;
   final double borderRadius;
@@ -21,11 +21,11 @@ class MenuSnoozeView extends StatelessWidget {
   final Color bgColor;
   final bool parentEnabled;
   final String iconPath;
-  final Function(Stock) onChanged;
+  final Function(MenuOutOfStock) onChanged;
 
   const MenuSnoozeView({
     Key? key,
-    required this.items,
+    required this.menuCategoryItem,
     required this.providerId,
     required this.borderRadius,
     required this.width,
@@ -37,7 +37,7 @@ class MenuSnoozeView extends StatelessWidget {
   }) : super(key: key);
 
   String _duration() {
-    final duration = items.stock.snooze.duration;
+    final duration = menuCategoryItem.outOfStock.menuSnooze.duration;
     if (duration == 24) {
       return '1 ${AppStrings.day.tr()}';
     } else if (duration == 72) {
@@ -53,14 +53,14 @@ class MenuSnoozeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !items.stock.available && providerId == ZERO
+    return !menuCategoryItem.outOfStock.available && providerId == ZERO
         ? SizedBox(
             width: width,
             child: InkWell(
               onTap: () => !parentEnabled
                   ? null
                   : showOosDialog(
-                      items: items,
+                      menuCategoryItem: menuCategoryItem,
                       brandId: brandId,
                       providerId: providerId,
                       parentEnabled: parentEnabled,
@@ -83,8 +83,7 @@ class MenuSnoozeView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           _duration(),
-                          style:
-                              mediumTextStyle(color: AppColors.smokeyGrey),
+                          style: mediumTextStyle(color: AppColors.smokeyGrey),
                         ),
                       ),
                     ],

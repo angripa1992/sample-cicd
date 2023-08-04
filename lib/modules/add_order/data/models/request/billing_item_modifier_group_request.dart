@@ -1,10 +1,10 @@
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 
-import 'billing_item_modifier.dart';
-import 'item_status.dart';
-import 'modifier_rule.dart';
+import 'billing_item_modifier_request.dart';
+import '../item_status.dart';
+import '../modifier_rule.dart';
 
-class BillingItemModifierGroup{
+class BillingItemModifierGroupRequestModel{
   int? groupId;
   String? title;
   String? label;
@@ -13,9 +13,9 @@ class BillingItemModifierGroup{
   TitleV2Model? titleV2;
   List<ItemStatusModel>? statuses;
   ModifierRuleModel? rule;
-  List<BillingItemModifier>? modifiers;
+  List<BillingItemModifierRequestModel>? modifiers;
 
-  BillingItemModifierGroup(
+  BillingItemModifierGroupRequestModel(
       {this.groupId,
         this.title,
         this.label,
@@ -26,7 +26,7 @@ class BillingItemModifierGroup{
         this.rule,
         this.modifiers});
 
-  BillingItemModifierGroup.fromJson(Map<String, dynamic> json) {
+  BillingItemModifierGroupRequestModel.fromJson(Map<String, dynamic> json) {
     groupId = json['group_id'];
     title = json['title'];
     label = json['label'];
@@ -43,9 +43,9 @@ class BillingItemModifierGroup{
     }
     rule = json['rule'] != null ?  ModifierRuleModel.fromJson(json['rule']) : null;
     if (json['modifiers'] != null) {
-      modifiers = <BillingItemModifier>[];
+      modifiers = <BillingItemModifierRequestModel>[];
       json['modifiers'].forEach((v) {
-        modifiers!.add(BillingItemModifier.fromJson(v));
+        modifiers!.add(BillingItemModifierRequestModel.fromJson(v));
       });
     }
   }

@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/core/network/rest_client.dart';
-import 'package:klikit/modules/menu/data/models/menues_model.dart';
 import 'package:klikit/modules/menu/data/models/modifier_disabled_response_model.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
 import 'package:klikit/modules/menu/data/models/modifiers_group_model.dart';
-import 'package:klikit/modules/menu/data/models/stock_model.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
@@ -15,21 +13,26 @@ import '../../../../core/network/urls.dart';
 import '../../domain/usecase/fetch_menus.dart';
 import '../models/brand_model.dart';
 import '../models/brands_model.dart';
+import '../models/menu/menu_out_of_stock_model.dart';
+import '../models/menu_v1_data.dart';
 
 abstract class MenuRemoteDatasource {
   Future<MenuBrandsModel> fetchMenuBrands(Map<String, dynamic> params);
 
-  Future<MenuBrandModel> fetchMenuBrand({required int brandId, required int branchId});
+  Future<MenuBrandModel> fetchMenuBrand(
+      {required int brandId, required int branchId});
 
-  Future<MenusDataModel> fetchMenus(FetchMenuParams params);
+  Future<MenuV1MenusDataModel> fetchMenuV1(FetchMenuParams params);
 
-  Future<StockModel> updateItem(UpdateItemParam params);
+  Future<MenuOutOfStockModel> updateItem(UpdateItemParam params);
 
   Future<ActionSuccess> updateMenu(UpdateMenuParams params);
 
-  Future<List<ModifiersGroupModel>> fetchModifiersGroup(Map<String, dynamic> params);
+  Future<List<ModifiersGroupModel>> fetchModifiersGroup(
+      Map<String, dynamic> params);
 
-  Future<ModifierDisabledResponseModel> disableModifier(ModifierRequestModel param);
+  Future<ModifierDisabledResponseModel> disableModifier(
+      ModifierRequestModel param);
 
   Future<ActionSuccess> enableModifier(ModifierRequestModel param);
 }
@@ -51,7 +54,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   }
 
   @override
-  Future<MenusDataModel> fetchMenus(FetchMenuParams params) async {
+  Future<MenuV1MenusDataModel> fetchMenuV1(FetchMenuParams params) async {
     try {
       final response = await _restClient.request(
         Urls.menus(params.branchId),
@@ -61,14 +64,14 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
           'provider_id': params.providerID,
         },
       );
-      return MenusDataModel.fromJson(response);
+      return MenuV1MenusDataModel.fromJson(response);
     } on DioException {
       rethrow;
     }
   }
 
   @override
-  Future<StockModel> updateItem(UpdateItemParam params) async {
+  Future<MenuOutOfStockModel> updateItem(UpdateItemParam params) async {
     try {
       final response = await _restClient.request(
         Urls.updateItem(params.itemId),
@@ -81,7 +84,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
           'timezoneOffset': params.timeZoneOffset,
         },
       );
-      return StockModel.fromJson(response);
+      return MenuOutOfStockModel.fromJson(response);
     } on DioException {
       rethrow;
     }
@@ -164,7 +167,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         Urls.menuBrand(brandId),
         Method.GET,
         {
-          'filterByBranch' : branchId,
+          'filterByBranch': branchId,
         },
       );
       return MenuBrandModel.fromJson(response);

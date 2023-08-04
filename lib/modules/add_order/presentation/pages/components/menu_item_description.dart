@@ -5,24 +5,24 @@ import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../core/provider/image_url_provider.dart';
+import '../../../../../core/utils/price_calculator.dart';
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../../menu/domain/entities/items.dart';
-import '../../../utils/order_price_provider.dart';
+import '../../../../menu/domain/entities/menu/menu_item.dart';
 import 'modifier/quantity_selector.dart';
 import 'modifier/speacial_instruction.dart';
 
 class MenuItemDescription extends StatefulWidget {
-  final MenuItems items;
+  final MenuCategoryItem menuCategoryItem;
   final Function(int, String) addToCart;
 
   const MenuItemDescription({
     Key? key,
-    required this.items,
+    required this.menuCategoryItem,
     required this.addToCart,
   }) : super(key: key);
 
@@ -36,6 +36,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
 
   @override
   Widget build(BuildContext context) {
+    final itemPrice = widget.menuCategoryItem.klikitPrice();
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,7 +94,8 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                         height: AppSize.s120.rh,
                         width: AppSize.s150.rw,
                         child: CachedNetworkImage(
-                          imageUrl: ImageUrlProvider.getUrl(widget.items.image),
+                          imageUrl: ImageUrlProvider.getUrl(
+                              widget.menuCategoryItem.image),
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
                               borderRadius:
@@ -127,7 +129,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                     ),
                   ),
                   Text(
-                    widget.items.title,
+                    widget.menuCategoryItem.title,
                     style: boldTextStyle(
                       fontSize: AppFontSize.s17.rSp,
                       color: AppColors.balticSea,
@@ -145,7 +147,11 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                         vertical: AppSize.s4.rh,
                       ),
                       child: Text(
-                        OrderPriceProvider.klikitItemPrice(widget.items.prices),
+                        PriceCalculator.formatPrice(
+                          price: itemPrice.price,
+                          code: itemPrice.currencyCode,
+                          symbol: itemPrice.currencySymbol,
+                        ),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppColors.white,
@@ -156,7 +162,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                     ),
                   ),
                   Text(
-                    widget.items.description,
+                    widget.menuCategoryItem.description,
                     style: regularTextStyle(
                       fontSize: AppFontSize.s14.rSp,
                       color: AppColors.black,

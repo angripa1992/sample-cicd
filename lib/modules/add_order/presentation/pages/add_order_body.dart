@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
-import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
 
 import '../../../../app/di.dart';
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
 import '../../../../resources/strings.dart';
 import '../../../menu/domain/entities/brand.dart';
-import '../../../menu/domain/entities/items.dart';
+import '../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../../widgets/snackbars.dart';
 import '../../domain/entities/item_modifier_group.dart';
@@ -32,7 +32,10 @@ import 'components/modifier/edit_modifier.dart';
 class AddOrderBody extends StatefulWidget {
   final VoidCallback onBack;
   final bool willOpenCart;
-  const AddOrderBody({Key? key, required this.onBack, required this.willOpenCart}) : super(key: key);
+
+  const AddOrderBody(
+      {Key? key, required this.onBack, required this.willOpenCart})
+      : super(key: key);
 
   @override
   State<AddOrderBody> createState() => _AddOrderBodyState();
@@ -51,9 +54,9 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MenuBrandsCubit, ResponseState>(
-      listener: (context,state){
-        if(state is Success<List<MenuBrand>> && widget.willOpenCart){
-          WidgetsBinding.instance.addPostFrameCallback((_){
+      listener: (context, state) {
+        if (state is Success<List<MenuBrand>> && widget.willOpenCart) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             _gotoCart();
           });
         }
@@ -64,7 +67,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         } else if (state is Success<List<MenuBrand>>) {
           EasyLoading.dismiss();
           return _body(state.data);
-        } else if(state is Failed) {
+        } else if (state is Failed) {
           EasyLoading.dismiss();
           return Center(child: Text(state.failure.message));
         }
@@ -145,11 +148,11 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   void _addToCart(AddToCartItem? item) {
     if (item != null) {
       CartManager().addToCart(item);
-      showSuccessSnackBar(null,AppStrings.successfully_added_to_cart.tr());
+      showSuccessSnackBar(null, AppStrings.successfully_added_to_cart.tr());
     }
   }
 
-  void _editCart(AddToCartItem? newItem, AddToCartItem oldItem) async{
+  void _editCart(AddToCartItem? newItem, AddToCartItem oldItem) async {
     if (newItem != null) {
       await CartManager().editItem(
         newItem: newItem,
@@ -202,7 +205,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
 
   void _addModifier({
     required List<ItemModifierGroup> groups,
-    required MenuItems item,
+    required MenuCategoryItem item,
     required MenuBrand brand,
   }) {
     showModalBottomSheet<void>(
@@ -257,15 +260,15 @@ class _AddOrderBodyState extends State<AddOrderBody> {
               if (state is Loading) {
                 EasyLoading.show();
                 return const SizedBox();
-              } else if (state is Success<List<SubSectionListItem>>) {
+              } else if (state is Success<List<MenuCategory>>) {
                 EasyLoading.dismiss();
-                if(state.data.isEmpty){
-                  return  Center(
+                if (state.data.isEmpty) {
+                  return Center(
                     child: Text(AppStrings.no_item_found.tr()),
                   );
                 }
-                return MenuItemsListView(
-                  items: state.data,
+                return MenuCategoryItemsListView(
+                  categories: state.data,
                   brand: _selectedBrand,
                   onCartTap: _gotoCart,
                   onAddToCart: _addToCart,

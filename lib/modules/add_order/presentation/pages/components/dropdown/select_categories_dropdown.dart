@@ -7,17 +7,17 @@ import 'package:klikit/resources/styles.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../domain/entities/sub_section_list_item.dart';
+import '../../../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../../utils/color_provider.dart';
 
 class CategoriesDropDown extends StatefulWidget {
-  final List<SubSectionListItem> items;
+  final List<MenuCategory> categories;
   final Function(int) onChanged;
-  final SubSectionListItem? initValue;
+  final MenuCategory? initValue;
 
   const CategoriesDropDown({
     Key? key,
-    required this.items,
+    required this.categories,
     required this.onChanged,
     required this.initValue,
   }) : super(key: key);
@@ -27,14 +27,14 @@ class CategoriesDropDown extends StatefulWidget {
 }
 
 class _CategoriesDropDownState extends State<CategoriesDropDown> {
-  SubSectionListItem? _dropDownValue;
+  MenuCategory? _dropDownValue;
   final _textStyle = mediumTextStyle(
     color: AppColors.balticSea,
     fontSize: AppFontSize.s15.rSp,
   );
 
-  int _getIndex(SubSectionListItem item) {
-    return widget.items.indexOf(item);
+  int _getIndex(MenuCategory category) {
+    return widget.categories.indexOf(category);
   }
 
   @override
@@ -51,7 +51,7 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<SubSectionListItem>(
+    return DropdownButton<MenuCategory>(
       value: _dropDownValue,
       underline: const SizedBox(),
       borderRadius: BorderRadius.circular(AppSize.s8.rSp),
@@ -63,7 +63,7 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
         child: Text(AppStrings.categories.tr(), style: _textStyle),
       ),
       selectedItemBuilder: (BuildContext context) {
-        return widget.items.map<Widget>((SubSectionListItem item) {
+        return widget.categories.map<Widget>((MenuCategory category) {
           return Container(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -73,15 +73,15 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
           );
         }).toList();
       },
-      items: widget.items.map<DropdownMenuItem<SubSectionListItem>>(
-        (item) {
-          return DropdownMenuItem<SubSectionListItem>(
-            value: item,
+      items: widget.categories.map<DropdownMenuItem<MenuCategory>>(
+        (category) {
+          return DropdownMenuItem<MenuCategory>(
+            value: category,
             child: Container(
               margin: EdgeInsets.only(bottom: AppSize.s4.rh),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: CategoriesColorProvider().color(_getIndex(item)),
+                color: CategoriesColorProvider().color(_getIndex(category)),
               ),
               alignment: Alignment.center,
               constraints: BoxConstraints(minHeight: AppSize.s42.rh),
@@ -89,9 +89,8 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
                 padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                 child: Row(
                   children: [
-                    Expanded(
-                        child: Text(item.subSections.title, style: _textStyle)),
-                    if (_dropDownValue?.subSections.id == item.subSections.id)
+                    Expanded(child: Text(category.title, style: _textStyle)),
+                    if (_dropDownValue?.id == category.id)
                       const Icon(Icons.check),
                   ],
                 ),

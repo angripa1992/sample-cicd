@@ -1,10 +1,9 @@
-import 'package:klikit/modules/add_order/data/models/billing_item_modifier.dart';
-import 'package:klikit/modules/add_order/data/models/billing_item_modifier_group.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_group_request.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_request.dart';
 
 import '../../../app/constants.dart';
-import '../../menu/domain/entities/items.dart';
+import '../../menu/domain/entities/menu/menu_item.dart';
 import '../domain/entities/item_modifier_group.dart';
-import '../domain/entities/item_price.dart';
 import 'order_entity_provider.dart';
 
 class ModifierManager {
@@ -83,12 +82,12 @@ class ModifierManager {
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          price += (_klikitPrice(modifierLevelOne.prices) *
+          price += (modifierLevelOne.klikitPrice().price *
               modifierLevelOne.quantity);
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                price += (_klikitPrice(modifierLevelTwo.prices) *
+                price += (modifierLevelTwo.klikitPrice().price *
                     modifierLevelTwo.quantity);
               }
             }
@@ -122,7 +121,7 @@ class ModifierManager {
 
   Future<String> generateCheckingId({
     required List<ItemModifierGroup> groups,
-    required MenuItems item,
+    required MenuCategoryItem item,
   }) async {
     var uniqueId = '${item.id}';
     for (var groupLevelOne in groups) {
@@ -144,12 +143,6 @@ class ModifierManager {
     return uniqueId;
   }
 
-  num _klikitPrice(List<ItemPrice> prices) {
-    return prices
-        .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
-        .price;
-  }
-
   Future<void> clearModifier(List<ItemModifierGroup> groups) async {
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
@@ -165,16 +158,17 @@ class ModifierManager {
     }
   }
 
-  Future<List<BillingItemModifierGroup>> billingItemModifiers(
+  Future<List<BillingItemModifierGroupRequestModel>> billingItemModifiers(
       List<ItemModifierGroup> groups) async {
-    final billingModifiersGroupsL1 = <BillingItemModifierGroup>[];
+    final billingModifiersGroupsL1 = <BillingItemModifierGroupRequestModel>[];
     for (var groupLevelOne in groups) {
-      final billingModifiersL1 = <BillingItemModifier>[];
+      final billingModifiersL1 = <BillingItemModifierRequestModel>[];
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          final billingModifiersGroupsL2 = <BillingItemModifierGroup>[];
+          final billingModifiersGroupsL2 =
+              <BillingItemModifierGroupRequestModel>[];
           for (var groupLevelTwo in modifierLevelOne.groups) {
-            final billingModifiersL2 = <BillingItemModifier>[];
+            final billingModifiersL2 = <BillingItemModifierRequestModel>[];
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
                 billingModifiersL2.add(OrderEntityProvider()

@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/menu/domain/entities/avilable_times.dart';
+
+import '../../menu/domain/entities/menu/menu_available_times.dart';
 
 class AvailableTimeProvider {
   static final _instance = AvailableTimeProvider._internal();
@@ -17,7 +17,7 @@ class AvailableTimeProvider {
     return '$hoursStr:$minStr';
   }
 
-  DayInfo todayInfo(AvailableTimes availableTimes) {
+  MenuDay todayInfo(MenuAvailableTimes availableTimes) {
     final today = DateTime.now().weekday;
     switch (today) {
       case DateTime.monday:
@@ -37,26 +37,29 @@ class AvailableTimeProvider {
     }
   }
 
-  Slots? haveAvailableTime(DayInfo dayInfo){
+  MenuSlots? haveAvailableTime(MenuDay dayInfo) {
     for (var slot in dayInfo.slots) {
       final currentMilitaryTime = int.tryParse(
         DateFormat('HH:mm').format(DateTime.now()).replaceAll(":", ""),
         radix: 10,
       );
-      if (currentMilitaryTime! >= slot.startTime && currentMilitaryTime <= slot.endTime) {
+      if (currentMilitaryTime! >= slot.startTime &&
+          currentMilitaryTime <= slot.endTime) {
         return slot;
       }
     }
     return null;
   }
 
-  String availableTime(AvailableTimes availableTimes) {
+  String availableTime(MenuAvailableTimes availableTimes) {
     final slot = haveAvailableTime(todayInfo(availableTimes));
     String availableTime = 'Unavailable';
-    if(slot != null){
-      final startDateTime = DateFormat('HH:mm').parse(_convertMilitaryTimeToNormalTime(slot.startTime));
+    if (slot != null) {
+      final startDateTime = DateFormat('HH:mm')
+          .parse(_convertMilitaryTimeToNormalTime(slot.startTime));
       final startDateTimeStr = DateFormat('hh:mm a').format(startDateTime);
-      final endDateTime = DateFormat('HH:mm').parse(_convertMilitaryTimeToNormalTime(slot.endTime));
+      final endDateTime = DateFormat('HH:mm')
+          .parse(_convertMilitaryTimeToNormalTime(slot.endTime));
       final endDateTimeStr = DateFormat('hh:mm a').format(endDateTime);
       availableTime = '$startDateTimeStr - $endDateTimeStr';
     }

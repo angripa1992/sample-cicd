@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/stock.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_item_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_menu_cubit.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
@@ -18,10 +17,11 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../../widgets/snackbars.dart';
+import '../../../domain/entities/menu/menu_out_of_stock.dart';
 
 void showMenuItemActionDialog({
   required BuildContext context,
-  required Function(Stock) onSuccess,
+  required Function(MenuOutOfStock) onSuccess,
   required int brandId,
   required int itemId,
   required bool enabled,
@@ -55,7 +55,7 @@ void showMenuItemActionDialog({
                   Expanded(
                     child: BlocConsumer<UpdateItemCubit, ResponseState>(
                       listener: (context, state) {
-                        if (state is Success<Stock>) {
+                        if (state is Success<MenuOutOfStock>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(
                             context,
@@ -92,9 +92,9 @@ void showMenuItemActionDialog({
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.zero,
+                        backgroundColor: AppColors.white,
                         padding:
                             EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-                        primary: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                           side: BorderSide(color: AppColors.purpleBlue),
@@ -195,9 +195,9 @@ void showMenuActionDialog({
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.zero,
+                        backgroundColor: AppColors.white,
                         padding:
                             EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-                        primary: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                           side: BorderSide(color: AppColors.purpleBlue),

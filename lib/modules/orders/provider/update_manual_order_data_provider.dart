@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:klikit/modules/menu/domain/entities/items.dart';
+import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 
 import '../../../app/constants.dart';
 import '../../../app/extensions.dart';
@@ -11,9 +11,10 @@ import '../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../add_order/domain/entities/item_modifier_group.dart';
 import '../../add_order/utils/cart_manager.dart';
 import '../../add_order/utils/modifier_manager.dart';
-import '../../add_order/utils/order_price_provider.dart';
 import '../../menu/data/datasource/menu_remote_datasource.dart';
+import '../../menu/data/mapper/mmv1_to_menu.dart';
 import '../../menu/domain/entities/brand.dart';
+import '../../menu/domain/entities/menu/menu_item.dart';
 import '../data/models/order_applied_promo.dart';
 import '../domain/entities/cart.dart';
 import '../domain/entities/order.dart';
@@ -67,8 +68,7 @@ class UpdateManualOrderDataProvider {
         if (menuItemOrNull != null) {
           final modifiersPrice =
               await ModifierManager().calculateModifiersPrice(modifierGroups);
-          final itemPrice =
-              OrderPriceProvider.klikitPrice(menuItemOrNull.prices);
+          final itemPrice = menuItemOrNull.klikitPrice();
           final cartV1Item = order.cartV1
               .firstWhere((element) => element.itemId.toString() == cartv2.id);
           final promoInfo = _promoInfo(
@@ -119,7 +119,8 @@ class UpdateManualOrderDataProvider {
             appliedPromo: itemPromo, promo: promo, isItemPromo: true);
       } else {
         if (orderPromo == null) return null;
-        final promo = promos.firstWhere((element) => orderPromo.promoId == element.id);
+        final promo =
+            promos.firstWhere((element) => orderPromo.promoId == element.id);
         return _promoInfoFromAppliedPromo(
             appliedPromo: orderPromo, promo: promo, isItemPromo: false);
       }
@@ -185,32 +186,35 @@ class UpdateManualOrderDataProvider {
         branchId: branchId,
       );
       return menuBrandResponse.toEntity();
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
 
-  Future<MenuItems?> _fetchMenuItem({
+  Future<MenuCategoryItem?> _fetchMenuItem({
     required String itemId,
     required int brandId,
     required int branchId,
   }) async {
     try {
-      final menusItemsResponse = await _addOrderDatasource.fetchMenus(
-          branchId: branchId, brandId: brandId);
-      final sections = menusItemsResponse.toEntity().sections;
-      for (var section in sections) {
-        for (var subSection in section.subSections) {
-          for (var item in subSection.items) {
+      final menusItemsResponse = await _menuRemoteDatasource.fetchMenuV1(
+        FetchMenuParams(
+          branchId: branchId,
+          brandId: brandId,
+        ),
+      );
+      final mappedMenuData = mapMMV1toMenu(menusItemsResponse);
+      for (var section in mappedMenuData.sections) {
+        for (var category in section.categories) {
+          for (var item in category.items) {
             if (item.id.toString() == itemId) {
-              item.availableTimes = section.availableTimes;
               return item;
             }
           }
         }
       }
       return null;
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }

@@ -1,10 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 
-import '../../../app/constants.dart';
-import '../data/models/billing_request.dart';
+import '../data/models/request/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
 import '../domain/entities/billing_response.dart';
 import '../domain/entities/selected_item_price.dart';
@@ -49,17 +47,18 @@ class CartManager {
     await addToCart(newItem);
   }
 
-  AddToCartItem? findCartItem(int itemId){
-    try{
+  AddToCartItem? findCartItem(int itemId) {
+    try {
       return _carts.firstWhere((element) => element.item.id == itemId);
-    }catch (e){
+    } catch (e) {
       return null;
     }
   }
 
   void removeFromCart(AddToCartItem item) {
     _carts.removeWhere(
-      (element) => element.item.id == item.item.id && element.quantity == item.quantity,
+      (element) =>
+          element.item.id == item.item.id && element.quantity == item.quantity,
     );
     _checkCartAndClearIfNeeded();
   }
@@ -69,10 +68,10 @@ class CartManager {
     _checkCartAndClearIfNeeded();
   }
 
-  void _checkCartAndClearIfNeeded(){
-    if(_carts.isEmpty){
+  void _checkCartAndClearIfNeeded() {
+    if (_carts.isEmpty) {
       clear();
-    }else{
+    } else {
       _notifyListener();
     }
   }
@@ -119,8 +118,8 @@ class CartManager {
     if (_carts.isNotEmpty) {
       final price = _carts.first.itemPrice;
       id = price.currencyId;
-      symbol = price.symbol;
-      code = price.code;
+      symbol = price.currencySymbol;
+      code = price.currencyCode;
     }
     return BillingCurrency(id: id, symbol: symbol, code: code);
   }
@@ -148,16 +147,17 @@ class CartManager {
         final price =
             (item.modifiersPrice + item.itemPrice.price) * item.quantity;
         totalPrice += price;
-        symbol = item.itemPrice.symbol;
-        code = item.itemPrice.code;
+        symbol = item.itemPrice.currencySymbol;
+        code = item.itemPrice.currencySymbol;
       }
       final noOfItem = _noOfCartItem();
-      _priceNotifier.value = SelectedItemPrice(noOfItem, symbol, totalPrice, code);
+      _priceNotifier.value =
+          SelectedItemPrice(noOfItem, symbol, totalPrice, code);
       _noOfCartItemNotifier.value = noOfItem;
     }
   }
 
-  List<int> availableBrands(){
+  List<int> availableBrands() {
     return _carts.map((e) => e.brand.id).toList();
   }
 
@@ -229,49 +229,49 @@ class CartManager {
 
   PromoInfo? getPromoInfo() => _promoInfo;
 
-  void setEditInfo(CartInfo info){
+  void setEditInfo(CartInfo info) {
     _cartInfo = info;
   }
 
-  void setCustomerInfo(CustomerInfo data){
+  void setCustomerInfo(CustomerInfo data) {
     _customerInfo = data;
   }
 
-  void setPaymentInfo(PaymentInfo data){
+  void setPaymentInfo(PaymentInfo data) {
     _paymentInfo = data;
   }
 
-  void setUpdateCartInfo(UpdateCartInfo data){
+  void setUpdateCartInfo(UpdateCartInfo data) {
     _updateCartInfo = data;
   }
 
-  void setPromoInfo(PromoInfo? data){
+  void setPromoInfo(PromoInfo? data) {
     _promoInfo = data;
   }
 
-  void addPromoToItem(int itemId,PromoInfo? promoInfo){
+  void addPromoToItem(int itemId, PromoInfo? promoInfo) {
     final item =
-    _carts.firstWhereOrNull((element) => element.item.id == itemId);
+        _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.promoInfo = promoInfo;
     }
   }
 
-  int totalItemQuantity(){
+  int totalItemQuantity() {
     int quantity = 0;
-    for(var item in _carts){
+    for (var item in _carts) {
       quantity += item.quantity;
     }
     return quantity;
   }
 
-  bool willShowPromo(bool isItemDiscount){
-    if(isItemDiscount){
+  bool willShowPromo(bool isItemDiscount) {
+    if (isItemDiscount) {
       return _promoInfo == null;
-    }else{
+    } else {
       bool flag = true;
-      for(var item in _carts){
-        if(item.promoInfo != null){
+      for (var item in _carts) {
+        if (item.promoInfo != null) {
           flag = false;
           break;
         }
@@ -280,9 +280,9 @@ class CartManager {
     }
   }
 
-  void removePromoForOrderType(int orderType){
+  void removePromoForOrderType(int orderType) {
     _promoInfo = null;
-    for(var item in _carts){
+    for (var item in _carts) {
       item.promoInfo = null;
     }
     // if(orderType != OrderType.DINE_IN){
@@ -306,7 +306,9 @@ class CartManager {
         if (element.appliedPromo != null) {
           final promoInfo = PromoInfo(
             promo: element.appliedPromo!,
-            citizen: element.quantityOfPromoItem > 0 ? element.quantityOfPromoItem : null,
+            citizen: element.quantityOfPromoItem > 0
+                ? element.quantityOfPromoItem
+                : null,
           );
           cartItem.promoInfo = promoInfo;
         } else {
@@ -317,15 +319,18 @@ class CartManager {
     if (cartBill.appliedPromo != null) {
       final promoInfo = PromoInfo(
         promo: cartBill.appliedPromo!,
-        citizen: cartBill.numberOfSeniorCitizen > 0 ? cartBill.numberOfSeniorCitizen : null,
-        customer: cartBill.numberOfSeniorCustomer > 0 ? cartBill.numberOfSeniorCustomer : null,
+        citizen: cartBill.numberOfSeniorCitizen > 0
+            ? cartBill.numberOfSeniorCitizen
+            : null,
+        customer: cartBill.numberOfSeniorCustomer > 0
+            ? cartBill.numberOfSeniorCustomer
+            : null,
       );
       setPromoInfo(promoInfo);
     } else {
       setPromoInfo(null);
     }
   }
-
 
   void clear() {
     _carts.clear();

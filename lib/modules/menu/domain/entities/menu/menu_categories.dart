@@ -11,7 +11,7 @@ class MenuCategory{
   final int sequence;
   final MenuAvailableTimes availableTimes;
   bool enabled;
-  List<MenuItem> items;
+  List<MenuCategoryItem> items;
 
   MenuCategory({
     required this.id,
@@ -24,4 +24,9 @@ class MenuCategory{
     required this.items,
     required this.availableTimes,
   });
+
+  bool visible(int providerID) {
+    final visibility = visibilities.firstWhere((element) => element.providerID == providerID);
+    return visibility.visible;
+  }
 }
