@@ -131,10 +131,8 @@ class OrderItemDetails extends StatelessWidget {
                                                     ///level 1 modifiers
                                                     _modifierItemView(
                                                       modifiers: modifiersOne,
-                                                      prevQuantity:
-                                                          modifiersOne.quantity,
-                                                      itemQuantity:
-                                                          cart.quantity,
+                                                      prevQuantity: 1,
+                                                      itemQuantity: cart.quantity,
                                                       paddingLevel: 3,
                                                     ),
                                                     Column(
@@ -167,12 +165,9 @@ class OrderItemDetails extends StatelessWidget {
                                                                       modifiers:
                                                                           secondModifier,
                                                                       prevQuantity:
-                                                                          secondModifier
-                                                                              .quantity,
-                                                                      itemQuantity:
-                                                                          cart.quantity,
-                                                                      paddingLevel:
-                                                                          5,
+                                                                          modifiersOne.quantity,
+                                                                      itemQuantity: cart.quantity,
+                                                                      paddingLevel: 5,
                                                                     );
                                                                   },
                                                                 ).toList(),
