@@ -21,9 +21,8 @@ class MenusCubit extends Cubit<ResponseState> {
       FetchMenuParams(
         branchId: SessionManager().currentUserBranchId(),
         brandId: brandId,
-        providerID: providerId != null
-            ? (providerId == ZERO ? 'undefine' : providerId.toString())
-            : 'undefine',
+        providerID: providerId == ZERO ? null : providerId,
+        businessId: SessionManager().currentUser().businessId,
       ),
     );
     response.fold(

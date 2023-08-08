@@ -60,10 +60,12 @@ class UpdateManualOrderDataProvider {
           brandId: cartv2.cartBrand.id,
           branchId: order.branchId,
         );
+
         final menuItemOrNull = await _fetchMenuItem(
           itemId: cartv2.id,
           brandId: cartv2.cartBrand.id,
           branchId: order.branchId,
+          providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
           final modifiersPrice =
@@ -195,12 +197,15 @@ class UpdateManualOrderDataProvider {
     required String itemId,
     required int brandId,
     required int branchId,
+    required int providerId,
   }) async {
     try {
       final menusItemsResponse = await _menuRemoteDatasource.fetchMenuV1(
         FetchMenuParams(
+          businessId: SessionManager().currentUser().businessId,
           branchId: branchId,
           brandId: brandId,
+          providerID: providerId,
         ),
       );
       final mappedMenuData = mapMMV1toMenu(menusItemsResponse);

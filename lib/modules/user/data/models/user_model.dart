@@ -34,6 +34,8 @@ class UserInfoModel {
   bool? first_login;
   bool? order_notification_enabled;
   bool? sunmi_device;
+  bool? menuv2_enabled;
+  int? menu_version;
   List<String>? roles;
   List<int>? role_ids;
   List<String>? display_roles;
@@ -41,30 +43,33 @@ class UserInfoModel {
   List<int>? country_ids;
   List<String>? country_codes;
 
-  UserInfoModel(
-      {this.id,
-      this.first_name,
-      this.last_name,
-      this.email,
-      this.profile_pic,
-      this.business_id,
-      this.business_name,
-      this.brand_id,
-      this.brand_name,
-      this.branch_id,
-      this.branch_name,
-      this.created_at,
-      this.updated_at,
-      this.last_login_at,
-      this.first_login,
-      this.order_notification_enabled,
-      this.sunmi_device,
-      this.roles,
-      this.role_ids,
-      this.display_roles,
-      this.permissions,
-      this.country_ids,
-      this.country_codes});
+  UserInfoModel({
+    this.id,
+    this.first_name,
+    this.last_name,
+    this.email,
+    this.profile_pic,
+    this.business_id,
+    this.business_name,
+    this.brand_id,
+    this.brand_name,
+    this.branch_id,
+    this.branch_name,
+    this.created_at,
+    this.updated_at,
+    this.last_login_at,
+    this.first_login,
+    this.order_notification_enabled,
+    this.sunmi_device,
+    this.menuv2_enabled,
+    this.menu_version,
+    this.roles,
+    this.role_ids,
+    this.display_roles,
+    this.permissions,
+    this.country_ids,
+    this.country_codes,
+  });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) =>
       _$UserInfoModelFromJson(json);

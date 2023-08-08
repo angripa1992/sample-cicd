@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
@@ -16,6 +17,7 @@ import '../../domain/entities/menu/menu_data.dart';
 import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/usecase/fetch_menus.dart';
 import '../mapper/mmv1_to_menu.dart';
+import '../mapper/mmv2_to_menu.dart';
 
 class MenuRepositoryImpl extends MenuRepository {
   final MenuRemoteDatasource _datasource;
@@ -42,8 +44,13 @@ class MenuRepositoryImpl extends MenuRepository {
   Future<Either<Failure, MenuData>> fetchMenuV1(FetchMenuParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchMenuV1(params);
-        return Right(mapMMV1toMenu(response));
+        if(SessionManager().currentUser().menuV2Enabled){
+          final response = await _datasource.fetchMenuV2(params);
+          return Right(mapMMV2toMenu(response));
+        }else{
+          final response = await _datasource.fetchMenuV1(params);
+          return Right(mapMMV1toMenu(response));
+        }
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

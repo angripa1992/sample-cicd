@@ -17,13 +17,15 @@ class FetchMenus extends UseCase<MenuData, FetchMenuParams> {
 }
 
 class FetchMenuParams {
+  final int businessId;
   final int branchId;
   final int brandId;
-  final String providerID;
+  final int? providerID;
 
-  FetchMenuParams({
+  FetchMenuParams( {
+    required this.businessId,
     required this.branchId,
     required this.brandId,
-    this.providerID = 'undefine',
+    required this.providerID,
   });
 }

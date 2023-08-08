@@ -14,7 +14,7 @@ import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/entities/menu/menu_resources.dart';
 import '../../domain/entities/menu/menu_sections.dart';
 
-MenuData mapMMV1toMenu(MenuV1DataModel menusData) {
+MenuData mapMMV2toMenu(MenuV2DataModel menusData) {
   final branchInfo = _v2ToMenuBranch(menusData.branchInfo!);
   final menuData = MenuData(
     branchInfo: branchInfo,
@@ -194,7 +194,6 @@ MenuItemPrice _v2ToMenuItemPrice(
 String _defaultImage(List<MenuV2Resources>? data) {
   final resource = data
       ?.firstWhereOrNull((element) => element.providerID == ProviderID.KLIKIT);
-  final path =
-      resource?.paths?.firstWhereOrNull((element) => element.byDefault!)?.path;
+  final path = resource?.paths?.firstWhereOrNull((element) => element.byDefault!)?.path;
   return path ?? EMPTY;
 }

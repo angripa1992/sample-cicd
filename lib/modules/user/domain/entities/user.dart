@@ -39,6 +39,8 @@ class UserInfo {
   final bool firstLogin;
   final bool orderNotificationEnabled;
   final bool sunmiDevice;
+  final bool menuV2Enabled;
+  final int menuVersion;
   final List<String> roles;
   final List<int> roleIds;
   final List<String> displayRoles;
@@ -71,6 +73,8 @@ class UserInfo {
     required this.permissions,
     required this.countryIds,
     required this.countryCodes,
+    required this.menuV2Enabled,
+    required this.menuVersion,
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) =>
@@ -104,6 +108,8 @@ class UserInfo {
       permissions: permissions,
       countryIds: countryIds,
       countryCodes: countryCodes,
+      menuV2Enabled: menuV2Enabled,
+      menuVersion: menuVersion,
     );
   }
 }

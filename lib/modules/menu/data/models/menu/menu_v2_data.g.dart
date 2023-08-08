@@ -6,8 +6,8 @@ part of 'menu_v2_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MenuV1DataModel _$MenuV1DataModelFromJson(Map<String, dynamic> json) =>
-    MenuV1DataModel(
+MenuV2DataModel _$MenuV2DataModelFromJson(Map<String, dynamic> json) =>
+    MenuV2DataModel(
       branchInfo: json['branchInfo'] == null
           ? null
           : MenuV2BranchInfo.fromJson(
@@ -17,7 +17,7 @@ MenuV1DataModel _$MenuV1DataModelFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$MenuV1DataModelToJson(MenuV1DataModel instance) =>
+Map<String, dynamic> _$MenuV2DataModelToJson(MenuV2DataModel instance) =>
     <String, dynamic>{
       'branchInfo': instance.branchInfo,
       'sections': instance.sections,

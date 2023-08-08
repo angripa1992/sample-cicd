@@ -4,16 +4,17 @@ import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 
+import '../../../../core/provider/date_time_provider.dart';
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../menu/domain/entities/menu/menu_sections.dart';
 import '../../../menu/domain/repository/menu_repository.dart';
 
-class FetchSubSectionCubit extends Cubit<ResponseState> {
+class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
   final MenuRepository _repository;
 
-  FetchSubSectionCubit(this._repository) : super(Empty());
+  FetchAddOrderMenuItemsCubit(this._repository) : super(Empty());
 
   void fetchSubsection(MenuBrand brand) async {
     emit(Loading());
@@ -21,6 +22,8 @@ class FetchSubSectionCubit extends Cubit<ResponseState> {
       FetchMenuParams(
         branchId: SessionManager().currentUserBranchId(),
         brandId: brand.id,
+        businessId: SessionManager().currentUser().businessId,
+        providerID: null,
       ),
     );
     response.fold(

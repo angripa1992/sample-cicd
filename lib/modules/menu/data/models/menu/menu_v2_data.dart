@@ -3,16 +3,16 @@ import 'package:json_annotation/json_annotation.dart';
 part 'menu_v2_data.g.dart';
 
 @JsonSerializable()
-class MenuV1DataModel {
+class MenuV2DataModel {
   MenuV2BranchInfo? branchInfo;
   List<MenuV2Sections>? sections;
 
-  MenuV1DataModel({
+  MenuV2DataModel({
     this.branchInfo,
     this.sections,
   });
 
-  factory MenuV1DataModel.fromJson(Map<String, dynamic> json) => _$MenuV1DataModelFromJson(json);
+  factory MenuV2DataModel.fromJson(Map<String, dynamic> json) => _$MenuV2DataModelFromJson(json);
 }
 
 @JsonSerializable()

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
-import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
+import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
 
@@ -246,7 +246,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
               brands: brands,
               onChanged: (brand) {
                 _selectedBrand = brand;
-                context.read<FetchSubSectionCubit>().fetchSubsection(brand);
+                context.read<FetchAddOrderMenuItemsCubit>().fetchSubsection(brand);
               },
               onBack: widget.onBack,
               onCartTap: _gotoCart,
@@ -255,7 +255,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           },
         ),
         Expanded(
-          child: BlocBuilder<FetchSubSectionCubit, ResponseState>(
+          child: BlocBuilder<FetchAddOrderMenuItemsCubit, ResponseState>(
             builder: (context, state) {
               if (state is Loading) {
                 EasyLoading.show();

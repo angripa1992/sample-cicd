@@ -2,6 +2,8 @@ import 'menu_available_times.dart';
 import 'menu_categories.dart';
 import 'menu_visibility.dart';
 
+import 'package:collection/collection.dart';
+
 class MenuSection{
   final int id;
   final String title;
@@ -24,7 +26,10 @@ class MenuSection{
   });
 
   bool visible(int providerID) {
-    final visibility = visibilities.firstWhere((element) => element.providerID == providerID);
+    final visibility = visibilities.firstWhereOrNull((element) => element.providerID == providerID);
+    if(visibility == null){
+      return true;
+    }
     return visibility.visible;
   }
 }

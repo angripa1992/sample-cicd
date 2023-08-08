@@ -28,7 +28,8 @@ class Urls {
 
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
 
-  static String menus(int branchId) => '/v2/menu/branch/$branchId/menus';
+  static String menuV1(int branchId) => '/v2/menu/branch/$branchId/menus';
+  static String menuV2 = '/v1/menu-v2/nma/store/menus';
   static const String menuBrands = '/v1/brand';
   static String menuBrand(int brandId) => '/v1/brand/$brandId';
   static const String sources = '/v1/oni/order-sources';

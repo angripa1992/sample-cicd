@@ -10,19 +10,25 @@ import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../app/enums.dart';
 import '../../../../core/network/urls.dart';
+import '../../../../core/provider/date_time_provider.dart';
 import '../../domain/usecase/fetch_menus.dart';
 import '../models/brand_model.dart';
 import '../models/brands_model.dart';
 import '../models/menu/menu_out_of_stock_model.dart';
 import '../models/menu/menu_v1_data.dart';
+import '../models/menu/menu_v2_data.dart';
 
 abstract class MenuRemoteDatasource {
   Future<MenuBrandsModel> fetchMenuBrands(Map<String, dynamic> params);
 
-  Future<MenuBrandModel> fetchMenuBrand(
-      {required int brandId, required int branchId});
+  Future<MenuBrandModel> fetchMenuBrand({
+    required int brandId,
+    required int branchId,
+  });
 
   Future<MenuV1MenusDataModel> fetchMenuV1(FetchMenuParams params);
+
+  Future<MenuV2DataModel> fetchMenuV2(FetchMenuParams params);
 
   Future<MenuOutOfStockModel> updateItem(UpdateItemParam params);
 
@@ -32,7 +38,8 @@ abstract class MenuRemoteDatasource {
       Map<String, dynamic> params);
 
   Future<ModifierDisabledResponseModel> disableModifier(
-      ModifierRequestModel param);
+    ModifierRequestModel param,
+  );
 
   Future<ActionSuccess> enableModifier(ModifierRequestModel param);
 }
@@ -56,15 +63,42 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   @override
   Future<MenuV1MenusDataModel> fetchMenuV1(FetchMenuParams params) async {
     try {
+      final fetchParams = <String,dynamic>{
+        'brand_id': params.brandId,
+      };
+      if(params.providerID != null){
+        fetchParams['provider_id'] = params.providerID;
+      }
       final response = await _restClient.request(
-        Urls.menus(params.branchId),
+        Urls.menuV1(params.branchId),
         Method.GET,
-        {
-          'brand_id': params.brandId,
-          'provider_id': params.providerID,
-        },
+        fetchParams,
       );
       return MenuV1MenusDataModel.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<MenuV2DataModel> fetchMenuV2(FetchMenuParams params) async{
+    try {
+      final tz = await DateTimeProvider.timeZone();
+      final fetchParams = <String,dynamic>{
+        'businessID' : params.businessId,
+        'brandID': params.brandId,
+        'branchID': params.branchId,
+        'tz' : tz,
+      };
+      if(params.providerID != null){
+        fetchParams['providerID'] = params.providerID;
+      }
+      final response = await _restClient.request(
+        Urls.menuV2,
+        Method.GET,
+        fetchParams,
+      );
+      return MenuV2DataModel.fromJson(response);
     } on DioException {
       rethrow;
     }

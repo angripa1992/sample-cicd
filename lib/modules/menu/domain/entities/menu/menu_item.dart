@@ -1,4 +1,5 @@
 import 'package:klikit/app/constants.dart';
+import 'package:collection/collection.dart';
 
 import 'menu_available_times.dart';
 import 'menu_item_price.dart';
@@ -42,7 +43,10 @@ class MenuCategoryItem {
   MenuItemPrice klikitPrice() => prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
 
   bool visible(int providerID) {
-    final visibility = visibilities.firstWhere((element) => element.providerID == providerID);
+    final visibility = visibilities.firstWhereOrNull((element) => element.providerID == providerID);
+    if(visibility == null){
+      return true;
+    }
     return visibility.visible;
   }
 }
