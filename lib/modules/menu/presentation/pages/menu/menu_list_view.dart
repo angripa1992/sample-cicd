@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_list.dart';
-import 'package:klikit/modules/menu/presentation/pages/menu/menu_item_title.dart';
+import 'package:klikit/modules/menu/presentation/pages/menu/menu_section_item.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';

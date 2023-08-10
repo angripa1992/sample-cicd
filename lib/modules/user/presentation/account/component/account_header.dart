@@ -12,7 +12,7 @@ class AccountHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = SessionManager().currentUser();
+    final userInfo = SessionManager().user();
     return Column(
       children: [
         Text(

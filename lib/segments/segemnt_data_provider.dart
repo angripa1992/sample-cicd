@@ -33,7 +33,7 @@ class SegmentDataProvider {
 
   SegmentTraits _getTraits() {
     if (_traits == null) {
-      final userInfo = SessionManager().currentUser();
+      final userInfo = SessionManager().user();
       _traits = SegmentTraits(
         email: userInfo.email,
         phone: userInfo.phone,
@@ -74,7 +74,7 @@ class SegmentDataProvider {
   }
 
   SegmentLocation _geCountryId() {
-    final countryCode = SessionManager().currentUser().countryCodes.first;
+    final countryCode = SessionManager().user().countryCodes.first;
     return SegmentLocation(
       country: countryCode,
     );
@@ -84,7 +84,7 @@ class SegmentDataProvider {
 
   Future<SegmentData> identifyData({required String event}) async {
     return SegmentData(
-      userId: SessionManager().currentUser().id.toString(),
+      userId: SessionManager().user().id.toString(),
       event: event,
       timestamp: _timestamp(),
       traits: _getTraits(),
@@ -101,7 +101,7 @@ class SegmentDataProvider {
     Map<String, dynamic>? properties,
   }) async {
     return SegmentData(
-      userId: SessionManager().currentUser().id.toString(),
+      userId: SessionManager().user().id.toString(),
       event: event,
       properties: properties,
       timestamp: _timestamp(),
@@ -120,7 +120,7 @@ class SegmentDataProvider {
     Map<String, dynamic>? properties,
   }) async {
     return SegmentData(
-      userId: SessionManager().currentUser().id.toString(),
+      userId: SessionManager().user().id.toString(),
       event: event,
       name: name,
       properties: properties,

@@ -43,7 +43,7 @@ class OrderEntityProvider {
     return BillingRequestModel(
       orderType: orderType,
       brandId: cartItem.brand.id,
-      branchId: SessionManager().currentUserBranchId(),
+      branchId: SessionManager().branchId(),
       deliveryFee: deliveryFee,
       discountType: discountType,
       discountValue: discountValue,
@@ -233,7 +233,7 @@ class OrderEntityProvider {
       id: updateInfo?.id,
       externalId: updateInfo?.externalId,
       identity: updateInfo?.identity,
-      branchId: SessionManager().currentUserBranchId(),
+      branchId: SessionManager().branchId(),
       currency: currency.code,
       currencySymbol: currency.symbol,
       currencyId: currency.id,

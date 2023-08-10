@@ -21,7 +21,8 @@ class MenuSnoozeView extends StatelessWidget {
   final Color bgColor;
   final bool parentEnabled;
   final String iconPath;
-  final Function(MenuOutOfStock) onChanged;
+  final Function(MenuOutOfStock) onMenuItemSnoozeChanged;
+  final Function(bool) onMenuEnabledChanged;
 
   const MenuSnoozeView({
     Key? key,
@@ -32,7 +33,8 @@ class MenuSnoozeView extends StatelessWidget {
     required this.bgColor,
     required this.parentEnabled,
     required this.brandId,
-    required this.onChanged,
+    required this.onMenuItemSnoozeChanged,
+    required this.onMenuEnabledChanged,
     required this.iconPath,
   }) : super(key: key);
 
@@ -53,7 +55,7 @@ class MenuSnoozeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !menuCategoryItem.outOfStock.available && providerId == ZERO
+    return !menuCategoryItem.enabled && providerId == ZERO
         ? SizedBox(
             width: width,
             child: InkWell(
@@ -64,7 +66,8 @@ class MenuSnoozeView extends StatelessWidget {
                       brandId: brandId,
                       providerId: providerId,
                       parentEnabled: parentEnabled,
-                      onChanged: onChanged,
+                      onMenuEnableChanged: onMenuEnabledChanged,
+                      onItemSnoozeChanged: onMenuItemSnoozeChanged,
                     ),
               child: Container(
                 decoration: BoxDecoration(

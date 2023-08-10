@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
@@ -9,9 +10,10 @@ import 'package:klikit/modules/widgets/snackbars.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/modifier_disabled_response.dart';
+import '../../../domain/entities/modifier/affected_modifier_response.dart';
 
 class ModifierSwitchView extends StatefulWidget {
+  final int menuVersion;
   final int type;
   final bool enabled;
   final int brandId;
@@ -22,6 +24,7 @@ class ModifierSwitchView extends StatefulWidget {
 
   const ModifierSwitchView({
     Key? key,
+    required this.menuVersion,
     required this.type,
     required this.enabled,
     required this.brandId,
@@ -44,13 +47,27 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
     super.initState();
   }
 
-  void _handleEnableAction(bool enabled) {
-    showEnableModifierDialog(
+  @override
+  void didUpdateWidget(covariant ModifierSwitchView oldWidget) {
+    _enabled = widget.enabled;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _updateEnabled({
+    required bool enabled,
+    required bool affected,
+    required String itemsName,
+  }) {
+    showUpdateModifierEnabledConfirmationDialog(
+      isEnable: enabled,
+      menuVersion: widget.menuVersion,
       context: context,
       brandId: widget.brandId,
       groupId: widget.groupId,
       type: widget.type,
+      affected: affected,
       modifierId: widget.modifierId,
+      items: itemsName,
       onSuccess: () {
         setState(() {
           _enabled = enabled;
@@ -61,8 +78,17 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
   }
 
   void _checkAffect(bool enabled) async {
+    if(widget.menuVersion == MenuVersion.v2){
+      _updateEnabled(
+        enabled: false,
+        affected: false,
+        itemsName: '',
+      );
+      return;
+    }
     showLoadingSnackBar(context);
     final response = await context.read<CheckAffectedCubit>().checkAffect(
+          menuVersion: widget.menuVersion,
           type: widget.type,
           enabled: enabled,
           brandId: widget.brandId,
@@ -76,7 +102,11 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
       },
       (data) {
         dismissCurrentSnackBar(context);
-        _disableModifier(data);
+        _updateEnabled(
+          enabled: false,
+          affected: data.affected,
+          itemsName: _extractItemsNames(data.items),
+        );
       },
     );
   }
@@ -84,24 +114,6 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
   String _extractItemsNames(List<DisabledItem> items) {
     String names = items.map((e) => e.title).toList().join(",");
     return names;
-  }
-
-  void _disableModifier(ModifierDisabledResponse response) {
-    showDisableModifierDialog(
-      context: context,
-      brandId: widget.brandId,
-      groupId: widget.groupId,
-      type: widget.type,
-      affected: response.affected,
-      modifierId: widget.modifierId,
-      items: response.affected ? _extractItemsNames(response.items) : '',
-      onSuccess: () {
-        setState(() {
-          _enabled = false;
-          widget.onSuccess(false);
-        });
-      },
-    );
   }
 
   @override
@@ -115,7 +127,11 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
               trackColor: AppColors.blackCow,
               onChanged: (enabled) {
                 if (enabled) {
-                  _handleEnableAction(enabled);
+                  _updateEnabled(
+                    enabled: true,
+                    affected: false,
+                    itemsName: '',
+                  );
                 } else {
                   _checkAffect(enabled);
                 }

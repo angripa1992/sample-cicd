@@ -5,19 +5,22 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
 import 'package:klikit/modules/menu/domain/entities/brands.dart';
-import 'package:klikit/modules/menu/domain/entities/modifier_disabled_response.dart';
-import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
+import 'package:klikit/modules/menu/domain/entities/modifier/affected_modifier_response.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_item_snooze.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_menu_enabled.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../core/network/network_connectivity.dart';
 import '../../domain/entities/menu/menu_data.dart';
 import '../../domain/entities/menu/menu_out_of_stock.dart';
+import '../../domain/entities/modifier/modifier_group.dart';
 import '../../domain/usecase/fetch_menus.dart';
+import '../../domain/usecase/ftech_modifier_groups.dart';
 import '../mapper/mmv1_to_menu.dart';
 import '../mapper/mmv2_to_menu.dart';
+import '../mapper/modifierv1_to_modifier.dart';
+import '../mapper/modifierv2_to_modifier.dart';
 
 class MenuRepositoryImpl extends MenuRepository {
   final MenuRemoteDatasource _datasource;
@@ -44,10 +47,10 @@ class MenuRepositoryImpl extends MenuRepository {
   Future<Either<Failure, MenuData>> fetchMenuV1(FetchMenuParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        if(SessionManager().currentUser().menuV2Enabled){
+        if (SessionManager().isMenuV2()) {
           final response = await _datasource.fetchMenuV2(params);
           return Right(mapMMV2toMenu(response));
-        }else{
+        } else {
           final response = await _datasource.fetchMenuV1(params);
           return Right(mapMMV1toMenu(response));
         }
@@ -60,11 +63,11 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, MenuOutOfStock>> updateItem(
-      UpdateItemParam params) async {
+  Future<Either<Failure, MenuOutOfStock>> updateItemSnooze(
+      UpdateItemSnoozeParam params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.updateItem(params);
+        final response = await _datasource.updateItemSnooze(params);
         return Right(response.toEntity());
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
@@ -75,12 +78,12 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> updateMenu(
+  Future<Either<Failure, ActionSuccess>> updateMenuEnabled(
     UpdateMenuParams params,
   ) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.updateMenu(params);
+        final response = await _datasource.updateMenuEnabled(params);
         return Right(response);
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
@@ -91,13 +94,17 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, List<ModifiersGroup>>> fetchModifiersGroups(
-    Map<String, dynamic> params,
-  ) async {
+  Future<Either<Failure, List<ModifierGroup>>> fetchModifiersGroups(
+      FetchModifierGroupParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchModifiersGroup(params);
-        return Right(response.map((e) => e.toEntity()).toList());
+        if (SessionManager().isMenuV2()) {
+          final response = await _datasource.fetchV2ModifiersGroup(params);
+          return Right(mapModifierV2ToModifier(response));
+        } else {
+          final response = await _datasource.fetchV1ModifiersGroup(params);
+          return Right(mapModifierV1ToModifier(response));
+        }
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
@@ -107,7 +114,7 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, ModifierDisabledResponse>> disableModifier(
+  Future<Either<Failure, AffectedModifierResponse>> disableModifier(
     ModifierRequestModel params,
   ) async {
     if (await _connectivity.hasConnection()) {
@@ -123,12 +130,12 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> enableModifier(
+  Future<Either<Failure, ActionSuccess>> updateModifierEnabled(
     ModifierRequestModel params,
   ) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.enableModifier(params);
+        final response = await _datasource.updateModifierEnabled(params);
         return Right(response);
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);

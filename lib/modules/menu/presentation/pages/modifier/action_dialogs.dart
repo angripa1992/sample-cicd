@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/presentation/cubit/update_modifier_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/update_modifier_enabled_cubit.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../../../../../app/di.dart';
@@ -13,117 +13,18 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../orders/data/models/action_success_model.dart';
+import '../../../../widgets/app_button.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../../widgets/snackbars.dart';
 
-void showEnableModifierDialog({
+void showUpdateModifierEnabledConfirmationDialog({
   required BuildContext context,
   required VoidCallback onSuccess,
-  required int brandId,
-  required int groupId,
-  int? modifierId,
-  required int type,
-}) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      return BlocProvider<UpdateModifierCubit>(
-        create: (_) => getIt.get<UpdateModifierCubit>(),
-        child: AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?',
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                child: const Divider(),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: BlocConsumer<UpdateModifierCubit, ResponseState>(
-                      listener: (context, state) {
-                        if (state is Success<ActionSuccess>) {
-                          Navigator.of(context).pop();
-                          showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()} ${AppStrings.enabled_success.tr()}');
-                          onSuccess();
-                        } else if (state is Failed) {
-                          Navigator.of(context).pop();
-                          showApiErrorSnackBar(context, state.failure);
-                        }
-                      },
-                      builder: (context, state) {
-                        return LoadingButton(
-                          isLoading: (state is Loading),
-                          onTap: () {
-                            context.read<UpdateModifierCubit>().updateModifier(
-                                  type: type,
-                                  enabled: true,
-                                  brandId: brandId,
-                                  groupId: groupId,
-                                  modifierId: modifierId,
-                                );
-                          },
-                          text: AppStrings.enable.tr(),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(width: AppSize.s8.rw),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-                        primary: AppColors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          side: BorderSide(color: AppColors.purpleBlue),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                        child: Text(
-                          AppStrings.discard.tr(),
-                          style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s16.rSp,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
-
-void showDisableModifierDialog({
-  required BuildContext context,
-  required VoidCallback onSuccess,
+  required bool isEnable,
   required int brandId,
   required int groupId,
   required int type,
+  required int menuVersion,
   required bool affected,
   int? modifierId,
   String? items,
@@ -132,112 +33,103 @@ void showDisableModifierDialog({
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return BlocProvider<UpdateModifierCubit>(
-        create: (_) => getIt.get<UpdateModifierCubit>(),
+      return BlocProvider<UpdateModifierEnabledCubit>(
+        create: (_) => getIt.get<UpdateModifierEnabledCubit>(),
         child: AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                affected
-                    ? AppStrings.modifier_required_msg.tr()
-                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()}?',
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
-              ),
-              affected
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: AppSize.s250.rh,
-                          minHeight: AppSize.s24.rh,
-                        ),
-                        child: SingleChildScrollView(
-                          child: Text(
-                            items!,
-                            style: mediumTextStyle(
-                              color: AppColors.blueViolet,
-                              fontSize: AppFontSize.s14.rSp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : const SizedBox(),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
-                child: const Divider(),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: BlocConsumer<UpdateModifierCubit, ResponseState>(
-                      listener: (context, state) {
-                        if (state is Success<ActionSuccess>) {
-                          Navigator.of(context).pop();
-                          showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr() } ${AppStrings.disabled_success.tr()}');
-                          onSuccess();
-                        } else if (state is Failed) {
-                          Navigator.of(context).pop();
-                          showApiErrorSnackBar(context, state.failure);
-                        }
-                      },
-                      builder: (context, state) {
-                        return LoadingButton(
-                          isLoading: (state is Loading),
-                          onTap: () {
-                            context.read<UpdateModifierCubit>().updateModifier(
-                                  type: type,
-                                  enabled: false,
-                                  brandId: brandId,
-                                  groupId: groupId,
-                                  modifierId: modifierId,
-                                );
-                          },
-                          text: AppStrings.disable.tr(),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(width: AppSize.s8.rw),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-                        primary: AppColors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          side: BorderSide(color: AppColors.purpleBlue),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                        child: Text(
-                          AppStrings.discard.tr(),
-                          style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
-                            fontSize: AppFontSize.s16.rSp,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
+            borderRadius: BorderRadius.all(
+              Radius.circular(AppSize.s16.rSp),
+            ),
           ),
+          icon: Icon(
+            Icons.warning_amber_rounded,
+            color: AppColors.purpleBlue,
+          ),
+          title: Text(
+            (!isEnable && affected)
+                ? AppStrings.modifier_required_msg.tr()
+                : (isEnable
+                    ? '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?'
+                    : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()}?'),
+            style: mediumTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s16.rSp,
+            ),
+          ),
+          content: (!isEnable && affected)
+              ? ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: AppSize.s250.rh,
+                    minHeight: AppSize.s24.rh,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Text(
+                      items!,
+                      style: mediumTextStyle(
+                        color: AppColors.blueViolet,
+                        fontSize: AppFontSize.s14.rSp,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child:
+                      BlocConsumer<UpdateModifierEnabledCubit, ResponseState>(
+                    listener: (context, state) {
+                      if (state is Success<ActionSuccess>) {
+                        Navigator.of(context).pop();
+                        showSuccessSnackBar(
+                          context,
+                          state.data.message ?? AppStrings.successful.tr(),
+                        );
+                        onSuccess();
+                      } else if (state is Failed) {
+                        Navigator.of(context).pop();
+                        showApiErrorSnackBar(context, state.failure);
+                      }
+                    },
+                    builder: (context, state) {
+                      return LoadingButton(
+                        isLoading: (state is Loading),
+                        onTap: () {
+                          context
+                              .read<UpdateModifierEnabledCubit>()
+                              .updateModifier(
+                                menuVersion: menuVersion,
+                                type: type,
+                                enabled: isEnable,
+                                brandId: brandId,
+                                groupId: groupId,
+                                modifierId: modifierId,
+                              );
+                        },
+                        text: isEnable
+                            ? AppStrings.enable.tr()
+                            : AppStrings.disable.tr(),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(width: AppSize.s8.rw),
+                Expanded(
+                  child: AppButton(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    text: AppStrings.discard.tr(),
+                    color: AppColors.white,
+                    borderColor: AppColors.black,
+                    textColor: AppColors.black,
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       );
     },

@@ -103,14 +103,14 @@ class MenuCategoryListView extends StatelessWidget {
                           horizontal: AppSize.s10.rw,
                         ),
                         child: MenuSwitchView(
+                          menuVersion: categories[index].menuVersion,
                           enabled: categories[index].enabled,
                           parentEnabled: parentEnabled,
                           id: categories[index].id,
                           brandId: brandID,
                           providerId: providerID,
-                          type: MenuType.SUB_SECTION,
-                          onItemChanged: (stock) {},
-                          onMenuChanged: (enabled) {
+                          type: MenuType.CATEGORY,
+                          onMenuEnableChanged: (enabled) {
                             categories[index].enabled = enabled;
                             onChanged(categories);
                             SegmentManager().track(

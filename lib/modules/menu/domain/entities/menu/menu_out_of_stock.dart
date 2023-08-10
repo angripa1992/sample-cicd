@@ -9,8 +9,15 @@ class MenuOutOfStock {
 }
 
 class MenuSnooze {
+  String startTime;
   String endTime;
   int duration;
+  String unit;
 
-  MenuSnooze({required this.endTime, required this.duration});
+  MenuSnooze({
+    required this.startTime,
+    required this.endTime,
+    required this.duration,
+    required this.unit,
+  });
 }

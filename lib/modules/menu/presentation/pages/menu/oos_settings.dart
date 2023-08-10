@@ -19,7 +19,7 @@ import '../../../../widgets/app_button.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../domain/entities/menu/menu_item.dart';
 import '../../../domain/entities/menu/menu_out_of_stock.dart';
-import '../../cubit/update_item_cubit.dart';
+import '../../cubit/update_item_snooze_cubit.dart';
 import 'menu_switch_view.dart';
 
 enum OOS {
@@ -32,7 +32,8 @@ enum OOS {
 
 void showOosDialog({
   required MenuCategoryItem menuCategoryItem,
-  required Function(MenuOutOfStock) onChanged,
+  required Function(bool) onMenuEnableChanged,
+  required Function(MenuOutOfStock) onItemSnoozeChanged,
   required int brandId,
   required int providerId,
   required bool parentEnabled,
@@ -40,8 +41,8 @@ void showOosDialog({
   showDialog(
     context: RoutesGenerator.navigatorKey.currentState!.context,
     builder: (BuildContext context) {
-      return BlocProvider<UpdateItemCubit>(
-        create: (_) => getIt.get<UpdateItemCubit>(),
+      return BlocProvider<UpdateItemSnoozeCubit>(
+        create: (_) => getIt.get<UpdateItemSnoozeCubit>(),
         child: AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -54,7 +55,8 @@ void showOosDialog({
             brandId: brandId,
             providerId: providerId,
             parentEnabled: parentEnabled,
-            onChanged: onChanged,
+            onMenuEnableChanged: onMenuEnableChanged,
+            onItemSnoozeChanged: onItemSnoozeChanged,
           ),
         ),
       );
@@ -67,7 +69,8 @@ class OutOfStockSettingScreen extends StatefulWidget {
   final int brandId;
   final int providerId;
   final bool parentEnabled;
-  final Function(MenuOutOfStock) onChanged;
+  final Function(bool) onMenuEnableChanged;
+  final Function(MenuOutOfStock) onItemSnoozeChanged;
 
   const OutOfStockSettingScreen({
     Key? key,
@@ -75,7 +78,8 @@ class OutOfStockSettingScreen extends StatefulWidget {
     required this.brandId,
     required this.providerId,
     required this.parentEnabled,
-    required this.onChanged,
+    required this.onMenuEnableChanged,
+    required this.onItemSnoozeChanged,
   }) : super(key: key);
 
   @override
@@ -138,21 +142,22 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                   child: MenuSwitchView(
+                    menuVersion: widget.menuCategoryItem.menuVersion,
                     id: widget.menuCategoryItem.id,
                     brandId: widget.brandId,
                     providerId: widget.providerId,
                     type: MenuType.ITEM,
-                    enabled: widget.menuCategoryItem.outOfStock.available,
+                    enabled: widget.menuCategoryItem.enabled,
                     parentEnabled: widget.parentEnabled,
                     willShowBg: false,
-                    onItemChanged: (oos) {
-                      widget.onChanged(oos);
+                    onMenuEnableChanged: (enabled) {
+                      widget.onMenuEnableChanged(enabled);
                       Navigator.pop(context);
                     },
-                    onMenuChanged: (enabled) {},
                   ),
                 ),
-                if (widget.menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
+                if (widget
+                    .menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
                   Flexible(
                     child: Text(
                       '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
@@ -190,7 +195,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                   ),
                   SizedBox(width: AppSize.s8.rw),
                   Expanded(
-                    child: BlocConsumer<UpdateItemCubit, ResponseState>(
+                    child: BlocConsumer<UpdateItemSnoozeCubit, ResponseState>(
                       listener: (BuildContext context, state) {
                         if (state is Failed) {
                           showApiErrorSnackBar(context, state.failure);
@@ -199,17 +204,19 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                             context,
                             AppStrings.stock_disabled_successful.tr(),
                           );
-                          widget.onChanged(state.data);
+                          widget.onItemSnoozeChanged(state.data);
                           Navigator.pop(context);
                         }
                       },
                       builder: (BuildContext context, state) {
                         return LoadingButton(
                           onTap: () {
-                            context.read<UpdateItemCubit>().updateItem(
+                            context.read<UpdateItemSnoozeCubit>().updateItem(
+                                  menuVersion:
+                                      widget.menuCategoryItem.menuVersion,
                                   brandId: widget.brandId,
                                   itemId: widget.menuCategoryItem.id,
-                                  enabled: false,
+                                  enabled: widget.menuCategoryItem.enabled,
                                   duration: _currentDuration,
                                 );
                           },

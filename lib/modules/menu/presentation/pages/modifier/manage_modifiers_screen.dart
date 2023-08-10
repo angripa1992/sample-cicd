@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
 import 'package:klikit/resources/strings.dart';
 
@@ -12,6 +11,7 @@ import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../domain/entities/modifier/modifier_group.dart';
 import 'modifier_group_info.dart';
 import 'modifier_list_view.dart';
 
@@ -21,8 +21,8 @@ class ManageModifiersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    ModifiersGroup modifierGroup = args[ArgumentKey.kGROUP];
+    ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    ModifierGroup modifierGroup = args[ArgumentKey.kGROUP];
     final brandId = args[ArgumentKey.kBRAND_ID];
     final providerId = args[ArgumentKey.kPROVIDER_ID];
     return WillPopScope(
@@ -58,7 +58,7 @@ class ManageModifiersScreen extends StatelessWidget {
                   brandId: brandId,
                   providerId: providerId,
                   onChanged: (modifiedGroup) {
-                    modifierGroup.statuses[0] = modifiedGroup.statuses[0];
+                    modifierGroup.isEnabled = modifiedGroup.isEnabled;
                   },
                 ),
                 SizedBox(height: AppSize.s16.rh),
@@ -76,7 +76,7 @@ class ManageModifiersScreen extends StatelessWidget {
                   ),
                 ),
                 ModifierListView(
-                  modifiersGroup: modifierGroup,
+                  modifierGroup: modifierGroup,
                   providerId: providerId,
                   brandId: brandId,
                   onChanged: (changedModifiers) {

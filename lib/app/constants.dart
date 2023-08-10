@@ -98,7 +98,7 @@ class MenuTabIndex {
 
 class MenuType {
   static const SECTION = 1;
-  static const SUB_SECTION = 2;
+  static const CATEGORY = 2;
   static const ITEM = 3;
 }
 

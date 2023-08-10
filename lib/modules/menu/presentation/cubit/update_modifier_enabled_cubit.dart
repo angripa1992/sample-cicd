@@ -5,16 +5,17 @@ import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import '../../../../app/session_manager.dart';
 import '../../../orders/provider/order_information_provider.dart';
 import '../../data/models/modifier_request_model.dart';
-import '../../domain/usecase/update_modifier.dart';
+import '../../domain/usecase/update_modifier_enabled.dart';
 
-class UpdateModifierCubit extends Cubit<ResponseState> {
-  final UpdateModifier _updateModifier;
+class UpdateModifierEnabledCubit extends Cubit<ResponseState> {
+  final UpdateModifierEnabled _updateModifier;
   final OrderInformationProvider _informationProvider;
 
-  UpdateModifierCubit(this._updateModifier, this._informationProvider)
+  UpdateModifierEnabledCubit(this._updateModifier, this._informationProvider)
       : super(Empty());
 
   void updateModifier({
+    required int menuVersion,
     required int type,
     required bool enabled,
     required int brandId,
@@ -23,10 +24,12 @@ class UpdateModifierCubit extends Cubit<ResponseState> {
   }) async {
     emit(Loading());
     final param = ModifierRequestModel(
+      menuVersion: menuVersion,
       type: type,
       isEnabled: enabled,
       brandId: brandId,
-      branchId: SessionManager().currentUserBranchId(),
+      branchId: SessionManager().branchId(),
+      businessId: SessionManager().businessID(),
       groupId: groupId,
       modifierId: modifierId,
       providerIds: await _informationProvider.findProvidersIds(),

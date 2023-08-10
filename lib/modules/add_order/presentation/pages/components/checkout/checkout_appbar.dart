@@ -43,7 +43,7 @@ class CheckoutAppBar extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  SessionManager().currentUserBranchName(),
+                  SessionManager().branchName(),
                   style: mediumTextStyle(
                     color: AppColors.dustyGreay,
                     fontSize: AppFontSize.s12.rSp,

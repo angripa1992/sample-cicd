@@ -159,7 +159,7 @@ class UpdateManualOrderDataProvider {
 
   Future<List<AppliedPromo>> _fetchPromos(Order order) async {
     try {
-      final user = SessionManager().currentUser();
+      final user = SessionManager().user();
       final params = {
         'country': user.countryIds.first,
         'business': user.businessId,
@@ -202,7 +202,7 @@ class UpdateManualOrderDataProvider {
     try {
       final menusItemsResponse = await _menuRemoteDatasource.fetchMenuV1(
         FetchMenuParams(
-          businessId: SessionManager().currentUser().businessId,
+          businessId: SessionManager().user().businessId,
           branchId: branchId,
           brandId: brandId,
           providerID: providerId,

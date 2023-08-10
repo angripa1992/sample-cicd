@@ -13,6 +13,7 @@ import '../../domain/entities/menu/menu_data.dart';
 import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/entities/menu/menu_resources.dart';
 import '../../domain/entities/menu/menu_sections.dart';
+import '../models/v2_common_data_model.dart';
 
 MenuData mapMMV2toMenu(MenuV2DataModel menusData) {
   final branchInfo = _v2ToMenuBranch(menusData.branchInfo!);
@@ -48,6 +49,7 @@ MenuSection _v2ToMenuSection(
 ) {
   final menuAvailableTimes = _v2ToMenuAvailableTimes(data.availableTimes!);
   return MenuSection(
+    menuVersion: MenuVersion.v2,
     id: data.id.orZero(),
     title: data.title?.en ?? EMPTY,
     description: data.description?.en ?? EMPTY,
@@ -70,6 +72,7 @@ MenuCategory _v2ToMenuCategory(
   MenuBranchInfo branchInfo,
 ) {
   return MenuCategory(
+    menuVersion: MenuVersion.v2,
     id: data.id.orZero(),
     title: data.title?.en ?? EMPTY,
     description: data.description?.en ?? EMPTY,
@@ -114,7 +117,7 @@ MenuCategoryItem _v2ToMenuCategoryItem(
   );
 }
 
-MenuVisibility _v2ToMenuVisibility(MenuV2Visibility data) {
+MenuVisibility _v2ToMenuVisibility(V2VisibilityModel data) {
   return MenuVisibility(
     providerID: data.providerID.orZero(),
     visible: data.status.orFalse(),
@@ -149,7 +152,7 @@ MenuSlots _v1SlotsToMenuSlots(MenuV2SlotsModel data) {
   );
 }
 
-MenuResource _v2ToMenuResource(MenuV2Resources data) {
+MenuResource _v2ToMenuResource(V2ResourcesModel data) {
   return MenuResource(
     providerID: data.providerID.orZero(),
     type: data.type.orEmpty(),
@@ -157,7 +160,7 @@ MenuResource _v2ToMenuResource(MenuV2Resources data) {
   );
 }
 
-MenuResourcePaths _v2ToMenuResourcePath(MenuV2ResourcePaths data) {
+MenuResourcePaths _v2ToMenuResourcePath(V2ResourcePathsModel data) {
   return MenuResourcePaths(
     path: data.path.orEmpty(),
     sequence: data.sequence.orZero(),
@@ -165,10 +168,12 @@ MenuResourcePaths _v2ToMenuResourcePath(MenuV2ResourcePaths data) {
   );
 }
 
-MenuOutOfStock _v2ToMenuOutOfStock(MenuV2Oos data) {
+MenuOutOfStock _v2ToMenuOutOfStock(V2OosModel data) {
   final snooze = MenuSnooze(
+    startTime: data.snooze?.startTime ?? EMPTY,
     endTime: data.snooze?.endTime ?? EMPTY,
     duration: data.snooze?.duration ?? ZERO,
+    unit: data.snooze?.unit ?? EMPTY,
   );
   return MenuOutOfStock(
     available: data.available.orFalse(),
@@ -177,7 +182,7 @@ MenuOutOfStock _v2ToMenuOutOfStock(MenuV2Oos data) {
 }
 
 MenuItemPrice _v2ToMenuItemPrice(
-  MenuV2Price data,
+  V2PriceModel data,
   MenuBranchInfo branchInfo,
 ) {
   final v2PriceDetails = data.details?.first;
@@ -191,9 +196,10 @@ MenuItemPrice _v2ToMenuItemPrice(
   );
 }
 
-String _defaultImage(List<MenuV2Resources>? data) {
+String _defaultImage(List<V2ResourcesModel>? data) {
   final resource = data
       ?.firstWhereOrNull((element) => element.providerID == ProviderID.KLIKIT);
-  final path = resource?.paths?.firstWhereOrNull((element) => element.byDefault!)?.path;
+  final path =
+      resource?.paths?.firstWhereOrNull((element) => element.byDefault!)?.path;
   return path ?? EMPTY;
 }

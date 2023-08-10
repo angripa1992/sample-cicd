@@ -1,34 +1,37 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'modifier_disabled_response_model.dart';
+part of 'affected_modifier_response_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ModifierDisabledResponseModel _$ModifierDisabledResponseModelFromJson(
+AffectedModifierResponseModel _$AffectedModifierResponseModelFromJson(
         Map<String, dynamic> json) =>
-    ModifierDisabledResponseModel(
+    AffectedModifierResponseModel(
       affected: json['affected'] as bool?,
       items: (json['items'] as List<dynamic>?)
-          ?.map((e) => DisabledItemModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) =>
+              DisabledItemResponseModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$ModifierDisabledResponseModelToJson(
-        ModifierDisabledResponseModel instance) =>
+Map<String, dynamic> _$AffectedModifierResponseModelToJson(
+        AffectedModifierResponseModel instance) =>
     <String, dynamic>{
       'affected': instance.affected,
       'items': instance.items,
     };
 
-DisabledItemModel _$DisabledItemModelFromJson(Map<String, dynamic> json) =>
-    DisabledItemModel(
+DisabledItemResponseModel _$DisabledItemResponseModelFromJson(
+        Map<String, dynamic> json) =>
+    DisabledItemResponseModel(
       itemId: json['item_id'] as int?,
       title: json['title'] as String?,
     );
 
-Map<String, dynamic> _$DisabledItemModelToJson(DisabledItemModel instance) =>
+Map<String, dynamic> _$DisabledItemResponseModelToJson(
+        DisabledItemResponseModel instance) =>
     <String, dynamic>{
       'item_id': instance.itemId,
       'title': instance.title,

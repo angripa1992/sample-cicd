@@ -19,10 +19,10 @@ class MenusCubit extends Cubit<ResponseState> {
     emit(Loading());
     final response = await _fetchMenus(
       FetchMenuParams(
-        branchId: SessionManager().currentUserBranchId(),
+        branchId: SessionManager().branchId(),
         brandId: brandId,
         providerID: providerId == ZERO ? null : providerId,
-        businessId: SessionManager().currentUser().businessId,
+        businessId: SessionManager().user().businessId,
       ),
     );
     response.fold(

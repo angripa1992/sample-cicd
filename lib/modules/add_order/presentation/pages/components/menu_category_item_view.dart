@@ -46,8 +46,7 @@ class MenuCategoryItemView extends StatelessWidget {
         child: Column(
           children: [
             InkWell(
-              onTap:
-                  availability == Availability.OUT_OF_STOCK ? null : onAddItem,
+              onTap: availability == Availability.OUT_OF_STOCK ? null : onAddItem,
               child: SizedBox(
                 height: AppSize.s100.rh,
                 child: Stack(

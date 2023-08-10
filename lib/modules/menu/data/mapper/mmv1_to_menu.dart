@@ -24,7 +24,7 @@ MenuData mapMMV1toMenu(MenuV1MenusDataModel menusData) {
 
 MenuBranchInfo _menuV1dataToMenuBranchInfo(MenuV1BranchInfo data) {
   return MenuBranchInfo(
-    businessID: SessionManager().currentUser().businessId,
+    businessID: SessionManager().user().businessId,
     brandID: data.branchId,
     branchID: data.branchId.orZero(),
     countryID: data.countryId.orZero(),
@@ -42,6 +42,7 @@ MenuSection _menuV1SectionsToMenuSections(MenuV1SectionsModel data) {
   final menuAvailableTimes =
       _menuV1AvailableTimesModelToMenuAvailableTimes(data.availableTimes!);
   return MenuSection(
+    menuVersion: MenuVersion.v1,
     id: data.id.orZero(),
     title: data.title.orEmpty(),
     description: EMPTY,
@@ -63,6 +64,7 @@ MenuCategory _menuV1SubSectionToMenuCategory(
   MenuAvailableTimes availableTimes,
 ) {
   return MenuCategory(
+    menuVersion: MenuVersion.v1,
     id: data.id.orZero(),
     title: data.title.orEmpty(),
     description: data.description.orEmpty(),
@@ -113,8 +115,10 @@ MenuVisibility _menuV1StatusToMenuVisibility(MenuV1StatusesModel status) {
 
 MenuOutOfStock _menuV1StockModelToMenuOutOfStock(MenuV1StockModel data) {
   final snooze = MenuSnooze(
+    startTime: EMPTY,
     endTime: data.snooze?.endTime ?? EMPTY,
     duration: data.snooze?.duration ?? ZERO,
+    unit: EMPTY,
   );
   return MenuOutOfStock(
     available: data.available.orFalse(),

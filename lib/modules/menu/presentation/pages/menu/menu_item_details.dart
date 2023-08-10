@@ -21,7 +21,8 @@ import 'menu_switch_view.dart';
 class MenuItemDetails extends StatefulWidget {
   final MenuCategoryItem menuCategoryItem;
   final bool parentEnabled;
-  final Function(MenuOutOfStock) onChanged;
+  final Function(MenuOutOfStock) onMenuItemSnoozeChanged;
+  final Function(bool) onMenuEnabledChanged;
   final int brandID;
   final int providerID;
   final int brandId;
@@ -30,7 +31,8 @@ class MenuItemDetails extends StatefulWidget {
     Key? key,
     required this.menuCategoryItem,
     required this.parentEnabled,
-    required this.onChanged,
+    required this.onMenuItemSnoozeChanged,
+    required this.onMenuEnabledChanged,
     required this.brandID,
     required this.providerID,
     required this.brandId,
@@ -41,6 +43,22 @@ class MenuItemDetails extends StatefulWidget {
 }
 
 class _MenuItemDetailsState extends State<MenuItemDetails> {
+
+  void _onEnabledChanged(bool enabled){
+    widget.onMenuEnabledChanged(enabled);
+    setState(() {
+      widget.menuCategoryItem.outOfStock.available = enabled;
+      widget.menuCategoryItem.enabled = enabled;
+    });
+  }
+
+  void _onItemSnoozeChanged(MenuOutOfStock oos){
+    widget.onMenuItemSnoozeChanged(oos);
+    setState(() {
+      widget.menuCategoryItem.outOfStock = oos;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,28 +143,19 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   bgColor: AppColors.dustyOrange.withOpacity(0.1),
                   parentEnabled: widget.parentEnabled,
                   iconPath: AppIcons.edit,
-                  onChanged: (oos) {
-                    widget.onChanged(oos);
-                    setState(() {
-                      widget.menuCategoryItem.outOfStock = oos;
-                    });
-                  },
+                  onMenuItemSnoozeChanged: _onItemSnoozeChanged,
+                  onMenuEnabledChanged: _onEnabledChanged,
                 ),
                 MenuSwitchView(
+                  menuVersion: widget.menuCategoryItem.menuVersion,
                   id: widget.menuCategoryItem.id,
                   brandId: widget.brandID,
                   providerId: widget.providerID,
                   type: MenuType.ITEM,
-                  enabled: widget.menuCategoryItem.outOfStock.available,
+                  enabled: widget.menuCategoryItem.enabled,
                   parentEnabled: widget.parentEnabled,
                   willShowBg: false,
-                  onItemChanged: (oos) {
-                    widget.onChanged(oos);
-                    setState(() {
-                      widget.menuCategoryItem.outOfStock = oos;
-                    });
-                  },
-                  onMenuChanged: (enabled) {},
+                  onMenuEnableChanged: _onEnabledChanged,
                 ),
               ],
             ),

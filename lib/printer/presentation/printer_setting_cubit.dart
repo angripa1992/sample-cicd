@@ -12,7 +12,7 @@ class PrinterSettingCubit extends Cubit<ResponseState> {
 
   void getPrinterSetting() async {
     emit(Loading());
-    final branchId = SessionManager().currentUserBranchId();
+    final branchId = SessionManager().branchId();
     final response = await _repository.getPrinterSettings(branchId);
     response.fold(
       (failure) {

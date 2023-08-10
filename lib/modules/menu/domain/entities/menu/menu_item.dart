@@ -16,11 +16,11 @@ class MenuCategoryItem {
   final List<MenuItemPrice> prices;
   final int vat;
   final String image;
-  final bool enabled;
   final int sequence;
   final List<MenuVisibility> visibilities;
   final MenuAvailableTimes availableTimes;
   final List<MenuResource>? resources;
+  bool enabled;
   MenuOutOfStock outOfStock;
 
   MenuCategoryItem({

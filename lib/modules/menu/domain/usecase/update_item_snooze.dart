@@ -5,16 +5,20 @@ import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
 
 import '../entities/menu/menu_out_of_stock.dart';
 
-class UpdateItemParam {
+class UpdateItemSnoozeParam {
+  final int menuVersion;
   final int itemId;
+  final int businessID;
   final int branchId;
   final int brandId;
   final int duration;
   final bool enabled;
   final int timeZoneOffset;
 
-  UpdateItemParam({
+  UpdateItemSnoozeParam({
+    required this.menuVersion,
     required this.itemId,
+    required this.businessID,
     required this.branchId,
     required this.brandId,
     required this.duration,
@@ -23,13 +27,13 @@ class UpdateItemParam {
   });
 }
 
-class UpdateItem extends UseCase<MenuOutOfStock, UpdateItemParam> {
+class UpdateItemSnooze extends UseCase<MenuOutOfStock, UpdateItemSnoozeParam> {
   final MenuRepository _repository;
 
-  UpdateItem(this._repository);
+  UpdateItemSnooze(this._repository);
 
   @override
-  Future<Either<Failure, MenuOutOfStock>> call(UpdateItemParam params) {
-    return _repository.updateItem(params);
+  Future<Either<Failure, MenuOutOfStock>> call(UpdateItemSnoozeParam params) {
+    return _repository.updateItemSnooze(params);
   }
 }

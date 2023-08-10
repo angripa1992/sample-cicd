@@ -58,7 +58,7 @@ class SlackLoggerResolver {
   }
 
   Future<List<String>> _businessInfo() async {
-    final user = SessionManager().currentUser();
+    final user = SessionManager().user();
     return [
       "********** BUSINESS **********",
       "Branch: ${user.branchName} (${user.branchId})",

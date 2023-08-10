@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/menu/presentation/cubit/modifier_groups_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/fetch_modifier_groups_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_groups_list_view.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -15,7 +15,7 @@ import '../../../../../resources/values.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/brand.dart';
-import '../../../domain/entities/modifiers_group.dart';
+import '../../../domain/entities/modifier/modifier_group.dart';
 
 class ModifierScreen extends StatefulWidget {
   final MenuBrand? brand;
@@ -42,7 +42,7 @@ class _ModifierScreenState extends State<ModifierScreen> {
   Widget build(BuildContext context) {
     if (widget.brand != null) {
       context
-          .read<ModifierGroupsCubit>()
+          .read<FetchModifierGroupsCubit>()
           .fetchModifierGroups(widget.brand!.id, widget.providerId);
     }
     return Expanded(
@@ -73,9 +73,9 @@ class _ModifierScreenState extends State<ModifierScreen> {
                   ),
                 ),
                 Expanded(
-                  child: BlocBuilder<ModifierGroupsCubit, ResponseState>(
+                  child: BlocBuilder<FetchModifierGroupsCubit, ResponseState>(
                     builder: (context, state) {
-                      if (state is Success<List<ModifiersGroup>>) {
+                      if (state is Success<List<ModifierGroup>>) {
                         if (state.data.isEmpty) {
                           return Center(
                             child: Text(

@@ -1,8 +1,8 @@
-class ModifierDisabledResponse {
+class AffectedModifierResponse {
   final bool affected;
   final List<DisabledItem> items;
 
-  ModifierDisabledResponse({required this.affected, required this.items});
+  AffectedModifierResponse({required this.affected, required this.items});
 }
 
 class DisabledItem {

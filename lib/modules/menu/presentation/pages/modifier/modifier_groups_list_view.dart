@@ -10,12 +10,12 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../domain/entities/modifiers_group.dart';
+import '../../../domain/entities/modifier/modifier_group.dart';
 
 class ModifierGroupsListView extends StatefulWidget {
   final int brandId;
   final int providerId;
-  final List<ModifiersGroup> modifierGroups;
+  final List<ModifierGroup> modifierGroups;
 
   const ModifierGroupsListView({
     Key? key,
@@ -29,7 +29,7 @@ class ModifierGroupsListView extends StatefulWidget {
 }
 
 class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
-  var _modifiableModifierGroups = <ModifiersGroup>[];
+  var _modifiableModifierGroups = <ModifierGroup>[];
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
               SegmentManager().track(
                 event: SegmentEvents.MODIFIER_CLICK,
                 properties: {
-                  'id': group.groupId,
+                  'id': group.id,
                   'group_name': group.title,
                 },
               );
@@ -64,7 +64,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                   ArgumentKey.kBRAND_ID: widget.brandId,
                   ArgumentKey.kPROVIDER_ID: widget.providerId,
                 },
-              ) as ModifiersGroup;
+              ) as ModifierGroup;
               setState(() {
                 _modifiableModifierGroups.removeAt(index);
                 _modifiableModifierGroups.insert(index, modifiedModifierGroup);
@@ -90,17 +90,15 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                       ),
                     ),
                     ModifierSwitchView(
+                      menuVersion: group.menuVersion,
                       brandId: widget.brandId,
                       providerId: widget.providerId,
-                      groupId: group.groupId,
-                      enabled: group.statuses.isEmpty
-                          ? false
-                          : group.statuses[0].enabled,
+                      groupId: group.id,
+                      enabled: group.isEnabled,
                       type: ModifierType.GROUP,
                       onSuccess: (enabled) {
                         setState(() {
-                          _modifiableModifierGroups[index].statuses[0].enabled =
-                              enabled;
+                          _modifiableModifierGroups[index].isEnabled = enabled;
                         });
                       },
                     ),

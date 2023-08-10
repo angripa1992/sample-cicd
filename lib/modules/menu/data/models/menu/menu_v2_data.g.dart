@@ -58,10 +58,10 @@ MenuV2Sections _$MenuV2SectionsFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       title: json['title'] == null
           ? null
-          : MenuV2Title.fromJson(json['title'] as Map<String, dynamic>),
+          : V2TitleModel.fromJson(json['title'] as Map<String, dynamic>),
       description: json['description'] == null
           ? null
-          : MenuV2Title.fromJson(json['description'] as Map<String, dynamic>),
+          : V2TitleModel.fromJson(json['description'] as Map<String, dynamic>),
       availableTimes: json['availableTimes'] == null
           ? null
           : MenuV2AvailableTimesModel.fromJson(
@@ -69,7 +69,7 @@ MenuV2Sections _$MenuV2SectionsFromJson(Map<String, dynamic> json) =>
       isAvailable: json['isAvailable'] as bool?,
       enabled: json['enabled'] as bool?,
       visibilities: (json['visibilities'] as List<dynamic>?)
-          ?.map((e) => MenuV2Visibility.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => V2VisibilityModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       sequence: json['sequence'] as int?,
       categories: (json['categories'] as List<dynamic>?)
@@ -88,17 +88,6 @@ Map<String, dynamic> _$MenuV2SectionsToJson(MenuV2Sections instance) =>
       'visibilities': instance.visibilities,
       'sequence': instance.sequence,
       'categories': instance.categories,
-    };
-
-MenuV2Title _$MenuV2TitleFromJson(Map<String, dynamic> json) => MenuV2Title(
-      en: json['en'] as String?,
-      tl: json['tl'] as String?,
-    );
-
-Map<String, dynamic> _$MenuV2TitleToJson(MenuV2Title instance) =>
-    <String, dynamic>{
-      'en': instance.en,
-      'tl': instance.tl,
     };
 
 MenuV2AvailableTimesModel _$MenuV2AvailableTimesModelFromJson(
@@ -165,31 +154,19 @@ Map<String, dynamic> _$MenuV2SlotsModelToJson(MenuV2SlotsModel instance) =>
       'endTime': instance.endTime,
     };
 
-MenuV2Visibility _$MenuV2VisibilityFromJson(Map<String, dynamic> json) =>
-    MenuV2Visibility(
-      providerID: json['providerID'] as int?,
-      status: json['status'] as bool?,
-    );
-
-Map<String, dynamic> _$MenuV2VisibilityToJson(MenuV2Visibility instance) =>
-    <String, dynamic>{
-      'providerID': instance.providerID,
-      'status': instance.status,
-    };
-
 MenuV2Category _$MenuV2CategoryFromJson(Map<String, dynamic> json) =>
     MenuV2Category(
       id: json['id'] as int?,
       title: json['title'] == null
           ? null
-          : MenuV2Title.fromJson(json['title'] as Map<String, dynamic>),
+          : V2TitleModel.fromJson(json['title'] as Map<String, dynamic>),
       description: json['description'] == null
           ? null
-          : MenuV2Title.fromJson(json['description'] as Map<String, dynamic>),
+          : V2TitleModel.fromJson(json['description'] as Map<String, dynamic>),
       enabled: json['enabled'] as bool?,
       alcBeverages: json['alcBeverages'] as bool?,
       visibilities: (json['visibilities'] as List<dynamic>?)
-          ?.map((e) => MenuV2Visibility.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => V2VisibilityModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       sequence: json['sequence'] as int?,
       items: (json['items'] as List<dynamic>?)
@@ -214,26 +191,26 @@ MenuV2CategoryItem _$MenuV2CategoryItemFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       title: json['title'] == null
           ? null
-          : MenuV2Title.fromJson(json['title'] as Map<String, dynamic>),
+          : V2TitleModel.fromJson(json['title'] as Map<String, dynamic>),
       description: json['description'] == null
           ? null
-          : MenuV2Title.fromJson(json['description'] as Map<String, dynamic>),
+          : V2TitleModel.fromJson(json['description'] as Map<String, dynamic>),
       vat: json['vat'] as int?,
       enabled: json['enabled'] as bool?,
       visibilities: (json['visibilities'] as List<dynamic>?)
-          ?.map((e) => MenuV2Visibility.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => V2VisibilityModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       prices: (json['prices'] as List<dynamic>?)
-          ?.map((e) => MenuV2Price.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => V2PriceModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       itemIsEnabled: json['itemIsEnabled'] as bool?,
       resources: (json['resources'] as List<dynamic>?)
-          ?.map((e) => MenuV2Resources.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => V2ResourcesModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       sequence: json['sequence'] as int?,
       oos: json['oos'] == null
           ? null
-          : MenuV2Oos.fromJson(json['oos'] as Map<String, dynamic>),
+          : V2OosModel.fromJson(json['oos'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MenuV2CategoryItemToJson(MenuV2CategoryItem instance) =>
@@ -249,85 +226,4 @@ Map<String, dynamic> _$MenuV2CategoryItemToJson(MenuV2CategoryItem instance) =>
       'resources': instance.resources,
       'sequence': instance.sequence,
       'oos': instance.oos,
-    };
-
-MenuV2Price _$MenuV2PriceFromJson(Map<String, dynamic> json) => MenuV2Price(
-      providerID: json['providerID'] as int?,
-      details: (json['details'] as List<dynamic>?)
-          ?.map((e) => MenuV2PriceDetails.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$MenuV2PriceToJson(MenuV2Price instance) =>
-    <String, dynamic>{
-      'providerID': instance.providerID,
-      'details': instance.details,
-    };
-
-MenuV2PriceDetails _$MenuV2PriceDetailsFromJson(Map<String, dynamic> json) =>
-    MenuV2PriceDetails(
-      currencyCode: json['currencyCode'] as String?,
-      price: json['price'] as int?,
-      takeAwayPrice: json['takeAwayPrice'] as int?,
-    );
-
-Map<String, dynamic> _$MenuV2PriceDetailsToJson(MenuV2PriceDetails instance) =>
-    <String, dynamic>{
-      'currencyCode': instance.currencyCode,
-      'price': instance.price,
-      'takeAwayPrice': instance.takeAwayPrice,
-    };
-
-MenuV2Resources _$MenuV2ResourcesFromJson(Map<String, dynamic> json) =>
-    MenuV2Resources(
-      providerID: json['providerID'] as int?,
-      type: json['type'] as String?,
-      paths: (json['paths'] as List<dynamic>?)
-          ?.map((e) => MenuV2ResourcePaths.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$MenuV2ResourcesToJson(MenuV2Resources instance) =>
-    <String, dynamic>{
-      'providerID': instance.providerID,
-      'type': instance.type,
-      'paths': instance.paths,
-    };
-
-MenuV2ResourcePaths _$MenuV2ResourcePathsFromJson(Map<String, dynamic> json) =>
-    MenuV2ResourcePaths(
-      path: json['path'] as String?,
-      sequence: json['sequence'] as int?,
-      byDefault: json['default'] as bool?,
-    );
-
-Map<String, dynamic> _$MenuV2ResourcePathsToJson(
-        MenuV2ResourcePaths instance) =>
-    <String, dynamic>{
-      'path': instance.path,
-      'sequence': instance.sequence,
-      'default': instance.byDefault,
-    };
-
-MenuV2Oos _$MenuV2OosFromJson(Map<String, dynamic> json) => MenuV2Oos(
-      available: json['available'] as bool?,
-      snooze: json['snooze'] == null
-          ? null
-          : MenuV2Snooze.fromJson(json['snooze'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$MenuV2OosToJson(MenuV2Oos instance) => <String, dynamic>{
-      'available': instance.available,
-      'snooze': instance.snooze,
-    };
-
-MenuV2Snooze _$MenuV2SnoozeFromJson(Map<String, dynamic> json) => MenuV2Snooze(
-      endTime: json['endTime'] as String?,
-      duration: json['duration'] as int?,
-    );
-
-Map<String, dynamic> _$MenuV2SnoozeToJson(MenuV2Snooze instance) =>
-    <String, dynamic>{
-      'endTime': instance.endTime,
-      'duration': instance.duration,
     };

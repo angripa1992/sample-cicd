@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../v2_common_data_model.dart';
+
 part 'menu_v2_data.g.dart';
 
 @JsonSerializable()
@@ -12,7 +14,8 @@ class MenuV2DataModel {
     this.sections,
   });
 
-  factory MenuV2DataModel.fromJson(Map<String, dynamic> json) => _$MenuV2DataModelFromJson(json);
+  factory MenuV2DataModel.fromJson(Map<String, dynamic> json) =>
+      _$MenuV2DataModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -43,18 +46,19 @@ class MenuV2BranchInfo {
     this.currencyCode,
   });
 
-  factory MenuV2BranchInfo.fromJson(Map<String, dynamic> json) => _$MenuV2BranchInfoFromJson(json);
+  factory MenuV2BranchInfo.fromJson(Map<String, dynamic> json) =>
+      _$MenuV2BranchInfoFromJson(json);
 }
 
 @JsonSerializable()
 class MenuV2Sections {
   int? id;
-  MenuV2Title? title;
-  MenuV2Title? description;
+  V2TitleModel? title;
+  V2TitleModel? description;
   MenuV2AvailableTimesModel? availableTimes;
   bool? isAvailable;
   bool? enabled;
-  List<MenuV2Visibility>? visibilities;
+  List<V2VisibilityModel>? visibilities;
   int? sequence;
   List<MenuV2Category>? categories;
 
@@ -70,20 +74,8 @@ class MenuV2Sections {
     this.categories,
   });
 
-  factory MenuV2Sections.fromJson(Map<String, dynamic> json) => _$MenuV2SectionsFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV2Title {
-  String? en;
-  String? tl;
-
-  MenuV2Title({
-    this.en,
-    this.tl,
-  });
-
-  factory MenuV2Title.fromJson(Map<String, dynamic> json) => _$MenuV2TitleFromJson(json);
+  factory MenuV2Sections.fromJson(Map<String, dynamic> json) =>
+      _$MenuV2SectionsFromJson(json);
 }
 
 @JsonSerializable()
@@ -113,7 +105,8 @@ class MenuV2AvailableTimesModel {
     this.saturday,
   });
 
-  factory MenuV2AvailableTimesModel.fromJson(Map<String, dynamic> json) => _$MenuV2AvailableTimesModelFromJson(json);
+  factory MenuV2AvailableTimesModel.fromJson(Map<String, dynamic> json) =>
+      _$MenuV2AvailableTimesModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -126,7 +119,8 @@ class MenuV2DayInfoModel {
     this.slots,
   });
 
-  factory MenuV2DayInfoModel.fromJson(Map<String, dynamic> json) => _$MenuV2DayInfoModelFromJson(json);
+  factory MenuV2DayInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$MenuV2DayInfoModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -139,30 +133,18 @@ class MenuV2SlotsModel {
     this.endTime,
   });
 
-  factory MenuV2SlotsModel.fromJson(Map<String, dynamic> json) => _$MenuV2SlotsModelFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV2Visibility {
-  int? providerID;
-  bool? status;
-
-  MenuV2Visibility({
-    this.providerID,
-    this.status,
-  });
-
-  factory MenuV2Visibility.fromJson(Map<String, dynamic> json) => _$MenuV2VisibilityFromJson(json);
+  factory MenuV2SlotsModel.fromJson(Map<String, dynamic> json) =>
+      _$MenuV2SlotsModelFromJson(json);
 }
 
 @JsonSerializable()
 class MenuV2Category {
   int? id;
-  MenuV2Title? title;
-  MenuV2Title? description;
+  V2TitleModel? title;
+  V2TitleModel? description;
   bool? enabled;
   bool? alcBeverages;
-  List<MenuV2Visibility>? visibilities;
+  List<V2VisibilityModel>? visibilities;
   int? sequence;
   List<MenuV2CategoryItem>? items;
 
@@ -177,22 +159,23 @@ class MenuV2Category {
     this.items,
   });
 
-  factory MenuV2Category.fromJson(Map<String, dynamic> json) => _$MenuV2CategoryFromJson(json);
+  factory MenuV2Category.fromJson(Map<String, dynamic> json) =>
+      _$MenuV2CategoryFromJson(json);
 }
 
 @JsonSerializable()
 class MenuV2CategoryItem {
   int? id;
-  MenuV2Title? title;
-  MenuV2Title? description;
+  V2TitleModel? title;
+  V2TitleModel? description;
   int? vat;
   bool? enabled;
-  List<MenuV2Visibility>? visibilities;
-  List<MenuV2Price>? prices;
+  List<V2VisibilityModel>? visibilities;
+  List<V2PriceModel>? prices;
   bool? itemIsEnabled;
-  List<MenuV2Resources>? resources;
+  List<V2ResourcesModel>? resources;
   int? sequence;
-  MenuV2Oos? oos;
+  V2OosModel? oos;
 
   MenuV2CategoryItem({
     this.id,
@@ -208,86 +191,6 @@ class MenuV2CategoryItem {
     this.oos,
   });
 
-  factory MenuV2CategoryItem.fromJson(Map<String, dynamic> json) => _$MenuV2CategoryItemFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV2Price {
-  int? providerID;
-  List<MenuV2PriceDetails>? details;
-
-  MenuV2Price({
-    this.providerID,
-    this.details,
-  });
-
-  factory MenuV2Price.fromJson(Map<String, dynamic> json) => _$MenuV2PriceFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV2PriceDetails {
-  String? currencyCode;
-  int? price;
-  int? takeAwayPrice;
-
-  MenuV2PriceDetails({
-    this.currencyCode,
-    this.price,
-    this.takeAwayPrice,
-  });
-
-  factory MenuV2PriceDetails.fromJson(Map<String, dynamic> json) => _$MenuV2PriceDetailsFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV2Resources {
-  int? providerID;
-  String? type;
-  List<MenuV2ResourcePaths>? paths;
-
-  MenuV2Resources({
-    this.providerID,
-    this.type,
-    this.paths,
-  });
-
-  factory MenuV2Resources.fromJson(Map<String, dynamic> json) => _$MenuV2ResourcesFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV2ResourcePaths {
-  String? path;
-  int? sequence;
-  @JsonKey(name: 'default')
-  bool? byDefault;
-
-  MenuV2ResourcePaths({this.path, this.sequence, this.byDefault,});
-
-  factory MenuV2ResourcePaths.fromJson(Map<String, dynamic> json) => _$MenuV2ResourcePathsFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV2Oos {
-  bool? available;
-  MenuV2Snooze? snooze;
-
-  MenuV2Oos({
-    this.available,
-    this.snooze,
-  });
-
-  factory MenuV2Oos.fromJson(Map<String, dynamic> json) => _$MenuV2OosFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV2Snooze {
-  String? endTime;
-  int? duration;
-
-  MenuV2Snooze({
-    this.endTime,
-    this.duration,
-  });
-
-  factory MenuV2Snooze.fromJson(Map<String, dynamic> json) => _$MenuV2SnoozeFromJson(json);
+  factory MenuV2CategoryItem.fromJson(Map<String, dynamic> json) =>
+      _$MenuV2CategoryItemFromJson(json);
 }

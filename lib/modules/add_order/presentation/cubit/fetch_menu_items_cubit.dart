@@ -20,9 +20,9 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
     emit(Loading());
     final response = await _repository.fetchMenuV1(
       FetchMenuParams(
-        branchId: SessionManager().currentUserBranchId(),
+        branchId: SessionManager().branchId(),
         brandId: brand.id,
-        businessId: SessionManager().currentUser().businessId,
+        businessId: SessionManager().user().businessId,
         providerID: null,
       ),
     );

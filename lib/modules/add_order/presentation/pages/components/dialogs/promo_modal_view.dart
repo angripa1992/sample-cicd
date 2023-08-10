@@ -67,7 +67,7 @@ class _PromoModalViewState extends State<PromoModalView> {
   }
 
   Map<String, dynamic> _params() {
-    final user = SessionManager().currentUser();
+    final user = SessionManager().user();
     return {
       'country': user.countryIds.first,
       'business': user.businessId,

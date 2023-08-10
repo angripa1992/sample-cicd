@@ -17,11 +17,11 @@ class FcmTokenManager {
   Future<Either<Failure, bool>> registerToken(String fcmToken) async {
     final String deviceId = await _deviceInformationProvider.FID();
     final Map<String, dynamic> params = {};
-    params['user_id'] = SessionManager().currentUser().id;
+    params['user_id'] = SessionManager().user().id;
     params['token'] = fcmToken;
     params['platform'] = _deviceInformationProvider.platformName();
     params['app_type'] = 2;
-    params['branch_id'] = SessionManager().currentUserBranchId();
+    params['branch_id'] = SessionManager().branchId();
     //params['uuid'] = deviceId;
     try {
       await _restClient.request(Urls.tokenRegistration, Method.POST, params);

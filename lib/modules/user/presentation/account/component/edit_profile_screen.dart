@@ -38,7 +38,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
-    _user = SessionManager().currentUser();
+    _user = SessionManager().user();
     _firstNameController.text = _user.firstName;
     _lastNameController.text = _user.lastName;
     _phoneNameController.text = _user.phone;
@@ -87,7 +87,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
     setState(() {
-      _user = SessionManager().currentUser();
+      _user = SessionManager().user();
     });
   }
 

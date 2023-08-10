@@ -13,7 +13,7 @@ class MenuBrandsCubit extends Cubit<ResponseState> {
 
   void fetchMenuBrands() async {
     emit(Loading());
-    final branchID = SessionManager().currentUserBranchId();
+    final branchID = SessionManager().branchId();
     List<MenuBrand> brands = [];
     int pageKey = 1;
     int pageSize = 10;

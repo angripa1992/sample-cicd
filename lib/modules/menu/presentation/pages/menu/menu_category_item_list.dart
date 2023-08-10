@@ -41,25 +41,38 @@ class MenuCategoryItemListView extends StatefulWidget {
 }
 
 class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
-  final List<MenuCategoryItem> _items = [];
+  final List<MenuCategoryItem> _menuCategoryItems = [];
 
   @override
   void initState() {
-    _items.addAll(widget.menuCategory.items);
+    _menuCategoryItems.addAll(widget.menuCategory.items);
     super.initState();
   }
 
-  void _onChanged(int index, MenuOutOfStock oos) {
+  void _onMenuEnabledChanged(int index, bool enabled) {
     setState(() {
-      _items[index].outOfStock = oos;
-      widget.onChanged(_items);
+      _menuCategoryItems[index].enabled = enabled;
+      _menuCategoryItems[index].outOfStock.available = enabled;
+      widget.onChanged(_menuCategoryItems);
+      _sendSegment(_menuCategoryItems[index]);
     });
+  }
+
+  void _onItemSnoozeChanged(int index, MenuOutOfStock oos) {
+    setState(() {
+      _menuCategoryItems[index].outOfStock = oos;
+      widget.onChanged(_menuCategoryItems);
+      _sendSegment(_menuCategoryItems[index]);
+    });
+  }
+
+  void _sendSegment(MenuCategoryItem item) {
     SegmentManager().track(
       event: SegmentEvents.ITEM_TOGGLE,
       properties: {
-        'id': _items[index].id,
-        'name': _items[index].title,
-        'enabled': oos.available ? 'Yes' : 'No',
+        'id': item.id,
+        'name': item.title,
+        'enabled': item.enabled ? 'Yes' : 'No',
       },
     );
   }
@@ -74,13 +87,16 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
       ),
       builder: (BuildContext context) {
         return MenuItemDetails(
-          menuCategoryItem: _items[index],
+          menuCategoryItem: _menuCategoryItems[index],
           parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
           brandID: widget.brandID,
           providerID: widget.providerID,
           brandId: widget.brandID,
-          onChanged: (oos) {
-            _onChanged(index, oos);
+          onMenuItemSnoozeChanged: (oos) {
+            _onItemSnoozeChanged(index, oos);
+          },
+          onMenuEnabledChanged: (enabled) {
+            _onMenuEnabledChanged(index, enabled);
           },
         );
       },
@@ -90,10 +106,10 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: _items.isNotEmpty
+      child: _menuCategoryItems.isNotEmpty
           ? ListView.builder(
               key: UniqueKey(),
-              itemCount: _items.length,
+              itemCount: _menuCategoryItems.length,
               itemBuilder: (_, index) {
                 return Card(
                   child: Padding(
@@ -116,7 +132,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                     padding:
                                         EdgeInsets.only(right: AppSize.s10.rw),
                                     child: ImageView(
-                                      path: _items[index].image,
+                                      path: _menuCategoryItems[index].image,
                                       width: AppSize.s36.rw,
                                       height: AppSize.s36.rh,
                                     ),
@@ -134,7 +150,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                         SizedBox(width: AppSize.s4.rw),
                                         Expanded(
                                           child: Text(
-                                            _items[index].title,
+                                            _menuCategoryItems[index].title,
                                             style: regularTextStyle(
                                               color: AppColors.bluewood,
                                               fontSize: AppFontSize.s14.rSp,
@@ -152,34 +168,37 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                               children: [
                                 Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: AppSize.s8.rw),
+                                    horizontal: AppSize.s8.rw,
+                                  ),
                                   child: MenuSnoozeView(
-                                    menuCategoryItem: _items[index],
+                                    menuCategoryItem: _menuCategoryItems[index],
                                     providerId: widget.providerID,
                                     borderRadius: AppSize.s8.rSp,
                                     width: AppSize.s80.rw,
                                     bgColor: AppColors.whiteSmoke,
-                                    parentEnabled: widget.parentEnabled &&
-                                        widget.menuCategory.enabled,
+                                    parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
                                     brandId: widget.brandID,
                                     iconPath: AppIcons.editRound,
-                                    onChanged: (oos) {
-                                      _onChanged(index, oos);
+                                    onMenuItemSnoozeChanged: (oos) {
+                                      _onItemSnoozeChanged(index, oos);
+                                    },
+                                    onMenuEnabledChanged: (enabled) {
+                                      _onMenuEnabledChanged(index, enabled);
                                     },
                                   ),
                                 ),
                                 MenuSwitchView(
-                                  id: _items[index].id,
+                                  menuVersion: widget.menuCategory.menuVersion,
+                                  id: _menuCategoryItems[index].id,
                                   brandId: widget.brandID,
                                   providerId: widget.providerID,
                                   type: MenuType.ITEM,
-                                  enabled: _items[index].outOfStock.available,
+                                  enabled: _menuCategoryItems[index].enabled,
                                   parentEnabled: widget.parentEnabled &&
                                       widget.menuCategory.enabled,
-                                  onItemChanged: (stock) {
-                                    _onChanged(index, stock);
+                                  onMenuEnableChanged: (enabled) {
+                                    _onMenuEnabledChanged(index, enabled);
                                   },
-                                  onMenuChanged: (enabled) {},
                                 ),
                               ],
                             ),

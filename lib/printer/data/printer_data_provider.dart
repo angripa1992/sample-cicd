@@ -51,7 +51,7 @@ class PrinterDataProvider {
       gatewayFee: order.gatewayFee,
       serviceFee: order.serviceFee,
       tableNo: order.tableNo,
-      branchName: SessionManager().currentUserBranchName(),
+      branchName: SessionManager().branchName(),
       isManualOrder: order.isManualOrder,
       isFoodpandaApiOrder: order.isFoodpandaApiOrder,
       is_vat_included: order.isVatIncluded,

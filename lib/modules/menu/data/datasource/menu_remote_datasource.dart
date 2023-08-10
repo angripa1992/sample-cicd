@@ -1,22 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/core/network/rest_client.dart';
-import 'package:klikit/modules/menu/data/models/modifier_disabled_response_model.dart';
+import 'package:klikit/modules/menu/data/models/modifier/affected_modifier_response_model.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
-import 'package:klikit/modules/menu/data/models/modifiers_group_model.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_item_snooze.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_menu_enabled.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../app/enums.dart';
+import '../../../../app/extensions.dart';
 import '../../../../core/network/urls.dart';
 import '../../../../core/provider/date_time_provider.dart';
 import '../../domain/usecase/fetch_menus.dart';
+import '../../domain/usecase/ftech_modifier_groups.dart';
 import '../models/brand_model.dart';
 import '../models/brands_model.dart';
-import '../models/menu/menu_out_of_stock_model.dart';
+import '../models/menu/menu_oos_response_model.dart';
 import '../models/menu/menu_v1_data.dart';
 import '../models/menu/menu_v2_data.dart';
+import '../models/modifier/modifier_v1_data.dart';
+import '../models/modifier/modifier_v2_data.dart';
 
 abstract class MenuRemoteDatasource {
   Future<MenuBrandsModel> fetchMenuBrands(Map<String, dynamic> params);
@@ -30,18 +33,21 @@ abstract class MenuRemoteDatasource {
 
   Future<MenuV2DataModel> fetchMenuV2(FetchMenuParams params);
 
-  Future<MenuOutOfStockModel> updateItem(UpdateItemParam params);
+  Future<MenuOosResponseModel> updateItemSnooze(UpdateItemSnoozeParam params);
 
-  Future<ActionSuccess> updateMenu(UpdateMenuParams params);
+  Future<ActionSuccess> updateMenuEnabled(UpdateMenuParams params);
 
-  Future<List<ModifiersGroupModel>> fetchModifiersGroup(
-      Map<String, dynamic> params);
+  Future<List<V1ModifierGroupModel>> fetchV1ModifiersGroup(
+      FetchModifierGroupParams params);
 
-  Future<ModifierDisabledResponseModel> disableModifier(
+  Future<List<V2ModifierGroupModel>> fetchV2ModifiersGroup(
+      FetchModifierGroupParams params);
+
+  Future<AffectedModifierResponseModel> disableModifier(
     ModifierRequestModel param,
   );
 
-  Future<ActionSuccess> enableModifier(ModifierRequestModel param);
+  Future<ActionSuccess> updateModifierEnabled(ModifierRequestModel param);
 }
 
 class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
@@ -63,10 +69,10 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   @override
   Future<MenuV1MenusDataModel> fetchMenuV1(FetchMenuParams params) async {
     try {
-      final fetchParams = <String,dynamic>{
+      final fetchParams = <String, dynamic>{
         'brand_id': params.brandId,
       };
-      if(params.providerID != null){
+      if (params.providerID != null) {
         fetchParams['provider_id'] = params.providerID;
       }
       final response = await _restClient.request(
@@ -81,16 +87,16 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   }
 
   @override
-  Future<MenuV2DataModel> fetchMenuV2(FetchMenuParams params) async{
+  Future<MenuV2DataModel> fetchMenuV2(FetchMenuParams params) async {
     try {
       final tz = await DateTimeProvider.timeZone();
-      final fetchParams = <String,dynamic>{
-        'businessID' : params.businessId,
+      final fetchParams = <String, dynamic>{
+        'businessID': params.businessId,
         'brandID': params.brandId,
         'branchID': params.branchId,
-        'tz' : tz,
+        'tz': tz,
       };
-      if(params.providerID != null){
+      if (params.providerID != null) {
         fetchParams['providerID'] = params.providerID;
       }
       final response = await _restClient.request(
@@ -105,89 +111,165 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   }
 
   @override
-  Future<MenuOutOfStockModel> updateItem(UpdateItemParam params) async {
+  Future<MenuOosResponseModel> updateItemSnooze(
+      UpdateItemSnoozeParam params) async {
+    try {
+      if (params.menuVersion == MenuVersion.v2) {
+        final response = await _restClient.request(
+          Urls.updateV2temSnooze(params.itemId),
+          Method.PATCH,
+          {
+            'businessID': params.businessID,
+            'branchID': params.branchId,
+            'brandID': params.brandId,
+            'duration': params.duration,
+            'isEnabled': params.enabled,
+            'timezoneOffset': params.timeZoneOffset,
+          },
+        );
+        return MenuOosV2ResponseModel.fromJson(response).oos!;
+      } else {
+        final response = await _restClient.request(
+          Urls.updateV1ItemSnooze(params.itemId),
+          Method.PATCH,
+          {
+            'branch_id': params.branchId,
+            'brand_id': params.brandId,
+            'duration': params.duration,
+            'is_enabled': params.enabled,
+            'timezoneOffset': params.timeZoneOffset,
+          },
+        );
+        return MenuOosResponseModel.fromJson(response);
+      }
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> updateMenuEnabled(UpdateMenuParams params) async {
+    try {
+      if (params.menuVersion == MenuVersion.v2) {
+        late String path;
+        if (params.type == MenuType.ITEM) {
+          path = 'items';
+        } else if (params.type == MenuType.CATEGORY) {
+          path = 'categories';
+        } else {
+          path = 'sections';
+        }
+        final response = await _restClient.request(
+          Urls.updateV2Menu(path),
+          Method.PATCH,
+          {
+            'businessID': params.businessId,
+            'brandID': params.brandId,
+            'branchID': params.branchId,
+            'ids': [params.id],
+            'isEnabled': params.enabled,
+          },
+        );
+        return ActionSuccess.fromJson(response);
+      } else {
+        final response = await _restClient.request(
+          Urls.updateMenu(params.id, params.type),
+          Method.PATCH,
+          {
+            'branch_id': params.branchId,
+            'brand_id': params.brandId,
+            'is_enabled': params.enabled,
+          },
+        );
+        return ActionSuccess.fromJson(response);
+      }
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<V1ModifierGroupModel>> fetchV1ModifiersGroup(
+      FetchModifierGroupParams params) async {
+    try {
+      final fetchParams = {
+        'brand_id': params.brandID,
+        'branch_id': params.branchID,
+      };
+      final providerId = params.providerID;
+      if (providerId != null && providerId != ZERO) {
+        fetchParams['provider_id'] = providerId;
+      }
+      final List<dynamic> response = await _restClient.request(
+          Urls.v1ModifiersGroup, Method.GET, fetchParams);
+      return response.map((e) => V1ModifierGroupModel.fromJson(e)).toList();
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<V2ModifierGroupModel>> fetchV2ModifiersGroup(
+      FetchModifierGroupParams params) async {
+    try {
+      final fetchParams = {
+        'brandID': params.brandID,
+        'branchID': params.branchID,
+        'businessID': params.businessID,
+      };
+      final List<dynamic> response = await _restClient.request(
+          Urls.v2ModifiersGroup, Method.GET, fetchParams);
+      return response.map((e) => V2ModifierGroupModel.fromJson(e)).toList();
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AffectedModifierResponseModel> disableModifier(
+    ModifierRequestModel param,
+  ) async {
     try {
       final response = await _restClient.request(
-        Urls.updateItem(params.itemId),
+        Urls.checkAffect(
+          param.type == ModifierType.MODIFIER
+              ? param.modifierId!
+              : param.groupId,
+          param.type,
+        ),
         Method.PATCH,
-        {
-          'branch_id': params.branchId,
-          'brand_id': params.brandId,
-          'duration': params.duration,
-          'is_enabled': params.enabled,
-          'timezoneOffset': params.timeZoneOffset,
-        },
+        param.toV1Json(),
       );
-      return MenuOutOfStockModel.fromJson(response);
+      return AffectedModifierResponseModel.fromJson(response);
     } on DioException {
       rethrow;
     }
   }
 
   @override
-  Future<ActionSuccess> updateMenu(UpdateMenuParams params) async {
-    try {
-      final response = await _restClient.request(
-        Urls.updateMenu(params.id, params.type),
-        Method.PATCH,
-        {
-          'branch_id': params.branchId,
-          'brand_id': params.brandId,
-          'is_enabled': params.enabled,
-        },
-      );
-      return ActionSuccess.fromJson(response);
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<ModifiersGroupModel>> fetchModifiersGroup(
-      Map<String, dynamic> params) async {
-    try {
-      final List<dynamic> response =
-          await _restClient.request(Urls.modifiersGroup, Method.GET, params);
-      return response.map((e) => ModifiersGroupModel.fromJson(e)).toList();
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<ModifierDisabledResponseModel> disableModifier(
+  Future<ActionSuccess> updateModifierEnabled(
       ModifierRequestModel param) async {
     try {
-      final response = await _restClient.request(
-        Urls.modifiersDisabled(
-          param.type == ModifierType.MODIFIER
-              ? param.modifierId!
-              : param.groupId,
-          param.type,
-        ),
-        Method.PATCH,
-        param.toJson(),
-      );
-      return ModifierDisabledResponseModel.fromJson(response);
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<ActionSuccess> enableModifier(ModifierRequestModel param) async {
-    try {
-      final response = await _restClient.request(
-        Urls.modifiersEnabled(
-          param.type == ModifierType.MODIFIER
-              ? param.modifierId!
-              : param.groupId,
-          param.type,
-        ),
-        Method.PATCH,
-        param.toJson(),
-      );
-      return ActionSuccess.fromJson(response);
+      if (param.menuVersion == MenuVersion.v1) {
+        final response = await _restClient.request(
+          Urls.updateModifierEnabled(
+            param.type == ModifierType.MODIFIER
+                ? param.modifierId!
+                : param.groupId,
+            param.type,
+          ),
+          Method.PATCH,
+          param.toV1Json(),
+        );
+        return ActionSuccess.fromJson(response);
+      } else {
+        final response = await _restClient.request(
+          Urls.updateModifierEnabledV2(param.type),
+          Method.PATCH,
+          param.toV2Json(),
+        );
+        return ActionSuccess.fromJson(response);
+      }
     } on DioException {
       rethrow;
     }

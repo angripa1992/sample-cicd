@@ -15,7 +15,7 @@ class AggregatorProvider {
   Future<List<Provider>> fetchProviders() async {
     if (_providers.isEmpty) {
       final ids = ListParam<int>(
-        SessionManager().currentUser().countryIds,
+        SessionManager().user().countryIds,
         ListFormat.csv,
       );
       final response =

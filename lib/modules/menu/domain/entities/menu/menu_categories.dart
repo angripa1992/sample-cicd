@@ -5,6 +5,7 @@ import 'menu_visibility.dart';
 import 'package:collection/collection.dart';
 
 class MenuCategory{
+  final int menuVersion;
   final int id;
   final String title;
   final String description;
@@ -16,6 +17,7 @@ class MenuCategory{
   List<MenuCategoryItem> items;
 
   MenuCategory({
+    required this.menuVersion,
     required this.id,
     required this.title,
     required this.description,

@@ -1,16 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_menu_enabled.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../app/session_manager.dart';
 
-class UpdateMenuCubit extends Cubit<ResponseState> {
-  final UpdateMenu _updateMenu;
+class UpdateMenuEnabledCubit extends Cubit<ResponseState> {
+  final UpdateMenuEnabled _updateMenu;
 
-  UpdateMenuCubit(this._updateMenu) : super(Empty());
+  UpdateMenuEnabledCubit(this._updateMenu) : super(Empty());
 
   void updateMenu({
+    required int menuVersion,
     required int brandId,
     required int id,
     required int type,
@@ -19,7 +20,9 @@ class UpdateMenuCubit extends Cubit<ResponseState> {
     emit(Loading());
     final response = await _updateMenu(
       UpdateMenuParams(
-        branchId: SessionManager().currentUserBranchId(),
+        menuVersion: menuVersion,
+        businessId: SessionManager().businessID(),
+        branchId: SessionManager().branchId(),
         brandId: brandId,
         enabled: enabled,
         id: id,
