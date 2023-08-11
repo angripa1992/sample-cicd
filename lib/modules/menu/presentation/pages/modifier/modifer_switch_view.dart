@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
@@ -78,15 +79,7 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
   }
 
   void _checkAffect(bool enabled) async {
-    if(widget.menuVersion == MenuVersion.v2){
-      _updateEnabled(
-        enabled: false,
-        affected: false,
-        itemsName: '',
-      );
-      return;
-    }
-    showLoadingSnackBar(context);
+    EasyLoading.show();
     final response = await context.read<CheckAffectedCubit>().checkAffect(
           menuVersion: widget.menuVersion,
           type: widget.type,
@@ -95,13 +88,12 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
           groupId: widget.groupId,
           modifierId: widget.modifierId,
         );
+    EasyLoading.dismiss();
     response.fold(
       (failure) {
-        dismissCurrentSnackBar(context);
         showApiErrorSnackBar(context, failure);
       },
       (data) {
-        dismissCurrentSnackBar(context);
         _updateEnabled(
           enabled: false,
           affected: data.affected,

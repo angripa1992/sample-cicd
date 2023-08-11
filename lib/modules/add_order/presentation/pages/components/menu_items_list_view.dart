@@ -19,7 +19,7 @@ import '../../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/add_to_cart_item.dart';
-import '../../../domain/entities/item_modifier_group.dart';
+import '../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../utils/modifier_manager.dart';
 import 'dropdown/select_categories_dropdown.dart';
 import 'menu_category_item_view.dart';
@@ -30,7 +30,7 @@ class MenuCategoryItemsListView extends StatefulWidget {
   final List<MenuCategory> categories;
   final VoidCallback onCartTap;
   final Function(AddToCartItem?) onAddToCart;
-  final Function(List<ItemModifierGroup>, MenuCategoryItem, MenuBrand)
+  final Function(List<AddOrderItemModifierGroup>, MenuCategoryItem, MenuBrand)
       onAddModifier;
 
   const MenuCategoryItemsListView({

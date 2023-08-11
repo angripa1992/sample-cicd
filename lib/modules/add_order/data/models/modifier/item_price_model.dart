@@ -1,14 +1,15 @@
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/domain/entities/item_price.dart';
 
-class ItemPriceModel {
+import '../../../domain/entities/modifier/item_price.dart';
+
+class AddOrderItemPriceModel {
   int? providerId;
   int? currencyId;
   String? code;
   String? symbol;
   num? price;
 
-  ItemPriceModel({
+  AddOrderItemPriceModel({
     this.providerId,
     this.currencyId,
     this.code,
@@ -16,7 +17,7 @@ class ItemPriceModel {
     this.price,
   });
 
-  ItemPriceModel.fromJson(Map<String, dynamic> json) {
+  AddOrderItemPriceModel.fromJson(Map<String, dynamic> json) {
     providerId = json['provider_id'];
     currencyId = json['currency_id'];
     code = json['code'];
@@ -34,13 +35,13 @@ class ItemPriceModel {
     return data;
   }
 
-  ItemPrice toEntity() {
-    return ItemPrice(
-      providerId: providerId.orZero(),
-      currencyId: currencyId.orZero(),
-      code: code.orEmpty(),
-      symbol: symbol.orEmpty(),
-      price: price ?? ZERO,
-    );
-  }
+  // AddOrderModifierItemPrice toEntity() {
+  //   return AddOrderModifierItemPrice(
+  //     providerId: providerId.orZero(),
+  //     currencyId: currencyId.orZero(),
+  //     code: code.orEmpty(),
+  //     symbol: symbol.orEmpty(),
+  //     price: price ?? ZERO,
+  //   );
+  // }
 }

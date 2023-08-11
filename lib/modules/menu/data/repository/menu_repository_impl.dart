@@ -17,8 +17,6 @@ import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/entities/modifier/modifier_group.dart';
 import '../../domain/usecase/fetch_menus.dart';
 import '../../domain/usecase/ftech_modifier_groups.dart';
-import '../mapper/mmv1_to_menu.dart';
-import '../mapper/mmv2_to_menu.dart';
 import '../mapper/modifierv1_to_modifier.dart';
 import '../mapper/modifierv2_to_modifier.dart';
 
@@ -47,13 +45,8 @@ class MenuRepositoryImpl extends MenuRepository {
   Future<Either<Failure, MenuData>> fetchMenuV1(FetchMenuParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        if (SessionManager().isMenuV2()) {
-          final response = await _datasource.fetchMenuV2(params);
-          return Right(mapMMV2toMenu(response));
-        } else {
-          final response = await _datasource.fetchMenuV1(params);
-          return Right(mapMMV1toMenu(response));
-        }
+        final response = await _datasource.fetchMenus(params);
+        return Right(response);
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
@@ -119,7 +112,7 @@ class MenuRepositoryImpl extends MenuRepository {
   ) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.disableModifier(params);
+        final response = await _datasource.verifyDisableAffect(params);
         return Right(response.toEntity());
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);

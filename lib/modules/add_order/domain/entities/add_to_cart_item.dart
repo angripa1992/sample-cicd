@@ -4,10 +4,10 @@ import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../data/models/applied_promo.dart';
-import 'item_modifier_group.dart';
+import 'modifier/item_modifier_group.dart';
 
 class AddToCartItem {
-  final List<ItemModifierGroup> modifiers;
+  final List<AddOrderItemModifierGroup> modifiers;
   final MenuCategoryItem item;
   final num modifiersPrice;
   final MenuItemPrice itemPrice;

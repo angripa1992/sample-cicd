@@ -6,8 +6,8 @@ import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../domain/entities/item_modifier.dart';
-import '../../../../domain/entities/item_modifier_group.dart';
+import '../../../../domain/entities/modifier/item_modifier.dart';
+import '../../../../domain/entities/modifier/item_modifier_group.dart';
 import 'item_counter.dart';
 import 'item_name_price_title.dart';
 import 'level_two_select_multiple_view.dart';
@@ -15,7 +15,7 @@ import 'level_two_select_one_view.dart';
 import 'modifier_group_info.dart';
 
 class LevelOneSelectMultipleView extends StatefulWidget {
-  final List<ItemModifier> modifiers;
+  final List<AddOrderItemModifier> modifiers;
   final VoidCallback onChanged;
 
   const LevelOneSelectMultipleView(
@@ -31,7 +31,7 @@ class _LevelOneSelectMultipleViewState
     extends State<LevelOneSelectMultipleView> {
   final Map<int, bool> _values = {};
   final Map<int, int> _counter = {};
-  final List<ItemModifier> _currentModifierList = [];
+  final List<AddOrderItemModifier> _currentModifierList = [];
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _LevelOneSelectMultipleViewState
     super.initState();
   }
 
-  void _onChanged(ItemModifier modifier, bool? value) {
+  void _onChanged(AddOrderItemModifier modifier, bool? value) {
     if (value != null) {
       setState(() {
         _values[modifier.id] = value;
@@ -64,7 +64,7 @@ class _LevelOneSelectMultipleViewState
     widget.onChanged();
   }
 
-  void _changeLevelTwoModifier(List<ItemModifierGroup> groups) {
+  void _changeLevelTwoModifier(List<AddOrderItemModifierGroup> groups) {
     for (var group in groups) {
       for (var modifier in group.modifiers) {
         modifier.isSelected = false;

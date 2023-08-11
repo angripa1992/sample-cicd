@@ -13,7 +13,7 @@ import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
-import '../../../../domain/entities/item_modifier_group.dart';
+import '../../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
 import 'add_to_cart_button_view.dart';
 import 'item_description_view.dart';
@@ -44,7 +44,7 @@ class _EditModifierViewState extends State<EditModifierView> {
   final _textEditingController = TextEditingController();
   final _enabled = ValueNotifier<bool>(true);
   final _price = ValueNotifier<num>(0);
-  late List<ItemModifierGroup> _groups;
+  late List<AddOrderItemModifierGroup> _groups;
   late MenuCategoryItem _item;
   late MenuBrand? _brand;
   late MenuItemPrice _itemPrice;

@@ -16,7 +16,7 @@ import '../../domain/entities/menu/menu_sections.dart';
 import '../models/v2_common_data_model.dart';
 
 MenuData mapMMV2toMenu(MenuV2DataModel menusData) {
-  final branchInfo = _v2ToMenuBranch(menusData.branchInfo!);
+  final branchInfo = _v2ToMenuBranch(menusData.branchInfo);
   final menuData = MenuData(
     branchInfo: branchInfo,
     sections: menusData.sections
@@ -27,19 +27,19 @@ MenuData mapMMV2toMenu(MenuV2DataModel menusData) {
   return menuData;
 }
 
-MenuBranchInfo _v2ToMenuBranch(MenuV2BranchInfo data) {
+MenuBranchInfo _v2ToMenuBranch(MenuV2BranchInfo? data) {
   return MenuBranchInfo(
-    businessID: data.businessID,
-    brandID: data.brandID,
-    branchID: data.branchID.orZero(),
-    countryID: data.countryID.orZero(),
-    currencyID: data.currencyID.orZero(),
-    startTime: data.startTime.orZero(),
-    endTime: data.endTime.orZero(),
-    availabilityMask: data.availabilityMask.orZero(),
-    providerIDs: data.providerIDs.orEmpty(),
-    languageCode: data.languageCode.orEmpty(),
-    currencyCode: data.currencyCode.orEmpty(),
+    businessID: data?.businessID,
+    brandID: data?.brandID,
+    branchID: data?.branchID ?? ZERO,
+    countryID: data?.countryID ?? ZERO,
+    currencyID: data?.currencyID ?? ZERO,
+    startTime: data?.startTime ?? ZERO,
+    endTime: data?.endTime ?? ZERO,
+    availabilityMask: data?.availabilityMask ?? ZERO,
+    providerIDs: data?.providerIDs ?? EMPTY,
+    languageCode: data?.languageCode ?? EMPTY,
+    currencyCode: data?.currencyCode.orEmpty(),
   );
 }
 
@@ -185,14 +185,16 @@ MenuItemPrice _v2ToMenuItemPrice(
   V2PriceModel data,
   MenuBranchInfo branchInfo,
 ) {
-  final v2PriceDetails = data.details?.first;
+  final v2PriceDetails = data.details!.firstWhere((element) =>
+      element.currencyCode!.toUpperCase() ==
+      branchInfo.currencyCode!.toUpperCase());
   return MenuItemPrice(
     providerId: data.providerID.orZero(),
     currencyId: branchInfo.currencyID.orZero(),
-    currencyCode: v2PriceDetails?.currencyCode ?? EMPTY,
-    currencySymbol: v2PriceDetails?.currencyCode ?? EMPTY,
-    price: v2PriceDetails?.price ?? ZERO,
-    takeAwayPrice: v2PriceDetails?.takeAwayPrice ?? ZERO,
+    currencyCode: v2PriceDetails.currencyCode ?? EMPTY,
+    currencySymbol: v2PriceDetails.currencyCode ?? EMPTY,
+    price: v2PriceDetails.price ?? ZERO,
+    takeAwayPrice: v2PriceDetails.takeAwayPrice ?? ZERO,
   );
 }
 

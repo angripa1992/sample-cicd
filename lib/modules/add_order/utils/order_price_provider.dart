@@ -1,10 +1,10 @@
-import 'package:klikit/modules/add_order/domain/entities/item_price.dart';
 
 import '../../../app/constants.dart';
 import '../../../core/utils/price_calculator.dart';
+import '../domain/entities/modifier/item_price.dart';
 
 class OrderPriceProvider {
-  static String modifierPrice(List<ItemPrice> prices) {
+  static String modifierPrice(List<AddOrderModifierItemPrice> prices) {
     final price = prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
     final priceStr = PriceCalculator.formatPrice(
       price: price.price,

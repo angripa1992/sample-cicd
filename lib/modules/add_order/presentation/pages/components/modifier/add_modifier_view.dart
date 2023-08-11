@@ -9,7 +9,7 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
-import '../../../../domain/entities/item_modifier_group.dart';
+import '../../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
 import 'add_to_cart_button_view.dart';
 import 'item_description_view.dart';
@@ -19,7 +19,7 @@ import 'modifier_group_info.dart';
 import 'modifier_header_view.dart';
 
 class AddModifierView extends StatefulWidget {
-  final List<ItemModifierGroup> groups;
+  final List<AddOrderItemModifierGroup> groups;
   final MenuCategoryItem item;
   final MenuBrand brand;
   final Function(AddToCartItem?) onClose;

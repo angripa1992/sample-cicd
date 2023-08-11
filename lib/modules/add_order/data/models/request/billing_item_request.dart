@@ -1,28 +1,28 @@
-import 'package:klikit/modules/add_order/data/models/title_v2.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/title_v2_model.dart';
 
 import '../applied_promo.dart';
 import 'billing_item_modifier_group_request.dart';
 import 'item_brand_request.dart';
-import '../item_price.dart';
-import '../item_status.dart';
-import '../item_stock.dart';
+import '../modifier/item_price_model.dart';
+import '../modifier/item_status_model.dart';
+import '../modifier/item_stock_model.dart';
 
 class BillingItemRequestModel {
   int? id;
   String? title;
-  List<ItemPriceModel>? prices;
+  List<AddOrderItemPriceModel>? prices;
   int? vat;
   String? description;
   String? skuId;
   String? image;
   bool? enabled;
   bool? hidden;
-  List<ItemStatusModel>? statuses;
+  List<AddOrderItemStatusModel>? statuses;
   int? sequence;
   int? defaultItemId;
-  ItemStockModel? stock;
-  TitleV2Model? titleV2;
-  TitleV2Model? descriptionV2;
+  AddOrderItemStockModel? stock;
+  AddOrderTitleV2Model? titleV2;
+  AddOrderTitleV2Model? descriptionV2;
   String? cartId;
   int? itemId;
   num? unitPrice;

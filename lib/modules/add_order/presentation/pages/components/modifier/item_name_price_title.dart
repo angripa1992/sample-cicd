@@ -4,12 +4,12 @@ import 'package:klikit/app/size_config.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
-import '../../../../domain/entities/item_price.dart';
+import '../../../../domain/entities/modifier/item_price.dart';
 import '../../../../utils/order_price_provider.dart';
 
 class ItemNamePriceTitle extends StatelessWidget {
   final String name;
-  final List<ItemPrice> prices;
+  final List<AddOrderModifierItemPrice> prices;
   const ItemNamePriceTitle({Key? key, required this.name, required this.prices}) : super(key: key);
 
   @override

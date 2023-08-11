@@ -1,5 +1,5 @@
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/domain/entities/modifier_rule.dart';
+import 'package:klikit/modules/add_order/domain/entities/modifier/modifier_rule.dart';
 
 class ModifierRuleModel {
   int? id;
@@ -42,15 +42,15 @@ class ModifierRuleModel {
     return data;
   }
 
-  ModifierRule toEntity() {
-    return ModifierRule(
-      id: id.orZero(),
-      title: title.orEmpty(),
-      typeTitle: typeTitle.orEmpty(),
-      value: value.orZero(),
-      brandId: brandId.orZero(),
-      min: min.orZero(),
-      max: max.orZero(),
-    );
-  }
+  // AddOrderItemModifierRule toEntity() {
+  //   return AddOrderItemModifierRule(
+  //     id: id.orZero(),
+  //     title: title.orEmpty(),
+  //     typeTitle: typeTitle.orEmpty(),
+  //     value: value.orZero(),
+  //     brandId: brandId.orZero(),
+  //     min: min.orZero(),
+  //     max: max.orZero(),
+  //   );
+  // }
 }

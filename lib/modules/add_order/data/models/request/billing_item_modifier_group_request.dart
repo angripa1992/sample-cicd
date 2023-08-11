@@ -1,8 +1,8 @@
-import 'package:klikit/modules/add_order/data/models/title_v2.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/title_v2_model.dart';
 
 import 'billing_item_modifier_request.dart';
-import '../item_status.dart';
-import '../modifier_rule.dart';
+import '../modifier/item_status_model.dart';
+import '../modifier/modifier_rule.dart';
 
 class BillingItemModifierGroupRequestModel{
   int? groupId;
@@ -10,8 +10,8 @@ class BillingItemModifierGroupRequestModel{
   String? label;
   int? brandId;
   int? sequence;
-  TitleV2Model? titleV2;
-  List<ItemStatusModel>? statuses;
+  AddOrderTitleV2Model? titleV2;
+  List<AddOrderItemStatusModel>? statuses;
   ModifierRuleModel? rule;
   List<BillingItemModifierRequestModel>? modifiers;
 
@@ -33,12 +33,12 @@ class BillingItemModifierGroupRequestModel{
     brandId = json['brand_id'];
     sequence = json['sequence'];
     titleV2 = json['title_v2'] != null
-        ? TitleV2Model.fromJson(json['title_v2'])
+        ? AddOrderTitleV2Model.fromJson(json['title_v2'])
         : null;
     if (json['statuses'] != null) {
-      statuses = <ItemStatusModel>[];
+      statuses = <AddOrderItemStatusModel>[];
       json['statuses'].forEach((v) {
-        statuses!.add(ItemStatusModel.fromJson(v));
+        statuses!.add(AddOrderItemStatusModel.fromJson(v));
       });
     }
     rule = json['rule'] != null ?  ModifierRuleModel.fromJson(json['rule']) : null;

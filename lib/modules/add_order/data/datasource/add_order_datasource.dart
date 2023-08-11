@@ -5,14 +5,14 @@ import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
 import '../models/applied_promo.dart';
 import '../models/billing_response.dart';
-import '../models/item_modifier_group.dart';
+import '../models/modifier/item_modifier_group_model.dart';
 import '../models/order_source.dart';
 import '../models/placed_order_response.dart';
 import '../models/request/billing_request.dart';
 import '../models/request/place_order_data_request.dart';
 
 abstract class AddOrderDatasource {
-  Future<List<ItemModifierGroupModel>> fetchModifiers({required int itemId});
+  Future<List<AddOrderItemModifierGroupModel>> fetchModifiers({required int itemId});
 
   Future<CartBillModel> calculateBill({required BillingRequestModel model});
 
@@ -29,7 +29,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   AddOrderDatasourceImpl(this._restClient);
 
   @override
-  Future<List<ItemModifierGroupModel>> fetchModifiers(
+  Future<List<AddOrderItemModifierGroupModel>> fetchModifiers(
       {required int itemId}) async {
     try {
       List<dynamic>? response = await _restClient.request(
@@ -38,7 +38,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         {'item_id': itemId},
       );
       return response
-              ?.map((e) => ItemModifierGroupModel.fromJson(e))
+              ?.map((e) => AddOrderItemModifierGroupModel.fromJson(e))
               .toList() ??
           [];
     } on DioException {

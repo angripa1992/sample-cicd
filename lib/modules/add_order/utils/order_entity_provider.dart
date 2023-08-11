@@ -1,11 +1,11 @@
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/data/models/item_price.dart';
-import 'package:klikit/modules/add_order/data/models/item_status.dart';
-import 'package:klikit/modules/add_order/data/models/item_stock.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/item_price_model.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/item_status_model.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/item_stock_model.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/title_v2_model.dart';
 import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_group_request.dart';
 import 'package:klikit/modules/add_order/data/models/request/billing_item_request.dart';
 import 'package:klikit/modules/add_order/data/models/request/item_brand_request.dart';
-import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
@@ -18,8 +18,8 @@ import '../data/models/request/billing_item_modifier_request.dart';
 import '../data/models/request/billing_request.dart';
 import '../data/models/request/place_order_data_request.dart';
 import '../domain/entities/billing_response.dart';
-import '../domain/entities/item_modifier.dart';
-import '../domain/entities/item_modifier_group.dart';
+import '../domain/entities/modifier/item_modifier.dart';
+import '../domain/entities/modifier/item_modifier_group.dart';
 import 'cart_manager.dart';
 import 'modifier_manager.dart';
 
@@ -113,9 +113,9 @@ class OrderEntityProvider {
       itemId: item.id,
       defaultItemId: item.defaultItemId,
       title: item.title,
-      titleV2: TitleV2Model(en: item.title),
+      titleV2: AddOrderTitleV2Model(en: item.title),
       description: item.description,
-      descriptionV2: TitleV2Model(en: item.description),
+      descriptionV2: AddOrderTitleV2Model(en: item.description),
       image: item.image,
       quantity: cartItem.quantity,
       sequence: item.sequence,
@@ -140,7 +140,7 @@ class OrderEntityProvider {
   }
 
   BillingItemModifierGroupRequestModel cartToBillingModifierGroup(
-    ItemModifierGroup group,
+    AddOrderItemModifierGroup group,
     List<BillingItemModifierRequestModel> modifiers,
   ) =>
       BillingItemModifierGroupRequestModel(
@@ -149,13 +149,14 @@ class OrderEntityProvider {
         label: group.label,
         brandId: group.brandId,
         sequence: group.sequence,
-        statuses: group.statuses.map((e) => e.toModel()).toList(),
+        statuses:
+            group.visibilities.map((e) => e.toModel(group.enabled)).toList(),
         rule: group.rule.toModel(),
         modifiers: modifiers,
       );
 
   BillingItemModifierRequestModel cartToBillingModifier(
-    ItemModifier modifier,
+    AddOrderItemModifier modifier,
     List<BillingItemModifierGroupRequestModel> groups,
   ) =>
       BillingItemModifierRequestModel(
@@ -163,8 +164,10 @@ class OrderEntityProvider {
         modifierId: modifier.modifierId,
         immgId: modifier.immgId,
         title: modifier.title,
-        titleV2: TitleV2Model(en: modifier.title),
-        statuses: modifier.statuses.map((e) => e.toModel()).toList(),
+        titleV2: AddOrderTitleV2Model(en: modifier.title),
+        statuses: modifier.visibilities
+            .map((e) => e.toModel(modifier.enabled))
+            .toList(),
         prices: modifier.prices.map((e) => e.toModel()).toList(),
         groups: groups,
         isSelected: modifier.isSelected,
@@ -174,24 +177,28 @@ class OrderEntityProvider {
             .price,
       );
 
-  ItemStockModel _stockModel(MenuOutOfStock stock) => ItemStockModel(
+  AddOrderItemStockModel _stockModel(MenuOutOfStock stock) =>
+      AddOrderItemStockModel(
         available: stock.available,
         snooze: _snoozeModel(stock.menuSnooze),
       );
 
-  ItemSnoozeModel _snoozeModel(MenuSnooze snooze) => ItemSnoozeModel(
+  AddOrderItemSnoozeModel _snoozeModel(MenuSnooze snooze) =>
+      AddOrderItemSnoozeModel(
         endTime: snooze.endTime,
         duration: snooze.duration,
       );
 
-  ItemStatusModel _statusModel(bool enabled, MenuVisibility visibility) =>
-      ItemStatusModel(
+  AddOrderItemStatusModel _statusModel(
+          bool enabled, MenuVisibility visibility) =>
+      AddOrderItemStatusModel(
         providerId: visibility.providerID,
         enabled: enabled,
         hidden: visibility.visible,
       );
 
-  ItemPriceModel _priceModel(MenuItemPrice price) => ItemPriceModel(
+  AddOrderItemPriceModel _priceModel(MenuItemPrice price) =>
+      AddOrderItemPriceModel(
         providerId: price.providerId,
         currencyId: price.currencyId,
         code: price.currencyCode,

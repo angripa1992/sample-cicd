@@ -50,4 +50,16 @@ class ModifierRequestModel {
     }
     return data;
   }
+
+  Map<String, dynamic> toV2VerifyDisableRequestJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['businessID'] = businessId;
+    data['brandID'] = brandId;
+    data['branchID'] = branchId;
+    data['groupID'] = groupId;
+    if(type == ModifierType.MODIFIER){
+      data['modifierID'] = modifierId;
+    }
+    return data;
+  }
 }

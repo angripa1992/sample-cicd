@@ -1,9 +1,9 @@
-class TitleV2Model {
+class AddOrderTitleV2Model {
   String? en;
 
-  TitleV2Model({this.en});
+  AddOrderTitleV2Model({this.en});
 
-  TitleV2Model.fromJson(Map<String, dynamic> json) {
+  AddOrderTitleV2Model.fromJson(Map<String, dynamic> json) {
     en = json['en'];
   }
 

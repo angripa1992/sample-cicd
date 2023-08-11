@@ -8,11 +8,11 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../domain/entities/modifier_rule.dart';
+import '../../../../domain/entities/modifier/modifier_rule.dart';
 
 class ModifierGroupInfo extends StatelessWidget {
   final String title;
-  final ModifierRule rule;
+  final AddOrderItemModifierRule rule;
 
   const ModifierGroupInfo({Key? key, required this.title, required this.rule})
       : super(key: key);

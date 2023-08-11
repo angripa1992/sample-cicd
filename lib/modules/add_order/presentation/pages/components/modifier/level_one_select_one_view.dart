@@ -1,20 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/add_order/domain/entities/item_modifier_group.dart';
+import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier_group.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../domain/entities/item_modifier.dart';
+import '../../../../domain/entities/modifier/item_modifier.dart';
 import 'item_name_price_title.dart';
 import 'level_two_select_multiple_view.dart';
 import 'level_two_select_one_view.dart';
 import 'modifier_group_info.dart';
 
 class LevelOneSelectOneView extends StatefulWidget {
-  final List<ItemModifier> modifiers;
+  final List<AddOrderItemModifier> modifiers;
   final VoidCallback onChanged;
 
   const LevelOneSelectOneView(
@@ -27,7 +27,7 @@ class LevelOneSelectOneView extends StatefulWidget {
 
 class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
   int? _currentModifierId;
-  ItemModifier? _currentModifier;
+  AddOrderItemModifier? _currentModifier;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
     }
   }
 
-  void _changeLevelTwoModifier(List<ItemModifierGroup> groups) {
+  void _changeLevelTwoModifier(List<AddOrderItemModifierGroup> groups) {
     for (var group in groups) {
       for (var modifier in group.modifiers) {
         modifier.isSelected = false;

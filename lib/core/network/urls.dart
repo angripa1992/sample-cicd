@@ -46,6 +46,7 @@ class Urls {
   static const String itmModifiers = '/v1/menu/item-modifiers';
 
   static String checkAffect(int id, int type) => '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/verify/disabled';
+  static String checkAffectV2 = '/v1/menu-v2/nma/store/groups/verify/disabled';
 
   static String updateModifierEnabled(int id, int type) => '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/enabled';
   static String updateModifierEnabledV2(int type) => '/v1/menu-v2/modifier-groups${type == ModifierType.MODIFIER ? '/modifiers' : ''}/enable';

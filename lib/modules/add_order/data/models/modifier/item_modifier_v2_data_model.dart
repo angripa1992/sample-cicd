@@ -13,6 +13,7 @@ class V2ItemModifierGroupModel {
   bool? enabled;
   int? min;
   int? max;
+  List<V2VisibilityModel>? visibilities;
   List<V2ItemModifierModel>? modifiers;
 
   V2ItemModifierGroupModel({
@@ -23,6 +24,7 @@ class V2ItemModifierGroupModel {
     this.enabled,
     this.min,
     this.max,
+    this.visibilities,
     this.modifiers,
   });
 

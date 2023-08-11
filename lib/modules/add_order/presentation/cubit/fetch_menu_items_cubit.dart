@@ -4,7 +4,6 @@ import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 
-import '../../../../core/provider/date_time_provider.dart';
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../menu/domain/entities/menu/menu_item.dart';
@@ -40,7 +39,9 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
     for (var section in sections) {
       if (section.enabled && section.visible(ProviderID.KLIKIT)) {
         for (var category in section.categories) {
-          if (category.enabled && category.visible(ProviderID.KLIKIT) && category.items.isNotEmpty) {
+          if (category.enabled &&
+              category.visible(ProviderID.KLIKIT) &&
+              category.items.isNotEmpty) {
             final categoryItems = <MenuCategoryItem>[];
             for (var item in category.items) {
               if (item.visible(ProviderID.KLIKIT)) {

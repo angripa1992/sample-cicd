@@ -16,7 +16,7 @@ import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../../widgets/snackbars.dart';
-import '../../domain/entities/item_modifier_group.dart';
+import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
 import '../cubit/calculate_bill_cubit.dart';
 import '../cubit/place_order_cubit.dart';
@@ -204,7 +204,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   }
 
   void _addModifier({
-    required List<ItemModifierGroup> groups,
+    required List<AddOrderItemModifierGroup> groups,
     required MenuCategoryItem item,
     required MenuBrand brand,
   }) {

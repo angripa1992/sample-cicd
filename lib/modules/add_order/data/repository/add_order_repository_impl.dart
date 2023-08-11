@@ -1,17 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
+import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/data/models/request/billing_request.dart';
 import 'package:klikit/modules/add_order/data/models/request/place_order_data_request.dart';
-import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
-import 'package:klikit/modules/add_order/domain/entities/item_modifier_group.dart';
+import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier_group.dart';
 import 'package:klikit/modules/add_order/domain/entities/order_source.dart';
 
 import '../../../../core/network/error_handler.dart';
 import '../../../../core/network/network_connectivity.dart';
 import '../../data/datasource/add_order_datasource.dart';
 import '../../domain/repository/add_order_repository.dart';
+import '../mapper/v1_modifier_to_modifier.dart';
 
 class AddOrderRepositoryImpl extends AddOrderRepository {
   final AddOrderDatasource _datasource;
@@ -20,12 +21,12 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   AddOrderRepositoryImpl(this._datasource, this._connectivity);
 
   @override
-  Future<Either<Failure, List<ItemModifierGroup>>> fetchModifiers(
+  Future<Either<Failure, List<AddOrderItemModifierGroup>>> fetchModifiers(
       {required int itemId}) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchModifiers(itemId: itemId);
-        return Right(response.map((e) => e.toEntity()).toList());
+        return Right(mapAddOrderV1ModifierToModifier(response));
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

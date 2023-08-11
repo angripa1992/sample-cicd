@@ -1,6 +1,6 @@
-import '../../data/models/modifier_rule.dart';
+import '../../../data/models/modifier/modifier_rule.dart';
 
-class ModifierRule {
+class AddOrderItemModifierRule {
   final int id;
   final String title;
   final String typeTitle;
@@ -9,7 +9,7 @@ class ModifierRule {
   final int min;
   final int max;
 
-  ModifierRule({
+  AddOrderItemModifierRule({
     required this.id,
     required this.title,
     required this.typeTitle,
@@ -19,7 +19,7 @@ class ModifierRule {
     required this.max,
   });
 
-  ModifierRule copy() => ModifierRule(
+  AddOrderItemModifierRule copy() => AddOrderItemModifierRule(
         id: id,
         title: title,
         typeTitle: typeTitle,

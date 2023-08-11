@@ -6,13 +6,13 @@ import '../../../app/constants.dart';
 import '../../../app/extensions.dart';
 import '../../../app/session_manager.dart';
 import '../../add_order/data/datasource/add_order_datasource.dart';
+import '../../add_order/data/mapper/v1_modifier_to_modifier.dart';
 import '../../add_order/data/models/applied_promo.dart';
 import '../../add_order/domain/entities/add_to_cart_item.dart';
-import '../../add_order/domain/entities/item_modifier_group.dart';
+import '../../add_order/domain/entities/modifier/item_modifier_group.dart';
 import '../../add_order/utils/cart_manager.dart';
 import '../../add_order/utils/modifier_manager.dart';
 import '../../menu/data/datasource/menu_remote_datasource.dart';
-import '../../menu/data/mapper/mmv1_to_menu.dart';
 import '../../menu/domain/entities/brand.dart';
 import '../../menu/domain/entities/menu/menu_item.dart';
 import '../data/models/order_applied_promo.dart';
@@ -200,7 +200,7 @@ class UpdateManualOrderDataProvider {
     required int providerId,
   }) async {
     try {
-      final menusItemsResponse = await _menuRemoteDatasource.fetchMenuV1(
+      final menusItemsResponse = await _menuRemoteDatasource.fetchMenus(
         FetchMenuParams(
           businessId: SessionManager().user().businessId,
           branchId: branchId,
@@ -208,8 +208,7 @@ class UpdateManualOrderDataProvider {
           providerID: providerId,
         ),
       );
-      final mappedMenuData = mapMMV1toMenu(menusItemsResponse);
-      for (var section in mappedMenuData.sections) {
+      for (var section in menusItemsResponse.sections) {
         for (var category in section.categories) {
           for (var item in category.items) {
             if (item.id.toString() == itemId) {
@@ -224,11 +223,11 @@ class UpdateManualOrderDataProvider {
     }
   }
 
-  Future<List<ItemModifierGroup>> _fetchModifiers(CartV2 cartV2) async {
+  Future<List<AddOrderItemModifierGroup>> _fetchModifiers(CartV2 cartV2) async {
     try {
       final modifierGroupsResponse = await _addOrderDatasource.fetchModifiers(
           itemId: int.parse(cartV2.id));
-      final groups = modifierGroupsResponse.map((e) => e.toEntity()).toList();
+      final groups = mapAddOrderV1ModifierToModifier(modifierGroupsResponse);
       for (var modifierGroupOne in cartV2.modifierGroups) {
         final groupLevelOne = groups.firstWhereOrNull(
             (element) => element.groupId.toString() == modifierGroupOne.id);
