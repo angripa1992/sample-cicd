@@ -46,17 +46,4 @@ class AddOrderItemModifierGroupModel {
       });
     }
   }
-
-  // AddOrderItemModifierGroup toEntity() {
-  //   return AddOrderItemModifierGroup(
-  //     groupId: groupId.orZero(),
-  //     title: title.orEmpty(),
-  //     label: label.orEmpty(),
-  //     brandId: brandId.orZero(),
-  //     sequence: sequence.orZero(),
-  //     statuses: statuses?.map((e) => e.toEntity()).toList() ?? [],
-  //     rule: rule?.toEntity() ?? ModifierRuleModel().toEntity(),
-  //     modifiers: modifiers?.map((e) => e.toEntity()).toList() ?? [],
-  //   );
-  // }
 }

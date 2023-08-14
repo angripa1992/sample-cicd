@@ -7,6 +7,7 @@ import 'package:klikit/modules/add_order/data/models/request/place_order_data_re
 import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier_group.dart';
 import 'package:klikit/modules/add_order/domain/entities/order_source.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
 
 import '../../../../core/network/error_handler.dart';
 import '../../../../core/network/network_connectivity.dart';
@@ -21,12 +22,17 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   AddOrderRepositoryImpl(this._datasource, this._connectivity);
 
   @override
-  Future<Either<Failure, List<AddOrderItemModifierGroup>>> fetchModifiers(
-      {required int itemId}) async {
+  Future<Either<Failure, List<AddOrderItemModifierGroup>>> fetchModifiers({
+    required int itemId,
+    required MenuBranchInfo branchInfo,
+  }) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchModifiers(itemId: itemId);
-        return Right(mapAddOrderV1ModifierToModifier(response));
+        final response = await _datasource.fetchModifiers(
+          itemID: itemId,
+          branchInfo: branchInfo,
+        );
+        return Right(response);
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

@@ -12,12 +12,13 @@ import '../models/modifier/item_price_model.dart';
 import '../models/modifier/item_status_model.dart';
 import '../models/modifier/modifier_rule.dart';
 
-List<AddOrderItemModifierGroup> mapAddOrderV1ModifierToModifier(List<AddOrderItemModifierGroupModel>? data){
+List<AddOrderItemModifierGroup> mapAddOrderV1ModifierToModifier(
+    List<AddOrderItemModifierGroupModel>? data) {
   return data?.map((e) => _v1ToModifierGroup(e)).toList() ?? [];
 }
 
 AddOrderItemModifierGroup _v1ToModifierGroup(
-  AddOrderItemModifierGroupModel data
+  AddOrderItemModifierGroupModel data,
 ) {
   return AddOrderItemModifierGroup(
     groupId: data.groupId.orZero(),
@@ -59,11 +60,6 @@ AddOrderModifierItemVisibility _v1ToModifierVisibility(
 
 AddOrderItemModifierRule _v1ToModifierRule(ModifierRuleModel? data) {
   return AddOrderItemModifierRule(
-    id: data?.id ?? ZERO,
-    title: data?.title ?? EMPTY,
-    typeTitle: data?.typeTitle ?? EMPTY,
-    value: data?.value ?? ZERO,
-    brandId: data?.brandId ?? ZERO,
     min: data?.min ?? ZERO,
     max: data?.max ?? ZERO,
   );

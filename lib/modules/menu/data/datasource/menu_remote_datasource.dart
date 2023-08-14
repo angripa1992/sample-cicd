@@ -92,7 +92,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
                   branchInfo: null,
                   sections: null,
                 )
-              : response,
+              : MenuV2DataModel.fromJson(response),
         );
       } else {
         final fetchParams = <String, dynamic>{

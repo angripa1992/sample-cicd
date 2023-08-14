@@ -13,13 +13,13 @@ class ModifierManager {
   ModifierManager._internal();
 
   void removeDisabledModifier(List<AddOrderItemModifierGroup> groups) {
-    groups.removeWhere((element) => element.enabled);
+    groups.removeWhere((element) => !element.enabled);
     for (var firstGroups in groups) {
-      firstGroups.modifiers.removeWhere((element) => element.enabled);
+      firstGroups.modifiers.removeWhere((element) => !element.enabled);
       for (var firstModifier in firstGroups.modifiers) {
-        firstModifier.groups.removeWhere((element) => element.enabled);
+        firstModifier.groups.removeWhere((element) => !element.enabled);
         for (var secondGroup in firstModifier.groups) {
-          secondGroup.modifiers.removeWhere((element) => element.enabled);
+          secondGroup.modifiers.removeWhere((element) => !element.enabled);
         }
       }
     }
@@ -57,11 +57,9 @@ class ModifierManager {
     final rule = group.rule;
     // debugPrint('${group.title} ->  rule -> value = ${rule.value} -> min = ${rule.min} -> max = ${rule.max} -> quantity = $quantity');
 
-    if (rule.value > 0 && rule.value == quantity) {
+    if (rule.min == rule.max && rule.max == quantity) {
       return true;
-    } else if (rule.value == 0 &&
-        rule.min <= quantity &&
-        rule.max >= quantity) {
+    } else if (rule.min <= quantity && rule.max >= quantity) {
       return true;
     } else {
       return false;

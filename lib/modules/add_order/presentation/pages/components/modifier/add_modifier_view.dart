@@ -132,8 +132,7 @@ class _AddModifierViewState extends State<AddModifierView> {
                               title: group.title,
                               rule: group.rule,
                             ),
-                            (group.rule.typeTitle == RuleType.exact &&
-                                    group.rule.value == 1)
+                            ((group.rule.min == group.rule.max) && group.rule.max == 1)
                                 ? LevelOneSelectOneView(
                                     modifiers: group.modifiers,
                                     onChanged: _onChanged,

@@ -1,3 +1,4 @@
+import 'menu_branch_info.dart';
 import 'menu_item.dart';
 import 'menu_available_times.dart';
 import 'menu_visibility.dart';
@@ -13,6 +14,7 @@ class MenuCategory{
   final bool alcBeverages;
   final int sequence;
   final MenuAvailableTimes availableTimes;
+  final MenuBranchInfo branchInfo;
   bool enabled;
   List<MenuCategoryItem> items;
 
@@ -27,6 +29,7 @@ class MenuCategory{
     required this.sequence,
     required this.items,
     required this.availableTimes,
+    required this.branchInfo,
   });
 
   bool visible(int providerID) {

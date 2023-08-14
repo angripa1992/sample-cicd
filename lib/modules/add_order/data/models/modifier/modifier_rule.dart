@@ -1,6 +1,3 @@
-import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/domain/entities/modifier/modifier_rule.dart';
-
 class ModifierRuleModel {
   int? id;
   String? title;
@@ -32,25 +29,8 @@ class ModifierRuleModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = id;
-    data['title'] = title;
-    data['type_title'] = typeTitle;
-    data['value'] = value;
-    data['brand_id'] = brandId;
     data['min'] = min;
     data['max'] = max;
     return data;
   }
-
-  // AddOrderItemModifierRule toEntity() {
-  //   return AddOrderItemModifierRule(
-  //     id: id.orZero(),
-  //     title: title.orEmpty(),
-  //     typeTitle: typeTitle.orEmpty(),
-  //     value: value.orZero(),
-  //     brandId: brandId.orZero(),
-  //     min: min.orZero(),
-  //     max: max.orZero(),
-  //   );
-  // }
 }

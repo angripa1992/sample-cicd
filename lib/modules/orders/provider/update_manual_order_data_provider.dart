@@ -6,7 +6,6 @@ import '../../../app/constants.dart';
 import '../../../app/extensions.dart';
 import '../../../app/session_manager.dart';
 import '../../add_order/data/datasource/add_order_datasource.dart';
-import '../../add_order/data/mapper/v1_modifier_to_modifier.dart';
 import '../../add_order/data/models/applied_promo.dart';
 import '../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../add_order/domain/entities/modifier/item_modifier_group.dart';
@@ -14,6 +13,7 @@ import '../../add_order/utils/cart_manager.dart';
 import '../../add_order/utils/modifier_manager.dart';
 import '../../menu/data/datasource/menu_remote_datasource.dart';
 import '../../menu/domain/entities/brand.dart';
+import '../../menu/domain/entities/menu/menu_branch_info.dart';
 import '../../menu/domain/entities/menu/menu_item.dart';
 import '../data/models/order_applied_promo.dart';
 import '../domain/entities/cart.dart';
@@ -51,16 +51,12 @@ class UpdateManualOrderDataProvider {
   }
 
   Future<List<AddToCartItem>> _generateCartItem(
-      Order order, List<AppliedPromo> promos) async {
+    Order order,
+    List<AppliedPromo> promos,
+  ) async {
     try {
       List<AddToCartItem> carts = [];
       for (var cartv2 in order.cartV2) {
-        final modifierGroups = await _fetchModifiers(cartv2);
-        final brand = await _fetchMenuBrand(
-          brandId: cartv2.cartBrand.id,
-          branchId: order.branchId,
-        );
-
         final menuItemOrNull = await _fetchMenuItem(
           itemId: cartv2.id,
           brandId: cartv2.cartBrand.id,
@@ -68,6 +64,14 @@ class UpdateManualOrderDataProvider {
           providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
+          final modifierGroups = await _fetchModifiers(
+            cartv2,
+            menuItemOrNull.branchInfo,
+          );
+          final brand = await _fetchMenuBrand(
+            brandId: cartv2.cartBrand.id,
+            branchId: order.branchId,
+          );
           final modifiersPrice =
               await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
@@ -223,11 +227,15 @@ class UpdateManualOrderDataProvider {
     }
   }
 
-  Future<List<AddOrderItemModifierGroup>> _fetchModifiers(CartV2 cartV2) async {
+  Future<List<AddOrderItemModifierGroup>> _fetchModifiers(
+    CartV2 cartV2,
+    MenuBranchInfo branchInfo,
+  ) async {
     try {
-      final modifierGroupsResponse = await _addOrderDatasource.fetchModifiers(
-          itemId: int.parse(cartV2.id));
-      final groups = mapAddOrderV1ModifierToModifier(modifierGroupsResponse);
+      final groups = await _addOrderDatasource.fetchModifiers(
+        itemID: int.parse(cartV2.id),
+        branchInfo: branchInfo,
+      );
       for (var modifierGroupOne in cartV2.modifierGroups) {
         final groupLevelOne = groups.firstWhereOrNull(
             (element) => element.groupId.toString() == modifierGroupOne.id);

@@ -49,6 +49,7 @@ MenuSection _v2ToMenuSection(
 ) {
   final menuAvailableTimes = _v2ToMenuAvailableTimes(data.availableTimes!);
   return MenuSection(
+    branchInfo: branchInfo,
     menuVersion: MenuVersion.v2,
     id: data.id.orZero(),
     title: data.title?.en ?? EMPTY,
@@ -72,6 +73,7 @@ MenuCategory _v2ToMenuCategory(
   MenuBranchInfo branchInfo,
 ) {
   return MenuCategory(
+    branchInfo: branchInfo,
     menuVersion: MenuVersion.v2,
     id: data.id.orZero(),
     title: data.title?.en ?? EMPTY,
@@ -96,6 +98,7 @@ MenuCategoryItem _v2ToMenuCategoryItem(
   MenuBranchInfo branchInfo,
 ) {
   return MenuCategoryItem(
+    branchInfo: branchInfo,
     menuVersion: MenuVersion.v2,
     id: data.id.orZero(),
     defaultItemId: data.id.orZero(),

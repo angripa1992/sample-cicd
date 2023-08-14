@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
-import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
@@ -17,19 +16,19 @@ class ModifierGroupInfo extends StatelessWidget {
   const ModifierGroupInfo({Key? key, required this.title, required this.rule})
       : super(key: key);
 
-  String _ruleTitle(){
-    final optional = rule.value == 0 && rule.min == 0;
-    if(optional){
+  String _ruleTitle() {
+    final optional = rule.min == 0;
+    if (optional) {
       return '${AppStrings.choose_upto.tr()} ${rule.max}';
-    }else if(rule.typeTitle == RuleType.exact){
-      return '${AppStrings.choose.tr()} ${rule.value}';
+    } else if (rule.min == rule.max) {
+      return '${AppStrings.choose.tr()} ${rule.min}';
     }
     return '${AppStrings.choose.tr()} ${rule.min} - ${rule.max}';
   }
 
   @override
   Widget build(BuildContext context) {
-    final isOptional = rule.value == 0 && rule.min == 0;
+    final isOptional = rule.min == 0;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -62,8 +61,9 @@ class ModifierGroupInfo extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-                      color:
-                          isOptional ? AppColors.lightGrey : AppColors.blueChalk,
+                      color: isOptional
+                          ? AppColors.lightGrey
+                          : AppColors.blueChalk,
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -71,7 +71,9 @@ class ModifierGroupInfo extends StatelessWidget {
                         horizontal: AppSize.s8.rw,
                       ),
                       child: Text(
-                        isOptional ? AppStrings.optional.tr() : AppStrings.required.tr(),
+                        isOptional
+                            ? AppStrings.optional.tr()
+                            : AppStrings.required.tr(),
                         style: regularTextStyle(
                           color: isOptional
                               ? AppColors.smokeyGrey

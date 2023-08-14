@@ -61,7 +61,10 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
 
   void _fetchModifier(MenuCategoryItem item) async {
     EasyLoading.show();
-    final response = await _addOrderRepository.fetchModifiers(itemId: item.id);
+    final response = await _addOrderRepository.fetchModifiers(
+      itemId: item.id,
+      branchInfo: item.branchInfo,
+    );
     response.fold(
       (failure) {
         EasyLoading.dismiss();

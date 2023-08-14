@@ -17,7 +17,10 @@ MenuData mapMMV1toMenu(MenuV1MenusDataModel menusData) {
   final branchInfo = _menuV1dataToMenuBranchInfo(menusData.branchInfo!);
   final menuData = MenuData(
     branchInfo: branchInfo,
-    sections: menusData.sections?.map((e) => _menuV1SectionsToMenuSections(e)).toList() ?? [],
+    sections: menusData.sections
+            ?.map((e) => _menuV1SectionsToMenuSections(e,branchInfo))
+            .toList() ??
+        [],
   );
   return menuData;
 }
@@ -38,10 +41,14 @@ MenuBranchInfo _menuV1dataToMenuBranchInfo(MenuV1BranchInfo data) {
   );
 }
 
-MenuSection _menuV1SectionsToMenuSections(MenuV1SectionsModel data) {
+MenuSection _menuV1SectionsToMenuSections(
+  MenuV1SectionsModel data,
+  MenuBranchInfo branchInfo,
+) {
   final menuAvailableTimes =
       _menuV1AvailableTimesModelToMenuAvailableTimes(data.availableTimes!);
   return MenuSection(
+    branchInfo: branchInfo,
     menuVersion: MenuVersion.v1,
     id: data.id.orZero(),
     title: data.title.orEmpty(),
@@ -52,7 +59,7 @@ MenuSection _menuV1SectionsToMenuSections(MenuV1SectionsModel data) {
         data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ??
             [],
     categories: data.subSections
-            ?.map((e) => _menuV1SubSectionToMenuCategory(e, menuAvailableTimes))
+            ?.map((e) => _menuV1SubSectionToMenuCategory(e, menuAvailableTimes,branchInfo))
             .toList() ??
         [],
     availableTimes: menuAvailableTimes,
@@ -62,8 +69,10 @@ MenuSection _menuV1SectionsToMenuSections(MenuV1SectionsModel data) {
 MenuCategory _menuV1SubSectionToMenuCategory(
   MenuV1SubSectionsModel data,
   MenuAvailableTimes availableTimes,
+    MenuBranchInfo branchInfo,
 ) {
   return MenuCategory(
+    branchInfo: branchInfo,
     menuVersion: MenuVersion.v1,
     id: data.id.orZero(),
     title: data.title.orEmpty(),
@@ -75,7 +84,7 @@ MenuCategory _menuV1SubSectionToMenuCategory(
     alcBeverages: data.alcBeverages.orFalse(),
     sequence: data.sequence.orZero(),
     items: data.items
-            ?.map((e) => _menuV1ItemToMenuItem(e, availableTimes))
+            ?.map((e) => _menuV1ItemToMenuItem(e, availableTimes,branchInfo))
             .toList() ??
         [],
     availableTimes: availableTimes,
@@ -85,8 +94,10 @@ MenuCategory _menuV1SubSectionToMenuCategory(
 MenuCategoryItem _menuV1ItemToMenuItem(
   MenuV1ItemsModel data,
   MenuAvailableTimes availableTimes,
+    MenuBranchInfo branchInfo,
 ) {
   return MenuCategoryItem(
+    branchInfo: branchInfo,
     menuVersion: MenuVersion.v1,
     id: data.id.orZero(),
     defaultItemId: data.defaultItemId.orZero(),

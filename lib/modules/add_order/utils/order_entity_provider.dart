@@ -41,6 +41,7 @@ class OrderEntityProvider {
     final cartItem = cartItems.first;
     final orderPromoInfo = CartManager().getPromoInfo();
     return BillingRequestModel(
+      businessId: cartItem.item.branchInfo.businessID,
       orderType: orderType,
       brandId: cartItem.brand.id,
       branchId: SessionManager().branchId(),
@@ -111,15 +112,15 @@ class OrderEntityProvider {
     return BillingItemRequestModel(
       id: item.id,
       itemId: item.id,
-      defaultItemId: item.defaultItemId,
-      title: item.title,
-      titleV2: AddOrderTitleV2Model(en: item.title),
-      description: item.description,
-      descriptionV2: AddOrderTitleV2Model(en: item.description),
-      image: item.image,
+      // defaultItemId: item.defaultItemId,
+      // title: item.title,
+      // titleV2: AddOrderTitleV2Model(en: item.title),
+      // description: item.description,
+      // descriptionV2: AddOrderTitleV2Model(en: item.description),
+      // image: item.image,
       quantity: cartItem.quantity,
-      sequence: item.sequence,
-      hidden: item.visible(ProviderID.KLIKIT),
+      // sequence: item.sequence,
+      // hidden: !item.visible(ProviderID.KLIKIT),
       enabled: item.enabled,
       vat: item.vat,
       brand: _toBrandModel(cartItem.brand),
@@ -132,7 +133,7 @@ class OrderEntityProvider {
       unitPrice: cartItem.itemPrice.price,
       discountValue: cartItem.discountValue,
       discountType: cartItem.discountType,
-      comment: cartItem.itemInstruction,
+     // comment: cartItem.itemInstruction,
       appliedPromoModel: promoInfo?.promo,
       quantityOfScPromoItem: promoInfo?.citizen,
       promoDiscount: promoDiscount,
@@ -145,8 +146,8 @@ class OrderEntityProvider {
   ) =>
       BillingItemModifierGroupRequestModel(
         groupId: group.groupId,
-        title: group.title,
-        label: group.label,
+        // title: group.title,
+        // label: group.label,
         brandId: group.brandId,
         sequence: group.sequence,
         statuses:
@@ -162,9 +163,9 @@ class OrderEntityProvider {
       BillingItemModifierRequestModel(
         id: modifier.id,
         modifierId: modifier.modifierId,
-        immgId: modifier.immgId,
-        title: modifier.title,
-        titleV2: AddOrderTitleV2Model(en: modifier.title),
+        // immgId: modifier.immgId,
+        // title: modifier.title,
+        // titleV2: AddOrderTitleV2Model(en: modifier.title),
         statuses: modifier.visibilities
             .map((e) => e.toModel(modifier.enabled))
             .toList(),
@@ -190,7 +191,9 @@ class OrderEntityProvider {
       );
 
   AddOrderItemStatusModel _statusModel(
-          bool enabled, MenuVisibility visibility) =>
+    bool enabled,
+    MenuVisibility visibility,
+  ) =>
       AddOrderItemStatusModel(
         providerId: visibility.providerID,
         enabled: enabled,

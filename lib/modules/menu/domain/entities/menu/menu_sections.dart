@@ -1,4 +1,5 @@
 import 'menu_available_times.dart';
+import 'menu_branch_info.dart';
 import 'menu_categories.dart';
 import 'menu_visibility.dart';
 
@@ -12,6 +13,7 @@ class MenuSection{
   final List<MenuVisibility> visibilities;
   final int sequence;
   final MenuAvailableTimes availableTimes;
+  final MenuBranchInfo branchInfo;
   bool enabled;
   List<MenuCategory> categories;
 
@@ -25,6 +27,7 @@ class MenuSection{
     required this.visibilities,
     required this.categories,
     required this.availableTimes,
+    required this.branchInfo,
   });
 
   bool visible(int providerID) {

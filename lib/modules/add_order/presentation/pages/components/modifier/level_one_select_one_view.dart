@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier_group.dart';
 
-import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
@@ -53,9 +52,9 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
     widget.onChanged();
   }
 
-  void _initModifierSelectedState(){
-    for (var modifier in widget.modifiers){
-      if(modifier.isSelected){
+  void _initModifierSelectedState() {
+    for (var modifier in widget.modifiers) {
+      if (modifier.isSelected) {
         _currentModifierId = modifier.id;
         _currentModifier = modifier;
         break;
@@ -108,16 +107,17 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
                 child: Column(
                   children: [
                     ModifierGroupInfo(
-                        title: '${group.title} ${AppStrings.for_.tr()} ${_currentModifier!.title}',
-                        rule: group.rule),
-                    (group.rule.typeTitle == RuleType.exact &&
-                            group.rule.value == 1)
+                      title:
+                          '${group.title} ${AppStrings.for_.tr()} ${_currentModifier!.title}',
+                      rule: group.rule,
+                    ),
+                    ((group.rule.min == group.rule.max) && group.rule.max == 1)
                         ? LevelTwoSelectOneView(
                             modifiers: group.modifiers,
                             onChanged: widget.onChanged,
                           )
                         : LevelTwoSelectMultipleView(
-                      key: UniqueKey(),
+                            key: UniqueKey(),
                             modifiers: group.modifiers,
                             onChanged: widget.onChanged,
                           ),

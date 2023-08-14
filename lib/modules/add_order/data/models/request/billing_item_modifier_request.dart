@@ -7,43 +7,33 @@ import '../modifier/item_status_model.dart';
 class BillingItemModifierRequestModel {
   int? id;
   int? modifierId;
-  int? immgId;
-  String? title;
-  int? sequence;
-  AddOrderTitleV2Model? titleV2;
   List<AddOrderItemStatusModel>? statuses;
   List<AddOrderItemPriceModel>? prices;
   List<BillingItemModifierGroupRequestModel>? groups;
   bool? isSelected;
   int? modifierQuantity;
   num? extraPrice;
-  String? selectedTitle;
 
   BillingItemModifierRequestModel({
     this.id,
     this.modifierId,
-    this.immgId,
-    this.title,
-    this.sequence,
-    this.titleV2,
     this.statuses,
     this.prices,
     this.groups,
     this.isSelected,
     this.modifierQuantity,
     this.extraPrice,
-    this.selectedTitle,
   });
 
   BillingItemModifierRequestModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     modifierId = json['modifier_id'];
-    immgId = json['immg_id'];
-    title = json['title'];
-    sequence = json['sequence'];
-    titleV2 = json['title_v2'] != null
-        ? AddOrderTitleV2Model.fromJson(json['title_v2'])
-        : null;
+    // immgId = json['immg_id'];
+    // title = json['title'];
+    //sequence = json['sequence'];
+    // titleV2 = json['title_v2'] != null
+    //     ? AddOrderTitleV2Model.fromJson(json['title_v2'])
+    //     : null;
     if (json['statuses'] != null) {
       statuses = <AddOrderItemStatusModel>[];
       json['statuses'].forEach((v) {
@@ -65,21 +55,21 @@ class BillingItemModifierRequestModel {
     isSelected = json['is_selected'];
     modifierQuantity = json['modifier_quantity'];
     extraPrice = json['extra_price'];
-    if (selectedTitle != null) {
-      selectedTitle = json['selectedTitle'];
-    }
+    // if (selectedTitle != null) {
+    //   selectedTitle = json['selectedTitle'];
+    // }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['id'] = id;
     data['modifier_id'] = modifierId;
-    data['immg_id'] = immgId;
-    data['title'] = title;
-    data['sequence'] = sequence;
-    if (titleV2 != null) {
-      data['title_v2'] = titleV2!.toJson();
-    }
+    // data['immg_id'] = immgId;
+    // data['title'] = title;
+    // data['sequence'] = sequence;
+    // if (titleV2 != null) {
+    //   data['title_v2'] = titleV2!.toJson();
+    // }
     if (statuses != null) {
       data['statuses'] = statuses!.map((v) => v.toJson()).toList();
     }
@@ -92,7 +82,7 @@ class BillingItemModifierRequestModel {
     data['is_selected'] = isSelected;
     data['modifier_quantity'] = modifierQuantity;
     data['extra_price'] = extraPrice;
-    data['selectedTitle'] = selectedTitle;
+   // data['selectedTitle'] = selectedTitle;
     return data;
   }
 }

@@ -2,6 +2,7 @@ import '../applied_promo.dart';
 import 'billing_item_request.dart';
 
 class BillingRequestModel {
+  int? businessId;
   int? brandId;
   int? branchId;
   num? deliveryFee;
@@ -16,6 +17,7 @@ class BillingRequestModel {
   int? orderType;
 
   BillingRequestModel({
+    this.businessId,
     this.brandId,
     this.branchId,
     this.deliveryFee,
@@ -32,6 +34,7 @@ class BillingRequestModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['business_id'] = businessId;
     data['brand_id'] = brandId;
     data['branch_id'] = branchId;
     data['delivery_fee'] = deliveryFee;

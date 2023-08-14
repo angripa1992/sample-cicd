@@ -2,6 +2,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:collection/collection.dart';
 
 import 'menu_available_times.dart';
+import 'menu_branch_info.dart';
 import 'menu_item_price.dart';
 import 'menu_out_of_stock.dart';
 import 'menu_resources.dart';
@@ -20,6 +21,7 @@ class MenuCategoryItem {
   final List<MenuVisibility> visibilities;
   final MenuAvailableTimes availableTimes;
   final List<MenuResource>? resources;
+  final MenuBranchInfo branchInfo;
   bool enabled;
   MenuOutOfStock outOfStock;
 
@@ -37,6 +39,7 @@ class MenuCategoryItem {
     required this.sequence,
     required this.outOfStock,
     required this.availableTimes,
+    required this.branchInfo,
     this.resources,
   });
 
