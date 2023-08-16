@@ -6,12 +6,12 @@ import '../../data/models/applied_promo.dart';
 import '../../data/models/placed_order_response.dart';
 import '../../data/models/request/billing_request.dart';
 import '../../data/models/request/place_order_data_request.dart';
-import '../entities/billing_response.dart';
+import '../entities/cart_bill.dart';
 import '../entities/modifier/item_modifier_group.dart';
 import '../entities/order_source.dart';
 
 abstract class AddOrderRepository {
-  Future<Either<Failure, List<AddOrderItemModifierGroup>>> fetchModifiers({
+  Future<Either<Failure, List<MenuItemModifierGroup>>> fetchModifiers({
     required int itemId,
     required MenuBranchInfo branchInfo,
   });

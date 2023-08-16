@@ -2,14 +2,14 @@ import 'package:klikit/app/extensions.dart';
 
 import '../../../domain/entities/modifier/item_price.dart';
 
-class AddOrderItemPriceModel {
+class MenuItemPriceModel {
   int? providerId;
   int? currencyId;
   String? code;
   String? symbol;
   num? price;
 
-  AddOrderItemPriceModel({
+  MenuItemPriceModel({
     this.providerId,
     this.currencyId,
     this.code,
@@ -17,7 +17,7 @@ class AddOrderItemPriceModel {
     this.price,
   });
 
-  AddOrderItemPriceModel.fromJson(Map<String, dynamic> json) {
+  MenuItemPriceModel.fromJson(Map<String, dynamic> json) {
     providerId = json['provider_id'];
     currencyId = json['currency_id'];
     code = json['code'];

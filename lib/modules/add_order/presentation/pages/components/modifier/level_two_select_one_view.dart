@@ -7,7 +7,7 @@ import '../../../../domain/entities/modifier/item_modifier.dart';
 import 'item_name_price_title.dart';
 
 class LevelTwoSelectOneView extends StatefulWidget {
-  final List<AddOrderItemModifier> modifiers;
+  final List<MenuItemModifier> modifiers;
   final VoidCallback onChanged;
 
   const LevelTwoSelectOneView(

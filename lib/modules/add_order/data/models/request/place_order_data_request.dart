@@ -106,7 +106,7 @@ class PlaceOrderDataRequestModel {
       data['brand_name'] = brandName;
     }
     if (cart != null) {
-      data['cart'] = cart!.map((v) => v.toJson()).toList();
+      data['cart'] = cart!.map((v) => v.toJsonV1()).toList();
     }
     if (user != null) {
       data['user'] = user!.toJson();

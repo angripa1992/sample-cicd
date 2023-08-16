@@ -1,20 +1,20 @@
 import '../../../data/models/modifier/item_status_model.dart';
 
-class AddOrderModifierItemVisibility {
+class MenuItemModifierVisibility {
   final int providerId;
   final bool visibility;
 
-  AddOrderModifierItemVisibility({
+  MenuItemModifierVisibility({
     required this.providerId,
     required this.visibility,
   });
 
-  AddOrderModifierItemVisibility copy() => AddOrderModifierItemVisibility(
+  MenuItemModifierVisibility copy() => MenuItemModifierVisibility(
         providerId: providerId,
         visibility: visibility,
       );
 
-  AddOrderItemStatusModel toModel(bool enabled) => AddOrderItemStatusModel(
+  MenuItemStatusModel toModel(bool enabled) => MenuItemStatusModel(
         providerId: providerId,
         enabled: enabled,
         hidden: !visibility,

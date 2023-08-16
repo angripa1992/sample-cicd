@@ -1,14 +1,14 @@
-class AddOrderItemStockModel {
+class MenuItemOutOfStockModel {
   bool? available;
-  AddOrderItemSnoozeModel? snooze;
+  MenuItemSnoozeModel? snooze;
 
-  AddOrderItemStockModel({this.available, this.snooze});
+  MenuItemOutOfStockModel({this.available, this.snooze});
 
-  AddOrderItemStockModel.fromJson(Map<String, dynamic> json) {
+  MenuItemOutOfStockModel.fromJson(Map<String, dynamic> json) {
     available = json['available'];
     snooze = json['snooze'] == null
         ? null
-        : AddOrderItemSnoozeModel.fromJson(json['snooze'] as Map<String, dynamic>);
+        : MenuItemSnoozeModel.fromJson(json['snooze'] as Map<String, dynamic>);
   }
 
   Map<String, dynamic> toJson() {
@@ -21,16 +21,16 @@ class AddOrderItemStockModel {
   }
 }
 
-class AddOrderItemSnoozeModel {
+class MenuItemSnoozeModel {
   String? endTime;
   int? duration;
 
-  AddOrderItemSnoozeModel({
+  MenuItemSnoozeModel({
     this.endTime,
     this.duration,
   });
 
-  AddOrderItemSnoozeModel.fromJson(Map<String, dynamic> json) {
+  MenuItemSnoozeModel.fromJson(Map<String, dynamic> json) {
     endTime = json['end_time'] as String?;
     duration = json['duration'] as int?;
   }

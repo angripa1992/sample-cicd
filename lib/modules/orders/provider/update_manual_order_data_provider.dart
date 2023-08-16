@@ -227,7 +227,7 @@ class UpdateManualOrderDataProvider {
     }
   }
 
-  Future<List<AddOrderItemModifierGroup>> _fetchModifiers(
+  Future<List<MenuItemModifierGroup>> _fetchModifiers(
     CartV2 cartV2,
     MenuBranchInfo branchInfo,
   ) async {

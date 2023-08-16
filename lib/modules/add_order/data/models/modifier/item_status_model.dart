@@ -1,15 +1,11 @@
-import 'package:klikit/app/extensions.dart';
-
-import '../../../domain/entities/modifier/item_visibility.dart';
-
-class AddOrderItemStatusModel {
+class MenuItemStatusModel {
   int? providerId;
   bool? enabled;
   bool? hidden;
 
-  AddOrderItemStatusModel({this.providerId, this.enabled, this.hidden});
+  MenuItemStatusModel({this.providerId, this.enabled, this.hidden});
 
-  AddOrderItemStatusModel.fromJson(Map<String, dynamic> json) {
+  MenuItemStatusModel.fromJson(Map<String, dynamic> json) {
     providerId = json['provider_id'];
     enabled = json['enabled'];
     hidden = json['hidden'];
@@ -22,13 +18,4 @@ class AddOrderItemStatusModel {
     data['hidden'] = hidden;
     return data;
   }
-
-  // AddOrderModifierItemStatus toEntity() {
-  //   return AddOrderModifierItemStatus(
-  //     providerId: providerId.orZero(),
-  //     enabled: enabled.orFalse(),
-  //     hidden: hidden.orFalse(),
-  //   );
-  // }
-
 }

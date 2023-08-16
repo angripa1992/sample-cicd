@@ -12,7 +12,7 @@ class ModifierManager {
 
   ModifierManager._internal();
 
-  void removeDisabledModifier(List<AddOrderItemModifierGroup> groups) {
+  void removeDisabledModifier(List<MenuItemModifierGroup> groups) {
     groups.removeWhere((element) => !element.enabled);
     for (var firstGroups in groups) {
       firstGroups.modifiers.removeWhere((element) => !element.enabled);
@@ -25,7 +25,7 @@ class ModifierManager {
     }
   }
 
-  Future<bool> verifyRules(List<AddOrderItemModifierGroup> groups) async {
+  Future<bool> verifyRules(List<MenuItemModifierGroup> groups) async {
     for (var groupLevelOne in groups) {
       int levelOneModifierQuantity = 0;
       for (var modifierLevelOne in groupLevelOne.modifiers) {
@@ -53,7 +53,7 @@ class ModifierManager {
     return true;
   }
 
-  bool _checkRole(int quantity, AddOrderItemModifierGroup group) {
+  bool _checkRole(int quantity, MenuItemModifierGroup group) {
     final rule = group.rule;
     // debugPrint('${group.title} ->  rule -> value = ${rule.value} -> min = ${rule.min} -> max = ${rule.max} -> quantity = $quantity');
 
@@ -67,7 +67,7 @@ class ModifierManager {
   }
 
   Future<num> calculateModifiersPrice(
-      List<AddOrderItemModifierGroup> groups) async {
+      List<MenuItemModifierGroup> groups) async {
     num price = 0;
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
@@ -89,7 +89,7 @@ class ModifierManager {
   }
 
   Future<String> allCsvModifiersName(
-      List<AddOrderItemModifierGroup> groups) async {
+      List<MenuItemModifierGroup> groups) async {
     final modifiers = [];
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
@@ -111,7 +111,7 @@ class ModifierManager {
   }
 
   Future<String> generateCheckingId({
-    required List<AddOrderItemModifierGroup> groups,
+    required List<MenuItemModifierGroup> groups,
     required MenuCategoryItem item,
   }) async {
     var uniqueId = '${item.id}';
@@ -134,7 +134,7 @@ class ModifierManager {
     return uniqueId;
   }
 
-  Future<void> clearModifier(List<AddOrderItemModifierGroup> groups) async {
+  Future<void> clearModifier(List<MenuItemModifierGroup> groups) async {
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         modifierLevelOne.isSelected = false;
@@ -150,7 +150,7 @@ class ModifierManager {
   }
 
   Future<List<BillingItemModifierGroupRequestModel>> billingItemModifiers(
-      List<AddOrderItemModifierGroup> groups) async {
+      List<MenuItemModifierGroup> groups) async {
     final billingModifiersGroupsL1 = <BillingItemModifierGroupRequestModel>[];
     for (var groupLevelOne in groups) {
       final billingModifiersL1 = <BillingItemModifierRequestModel>[];

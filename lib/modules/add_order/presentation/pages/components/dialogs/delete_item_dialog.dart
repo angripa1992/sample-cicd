@@ -13,7 +13,7 @@ import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
-import '../../../../domain/entities/billing_response.dart';
+import '../../../../domain/entities/cart_bill.dart';
 import '../../../../utils/modifier_manager.dart';
 
 class DeleteItemDialogView extends StatelessWidget {

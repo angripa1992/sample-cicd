@@ -3,20 +3,20 @@ import 'item_modifier_group.dart';
 import 'item_price.dart';
 import 'item_visibility.dart';
 
-class AddOrderItemModifier {
+class MenuItemModifier {
   final int id;
   final int modifierId;
   final int immgId;
   final String title;
   final int sequence;
   final bool enabled;
-  final List<AddOrderModifierItemVisibility> visibilities;
-  final List<AddOrderModifierItemPrice> prices;
-  final List<AddOrderItemModifierGroup> groups;
+  final List<MenuItemModifierVisibility> visibilities;
+  final List<MenuItemModifierPrice> prices;
+  final List<MenuItemModifierGroup> groups;
   bool isSelected;
   int quantity;
 
-  AddOrderItemModifier({
+  MenuItemModifier({
     required this.id,
     required this.modifierId,
     required this.immgId,
@@ -30,7 +30,7 @@ class AddOrderItemModifier {
     this.quantity = 0,
   });
 
-  AddOrderItemModifier copy() => AddOrderItemModifier(
+  MenuItemModifier copy() => MenuItemModifier(
         id: id,
         modifierId: modifierId,
         immgId: immgId,
@@ -44,6 +44,7 @@ class AddOrderItemModifier {
         quantity: quantity,
       );
 
-  AddOrderModifierItemPrice klikitPrice() =>
-      prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
+  MenuItemModifierPrice klikitPrice() => prices.firstWhere(
+        (element) => element.providerId == ProviderID.KLIKIT,
+      );
 }

@@ -1,9 +1,9 @@
-class AddOrderTitleV2Model {
+class MenuItemTitleV2Model {
   String? en;
 
-  AddOrderTitleV2Model({this.en});
+  MenuItemTitleV2Model({this.en});
 
-  AddOrderTitleV2Model.fromJson(Map<String, dynamic> json) {
+  MenuItemTitleV2Model.fromJson(Map<String, dynamic> json) {
     en = json['en'];
   }
 

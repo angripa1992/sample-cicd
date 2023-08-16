@@ -12,15 +12,15 @@ import '../models/modifier/item_price_model.dart';
 import '../models/modifier/item_status_model.dart';
 import '../models/modifier/modifier_rule.dart';
 
-List<AddOrderItemModifierGroup> mapAddOrderV1ModifierToModifier(
-    List<AddOrderItemModifierGroupModel>? data) {
+List<MenuItemModifierGroup> mapAddOrderV1ModifierToModifier(
+    List<MenuItemModifierGroupModel>? data) {
   return data?.map((e) => _v1ToModifierGroup(e)).toList() ?? [];
 }
 
-AddOrderItemModifierGroup _v1ToModifierGroup(
-  AddOrderItemModifierGroupModel data,
+MenuItemModifierGroup _v1ToModifierGroup(
+  MenuItemModifierGroupModel data,
 ) {
-  return AddOrderItemModifierGroup(
+  return MenuItemModifierGroup(
     groupId: data.groupId.orZero(),
     title: data.title.orEmpty(),
     label: data.label.orEmpty(),
@@ -34,8 +34,8 @@ AddOrderItemModifierGroup _v1ToModifierGroup(
   );
 }
 
-AddOrderItemModifier _v1ToModifierItem(AddOrderItemModifierModel data) {
-  return AddOrderItemModifier(
+MenuItemModifier _v1ToModifierItem(MenuItemModifierModel data) {
+  return MenuItemModifier(
     id: data.id.orZero(),
     modifierId: data.modifierId.orZero(),
     immgId: data.immgId.orZero(),
@@ -49,24 +49,29 @@ AddOrderItemModifier _v1ToModifierItem(AddOrderItemModifierModel data) {
   );
 }
 
-AddOrderModifierItemVisibility _v1ToModifierVisibility(
-  AddOrderItemStatusModel data,
+MenuItemModifierVisibility _v1ToModifierVisibility(
+  MenuItemStatusModel data,
 ) {
-  return AddOrderModifierItemVisibility(
+  return MenuItemModifierVisibility(
     providerId: data.providerId.orZero(),
     visibility: !data.hidden.orFalse(),
   );
 }
 
-AddOrderItemModifierRule _v1ToModifierRule(ModifierRuleModel? data) {
-  return AddOrderItemModifierRule(
+MenuItemModifierRule _v1ToModifierRule(MenuItemModifierRuleModel? data) {
+  return MenuItemModifierRule(
     min: data?.min ?? ZERO,
     max: data?.max ?? ZERO,
+    id: data?.id ?? ZERO,
+    title: data?.title ?? EMPTY,
+    typeTitle: data?.title ?? EMPTY,
+    value: data?.min ?? ZERO,
+    brandId: data?.min ?? ZERO,
   );
 }
 
-AddOrderModifierItemPrice _v1ToItemPrice(AddOrderItemPriceModel data) {
-  return AddOrderModifierItemPrice(
+MenuItemModifierPrice _v1ToItemPrice(MenuItemPriceModel data) {
+  return MenuItemModifierPrice(
     providerId: data.providerId.orZero(),
     currencyId: data.currencyId.orZero(),
     code: data.code.orEmpty(),
@@ -75,7 +80,7 @@ AddOrderModifierItemPrice _v1ToItemPrice(AddOrderItemPriceModel data) {
   );
 }
 
-bool _enabled(List<AddOrderItemStatusModel>? data) {
+bool _enabled(List<MenuItemStatusModel>? data) {
   if (data != null) {
     for (var element in data) {
       if (element.providerId == ProviderID.KLIKIT) {

@@ -4,7 +4,7 @@ import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/data/models/request/billing_request.dart';
 import 'package:klikit/modules/add_order/data/models/request/place_order_data_request.dart';
-import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
+import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier_group.dart';
 import 'package:klikit/modules/add_order/domain/entities/order_source.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
@@ -22,7 +22,7 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   AddOrderRepositoryImpl(this._datasource, this._connectivity);
 
   @override
-  Future<Either<Failure, List<AddOrderItemModifierGroup>>> fetchModifiers({
+  Future<Either<Failure, List<MenuItemModifierGroup>>> fetchModifiers({
     required int itemId,
     required MenuBranchInfo branchInfo,
   }) async {

@@ -8,7 +8,7 @@ import 'item_counter.dart';
 import 'item_name_price_title.dart';
 
 class LevelTwoSelectMultipleView extends StatefulWidget {
-  final List<AddOrderItemModifier> modifiers;
+  final List<MenuItemModifier> modifiers;
   final VoidCallback onChanged;
 
   const LevelTwoSelectMultipleView(
@@ -34,7 +34,7 @@ class _LevelTwoSelectMultipleViewState
     super.initState();
   }
 
-  void _onChanged(AddOrderItemModifier modifier, bool? value) {
+  void _onChanged(MenuItemModifier modifier, bool? value) {
     if (value != null) {
       setState(() {
         _values[modifier.id] = value;

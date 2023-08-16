@@ -11,7 +11,7 @@ import '../../../../domain/entities/modifier/modifier_rule.dart';
 
 class ModifierGroupInfo extends StatelessWidget {
   final String title;
-  final AddOrderItemModifierRule rule;
+  final MenuItemModifierRule rule;
 
   const ModifierGroupInfo({Key? key, required this.title, required this.rule})
       : super(key: key);

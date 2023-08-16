@@ -204,7 +204,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   }
 
   void _addModifier({
-    required List<AddOrderItemModifierGroup> groups,
+    required List<MenuItemModifierGroup> groups,
     required MenuCategoryItem item,
     required MenuBrand brand,
   }) {

@@ -9,18 +9,18 @@ import '../../domain/entities/modifier/item_visibility.dart';
 import '../../domain/entities/modifier/modifier_rule.dart';
 import '../models/modifier/item_modifier_v2_data_model.dart';
 
-List<AddOrderItemModifierGroup> mapAddOrderV2ModifierToModifier(
+List<MenuItemModifierGroup> mapAddOrderV2ModifierToModifier(
   List<V2ItemModifierGroupModel>? data,
   MenuBranchInfo branchInfo,
 ) {
   return data?.map((e) => _v2ToModifierGroup(e, branchInfo)).toList() ?? [];
 }
 
-AddOrderItemModifierGroup _v2ToModifierGroup(
+MenuItemModifierGroup _v2ToModifierGroup(
   V2ItemModifierGroupModel data,
   MenuBranchInfo branchInfo,
 ) {
-  return AddOrderItemModifierGroup(
+  return MenuItemModifierGroup(
     groupId: data.id.orZero(),
     title: data.title?.en ?? EMPTY,
     label: data.description?.en ?? EMPTY,
@@ -40,11 +40,11 @@ AddOrderItemModifierGroup _v2ToModifierGroup(
   );
 }
 
-AddOrderItemModifier _v1ToModifierItem(
+MenuItemModifier _v1ToModifierItem(
   V2ItemModifierModel data,
   MenuBranchInfo branchInfo,
 ) {
-  return AddOrderItemModifier(
+  return MenuItemModifier(
     id: data.id.orZero(),
     modifierId: data.id.orZero(),
     immgId: ZERO,
@@ -62,31 +62,36 @@ AddOrderItemModifier _v1ToModifierItem(
   );
 }
 
-AddOrderItemModifierRule _v2ToModifierRule(
+MenuItemModifierRule _v2ToModifierRule(
   int max,
   int min,
 ) {
-  return AddOrderItemModifierRule(
+  return MenuItemModifierRule(
+    id: ZERO,
+    title: EMPTY,
+    typeTitle: EMPTY,
+    value: ZERO,
+    brandId: ZERO,
     min: min,
     max: max,
   );
 }
 
-AddOrderModifierItemVisibility _v2ToModifierVisibility(V2VisibilityModel data) {
-  return AddOrderModifierItemVisibility(
+MenuItemModifierVisibility _v2ToModifierVisibility(V2VisibilityModel data) {
+  return MenuItemModifierVisibility(
     providerId: data.providerID.orZero(),
     visibility: data.status ?? true,
   );
 }
 
-AddOrderModifierItemPrice _v2ToItemPrice(
+MenuItemModifierPrice _v2ToItemPrice(
   V2PriceModel data,
   MenuBranchInfo branchInfo,
 ) {
   final priceDetails = data.details!.firstWhere((element) =>
       element.currencyCode!.toUpperCase() ==
       branchInfo.currencyCode!.toUpperCase());
-  return AddOrderModifierItemPrice(
+  return MenuItemModifierPrice(
     providerId: data.providerID.orZero(),
     currencyId: branchInfo.currencyID,
     code: priceDetails.currencyCode.orEmpty(),

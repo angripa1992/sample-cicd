@@ -1,27 +1,27 @@
 import 'package:klikit/modules/add_order/data/models/modifier/item_stock_model.dart';
 
-class AddOrderModifierItemOos {
+class MenuItemModifierOutOfStock {
   bool available;
-  AddOrderItemSnooze snooze;
+  MenuItemSnooze snooze;
 
-  AddOrderModifierItemOos({required this.available, required this.snooze});
+  MenuItemModifierOutOfStock({required this.available, required this.snooze});
 
-  AddOrderItemStockModel toModel() => AddOrderItemStockModel(
+  MenuItemOutOfStockModel toModel() => MenuItemOutOfStockModel(
         available: available,
         snooze: snooze.toModel(),
       );
 }
 
-class AddOrderItemSnooze {
+class MenuItemSnooze {
   String endTime;
   int duration;
 
-  AddOrderItemSnooze({
+  MenuItemSnooze({
     required this.endTime,
     required this.duration,
   });
 
-  AddOrderItemSnoozeModel toModel() => AddOrderItemSnoozeModel(
+  MenuItemSnoozeModel toModel() => MenuItemSnoozeModel(
         endTime: endTime,
         duration: duration,
       );

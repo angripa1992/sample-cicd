@@ -1,4 +1,4 @@
-import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
+import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 
 import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_item.dart';
@@ -7,7 +7,7 @@ import '../../data/models/applied_promo.dart';
 import 'modifier/item_modifier_group.dart';
 
 class AddToCartItem {
-  final List<AddOrderItemModifierGroup> modifiers;
+  final List<MenuItemModifierGroup> modifiers;
   final MenuCategoryItem item;
   final num modifiersPrice;
   final MenuItemPrice itemPrice;

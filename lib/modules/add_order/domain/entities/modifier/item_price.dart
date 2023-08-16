@@ -1,13 +1,13 @@
 import '../../../data/models/modifier/item_price_model.dart';
 
-class AddOrderModifierItemPrice {
+class MenuItemModifierPrice {
   final int providerId;
   final int currencyId;
   final String code;
   final String symbol;
   final num price;
 
-  AddOrderModifierItemPrice({
+  MenuItemModifierPrice({
     required this.providerId,
     required this.currencyId,
     required this.code,
@@ -15,7 +15,7 @@ class AddOrderModifierItemPrice {
     required this.price,
   });
 
-  AddOrderModifierItemPrice copy() => AddOrderModifierItemPrice(
+  MenuItemModifierPrice copy() => MenuItemModifierPrice(
         providerId: providerId,
         currencyId: currencyId,
         code: code,
@@ -23,7 +23,7 @@ class AddOrderModifierItemPrice {
         price: price,
       );
 
-  AddOrderItemPriceModel toModel() => AddOrderItemPriceModel(
+  MenuItemPriceModel toModel() => MenuItemPriceModel(
         providerId: providerId,
         currencyId: currencyId,
         code: code,

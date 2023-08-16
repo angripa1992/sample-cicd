@@ -9,7 +9,7 @@ import '../../../../utils/order_price_provider.dart';
 
 class ItemNamePriceTitle extends StatelessWidget {
   final String name;
-  final List<AddOrderModifierItemPrice> prices;
+  final List<MenuItemModifierPrice> prices;
   const ItemNamePriceTitle({Key? key, required this.name, required this.prices}) : super(key: key);
 
   @override

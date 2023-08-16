@@ -13,7 +13,7 @@ import 'level_two_select_one_view.dart';
 import 'modifier_group_info.dart';
 
 class LevelOneSelectOneView extends StatefulWidget {
-  final List<AddOrderItemModifier> modifiers;
+  final List<MenuItemModifier> modifiers;
   final VoidCallback onChanged;
 
   const LevelOneSelectOneView(
@@ -26,7 +26,7 @@ class LevelOneSelectOneView extends StatefulWidget {
 
 class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
   int? _currentModifierId;
-  AddOrderItemModifier? _currentModifier;
+  MenuItemModifier? _currentModifier;
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
     }
   }
 
-  void _changeLevelTwoModifier(List<AddOrderItemModifierGroup> groups) {
+  void _changeLevelTwoModifier(List<MenuItemModifierGroup> groups) {
     for (var group in groups) {
       for (var modifier in group.modifiers) {
         modifier.isSelected = false;

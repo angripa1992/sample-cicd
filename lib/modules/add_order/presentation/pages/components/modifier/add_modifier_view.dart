@@ -19,7 +19,7 @@ import 'modifier_group_info.dart';
 import 'modifier_header_view.dart';
 
 class AddModifierView extends StatefulWidget {
-  final List<AddOrderItemModifierGroup> groups;
+  final List<MenuItemModifierGroup> groups;
   final MenuCategoryItem item;
   final MenuBrand brand;
   final Function(AddToCartItem?) onClose;

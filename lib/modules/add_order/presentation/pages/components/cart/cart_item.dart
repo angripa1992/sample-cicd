@@ -14,7 +14,7 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/counter_view.dart';
 import '../../../../../widgets/menu_item_image_view.dart';
-import '../../../../domain/entities/billing_response.dart';
+import '../../../../domain/entities/cart_bill.dart';
 import 'cart_item_note_view.dart';
 
 class CartItemView extends StatelessWidget {

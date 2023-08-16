@@ -5,17 +5,17 @@ import 'item_modifier_group_model.dart';
 import 'item_price_model.dart';
 import 'item_status_model.dart';
 
-class AddOrderItemModifierModel {
+class MenuItemModifierModel {
   int? id;
   int? modifierId;
   int? immgId;
   String? title;
   int? sequence;
-  List<AddOrderItemStatusModel>? statuses;
-  List<AddOrderItemPriceModel>? prices;
-  List<AddOrderItemModifierGroupModel>? groups;
+  List<MenuItemStatusModel>? statuses;
+  List<MenuItemPriceModel>? prices;
+  List<MenuItemModifierGroupModel>? groups;
 
-  AddOrderItemModifierModel({
+  MenuItemModifierModel({
     this.id,
     this.modifierId,
     this.immgId,
@@ -26,28 +26,28 @@ class AddOrderItemModifierModel {
     this.groups,
   });
 
-  AddOrderItemModifierModel.fromJson(Map<String, dynamic> json) {
+  MenuItemModifierModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     modifierId = json['modifier_id'];
     immgId = json['immg_id'];
     title = json['title'];
     sequence = json['sequence'];
     if (json['statuses'] != null) {
-      statuses = <AddOrderItemStatusModel>[];
+      statuses = <MenuItemStatusModel>[];
       json['statuses'].forEach((v) {
-        statuses!.add(AddOrderItemStatusModel.fromJson(v));
+        statuses!.add(MenuItemStatusModel.fromJson(v));
       });
     }
     if (json['prices'] != null) {
-      prices = <AddOrderItemPriceModel>[];
+      prices = <MenuItemPriceModel>[];
       json['prices'].forEach((v) {
-        prices!.add(AddOrderItemPriceModel.fromJson(v));
+        prices!.add(MenuItemPriceModel.fromJson(v));
       });
     }
     if (json['groups'] != null) {
-      groups = <AddOrderItemModifierGroupModel>[];
+      groups = <MenuItemModifierGroupModel>[];
       json['groups'].forEach((v) {
-        groups!.add(AddOrderItemModifierGroupModel.fromJson(v));
+        groups!.add(MenuItemModifierGroupModel.fromJson(v));
       });
     }
   }

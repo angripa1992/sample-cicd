@@ -30,7 +30,7 @@ class MenuCategoryItemsListView extends StatefulWidget {
   final List<MenuCategory> categories;
   final VoidCallback onCartTap;
   final Function(AddToCartItem?) onAddToCart;
-  final Function(List<AddOrderItemModifierGroup>, MenuCategoryItem, MenuBrand)
+  final Function(List<MenuItemModifierGroup>, MenuCategoryItem, MenuBrand)
       onAddModifier;
 
   const MenuCategoryItemsListView({

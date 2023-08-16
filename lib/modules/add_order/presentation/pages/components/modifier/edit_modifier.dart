@@ -44,7 +44,7 @@ class _EditModifierViewState extends State<EditModifierView> {
   final _textEditingController = TextEditingController();
   final _enabled = ValueNotifier<bool>(true);
   final _price = ValueNotifier<num>(0);
-  late List<AddOrderItemModifierGroup> _groups;
+  late List<MenuItemModifierGroup> _groups;
   late MenuCategoryItem _item;
   late MenuBrand? _brand;
   late MenuItemPrice _itemPrice;

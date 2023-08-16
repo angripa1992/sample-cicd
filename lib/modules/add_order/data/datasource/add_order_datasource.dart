@@ -20,7 +20,7 @@ import '../models/request/billing_request.dart';
 import '../models/request/place_order_data_request.dart';
 
 abstract class AddOrderDatasource {
-  Future<List<AddOrderItemModifierGroup>> fetchModifiers({
+  Future<List<MenuItemModifierGroup>> fetchModifiers({
     required int itemID,
     required MenuBranchInfo branchInfo,
   });
@@ -40,7 +40,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   AddOrderDatasourceImpl(this._restClient);
 
   @override
-  Future<List<AddOrderItemModifierGroup>> fetchModifiers({
+  Future<List<MenuItemModifierGroup>> fetchModifiers({
     required int itemID,
     required MenuBranchInfo branchInfo,
   }) async {
@@ -58,7 +58,8 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         );
         if (response != null && response.isNotEmpty) {
           final modifierGroupsResponse = response.first as List<dynamic>;
-          final v2Modifiers = modifierGroupsResponse.map((e) => V2ItemModifierGroupModel.fromJson(e))
+          final v2Modifiers = modifierGroupsResponse
+              .map((e) => V2ItemModifierGroupModel.fromJson(e))
               .toList();
           return mapAddOrderV2ModifierToModifier(v2Modifiers, branchInfo);
         } else {
@@ -71,7 +72,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
           {'item_id': itemID},
         );
         final v1Modifiers = response
-                ?.map((e) => AddOrderItemModifierGroupModel.fromJson(e))
+                ?.map((e) => MenuItemModifierGroupModel.fromJson(e))
                 .toList() ??
             [];
         return mapAddOrderV1ModifierToModifier(v1Modifiers);
@@ -82,16 +83,27 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   }
 
   @override
-  Future<CartBillModel> calculateBill(
-      {required BillingRequestModel model}) async {
+  Future<CartBillModel> calculateBill({
+    required BillingRequestModel model,
+  }) async {
     try {
-      final value = jsonEncode(model.toJson());
-      final response = await _restClient.request(
-        Urls.calculateBillV2,
-        Method.POST,
-        model.toJson(),
-      );
-      return CartBillModel.fromJson(response);
+      if(SessionManager().isMenuV2()){
+        final value = jsonEncode(model.toJsonV2());
+        final response = await _restClient.request(
+          Urls.calculateBillV2,
+          Method.POST,
+          model.toJsonV2(),
+        );
+        return CartBillModel.fromJson(response);
+      }else{
+        final value = jsonEncode(model.toJsonV1());
+        final response = await _restClient.request(
+          Urls.calculateBill,
+          Method.POST,
+          model.toJsonV1(),
+        );
+        return CartBillModel.fromJson(response);
+      }
     } on DioException {
       rethrow;
     }

@@ -4,7 +4,7 @@ import 'package:klikit/app/extensions.dart';
 
 import '../data/models/request/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
-import '../domain/entities/billing_response.dart';
+import '../domain/entities/cart_bill.dart';
 import '../domain/entities/selected_item_price.dart';
 import 'modifier_manager.dart';
 import 'order_entity_provider.dart';

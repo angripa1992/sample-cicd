@@ -17,7 +17,7 @@ import '../../menu/domain/entities/menu/menu_visibility.dart';
 import '../data/models/request/billing_item_modifier_request.dart';
 import '../data/models/request/billing_request.dart';
 import '../data/models/request/place_order_data_request.dart';
-import '../domain/entities/billing_response.dart';
+import '../domain/entities/cart_bill.dart';
 import '../domain/entities/modifier/item_modifier.dart';
 import '../domain/entities/modifier/item_modifier_group.dart';
 import 'cart_manager.dart';
@@ -112,15 +112,15 @@ class OrderEntityProvider {
     return BillingItemRequestModel(
       id: item.id,
       itemId: item.id,
-      // defaultItemId: item.defaultItemId,
-      // title: item.title,
-      // titleV2: AddOrderTitleV2Model(en: item.title),
-      // description: item.description,
-      // descriptionV2: AddOrderTitleV2Model(en: item.description),
-      // image: item.image,
+      defaultItemId: item.defaultItemId,
+      title: item.title,
+      titleV2: MenuItemTitleV2Model(en: item.title),
+      description: item.description,
+      descriptionV2: MenuItemTitleV2Model(en: item.description),
+      image: item.image,
       quantity: cartItem.quantity,
-      // sequence: item.sequence,
-      // hidden: !item.visible(ProviderID.KLIKIT),
+      sequence: item.sequence,
+      hidden: !item.visible(ProviderID.KLIKIT),
       enabled: item.enabled,
       vat: item.vat,
       brand: _toBrandModel(cartItem.brand),
@@ -133,7 +133,7 @@ class OrderEntityProvider {
       unitPrice: cartItem.itemPrice.price,
       discountValue: cartItem.discountValue,
       discountType: cartItem.discountType,
-     // comment: cartItem.itemInstruction,
+      comment: cartItem.itemInstruction,
       appliedPromoModel: promoInfo?.promo,
       quantityOfScPromoItem: promoInfo?.citizen,
       promoDiscount: promoDiscount,
@@ -141,13 +141,14 @@ class OrderEntityProvider {
   }
 
   BillingItemModifierGroupRequestModel cartToBillingModifierGroup(
-    AddOrderItemModifierGroup group,
+    MenuItemModifierGroup group,
     List<BillingItemModifierRequestModel> modifiers,
   ) =>
       BillingItemModifierGroupRequestModel(
         groupId: group.groupId,
-        // title: group.title,
-        // label: group.label,
+        title: group.title,
+        titleV2: MenuItemTitleV2Model(en: group.title),
+        label: group.label,
         brandId: group.brandId,
         sequence: group.sequence,
         statuses:
@@ -157,15 +158,15 @@ class OrderEntityProvider {
       );
 
   BillingItemModifierRequestModel cartToBillingModifier(
-    AddOrderItemModifier modifier,
+    MenuItemModifier modifier,
     List<BillingItemModifierGroupRequestModel> groups,
   ) =>
       BillingItemModifierRequestModel(
         id: modifier.id,
         modifierId: modifier.modifierId,
-        // immgId: modifier.immgId,
-        // title: modifier.title,
-        // titleV2: AddOrderTitleV2Model(en: modifier.title),
+        immgId: modifier.immgId,
+        title: modifier.title,
+        titleV2: MenuItemTitleV2Model(en: modifier.title),
         statuses: modifier.visibilities
             .map((e) => e.toModel(modifier.enabled))
             .toList(),
@@ -178,30 +179,30 @@ class OrderEntityProvider {
             .price,
       );
 
-  AddOrderItemStockModel _stockModel(MenuOutOfStock stock) =>
-      AddOrderItemStockModel(
+  MenuItemOutOfStockModel _stockModel(MenuOutOfStock stock) =>
+      MenuItemOutOfStockModel(
         available: stock.available,
         snooze: _snoozeModel(stock.menuSnooze),
       );
 
-  AddOrderItemSnoozeModel _snoozeModel(MenuSnooze snooze) =>
-      AddOrderItemSnoozeModel(
+  MenuItemSnoozeModel _snoozeModel(MenuSnooze snooze) =>
+      MenuItemSnoozeModel(
         endTime: snooze.endTime,
         duration: snooze.duration,
       );
 
-  AddOrderItemStatusModel _statusModel(
+  MenuItemStatusModel _statusModel(
     bool enabled,
     MenuVisibility visibility,
   ) =>
-      AddOrderItemStatusModel(
+      MenuItemStatusModel(
         providerId: visibility.providerID,
         enabled: enabled,
         hidden: visibility.visible,
       );
 
-  AddOrderItemPriceModel _priceModel(MenuItemPrice price) =>
-      AddOrderItemPriceModel(
+  MenuItemPriceModel _priceModel(MenuItemPrice price) =>
+      MenuItemPriceModel(
         providerId: price.providerId,
         currencyId: price.currencyId,
         code: price.currencyCode,

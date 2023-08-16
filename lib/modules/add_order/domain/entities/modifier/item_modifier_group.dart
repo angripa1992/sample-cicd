@@ -2,18 +2,18 @@ import 'item_modifier.dart';
 import 'item_visibility.dart';
 import 'modifier_rule.dart';
 
-class AddOrderItemModifierGroup {
+class MenuItemModifierGroup {
   final int groupId;
   final String title;
   final String label;
   final int brandId;
   final int sequence;
   final bool enabled;
-  final List<AddOrderModifierItemVisibility> visibilities;
-  final AddOrderItemModifierRule rule;
-  final List<AddOrderItemModifier> modifiers;
+  final List<MenuItemModifierVisibility> visibilities;
+  final MenuItemModifierRule rule;
+  final List<MenuItemModifier> modifiers;
 
-  AddOrderItemModifierGroup({
+  MenuItemModifierGroup({
     required this.groupId,
     required this.title,
     required this.label,
@@ -25,7 +25,7 @@ class AddOrderItemModifierGroup {
     required this.modifiers,
   });
 
-  AddOrderItemModifierGroup copy() => AddOrderItemModifierGroup(
+  MenuItemModifierGroup copy() => MenuItemModifierGroup(
         groupId: groupId,
         title: title,
         label: label,

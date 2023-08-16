@@ -1,21 +1,18 @@
-import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier_group.dart';
-
 import 'item_modifier_model.dart';
 import 'item_status_model.dart';
 import 'modifier_rule.dart';
 
-class AddOrderItemModifierGroupModel {
+class MenuItemModifierGroupModel {
   int? groupId;
   String? title;
   String? label;
   int? brandId;
   int? sequence;
-  List<AddOrderItemStatusModel>? statuses;
-  ModifierRuleModel? rule;
-  List<AddOrderItemModifierModel>? modifiers;
+  List<MenuItemStatusModel>? statuses;
+  MenuItemModifierRuleModel? rule;
+  List<MenuItemModifierModel>? modifiers;
 
-  AddOrderItemModifierGroupModel({
+  MenuItemModifierGroupModel({
     this.groupId,
     this.title,
     this.label,
@@ -26,23 +23,25 @@ class AddOrderItemModifierGroupModel {
     this.modifiers,
   });
 
-  AddOrderItemModifierGroupModel.fromJson(Map<String, dynamic> json) {
+  MenuItemModifierGroupModel.fromJson(Map<String, dynamic> json) {
     groupId = json['group_id'];
     title = json['title'];
     label = json['label'];
     brandId = json['brand_id'];
     sequence = json['sequence'];
-    rule = json['rule'] != null ? ModifierRuleModel.fromJson(json['rule']) : ModifierRuleModel();
+    rule = json['rule'] != null
+        ? MenuItemModifierRuleModel.fromJson(json['rule'])
+        : MenuItemModifierRuleModel();
     if (json['statuses'] != null) {
-      statuses = <AddOrderItemStatusModel>[];
+      statuses = <MenuItemStatusModel>[];
       json['statuses'].forEach((v) {
-        statuses!.add(AddOrderItemStatusModel.fromJson(v));
+        statuses!.add(MenuItemStatusModel.fromJson(v));
       });
     }
     if (json['modifiers'] != null) {
-      modifiers = <AddOrderItemModifierModel>[];
+      modifiers = <MenuItemModifierModel>[];
       json['modifiers'].forEach((v) {
-        modifiers!.add(AddOrderItemModifierModel.fromJson(v));
+        modifiers!.add(MenuItemModifierModel.fromJson(v));
       });
     }
   }
