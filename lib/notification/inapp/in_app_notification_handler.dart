@@ -12,7 +12,6 @@ import 'package:klikit/resources/strings.dart';
 import '../../app/session_manager.dart';
 import '../../core/route/routes_generator.dart';
 import '../../modules/widgets/app_button.dart';
-import '../../modules/widgets/loading_button.dart';
 import '../../printer/printing_handler.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
@@ -33,7 +32,7 @@ class InAppNotificationHandler {
   InAppNotificationHandler._internal();
 
   void handleNotification(NotificationData data) {
-    if(!SessionManager().notificationEnable()){
+    if (!SessionManager().notificationEnable()) {
       _handleDocketPrinting(data);
       return;
     }
@@ -72,16 +71,19 @@ class InAppNotificationHandler {
   }
 
   void _handleDocketPrinting(NotificationData notificationData) async {
-    final isNewOrder = notificationData.type.toInt() == NotificationOrderType.NEW;
-    if(!isNewOrder){
+    final isNewOrder =
+        notificationData.type.toInt() == NotificationOrderType.NEW;
+    if (!isNewOrder) {
       return;
     }
-    final order = await NotificationDataHandler().getOrderById(
-      notificationData.orderId.toInt(),
-    );
-    if (order != null && order.status == OrderStatus.ACCEPTED) {
-      _printingHandler.printDocket(order: order, isAutoPrint: true);
-    }
+    Future.delayed(const Duration(seconds: 1), () async{
+      final order = await NotificationDataHandler().getOrderById(
+        notificationData.orderId.toInt(),
+      );
+      if (order != null && order.status == OrderStatus.ACCEPTED) {
+        _printingHandler.printDocket(order: order, isAutoPrint: true);
+      }
+    });
   }
 
   void _dismissInAppNotification() {

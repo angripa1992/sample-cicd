@@ -31,7 +31,7 @@ class FcmService {
     return fcmToken;
   }
 
-  void registerForegroundListener() async {
+  void registerForegroundListener() {
     FirebaseMessaging.onMessage.listen(
       (message) {
         if (SessionManager().isLoggedIn()) {

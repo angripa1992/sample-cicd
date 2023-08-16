@@ -24,54 +24,35 @@ class PosPrinterDevicesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = <PrinterDevice>[];
-    return StreamBuilder<PrinterDevice>(
-      stream: type == ConnectionType.BLUETOOTH
+    return FutureBuilder<List<PrinterDevice>>(
+      future: type == ConnectionType.BLUETOOTH
           ? BluetoothPrinterHandler().getDevices()
           : UsbPrinterHandler().getDevices(),
       builder: (context, snapshot) {
+        final devices = <PrinterDevice>[];
         if (snapshot.hasData) {
-          if (!items.contains(snapshot.data)) {
-            items.add(snapshot.data!);
-          }
+          devices.addAll(snapshot.data ?? []);
         }
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          Center(
-            child: Text(
-              AppStrings.looking_for_devices.tr(),
-              style: regularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
-              ),
-            ),
-          );
-        }
-        return items.isEmpty
+        return devices.isEmpty
             ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    type == ConnectionType.BLUETOOTH
-                        ? AppStrings.no_bluetooth_devices_message.tr()
-                        : AppStrings.no_usb_devices_message.tr(),
-                    textAlign: TextAlign.center,
-                    style: regularTextStyle(
-                      color: AppColors.black,
-                      fontSize: AppFontSize.s14.rSp,
-                    ),
+                child: Text(
+                  AppStrings.looking_for_devices.tr(),
+                  style: regularTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s14.rSp,
                   ),
                 ),
               )
             : ListView.builder(
-                itemCount: items.length,
+                itemCount: devices.length,
                 itemBuilder: (context, index) {
                   return DeviceItemView(
                     icon: type == ConnectionType.BLUETOOTH
                         ? Icons.bluetooth
                         : Icons.usb,
-                    name: items[index].name,
+                    name: devices[index].name,
                     onConnect: () {
-                      onConnect(items[index]);
+                      onConnect(devices[index]);
                     },
                   );
                 },

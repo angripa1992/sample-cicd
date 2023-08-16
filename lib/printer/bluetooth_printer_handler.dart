@@ -12,9 +12,19 @@ class BluetoothPrinterHandler {
   bool isConnected() =>
       PrinterManager.instance.currentStatusBT == BTStatus.connected;
 
-  Stream<PrinterDevice> getDevices() => PrinterManager.instance
-      .discovery(type: PrinterType.bluetooth)
-      .asBroadcastStream();
+  Future<List<PrinterDevice>> getDevices() async {
+    final scanResults = <PrinterDevice>[];
+    final subscription =
+        PrinterManager.instance.discovery(type: PrinterType.bluetooth).listen(
+      (event) {
+        scanResults.add(event);
+      },
+    );
+    return await Future.delayed(const Duration(seconds: 4), () {
+      subscription.cancel();
+      return scanResults;
+    });
+  }
 
   Future<bool> connect(PrinterDevice device) async {
     if (isConnected()) {
@@ -34,7 +44,8 @@ class BluetoothPrinterHandler {
 
   Future<void> printDocket(List<int> data) async {
     try {
-      await PrinterManager.instance.send(type: PrinterType.bluetooth, bytes: data);
+      await PrinterManager.instance
+          .send(type: PrinterType.bluetooth, bytes: data);
     } on PlatformException {
       //ignored
     }

@@ -18,8 +18,8 @@ class StickerPrinterDevices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ScanResult>>(
-      stream: StickerPrinterHandler().scanDevices(),
+    return FutureBuilder<List<ScanResult>>(
+      future: StickerPrinterHandler().scanDevices(),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           final data = snapshot.data!;
