@@ -1,578 +1,339 @@
 {
   "business_id": 1,
-  "brand_id": 28,
   "branch_id": 2,
   "delivery_fee": 0,
   "discount_type": 1,
-  "discount_value": 0,
+  "discount_value": 50,
   "additional_fee": 0,
   "currency": {
     "id": 2,
-    "symbol": "₱",
+    "symbol": "PHP",
     "code": "PHP"
   },
   "items": [
     {
-      "id": 951,
-      "title_v2": {
-        "en": "Beef Steak"
-      },
-      "description_v2": {
-        "en": "Goru"
-      },
+      "item_id": 497,
       "vat": 0,
-      "enabled": true,
-      "visibilities": [],
-      "prices": [
-        {
-          "provider_id": 2,
-          "code": "PHP",
-          "price": 10
-        },
-        {
-          "provider_id": 1,
-          "code": "PHP",
-          "price": 5
-        }
-      ],
-      "item_is_enabled": true,
-      "item_visibilities": [],
-      "resources": [],
-      "sequence": 3,
-      "oos": {
-        "available": true,
-        "snooze": null
-      },
+      "unit_price": 123,
+      "quantity": 1,
+      "discount_type": 1,
+      "discount_value": 50,
       "groups": [
         {
-          "id": 38,
-          "title": "Steak sides",
-          "description": {
-            "en": "Other items with steak"
+          "group_id": 27,
+          "rule": {
+            "min": 0,
+            "max": 2
           },
-          "sequence": 1,
-          "visibilities": [
-            {
-              "providerID": 1,
-              "status": false
-            },
-            {
-              "providerID": 2,
-              "status": false
-            },
-            {
-              "providerID": 6,
-              "status": true
-            },
-            {
-              "providerID": 7,
-              "status": true
-            },
-            {
-              "providerID": 9,
-              "status": true
-            },
-            {
-              "providerID": 13,
-              "status": true
-            }
-          ],
-          "enabled": true,
-          "min": 2,
-          "max": 2,
           "modifiers": [
             {
-              "id": 947,
-              "title": "Mashed Potato",
-              "description": {
-                "en": "Alu vorta description"
-              },
-              "vat": null,
-              "enabled": true,
-              "visibilities": [
-                {
-                  "providerID": 2,
-                  "status": false
-                },
-                {
-                  "providerID": 6,
-                  "status": true
-                },
-                {
-                  "providerID": 7,
-                  "status": true
-                },
-                {
-                  "providerID": 9,
-                  "status": true
-                },
-                {
-                  "providerID": 13,
-                  "status": true
-                },
-                {
-                  "providerID": 14,
-                  "status": true
-                },
-                {
-                  "providerID": 1,
-                  "status": false
-                }
-              ],
-              "prices": [
-                {
-                  "provider_id": 1,
-                  "code": "PHP",
-                  "price": 5
-                }
-              ],
-              "isCustomPrice": false,
-              "itemIsEnabled": true,
-              "itemVisibilities": [
-                {
-                  "providerID": 14,
-                  "status": true
-                },
-                {
-                  "providerID": 1,
-                  "status": false
-                },
-                {
-                  "providerID": 2,
-                  "status": false
-                },
-                {
-                  "providerID": 6,
-                  "status": true
-                },
-                {
-                  "providerID": 7,
-                  "status": true
-                },
-                {
-                  "providerID": 9,
-                  "status": true
-                },
-                {
-                  "providerID": 13,
-                  "status": true
-                }
-              ],
-              "resources": null,
-              "oos": {
-                "available": false,
-                "snooze": null
-              },
+              "id": 498,
+              "modifier_id": 498,
               "groups": [],
-              "modifier_id": 947,
-              "statuses": [
-                {
-                  "provider_id": 2,
-                  "enabled": true,
-                  "hidden": false
-                },
-                {
-                  "provider_id": 6,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 7,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 9,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 13,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 14,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 1,
-                  "enabled": true,
-                  "hidden": false
-                }
-              ],
               "is_selected": true,
-              "modifier_quantity": 2,
-              "extra_price": 5
-            }
-          ],
-          "label": "Steak sides",
-          "group_id": 38,
-          "rule": {
-            "min": 2,
-            "max": 2,
-            "value": 2,
-            "type_title": "exact"
-          },
-          "statuses": [
-            {
-              "provider_id": 1,
-              "enabled": true,
-              "hidden": false
+              "modifier_quantity": 1,
+              "extra_price": 123
             },
             {
-              "provider_id": 2,
-              "enabled": true,
-              "hidden": false
-            },
-            {
-              "provider_id": 6,
-              "enabled": true,
-              "hidden": true
-            },
-            {
-              "provider_id": 7,
-              "enabled": true,
-              "hidden": true
-            },
-            {
-              "provider_id": 9,
-              "enabled": true,
-              "hidden": true
-            },
-            {
-              "provider_id": 13,
-              "enabled": true,
-              "hidden": true
+              "id": 499,
+              "modifier_id": 499,
+              "groups": [],
+              "is_selected": true,
+              "modifier_quantity": 1,
+              "extra_price": 0
             }
           ]
         }
       ],
-      "image": "",
-      "stock": {
-        "available": true,
-        "snooze": null
-      },
-      "cart_id": "951/1,947/2",
-      "item_id": 951,
-      "unit_price": 5,
-      "quantity": 1,
-      "has_modifier_groups": true,
       "brand": {
-        "id": 28,
-        "logo": "/images/7f5da1aa48c9e0cc8e0854db0d3aa5950a6a3a2c.png",
-        "title": "Deliboi"
-      }
-    },
-    {
-      "id": 951,
-      "title_v2": {
-        "en": "Beef Steak"
+        "id": 1
       },
-      "description_v2": {
-        "en": "Goru"
-      },
-      "vat": 0,
-      "enabled": true,
-      "visibilities": [],
-      "prices": [
-        {
-          "provider_id": 2,
-          "code": "PHP",
-          "price": 10
-        },
-        {
-          "provider_id": 1,
-          "code": "PHP",
-          "price": 5
-        }
-      ],
-      "item_is_enabled": true,
-      "item_visibilities": [],
-      "resources": [],
-      "sequence": 3,
-      "oos": {
-        "available": true,
-        "snooze": null
-      },
-      "groups": [
-        {
-          "id": 38,
-          "title": "Steak sides",
-          "description": {
-            "en": "Other items with steak"
-          },
-          "sequence": 1,
-          "visibilities": [
-            {
-              "providerID": 1,
-              "status": false
-            },
-            {
-              "providerID": 2,
-              "status": false
-            },
-            {
-              "providerID": 6,
-              "status": true
-            },
-            {
-              "providerID": 7,
-              "status": true
-            },
-            {
-              "providerID": 9,
-              "status": true
-            },
-            {
-              "providerID": 13,
-              "status": true
-            }
-          ],
-          "enabled": true,
-          "min": 2,
-          "max": 2,
-          "modifiers": [
-            {
-              "id": 948,
-              "title": "Spicy rice",
-              "description": {
-                "en": "Jhaal rice description"
-              },
-              "vat": null,
-              "enabled": true,
-              "visibilities": [
-                {
-                  "providerID": 1,
-                  "status": false
-                },
-                {
-                  "providerID": 2,
-                  "status": false
-                },
-                {
-                  "providerID": 6,
-                  "status": true
-                },
-                {
-                  "providerID": 7,
-                  "status": true
-                },
-                {
-                  "providerID": 9,
-                  "status": true
-                },
-                {
-                  "providerID": 13,
-                  "status": true
-                },
-                {
-                  "providerID": 14,
-                  "status": true
-                }
-              ],
-              "prices": [
-                {
-                  "provider_id": 1,
-                  "code": "PHP",
-                  "price": 8
-                },
-                {
-                  "provider_id": 2,
-                  "code": "PHP",
-                  "price": 20
-                }
-              ],
-              "isCustomPrice": false,
-              "itemIsEnabled": true,
-              "itemVisibilities": [
-                {
-                  "providerID": 1,
-                  "status": false
-                },
-                {
-                  "providerID": 2,
-                  "status": false
-                },
-                {
-                  "providerID": 6,
-                  "status": true
-                },
-                {
-                  "providerID": 7,
-                  "status": true
-                },
-                {
-                  "providerID": 9,
-                  "status": true
-                },
-                {
-                  "providerID": 13,
-                  "status": true
-                },
-                {
-                  "providerID": 14,
-                  "status": true
-                }
-              ],
-              "resources": null,
-              "oos": {
-                "available": false,
-                "snooze": null
-              },
-              "groups": [],
-              "modifier_id": 948,
-              "statuses": [
-                {
-                  "provider_id": 1,
-                  "enabled": true,
-                  "hidden": false
-                },
-                {
-                  "provider_id": 2,
-                  "enabled": true,
-                  "hidden": false
-                },
-                {
-                  "provider_id": 6,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 7,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 9,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 13,
-                  "enabled": true,
-                  "hidden": true
-                },
-                {
-                  "provider_id": 14,
-                  "enabled": true,
-                  "hidden": true
-                }
-              ],
-              "is_selected": true,
-              "modifier_quantity": 2,
-              "extra_price": 8
-            }
-          ],
-          "label": "Steak sides",
-          "group_id": 38,
-          "rule": {
-            "min": 2,
-            "max": 2,
-            "value": 2,
-            "type_title": "exact"
-          },
-          "statuses": [
-            {
-              "provider_id": 1,
-              "enabled": true,
-              "hidden": false
-            },
-            {
-              "provider_id": 2,
-              "enabled": true,
-              "hidden": false
-            },
-            {
-              "provider_id": 6,
-              "enabled": true,
-              "hidden": true
-            },
-            {
-              "provider_id": 7,
-              "enabled": true,
-              "hidden": true
-            },
-            {
-              "provider_id": 9,
-              "enabled": true,
-              "hidden": true
-            },
-            {
-              "provider_id": 13,
-              "enabled": true,
-              "hidden": true
-            }
-          ]
-        }
-      ],
-      "image": "",
-      "stock": {
-        "available": true,
-        "snooze": null
-      },
-      "cart_id": "951/1,948/2",
-      "item_id": 951,
-      "unit_price": 5,
-      "quantity": 1,
-      "has_modifier_groups": true,
-      "brand": {
-        "id": 28,
-        "logo": "/images/7f5da1aa48c9e0cc8e0854db0d3aa5950a6a3a2c.png",
-        "title": "Deliboi"
-      }
-    },
-    {
-      "id": 951,
-      "title_v2": {
-        "en": "Beef Steak"
-      },
-      "description_v2": {
-        "en": "Goru"
-      },
-      "vat": 0,
-      "enabled": true,
-      "visibilities": [],
-      "prices": [
-        {
-          "provider_id": 2,
-          "code": "PHP",
-          "price": 10
-        },
-        {
-          "provider_id": 1,
-          "code": "PHP",
-          "price": 5
-        }
-      ],
-      "item_is_enabled": true,
-      "item_visibilities": [],
-      "resources": [],
-      "sequence": 3,
-      "oos": {
-        "available": true,
-        "snooze": null
-      },
-      "groups": [],
-      "image": "",
-      "stock": {
-        "available": true,
-        "snooze": null
-      },
-      "cart_id": "951",
-      "item_id": 951,
-      "unit_price": 5,
-      "quantity": 2,
-      "brand": {
-        "id": 28,
-        "logo": "/images/7f5da1aa48c9e0cc8e0854db0d3aa5950a6a3a2c.png",
-        "title": "Deliboi"
+      "quantity_of_sc_promo_item": 1,
+      "applied_promo": {
+        "id": 51,
+        "code": "add_order",
+        "start_time": "2023-07-01T09:00:00Z",
+        "end_time": "2026-09-30T23:59:59Z",
+        "product_type": [
+          "add_order"
+        ],
+        "value_type": "percentage",
+        "value": 5,
+        "max_discount": 100,
+        "min_order_amount": 100,
+        "max_limit": 0,
+        "max_limit_per_user": 0,
+        "auto_applicable": true,
+        "vat_exempted": true,
+        "is_activated": true,
+        "country": null,
+        "cohort_type": null,
+        "status": "running",
+        "created_at": "2023-07-11T09:48:44.937Z",
+        "updated_at": "2023-08-16T12:36:02.411Z",
+        "is_senior_citizen_promo": true
       }
     }
   ],
-  "applied_promo": null,
-  "number_of_customer": 1,
-  "number_of_senior_citizen": 1,
   "order_type": 3
+}
+
+{
+  "branch_id": 2,
+  "business_id": 1,
+  "menu_version": 2,
+  "currency": "PHP",
+  "currency_symbol": "PHP",
+  "source": 9,
+  "type": 3,
+  "payment_status": 3,
+  "item_price": 24600,
+  "final_price": 14500,
+  "delivery_fee": 0,
+  "vat_amount": 0,
+  "discount_amount": 10100,
+  "additional_fee": 0,
+  "service_fee": 0,
+  "unique_items": 1,
+  "total_items": 1,
+  "currency_id": 2,
+  "discount_value": 50,
+  "discount_type": 1,
+  "cart": [
+    {
+      "id": 497,
+      "title": "Fried Rice",
+      "vat": 0,
+      "description": "Fried Rice Disco",
+      "sku_id": null,
+      "image": "/images/c680cdf0b448ddb224e135f3637ac794b4d246a3.jpg",
+      "enabled": true,
+      "hidden": false,
+      "sequence": 1,
+      "default_item_id": 497,
+      "cart_id": null,
+      "item_id": 497,
+      "unit_price": 123,
+      "quantity": 1,
+      "has_modifier_groups": null,
+      "discount_type": 1,
+      "discount_value": 50,
+      "prices": [
+        {
+          "provider_id": 1,
+          "currency_id": 2,
+          "code": "PHP",
+          "symbol": null,
+          "price": 123
+        },
+        {
+          "provider_id": 2,
+          "currency_id": 2,
+          "code": "PHP",
+          "symbol": null,
+          "price": 123
+        },
+        {
+          "provider_id": 6,
+          "currency_id": 2,
+          "code": "PHP",
+          "symbol": null,
+          "price": 123
+        },
+        {
+          "provider_id": 7,
+          "currency_id": 2,
+          "code": "PHP",
+          "symbol": null,
+          "price": 123
+        },
+        {
+          "provider_id": 9,
+          "currency_id": 2,
+          "code": "PHP",
+          "symbol": null,
+          "price": 123
+        }
+      ],
+      "groups": [
+        {
+          "group_id": 27,
+          "title": "Optional select 2",
+          "label": "Optional select 2 disco",
+          "brand_id": 1,
+          "sequence": 1,
+          "title_v2": {
+            "en": "Optional select 2"
+          },
+          "statuses": [],
+          "rule": {
+            "id": null,
+            "title": null,
+            "type_title": null,
+            "value": null,
+            "brand_id": null,
+            "min": 0,
+            "max": 2
+          },
+          "modifiers": [
+            {
+              "id": 498,
+              "modifier_id": 498,
+              "immg_id": 0,
+              "title": "Steamed Rice",
+              "sequence": null,
+              "title_v2": {
+                "en": "Steamed Rice"
+              },
+              "statuses": [],
+              "prices": [
+                {
+                  "provider_id": 1,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 123
+                },
+                {
+                  "provider_id": 2,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 123
+                },
+                {
+                  "provider_id": 6,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 123
+                },
+                {
+                  "provider_id": 7,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 123
+                },
+                {
+                  "provider_id": 9,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 123
+                }
+              ],
+              "groups": [],
+              "is_selected": true,
+              "modifier_quantity": 1,
+              "extra_price": 123,
+              "selectedTitle": null
+            },
+            {
+              "id": 499,
+              "modifier_id": 499,
+              "immg_id": 0,
+              "title": "Extra Butter",
+              "sequence": null,
+              "title_v2": {
+                "en": "Extra Butter"
+              },
+              "statuses": [],
+              "prices": [
+                {
+                  "provider_id": 6,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 7,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 9,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 1,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 2,
+                  "currency_id": 2,
+                  "code": "PHP",
+                  "symbol": "PHP",
+                  "price": 0
+                }
+              ],
+              "groups": [],
+              "is_selected": true,
+              "modifier_quantity": 1,
+              "extra_price": 0,
+              "selectedTitle": null
+            }
+          ]
+        }
+      ],
+      "stock": {
+        "available": true,
+        "snooze": {
+          "end_time": "",
+          "duration": 0
+        }
+      },
+      "title_v2": {
+        "en": "Fried Rice"
+      },
+      "description_v2": {
+        "en": "Fried Rice Disco"
+      },
+      "brand": {
+        "id": 1,
+        "logo": "/images/664b6d55102caf29bac3c2193d2590131f3bc84a.png",
+        "title": "Cluccboi"
+      },
+      "statuses": [],
+      "comment": "",
+      "quantity_of_sc_promo_item": 1,
+      "promo_discount": 100,
+      "applied_promo": {
+        "id": 51,
+        "code": "add_order",
+        "start_time": "2023-07-01T09:00:00Z",
+        "end_time": "2026-09-30T23:59:59Z",
+        "product_type": [
+          "add_order"
+        ],
+        "value_type": "percentage",
+        "value": 5,
+        "max_discount": 100,
+        "min_order_amount": 100,
+        "max_limit": 0,
+        "max_limit_per_user": 0,
+        "auto_applicable": true,
+        "vat_exempted": true,
+        "is_activated": true,
+        "country": null,
+        "cohort_type": null,
+        "status": "running",
+        "created_at": "2023-07-11T09:48:44.937Z",
+        "updated_at": "2023-08-16T12:36:02.411Z",
+        "is_senior_citizen_promo": true
+      }
+    }
+  ],
+  "user": {},
+  "order_comment": "",
+  "order_promo_discount": 0
 }

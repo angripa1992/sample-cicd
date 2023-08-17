@@ -126,8 +126,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
             style: _textStyle,
           ),
         ),
-        items: widget.methods
-            .map<DropdownMenuItem<PaymentMethod>>((PaymentMethod value) {
+        items: widget.methods.map<DropdownMenuItem<PaymentMethod>>((PaymentMethod value) {
           return DropdownMenuItem<PaymentMethod>(
               value: value,
               child: ListTile(

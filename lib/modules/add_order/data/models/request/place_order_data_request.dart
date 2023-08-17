@@ -3,6 +3,8 @@ import 'billing_item_request.dart';
 
 class PlaceOrderDataRequestModel {
   int? id;
+  int? businessId;
+  int? menuVersion;
   String? externalId;
   String? identity;
   int? branchId;
@@ -37,6 +39,8 @@ class PlaceOrderDataRequestModel {
 
   PlaceOrderDataRequestModel({
     this.id,
+    this.businessId,
+    this.menuVersion,
     this.externalId,
     this.identity,
     this.branchId,
@@ -73,6 +77,8 @@ class PlaceOrderDataRequestModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['branch_id'] = branchId;
+    data['business_id'] = businessId;
+    data['menu_version'] = menuVersion;
     data['currency'] = currency;
     data['currency_symbol'] = currencySymbol;
     data['source'] = source;

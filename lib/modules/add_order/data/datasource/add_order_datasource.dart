@@ -125,6 +125,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   Future<PlacedOrderResponse> placeOrder(
       PlaceOrderDataRequestModel body) async {
     try {
+      final value = jsonEncode(body.toJson());
       final response = await _restClient.request(
         Urls.manualOrder,
         Method.POST,

@@ -116,10 +116,10 @@ class CartManager {
     String code = EMPTY;
 
     if (_carts.isNotEmpty) {
-      final price = _carts.first.itemPrice;
-      id = price.currencyId;
-      symbol = price.currencySymbol;
-      code = price.currencyCode;
+      final branchInfo = _carts.first.item.branchInfo;
+      id = branchInfo.currencyID;
+      symbol = branchInfo.currencyCode ?? EMPTY;
+      code = branchInfo.currencyCode ?? EMPTY;
     }
     return BillingCurrency(id: id, symbol: symbol, code: code);
   }

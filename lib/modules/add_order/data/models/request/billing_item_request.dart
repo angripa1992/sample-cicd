@@ -129,7 +129,7 @@ class BillingItemRequestModel {
 
   Map<String, dynamic> toJsonV2() {
     final Map<String, dynamic> data = {};
-    data['id'] = id;
+    data['item_id'] = id;
     data['vat'] = vat;
     data['unit_price'] = unitPrice;
     data['quantity'] = quantity;
