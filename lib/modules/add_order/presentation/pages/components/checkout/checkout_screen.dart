@@ -25,12 +25,12 @@ class CheckoutScreen extends StatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onSuccess;
 
-  const CheckoutScreen(
-      {Key? key,
-      required this.checkoutData,
-      required this.onBack,
-      required this.onSuccess})
-      : super(key: key);
+  const CheckoutScreen({
+    Key? key,
+    required this.checkoutData,
+    required this.onBack,
+    required this.onSuccess,
+  }) : super(key: key);
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -41,12 +41,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   CustomerInfo? _customerInfo;
   int? _paymentStatus;
   int? _paymentMethod;
+  int? _paymentChannel;
 
   @override
   void initState() {
     final paymentInfo = CartManager().getPaymentInfo();
     if (paymentInfo != null) {
       _paymentMethod = paymentInfo.paymentMethod;
+      _paymentChannel = paymentInfo.paymentChannel;
       _paymentMethodNotifier.value = paymentInfo.paymentMethod;
       _paymentStatus = paymentInfo.paymentStatus;
     }
@@ -67,6 +69,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ? PaymentStatusId.pending
               : (_paymentStatus ?? PaymentStatusId.pending),
           paymentMethod: _paymentMethod,
+          paymentChannel: _paymentChannel,
           info: _customerInfo,
         );
   }
@@ -100,8 +103,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   PaymentMethodView(
                     initMethod: _paymentMethod,
-                    onChanged: (paymentMethod) {
+                    onChanged: (paymentMethod, paymentChannel) {
                       _paymentMethod = paymentMethod;
+                      _paymentChannel = paymentChannel;
                       _paymentMethodNotifier.value = _paymentMethod;
                     },
                   ),
@@ -127,16 +131,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           BlocConsumer<PlaceOrderCubit, ResponseState>(
             listener: (context, state) {
               if (state is Success<PlacedOrderResponse>) {
-                showSuccessSnackBar(context,state.data.message ?? '');
+                showSuccessSnackBar(context, state.data.message ?? '');
                 CartManager().clear();
                 widget.onSuccess();
-              }else if(state is Failed){
+              } else if (state is Failed) {
                 showApiErrorSnackBar(context, state.failure);
               }
             },
             builder: (context, state) {
               return OrderActionButton(
-                buttonText: CartManager().getUpdateCartInfo() == null ? AppStrings.placed_order.tr() : AppStrings.update_order.tr() ,
+                buttonText: CartManager().getUpdateCartInfo() == null
+                    ? AppStrings.placed_order.tr()
+                    : AppStrings.update_order.tr(),
                 enable: state is Loading ? false : true,
                 totalPrice: widget.checkoutData.cartBill.totalPrice,
                 onProceed: _placeOrder,

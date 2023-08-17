@@ -13,6 +13,7 @@ class UpdatePaymentInfoCubit extends Cubit<ResponseState> {
     final updatePaymentInfoParams = {
       "id": updateStatusParam["id"],
       "payment_method": updateStatusParam["payment_method"],
+      "payment_channel_id": updateStatusParam["payment_channel_id"],
       "payment_status": updateStatusParam["payment_status"],
     };
     final response =

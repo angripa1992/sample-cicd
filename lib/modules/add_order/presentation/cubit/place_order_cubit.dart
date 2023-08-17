@@ -15,6 +15,7 @@ class PlaceOrderCubit extends Cubit<ResponseState> {
     required CheckoutData checkoutData,
     required int paymentStatus,
     required int? paymentMethod,
+    required int? paymentChannel,
     required CustomerInfo? info,
   }) async {
     emit(Loading());
@@ -22,6 +23,7 @@ class PlaceOrderCubit extends Cubit<ResponseState> {
       checkoutData: checkoutData,
       paymentStatus: paymentStatus,
       paymentMethod: paymentMethod,
+      paymentChannel: paymentChannel,
       info: info,
     );
     final response = await _repository.placeOrder(body: body);

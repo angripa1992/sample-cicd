@@ -73,6 +73,8 @@ class SessionManager {
 
   bool isSunmiDevice() => _appPreferences.sunmiDevice();
 
+  int country() => _user!.countryIds.first;
+
   Future<void> logout() async {
     CartManager().clear();
     await setLoginState(isLoggedIn: false);

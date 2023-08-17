@@ -22,7 +22,7 @@ import '../../bloc/update_payment_info_cubit.dart';
 void showAddPaymentStatusMethodDialog({
   required BuildContext context,
   required Order order,
-  required Function(int, int) onSuccess,
+  required Function(int, int, int) onSuccess,
   required bool willOnlyUpdatePaymentInfo,
   required String title,
 }) {
@@ -49,7 +49,7 @@ void showAddPaymentStatusMethodDialog({
 
 class AddPaymentMethodAndStatusView extends StatefulWidget {
   final Order order;
-  final Function(int, int) onSuccess;
+  final Function(int, int, int) onSuccess;
   final bool willOnlyUpdatePaymentInfo;
   final String title;
 
@@ -70,33 +70,40 @@ class _AddPaymentMethodAndStatusViewState
     extends State<AddPaymentMethodAndStatusView> {
   static const _status = 'status';
   static const _method = 'method';
-  final _statusAndMethodNotifier =
-      ValueNotifier<Map<String, int?>>({_status: null, _method: null});
+  static const _channel = 'channel';
+  final _paymentNotifier = ValueNotifier<Map<String, int?>>({
+    _status: null,
+    _method: null,
+    _channel: null,
+  });
 
   @override
   void initState() {
-    _statusAndMethodNotifier.value = {
+    _paymentNotifier.value = {
       _status: widget.willOnlyUpdatePaymentInfo
           ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null)
           : PaymentStatusId.paid,
-      _method:
-          widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
+      _method: widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
+      _channel: widget.order.paymentChannel > 0 ? widget.order.paymentChannel : null,
     };
     super.initState();
   }
 
   @override
   void dispose() {
-    _statusAndMethodNotifier.dispose();
+    _paymentNotifier.dispose();
     super.dispose();
   }
 
+
+  ///TODO need adjusment here
   void _updateStatus() {
-    final value = _statusAndMethodNotifier.value;
+    final value = _paymentNotifier.value;
     if (widget.willOnlyUpdatePaymentInfo) {
       context.read<UpdatePaymentInfoCubit>().updatePaymentInfo({
         "id": widget.order.id,
         "payment_method": value[_method],
+        "payment_channel_id": value[_channel],
         "payment_status": value[_status],
       });
     } else {
@@ -104,6 +111,7 @@ class _AddPaymentMethodAndStatusViewState
         "UPDATE_PAYMENT_STATUS": true,
         "id": widget.order.id,
         "payment_method": value[_method],
+        "payment_channel_id": value[_channel],
         "payment_status": value[_status],
         "status": OrderStatus.DELIVERED,
       });
@@ -111,8 +119,8 @@ class _AddPaymentMethodAndStatusViewState
   }
 
   void _onSuccess() {
-    final value = _statusAndMethodNotifier.value;
-    widget.onSuccess(value[_method]!, value[_status]!);
+    final value = _paymentNotifier.value;
+    widget.onSuccess(value[_method]!, value[_channel]!, value[_status]!);
   }
 
   @override
@@ -143,31 +151,38 @@ class _AddPaymentMethodAndStatusViewState
           initMethod: widget.order.paymentMethod > 0
               ? widget.order.paymentMethod
               : null,
+          initChannel: widget.order.paymentChannel > 0
+              ? widget.order.paymentChannel
+              : null,
           willShowReqTag: true,
           required: true,
-          onChanged: (method) {
-            final previousValue = _statusAndMethodNotifier.value;
-            _statusAndMethodNotifier.value = {
+          onChanged: (method, channel) {
+            final previousValue = _paymentNotifier.value;
+            _paymentNotifier.value = {
               _status: previousValue[_status],
               _method: method,
+              _channel: channel,
             };
           },
         ),
         PaymentStatusView(
           initStatus: widget.willOnlyUpdatePaymentInfo
-              ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null)
+              ? (widget.order.paymentStatus > 0
+                  ? widget.order.paymentStatus
+                  : null)
               : PaymentStatusId.paid,
           willShowReqTag: true,
           onChanged: (status) {
-            final previousValue = _statusAndMethodNotifier.value;
-            _statusAndMethodNotifier.value = {
+            final previousValue = _paymentNotifier.value;
+            _paymentNotifier.value = {
               _status: status,
               _method: previousValue[_method],
+              _channel: previousValue[_channel],
             };
           },
         ),
         ValueListenableBuilder<Map<String, int?>>(
-          valueListenable: _statusAndMethodNotifier,
+          valueListenable: _paymentNotifier,
           builder: (_, value, __) {
             return BlocConsumer<UpdatePaymentInfoCubit, ResponseState>(
               listener: (context, state) {

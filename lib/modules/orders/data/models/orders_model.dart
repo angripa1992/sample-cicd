@@ -132,6 +132,8 @@ class OrderModel {
   bool? isManualOrder;
   @JsonKey(name: 'payment_method')
   int? paymentMethod;
+  @JsonKey(name: 'payment_channel_id')
+  int? paymentChannel;
   @JsonKey(name: 'payment_status')
   int? paymentStatus;
   @JsonKey(name: 'auto_accept')
@@ -250,6 +252,7 @@ class OrderModel {
     this.isManualOrder,
     this.source,
     this.paymentMethod,
+    this.paymentChannel,
     this.paymentStatus,
     this.autoAccept,
     this.autoPilot,
@@ -335,6 +338,7 @@ class OrderModel {
       isManualOrder: isManualOrder ?? false,
       source: source.orZero(),
       paymentMethod: paymentMethod.orZero(),
+      paymentChannel: paymentChannel.orZero(),
       paymentStatus: paymentStatus.orZero(),
       autoAccept: autoAccept ?? false,
       autoPilot: autoPilot ?? false,

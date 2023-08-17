@@ -26,9 +26,10 @@ class OrderPaymentInfoView extends StatefulWidget {
 class _OrderPaymentInfoViewState extends State<OrderPaymentInfoView> {
   late Order _order;
 
-  void _onPaymentInfoChanged(int method, int status) {
+  void _onPaymentInfoChanged(int method, int channel, int status) {
     setState(() {
       _order.paymentMethod = method;
+      _order.paymentChannel = channel;
       _order.paymentStatus = status;
     });
   }
@@ -62,11 +63,13 @@ class _OrderPaymentInfoViewState extends State<OrderPaymentInfoView> {
 class OrderPaymentMethodView extends StatelessWidget {
   final _provider = getIt.get<OrderInformationProvider>();
   final Order order;
-  final Function(int, int) onPaymentInfoChanged;
+  final Function(int, int, int) onPaymentInfoChanged;
 
-  OrderPaymentMethodView(
-      {Key? key, required this.order, required this.onPaymentInfoChanged})
-      : super(key: key);
+  OrderPaymentMethodView({
+    Key? key,
+    required this.order,
+    required this.onPaymentInfoChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +92,7 @@ class OrderPaymentMethodView extends StatelessWidget {
 class OrderPaymentStatusView extends StatelessWidget {
   final _provider = getIt.get<OrderInformationProvider>();
   final Order order;
-  final Function(int, int) onPaymentInfoChanged;
+  final Function(int, int, int) onPaymentInfoChanged;
 
   OrderPaymentStatusView(
       {Key? key, required this.order, required this.onPaymentInfoChanged})
@@ -116,7 +119,7 @@ class OrderPaymentStatusView extends StatelessWidget {
 class PaymentInfoTagView extends StatelessWidget {
   final String tagName;
   final Order order;
-  final Function(int, int) onPaymentInfoChanged;
+  final Function(int, int, int) onPaymentInfoChanged;
 
   const PaymentInfoTagView({
     Key? key,
@@ -134,8 +137,8 @@ class PaymentInfoTagView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        if(_isWebshopPostPayment()){
+      onTap: () {
+        if (_isWebshopPostPayment()) {
           showAddPaymentStatusMethodDialog(
             title: AppStrings.update_payment_info.tr(),
             context: context,

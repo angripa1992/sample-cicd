@@ -103,6 +103,7 @@ class Order {
   final String cancellationReason;
   String klikitComment;
   int paymentMethod;
+  int paymentChannel;
   int paymentStatus;
   bool canUpdate;
 
@@ -153,6 +154,7 @@ class Order {
     required this.isManualOrder,
     required this.source,
     required this.paymentMethod,
+    required this.paymentChannel,
     required this.paymentStatus,
     required this.autoAccept,
     required this.autoPilot,
@@ -239,6 +241,7 @@ class Order {
         isManualOrder: isManualOrder,
         source: source,
         paymentMethod: paymentMethod,
+        paymentChannel: paymentChannel,
         paymentStatus: paymentStatus,
         autoAccept: autoAccept,
         autoPilot: autoPilot,
@@ -324,6 +327,7 @@ class Order {
         klikitComment: klikitComment.notEmptyOrNull(),
         isManualOrder: isManualOrder,
         paymentMethod: paymentMethod.notZeroOrNull(),
+        paymentChannel: paymentChannel.notZeroOrNull(),
         paymentStatus: paymentStatus.notZeroOrNull(),
         autoAccept: autoAccept,
         autoPilot: autoPilot,

@@ -119,7 +119,8 @@ class UpdateManualOrderDataProvider {
             appliedPromo: itemPromo, promo: promo, isItemPromo: true);
       } else {
         if (orderPromo == null) return null;
-        final promo = promos.firstWhere((element) => orderPromo.promoId == element.id);
+        final promo =
+            promos.firstWhere((element) => orderPromo.promoId == element.id);
         return _promoInfoFromAppliedPromo(
             appliedPromo: orderPromo, promo: promo, isItemPromo: false);
       }
@@ -271,8 +272,11 @@ class UpdateManualOrderDataProvider {
     final paymentInfo = PaymentInfo(
       paymentStatus: order.paymentStatus,
       paymentMethod: order.paymentMethod == ZERO
-          ? PaymentMethodId.CASH
+          ? PaymentMethodID.CASH
           : order.paymentMethod,
+      paymentChannel: order.paymentChannel == ZERO
+          ? PaymentChannelID.CASH
+          : order.paymentChannel,
     );
     final updateCartInfo = UpdateCartInfo(
       id: order.id,

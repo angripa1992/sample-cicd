@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/rest_client.dart';
 import 'package:klikit/core/network/urls.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
@@ -201,8 +202,13 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<List<PaymentMethodModel>> fetchPaymentMethods() async {
     try {
-      final List<dynamic> response =
-          await _restClient.request(Urls.paymentMethod, Method.GET, null);
+      final List<dynamic> response = await _restClient.request(
+        Urls.paymentMethod,
+        Method.GET,
+        {
+          'country_id': SessionManager().country(),
+        },
+      );
       final data = response.map((e) => PaymentMethodModel.fromJson(e)).toList();
       return data;
     } on DioException {

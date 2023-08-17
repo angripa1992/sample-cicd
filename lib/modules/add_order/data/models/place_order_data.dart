@@ -13,6 +13,7 @@ class PlaceOrderDataModel {
   int? source;
   int? type;
   int? paymentMethod;
+  int? paymentChannel;
   int? paymentStatus;
   CustomerInfoModel? user;
   String? tableNo;
@@ -47,6 +48,7 @@ class PlaceOrderDataModel {
     this.source,
     this.type,
     this.paymentMethod,
+    this.paymentChannel,
     this.paymentStatus,
     this.user,
     this.tableNo,
@@ -116,6 +118,9 @@ class PlaceOrderDataModel {
     }
     if (paymentMethod != null) {
       data['payment_method'] = paymentMethod;
+    }
+    if (paymentChannel != null) {
+      data['payment_channel_id'] = paymentChannel;
     }
     if (orderComment != null) {
       data['order_comment'] = orderComment;

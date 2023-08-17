@@ -13,8 +13,9 @@ import '../../../../../orders/provider/order_information_provider.dart';
 import '../cart/tag_title.dart';
 
 class PaymentMethodView extends StatefulWidget {
-  final Function(int?) onChanged;
+  final Function(int?, int?) onChanged;
   final int? initMethod;
+  final int? initChannel;
   final bool? required;
   final bool willShowReqTag;
 
@@ -22,6 +23,7 @@ class PaymentMethodView extends StatefulWidget {
     Key? key,
     required this.onChanged,
     this.initMethod,
+    this.initChannel,
     this.willShowReqTag = true,
     this.required = false,
   }) : super(key: key);
@@ -58,10 +60,11 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
             future: getIt.get<OrderInformationProvider>().fetchPaymentMethods(),
             builder: (_, snap) {
               if (snap.hasData) {
-                return PaymentMethodDropdown(
+                return PaymentMethodSelector(
                   methods: snap.data!,
                   onChanged: widget.onChanged,
                   initMethod: widget.initMethod,
+                  initChannel: widget.initChannel,
                 );
               }
               return const SizedBox();
@@ -73,101 +76,258 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
   }
 }
 
-class PaymentMethodDropdown extends StatefulWidget {
+class PaymentMethodSelector extends StatefulWidget {
   final List<PaymentMethod> methods;
   final int? initMethod;
-  final Function(int?) onChanged;
+  final int? initChannel;
+  final Function(int?, int?) onChanged;
 
-  const PaymentMethodDropdown(
-      {Key? key,
-      required this.methods,
-      required this.onChanged,
-      this.initMethod})
-      : super(key: key);
+  const PaymentMethodSelector({
+    Key? key,
+    required this.methods,
+    this.initMethod,
+    this.initChannel,
+    required this.onChanged,
+  }) : super(key: key);
+
+  @override
+  State<PaymentMethodSelector> createState() => _PaymentMethodSelectorState();
+}
+
+class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
+  PaymentChannel? _channel;
+  PaymentMethod? _method;
+
+  @override
+  void initState() {
+    if (widget.initMethod != null && widget.initChannel != null) {
+      _method = widget.methods
+          .firstWhere((element) => element.id == widget.initMethod);
+      _channel = _method!.channels
+          .firstWhere((element) => element.id == widget.initChannel);
+    }
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (dContext) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(AppSize.s16.rSp),
+                ),
+              ),
+              content: PaymentMethodDropdown(
+                methods: widget.methods,
+                initMethod: _method,
+                initChannel: _channel,
+                onChanged: (method,channel) {
+                  setState(() {
+                    _method = method;
+                    _channel = channel;
+                  });
+                  widget.onChanged(_method?.id,_channel?.id);
+                  Navigator.pop(context);
+                },
+              ),
+            );
+          },
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s10.rw,
+          vertical: AppSize.s8.rh,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+          color: AppColors.whiteSmoke,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              _channel == null ? AppStrings.add_payment_method.tr() : _channel!.title,
+              style: regularTextStyle(
+                color: AppColors.balticSea,
+                fontSize: AppFontSize.s14.rSp,
+              ),
+            ),
+            const Icon(Icons.keyboard_arrow_down_rounded),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PaymentMethodDropdown extends StatefulWidget {
+  final List<PaymentMethod> methods;
+  final PaymentMethod? initMethod;
+  final PaymentChannel? initChannel;
+  final Function(PaymentMethod?, PaymentChannel?) onChanged;
+
+  const PaymentMethodDropdown({
+    Key? key,
+    required this.methods,
+    required this.onChanged,
+    this.initMethod,
+    this.initChannel,
+  }) : super(key: key);
 
   @override
   State<PaymentMethodDropdown> createState() => _PaymentMethodDropdownState();
 }
 
 class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
-  PaymentMethod? _paymentMethod;
-
-  final _textStyle = regularTextStyle(
-    color: AppColors.balticSea,
-    fontSize: AppFontSize.s13.rSp,
-  );
+  PaymentChannel? _channel;
+  PaymentMethod? _method;
 
   @override
   void initState() {
-    if (widget.initMethod != null) {
-      _paymentMethod = widget.methods
-          .firstWhere((element) => element.id == widget.initMethod);
-    }
+    _channel = widget.initChannel;
+    _method = widget.initMethod;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: AppSize.s8.rh),
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.whiteSmoke,
-      ),
-      child: DropdownButton<PaymentMethod>(
-        isExpanded: true,
-        value: _paymentMethod,
-        underline: const SizedBox(),
-        hint: Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            AppStrings.add_payment_method.tr(),
-            style: _textStyle,
-          ),
-        ),
-        items: widget.methods
-            .map<DropdownMenuItem<PaymentMethod>>((PaymentMethod value) {
-          return DropdownMenuItem<PaymentMethod>(
-              value: value,
-              child: ListTile(
-                tileColor: (_paymentMethod != null && _paymentMethod!.id == value.id) ? AppColors.alabaster : AppColors.white,
-                title: Text(
-                  value.title,
-                  style: _textStyle,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: widget.methods.map((method) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s8.rw,
+                  vertical: AppSize.s4.rh,
                 ),
-                trailing:
-                    (_paymentMethod != null && _paymentMethod!.id == value.id)
-                        ? Icon(
-                            Icons.check,
-                            size: AppSize.s18.rSp,
-                            color: AppColors.purpleBlue,
-                          )
-                        : const SizedBox(),
-              ));
-        }).toList(),
-        selectedItemBuilder: (BuildContext context) {
-          return widget.methods.map<Widget>((PaymentMethod item) {
-            return Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                item.title,
-                style: _textStyle,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s4.rSp),
+                  color: AppColors.pearl,
+                ),
+                child: Text(
+                  method.title,
+                  style: mediumTextStyle(
+                    color: AppColors.balticSea,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
+                ),
               ),
-            );
-          }).toList();
-        },
-        onChanged: (value) {
-          setState(() {
-            if (_paymentMethod != null && _paymentMethod?.id == value?.id) {
-              _paymentMethod = null;
-            } else {
-              _paymentMethod = value;
-            }
-            widget.onChanged(_paymentMethod?.id);
-          });
-        },
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s8.rw,
+                  vertical: AppSize.s8.rh,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: method.channels.map((channel) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          _method = method;
+                          _channel = channel;
+                        });
+                        widget.onChanged(_method, _channel);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppSize.s8.rh,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              channel.title,
+                              style: regularTextStyle(
+                                color: AppColors.balticSea,
+                                fontSize: AppFontSize.s14.rSp,
+                              ),
+                            ),
+                            if (_method?.id == method.id && _channel?.id == channel.id)
+                              Icon(Icons.check, color: AppColors.purpleBlue),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              )
+            ],
+          );
+        }).toList(),
       ),
     );
+    // return Container(
+    //   margin: EdgeInsets.only(top: AppSize.s8.rh),
+    //   padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+    //   decoration: BoxDecoration(
+    //     borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+    //     color: AppColors.whiteSmoke,
+    //   ),
+    //   child: DropdownButton<PaymentMethod>(
+    //     isExpanded: true,
+    //     value: _paymentChannel,
+    //     underline: const SizedBox(),
+    //     hint: Container(
+    //       alignment: Alignment.centerLeft,
+    //       child: Text(
+    //         AppStrings.add_payment_method.tr(),
+    //         style: _textStyle,
+    //       ),
+    //     ),
+    //     items: widget.methods
+    //         .map<DropdownMenuItem<PaymentMethod>>((PaymentMethod value) {
+    //       return DropdownMenuItem<PaymentMethod>(
+    //           value: value,
+    //           child: ListTile(
+    //             tileColor:
+    //                 (_paymentChannel != null && _paymentChannel!.id == value.id)
+    //                     ? AppColors.alabaster
+    //                     : AppColors.white,
+    //             title: Text(
+    //               value.title,
+    //               style: _textStyle,
+    //             ),
+    //             trailing:
+    //                 (_paymentChannel != null && _paymentChannel!.id == value.id)
+    //                     ? Icon(
+    //                         Icons.check,
+    //                         size: AppSize.s18.rSp,
+    //                         color: AppColors.purpleBlue,
+    //                       )
+    //                     : const SizedBox(),
+    //           ));
+    //     }).toList(),
+    //     selectedItemBuilder: (BuildContext context) {
+    //       return widget.methods.map<Widget>((PaymentMethod item) {
+    //         return Container(
+    //           alignment: Alignment.centerLeft,
+    //           child: Text(
+    //             item.title,
+    //             style: _textStyle,
+    //           ),
+    //         );
+    //       }).toList();
+    //     },
+    //     onChanged: (value) {
+    //       setState(() {
+    //         if (_paymentChannel != null && _paymentChannel?.id == value?.id) {
+    //           _paymentChannel = null;
+    //         } else {
+    //           _paymentChannel = value;
+    //         }
+    //         widget.onChanged(_paymentChannel?.id);
+    //       });
+    //     },
+    //   ),
+    // );
   }
 }

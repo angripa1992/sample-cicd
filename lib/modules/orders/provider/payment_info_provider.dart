@@ -1,6 +1,5 @@
 import 'package:klikit/app/extensions.dart';
 
-import '../../../app/constants.dart';
 import '../domain/entities/payment_info.dart';
 import '../domain/repository/order_info_provider_repo.dart';
 
@@ -59,7 +58,11 @@ class PaymentInfoProvider {
       }
       return _methods.firstWhere((element) => element.id == methodId);
     } catch (e) {
-      return PaymentMethod(id: ZERO, title: EMPTY, sequence: ZERO);
+      return PaymentMethod(
+        id: ZERO,
+        title: EMPTY,
+        channels: [],
+      );
     }
   }
 

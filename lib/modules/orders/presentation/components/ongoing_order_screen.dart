@@ -141,7 +141,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
         context: context,
         order: order,
         willOnlyUpdatePaymentInfo: false,
-        onSuccess: (method, status) {
+        onSuccess: (method, channel, status) {
           _onActionSuccess(isFromDetails, status);
         },
       );

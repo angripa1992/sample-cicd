@@ -32,7 +32,7 @@ class Urls {
   static const String menuBrands = '/v1/brand';
   static String menuBrand(int brandId) => '/v1/brand/$brandId';
   static const String sources = '/v1/oni/order-sources';
-  static const String paymentMethod = '/v1/oni/payment-methods';
+  static const String paymentMethod = '/v1/oni/payment-channels';
   static const String paymentStatus = '/v1/oni/payment-statuses';
 
   static String updateItem(int id) => '/v2/menu/item/$id/stock/status';

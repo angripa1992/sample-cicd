@@ -87,8 +87,13 @@ class CartInfo {
 class PaymentInfo {
   final int? paymentStatus;
   final int? paymentMethod;
+  final int? paymentChannel;
 
-  PaymentInfo({required this.paymentStatus, required this.paymentMethod});
+  PaymentInfo({
+    required this.paymentStatus,
+    required this.paymentMethod,
+    required this.paymentChannel,
+  });
 }
 
 class CustomerInfo {

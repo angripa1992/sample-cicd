@@ -68,8 +68,12 @@ class OrderSource {
   static const int IN_STORE = 9;
 }
 
-class PaymentMethodId {
+class PaymentMethodID {
   static const int CASH = 2;
+}
+
+class PaymentChannelID {
+  static const int CASH = 31;
 }
 
 class ProviderID {

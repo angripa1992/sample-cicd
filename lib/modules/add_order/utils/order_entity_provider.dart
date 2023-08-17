@@ -208,6 +208,7 @@ class OrderEntityProvider {
     required CheckoutData checkoutData,
     required int paymentStatus,
     required int? paymentMethod,
+    required int? paymentChannel,
     required CustomerInfo? info,
   }) async {
     final bill = checkoutData.cartBill;
@@ -241,6 +242,7 @@ class OrderEntityProvider {
       type: checkoutData.type,
       paymentStatus: paymentStatus,
       paymentMethod: paymentMethod,
+      paymentChannel: paymentChannel,
       deliveryFee: bill.deliveryFeeCent.toInt(),
       vatAmount: bill.vatPriceCent.toInt(),
       discountAmount: bill.discountAmountCent.toInt(),
