@@ -48,13 +48,6 @@ class _InputFieldState extends State<InputField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: mediumTextStyle(
-            color: widget.labelColor ?? AppColors.blueViolet,
-            fontSize: AppFontSize.s16.rSp,
-          ),
-        ),
         TextFormField(
           controller: widget.controller,
           obscureText: _obscureText!,
@@ -65,6 +58,11 @@ class _InputFieldState extends State<InputField> {
             fontSize: AppFontSize.s16.rSp,
           ),
           decoration: InputDecoration(
+            label: Text(widget.label),
+            labelStyle: mediumTextStyle(
+              color: widget.labelColor ?? AppColors.blueViolet,
+              fontSize: AppFontSize.s18.rSp,
+            ),
             hintText: widget.hintText ?? '',
             suffixIcon: widget.isPasswordField
                 ? IconButton(
@@ -75,7 +73,7 @@ class _InputFieldState extends State<InputField> {
                     },
                     icon: Icon(
                       _obscureText! ? Icons.visibility_off : Icons.visibility,
-                      color: AppColors.white,
+                      color: AppColors.bluewood,
                     ),
                   )
                 : const SizedBox(),
@@ -83,15 +81,15 @@ class _InputFieldState extends State<InputField> {
               color: widget.textColor ?? AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
-            enabledBorder: UnderlineInputBorder(
+            enabledBorder: OutlineInputBorder(
               borderSide:
                   BorderSide(color: widget.borderColor ?? AppColors.blueViolet),
             ),
-            focusedBorder: UnderlineInputBorder(
+            focusedBorder: OutlineInputBorder(
               borderSide:
                   BorderSide(color: widget.borderColor ?? AppColors.blueViolet),
             ),
-            border: UnderlineInputBorder(
+            border: OutlineInputBorder(
               borderSide:
                   BorderSide(color: widget.borderColor ?? AppColors.blueViolet),
             ),
@@ -99,8 +97,7 @@ class _InputFieldState extends State<InputField> {
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppStrings.field_required.tr();
-            } else if (widget.inputType == TextInputType.emailAddress &&
-                !isEmailValid(value)) {
+            } else if (widget.inputType == TextInputType.emailAddress && !isEmailValid(value)) {
               return AppStrings.enter_valid_email.tr();
             }
             return null;

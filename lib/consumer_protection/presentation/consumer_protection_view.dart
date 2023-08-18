@@ -32,10 +32,12 @@ class _ConsumerProtectionViewState extends State<ConsumerProtectionView> {
           if (state.data != null) {
             if (widget.loggedIn) {
               return LoggedInConsumerProtectionView(
-                  consumerProtection: state.data!);
+                consumerProtection: state.data!,
+              );
             } else {
               return LoggedOutConsumerProtectionView(
-                  consumerProtection: state.data!);
+                consumerProtection: state.data!,
+              );
             }
           }
         }

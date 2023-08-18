@@ -10,7 +10,6 @@ import 'package:klikit/modules/user/data/request_model/login_request_model.dart'
 import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:klikit/modules/user/presentation/login/bloc/login_bloc.dart';
 import 'package:klikit/modules/user/presentation/login/components/login_form.dart';
-import 'package:klikit/modules/user/presentation/login/components/logo.dart';
 import 'package:klikit/modules/widgets/dialogs.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -79,11 +78,16 @@ class _LoginScreenState extends State<LoginScreen> {
         _saveUserData(user);
         break;
       case AppConstant.roleAdmin:
-        showAccessDeniedDialog(context: context, role: AppStrings.admin.tr());
+        showAccessDeniedDialog(
+          context: context,
+          role: AppStrings.admin.tr(),
+        );
         break;
       case AppConstant.roleBrandManager:
         showAccessDeniedDialog(
-            context: context, role: AppStrings.brand_manager.tr());
+          context: context,
+          role: AppStrings.brand_manager.tr(),
+        );
         break;
       default:
         showAccessDeniedDialog(
@@ -108,8 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  Future<void> _saveUserSetting(UserInfo userInfo) async{
-    await SessionManager().setNotificationEnabled(userInfo.orderNotificationEnabled);
+  Future<void> _saveUserSetting(UserInfo userInfo) async {
+    await SessionManager()
+        .setNotificationEnabled(userInfo.orderNotificationEnabled);
     await SessionManager().setSunmiDevice(userInfo.sunmiDevice);
   }
 
@@ -151,82 +156,58 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: AppColors.black,
+          backgroundColor: AppColors.white,
           body: SingleChildScrollView(
-            child: Container(
-              height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
-              width: ScreenSizes.screenWidth,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(AppImages.loginBgModified),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s50.rw,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const LogoView(),
-                    SizedBox(
-                      height: AppSize.s8.rh,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                    left: AppSize.s16.rw,
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 2.5,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage(AppImages.newLoginBG),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          AppStrings.existing_account.tr(),
-                          style: regularTextStyle(
-                            color: AppColors.manilla,
-                            fontSize: AppSize.s14.rSp,
-                          ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSize.s16.rw,
+                    vertical: AppSize.s16.rh,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppSize.s12.rh,
                         ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            alignment: Alignment.centerLeft,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(
-                              Routes.webView,
-                              arguments: AppConstant.signUpUrl,
-                            );
-                          },
-                          child: Text(
-                            AppStrings.dont_have_account.tr(),
-                            style: boldTextStyle(
-                              color: AppColors.manilla,
-                              fontSize: AppFontSize.s14.rSp,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: AppSize.s24.rh,
-                        ),
-                        LoginForm(
+                        child: LoginForm(
                           formKey: _formKey,
                           emailController: _emailController,
                           passwordController: _passwordController,
                         ),
-                        SizedBox(
-                          height: AppSize.s8.rh,
-                        ),
-                        UrlTextButton(
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: UrlTextButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(Routes.forget);
                           },
                           text: AppStrings.forgot_password.tr(),
-                          color: AppColors.manilla,
+                          color: AppColors.purpleBlue,
                           textSize: AppSize.s14.rSp,
                         ),
-                        SizedBox(
-                          height: AppSize.s24.rh,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppSize.s12.rh,
                         ),
-                        BlocConsumer<LoginBloc, LoginState>(
+                        child: BlocConsumer<LoginBloc, LoginState>(
                           listener: (context, state) {
                             if (state is LoginStateError) {
                               showApiErrorSnackBar(context, state.failure);
@@ -244,14 +225,43 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                         ),
-                        const ConsumerProtectionView(
-                          loggedIn: false,
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '${AppStrings.existing_account.tr()}. ',
+                            style: regularTextStyle(
+                              color: AppColors.bluewood,
+                              fontSize: AppSize.s14.rSp,
+                            ),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              alignment: Alignment.centerLeft,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
+                                Routes.webView,
+                                arguments: AppConstant.signUpUrl,
+                              );
+                            },
+                            child: Text(
+                              AppStrings.dont_have_account.tr(),
+                              style: boldTextStyle(
+                                color: AppColors.purpleBlue,
+                                fontSize: AppFontSize.s14.rSp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const ConsumerProtectionView(loggedIn: false),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

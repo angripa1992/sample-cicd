@@ -11,6 +11,7 @@ class AppImages {
   static const String klikit = "$IMAGE_PATH/klikit.png";
   static const String loginBG = "$IMAGE_PATH/login_bg.png";
   static const String loginBgModified = "$IMAGE_PATH/login_bg_modified.png";
+  static const String newLoginBG = "$IMAGE_PATH/new_login_bg.png";
   static const String emptyCart = "$IMAGE_PATH/empty_cart.png";
   static const String klikitTextPurple = "$IMAGE_PATH/klikit_text_purple.png";
   static const String klikitTextWhite = "$IMAGE_PATH/klikit_text_white.png";
