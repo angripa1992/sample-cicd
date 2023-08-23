@@ -34,11 +34,10 @@ class FcmService {
   void registerForegroundListener() {
     FirebaseMessaging.onMessage.listen(
       (message) {
+        debugPrint('++++++++++++++++++++++$message');
         if (SessionManager().isLoggedIn()) {
           InAppNotificationHandler().handleNotification(
-            NotificationDataHandler().getNotificationData(
-              message.data,
-            ),
+            NotificationDataHandler().getNotificationData(message.data),
           );
         }
       },

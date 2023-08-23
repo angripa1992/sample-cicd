@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
@@ -22,9 +23,9 @@ class SlackLoggerResolver {
   }
 
   void sendApiError(DioException error) async {
-    if(!kReleaseMode){
-      return;
-    }
+    // if(!kReleaseMode){
+    //   return;
+    // }
     List<String> metadata = await _metadata();
     List<String> business = await _businessInfo();
     List<String> markdownMessageList = [];
@@ -48,7 +49,7 @@ class SlackLoggerResolver {
   Future<List<String>> _metadata() async {
     final deviceInfo = getIt.get<DeviceInfoProvider>();
     return [
-      "CREATED AT: ${DateTimeProvider.currentDateTime()}",
+      "CREATED AT: ${DateTime.now().toLocal().toString()}",
       "********** METADATA **********",
       "Version: ${await deviceInfo.versionName()}",
       "Package: ${await deviceInfo.packageName()}",

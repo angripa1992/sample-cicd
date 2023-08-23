@@ -45,7 +45,7 @@ class RestClient {
     _addHeader();
     _dio.interceptors.add(
       PrettyDioLogger(
-        requestHeader: true,
+        requestHeader: false,
         requestBody: true,
         responseBody: false,
         responseHeader: false,
