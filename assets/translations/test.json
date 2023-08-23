@@ -1,339 +1,288 @@
 {
-  "business_id": 1,
-  "branch_id": 2,
-  "delivery_fee": 0,
-  "discount_type": 1,
-  "discount_value": 50,
-  "additional_fee": 0,
-  "currency": {
-    "id": 2,
-    "symbol": "PHP",
-    "code": "PHP"
-  },
-  "items": [
-    {
-      "item_id": 497,
-      "vat": 0,
-      "unit_price": 123,
-      "quantity": 1,
-      "discount_type": 1,
-      "discount_value": 50,
-      "groups": [
-        {
-          "group_id": 27,
-          "rule": {
-            "min": 0,
-            "max": 2
-          },
-          "modifiers": [
-            {
-              "id": 498,
-              "modifier_id": 498,
-              "groups": [],
-              "is_selected": true,
-              "modifier_quantity": 1,
-              "extra_price": 123
-            },
-            {
-              "id": 499,
-              "modifier_id": 499,
-              "groups": [],
-              "is_selected": true,
-              "modifier_quantity": 1,
-              "extra_price": 0
-            }
-          ]
-        }
-      ],
-      "brand": {
-        "id": 1
-      },
-      "quantity_of_sc_promo_item": 1,
-      "applied_promo": {
-        "id": 51,
-        "code": "add_order",
-        "start_time": "2023-07-01T09:00:00Z",
-        "end_time": "2026-09-30T23:59:59Z",
-        "product_type": [
-          "add_order"
-        ],
-        "value_type": "percentage",
-        "value": 5,
-        "max_discount": 100,
-        "min_order_amount": 100,
-        "max_limit": 0,
-        "max_limit_per_user": 0,
-        "auto_applicable": true,
-        "vat_exempted": true,
-        "is_activated": true,
-        "country": null,
-        "cohort_type": null,
-        "status": "running",
-        "created_at": "2023-07-11T09:48:44.937Z",
-        "updated_at": "2023-08-16T12:36:02.411Z",
-        "is_senior_citizen_promo": true
-      }
-    }
-  ],
-  "order_type": 3
-}
-
-{
   "branch_id": 2,
   "business_id": 1,
   "menu_version": 2,
+  "brand_id": 1,
+  "brand_name": "Cluccboi",
   "currency": "PHP",
-  "currency_symbol": "PHP",
-  "source": 9,
+  "currency_symbol": "₱",
+  "source": 1,
   "type": 3,
   "payment_status": 3,
-  "item_price": 24600,
-  "final_price": 14500,
+  "user": {},
+  "item_price": 12300,
+  "final_price": 11800,
   "delivery_fee": 0,
   "vat_amount": 0,
-  "discount_amount": 10100,
+  "discount_amount": 500,
   "additional_fee": 0,
   "service_fee": 0,
-  "unique_items": 1,
-  "total_items": 1,
-  "currency_id": 2,
-  "discount_value": 50,
-  "discount_type": 1,
   "cart": [
     {
-      "id": 497,
-      "title": "Fried Rice",
+      "id": 498,
+      "title_v2": {
+        "en": "Steamed Rice",
+        "tl": "Steamed Rice"
+      },
+      "description_v2": {
+        "en": "Steamed Rice Disco",
+        "tl": "Steamed Rice Disco"
+      },
       "vat": 0,
-      "description": "Fried Rice Disco",
-      "sku_id": null,
-      "image": "/images/c680cdf0b448ddb224e135f3637ac794b4d246a3.jpg",
       "enabled": true,
-      "hidden": false,
-      "sequence": 1,
-      "default_item_id": 497,
-      "cart_id": null,
-      "item_id": 497,
-      "unit_price": 123,
-      "quantity": 1,
-      "has_modifier_groups": null,
-      "discount_type": 1,
-      "discount_value": 50,
       "prices": [
         {
-          "provider_id": 1,
-          "currency_id": 2,
+          "provider_id": 9,
           "code": "PHP",
-          "symbol": null,
+          "price": 123
+        },
+        {
+          "provider_id": 14,
+          "code": "PHP",
+          "price": 110
+        },
+        {
+          "provider_id": 1,
+          "code": "PHP",
           "price": 123
         },
         {
           "provider_id": 2,
-          "currency_id": 2,
           "code": "PHP",
-          "symbol": null,
           "price": 123
         },
         {
           "provider_id": 6,
-          "currency_id": 2,
           "code": "PHP",
-          "symbol": null,
           "price": 123
         },
         {
           "provider_id": 7,
-          "currency_id": 2,
           "code": "PHP",
-          "symbol": null,
-          "price": 123
-        },
-        {
-          "provider_id": 9,
-          "currency_id": 2,
-          "code": "PHP",
-          "symbol": null,
           "price": 123
         }
       ],
-      "groups": [
+      "item_is_enabled": true,
+      "item_visibilities": [],
+      "resources": [
         {
-          "group_id": 27,
-          "title": "Optional select 2",
-          "label": "Optional select 2 disco",
-          "brand_id": 1,
-          "sequence": 1,
-          "title_v2": {
-            "en": "Optional select 2"
-          },
-          "statuses": [],
-          "rule": {
-            "id": null,
-            "title": null,
-            "type_title": null,
-            "value": null,
-            "brand_id": null,
-            "min": 0,
-            "max": 2
-          },
-          "modifiers": [
+          "provider_id": 1,
+          "type": "image",
+          "paths": [
             {
-              "id": 498,
-              "modifier_id": 498,
-              "immg_id": 0,
-              "title": "Steamed Rice",
-              "sequence": null,
-              "title_v2": {
-                "en": "Steamed Rice"
-              },
-              "statuses": [],
-              "prices": [
-                {
-                  "provider_id": 1,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 123
-                },
-                {
-                  "provider_id": 2,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 123
-                },
-                {
-                  "provider_id": 6,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 123
-                },
-                {
-                  "provider_id": 7,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 123
-                },
-                {
-                  "provider_id": 9,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 123
-                }
-              ],
-              "groups": [],
-              "is_selected": true,
-              "modifier_quantity": 1,
-              "extra_price": 123,
-              "selectedTitle": null
+              "path": "/images/aa99ab1dc7c423b3dd7311489b33336e77ed4d79.jpg",
+              "sequence": 1,
+              "default": true
             },
             {
-              "id": 499,
-              "modifier_id": 499,
-              "immg_id": 0,
-              "title": "Extra Butter",
-              "sequence": null,
-              "title_v2": {
-                "en": "Extra Butter"
-              },
-              "statuses": [],
-              "prices": [
-                {
-                  "provider_id": 6,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 0
-                },
-                {
-                  "provider_id": 7,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 0
-                },
-                {
-                  "provider_id": 9,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 0
-                },
-                {
-                  "provider_id": 1,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 0
-                },
-                {
-                  "provider_id": 2,
-                  "currency_id": 2,
-                  "code": "PHP",
-                  "symbol": "PHP",
-                  "price": 0
-                }
-              ],
-              "groups": [],
-              "is_selected": true,
-              "modifier_quantity": 1,
-              "extra_price": 0,
-              "selectedTitle": null
+              "path": "/images/48a64adab34a241ee10b32e82016a9e249d71527.jpg",
+              "sequence": 2,
+              "default": false
+            }
+          ]
+        },
+        {
+          "provider_id": 2,
+          "type": "image",
+          "paths": [
+            {
+              "path": "/images/ea842891b6f8303ec57c0cba296f638213d5e26a.jpg",
+              "sequence": 1,
+              "default": true
+            },
+            {
+              "path": "/images/495c0afa2bc431832ffa24a471bee1c83ca83374.jpg",
+              "sequence": 2,
+              "default": false
+            }
+          ]
+        },
+        {
+          "provider_id": 6,
+          "type": "image",
+          "paths": [
+            {
+              "path": "/images/2bc85cfef183cb90b6789ee588f453886cd75c37.jpg",
+              "sequence": 1,
+              "default": true
+            },
+            {
+              "path": "/images/dd5a436047514faf90335f9ac13cb4bdd4e231c7.jpg",
+              "sequence": 2,
+              "default": false
+            },
+            {
+              "path": "/images/00c6f52eabb069d658f8acb308e54a10935a0faa.jpg",
+              "sequence": 3,
+              "default": false
+            },
+            {
+              "path": "/images/203e25084e7c1cbc8c8011558fc566b2f4185484.jpg",
+              "sequence": 4,
+              "default": false
+            },
+            {
+              "path": "/images/fd4628244e49b7f50076ee273caf1568cd3668c7.jpg",
+              "sequence": 5,
+              "default": false
+            },
+            {
+              "path": "/images/075539e4461196020965cfb42d6429b1822360e9.jpg",
+              "sequence": 6,
+              "default": false
+            },
+            {
+              "path": "/images/7778fd260df50f645331d2401dd1e8c9ca0c3a4b.jpg",
+              "sequence": 7,
+              "default": false
+            },
+            {
+              "path": "/images/1e193ccc69eb56832d89cef385a79ad63f412673.jpg",
+              "sequence": 8,
+              "default": false
+            }
+          ]
+        },
+        {
+          "provider_id": 7,
+          "type": "image",
+          "paths": [
+            {
+              "path": "/images/299153384206d499df42f327009661999606ec57.jpg",
+              "sequence": 2,
+              "default": true
+            },
+            {
+              "path": "/images/e5a0df501f2f3d582f9fba6d561b2736a8cf52a3.jpg",
+              "sequence": 3,
+              "default": false
             }
           ]
         }
       ],
+      "sequence": 2,
+      "oos": {
+        "available": true,
+        "snooze": null
+      },
+      "title": "Steamed Rice",
+      "image": "",
       "stock": {
         "available": true,
-        "snooze": {
-          "end_time": "",
-          "duration": 0
+        "snooze": null
+      },
+      "statuses": [],
+      "item_id": 498,
+      "cart_id": "498/1,499/2",
+      "unit_price": 123,
+      "groups": [
+        {
+          "id": 27,
+          "title": "Optional select 2",
+          "description": {
+            "en": "Optional select 2 disco",
+            "tl": "Optional select 2 disco"
+          },
+          "sequence": 1,
+          "visibilities": [],
+          "enabled": true,
+          "modifiers": [
+            {
+              "id": 499,
+              "title": "Extra Butter",
+              "description": {
+                "en": ""
+              },
+              "vat": null,
+              "enabled": true,
+              "visibilities": [],
+              "prices": [
+                {
+                  "provider_id": 7,
+                  "code": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 9,
+                  "code": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 1,
+                  "code": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 2,
+                  "code": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 6,
+                  "code": "PHP",
+                  "price": 0
+                }
+              ],
+              "isCustomPrice": false,
+              "itemIsEnabled": true,
+              "itemVisibilities": [],
+              "resources": null,
+              "maxQuantityPerDay": -1,
+              "oos": {
+                "available": false,
+                "snooze": null
+              },
+              "groups": [],
+              "modifier_id": 499,
+              "statuses": [
+                {
+                  "provider_id": 1,
+                  "enabled": true,
+                  "hidden": false
+                }
+              ],
+              "is_selected": true,
+              "modifier_quantity": 2,
+              "extra_price": 0
+            }
+          ],
+          "label": "Optional select 2",
+          "group_id": 27,
+          "rule": {
+            "min": 0,
+            "max": 2,
+            "type_title": "range"
+          },
+          "statuses": [
+            {
+              "provider_id": 1,
+              "enabled": true,
+              "hidden": false
+            }
+          ]
         }
-      },
-      "title_v2": {
-        "en": "Fried Rice"
-      },
-      "description_v2": {
-        "en": "Fried Rice Disco"
-      },
+      ],
+      "quantity": 1,
+      "has_modifier_groups": true,
       "brand": {
         "id": 1,
         "logo": "/images/664b6d55102caf29bac3c2193d2590131f3bc84a.png",
         "title": "Cluccboi"
       },
-      "statuses": [],
-      "comment": "",
-      "quantity_of_sc_promo_item": 1,
-      "promo_discount": 100,
-      "applied_promo": {
-        "id": 51,
-        "code": "add_order",
-        "start_time": "2023-07-01T09:00:00Z",
-        "end_time": "2026-09-30T23:59:59Z",
-        "product_type": [
-          "add_order"
-        ],
-        "value_type": "percentage",
-        "value": 5,
-        "max_discount": 100,
-        "min_order_amount": 100,
-        "max_limit": 0,
-        "max_limit_per_user": 0,
-        "auto_applicable": true,
-        "vat_exempted": true,
-        "is_activated": true,
-        "country": null,
-        "cohort_type": null,
-        "status": "running",
-        "created_at": "2023-07-11T09:48:44.937Z",
-        "updated_at": "2023-08-16T12:36:02.411Z",
-        "is_senior_citizen_promo": true
-      }
+      "promo_discount": 0,
+      "discount_type": 1,
+      "discount_value": 0,
+      "comment": ""
     }
   ],
-  "user": {},
+  "unique_items": 1,
+  "total_items": 1,
+  "currency_id": 2,
+  "discount_value": 5,
+  "discount_type": 1,
   "order_comment": "",
-  "order_promo_discount": 0
+  "order_promo_discount": 0,
+  "applied_promo": null,
+  "number_of_customer": 1,
+  "number_of_senior_citizen": 1
 }

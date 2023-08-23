@@ -6,6 +6,7 @@ import 'package:klikit/app/session_manager.dart';
 import '../../../../app/enums.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
+import '../../../../core/provider/date_time_provider.dart';
 import '../../../menu/domain/entities/menu/menu_branch_info.dart';
 import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../mapper/v1_modifier_to_modifier.dart';
@@ -87,7 +88,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     required BillingRequestModel model,
   }) async {
     try {
-      if(SessionManager().isMenuV2()){
+      if (SessionManager().isMenuV2()) {
         final value = jsonEncode(model.toJsonV2());
         final response = await _restClient.request(
           Urls.calculateBillV2,
@@ -95,7 +96,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
           model.toJsonV2(),
         );
         return CartBillModel.fromJson(response);
-      }else{
+      } else {
         final value = jsonEncode(model.toJsonV1());
         final response = await _restClient.request(
           Urls.calculateBill,
@@ -140,6 +141,8 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<List<AppliedPromo>> fetchPromos(Map<String, dynamic> params) async {
     try {
+      final timezone = await DateTimeProvider.timeZone();
+      params['timezone'] = timezone;
       final List<dynamic>? response = await _restClient.request(
         Urls.promos,
         Method.GET,
