@@ -24,7 +24,7 @@ class CustomerInfoField extends StatelessWidget {
           child: Text(
             title,
             style: mediumTextStyle(
-              color: AppColors.dustyGreay,
+              color: AppColors.greyDarker,
             ),
           ),
         ),
@@ -32,7 +32,7 @@ class CustomerInfoField extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            color: AppColors.seaShell,
+            color: AppColors.greyLighter,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
@@ -40,7 +40,7 @@ class CustomerInfoField extends StatelessWidget {
               controller: controller,
               decoration: InputDecoration(
                 hintStyle: regularTextStyle(
-                  color: AppColors.dustyGreay,
+                  color: AppColors.greyDarker,
                   fontSize: AppFontSize.s14.rSp,
                 ),
                 enabledBorder: const UnderlineInputBorder(

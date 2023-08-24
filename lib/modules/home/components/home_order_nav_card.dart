@@ -28,7 +28,7 @@ class HomeOrderNavCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         color: bgColor,
-        shadowColor: AppColors.smokeyGrey,
+        shadowColor: AppColors.greyDarker,
         elevation: 4,
         child: Padding(
           padding: EdgeInsets.symmetric(

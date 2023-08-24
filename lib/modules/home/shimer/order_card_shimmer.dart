@@ -23,7 +23,7 @@ class OrdersCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shadowColor: AppColors.smokeyGrey,
+      shadowColor: AppColors.greyDarker,
       elevation: 4,
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -34,20 +34,20 @@ class OrdersCardShimmer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ContainerShimmer(
-              baseColor: AppColors.lightGrey,
-              highlightColor: AppColors.whiteSmoke,
+              baseColor: AppColors.greyLight,
+              highlightColor: AppColors.grey,
               height: AppFontSize.s14.rh,
               width: AppSize.s32.rw,
             ),
             SizedBox(height: AppSize.s4.rh),
             Shimmer.fromColors(
-              baseColor: AppColors.blackCow,
-              highlightColor: AppColors.whiteSmoke,
+              baseColor: AppColors.black,
+              highlightColor: AppColors.grey,
               enabled: true,
               child: Text(
                 text,
                 style: regularTextStyle(
-                  color: AppColors.blackCow,
+                  color: AppColors.black,
                   fontSize: fontSize,
                 ),
               ),

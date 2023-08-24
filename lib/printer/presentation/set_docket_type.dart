@@ -81,7 +81,7 @@ class _SetDocketTypeState extends State<SetDocketType> {
             Text(
               AppStrings.set_docket_type.tr(),
               style: mediumTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),
@@ -93,7 +93,7 @@ class _SetDocketTypeState extends State<SetDocketType> {
                     onChanged: _changeKitchenCopyEnabled,
                     name: AppStrings.kitchen.tr(),
                     willAlwaysChecked: false,
-                    activeColor: AppColors.purpleBlue,
+                    activeColor: AppColors.primary,
                   ),
                 ),
                 CounterView(
@@ -113,7 +113,7 @@ class _SetDocketTypeState extends State<SetDocketType> {
                     onChanged: _changeKitchenCopyEnabled,
                     name: AppStrings.customer.tr(),
                     willAlwaysChecked: true,
-                    activeColor: AppColors.dustyGrey,
+                    activeColor: AppColors.greyDarker,
                   ),
                 ),
                 CounterView(

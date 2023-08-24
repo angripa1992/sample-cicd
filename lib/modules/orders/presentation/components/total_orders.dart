@@ -94,7 +94,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
                   width: AppSize.s107.rw,
                   text: AppStrings.total_order.tr(),
                   orders: "0",
-                  orderColor: AppColors.purpleBlue,
+                  orderColor: AppColors.primary,
                   fontSize: AppFontSize.s14.rSp,
                   orderFontSize: AppFontSize.s24.rSp,
                 );
@@ -106,7 +106,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
                 orders: (state is Success<Orders>)
                     ? state.data.total.toString()
                     : "0",
-                orderColor: AppColors.purpleBlue,
+                orderColor: AppColors.primary,
                 fontSize: AppFontSize.s14.rSp,
                 orderFontSize: AppFontSize.s24.rSp,
               );
@@ -122,7 +122,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
                   orders: '',
                   orderColor: AppColors.white,
                   textColor: AppColors.white,
-                  bgColor: AppColors.blackCow,
+                  bgColor: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                   orderFontSize: AppFontSize.s24.rSp,
                 );
@@ -136,7 +136,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
                     : "0",
                 orderColor: AppColors.white,
                 textColor: AppColors.white,
-                bgColor: AppColors.blackCow,
+                bgColor: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
                 orderFontSize: AppFontSize.s24.rSp,
               );
@@ -150,7 +150,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
                   width: AppSize.s107.rw,
                   text: AppStrings.cancelled_orders.tr(),
                   orders: "0",
-                  orderColor: AppColors.lightViolet,
+                  orderColor: AppColors.primaryLight,
                   fontSize: AppFontSize.s14.rSp,
                   orderFontSize: AppFontSize.s24.rSp,
                 );
@@ -162,7 +162,7 @@ class _TotalOrderViewState extends State<TotalOrderView> with FilterObserver {
                 orders: (state is Success<Orders>)
                     ? state.data.total.toString()
                     : "0",
-                orderColor: AppColors.lightViolet,
+                orderColor: AppColors.primaryLight,
                 fontSize: AppFontSize.s14.rSp,
                 orderFontSize: AppFontSize.s24.rSp,
               );

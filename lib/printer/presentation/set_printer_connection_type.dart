@@ -16,7 +16,10 @@ class SetPrinterConnectionType extends StatefulWidget {
   final Function(int) onChanged;
 
   const SetPrinterConnectionType(
-      {Key? key, required this.onChanged, required this.initType, required this.willUsbEnabled})
+      {Key? key,
+      required this.onChanged,
+      required this.initType,
+      required this.willUsbEnabled})
       : super(key: key);
 
   @override
@@ -55,7 +58,7 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
             Text(
               AppStrings.set_printer_connection_type.tr(),
               style: mediumTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),
@@ -69,7 +72,9 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
               value: ConnectionType.USB,
               groupValue: _connectionType!,
               onChanged: _changePrinterConnectionType,
-              name: widget.willUsbEnabled ? AppStrings.usb.tr() : AppStrings.disable.tr(),
+              name: widget.willUsbEnabled
+                  ? AppStrings.usb.tr()
+                  : AppStrings.disable.tr(),
             ),
           ],
         ),

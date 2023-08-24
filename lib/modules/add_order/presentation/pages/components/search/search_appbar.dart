@@ -23,7 +23,6 @@ class SearchAppBar extends StatefulWidget {
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
-
   Timer? _debounce;
 
   void _onSearchChanged(String value) {
@@ -31,7 +30,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
       _debounce!.cancel();
     }
     _debounce = Timer(const Duration(milliseconds: 3), () {
-      if(value.isEmpty || value.length > 2){
+      if (value.isEmpty || value.length > 2) {
         widget.onTextChanged(value.toLowerCase());
       }
     });
@@ -64,7 +63,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
               onPressed: widget.onBack,
               icon: Icon(
                 Icons.arrow_back,
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
               ),
             ),
             Expanded(
@@ -76,17 +75,17 @@ class _SearchAppBarState extends State<SearchAppBar> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                  color: AppColors.seaShell,
+                  color: AppColors.greyLighter,
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
                   child: TextField(
-                    autofocus:true,
+                    autofocus: true,
                     onChanged: _onSearchChanged,
                     decoration: InputDecoration(
                       hintText: AppStrings.search_for_items.tr(),
                       hintStyle: regularTextStyle(
-                        color: AppColors.dustyGreay,
+                        color: AppColors.greyDarker,
                         fontSize: AppFontSize.s12.rSp,
                       ),
                       enabledBorder: const UnderlineInputBorder(

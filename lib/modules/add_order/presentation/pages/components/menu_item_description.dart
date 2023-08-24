@@ -59,7 +59,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
               },
               icon: Icon(
                 Icons.clear,
-                color: AppColors.bluewood,
+                color: AppColors.black,
               ),
             ),
           ),
@@ -130,14 +130,14 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                     widget.items.title,
                     style: boldTextStyle(
                       fontSize: AppFontSize.s17.rSp,
-                      color: AppColors.balticSea,
+                      color: AppColors.black,
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                      color: AppColors.purpleBlue,
+                      color: AppColors.primary,
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -192,7 +192,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.purpleBlue,
+                      color: AppColors.primary,
                       borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                     ),
                     child: Padding(

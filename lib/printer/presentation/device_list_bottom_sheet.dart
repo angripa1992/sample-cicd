@@ -62,7 +62,7 @@ class DeviceListBottomSheetManager {
           resizeToAvoidBottomInset: false,
           extendBody: false,
           appBar: AppBar(
-            backgroundColor: AppColors.whiteSmoke,
+            backgroundColor: AppColors.grey,
             centerTitle: true,
             leading: const SizedBox(),
             shape: const RoundedRectangleBorder(
@@ -71,9 +71,9 @@ class DeviceListBottomSheetManager {
               ),
             ),
             bottom: TabBar(
-              indicatorColor: AppColors.purpleBlue,
-              unselectedLabelColor: AppColors.darkGrey,
-              labelColor: AppColors.purpleBlue,
+              indicatorColor: AppColors.primary,
+              unselectedLabelColor: AppColors.greyDarker,
+              labelColor: AppColors.primary,
               labelStyle: TextStyle(
                 fontSize: AppFontSize.s14.rSp,
               ),
@@ -87,13 +87,13 @@ class DeviceListBottomSheetManager {
                   ? AppStrings.bluetooth_devices.tr()
                   : AppStrings.usb_devices.tr(),
               style: mediumTextStyle(
-                color: AppColors.darkGrey,
+                color: AppColors.greyDarker,
                 fontSize: AppSize.s18.rSp,
               ),
             ),
           ),
           body: Container(
-            color: AppColors.whiteSmoke,
+            color: AppColors.grey,
             child: TabBarView(
               children: [
                 PosPrinterDevicesView(

@@ -74,7 +74,7 @@ class _LevelTwoSelectOneViewState extends State<LevelTwoSelectOneView> {
                   name: modifier.title, prices: modifier.prices),
               onChanged: _onChanged,
               selected: _currentModifierId == modifier.id,
-              activeColor: AppColors.purpleBlue,
+              activeColor: AppColors.primary,
             );
           }).toList(),
         ),

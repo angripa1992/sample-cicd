@@ -115,8 +115,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   onEditManualOrder: widget.onEditManualOrder,
                   onRiderFind: widget.onRiderFind,
                 ),
-                if(_currentOrder.status == OrderStatus.CANCELLED)
-                  CancellationReasonView(cancellationReason: _currentOrder.cancellationReason),
+                if (_currentOrder.status == OrderStatus.CANCELLED)
+                  CancellationReasonView(
+                      cancellationReason: _currentOrder.cancellationReason),
                 OrderItemDetails(order: _currentOrder),
                 CommentView(comment: _currentOrder.orderComment),
                 if (_currentOrder.isThreePlOrder &&
@@ -176,7 +177,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             child: Text(
               AppStrings.order_details.tr(),
               style: mediumTextStyle(
-                color: AppColors.balticSea,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),
@@ -188,7 +189,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             icon: Icon(
               Icons.clear,
               size: AppSize.s18.rSp,
-              color: AppColors.blackCow,
+              color: AppColors.black,
             ),
           )
         ],

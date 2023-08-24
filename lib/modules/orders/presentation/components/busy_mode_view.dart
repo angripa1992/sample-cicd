@@ -97,7 +97,7 @@ class _BusyModeViewState extends State<BusyModeView> {
                   },
                   value: state is Offline,
                   activeColor: AppColors.black,
-                  trackColor: AppColors.purpleBlue,
+                  trackColor: AppColors.primary,
                 ),
               ),
             ],
@@ -114,13 +114,13 @@ class _BusyModeViewState extends State<BusyModeView> {
         Container(
           padding: EdgeInsets.all(AppSize.s16.rSp),
           decoration: BoxDecoration(
-              color: AppColors.purpleBlue.withOpacity(0.5),
+              color: AppColors.primary.withOpacity(0.5),
               shape: BoxShape.circle),
         ),
         Container(
           padding: EdgeInsets.all(AppSize.s8.rSp),
-          decoration: BoxDecoration(
-              color: AppColors.purpleBlue, shape: BoxShape.circle),
+          decoration:
+              BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
         ),
       ],
     );
@@ -132,7 +132,7 @@ class _BusyModeViewState extends State<BusyModeView> {
       lineWidth: 4.0,
       percent: (60 - minute) / 60,
       center: Text("$minute"),
-      progressColor: AppColors.purpleBlue,
+      progressColor: AppColors.primary,
     );
   }
 
@@ -204,8 +204,10 @@ class _BusyModeViewState extends State<BusyModeView> {
                               text: isBusy
                                   ? AppStrings.go_offline.tr()
                                   : AppStrings.go_online.tr(),
-                              color: isBusy ? AppColors.warmRed : AppColors.green,
-                              borderColor: isBusy ? AppColors.warmRed : AppColors.green,
+                              color:
+                                  isBusy ? AppColors.redDark : AppColors.green,
+                              borderColor:
+                                  isBusy ? AppColors.redDark : AppColors.green,
                             );
                           },
                         ),
@@ -219,7 +221,7 @@ class _BusyModeViewState extends State<BusyModeView> {
                             child: Text(
                               AppStrings.not_now.tr(),
                               style: mediumTextStyle(
-                                color: AppColors.purpleBlue,
+                                color: AppColors.primary,
                                 fontSize: AppFontSize.s16.rSp,
                               ),
                             ),

@@ -199,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.of(context).pushNamed(Routes.forget);
                           },
                           text: AppStrings.forgot_password.tr(),
-                          color: AppColors.purpleBlue,
+                          color: AppColors.primary,
                           textSize: AppSize.s14.rSp,
                         ),
                       ),
@@ -231,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             '${AppStrings.existing_account.tr()}. ',
                             style: regularTextStyle(
-                              color: AppColors.bluewood,
+                              color: AppColors.black,
                               fontSize: AppSize.s14.rSp,
                             ),
                           ),
@@ -250,7 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text(
                               AppStrings.dont_have_account.tr(),
                               style: boldTextStyle(
-                                color: AppColors.purpleBlue,
+                                color: AppColors.primary,
                                 fontSize: AppFontSize.s14.rSp,
                               ),
                             ),

@@ -30,7 +30,7 @@ class ScheduledDetailsView extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-          color: AppColors.dustyOrange,
+          color: AppColors.yellowDarker,
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(

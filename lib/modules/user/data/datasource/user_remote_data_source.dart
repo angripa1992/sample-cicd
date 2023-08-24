@@ -16,8 +16,8 @@ abstract class UserRemoteDataSource {
 
   Future<SuccessResponseModel> logout();
 
-  Future<SuccessResponseModel> updateUserInfo(UserUpdateRequestModel params,
-      int userID);
+  Future<SuccessResponseModel> updateUserInfo(
+      UserUpdateRequestModel params, int userID);
 
   Future<SuccessResponseModel> sendResetLink(
       ResetLinkRequestModel requestModel);
@@ -39,7 +39,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   Future<UserModel> login(LoginRequestModel params) async {
     try {
       final response =
-      await _restClient.request(Urls.login, Method.POST, params.toJson());
+          await _restClient.request(Urls.login, Method.POST, params.toJson());
       return UserModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -50,7 +50,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   Future<SuccessResponseModel> logout() async {
     try {
       final response =
-      await _restClient.request(Urls.logout, Method.POST, null);
+          await _restClient.request(Urls.logout, Method.POST, null);
       return SuccessResponseModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -58,8 +58,8 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }
 
   @override
-  Future<SuccessResponseModel> updateUserInfo(UserUpdateRequestModel params,
-      int userID) async {
+  Future<SuccessResponseModel> updateUserInfo(
+      UserUpdateRequestModel params, int userID) async {
     try {
       final response = await _restClient.request(
           '${Urls.userUpdate}/$userID', Method.PATCH, params.toJson());
@@ -97,8 +97,9 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   Future<SuccessResponseModel> changeUserSetting(
       Map<String, dynamic> params) async {
     try {
-      final response = await _restClient.request(Urls.userSettings, Method.POST, params);
-          return SuccessResponseModel.fromJson(response);
+      final response =
+          await _restClient.request(Urls.userSettings, Method.POST, params);
+      return SuccessResponseModel.fromJson(response);
     } on DioException {
       rethrow;
     }
@@ -107,7 +108,8 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   @override
   Future<UserSettingsModel> getUserSettings(int userId) async {
     try {
-      final response = await _restClient.request('${Urls.userSettings}/$userId', Method.GET, null);
+      final response = await _restClient.request(
+          '${Urls.userSettings}/$userId', Method.GET, null);
       return UserSettingsModel.fromJson(response);
     } on DioException {
       rethrow;

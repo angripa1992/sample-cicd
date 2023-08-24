@@ -29,7 +29,7 @@ class EmptyBrandView extends StatelessWidget {
               AppStrings.select_brand_name_msg.tr(),
               textAlign: TextAlign.center,
               style: mediumTextStyle(
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),
@@ -38,7 +38,7 @@ class EmptyBrandView extends StatelessWidget {
             AppStrings.click_button_to_select_brand.tr(),
             textAlign: TextAlign.center,
             style: regularTextStyle(
-              color: AppColors.coolGrey,
+              color: AppColors.greyDarker,
               fontSize: AppFontSize.s12.rSp,
             ),
           ),

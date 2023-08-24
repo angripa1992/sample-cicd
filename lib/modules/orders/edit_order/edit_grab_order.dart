@@ -61,25 +61,28 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
     if (quantity == 0) {
       _deleteItem(id, externalId);
     } else {
-      final cartItem = _currentOrder.cartV2.firstWhere((element) => (element.id == id && element.externalId == externalId));
+      final cartItem = _currentOrder.cartV2.firstWhere(
+          (element) => (element.id == id && element.externalId == externalId));
       cartItem.quantity = quantity;
     }
     _updateStateAndCalculate();
   }
 
-  void _updateStateAndCalculate(){
+  void _updateStateAndCalculate() {
     if (_currentOrder.cartV2.isEmpty) {
       _showPrice = false;
     } else {
-      final status = EditingManager().enabledButton(widget.order, _currentOrder);
+      final status =
+          EditingManager().enabledButton(widget.order, _currentOrder);
       _enableButtonNotifier.value = status;
       _showPrice = !status;
     }
     _calculateBill();
   }
 
-  void _deleteItem(String id, String externalId){
-    _currentOrder.cartV2.removeWhere((element) => (element.id == id && element.externalId == externalId));
+  void _deleteItem(String id, String externalId) {
+    _currentOrder.cartV2.removeWhere(
+        (element) => (element.id == id && element.externalId == externalId));
     _updateStateAndCalculate();
   }
 
@@ -100,15 +103,16 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
     });
   }
 
-  void _updateOrder(){
-    final requestModel = EditingManager().createRequestModel(widget.order, _currentOrder);
+  void _updateOrder() {
+    final requestModel =
+        EditingManager().createRequestModel(widget.order, _currentOrder);
     context.read<UpdateGrabOrderCubit>().updateGrabOrder(requestModel);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.whiteSmoke,
+      color: AppColors.grey,
       child: Column(
         children: [
           _appBar(),
@@ -164,7 +168,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 Text(
                   AppStrings.cart.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.balticSea,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s17.rSp,
                   ),
                 ),
@@ -172,7 +176,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 Text(
                   '#${_currentOrder.id} (${AppStrings.order_id.tr()})',
                   style: regularTextStyle(
-                    color: AppColors.dustyGreay,
+                    color: AppColors.greyDarker,
                     fontSize: AppFontSize.s12.rSp,
                   ),
                 ),
@@ -194,7 +198,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
           Text(
             AppStrings.your_cart_is_empty.tr(),
             style: mediumTextStyle(
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
               fontSize: AppFontSize.s20.rSp,
             ),
           ),
@@ -236,7 +240,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                                   child: Text(
                                     menuBrand.title,
                                     style: boldTextStyle(
-                                      color: AppColors.balticSea,
+                                      color: AppColors.black,
                                       fontSize: AppFontSize.s15.rSp,
                                     ),
                                   ),
@@ -299,7 +303,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
             child: Text(
               AppStrings.total.tr(),
               style: regularTextStyle(
-                color: AppColors.balticSea,
+                color: AppColors.black,
                 fontSize: AppFontSize.s15.rSp,
               ),
             ),
@@ -307,7 +311,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
           Text(
             '${_currentOrder.currencySymbol} ${_currentOrder.itemPriceDisplay}',
             style: TextStyle(
-              color: AppColors.balticSea,
+              color: AppColors.black,
               fontSize: AppFontSize.s15.rSp,
               fontWeight: FontWeight.w500,
             ),
@@ -384,7 +388,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
     bool subtotal = false,
   }) {
     final textStyle = TextStyle(
-      color: AppColors.balticSea,
+      color: AppColors.black,
       fontSize: subtotal ? AppFontSize.s16.rSp : AppFontSize.s14.rSp,
       fontWeight: subtotal ? FontWeight.w500 : FontWeight.w400,
     );
@@ -428,14 +432,14 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 text: TextSpan(
                   text: AppStrings.total.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.balticSea,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s16.rSp,
                   ),
                   children: [
                     TextSpan(
                       text: ' (${AppStrings.inc_vat.tr()})',
                       style: regularTextStyle(
-                        color: AppColors.dustyGreay,
+                        color: AppColors.greyDarker,
                       ),
                     ),
                   ],
@@ -446,7 +450,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                     ? '${_currentOrder.currencySymbol} ${_currentOrder.finalPriceDisplay}'
                     : _calculatedText,
                 style: TextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                   fontWeight: FontWeight.w500,
                 ),
@@ -462,8 +466,8 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                   onTap: _discard,
                   text: AppStrings.discard.tr(),
                   color: AppColors.white,
-                  borderColor: AppColors.purpleBlue,
-                  textColor: AppColors.purpleBlue,
+                  borderColor: AppColors.primary,
+                  textColor: AppColors.primary,
                 ),
               ),
               SizedBox(width: AppSize.s12.rw),
@@ -471,14 +475,14 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 child: ValueListenableBuilder<bool>(
                   valueListenable: _enableButtonNotifier,
                   builder: (_, enabled, __) {
-                    return BlocConsumer<UpdateGrabOrderCubit,ResponseState>(
+                    return BlocConsumer<UpdateGrabOrderCubit, ResponseState>(
                       listener: (context, state) {
-                        if(state is Loading){
+                        if (state is Loading) {
                           EasyLoading.show();
-                        }else if(state is Failed){
+                        } else if (state is Failed) {
                           EasyLoading.dismiss();
-                          showApiErrorSnackBar(context,state.failure);
-                        }else if(state is Success<ActionSuccess>){
+                          showApiErrorSnackBar(context, state.failure);
+                        } else if (state is Success<ActionSuccess>) {
                           EasyLoading.dismiss();
                           showSuccessSnackBar(context, state.data.message!);
                           _currentOrder.canUpdate = false;
@@ -486,7 +490,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                           Navigator.pop(context);
                         }
                       },
-                      builder: (_,state){
+                      builder: (_, state) {
                         return LoadingButton(
                           enabled: state is! Loading && enabled,
                           isLoading: false,

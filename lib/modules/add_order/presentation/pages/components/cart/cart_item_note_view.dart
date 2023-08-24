@@ -36,7 +36,7 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
     super.dispose();
   }
 
-  void _save(){
+  void _save() {
     setState(() {
       _instruction = _controller.text.toString();
     });
@@ -46,44 +46,46 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
 
   @override
   Widget build(BuildContext context) {
-    return _instruction.isEmpty ? const SizedBox() : Padding(
-      padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-      child: InkWell(
-        onTap: () {
-          _openNote();
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s8.rw,
-            vertical: AppSize.s8.rh,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            border: Border.all(color: AppColors.dustyGreay),
-            color: AppColors.whiteSmoke,
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.cartItem.itemInstruction,
-                  overflow: TextOverflow.ellipsis,
-                  style: regularTextStyle(
-                    color: AppColors.smokeyGrey,
-                    fontSize: AppFontSize.s12.rSp,
-                  ),
+    return _instruction.isEmpty
+        ? const SizedBox()
+        : Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+            child: InkWell(
+              onTap: () {
+                _openNote();
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s8.rw,
+                  vertical: AppSize.s8.rh,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                  border: Border.all(color: AppColors.greyDarker),
+                  color: AppColors.grey,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.cartItem.itemInstruction,
+                        overflow: TextOverflow.ellipsis,
+                        style: regularTextStyle(
+                          color: AppColors.greyDarker,
+                          fontSize: AppFontSize.s12.rSp,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.edit_outlined,
+                      size: AppSize.s18.rSp,
+                      color: AppColors.greyDarker,
+                    ),
+                  ],
                 ),
               ),
-              Icon(
-                Icons.edit_outlined,
-                size: AppSize.s18.rSp,
-                color: AppColors.smokeyGrey,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   void _openNote() {
@@ -107,7 +109,7 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
                     child: Text(
                       'Notes',
                       style: boldTextStyle(
-                        color: AppColors.bluewood,
+                        color: AppColors.black,
                         fontSize: AppFontSize.s16.rSp,
                       ),
                     ),
@@ -126,7 +128,7 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
               Text(
                 'Add notes for this item',
                 style: mediumTextStyle(
-                  color: AppColors.bluewood,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),
@@ -141,7 +143,7 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
               ElevatedButton(
                 onPressed: _save,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.purpleBlue,
+                  backgroundColor: AppColors.primary,
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),

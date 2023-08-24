@@ -105,13 +105,13 @@ class _BrandFilterState extends State<BrandFilter> {
   Widget build(BuildContext context) {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
-        headerColor: AppColors.lightVioletTwo,
+        headerColor: AppColors.greyLight,
         headerPadding: EdgeInsets.symmetric(
           horizontal: AppSize.s8.rw,
           vertical: AppSize.s8.rh,
         ),
-        headerSplashColor: AppColors.lightViolet,
-        contentBackgroundColor: AppColors.pearl,
+        headerSplashColor: AppColors.primaryLight,
+        contentBackgroundColor: AppColors.greyLight,
         contentPadding: EdgeInsets.zero,
       ),
       trailing: Icon(
@@ -167,7 +167,7 @@ class _BrandFilterState extends State<BrandFilter> {
                           _apply();
                         },
                         text: AppStrings.apply.tr(),
-                        color: AppColors.purpleBlue,
+                        color: AppColors.primary,
                         icon: Icons.search,
                       ),
                     ],

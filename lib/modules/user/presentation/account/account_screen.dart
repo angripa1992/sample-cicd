@@ -23,7 +23,6 @@ import '../../../../language/language_setting_page.dart';
 import '../../../../resources/fonts.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import '../../../widgets/app_button.dart';
-import '../../../widgets/dialogs.dart';
 import '../../../widgets/snackbars.dart';
 import 'component/account_header.dart';
 import 'component/account_setting_item.dart';
@@ -75,7 +74,7 @@ class _AccountScreenState extends State<AccountScreen> {
               borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
           icon: Icon(
             Icons.logout,
-            color: AppColors.warmRed,
+            color: AppColors.redDark,
           ),
           title: Text(AppStrings.logout.tr()),
           actionsAlignment: MainAxisAlignment.end,
@@ -88,8 +87,8 @@ class _AccountScreenState extends State<AccountScreen> {
             AppButton(
               text: AppStrings.cancel.tr(),
               color: AppColors.white,
-              textColor: AppColors.blackCow,
-              borderColor: AppColors.blackCow,
+              textColor: AppColors.black,
+              borderColor: AppColors.black,
               onTap: () {
                 Navigator.of(dContext).pop();
               },
@@ -98,8 +97,8 @@ class _AccountScreenState extends State<AccountScreen> {
             AppButton(
               text: AppStrings.logout.tr(),
               color: AppColors.white,
-              textColor: AppColors.warmRed,
-              borderColor: AppColors.warmRed,
+              textColor: AppColors.redDark,
+              borderColor: AppColors.redDark,
               onTap: () {
                 Navigator.of(dContext).pop();
                 context.read<LogoutCubit>().logout();
@@ -110,7 +109,7 @@ class _AccountScreenState extends State<AccountScreen> {
             AppStrings.logout_confirm_message.tr(),
             textAlign: TextAlign.center,
             style: regularTextStyle(
-              color: AppColors.blackCow,
+              color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
@@ -155,9 +154,9 @@ class _AccountScreenState extends State<AccountScreen> {
                           text: AppStrings.edit_profile.tr(),
                           icon: Icons.edit_outlined,
                           color: AppColors.white,
-                          textColor: AppColors.blackCow,
-                          borderColor: AppColors.blackCow,
-                          onTap: (){
+                          textColor: AppColors.black,
+                          borderColor: AppColors.black,
+                          onTap: () {
                             Navigator.of(context).pushNamed(Routes.editProfile);
                           },
                         ),
@@ -170,8 +169,8 @@ class _AccountScreenState extends State<AccountScreen> {
                               showApiErrorSnackBar(context, state.failure);
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
-                              SegmentManager()
-                                  .identify(event: SegmentEvents.USER_LOGGED_OUT);
+                              SegmentManager().identify(
+                                  event: SegmentEvents.USER_LOGGED_OUT);
                               SessionManager().logout();
                             }
                           },
@@ -180,8 +179,8 @@ class _AccountScreenState extends State<AccountScreen> {
                               isLoading: (state is Loading),
                               text: AppStrings.logout.tr(),
                               color: AppColors.white,
-                              borderColor: AppColors.warmRed,
-                              textColor: AppColors.warmRed,
+                              borderColor: AppColors.redDark,
+                              textColor: AppColors.redDark,
                               icon: Icons.logout_outlined,
                               onTap: () {
                                 _showLogoutDialog(context);
@@ -196,7 +195,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 Text(
                   'Settings',
                   style: boldTextStyle(
-                    color: AppColors.blackCow,
+                    color: AppColors.black,
                     fontSize: AppSize.s16.rSp,
                   ),
                 ),

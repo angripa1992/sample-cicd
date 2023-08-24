@@ -26,7 +26,7 @@ class DeviceItemView extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding:  const EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             vertical: AppSize.s12,
             horizontal: AppSize.s16,
           ),
@@ -48,8 +48,8 @@ class DeviceItemView extends StatelessWidget {
               ),
               AppButton(
                 color: AppColors.white,
-                textColor: AppColors.darkGrey,
-                borderColor: AppColors.darkGrey,
+                textColor: AppColors.greyDarker,
+                borderColor: AppColors.greyDarker,
                 onTap: () {
                   onConnect();
                 },

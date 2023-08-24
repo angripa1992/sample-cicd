@@ -44,7 +44,7 @@ class BrandSelectorAppBar extends StatelessWidget {
               onPressed: onBack,
               icon: Icon(
                 Icons.arrow_back,
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
               ),
             ),
             Expanded(

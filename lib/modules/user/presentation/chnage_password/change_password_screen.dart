@@ -12,7 +12,6 @@ import 'package:klikit/modules/user/presentation/chnage_password/components/pass
 import 'package:klikit/modules/user/presentation/chnage_password/cubit/change_password_cubit.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
-import 'package:klikit/modules/widgets/url_text_button.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/values.dart';

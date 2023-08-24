@@ -51,7 +51,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
           child: Text(
             AppStrings.delivery_aggregator.tr(),
             style: regularTextStyle(
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
               fontSize: AppFontSize.s16.rSp,
             ),
           ),
@@ -59,7 +59,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            color: AppColors.lightVioletTwo,
+            color: AppColors.greyLight,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
@@ -72,7 +72,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                   underline: const SizedBox(),
                   icon: Icon(
                     Icons.keyboard_arrow_down,
-                    color: AppColors.purpleBlue,
+                    color: AppColors.primary,
                   ),
                   // hint: Container(
                   //   alignment: Alignment.centerLeft,
@@ -100,7 +100,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                           title: Text(provider.title, style: dropDownTextStyle),
                           value: provider,
                           groupValue: dropDownValue,
-                          activeColor: AppColors.purpleBlue,
+                          activeColor: AppColors.primary,
                           onChanged: (value) {
                             Navigator.pop(_dropdownKey.currentContext!);
                             setState(() {

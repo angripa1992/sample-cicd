@@ -1,42 +1,36 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static Color purpleBlue = const Color(0xFF6A13F4);
-  static Color veryLightPurple = const Color(0xFFF5CDFA);
-  static Color blueViolet = const Color(0xFF8541F6);
-  static Color lightViolet = const Color(0xFFCFB4FC);
-  static Color darkViolet = const Color(0xFF8B48CE);
-  static Color lightVioletTwo = const Color(0xFFF0E7FE);
+  static Color primary = const Color(0xFF5A57EB);
+  static Color primaryLighter = const Color(0xFFb3b2f7);
+  static Color primaryLight = const Color(0xFF8b8ae6);
+  static Color primaryDark = const Color(0xFF403fab);
+  static Color primaryDarker = const Color(0xFF172b4d);
+
+  static Color red = const Color(0xFFEB5757);
+  static Color redDark = const Color(0xFFED2B2B);
+  static Color redLight = const Color(0xFFE66A6A);
+  static Color redPure = const Color(0xFFFF0000);
+
+  static Color green = const Color(0xFF27AE60);
+  static Color greenLight = const Color(0xFF02ED65);
+  static Color greenDark = const Color(0xFF00943E);
+
+  static Color yellowDark = const Color(0xFFFFA133);
+  static Color yellowDarker = const Color(0xFFf48300);
+
+  static Color blue = const Color(0xFF0468E4);
+  static Color blueDark = const Color(0xFF0353b6);
+
+  static Color grey = const Color(0xFFEEEEEE);
+  static Color greyDarker = const Color(0xFF8d97ad);
+  static Color greyDark = const Color(0xFFCFD8DC);
+  static Color greyLight = const Color(0xFFf4f5f7);
+  static Color greyLighter = const Color(0xFFfafafa);
+
   static Color white = const Color(0xFFFFFFFF);
-  static Color red = const Color(0xFFF44336);
-  static Color green = const Color(0xFF25D366);
-  static Color frostedMint = const Color(0xFFDDFFEE);
-  static Color black = const Color(0xFF000000);
-  static Color canaryYellow = const Color(0xFFFAF84F);
-  static Color manilla = const Color(0xFFFBFA92);
-  static Color whiteSmoke = const Color(0xFFF4F5F7);
-  static Color smokeyGrey = const Color(0xFF727272);
-  static Color darkGrey = const Color(0xFF3B3B3B);
-  static Color dustyGrey = const Color(0xFF999999);
-  static Color lightGrey = const Color(0xFFD9D9D9);
-  static Color blackCow = const Color(0xFF4A4A4A);
-  static Color blueChalk = const Color(0xFFF0E7FE);
-  static Color coolGrey = const Color(0xFF9C9C9C);
-  static Color lightSalmon = const Color(0xFFFBA592);
-  static Color warmRed = const Color(0xFFFF2E00);
-  static Color pearl = const Color(0xFFF3F1F1);
-  static Color pink = const Color(0xFFE83CF7);
-  static Color dawnPink = const Color(0xFFEBEBEB);
-  static Color peppermint = const Color(0xFFE3F3E9);
-  static Color balticSea= const Color(0xFF262626);
-  static Color dustyGreay= const Color(0xFF9B9B9B);
-  static Color frenchGrey= const Color(0xFFBCBDBE);
-  static Color dustyOrange= const Color(0xFFE97B2F);
-  static Color sweetPink= const Color(0xFFFFA38E);
-  static Color seaShell= const Color(0xFFF0F0F0);
-  static Color water= const Color(0xFFF2F2F2);
-  static Color alabaster= const Color(0xFFF9FAFB);
-  static Color bluewood= const Color(0xFF344054);
+
+  static Color black = const Color(0xFF262626);
 }
 
 Color getCheckboxColor(Set<MaterialState> states) {
@@ -46,7 +40,7 @@ Color getCheckboxColor(Set<MaterialState> states) {
     MaterialState.focused,
   };
   if (states.any(interactiveStates.contains)) {
-    return AppColors.purpleBlue;
+    return AppColors.primary;
   }
-  return AppColors.purpleBlue;
+  return AppColors.primary;
 }

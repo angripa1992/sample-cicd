@@ -64,7 +64,7 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
             Text(
               AppStrings.set_font_size.tr(),
               style: mediumTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),
@@ -73,7 +73,7 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
               padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: AppColors.frenchGrey,
+                  color: AppColors.greyDarker,
                   width: AppSize.s1.rSp,
                 ),
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
@@ -84,10 +84,10 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
                 underline: const SizedBox(),
                 icon: Icon(
                   Icons.arrow_drop_down,
-                  color: AppColors.darkGrey,
+                  color: AppColors.greyDarker,
                 ),
                 elevation: 16,
-                style: TextStyle(color: AppColors.darkGrey),
+                style: TextStyle(color: AppColors.greyDarker),
                 onChanged: (int? value) {
                   // This is called when the user selects an item.
                   setState(() {
@@ -101,7 +101,7 @@ class _SetFontSizeDropDownState extends State<SetFontSizeDropDown> {
                     child: Text(
                       _label(value),
                       style: mediumTextStyle(
-                        color: AppColors.bluewood,
+                        color: AppColors.black,
                         fontSize: AppFontSize.s14.rSp,
                       ),
                     ),

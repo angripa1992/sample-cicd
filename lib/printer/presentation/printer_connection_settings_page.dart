@@ -11,6 +11,7 @@ import 'docket_config_tab.dart';
 
 class PrinterConnectionSettingPage extends StatelessWidget {
   const PrinterConnectionSettingPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -21,9 +22,9 @@ class PrinterConnectionSettingPage extends StatelessWidget {
           titleTextStyle: getAppBarTextStyle(),
           flexibleSpace: getAppBarBackground(),
           bottom: TabBar(
-            indicatorColor: AppColors.canaryYellow,
+            indicatorColor: AppColors.yellowDark,
             unselectedLabelColor: AppColors.white,
-            labelColor: AppColors.canaryYellow,
+            labelColor: AppColors.yellowDark,
             labelStyle: TextStyle(
               fontSize: AppFontSize.s14.rSp,
             ),

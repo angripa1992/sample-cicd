@@ -16,7 +16,6 @@ import '../../modules/widgets/app_button.dart';
 import '../../modules/widgets/loading_button.dart';
 import '../../modules/widgets/snackbars.dart';
 import '../../resources/colors.dart';
-import '../../resources/fonts.dart';
 import '../../resources/strings.dart';
 import '../../resources/values.dart';
 import '../data/printer_setting.dart';
@@ -59,7 +58,8 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
     );
     if (savingData == null) {
       _stickerPrinterStateListener.value = !_stickerPrinterEnabled;
-      _stickerPrinterStateListener.value = _appPreferences.printerSetting().stickerPrinterEnabled;
+      _stickerPrinterStateListener.value =
+          _appPreferences.printerSetting().stickerPrinterEnabled;
     }
   }
 
@@ -110,7 +110,9 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
           children: [
             SetPrinterConnectionType(
               willUsbEnabled: false,
-              initType: _stickerPrinterEnabled ? ConnectionType.BLUETOOTH : ConnectionType.USB,
+              initType: _stickerPrinterEnabled
+                  ? ConnectionType.BLUETOOTH
+                  : ConnectionType.USB,
               onChanged: (type) {
                 _stickerPrinterEnabled = type == ConnectionType.BLUETOOTH;
                 _stickerPrinterStateListener.value = _stickerPrinterEnabled;
@@ -149,15 +151,16 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
               valueListenable: _stickerPrinterStateListener,
               builder: (_, value, __) {
                 return AppButton(
-                  enable: _appPreferences.printerSetting().stickerPrinterEnabled,
+                  enable:
+                      _appPreferences.printerSetting().stickerPrinterEnabled,
                   onTap: () {
                     _printingHandler.showDevices(
                         initialIndex: PrinterSelectIndex.sticker);
                   },
                   text: AppStrings.show_devices.tr(),
                   color: AppColors.white,
-                  borderColor: AppColors.bluewood,
-                  textColor: AppColors.bluewood,
+                  borderColor: AppColors.black,
+                  textColor: AppColors.black,
                   icon: _appPreferences.printerSetting().stickerPrinterEnabled
                       ? Icons.bluetooth
                       : Icons.bluetooth_disabled,

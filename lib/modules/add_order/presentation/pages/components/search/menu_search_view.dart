@@ -78,7 +78,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.whiteSmoke,
+      color: AppColors.grey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -94,7 +94,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
             child: Text(
               AppStrings.categories.tr(),
               style: mediumTextStyle(
-                color: AppColors.dustyGreay,
+                color: AppColors.greyDarker,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
@@ -143,7 +143,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
             child: Text(
               AppStrings.Items.tr(),
               style: mediumTextStyle(
-                color: AppColors.dustyGreay,
+                color: AppColors.greyDarker,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
@@ -186,7 +186,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
             ),
           ),
           Container(
-            color: AppColors.pearl,
+            color: AppColors.greyLight,
             child: GoToCartButton(
               onGotoCart: widget.goToCart,
             ),

@@ -12,10 +12,10 @@ class PublicRestClient {
   PublicRestClient._internal();
 
   Future<dynamic> request(
-      String url,
-      Method method,
-      Map<String, dynamic>? params,
-      ) async {
+    String url,
+    Method method,
+    Map<String, dynamic>? params,
+  ) async {
     Response response;
     try {
       if (method == Method.POST) {

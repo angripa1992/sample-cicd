@@ -77,7 +77,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.whiteSmoke,
+      color: AppColors.grey,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [

@@ -112,16 +112,16 @@ class BillingItem {
     if (statuses != null) {
       data['statuses'] = statuses!.map((v) => v.toJson()).toList();
     }
-    if(comment != null){
+    if (comment != null) {
       data['comment'] = comment;
     }
-    if(quantityOfScPromoItem != null){
+    if (quantityOfScPromoItem != null) {
       data['quantity_of_sc_promo_item'] = quantityOfScPromoItem;
     }
-    if(promoDiscount != null){
+    if (promoDiscount != null) {
       data['promo_discount'] = promoDiscount;
     }
-    if(appliedPromoModel != null){
+    if (appliedPromoModel != null) {
       data['applied_promo'] = appliedPromoModel!.toJson();
     }
     return data;

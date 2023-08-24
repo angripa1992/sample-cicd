@@ -63,7 +63,7 @@ class MenuItemView extends StatelessWidget {
                         width: AppSize.s90.rw,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          color: AppColors.purpleBlue,
+                          color: AppColors.primary,
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -93,8 +93,8 @@ class MenuItemView extends StatelessWidget {
                           Icons.add_circle,
                           size: AppSize.s28.rSp,
                           color: availability == Availability.OUT_OF_STOCK
-                              ? AppColors.lightGrey
-                              : AppColors.purpleBlue,
+                              ? AppColors.greyLight
+                              : AppColors.primary,
                         ),
                       ),
                     )

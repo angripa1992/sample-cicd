@@ -18,7 +18,11 @@ class PaymentStatusView extends StatefulWidget {
   final int? initStatus;
   final bool willShowReqTag;
 
-  const PaymentStatusView({Key? key, required this.onChanged, this.initStatus,this.willShowReqTag = true})
+  const PaymentStatusView(
+      {Key? key,
+      required this.onChanged,
+      this.initStatus,
+      this.willShowReqTag = true})
       : super(key: key);
 
   @override
@@ -74,7 +78,10 @@ class PaymentStatusDropdown extends StatefulWidget {
   final int? initStatus;
 
   const PaymentStatusDropdown(
-      {Key? key, required this.statues, required this.onChanged, this.initStatus})
+      {Key? key,
+      required this.statues,
+      required this.onChanged,
+      this.initStatus})
       : super(key: key);
 
   @override
@@ -84,13 +91,14 @@ class PaymentStatusDropdown extends StatefulWidget {
 class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
   PaymentStatus? _paymentStatus;
   final _textStyle = regularTextStyle(
-    color: AppColors.balticSea,
+    color: AppColors.black,
     fontSize: AppFontSize.s13.rSp,
   );
 
   @override
   void initState() {
-   _paymentStatus = widget.statues.firstWhere((element) => element.id == (widget.initStatus ?? PaymentStatusId.pending));
+    _paymentStatus = widget.statues.firstWhere((element) =>
+        element.id == (widget.initStatus ?? PaymentStatusId.pending));
     super.initState();
   }
 
@@ -101,7 +109,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
       padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.whiteSmoke,
+        color: AppColors.grey,
       ),
       child: DropdownButton<PaymentStatus>(
         isExpanded: true,
@@ -119,7 +127,10 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
           return DropdownMenuItem<PaymentStatus>(
               value: value,
               child: ListTile(
-                tileColor: (_paymentStatus != null && _paymentStatus!.id == value.id) ? AppColors.alabaster : AppColors.white,
+                tileColor:
+                    (_paymentStatus != null && _paymentStatus!.id == value.id)
+                        ? AppColors.greyLighter
+                        : AppColors.white,
                 title: Text(
                   value.title,
                   style: _textStyle,
@@ -129,7 +140,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
                         ? Icon(
                             Icons.check,
                             size: AppSize.s18.rSp,
-                            color: AppColors.purpleBlue,
+                            color: AppColors.primary,
                           )
                         : const SizedBox(),
               ));

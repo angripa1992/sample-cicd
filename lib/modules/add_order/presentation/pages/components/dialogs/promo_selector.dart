@@ -58,7 +58,7 @@ class _PromoSelectorViewState extends State<PromoSelectorView> {
                       child: Text(
                         promo.code!,
                         style: regularTextStyle(
-                          color: AppColors.bluewood,
+                          color: AppColors.black,
                           fontSize: AppFontSize.s14.rSp,
                         ),
                       ),
@@ -70,7 +70,7 @@ class _PromoSelectorViewState extends State<PromoSelectorView> {
                       icon: Icon(
                         Icons.info_outline,
                         size: AppSize.s16.rSp,
-                        color: AppColors.bluewood,
+                        color: AppColors.black,
                       ),
                     ),
                   ],
@@ -93,7 +93,7 @@ class _PromoSelectorViewState extends State<PromoSelectorView> {
           onChanged: (promoId) {
             _changePromo(promoId, false);
           },
-          activeColor: AppColors.purpleBlue,
+          activeColor: AppColors.primary,
         );
       }).toList(),
     );

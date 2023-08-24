@@ -201,7 +201,7 @@ class _CartScreenState extends State<CartScreen> {
           backgroundColor: Colors.transparent,
           body: Container(
             margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-            color: AppColors.whiteSmoke,
+            color: AppColors.grey,
             child: OrderDiscountModalView(
               promoInfo: isItemDiscount
                   ? cartItem!.promoInfo
@@ -276,7 +276,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.whiteSmoke,
+      color: AppColors.grey,
       child: Column(
         children: [
           CartAppBar(

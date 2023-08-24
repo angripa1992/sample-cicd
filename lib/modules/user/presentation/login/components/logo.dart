@@ -28,7 +28,7 @@ class LogoView extends StatelessWidget {
         Text(
           AppStrings.cloud.tr(),
           style: mediumTextStyle(
-            color: AppColors.canaryYellow,
+            color: AppColors.yellowDark,
             fontSize: AppSize.s40.rSp,
           ),
         ),

@@ -8,8 +8,6 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import 'app_button.dart';
-
 void showValidationDialog({
   required BuildContext context,
   required String title,
@@ -57,7 +55,7 @@ void showValidationDialog({
                 child: Text(
                   AppStrings.ok.tr(),
                   style: regularTextStyle(
-                    color: AppColors.purpleBlue,
+                    color: AppColors.primary,
                     fontSize: AppFontSize.s18.rSp,
                   ),
                 ),

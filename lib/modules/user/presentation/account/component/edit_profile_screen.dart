@@ -15,8 +15,6 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/session_manager.dart';
-import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../widgets/dialogs.dart';
 import '../../../../widgets/snackbars.dart';

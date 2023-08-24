@@ -4,8 +4,6 @@ import 'package:klikit/modules/menu/data/models/status_model.dart';
 import 'package:klikit/modules/menu/data/models/sub_section_model.dart';
 
 import '../../domain/entities/sections.dart';
-import '../../domain/entities/status.dart';
-import '../../domain/entities/sub_section.dart';
 import 'availables_time_model.dart';
 
 part 'sections_model.g.dart';
@@ -51,7 +49,8 @@ class SectionsModel {
       title: title.orEmpty(),
       startTime: startTime.orZero(),
       endTime: endTime.orZero(),
-      availableTimes: availableTimes?.toEntity() ?? AvailableTimesModel().toEntity(),
+      availableTimes:
+          availableTimes?.toEntity() ?? AvailableTimesModel().toEntity(),
       days: days.orEmpty(),
       enabled: enabled.orFalse(),
       hidden: hidden.orFalse(),

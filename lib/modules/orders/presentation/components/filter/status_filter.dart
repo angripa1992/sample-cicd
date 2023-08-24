@@ -79,7 +79,7 @@ class _StatusFilterState extends State<StatusFilter> {
             child: Text(
               AppStrings.filter_by_aggregator.tr(),
               style: regularTextStyle(
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
@@ -88,13 +88,13 @@ class _StatusFilterState extends State<StatusFilter> {
             padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
             child: ExpandedTile(
               theme: ExpandedTileThemeData(
-                headerColor: AppColors.lightVioletTwo,
+                headerColor: AppColors.greyLight,
                 headerPadding: EdgeInsets.symmetric(
                   horizontal: AppSize.s8.rw,
                   vertical: AppSize.s8.rh,
                 ),
-                headerSplashColor: AppColors.lightViolet,
-                contentBackgroundColor: AppColors.pearl,
+                headerSplashColor: AppColors.primaryLight,
+                contentBackgroundColor: AppColors.greyLight,
                 contentPadding: EdgeInsets.zero,
               ),
               trailing: Icon(

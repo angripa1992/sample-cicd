@@ -38,12 +38,12 @@ class OrderItemView extends StatelessWidget {
     required this.onRiderFind,
   }) : super(key: key);
 
-  String _id(){
-    if(order.providerId == ProviderID.KLIKIT){
+  String _id() {
+    if (order.providerId == ProviderID.KLIKIT) {
       return order.id.toString();
-    }else if(order.shortId.isNotEmpty){
+    } else if (order.shortId.isNotEmpty) {
       return order.shortId;
-    }else{
+    } else {
       return order.externalId;
     }
   }
@@ -75,7 +75,7 @@ class OrderItemView extends StatelessWidget {
                             child: Text(
                               '# ${_id()}',
                               style: boldTextStyle(
-                                color: AppColors.purpleBlue,
+                                color: AppColors.primary,
                                 fontSize: AppFontSize.s16.rSp,
                               ),
                             ),
@@ -96,7 +96,7 @@ class OrderItemView extends StatelessWidget {
                           child: Icon(
                             Icons.copy,
                             size: AppSize.s14.rSp,
-                            color: AppColors.purpleBlue,
+                            color: AppColors.primary,
                           ),
                         ),
                       ],
@@ -105,7 +105,7 @@ class OrderItemView extends StatelessWidget {
                     Text(
                       order.orderSource.title,
                       style: regularTextStyle(
-                        color: AppColors.bluewood,
+                        color: AppColors.black,
                         fontSize: AppFontSize.s14.rSp,
                       ),
                     ),
@@ -113,7 +113,7 @@ class OrderItemView extends StatelessWidget {
                     Text(
                       DateTimeProvider.parseOrderCreatedDate(order.createdAt),
                       style: regularTextStyle(
-                        color: AppColors.bluewood,
+                        color: AppColors.black,
                         fontSize: AppFontSize.s12.rSp,
                       ),
                     ),
@@ -155,13 +155,13 @@ class OrderItemView extends StatelessWidget {
                       Text(
                         AppStrings.see_details.tr(),
                         style: mediumTextStyle(
-                          color: AppColors.purpleBlue,
+                          color: AppColors.primary,
                           fontSize: AppFontSize.s12.rSp,
                         ),
                       ),
                       Icon(
                         Icons.arrow_forward_rounded,
-                        color: AppColors.purpleBlue,
+                        color: AppColors.primary,
                         size: AppSize.s16.rSp,
                       ),
                     ],
@@ -208,7 +208,7 @@ class OrderItemView extends StatelessWidget {
         Text(
           AppStrings.scheduled.tr(),
           style: mediumTextStyle(
-            color: AppColors.dustyOrange,
+            color: AppColors.yellowDarker,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
@@ -220,14 +220,14 @@ class OrderItemView extends StatelessWidget {
               Icon(
                 Icons.date_range,
                 size: AppSize.s16.rSp,
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
               ),
               SizedBox(width: AppSize.s4.rw),
               Flexible(
                 child: Text(
                   DateTimeProvider.scheduleDate(order.scheduledTime),
                   style: mediumTextStyle(
-                    color: AppColors.purpleBlue,
+                    color: AppColors.primary,
                     fontSize: AppFontSize.s14.rSp,
                   ),
                 ),
@@ -241,14 +241,14 @@ class OrderItemView extends StatelessWidget {
             Icon(
               Icons.access_time,
               size: AppSize.s16.rSp,
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
             ),
             SizedBox(width: AppSize.s4.rw),
             Flexible(
               child: Text(
                 DateTimeProvider.scheduleTime(order.scheduledTime),
                 style: mediumTextStyle(
-                  color: AppColors.purpleBlue,
+                  color: AppColors.primary,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),

@@ -32,7 +32,10 @@ import 'components/modifier/edit_modifier.dart';
 class AddOrderBody extends StatefulWidget {
   final VoidCallback onBack;
   final bool willOpenCart;
-  const AddOrderBody({Key? key, required this.onBack, required this.willOpenCart}) : super(key: key);
+
+  const AddOrderBody(
+      {Key? key, required this.onBack, required this.willOpenCart})
+      : super(key: key);
 
   @override
   State<AddOrderBody> createState() => _AddOrderBodyState();
@@ -51,9 +54,9 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MenuBrandsCubit, ResponseState>(
-      listener: (context,state){
-        if(state is Success<List<MenuBrand>> && widget.willOpenCart){
-          WidgetsBinding.instance.addPostFrameCallback((_){
+      listener: (context, state) {
+        if (state is Success<List<MenuBrand>> && widget.willOpenCart) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             _gotoCart();
           });
         }
@@ -64,7 +67,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         } else if (state is Success<List<MenuBrand>>) {
           EasyLoading.dismiss();
           return _body(state.data);
-        } else if(state is Failed) {
+        } else if (state is Failed) {
           EasyLoading.dismiss();
           return Center(child: Text(state.failure.message));
         }
@@ -145,11 +148,11 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   void _addToCart(AddToCartItem? item) {
     if (item != null) {
       CartManager().addToCart(item);
-      showSuccessSnackBar(null,AppStrings.successfully_added_to_cart.tr());
+      showSuccessSnackBar(null, AppStrings.successfully_added_to_cart.tr());
     }
   }
 
-  void _editCart(AddToCartItem? newItem, AddToCartItem oldItem) async{
+  void _editCart(AddToCartItem? newItem, AddToCartItem oldItem) async {
     if (newItem != null) {
       await CartManager().editItem(
         newItem: newItem,
@@ -259,8 +262,8 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                 return const SizedBox();
               } else if (state is Success<List<SubSectionListItem>>) {
                 EasyLoading.dismiss();
-                if(state.data.isEmpty){
-                  return  Center(
+                if (state.data.isEmpty) {
+                  return Center(
                     child: Text(AppStrings.no_item_found.tr()),
                   );
                 }
@@ -284,7 +287,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           ),
         ),
         Container(
-          color: AppColors.pearl,
+          color: AppColors.greyLight,
           child: GoToCartButton(
             onGotoCart: _gotoCart,
           ),

@@ -98,7 +98,8 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   }
 
   @override
-  Future<Either<Failure, List<AppliedPromo>>> fetchPromos(Map<String, dynamic> params) async{
+  Future<Either<Failure, List<AppliedPromo>>> fetchPromos(
+      Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchPromos(params);

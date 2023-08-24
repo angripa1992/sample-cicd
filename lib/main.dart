@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/klikit.dart';
 import 'package:klikit/core/network/slack_logger.dart';
 import 'package:klikit/env/environment_variables.dart';
@@ -38,7 +37,8 @@ void mainCommon(EnvironmentVariables env) async {
 
   SlackLoggerResolver().initLogger();
 
-  final supportedLocale = await getIt.get<LanguageManager>().getSupportedLocale();
+  final supportedLocale =
+      await getIt.get<LanguageManager>().getSupportedLocale();
   final startLocale = await getIt.get<LanguageManager>().getStartLocale();
 
   configLoading();

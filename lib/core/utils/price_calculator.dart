@@ -26,7 +26,8 @@ class PriceCalculator {
     int itemQuantity,
   ) {
     num modifierTotalPrice = num.parse(modifiers.price);
-    if (!order.isInterceptorOrder && order.providerId != ProviderID.FOOD_PANDA) {
+    if (!order.isInterceptorOrder &&
+        order.providerId != ProviderID.FOOD_PANDA) {
       num unitPrice = num.parse(modifiers.unitPrice);
       modifierTotalPrice =
           unitPrice * modifiers.quantity * prevQuantity * itemQuantity;

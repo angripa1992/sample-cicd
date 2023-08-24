@@ -78,7 +78,7 @@ class ItemDescriptionView extends StatelessWidget {
                       item.title,
                       style: boldTextStyle(
                         fontSize: AppFontSize.s17.rSp,
-                        color: AppColors.balticSea,
+                        color: AppColors.black,
                       ),
                     ),
                     SizedBox(height: AppSize.s4.rh),
@@ -95,7 +95,7 @@ class ItemDescriptionView extends StatelessWidget {
                         margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          color: AppColors.purpleBlue,
+                          color: AppColors.primary,
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(

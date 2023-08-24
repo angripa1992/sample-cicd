@@ -21,7 +21,7 @@ class ChangeNotificationSettingCubit extends Cubit<ResponseState> {
       (error) {
         emit(Failed(error));
       },
-      (success) async{
+      (success) async {
         await SessionManager().setNotificationEnabled(enable);
         emit(Success<SuccessResponse>(success));
       },

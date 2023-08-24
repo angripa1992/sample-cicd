@@ -16,7 +16,7 @@ Widget getNewPageProgressIndicator(BuildContext context) {
       padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
       child: Text(
         AppStrings.loading.tr(),
-        style: mediumTextStyle(color: AppColors.purpleBlue),
+        style: mediumTextStyle(color: AppColors.primary),
       ),
     ),
   );
@@ -44,7 +44,7 @@ Widget getPageErrorIndicator(VoidCallback onRetry) {
         Text(
           AppStrings.defaultError.tr(),
           style: mediumTextStyle(
-            color: AppColors.blackCow,
+            color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
         ),
@@ -54,7 +54,7 @@ Widget getPageErrorIndicator(VoidCallback onRetry) {
         ElevatedButton(
           onPressed: onRetry,
           style: ElevatedButton.styleFrom(
-            primary: AppColors.purpleBlue, // background
+            primary: AppColors.primary, // background
             onPrimary: AppColors.white, // foreground
           ),
           child: Row(

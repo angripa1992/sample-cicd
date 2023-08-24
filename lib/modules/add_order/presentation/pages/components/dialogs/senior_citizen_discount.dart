@@ -26,7 +26,8 @@ class SeniorCitizenDiscountView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SeniorCitizenDiscountView> createState() => _SeniorCitizenDiscountViewState();
+  State<SeniorCitizenDiscountView> createState() =>
+      _SeniorCitizenDiscountViewState();
 }
 
 class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
@@ -37,11 +38,11 @@ class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
 
   @override
   void initState() {
-    if(widget.isItemDiscount){
+    if (widget.isItemDiscount) {
       _citizenCount = widget.initialCitizenCount ?? 1;
       _customerCount = widget.initialCustomerCount ?? 1;
       _citizenMaxCount = widget.citizenMaxCount ?? 1;
-    }else{
+    } else {
       _citizenCount = widget.initialCitizenCount ?? 1;
       _customerCount = widget.initialCustomerCount ?? 1;
       _citizenMaxCount = widget.initialCustomerCount ?? 1;
@@ -62,7 +63,7 @@ class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
               : 'Enter the number of senior citizens in your order',
           style: regularTextStyle(
             fontSize: AppFontSize.s12.rSp,
-            color: AppColors.dustyGreay,
+            color: AppColors.greyDarker,
           ),
         ),
         SizedBox(height: AppSize.s8.rh),
@@ -73,7 +74,7 @@ class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
               count: _citizenCount,
               minCount: 1,
               maxCount: _citizenMaxCount,
-              onChanged: (count){
+              onChanged: (count) {
                 setState(() {
                   _citizenCount = count;
                   widget.onCitizenChanged(_citizenCount);
@@ -94,7 +95,7 @@ class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
                 'Enter the number of total customers in your order',
                 style: regularTextStyle(
                   fontSize: AppFontSize.s12.rSp,
-                  color: AppColors.dustyGreay,
+                  color: AppColors.greyDarker,
                 ),
               ),
               SizedBox(height: AppSize.s8.rh),
@@ -105,7 +106,7 @@ class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
                     count: _customerCount,
                     minCount: 1,
                     maxCount: _customerMaxCount,
-                    onChanged: (count){
+                    onChanged: (count) {
                       setState(() {
                         _citizenMaxCount = count;
                         _customerCount = count;

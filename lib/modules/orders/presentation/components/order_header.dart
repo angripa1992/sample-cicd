@@ -33,7 +33,7 @@ class OrderHeaderView extends StatelessWidget {
           child: Text(
             AppStrings.filter_by_brand.tr(),
             style: regularTextStyle(
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
@@ -52,7 +52,7 @@ class OrderHeaderView extends StatelessWidget {
           child: Text(
             AppStrings.filter_by_aggregator.tr(),
             style: regularTextStyle(
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
@@ -80,7 +80,7 @@ class OrderHeaderView extends StatelessWidget {
               Text(
                 AppStrings.orders.tr(),
                 style: regularTextStyle(
-                  color: AppColors.purpleBlue,
+                  color: AppColors.primary,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),

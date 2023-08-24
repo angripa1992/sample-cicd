@@ -87,10 +87,10 @@ class CartPriceView extends StatelessWidget {
   Widget _item({
     required String title,
     required num price,
-    bool subtotal = false,
+    subtotal = false,
   }) {
     final textStyle = TextStyle(
-      color: AppColors.balticSea,
+      color: AppColors.black,
       fontSize: subtotal ? AppFontSize.s16.rSp : AppFontSize.s14.rSp,
       fontWeight: subtotal ? FontWeight.w500 : FontWeight.w400,
     );
@@ -126,7 +126,7 @@ class CartPriceView extends StatelessWidget {
         Text(
           title,
           style: regularTextStyle(
-            color: AppColors.balticSea,
+            color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
@@ -136,7 +136,7 @@ class CartPriceView extends StatelessWidget {
               ? Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                    color: AppColors.whiteSmoke,
+                    color: AppColors.grey,
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -152,7 +152,7 @@ class CartPriceView extends StatelessWidget {
                             code: currency.code ?? EMPTY,
                           ),
                           style: TextStyle(
-                            color: AppColors.balticSea,
+                            color: AppColors.black,
                             fontSize: AppFontSize.s14.rSp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -161,7 +161,7 @@ class CartPriceView extends StatelessWidget {
                         Icon(
                           Icons.mode_edit_outlined,
                           size: AppSize.s16.rSp,
-                          color: AppColors.balticSea,
+                          color: AppColors.black,
                         ),
                       ],
                     ),
@@ -181,15 +181,15 @@ class CartPriceView extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-        color: AppColors.lightVioletTwo,
+        color: AppColors.primaryLighter,
       ),
       child: Row(
         children: [
-          Icon(Icons.add, color: AppColors.purpleBlue, size: AppSize.s14.rSp),
+          Icon(Icons.add, color: AppColors.primary, size: AppSize.s14.rSp),
           SizedBox(width: AppSize.s4.rw),
           Text(
             AppStrings.add.tr(),
-            style: regularTextStyle(color: AppColors.purpleBlue),
+            style: regularTextStyle(color: AppColors.primary),
           ),
         ],
       ),

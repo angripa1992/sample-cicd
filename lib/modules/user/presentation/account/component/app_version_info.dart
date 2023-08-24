@@ -20,7 +20,7 @@ class AppVersionInfo extends StatelessWidget {
       children: [
         Image.asset(
           AppImages.splashLogo,
-          color: AppColors.blackCow,
+          color: AppColors.black,
           height: AppSize.s24.rh,
           width: AppSize.s24.rw,
         ),
@@ -30,9 +30,9 @@ class AppVersionInfo extends StatelessWidget {
           builder: (_, version) {
             if (version.hasData) {
               return Text(
-               'App Version :  ${version.data!}',
+                'App Version :  ${version.data!}',
                 style: mediumTextStyle(
-                  color: AppColors.blackCow,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               );

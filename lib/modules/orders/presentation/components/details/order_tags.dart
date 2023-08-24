@@ -90,12 +90,12 @@ class OrderTagsView extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-        border: Border.all(color: AppColors.frenchGrey),
+        border: Border.all(color: AppColors.greyDarker),
       ),
       child: Text(
         tagName,
         style: regularTextStyle(
-          color: AppColors.bluewood,
+          color: AppColors.black,
           fontSize: AppFontSize.s12.rSp,
         ),
       ),

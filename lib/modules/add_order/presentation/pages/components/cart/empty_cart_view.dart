@@ -28,7 +28,7 @@ class EmptyCartView extends StatelessWidget {
           Text(
             AppStrings.your_cart_is_empty.tr(),
             style: mediumTextStyle(
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
               fontSize: AppFontSize.s20.rSp,
             ),
           ),
@@ -36,7 +36,7 @@ class EmptyCartView extends StatelessWidget {
           Text(
             AppStrings.add_items_to_cart_msg.tr(),
             style: regularTextStyle(
-              color: AppColors.balticSea,
+              color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
             textAlign: TextAlign.center,
@@ -47,7 +47,7 @@ class EmptyCartView extends StatelessWidget {
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.purpleBlue, // Background color
+              backgroundColor: AppColors.primary, // Background color
             ),
             child: Text(
               AppStrings.add_items.tr(),

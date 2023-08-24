@@ -17,11 +17,11 @@ class ModifierGroupInfo extends StatelessWidget {
   const ModifierGroupInfo({Key? key, required this.title, required this.rule})
       : super(key: key);
 
-  String _ruleTitle(){
+  String _ruleTitle() {
     final optional = rule.value == 0 && rule.min == 0;
-    if(optional){
+    if (optional) {
       return '${AppStrings.choose_upto.tr()} ${rule.max}';
-    }else if(rule.typeTitle == RuleType.exact){
+    } else if (rule.typeTitle == RuleType.exact) {
       return '${AppStrings.choose.tr()} ${rule.value}';
     }
     return '${AppStrings.choose.tr()} ${rule.min} - ${rule.max}';
@@ -53,7 +53,7 @@ class ModifierGroupInfo extends StatelessWidget {
                   child: Text(
                     title,
                     style: mediumTextStyle(
-                      color: AppColors.balticSea,
+                      color: AppColors.black,
                       fontSize: AppFontSize.s16.rSp,
                     ),
                   ),
@@ -62,8 +62,9 @@ class ModifierGroupInfo extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-                      color:
-                          isOptional ? AppColors.lightGrey : AppColors.blueChalk,
+                      color: isOptional
+                          ? AppColors.greyLight
+                          : AppColors.primaryLighter,
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -71,11 +72,13 @@ class ModifierGroupInfo extends StatelessWidget {
                         horizontal: AppSize.s8.rw,
                       ),
                       child: Text(
-                        isOptional ? AppStrings.optional.tr() : AppStrings.required.tr(),
+                        isOptional
+                            ? AppStrings.optional.tr()
+                            : AppStrings.required.tr(),
                         style: regularTextStyle(
                           color: isOptional
-                              ? AppColors.smokeyGrey
-                              : AppColors.purpleBlue,
+                              ? AppColors.greyDarker
+                              : AppColors.primary,
                         ),
                       ),
                     ),
@@ -87,7 +90,7 @@ class ModifierGroupInfo extends StatelessWidget {
             Text(
               _ruleTitle(),
               style: regularTextStyle(
-                color: AppColors.smokeyGrey,
+                color: AppColors.greyDarker,
               ),
             ),
           ],

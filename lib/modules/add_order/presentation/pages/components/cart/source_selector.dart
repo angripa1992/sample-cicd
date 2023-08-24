@@ -93,7 +93,7 @@ class _SourceSelectorState extends State<SourceSelector> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: AppColors.whiteSmoke,
+                color: AppColors.grey,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,7 +101,7 @@ class _SourceSelectorState extends State<SourceSelector> {
                   Text(
                     _currentSource.name,
                     style: regularTextStyle(
-                      color: AppColors.balticSea,
+                      color: AppColors.black,
                       fontSize: AppFontSize.s14.rSp,
                     ),
                   ),
@@ -157,12 +157,12 @@ class _SourceSelectorDropdownState extends State<SourceSelectorDropdown> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-                  color: AppColors.pearl,
+                  color: AppColors.greyLight,
                 ),
                 child: Text(
                   sourceType.name,
                   style: mediumTextStyle(
-                    color: AppColors.balticSea,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s14.rSp,
                   ),
                 ),
@@ -192,12 +192,12 @@ class _SourceSelectorDropdownState extends State<SourceSelectorDropdown> {
                             Text(
                               source.name,
                               style: regularTextStyle(
-                                color: AppColors.balticSea,
+                                color: AppColors.black,
                                 fontSize: AppFontSize.s14.rSp,
                               ),
                             ),
                             if (_currentSource!.id == source.id)
-                              Icon(Icons.check, color: AppColors.purpleBlue),
+                              Icon(Icons.check, color: AppColors.primary),
                           ],
                         ),
                       ),

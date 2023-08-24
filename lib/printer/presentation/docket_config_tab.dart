@@ -15,7 +15,6 @@ import 'package:klikit/printer/presentation/set_paper_size.dart';
 import 'package:klikit/printer/presentation/set_printer_connection_type.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
-import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../app/di.dart';
@@ -98,7 +97,9 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
           ? (_customerCopyEnabled ? _customerCopyCount : 1)
           : _customerCopyCount,
       kitchenCopyCount: isUpdating
-          ? (_kitchenCopyEnabled ? (_kitchenCopyCount > 0 ? _kitchenCopyCount : 1) : 0)
+          ? (_kitchenCopyEnabled
+              ? (_kitchenCopyCount > 0 ? _kitchenCopyCount : 1)
+              : 0)
           : _kitchenCopyCount,
       fonts: PrinterFonts.fromId(_printerFontId),
       fontId: _printerFontId,
@@ -207,15 +208,16 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
               valueListenable: _connectionStateListener,
               builder: (_, value, __) {
                 return AppButton(
-                  enable: _appPreferences.printerSetting().connectionType == value,
+                  enable:
+                      _appPreferences.printerSetting().connectionType == value,
                   onTap: () {
                     _printingHandler.showDevices(
                         initialIndex: PrinterSelectIndex.docket);
                   },
                   text: AppStrings.show_devices.tr(),
                   color: AppColors.white,
-                  borderColor: AppColors.bluewood,
-                  textColor: AppColors.bluewood,
+                  borderColor: AppColors.black,
+                  textColor: AppColors.black,
                   icon: _appPreferences.printerSetting().connectionType ==
                           ConnectionType.BLUETOOTH
                       ? Icons.bluetooth

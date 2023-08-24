@@ -108,6 +108,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
     }
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -125,12 +126,12 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                 methods: widget.methods,
                 initMethod: _method,
                 initChannel: _channel,
-                onChanged: (method,channel) {
+                onChanged: (method, channel) {
                   setState(() {
                     _method = method;
                     _channel = channel;
                   });
-                  widget.onChanged(_method?.id,_channel?.id);
+                  widget.onChanged(_method?.id, _channel?.id);
                   Navigator.pop(context);
                 },
               ),
@@ -146,15 +147,17 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-          color: AppColors.whiteSmoke,
+          color: AppColors.grey,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _channel == null ? AppStrings.add_payment_method.tr() : _channel!.title,
+              _channel == null
+                  ? AppStrings.add_payment_method.tr()
+                  : _channel!.title,
               style: regularTextStyle(
-                color: AppColors.balticSea,
+                color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
@@ -211,12 +214,12 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-                  color: AppColors.pearl,
+                  color: AppColors.greyLight,
                 ),
                 child: Text(
                   method.title,
                   style: mediumTextStyle(
-                    color: AppColors.balticSea,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s14.rSp,
                   ),
                 ),
@@ -247,12 +250,13 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
                             Text(
                               channel.title,
                               style: regularTextStyle(
-                                color: AppColors.balticSea,
+                                color: AppColors.black,
                                 fontSize: AppFontSize.s14.rSp,
                               ),
                             ),
-                            if (_method?.id == method.id && _channel?.id == channel.id)
-                              Icon(Icons.check, color: AppColors.purpleBlue),
+                            if (_method?.id == method.id &&
+                                _channel?.id == channel.id)
+                              Icon(Icons.check, color: AppColors.primary),
                           ],
                         ),
                       ),
@@ -265,69 +269,5 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
         }).toList(),
       ),
     );
-    // return Container(
-    //   margin: EdgeInsets.only(top: AppSize.s8.rh),
-    //   padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-    //   decoration: BoxDecoration(
-    //     borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-    //     color: AppColors.whiteSmoke,
-    //   ),
-    //   child: DropdownButton<PaymentMethod>(
-    //     isExpanded: true,
-    //     value: _paymentChannel,
-    //     underline: const SizedBox(),
-    //     hint: Container(
-    //       alignment: Alignment.centerLeft,
-    //       child: Text(
-    //         AppStrings.add_payment_method.tr(),
-    //         style: _textStyle,
-    //       ),
-    //     ),
-    //     items: widget.methods
-    //         .map<DropdownMenuItem<PaymentMethod>>((PaymentMethod value) {
-    //       return DropdownMenuItem<PaymentMethod>(
-    //           value: value,
-    //           child: ListTile(
-    //             tileColor:
-    //                 (_paymentChannel != null && _paymentChannel!.id == value.id)
-    //                     ? AppColors.alabaster
-    //                     : AppColors.white,
-    //             title: Text(
-    //               value.title,
-    //               style: _textStyle,
-    //             ),
-    //             trailing:
-    //                 (_paymentChannel != null && _paymentChannel!.id == value.id)
-    //                     ? Icon(
-    //                         Icons.check,
-    //                         size: AppSize.s18.rSp,
-    //                         color: AppColors.purpleBlue,
-    //                       )
-    //                     : const SizedBox(),
-    //           ));
-    //     }).toList(),
-    //     selectedItemBuilder: (BuildContext context) {
-    //       return widget.methods.map<Widget>((PaymentMethod item) {
-    //         return Container(
-    //           alignment: Alignment.centerLeft,
-    //           child: Text(
-    //             item.title,
-    //             style: _textStyle,
-    //           ),
-    //         );
-    //       }).toList();
-    //     },
-    //     onChanged: (value) {
-    //       setState(() {
-    //         if (_paymentChannel != null && _paymentChannel?.id == value?.id) {
-    //           _paymentChannel = null;
-    //         } else {
-    //           _paymentChannel = value;
-    //         }
-    //         widget.onChanged(_paymentChannel?.id);
-    //       });
-    //     },
-    //   ),
-    // );
   }
 }

@@ -4,7 +4,7 @@ import 'billing_item_modifier.dart';
 import 'item_status.dart';
 import 'modifier_rule.dart';
 
-class BillingItemModifierGroup{
+class BillingItemModifierGroup {
   int? groupId;
   String? title;
   String? label;
@@ -17,14 +17,14 @@ class BillingItemModifierGroup{
 
   BillingItemModifierGroup(
       {this.groupId,
-        this.title,
-        this.label,
-        this.brandId,
-        this.sequence,
-        this.titleV2,
-        this.statuses,
-        this.rule,
-        this.modifiers});
+      this.title,
+      this.label,
+      this.brandId,
+      this.sequence,
+      this.titleV2,
+      this.statuses,
+      this.rule,
+      this.modifiers});
 
   BillingItemModifierGroup.fromJson(Map<String, dynamic> json) {
     groupId = json['group_id'];
@@ -41,7 +41,8 @@ class BillingItemModifierGroup{
         statuses!.add(ItemStatusModel.fromJson(v));
       });
     }
-    rule = json['rule'] != null ?  ModifierRuleModel.fromJson(json['rule']) : null;
+    rule =
+        json['rule'] != null ? ModifierRuleModel.fromJson(json['rule']) : null;
     if (json['modifiers'] != null) {
       modifiers = <BillingItemModifier>[];
       json['modifiers'].forEach((v) {

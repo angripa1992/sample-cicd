@@ -30,5 +30,4 @@ class ItemStatusModel {
       hidden: hidden.orFalse(),
     );
   }
-
 }

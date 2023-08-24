@@ -21,20 +21,20 @@ class StepView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _circleView('\u2713', AppColors.purpleBlue),
+        _circleView('\u2713', AppColors.primary),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s4.rw),
           child: Text(
-            AppStrings.menu.tr() ,
+            AppStrings.menu.tr(),
             style: regularTextStyle(
-              color: AppColors.balticSea,
+              color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
         ),
         Expanded(
           child: Divider(
-            color: AppColors.purpleBlue,
+            color: AppColors.primary,
             thickness: AppSize.s1.rSp,
           ),
         ),
@@ -42,7 +42,7 @@ class StepView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s4.rw),
           child: _circleView(
             stepPosition == StepPosition.cart ? '2' : '\u2713',
-            AppColors.purpleBlue,
+            AppColors.primary,
           ),
         ),
         Padding(
@@ -51,8 +51,8 @@ class StepView extends StatelessWidget {
             AppStrings.cart.tr(),
             style: regularTextStyle(
               color: stepPosition == StepPosition.cart
-                  ? AppColors.purpleBlue
-                  : AppColors.balticSea,
+                  ? AppColors.primary
+                  : AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
@@ -60,8 +60,8 @@ class StepView extends StatelessWidget {
         Expanded(
           child: Divider(
             color: stepPosition == StepPosition.cart
-                ? AppColors.dustyGreay
-                : AppColors.purpleBlue,
+                ? AppColors.greyDarker
+                : AppColors.primary,
             thickness: AppSize.s1.rSp,
           ),
         ),
@@ -70,16 +70,16 @@ class StepView extends StatelessWidget {
           child: _circleView(
             '3',
             stepPosition == StepPosition.checkout
-                ? AppColors.purpleBlue
-                : AppColors.dustyGreay,
+                ? AppColors.primary
+                : AppColors.greyDarker,
           ),
         ),
         Text(
-          AppStrings.checkout.tr() ,
+          AppStrings.checkout.tr(),
           style: regularTextStyle(
             color: stepPosition == StepPosition.checkout
-                ? AppColors.purpleBlue
-                : AppColors.dustyGreay,
+                ? AppColors.primary
+                : AppColors.greyDarker,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),

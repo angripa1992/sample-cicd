@@ -8,29 +8,31 @@ import '../../../../../resources/styles.dart';
 
 class ThreePlStatus extends StatelessWidget {
   final int threePlStatus;
-  const ThreePlStatus({Key? key, required this.threePlStatus}) : super(key: key);
 
-  String _status(){
-    switch(threePlStatus){
+  const ThreePlStatus({Key? key, required this.threePlStatus})
+      : super(key: key);
+
+  String _status() {
+    switch (threePlStatus) {
       case FulfillmentStatusId.ALLOCATING_RIDER:
         return 'Allocating Rider';
       case FulfillmentStatusId.ALLOCATING_RIDER_TWO:
         return 'Allocating Rider';
-        case FulfillmentStatusId.CANCELED:
+      case FulfillmentStatusId.CANCELED:
         return 'Canceled';
       case FulfillmentStatusId.CANCELED_TWO:
         return 'Canceled';
-        case FulfillmentStatusId.COMPLETED:
+      case FulfillmentStatusId.COMPLETED:
         return 'Completed';
-        case FulfillmentStatusId.FOUND_RIDER:
+      case FulfillmentStatusId.FOUND_RIDER:
         return 'Found Rider';
-        case FulfillmentStatusId.IN_DELIVERY:
+      case FulfillmentStatusId.IN_DELIVERY:
         return 'In Delivery';
-        case FulfillmentStatusId.IN_RETURN:
+      case FulfillmentStatusId.IN_RETURN:
         return 'In Return';
-        case FulfillmentStatusId.RETURNED:
+      case FulfillmentStatusId.RETURNED:
         return 'Returned';
-        case FulfillmentStatusId.PICKING_UP:
+      case FulfillmentStatusId.PICKING_UP:
         return 'Picking Up';
       default:
         return 'Dispatch Failed';
@@ -46,11 +48,11 @@ class ThreePlStatus extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.lightGrey,
+        color: AppColors.greyLight,
       ),
       child: Text(
         _status(),
-        style: regularTextStyle(color: AppColors.bluewood),
+        style: regularTextStyle(color: AppColors.black),
       ),
     );
   }

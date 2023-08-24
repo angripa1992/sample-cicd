@@ -85,7 +85,9 @@ void showApiErrorSnackBar(BuildContext context, Failure failure) {
 }
 
 void showSuccessSnackBar(BuildContext? context, String message) {
-  ScaffoldMessenger.of(context ?? RoutesGenerator.navigatorKey.currentState!.context).showSnackBar(
+  ScaffoldMessenger.of(
+          context ?? RoutesGenerator.navigatorKey.currentState!.context)
+      .showSnackBar(
     SnackBar(
       behavior: SnackBarBehavior.floating,
       content: Text(
@@ -96,7 +98,7 @@ void showSuccessSnackBar(BuildContext? context, String message) {
         ),
       ),
       duration: const Duration(seconds: 1),
-      backgroundColor: AppColors.purpleBlue,
+      backgroundColor: AppColors.primary,
     ),
   );
 }
@@ -125,7 +127,7 @@ void showLoadingSnackBar(BuildContext context) {
         ],
       ),
       duration: const Duration(seconds: 1),
-      backgroundColor: AppColors.purpleBlue,
+      backgroundColor: AppColors.primary,
     ),
   );
 }

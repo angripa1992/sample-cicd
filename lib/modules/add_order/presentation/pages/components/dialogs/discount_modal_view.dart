@@ -43,7 +43,7 @@ class AddDiscountModalView extends StatelessWidget {
               'Select one and put the value in the field',
               style: regularTextStyle(
                 fontSize: AppFontSize.s12.rSp,
-                color: AppColors.dustyGreay,
+                color: AppColors.greyDarker,
               ),
             ),
             DiscountTypeSelector(
@@ -54,7 +54,7 @@ class AddDiscountModalView extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: AppColors.seaShell,
+                color: AppColors.greyLighter,
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -67,7 +67,7 @@ class AddDiscountModalView extends StatelessWidget {
                     hintText:
                         '${AppStrings.add.tr()} ${AppStrings.discount.tr()}',
                     hintStyle: regularTextStyle(
-                      color: AppColors.dustyGreay,
+                      color: AppColors.greyDarker,
                       fontSize: AppFontSize.s14.rSp,
                     ),
                     enabledBorder: const UnderlineInputBorder(

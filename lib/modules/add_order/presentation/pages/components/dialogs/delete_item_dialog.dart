@@ -41,7 +41,7 @@ class DeleteItemDialogView extends StatelessWidget {
               child: Text(
                 AppStrings.want_to_delete_item_msg.tr(),
                 style: mediumTextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               ),
@@ -99,7 +99,7 @@ class DeleteItemDialogView extends StatelessWidget {
                           child: Text(
                             '${cartItem.quantity}x ${cartItem.item.title}',
                             style: mediumTextStyle(
-                              color: AppColors.purpleBlue,
+                              color: AppColors.primary,
                               fontSize: AppFontSize.s14.rSp,
                             ),
                           ),
@@ -111,12 +111,13 @@ class DeleteItemDialogView extends StatelessWidget {
                             if (haveDiscount)
                               Text(
                                 PriceCalculator.formatPrice(
-                                  price: itemBill.discountedItemPrice * cartItem.quantity,
+                                  price: itemBill.discountedItemPrice *
+                                      cartItem.quantity,
                                   currencySymbol: cartItem.itemPrice.symbol,
                                   code: cartItem.itemPrice.code,
                                 ),
                                 style: TextStyle(
-                                  color: AppColors.balticSea,
+                                  color: AppColors.black,
                                   fontSize: AppFontSize.s14.rSp,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -130,7 +131,7 @@ class DeleteItemDialogView extends StatelessWidget {
                               style: TextStyle(
                                 color: haveDiscount
                                     ? AppColors.red
-                                    : AppColors.balticSea,
+                                    : AppColors.black,
                                 fontSize: AppFontSize.s14.rSp,
                                 fontWeight: FontWeight.w500,
                                 decoration: haveDiscount
@@ -167,12 +168,12 @@ class DeleteItemDialogView extends StatelessWidget {
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.water, // Background color
+                backgroundColor: AppColors.greyLighter, // Backgroblack
               ),
               child: Text(
                 AppStrings.cancel.tr(),
                 style: mediumTextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                 ),
               ),
             ),
@@ -219,7 +220,7 @@ class DeleteAllDialogView extends StatelessWidget {
               child: Text(
                 AppStrings.want_to_delete_all_item_msg.tr(),
                 style: mediumTextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               ),
@@ -243,12 +244,12 @@ class DeleteAllDialogView extends StatelessWidget {
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.water, // Background color
+                backgroundColor: AppColors.greyLighter, // Background color
               ),
               child: Text(
                 AppStrings.cancel.tr(),
                 style: mediumTextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                 ),
               ),
             ),

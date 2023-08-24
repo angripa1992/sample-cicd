@@ -60,7 +60,7 @@ class AppUpdateManager {
             children: [
               Icon(
                 Icons.system_update,
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
               ),
               const SizedBox(height: AppSize.s8),
               Text(
@@ -90,7 +90,7 @@ class AppUpdateManager {
                   child: Text(
                     AppStrings.update_app.tr(),
                     style: regularTextStyle(
-                      color: AppColors.pink,
+                      color: AppColors.primaryDarker,
                       fontSize: AppFontSize.s14.rSp,
                     ),
                   ),

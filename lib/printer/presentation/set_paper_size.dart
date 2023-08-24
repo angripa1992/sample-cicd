@@ -13,7 +13,10 @@ import '../../resources/values.dart';
 class SetPaperSize extends StatefulWidget {
   final int initSize;
   final Function(int) onChanged;
-  const SetPaperSize({Key? key, required this.initSize, required this.onChanged}) : super(key: key);
+
+  const SetPaperSize(
+      {Key? key, required this.initSize, required this.onChanged})
+      : super(key: key);
 
   @override
   State<SetPaperSize> createState() => _SetPaperSizeState();
@@ -35,7 +38,6 @@ class _SetPaperSizeState extends State<SetPaperSize> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -51,7 +53,7 @@ class _SetPaperSizeState extends State<SetPaperSize> {
             Text(
               AppStrings.set_paper_size.tr(),
               style: mediumTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),

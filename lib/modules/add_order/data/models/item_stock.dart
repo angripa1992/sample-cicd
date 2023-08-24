@@ -14,7 +14,7 @@ class ItemStockModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['available'] = available;
-    if(snooze != null){
+    if (snooze != null) {
       data['snooze'] = snooze!.toJson();
     }
     return data;
@@ -34,6 +34,7 @@ class ItemSnoozeModel {
     endTime = json['end_time'] as String?;
     duration = json['duration'] as int?;
   }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['end_time'] = endTime;

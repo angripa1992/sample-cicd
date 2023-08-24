@@ -11,7 +11,9 @@ import '../note_text_field.dart';
 
 class SpecialInstructionField extends StatelessWidget {
   final TextEditingController controller;
-  const SpecialInstructionField({Key? key, required this.controller}) : super(key: key);
+
+  const SpecialInstructionField({Key? key, required this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +37,14 @@ class SpecialInstructionField extends StatelessWidget {
             Text(
               AppStrings.special_instruction.tr(),
               style: mediumTextStyle(
-                color: AppColors.balticSea,
+                color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
             SizedBox(height: AppSize.s8.rh),
             NoteTextField(
               controller: controller,
-              hint:  AppStrings.add_instruction.tr(),
+              hint: AppStrings.add_instruction.tr(),
               minLines: 2,
             ),
           ],

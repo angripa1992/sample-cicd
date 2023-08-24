@@ -11,7 +11,13 @@ class TabItemView extends StatelessWidget {
   final int index;
   final bool active;
   final String title;
-  const TabItemView({Key? key, required this.index, required this.active, required this.title}) : super(key: key);
+
+  const TabItemView(
+      {Key? key,
+      required this.index,
+      required this.active,
+      required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,7 @@ class TabItemView extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s12.rSp),
           border: Border.all(
-            color: active ? AppColors.blueViolet : Colors.transparent,
+            color: active ? AppColors.primaryLight : Colors.transparent,
             width: AppSize.s1.rh,
           ),
           color: CategoriesColorProvider().color(index),
@@ -34,9 +40,9 @@ class TabItemView extends StatelessWidget {
             vertical: AppSize.s4.rh,
           ),
           child: Text(
-           title,
+            title,
             style: mediumTextStyle(
-              color: AppColors.balticSea,
+              color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

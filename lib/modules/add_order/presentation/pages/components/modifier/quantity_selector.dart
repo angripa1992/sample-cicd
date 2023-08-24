@@ -29,15 +29,15 @@ class _QuantitySelectorState extends State<QuantitySelector> {
     super.initState();
   }
 
-  void _increment(){
+  void _increment() {
     setState(() {
       _quantity += 1;
     });
     widget.onQuantityChanged(_quantity);
   }
 
-  void _decrement(){
-    if(_quantity > 1){
+  void _decrement() {
+    if (_quantity > 1) {
       setState(() {
         _quantity -= 1;
       });
@@ -54,7 +54,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
         border: Border.all(
-          color: AppColors.bluewood,
+          color: AppColors.black,
         ),
       ),
       child: IntrinsicHeight(
@@ -64,13 +64,13 @@ class _QuantitySelectorState extends State<QuantitySelector> {
               onPressed: _decrement,
               icon: Icon(
                 Icons.remove,
-                color: AppColors.bluewood,
+                color: AppColors.black,
               ),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
             ),
             VerticalDivider(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               thickness: 1,
             ),
             Padding(
@@ -78,20 +78,20 @@ class _QuantitySelectorState extends State<QuantitySelector> {
               child: Text(
                 '$_quantity',
                 style: mediumTextStyle(
-                  color: AppColors.bluewood,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               ),
             ),
             VerticalDivider(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               thickness: 1,
             ),
             IconButton(
               onPressed: _increment,
               icon: Icon(
                 Icons.add,
-                color: AppColors.bluewood,
+                color: AppColors.black,
               ),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),

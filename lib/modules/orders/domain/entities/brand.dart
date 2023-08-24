@@ -79,9 +79,5 @@ class CartBrand {
 
   CartBrand copy() => CartBrand(id: id, title: title, logo: logo);
 
-  CartBrandModel toModel() => CartBrandModel(
-    id: id,
-    title: title,
-    logo: logo
-  );
+  CartBrandModel toModel() => CartBrandModel(id: id, title: title, logo: logo);
 }

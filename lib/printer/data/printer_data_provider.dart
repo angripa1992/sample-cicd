@@ -80,7 +80,7 @@ class PrinterDataProvider {
   }
 
   QrInfo? _createQrInfo(Brand? brand) {
-    if (brand != null && brand.qrContent.isNotEmpty){
+    if (brand != null && brand.qrContent.isNotEmpty) {
       return QrInfo(
         brandId: brand.id,
         qrLabel: brand.qrLabel,
@@ -112,7 +112,8 @@ class PrinterDataProvider {
       price: modifiers.price,
       quantity: modifiers.quantity,
       unitPrice: modifiers.unitPrice,
-      modifierGroups: __createTemplateModifiersGroupsList(modifiers.modifierGroups),
+      modifierGroups:
+          __createTemplateModifiersGroupsList(modifiers.modifierGroups),
     );
   }
 

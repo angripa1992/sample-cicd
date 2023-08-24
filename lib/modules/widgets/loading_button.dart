@@ -29,17 +29,17 @@ class LoadingButton extends StatelessWidget {
 
   Color _bgColor() {
     if (!enabled) {
-      return AppColors.smokeyGrey;
+      return AppColors.greyDarker;
     } else {
-      return color ?? AppColors.purpleBlue;
+      return color ?? AppColors.primary;
     }
   }
 
   Color _borderColor() {
     if (!enabled) {
-      return AppColors.smokeyGrey;
+      return AppColors.greyDarker;
     } else {
-      return borderColor ?? AppColors.purpleBlue;
+      return borderColor ?? AppColors.primary;
     }
   }
 
@@ -50,7 +50,7 @@ class LoadingButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: _bgColor(),
         disabledBackgroundColor:
-            isLoading ? AppColors.white : AppColors.smokeyGrey,
+            isLoading ? AppColors.white : AppColors.greyDarker,
         side: BorderSide(
           width: AppSize.s1.rw,
           color: _borderColor(),
@@ -68,7 +68,7 @@ class LoadingButton extends StatelessWidget {
               height: AppSize.s12.rh,
               width: AppSize.s12.rw,
               child: CircularProgressIndicator(
-                color: borderColor ?? AppColors.purpleBlue,
+                color: borderColor ?? AppColors.primary,
               ),
             )
           : Row(

@@ -43,7 +43,8 @@ class MenuItemImageView extends StatelessWidget {
             alignment: AlignmentDirectional.center,
             children: [
               if (availability == Availability.OUT_OF_STOCK) _getBlurImage(),
-              if (availability == Availability.OUT_OF_STOCK) _outOfStockMessage(),
+              if (availability == Availability.OUT_OF_STOCK)
+                _outOfStockMessage(),
             ],
           ),
         ),
@@ -74,7 +75,8 @@ class MenuItemImageView extends StatelessWidget {
                 ),
               ),
               if (availability == Availability.OUT_OF_STOCK) _getBlurImage(),
-              if (availability == Availability.OUT_OF_STOCK) _outOfStockMessage(),
+              if (availability == Availability.OUT_OF_STOCK)
+                _outOfStockMessage(),
             ],
           ),
         ),

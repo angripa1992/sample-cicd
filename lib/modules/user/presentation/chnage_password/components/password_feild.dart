@@ -49,7 +49,7 @@ class _PasswordFieldState extends State<PasswordField> {
         Text(
           widget.label,
           style: regularTextStyle(
-            color: AppColors.smokeyGrey,
+            color: AppColors.greyDarker,
             fontSize: AppFontSize.s16.rSp,
           ),
         ),
@@ -57,9 +57,9 @@ class _PasswordFieldState extends State<PasswordField> {
         TextFormField(
           obscureText: _obscureText,
           controller: widget.editingController,
-          cursorColor: AppColors.smokeyGrey,
+          cursorColor: AppColors.greyDarker,
           style: regularTextStyle(
-            color: AppColors.smokeyGrey,
+            color: AppColors.greyDarker,
             fontSize: AppFontSize.s14.rSp,
           ),
           decoration: InputDecoration(
@@ -71,17 +71,17 @@ class _PasswordFieldState extends State<PasswordField> {
               },
               icon: Icon(
                 _obscureText ? Icons.visibility_off : Icons.visibility,
-                color: AppColors.smokeyGrey,
+                color: AppColors.greyDarker,
               ),
             ),
             border: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.smokeyGrey),
+              borderSide: BorderSide(color: AppColors.greyDarker),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.smokeyGrey),
+              borderSide: BorderSide(color: AppColors.greyDarker),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.smokeyGrey),
+              borderSide: BorderSide(color: AppColors.greyDarker),
             ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: AppSize.s12.rw,
@@ -89,7 +89,7 @@ class _PasswordFieldState extends State<PasswordField> {
             ),
             hintText: widget.hint,
             hintStyle: regularTextStyle(
-              color: AppColors.smokeyGrey,
+              color: AppColors.greyDarker,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

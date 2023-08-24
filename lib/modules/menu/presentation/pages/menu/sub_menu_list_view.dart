@@ -43,7 +43,7 @@ class SubMenuListView extends StatelessWidget {
             child: Text(
               AppStrings.categories_list.tr(),
               style: regularTextStyle(
-                color: AppColors.dustyGreay,
+                color: AppColors.greyDarker,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),

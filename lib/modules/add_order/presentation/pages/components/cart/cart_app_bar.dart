@@ -34,7 +34,7 @@ class CartAppBar extends StatelessWidget {
             Text(
               AppStrings.cart.tr(),
               style: mediumTextStyle(
-                color: AppColors.balticSea,
+                color: AppColors.black,
                 fontSize: AppFontSize.s17.rSp,
               ),
             ),

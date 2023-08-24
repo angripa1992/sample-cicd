@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -138,7 +137,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                         return OrderTabItem(
                           title: 'All',
                           count:
-                          state is Success<Orders> ? state.data.total : 0,
+                              state is Success<Orders> ? state.data.total : 0,
                         );
                       },
                     ),
@@ -164,17 +163,17 @@ class _OrdersScreenState extends State<OrdersScreen>
                     vertical: AppSize.s8.rh,
                     horizontal: AppSize.s10.rw,
                   ),
-                  unselectedLabelColor: AppColors.bluewood,
-                  labelColor: AppColors.purpleBlue,
-                  indicatorColor: AppColors.purpleBlue,
+                  unselectedLabelColor: AppColors.black,
+                  labelColor: AppColors.primary,
+                  indicatorColor: AppColors.primary,
                   labelStyle: TextStyle(
                     fontSize: AppFontSize.s14.rSp,
-                    fontFamily: AppFonts.Aeonik,
+                    fontFamily: AppFonts.Inter,
                     fontWeight: AppFontWeight.medium,
                   ),
                   unselectedLabelStyle: TextStyle(
                     fontSize: AppFontSize.s14.rSp,
-                    fontFamily: AppFonts.Aeonik,
+                    fontFamily: AppFonts.Inter,
                     fontWeight: AppFontWeight.medium,
                   ),
                   isScrollable: true,

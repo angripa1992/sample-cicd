@@ -40,12 +40,13 @@ class StickerDocketGenerator {
     final id = order.shortId.isNotEmpty ? order.shortId : order.externalId;
     final type = _type(order.type);
     final customerName = '${order.userFirstName} ${order.userLastName}';
-    final orderDetails = '$id/$type${order.providerId == ProviderID.KLIKIT && customerName.isNotEmpty ? '/$customerName' : ''}';
+    final orderDetails =
+        '$id/$type${order.providerId == ProviderID.KLIKIT && customerName.isNotEmpty ? '/$customerName' : ''}';
     final lines = _splitTextIntoLines(orderDetails, 20);
     String tslText = "";
     double yPosition = 0;
     for (int i = 0; i < lines.length; i++) {
-      if(i > 0){
+      if (i > 0) {
         yPosition += _lineHeight;
       }
       tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${lines[i]}"\n''';
@@ -61,7 +62,7 @@ class StickerDocketGenerator {
     String tslText = "";
     double yPosition = initialYPosition + _gap;
     for (int i = 0; i < lines.length; i++) {
-      if(i > 0){
+      if (i > 0) {
         yPosition += _lineHeight;
       }
       tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${lines[i]}"\n''';
@@ -80,7 +81,7 @@ class StickerDocketGenerator {
         yPosition += _lineHeight;
         final linesOne = _splitTextIntoLines(modifierOne.name, 20);
         for (int i = 0; i < linesOne.length; i++) {
-          if(i > 0){
+          if (i > 0) {
             yPosition += _lineHeight;
           }
           tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"${linesOne[i]}"\n''';
@@ -90,7 +91,7 @@ class StickerDocketGenerator {
             yPosition += _lineHeight;
             final linesTwo = _splitTextIntoLines(modifierTwo.name, 20);
             for (int i = 0; i < linesTwo.length; i++) {
-              if(i > 0){
+              if (i > 0) {
                 yPosition += _lineHeight;
               }
               tslText +=
@@ -116,7 +117,8 @@ class StickerDocketGenerator {
     final itemPosition = order.cartV2.indexOf(item) + 1;
     final itemCount = '$itemPosition/${order.cartV2.length}';
     double yPosition = initialYPosition + _gap;
-    tslText += '''TEXT 10,$yPosition,"$_font",0,1,1,"$date ........ $itemCount"\n''';
+    tslText +=
+        '''TEXT 10,$yPosition,"$_font",0,1,1,"$date ........ $itemCount"\n''';
     return {
       _kYPosition: yPosition,
       _kValue: tslText,

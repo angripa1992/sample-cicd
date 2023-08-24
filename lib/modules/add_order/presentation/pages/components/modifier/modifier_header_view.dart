@@ -11,9 +11,13 @@ class ModifierHeaderView extends StatelessWidget {
   final VoidCallback onBack;
   final String itemName;
   final VoidCallback onCartTap;
-  const ModifierHeaderView(
-      {Key? key, required this.onBack, required this.itemName, required this.onCartTap})
-      : super(key: key);
+
+  const ModifierHeaderView({
+    Key? key,
+    required this.onBack,
+    required this.itemName,
+    required this.onCartTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class ModifierHeaderView extends StatelessWidget {
         color: AppColors.white,
         boxShadow: [
           BoxShadow(
-            color: AppColors.lightGrey,
+            color: AppColors.greyLight,
             offset: const Offset(0.0, 2.0),
             blurRadius: 2.0,
           ),
@@ -37,14 +41,14 @@ class ModifierHeaderView extends StatelessWidget {
               onPressed: onBack,
               icon: Icon(
                 Icons.arrow_back,
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
               ),
             ),
             Expanded(
               child: Text(
                 itemName,
                 style: regularTextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               ),

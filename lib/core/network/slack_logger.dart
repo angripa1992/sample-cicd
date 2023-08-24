@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
@@ -7,7 +6,6 @@ import 'package:klikit/env/environment_variables.dart';
 import 'package:slack_logger/slack_logger.dart';
 
 import '../../app/di.dart';
-import '../provider/date_time_provider.dart';
 
 class SlackLoggerResolver {
   static final _instance = SlackLoggerResolver._internal();
@@ -23,48 +21,30 @@ class SlackLoggerResolver {
   }
 
   void sendApiError(DioException error) async {
-    // if(!kReleaseMode){
-    //   return;
-    // }
-    List<String> metadata = await _metadata();
-    List<String> business = await _businessInfo();
-    List<String> markdownMessageList = [];
-    markdownMessageList.addAll(metadata);
-    markdownMessageList.addAll(business);
-    markdownMessageList.addAll(
-      [
-        "********** API ERROR **********",
-        'Url: ${error.requestOptions.baseUrl}${error.requestOptions.path}',
-        'Params: ${error.requestOptions.queryParameters}',
-        'Status Code: ${error.response?.statusCode?.toString()}',
-        'Response: ${error.response?.toString()}',
-      ],
-    );
-    SlackLogger.instance.sendMarkdownAsAttachment(
-      markdownMessageList: markdownMessageList,
-      color: "#FF0000",
-    );
-  }
-
-  Future<List<String>> _metadata() async {
+    if (!kReleaseMode || error.response == null) {
+      return;
+    }
     final deviceInfo = getIt.get<DeviceInfoProvider>();
-    return [
+    final user = SessionManager().currentUser();
+    List<String> markdownMessageList = [
       "CREATED AT: ${DateTime.now().toLocal().toString()}",
+      'Url: ${error.requestOptions.baseUrl}${error.requestOptions.path}',
+      'Status Code: ${error.response?.statusCode?.toString()}',
+      'Response: ${error.response?.toString()}',
+      'Params: ${error.requestOptions.queryParameters}',
+      "********** BUSINESS **********",
+      "Branch: ${user.branchName} (${user.branchId})",
+      "Brand: ${user.brandName} (${user.branchId})",
+      "Business: ${user.businessName} (${user.businessId})",
       "********** METADATA **********",
       "Version: ${await deviceInfo.versionName()}",
       "Package: ${await deviceInfo.packageName()}",
       "OS: ${await deviceInfo.getOsVersion()}",
       "Device: ${await deviceInfo.getDeviceModel()}",
     ];
-  }
-
-  Future<List<String>> _businessInfo() async {
-    final user = SessionManager().currentUser();
-    return [
-      "********** BUSINESS **********",
-      "Branch: ${user.branchName} (${user.branchId})",
-      "Brand: ${user.brandName} (${user.branchId})",
-      "Business: ${user.businessName} (${user.businessId})",
-    ];
+    SlackLogger.instance.sendMarkdownAsAttachment(
+      markdownMessageList: markdownMessageList,
+      color: "#FF0000",
+    );
   }
 }

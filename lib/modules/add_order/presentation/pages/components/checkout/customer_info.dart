@@ -16,7 +16,8 @@ class CustomerInfoView extends StatefulWidget {
   final CustomerInfo? initInfo;
   final Function(CustomerInfo) onCustomerInfoSave;
 
-  const CustomerInfoView({Key? key, required this.onCustomerInfoSave, this.initInfo})
+  const CustomerInfoView(
+      {Key? key, required this.onCustomerInfoSave, this.initInfo})
       : super(key: key);
 
   @override
@@ -34,7 +35,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
   @override
   void initState() {
     final initInfo = widget.initInfo;
-    if(initInfo != null){
+    if (initInfo != null) {
       _firstNameController.text = initInfo.firstName;
       _lastNameController.text = initInfo.lastName;
       _emailController.text = initInfo.email;
@@ -95,7 +96,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
               headerColor: AppColors.white,
               headerRadius: 0,
               headerPadding: EdgeInsets.zero,
-              headerSplashColor: AppColors.dustyGreay,
+              headerSplashColor: AppColors.greyDarker,
               contentBackgroundColor: AppColors.white,
               contentPadding: EdgeInsets.only(top: AppSize.s8.rh),
               contentRadius: 0,
@@ -103,13 +104,13 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
             ),
             trailing: Icon(
               Icons.keyboard_arrow_down_rounded,
-              color: AppColors.dustyGreay,
+              color: AppColors.greyDarker,
             ),
             trailingRotation: 180,
             title: Text(
               AppStrings.add_customer_info.tr(),
               style: regularTextStyle(
-                color: AppColors.dustyGreay,
+                color: AppColors.greyDarker,
               ),
             ),
             content: Column(
@@ -137,7 +138,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
                 ElevatedButton(
                   onPressed: _onSave,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.purpleBlue,
+                    backgroundColor: AppColors.primary,
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),

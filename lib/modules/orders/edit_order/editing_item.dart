@@ -45,7 +45,7 @@ class EditingItemVIew extends StatelessWidget {
                         child: Text(
                           item.name,
                           style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
+                            color: AppColors.primary,
                             fontSize: AppFontSize.s14.rSp,
                           ),
                         ),
@@ -57,12 +57,12 @@ class EditingItemVIew extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-                          color: AppColors.seaShell,
+                          color: AppColors.greyLighter,
                         ),
                         child: Text(
                           '$currencySymbol ${item.unitPriceDisplay}',
                           style: TextStyle(
-                            color: AppColors.balticSea,
+                            color: AppColors.black,
                             fontSize: AppFontSize.s13.rSp,
                           ),
                         ),
@@ -73,7 +73,7 @@ class EditingItemVIew extends StatelessWidget {
                   Text(
                     EditingManager().allCsvModifiersName(item.modifierGroups),
                     style: regularTextStyle(
-                      color: AppColors.smokeyGrey,
+                      color: AppColors.greyDarker,
                       fontSize: AppFontSize.s13.rSp,
                     ),
                   ),

@@ -8,6 +8,7 @@ import '../../../../../resources/values.dart';
 
 class FindRiderView extends StatelessWidget {
   final VoidCallback onRiderFind;
+
   const FindRiderView({Key? key, required this.onRiderFind}) : super(key: key);
 
   @override
@@ -21,14 +22,14 @@ class FindRiderView extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-          color: AppColors.dawnPink,
+          color: AppColors.greyLight,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.delivery_dining_rounded,
-              color: AppColors.blackCow,
+              color: AppColors.black,
               size: AppSize.s16.rSp,
             ),
             SizedBox(width: AppSize.s8.rw),
@@ -36,7 +37,7 @@ class FindRiderView extends StatelessWidget {
               child: Text(
                 'Find Rider',
                 style: regularTextStyle(
-                  color: AppColors.blackCow,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),

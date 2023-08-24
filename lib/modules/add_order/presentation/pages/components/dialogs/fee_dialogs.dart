@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
@@ -33,9 +32,11 @@ class FeeDialogView extends StatefulWidget {
 
 class _FeeDialogViewState extends State<FeeDialogView> {
   final _controller = TextEditingController();
+
   //late int _type;
   bool _editable = false;
   late FeeType _feeType;
+
   //String? _validateMsg;
 
   @override
@@ -105,7 +106,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
             Text(
               _title(),
               style: mediumTextStyle(
-                color: AppColors.balticSea,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),
@@ -125,7 +126,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            color: AppColors.seaShell,
+            color: AppColors.greyLighter,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -137,7 +138,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
               decoration: InputDecoration(
                 hintText: '${AppStrings.add.tr()} ${_title()}',
                 hintStyle: regularTextStyle(
-                  color: AppColors.dustyGreay,
+                  color: AppColors.greyDarker,
                   fontSize: AppFontSize.s14.rSp,
                 ),
                 enabledBorder: const UnderlineInputBorder(
@@ -155,7 +156,7 @@ class _FeeDialogViewState extends State<FeeDialogView> {
           child: ElevatedButton(
             onPressed: _save,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.purpleBlue, // Background color
+              backgroundColor: AppColors.primary, // Background color
             ),
             child: Text(
               AppStrings.save.tr(),

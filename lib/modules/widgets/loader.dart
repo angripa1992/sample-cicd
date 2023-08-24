@@ -1,5 +1,3 @@
-
-import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../resources/colors.dart';
@@ -12,18 +10,18 @@ void configLoading() {
     ..indicatorSize = 45.0
     ..radius = 10.0
     ..progressColor = AppColors.white
-    ..backgroundColor = AppColors.purpleBlue
+    ..backgroundColor = AppColors.primary
     ..indicatorColor = AppColors.white
     ..textColor = AppColors.white
-    ..maskColor = AppColors.purpleBlue.withOpacity(0.5)
+    ..maskColor = AppColors.primary.withOpacity(0.5)
     ..userInteractions = true
     ..dismissOnTap = false;
 }
 
-void showLoader(){
+void showLoader() {
   EasyLoading.show();
 }
 
-void dismissLoader(){
+void dismissLoader() {
   EasyLoading.dismiss();
 }

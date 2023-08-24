@@ -73,7 +73,7 @@ class OrderStatusView extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-        color: AppColors.purpleBlue,
+        color: AppColors.primary,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(

@@ -121,7 +121,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   providerId: widget.providerID,
                   borderRadius: AppSize.s16.rSp,
                   width: AppSize.s100.rw,
-                  bgColor: AppColors.dustyOrange.withOpacity(0.1),
+                  bgColor: AppColors.yellowDarker.withOpacity(0.1),
                   parentEnabled: widget.parentEnabled,
                   iconPath: AppIcons.edit,
                   // onEnabledChange: (enabled) {
@@ -174,7 +174,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                 '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.items.stock.snooze.endTime)})',
                 textAlign: TextAlign.right,
                 style: mediumTextStyle(
-                  color: AppColors.warmRed,
+                  color: AppColors.redDark,
                   fontSize: AppFontSize.s12.rSp,
                 ),
               ),
@@ -187,7 +187,8 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   widget.items.description,
                   textAlign: TextAlign.start,
                   style: regularTextStyle(
-                      fontSize: AppFontSize.s14.rSp, color: AppColors.coolGrey),
+                      fontSize: AppFontSize.s14.rSp,
+                      color: AppColors.greyDarker),
                 ),
               ),
             ),

@@ -12,7 +12,7 @@ class PrinterSettingCheckbox extends StatelessWidget {
   final bool willAlwaysChecked;
   final Color activeColor;
 
-   const PrinterSettingCheckbox({
+  const PrinterSettingCheckbox({
     Key? key,
     required this.name,
     required this.enabled,
@@ -28,7 +28,7 @@ class PrinterSettingCheckbox extends StatelessWidget {
       title: Text(
         name,
         style: regularTextStyle(
-          color: AppColors.bluewood,
+          color: AppColors.black,
           fontSize: AppSize.s16.rSp,
         ),
       ),

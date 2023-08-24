@@ -27,7 +27,7 @@ class OrderCustomerInfoView extends StatelessWidget {
           Text(
             'Customer Info',
             style: boldTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s15.rSp,
             ),
           ),
@@ -56,7 +56,7 @@ class OrderCustomerInfoView extends StatelessWidget {
         Text(
           title,
           style: mediumTextStyle(
-            color: AppColors.bluewood,
+            color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
@@ -64,7 +64,7 @@ class OrderCustomerInfoView extends StatelessWidget {
         Text(
           description,
           style: regularTextStyle(
-            color: AppColors.bluewood,
+            color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),

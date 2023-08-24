@@ -28,7 +28,7 @@ class SelectBrandDropDown extends StatefulWidget {
 class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
   MenuBrand? _dropDownValue;
   final _textStyle = mediumTextStyle(
-    color: AppColors.balticSea,
+    color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
   );
 
@@ -56,7 +56,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.purpleBlue, width: AppSize.s1.rSp),
+        border: Border.all(color: AppColors.primary, width: AppSize.s1.rSp),
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
       ),
       child: DropdownButton<MenuBrand>(
@@ -91,7 +91,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
                   if (menu.id == _dropDownValue?.id)
                     Icon(
                       Icons.check,
-                      color: AppColors.purpleBlue,
+                      color: AppColors.primary,
                     ),
                 ],
               ),

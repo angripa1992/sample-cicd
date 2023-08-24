@@ -52,11 +52,11 @@ class _DateSelectorState extends State<DateSelector> {
         builder: (context, child) {
           return Theme(
             data: ThemeData.light().copyWith(
-              primaryColor: AppColors.blueViolet,
+              primaryColor: AppColors.primaryLight,
               dividerColor: AppColors.white,
               colorScheme: ColorScheme.fromSwatch().copyWith(
-                primary: AppColors.blueViolet,
-                onSurface: AppColors.blueViolet,
+                primary: AppColors.primaryLight,
+                onSurface: AppColors.primaryLight,
               ),
             ),
             child: child!,
@@ -76,21 +76,21 @@ class _DateSelectorState extends State<DateSelector> {
           padding: const EdgeInsets.all(AppSize.s8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            color: AppColors.lightVioletTwo,
+            color: AppColors.primaryLighter,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.date_range,
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
                 size: AppSize.s18.rSp,
               ),
               SizedBox(width: AppSize.s8.rw),
               Text(
                 DateTimeProvider.dateRangeString(_dateTimeRange!),
                 style: regularTextStyle(
-                  color: AppColors.purpleBlue,
+                  color: AppColors.primary,
                   fontSize: AppFontSize.s13.rSp,
                 ),
               ),

@@ -74,7 +74,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
             child: Text(
               AppStrings.select_language.tr(),
               style: mediumTextStyle(
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),
@@ -92,13 +92,13 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
                       title: Text(
                         language.title!,
                         style: regularTextStyle(
-                          color: AppColors.bluewood,
+                          color: AppColors.black,
                           fontSize: AppFontSize.s14.rSp,
                         ),
                       ),
                       value: language.id!,
                       groupValue: _currentLanguageId,
-                      activeColor: AppColors.purpleBlue,
+                      activeColor: AppColors.primary,
                       onChanged: (value) {
                         setState(() {
                           _currentLanguageId = value;
@@ -126,7 +126,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
                   child: Text(
                     AppStrings.cancel.tr(),
                     style: regularTextStyle(
-                      color: AppColors.warmRed,
+                      color: AppColors.redDark,
                       fontSize: AppFontSize.s14.rSp,
                     ),
                   ),

@@ -2,8 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/modules/menu/data/models/sections_model.dart';
 import 'package:klikit/modules/menu/domain/entities/menues.dart';
 
-import '../../domain/entities/sections.dart';
-
 part 'menues_model.g.dart';
 
 @JsonSerializable()

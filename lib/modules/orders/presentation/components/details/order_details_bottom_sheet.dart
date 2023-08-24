@@ -28,7 +28,7 @@ void _openBottomSheet({
       key: key,
       body: Container(
         margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-        color: AppColors.pearl,
+        color: AppColors.greyLight,
         child: Scaffold(
           body: OrderDetailsScreen(
             order: order,

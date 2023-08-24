@@ -35,7 +35,7 @@ class GoToCartButton extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                  color: AppColors.purpleBlue,
+                  color: AppColors.primary,
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(

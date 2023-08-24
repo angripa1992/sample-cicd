@@ -6,13 +6,15 @@ import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import '../../../../app/di.dart';
 import '../../../../resources/styles.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
-import '../../domain/entities/add_to_cart_item.dart';
 import 'add_order_body.dart';
 
 class AddOrderScreen extends StatelessWidget {
   final bool willOpenCart;
   final bool willUpdateCart;
-  const AddOrderScreen({Key? key, required this.willOpenCart, required this.willUpdateCart}) : super(key: key);
+
+  const AddOrderScreen(
+      {Key? key, required this.willOpenCart, required this.willUpdateCart})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class AddOrderScreen extends StatelessWidget {
         ),
         body: AddOrderBody(
           onBack: () {
-            if(willUpdateCart){
+            if (willUpdateCart) {
               CartManager().clear();
             }
             Navigator.pop(context);

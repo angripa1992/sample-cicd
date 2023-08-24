@@ -7,11 +7,12 @@ import 'package:klikit/notification/notification_data_handler.dart';
 
 import '../app/app_preferences.dart';
 import '../app/session_manager.dart';
+import 'fcm_token_manager.dart';
 
 class FcmService {
   static final FcmService _instance = FcmService._internal();
 
-  //final _fcmTokenManager = getIt.get<FcmTokenManager>();
+  final _fcmTokenManager = getIt.get<FcmTokenManager>();
 
   FcmService._internal();
 
@@ -34,7 +35,7 @@ class FcmService {
   void registerForegroundListener() {
     FirebaseMessaging.onMessage.listen(
       (message) {
-        debugPrint('++++++++++++++++++++++$message');
+        debugPrint('******Notification****** => ${message.data}');
         if (SessionManager().isLoggedIn()) {
           InAppNotificationHandler().handleNotification(
             NotificationDataHandler().getNotificationData(message.data),
@@ -46,7 +47,7 @@ class FcmService {
 
   void registerRefreshTokenListener() {
     messaging.onTokenRefresh.listen((fcmToken) {
-      //_fcmTokenManager.registerToken(fcmToken);
+      _fcmTokenManager.registerToken(fcmToken);
     }).onError((error) {});
   }
 }

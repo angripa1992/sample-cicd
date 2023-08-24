@@ -83,8 +83,10 @@ class _AddPaymentMethodAndStatusViewState
       _status: widget.willOnlyUpdatePaymentInfo
           ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null)
           : PaymentStatusId.paid,
-      _method: widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
-      _channel: widget.order.paymentChannel > 0 ? widget.order.paymentChannel : null,
+      _method:
+          widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
+      _channel:
+          widget.order.paymentChannel > 0 ? widget.order.paymentChannel : null,
     };
     super.initState();
   }
@@ -94,7 +96,6 @@ class _AddPaymentMethodAndStatusViewState
     _paymentNotifier.dispose();
     super.dispose();
   }
-
 
   ///TODO need adjusment here
   void _updateStatus() {
@@ -134,7 +135,7 @@ class _AddPaymentMethodAndStatusViewState
               child: Text(
                 widget.title,
                 style: mediumTextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               ),

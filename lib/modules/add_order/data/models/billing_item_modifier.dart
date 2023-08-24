@@ -21,18 +21,18 @@ class BillingItemModifier {
 
   BillingItemModifier(
       {this.id,
-        this.modifierId,
-        this.immgId,
-        this.title,
-        this.sequence,
-        this.titleV2,
-        this.statuses,
-        this.prices,
-        this.groups,
-        this.isSelected,
-        this.modifierQuantity,
-        this.extraPrice,
-        this.selectedTitle});
+      this.modifierId,
+      this.immgId,
+      this.title,
+      this.sequence,
+      this.titleV2,
+      this.statuses,
+      this.prices,
+      this.groups,
+      this.isSelected,
+      this.modifierQuantity,
+      this.extraPrice,
+      this.selectedTitle});
 
   BillingItemModifier.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -64,7 +64,7 @@ class BillingItemModifier {
     isSelected = json['is_selected'];
     modifierQuantity = json['modifier_quantity'];
     extraPrice = json['extra_price'];
-    if(selectedTitle != null){
+    if (selectedTitle != null) {
       selectedTitle = json['selectedTitle'];
     }
   }

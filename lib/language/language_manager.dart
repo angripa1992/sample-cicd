@@ -12,7 +12,8 @@ class LanguageManager {
   final AppPreferences _appPreferences;
   final _languages = <Language>[];
   final _fallbackLocale = const Locale('en', 'US');
-  final _fallbackLanguage = Language(id: 1, title: 'English', code: 'en', countryCode: 'US');
+  final _fallbackLanguage =
+      Language(id: 1, title: 'English', code: 'en', countryCode: 'US');
 
   LanguageManager(this._appPreferences);
 

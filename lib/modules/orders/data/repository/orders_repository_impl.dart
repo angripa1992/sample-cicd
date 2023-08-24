@@ -246,7 +246,8 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, List<CancellationReason>>> fetchCancellationReason() async{
+  Future<Either<Failure, List<CancellationReason>>>
+      fetchCancellationReason() async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchCancellationReasons();

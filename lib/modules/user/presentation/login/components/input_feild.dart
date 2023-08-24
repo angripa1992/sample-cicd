@@ -60,7 +60,7 @@ class _InputFieldState extends State<InputField> {
           decoration: InputDecoration(
             label: Text(widget.label),
             labelStyle: mediumTextStyle(
-              color: widget.labelColor ?? AppColors.blueViolet,
+              color: widget.labelColor ?? AppColors.primaryLight,
               fontSize: AppFontSize.s18.rSp,
             ),
             hintText: widget.hintText ?? '',
@@ -73,7 +73,7 @@ class _InputFieldState extends State<InputField> {
                     },
                     icon: Icon(
                       _obscureText! ? Icons.visibility_off : Icons.visibility,
-                      color: AppColors.bluewood,
+                      color: AppColors.black,
                     ),
                   )
                 : const SizedBox(),
@@ -82,22 +82,23 @@ class _InputFieldState extends State<InputField> {
               fontSize: AppFontSize.s16.rSp,
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColors.blueViolet),
+              borderSide: BorderSide(
+                  color: widget.borderColor ?? AppColors.primaryLight),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColors.blueViolet),
+              borderSide: BorderSide(
+                  color: widget.borderColor ?? AppColors.primaryLight),
             ),
             border: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: widget.borderColor ?? AppColors.blueViolet),
+              borderSide: BorderSide(
+                  color: widget.borderColor ?? AppColors.primaryLight),
             ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return AppStrings.field_required.tr();
-            } else if (widget.inputType == TextInputType.emailAddress && !isEmailValid(value)) {
+            } else if (widget.inputType == TextInputType.emailAddress &&
+                !isEmailValid(value)) {
               return AppStrings.enter_valid_email.tr();
             }
             return null;

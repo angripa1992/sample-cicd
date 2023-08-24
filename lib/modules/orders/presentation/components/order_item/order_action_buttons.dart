@@ -38,14 +38,14 @@ class PrintButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             ),
-            side: BorderSide(color: AppColors.purpleBlue)),
+            side: BorderSide(color: AppColors.primary)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.print,
               size: AppSize.s16.rSp,
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
             ),
             if (expanded)
               Padding(
@@ -53,7 +53,7 @@ class PrintButton extends StatelessWidget {
                 child: Text(
                   AppStrings.print.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.purpleBlue,
+                    color: AppColors.primary,
                     fontSize: AppFontSize.s12.rSp,
                   ),
                 ),
@@ -91,14 +91,14 @@ class ReadyButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
-              color: enabled ? AppColors.purpleBlue : Colors.transparent,
+              color: enabled ? AppColors.primary : Colors.transparent,
             ),
           ),
         ),
         child: Text(
           AppStrings.ready.tr(),
           style: mediumTextStyle(
-            color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
+            color: enabled ? AppColors.primary : AppColors.greyDarker,
             fontSize: AppFontSize.s12.rSp,
           ),
         ),
@@ -133,14 +133,14 @@ class DeliverButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
-              color: enabled ? AppColors.purpleBlue : Colors.transparent,
+              color: enabled ? AppColors.primary : Colors.transparent,
             ),
           ),
         ),
         child: Text(
           AppStrings.deliver.tr(),
           style: mediumTextStyle(
-            color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
+            color: enabled ? AppColors.primary : AppColors.greyDarker,
             fontSize: AppFontSize.s12.rSp,
           ),
         ),
@@ -175,14 +175,14 @@ class PickedUpButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
-              color: enabled ? AppColors.purpleBlue : Colors.transparent,
+              color: enabled ? AppColors.primary : Colors.transparent,
             ),
           ),
         ),
         child: Text(
           AppStrings.picked_up.tr(),
           style: mediumTextStyle(
-            color: enabled ? AppColors.purpleBlue : AppColors.smokeyGrey,
+            color: enabled ? AppColors.primary : AppColors.greyDarker,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
@@ -217,7 +217,7 @@ class AcceptButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
             ),
           ),
         ),
@@ -227,7 +227,7 @@ class AcceptButton extends StatelessWidget {
             Icon(
               Icons.check,
               size: AppSize.s16.rSp,
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
             ),
             if (expanded)
               Padding(
@@ -235,7 +235,7 @@ class AcceptButton extends StatelessWidget {
                 child: Text(
                   AppStrings.accept.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.purpleBlue,
+                    color: AppColors.primary,
                     fontSize: AppFontSize.s12.rSp,
                   ),
                 ),
@@ -323,11 +323,11 @@ class EditButton extends StatelessWidget {
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-              side: BorderSide(color: AppColors.purpleBlue)),
+              side: BorderSide(color: AppColors.primary)),
         ),
         child: SvgPicture.asset(
           AppIcons.tablerEdit,
-          color: AppColors.purpleBlue,
+          color: AppColors.primary,
           height: AppSize.s16.rh,
           width: AppSize.s16.rw,
         ),
@@ -357,12 +357,12 @@ class FindRiderButton extends StatelessWidget {
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-              side: BorderSide(color: AppColors.purpleBlue)),
+              side: BorderSide(color: AppColors.primary)),
         ),
         child: Icon(
           Icons.delivery_dining_rounded,
           size: AppSize.s16.rSp,
-          color: AppColors.purpleBlue,
+          color: AppColors.primary,
         ),
       ),
     );

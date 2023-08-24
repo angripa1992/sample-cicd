@@ -18,7 +18,8 @@ class Urls {
   static const String updatePaymentInfo = '/v1/oni/manualorder/payment';
   static const String tokenRegistration = '/v1/notify-token';
   static const String calculateBill = '/v1/menu/manual-order/calculate-bill';
-  static const String calculateGrabOrderBill = '/v1/oni/grabfoodorder/calculate-bill';
+  static const String calculateGrabOrderBill =
+      '/v1/oni/grabfoodorder/calculate-bill';
   static const String updateGrabOrder = '/v1/oni/grabfoodorder';
   static const String manualOrder = '/v1/oni/manualorder';
   static const String promos = '/v1/promoit/promo/common/search';
@@ -30,6 +31,7 @@ class Urls {
 
   static String menus(int branchId) => '/v2/menu/branch/$branchId/menus';
   static const String menuBrands = '/v1/brand';
+
   static String menuBrand(int brandId) => '/v1/brand/$brandId';
   static const String sources = '/v1/oni/order-sources';
   static const String paymentMethod = '/v1/oni/payment-channels';

@@ -24,17 +24,17 @@ class OrderItemDetails extends StatelessWidget {
   OrderItemDetails({Key? key, required this.order}) : super(key: key);
 
   final _itemTextStyle = mediumTextStyle(
-    color: AppColors.darkGrey,
+    color: AppColors.greyDarker,
     fontSize: AppFontSize.s14.rSp,
   );
 
   final _modifiersTextStyle = regularTextStyle(
-    color: AppColors.smokeyGrey,
+    color: AppColors.greyDarker,
     fontSize: AppFontSize.s14.rSp,
   );
 
   final _modifiersItemTextStyle = regularTextStyle(
-    color: AppColors.smokeyGrey,
+    color: AppColors.greyDarker,
     fontSize: AppFontSize.s14.rSp,
   );
 
@@ -132,7 +132,8 @@ class OrderItemDetails extends StatelessWidget {
                                                     _modifierItemView(
                                                       modifiers: modifiersOne,
                                                       prevQuantity: 1,
-                                                      itemQuantity: cart.quantity,
+                                                      itemQuantity:
+                                                          cart.quantity,
                                                       paddingLevel: 3,
                                                     ),
                                                     Column(
@@ -165,9 +166,12 @@ class OrderItemDetails extends StatelessWidget {
                                                                       modifiers:
                                                                           secondModifier,
                                                                       prevQuantity:
-                                                                          modifiersOne.quantity,
-                                                                      itemQuantity: cart.quantity,
-                                                                      paddingLevel: 5,
+                                                                          modifiersOne
+                                                                              .quantity,
+                                                                      itemQuantity:
+                                                                          cart.quantity,
+                                                                      paddingLevel:
+                                                                          5,
                                                                     );
                                                                   },
                                                                 ).toList(),
@@ -247,7 +251,7 @@ class OrderItemDetails extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.print,
-                        color: AppColors.purpleBlue,
+                        color: AppColors.primary,
                       ),
                     )
                   : const SizedBox(),
@@ -336,7 +340,7 @@ class OrderItemDetails extends StatelessWidget {
             Text(
               '${AppStrings.note.tr()}:',
               style: boldTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
@@ -345,7 +349,7 @@ class OrderItemDetails extends StatelessWidget {
               child: Text(
                 comment,
                 style: regularTextStyle(
-                  color: AppColors.bluewood,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),

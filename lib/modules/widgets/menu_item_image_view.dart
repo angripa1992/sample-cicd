@@ -9,6 +9,7 @@ import '../../resources/values.dart';
 
 class MenuItemImageView extends StatelessWidget {
   final String url;
+
   const MenuItemImageView({Key? key, required this.url}) : super(key: key);
 
   @override
@@ -22,8 +23,7 @@ class MenuItemImageView extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             shape: BoxShape.rectangle,
-            image: DecorationImage(
-                image: imageProvider, fit: BoxFit.cover),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
           ),
         ),
         progressIndicatorBuilder: (_, __, ___) => Center(

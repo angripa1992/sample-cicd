@@ -111,8 +111,8 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
             scale: 0.7,
             child: CupertinoSwitch(
               value: _enabled,
-              activeColor: AppColors.purpleBlue,
-              trackColor: AppColors.blackCow,
+              activeColor: AppColors.primary,
+              trackColor: AppColors.black,
               onChanged: (enabled) {
                 if (enabled) {
                   _handleEnableAction(enabled);

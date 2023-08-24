@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/resources/themes.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
-
+import 'package:klikit/resources/themes.dart';
 import '../core/route/routes.dart';
 import '../core/route/routes_generator.dart';
 import '../core/route/routes_observer.dart';

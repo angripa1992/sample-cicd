@@ -22,21 +22,22 @@ class GrabQuantitySelector extends StatefulWidget {
 
 class _GrabQuantitySelectorState extends State<GrabQuantitySelector> {
   late int _quantity;
+
   @override
   void initState() {
     _quantity = widget.quantity;
     super.initState();
   }
 
-  void _increment(){
+  void _increment() {
     setState(() {
       _quantity += 1;
     });
     widget.onQuantityChanged(_quantity);
   }
 
-  void _decrement(){
-    if(_quantity >= 1){
+  void _decrement() {
+    if (_quantity >= 1) {
       setState(() {
         _quantity -= 1;
       });
@@ -60,7 +61,7 @@ class _GrabQuantitySelectorState extends State<GrabQuantitySelector> {
           onPressed: _decrement,
           icon: Icon(
             Icons.remove_circle,
-            color: AppColors.purpleBlue,
+            color: AppColors.primary,
           ),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
@@ -70,7 +71,7 @@ class _GrabQuantitySelectorState extends State<GrabQuantitySelector> {
           child: Text(
             '$_quantity',
             style: mediumTextStyle(
-              color: AppColors.balticSea,
+              color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
           ),
@@ -79,7 +80,7 @@ class _GrabQuantitySelectorState extends State<GrabQuantitySelector> {
           onPressed: _increment,
           icon: Icon(
             Icons.add_circle,
-            color: AppColors.purpleBlue,
+            color: AppColors.primary,
           ),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),

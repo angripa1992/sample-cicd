@@ -31,13 +31,13 @@ class AppButton extends StatelessWidget {
       onPressed: enable ? onTap : null,
       style: ElevatedButton.styleFrom(
         backgroundColor:
-            enable ? (color ?? AppColors.purpleBlue) : AppColors.smokeyGrey,
-        disabledBackgroundColor: AppColors.smokeyGrey,
+            enable ? (color ?? AppColors.primary) : AppColors.greyDarker,
+        disabledBackgroundColor: AppColors.greyDarker,
         side: BorderSide(
           width: AppSize.s1.rw,
           color: enable
-              ? (borderColor ?? AppColors.purpleBlue)
-              : AppColors.smokeyGrey,
+              ? (borderColor ?? AppColors.primary)
+              : AppColors.greyDarker,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp), // <-- Radius

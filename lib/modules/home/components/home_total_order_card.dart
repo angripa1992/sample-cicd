@@ -31,7 +31,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
         children: [
           Expanded(
             child: Card(
-              shadowColor: AppColors.smokeyGrey,
+              shadowColor: AppColors.greyDarker,
               elevation: 4,
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -57,7 +57,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                           Text(
                             AppStrings.total_orders_today.tr(),
                             style: regularTextStyle(
-                              color: AppColors.blackCow,
+                              color: AppColors.black,
                               fontSize: AppFontSize.s14.rSp,
                             ),
                           ),
@@ -66,7 +66,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                                 ? state.data.total.toString()
                                 : '0',
                             style: regularTextStyle(
-                              color: AppColors.purpleBlue,
+                              color: AppColors.primary,
                               fontSize: AppFontSize.s30.rSp,
                             ),
                           ),
@@ -81,7 +81,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
           SizedBox(width: AppSize.s8.rw),
           Expanded(
             child: Card(
-              shadowColor: AppColors.smokeyGrey,
+              shadowColor: AppColors.greyDarker,
               elevation: 4,
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -107,7 +107,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                           Text(
                             AppStrings.total_orders_yesterday.tr(),
                             style: regularTextStyle(
-                              color: AppColors.blackCow,
+                              color: AppColors.black,
                               fontSize: AppFontSize.s14.rSp,
                             ),
                           ),
@@ -116,7 +116,7 @@ class HomeTotalOrdersCard extends StatelessWidget {
                                 ? state.data.total.toString()
                                 : '0',
                             style: regularTextStyle(
-                              color: AppColors.purpleBlue,
+                              color: AppColors.primary,
                               fontSize: AppFontSize.s30.rSp,
                             ),
                           ),

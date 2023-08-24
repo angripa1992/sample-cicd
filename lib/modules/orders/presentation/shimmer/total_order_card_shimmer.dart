@@ -39,7 +39,7 @@ class TotalOrderCardShimmer extends StatelessWidget {
       width: width,
       child: Card(
         color: bgColor ?? AppColors.white,
-        shadowColor: AppColors.smokeyGrey,
+        shadowColor: AppColors.greyDarker,
         elevation: 4,
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -51,20 +51,20 @@ class TotalOrderCardShimmer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ContainerShimmer(
-                baseColor: AppColors.lightGrey,
-                highlightColor: AppColors.whiteSmoke,
+                baseColor: AppColors.greyLight,
+                highlightColor: AppColors.grey,
                 height: AppFontSize.s14.rh,
                 width: AppSize.s32.rw,
               ),
               SizedBox(height: AppSize.s8.rh),
               Shimmer.fromColors(
-                baseColor: textColor ?? AppColors.blackCow,
-                highlightColor: AppColors.whiteSmoke,
+                baseColor: textColor ?? AppColors.black,
+                highlightColor: AppColors.grey,
                 enabled: true,
                 child: Text(
                   text,
                   style: regularTextStyle(
-                    color: AppColors.blackCow,
+                    color: AppColors.black,
                     fontSize: fontSize,
                   ),
                 ),

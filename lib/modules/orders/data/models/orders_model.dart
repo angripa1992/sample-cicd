@@ -442,11 +442,12 @@ class CartV2Model {
       unitPriceDisplay: unitPriceDisplay.orEmpty(),
       priceDisplay: priceDisplay.orEmpty(),
       modifierGroups: modifierGroups?.map((e) => e.toEntity()).toList() ?? [],
-      cartBrand: brand?.toEntity() ?? CartBrand(
-          id: ZERO,
-          title: EMPTY,
-          logo: EMPTY,
-      ),
+      cartBrand: brand?.toEntity() ??
+          CartBrand(
+            id: ZERO,
+            title: EMPTY,
+            logo: EMPTY,
+          ),
       modifierGroupPrice: modifierGroupPrice.orEmpty(),
     );
   }

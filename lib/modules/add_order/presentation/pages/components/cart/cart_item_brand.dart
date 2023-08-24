@@ -29,7 +29,7 @@ class CartItemBrand extends StatelessWidget {
                 child: Text(
                   menuBrand.title,
                   style: boldTextStyle(
-                    color: AppColors.balticSea,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s15.rSp,
                   ),
                 ),

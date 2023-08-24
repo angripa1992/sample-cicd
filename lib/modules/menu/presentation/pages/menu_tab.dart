@@ -29,10 +29,10 @@ class MenuTab extends StatelessWidget {
           duration: const Duration(milliseconds: 500),
           decoration: BoxDecoration(
             borderRadius: borderRadius,
-            color: isSelected ? AppColors.purpleBlue : AppColors.lightVioletTwo,
+            color: isSelected ? AppColors.primary : AppColors.grey,
             boxShadow: [
               BoxShadow(
-                color: AppColors.lightGrey,
+                color: AppColors.greyLight,
                 blurRadius: 2.0,
                 offset:
                     const Offset(2.0, 2.0), // shadow direction: bottom right

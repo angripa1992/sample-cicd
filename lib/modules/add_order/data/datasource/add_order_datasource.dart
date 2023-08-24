@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
+
 import '../../../../app/enums.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
@@ -14,7 +13,8 @@ import '../models/place_order_data.dart';
 import '../models/placed_order_response.dart';
 
 abstract class AddOrderDatasource {
-  Future<MenusDataModel> fetchMenus({required int branchId, required int brandId});
+  Future<MenusDataModel> fetchMenus(
+      {required int branchId, required int brandId});
 
   Future<List<ItemModifierGroupModel>> fetchModifiers({required int itemId});
 
@@ -24,7 +24,7 @@ abstract class AddOrderDatasource {
 
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataModel body);
 
-  Future<List<AppliedPromo>> fetchPromos(Map<String,dynamic> params);
+  Future<List<AppliedPromo>> fetchPromos(Map<String, dynamic> params);
 }
 
 class AddOrderDatasourceImpl extends AddOrderDatasource {
@@ -68,7 +68,8 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   }
 
   @override
-  Future<CartBillModel> calculateBill({required BillingRequestModel model}) async {
+  Future<CartBillModel> calculateBill(
+      {required BillingRequestModel model}) async {
     try {
       final response = await _restClient.request(
         Urls.calculateBill,
@@ -84,15 +85,17 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<List<AddOrderSourcesModel>> fetchSources() async {
     try {
-      final List<dynamic>? responses = await _restClient.request(Urls.sources, Method.GET, null);
-      return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ?? [];
+      final List<dynamic>? responses =
+          await _restClient.request(Urls.sources, Method.GET, null);
+      return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ??
+          [];
     } on DioException {
       rethrow;
     }
   }
 
   @override
-  Future<PlacedOrderResponse> placeOrder(PlaceOrderDataModel body) async{
+  Future<PlacedOrderResponse> placeOrder(PlaceOrderDataModel body) async {
     try {
       final response = await _restClient.request(
         Urls.manualOrder,
@@ -106,7 +109,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   }
 
   @override
-  Future<List<AppliedPromo>> fetchPromos(Map<String, dynamic> params) async{
+  Future<List<AppliedPromo>> fetchPromos(Map<String, dynamic> params) async {
     try {
       final List<dynamic>? response = await _restClient.request(
         Urls.promos,

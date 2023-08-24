@@ -76,7 +76,7 @@ class InAppNotificationHandler {
     if (!isNewOrder) {
       return;
     }
-    Future.delayed(const Duration(seconds: 1), () async{
+    Future.delayed(const Duration(seconds: 1), () async {
       final order = await NotificationDataHandler().getOrderById(
         notificationData.orderId.toInt(),
       );
@@ -118,7 +118,7 @@ class InAppNotificationHandler {
                       child: Text(
                         '$value ${AppStrings.orders_has_been_canceled.tr()}',
                         style: regularTextStyle(
-                          color: AppColors.warmRed,
+                          color: AppColors.redDark,
                           fontSize: AppFontSize.s18.rSp,
                         ),
                       ),

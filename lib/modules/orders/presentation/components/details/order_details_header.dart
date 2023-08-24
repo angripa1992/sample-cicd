@@ -20,7 +20,6 @@ import '../../../provider/order_information_provider.dart';
 import '../order_item/three_pl_status.dart';
 import 'comment_action_view.dart';
 import 'find_rider_button.dart';
-import 'order_payment_info.dart';
 import 'order_tags.dart';
 
 class OrderDetailsHeaderView extends StatelessWidget {
@@ -107,14 +106,14 @@ class OrderDetailsHeaderView extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-          color: AppColors.dawnPink,
+          color: AppColors.greyLight,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.edit,
-              color: AppColors.blackCow,
+              color: AppColors.black,
               size: AppSize.s16.rSp,
             ),
             SizedBox(width: AppSize.s8.rw),
@@ -122,7 +121,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
               child: Text(
                 AppStrings.edit_order.tr(),
                 style: regularTextStyle(
-                  color: AppColors.blackCow,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),
@@ -143,7 +142,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
                 ? '#${order.id}'
                 : '#${order.shortId}',
             style: boldTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s20.rSp,
             ),
           ),
@@ -170,12 +169,12 @@ class OrderDetailsHeaderView extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-                      border: Border.all(color: AppColors.purpleBlue),
+                      border: Border.all(color: AppColors.primary),
                     ),
                     child: Text(
                       '${AppStrings.placed_on.tr()} ${result.data!.title}',
                       style: mediumTextStyle(
-                        color: AppColors.purpleBlue,
+                        color: AppColors.primary,
                         fontSize: AppFontSize.s14.rSp,
                       ),
                     ),
@@ -204,7 +203,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
       child: Icon(
         Icons.copy,
         size: AppSize.s18.rSp,
-        color: AppColors.bluewood,
+        color: AppColors.black,
       ),
     );
   }
@@ -215,7 +214,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         Text(
           AppStrings.id.tr(),
           style: regularTextStyle(
-            color: AppColors.bluewood,
+            color: AppColors.black,
             fontSize: AppFontSize.s15.rSp,
           ),
         ),
@@ -224,7 +223,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           child: Text(
             order.externalId,
             style: mediumTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
@@ -240,7 +239,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
       children: [
         Icon(
           Icons.date_range,
-          color: AppColors.purpleBlue,
+          color: AppColors.primary,
           size: AppSize.s18.rSp,
         ),
         SizedBox(width: AppSize.s6.rw),
@@ -248,7 +247,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           child: Text(
             DateTimeProvider.parseOrderCreatedDate(order.createdAt),
             style: mediumTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

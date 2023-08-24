@@ -100,7 +100,7 @@ class _PromoModalViewState extends State<PromoModalView> {
               'Select only one promo from below',
               style: regularTextStyle(
                 fontSize: AppFontSize.s12.rSp,
-                color: AppColors.dustyGreay,
+                color: AppColors.greyDarker,
               ),
             ),
             Expanded(
@@ -149,7 +149,7 @@ class _PromoModalViewState extends State<PromoModalView> {
                               padding: EdgeInsets.only(top: AppSize.s32.rh),
                               child: Center(
                                 child: CircularProgressIndicator(
-                                  color: AppColors.purpleBlue,
+                                  color: AppColors.primary,
                                 ),
                               ),
                             );

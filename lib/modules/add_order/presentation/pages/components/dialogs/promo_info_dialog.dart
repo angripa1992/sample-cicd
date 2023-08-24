@@ -73,14 +73,14 @@ class PromoInfoView extends StatelessWidget {
         Text(
           title,
           style: mediumTextStyle(
-            color: AppColors.bluewood,
+            color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
         Text(
           value,
           style: regularTextStyle(
-            color: AppColors.dustyGreay,
+            color: AppColors.greyDarker,
             fontSize: AppFontSize.s12.rSp,
           ),
         ),

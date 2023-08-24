@@ -155,14 +155,14 @@ class PaymentInfoTagView extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-          border: Border.all(color: AppColors.frenchGrey),
+          border: Border.all(color: AppColors.greyDarker),
         ),
         child: Row(
           children: [
             Text(
               tagName,
               style: regularTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s12.rSp,
               ),
             ),
@@ -172,7 +172,7 @@ class PaymentInfoTagView extends StatelessWidget {
                 child: Icon(
                   Icons.edit,
                   size: AppSize.s16.rSp,
-                  color: AppColors.bluewood,
+                  color: AppColors.black,
                 ),
               )
           ],

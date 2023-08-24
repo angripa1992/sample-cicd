@@ -13,15 +13,15 @@ class UpdatePrinterSettingCubit extends Cubit<ResponseState> {
   void updatePrintSetting({required PrinterSetting printerSetting}) async {
     emit(Loading());
     final params = {
-      'branch_id' : printerSetting.branchId,
-      'type_id' : printerSetting.connectionType,
-      'roll_id' : printerSetting.paperSize,
-      'font_id' : printerSetting.fontId,
-      'docket_customer_copy_enabled' : printerSetting.customerCopyEnabled,
-      'docket_kitchen_copy_enabled' : printerSetting.kitchenCopyEnabled,
-      'docket_customer_copy_count' : printerSetting.customerCopyCount,
-      'docket_kitchen_copy_count' : printerSetting.kitchenCopyCount,
-      'sticker_printer_enabled' : printerSetting.stickerPrinterEnabled,
+      'branch_id': printerSetting.branchId,
+      'type_id': printerSetting.connectionType,
+      'roll_id': printerSetting.paperSize,
+      'font_id': printerSetting.fontId,
+      'docket_customer_copy_enabled': printerSetting.customerCopyEnabled,
+      'docket_kitchen_copy_enabled': printerSetting.kitchenCopyEnabled,
+      'docket_customer_copy_count': printerSetting.customerCopyCount,
+      'docket_kitchen_copy_count': printerSetting.kitchenCopyCount,
+      'sticker_printer_enabled': printerSetting.stickerPrinterEnabled,
     };
     final response = await _repository.updatePrinterSettings(params);
     response.fold(

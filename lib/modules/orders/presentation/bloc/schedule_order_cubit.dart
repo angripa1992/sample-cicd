@@ -22,7 +22,8 @@ class ScheduleOrderCubit extends Cubit<ResponseState> {
     if (willShowLoading) {
       emit(Loading());
     }
-    final params = await _orderParameterProvider.getScheduleOrderParams(brandsID, providersID);
+    final params = await _orderParameterProvider.getScheduleOrderParams(
+        brandsID, providersID);
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {

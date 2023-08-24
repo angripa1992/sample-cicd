@@ -7,7 +7,6 @@ import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
 
 class DiscountTypeSelector extends StatefulWidget {
   final int initValue;
@@ -39,11 +38,11 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
       children: [
         RadioListTile<int>(
           contentPadding: EdgeInsets.zero,
-          activeColor: AppColors.purpleBlue,
+          activeColor: AppColors.primary,
           title: Text(
             AppStrings.flat.tr(),
             style: regularTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
@@ -58,11 +57,11 @@ class _DiscountTypeSelector extends State<DiscountTypeSelector> {
         ),
         RadioListTile<int>(
           contentPadding: EdgeInsets.zero,
-          activeColor: AppColors.purpleBlue,
+          activeColor: AppColors.primary,
           title: Text(
             AppStrings.percentage.tr(),
             style: regularTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

@@ -167,7 +167,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         Urls.menuBrand(brandId),
         Method.GET,
         {
-          'filterByBranch' : branchId,
+          'filterByBranch': branchId,
         },
       );
       return MenuBrandModel.fromJson(response);

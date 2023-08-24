@@ -22,7 +22,8 @@ class NewOrderCubit extends Cubit<ResponseState> {
     if (willShowLoading) {
       emit(Loading());
     }
-    final params = await _orderParameterProvider.getNewOrderParams(brandsID, providersID);
+    final params =
+        await _orderParameterProvider.getNewOrderParams(brandsID, providersID);
     final response = await _fetchNewOrder(params);
     response.fold(
       (failure) {

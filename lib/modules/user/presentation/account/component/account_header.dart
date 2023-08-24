@@ -18,7 +18,7 @@ class AccountHeader extends StatelessWidget {
         Text(
           '${userInfo.firstName} ${userInfo.lastName}',
           style: boldTextStyle(
-            color: AppColors.blackCow,
+            color: AppColors.black,
             fontSize: AppFontSize.s18.rSp,
           ),
         ),
@@ -26,7 +26,7 @@ class AccountHeader extends StatelessWidget {
         Text(
           userInfo.email,
           style: regularTextStyle(
-            color: AppColors.blackCow,
+            color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
         ),
@@ -34,7 +34,7 @@ class AccountHeader extends StatelessWidget {
         Text(
           userInfo.displayRoles.first,
           style: regularTextStyle(
-            color: AppColors.blackCow,
+            color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
         ),

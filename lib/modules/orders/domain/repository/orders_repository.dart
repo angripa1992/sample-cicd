@@ -36,7 +36,8 @@ abstract class OrderRepository {
 
   Future<Either<Failure, ActionSuccess>> deleteComment(int orderID);
 
-  Future<Either<Failure, ActionSuccess>> updateGrabOrder(GrabOrderUpdateRequestModel model);
+  Future<Either<Failure, ActionSuccess>> updateGrabOrder(
+      GrabOrderUpdateRequestModel model);
 
   Future<Either<Failure, ActionSuccess>> findRider(int id);
 

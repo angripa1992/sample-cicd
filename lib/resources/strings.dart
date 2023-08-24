@@ -1,4 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
+
 
 class AppStrings {
   //error message
@@ -321,7 +321,8 @@ class AppStrings {
   static const String delete_item = 'delete_item';
   static const String schedule = 'schedule';
   static const String history = 'history';
-  static const String select_payment_method_and_status = 'select_payment_method_and_status';
+  static const String select_payment_method_and_status =
+      'select_payment_method_and_status';
   static const String pause_store = 'pause_store';
   static const String print = 'print';
   static const String accept = 'accept';

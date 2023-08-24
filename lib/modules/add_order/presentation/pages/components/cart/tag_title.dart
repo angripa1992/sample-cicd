@@ -28,7 +28,7 @@ class TagTitleView extends StatelessWidget {
         Text(
           title,
           style: mediumTextStyle(
-            color: AppColors.balticSea,
+            color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
@@ -41,12 +41,12 @@ class TagTitleView extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-              color: required ? AppColors.lightVioletTwo : AppColors.whiteSmoke,
+              color: required ? AppColors.primaryLighter : AppColors.grey,
             ),
             child: Text(
-              required ? AppStrings.required.tr() : AppStrings.optional.tr() ,
+              required ? AppStrings.required.tr() : AppStrings.optional.tr(),
               style: mediumTextStyle(
-                color: required ? AppColors.purpleBlue : AppColors.balticSea,
+                color: required ? AppColors.primary : AppColors.greenDark,
                 fontSize: AppFontSize.s10.rSp,
               ),
             ),

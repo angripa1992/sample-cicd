@@ -83,8 +83,7 @@ class MenuSnoozeView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           _duration(),
-                          style:
-                              mediumTextStyle(color: AppColors.smokeyGrey),
+                          style: mediumTextStyle(color: AppColors.greyDarker),
                         ),
                       ),
                     ],

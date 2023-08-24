@@ -8,11 +8,11 @@ class RiderInfo {
 
   RiderInfo(
       {this.name,
-        this.email,
-        this.phone,
-        this.photoUrl,
-        this.coordinates,
-        this.licensePlate});
+      this.email,
+      this.phone,
+      this.photoUrl,
+      this.coordinates,
+      this.licensePlate});
 
   RiderInfo.fromJson(Map<String, dynamic> json) {
     name = json['name'];

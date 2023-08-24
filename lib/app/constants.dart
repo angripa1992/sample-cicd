@@ -64,6 +64,7 @@ class OrderType {
   static const int DELIVERY = 2;
   static const int DINE_IN = 3;
 }
+
 class OrderSource {
   static const int IN_STORE = 9;
 }
@@ -151,28 +152,28 @@ class PaymentStatusId {
   static const refunded = 4;
 }
 
-class RuleType{
-  static const exact= 'exact';
-  static const range= 'range';
+class RuleType {
+  static const exact = 'exact';
+  static const range = 'range';
 }
 
-class DiscountType{
+class DiscountType {
   static const none = 0;
-  static const flat= 1;
-  static const percentage= 2;
+  static const flat = 1;
+  static const percentage = 2;
 }
 
-class Device{
+class Device {
   static const android = 0;
-  static const sunmi= 1;
+  static const sunmi = 1;
 }
 
-class PrinterSelectIndex{
+class PrinterSelectIndex {
   static const docket = 0;
-  static const sticker= 1;
+  static const sticker = 1;
 }
 
-class FulfillmentStatusId{
+class FulfillmentStatusId {
   static const ALLOCATING_RIDER = 1; //or 2
   static const ALLOCATING_RIDER_TWO = 2;
   static const FOUND_RIDER = 3;
@@ -185,7 +186,6 @@ class FulfillmentStatusId{
   static const IN_RETURN = 10;
   static const DISPATCH_FAILED = 11;
 }
-
 
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';

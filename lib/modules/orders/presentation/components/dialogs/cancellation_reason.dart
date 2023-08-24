@@ -37,7 +37,7 @@ void showCancellationReasonDialog({
         child: AlertDialog(
           icon: Icon(
             Icons.warning_amber,
-            color: AppColors.warmRed,
+            color: AppColors.redDark,
           ),
           title: Text(
             title,
@@ -68,7 +68,7 @@ void showCancellationReasonDialog({
                   } else {
                     return Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.purpleBlue,
+                        color: AppColors.primary,
                       ),
                     );
                   }
@@ -133,7 +133,7 @@ class _CancellationReasonDialogContentState
           Text(
             'Are you sure you want to cancel this order? This action cannot be undone.',
             style: regularTextStyle(
-              color: AppColors.smokeyGrey,
+              color: AppColors.greyDarker,
               fontSize: AppFontSize.s16.rSp,
             ),
           ),
@@ -141,7 +141,7 @@ class _CancellationReasonDialogContentState
           Text(
             'Cancellation Reason',
             style: mediumTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
           ),
@@ -157,26 +157,26 @@ class _CancellationReasonDialogContentState
           Text(
             'Notes',
             style: mediumTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
           ),
           SizedBox(height: AppSize.s10.rh),
           TextField(
             controller: _textController,
-            cursorColor: AppColors.bluewood,
+            cursorColor: AppColors.black,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                borderSide: BorderSide(color: AppColors.dustyGreay),
+                borderSide: BorderSide(color: AppColors.greyDarker),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                borderSide: BorderSide(color: AppColors.dustyGreay),
+                borderSide: BorderSide(color: AppColors.greyDarker),
               ),
               labelText: 'Enter Description',
               labelStyle: regularTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),
@@ -187,9 +187,9 @@ class _CancellationReasonDialogContentState
               Expanded(
                 child: AppButton(
                   text: 'Dismiss',
-                  borderColor: AppColors.dustyGreay,
+                  borderColor: AppColors.greyDarker,
                   color: AppColors.white,
-                  textColor: AppColors.bluewood,
+                  textColor: AppColors.black,
                   onTap: () {
                     Navigator.pop(context);
                   },
@@ -215,9 +215,9 @@ class _CancellationReasonDialogContentState
                         return LoadingButton(
                           enabled: value != null,
                           isLoading: state is Loading,
-                          color: AppColors.warmRed,
+                          color: AppColors.redDark,
                           textColor: AppColors.white,
-                          borderColor: AppColors.warmRed,
+                          borderColor: AppColors.redDark,
                           text: AppStrings.reject.tr(),
                           onTap: _cancelOrder,
                         );
@@ -257,7 +257,7 @@ class _CancellationReasonSelectorState
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.dustyGreay),
+        border: Border.all(color: AppColors.greyDarker),
         borderRadius: BorderRadius.all(Radius.circular(AppSize.s8.rSp)),
       ),
       padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
@@ -268,7 +268,7 @@ class _CancellationReasonSelectorState
         hint: Text(
           'Select a reason',
           style: regularTextStyle(
-            color: AppColors.bluewood,
+            color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
         ),
@@ -278,7 +278,7 @@ class _CancellationReasonSelectorState
             child: Text(
               value.title,
               style: regularTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),

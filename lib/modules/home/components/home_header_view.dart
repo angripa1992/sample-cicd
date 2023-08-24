@@ -11,7 +11,10 @@ import '../../add_order/presentation/pages/components/cart_badge.dart';
 class HomeHeaderView extends StatelessWidget {
   final UserInfo userInfo;
   final VoidCallback onCartTap;
-  const HomeHeaderView({Key? key, required this.userInfo, required this.onCartTap}) : super(key: key);
+
+  const HomeHeaderView(
+      {Key? key, required this.userInfo, required this.onCartTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

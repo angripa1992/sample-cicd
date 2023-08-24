@@ -105,12 +105,14 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
   getIt.registerSingleton<LocationProvider>(LocationProvider());
   await registerLocalDB();
-  getIt.registerSingleton<SegmentDataProvider>(SegmentDataProvider(getIt(), getIt()));
+  getIt.registerSingleton<SegmentDataProvider>(
+      SegmentDataProvider(getIt(), getIt()));
   getIt.registerSingleton<LanguageManager>(LanguageManager(getIt()));
   getIt.registerSingleton<TokenProvider>(TokenProvider());
   getIt.registerSingleton<RestClient>(RestClient(getIt()));
   getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
-  getIt.registerSingleton<FcmTokenManager>(FcmTokenManager(getIt.get(), getIt.get()));
+  getIt.registerSingleton<FcmTokenManager>(
+      FcmTokenManager(getIt.get(), getIt.get()));
 
   ///base
   getIt.registerFactory(() => BaseScreenCubit());
@@ -167,7 +169,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => CalculateGrabBillCubit(getIt()));
   getIt.registerFactory(() => UpdateGrabOrderCubit(getIt()));
   getIt.registerLazySingleton(
-      () => UpdateManualOrderDataProvider(getIt(), getIt(),getIt()));
+      () => UpdateManualOrderDataProvider(getIt(), getIt(), getIt()));
 
   ///busy mode
   getIt.registerLazySingleton(() => CheckBusyMode(getIt()));
@@ -222,11 +224,12 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => PlaceOrderCubit(getIt.get()));
 }
 
-Future<void> registerLocalDB() async{
-  if(!getIt.isRegistered<SharedPreferences>()){
-    getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
+Future<void> registerLocalDB() async {
+  if (!getIt.isRegistered<SharedPreferences>()) {
+    getIt.registerSingleton<SharedPreferences>(
+        await SharedPreferences.getInstance());
   }
-  if(!getIt.isRegistered<AppPreferences>()){
+  if (!getIt.isRegistered<AppPreferences>()) {
     getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
   }
 }

@@ -51,7 +51,9 @@ class _AddModifierViewState extends State<AddModifierView> {
   void initState() {
     _itemPrice = OrderPriceProvider.klikitPrice(widget.item.prices);
     _priceNotifier.value = _itemPrice.price;
-    ModifierManager().verifyRules(widget.groups).then((value) => _enabledNotifier.value = value);
+    ModifierManager()
+        .verifyRules(widget.groups)
+        .then((value) => _enabledNotifier.value = value);
     super.initState();
   }
 
@@ -65,7 +67,8 @@ class _AddModifierViewState extends State<AddModifierView> {
 
   void _onChanged() async {
     final validated = await ModifierManager().verifyRules(widget.groups);
-    _modifierPrice = await ModifierManager().calculateModifiersPrice(widget.groups);
+    _modifierPrice =
+        await ModifierManager().calculateModifiersPrice(widget.groups);
     if (_enabledNotifier.value != validated) {
       _enabledNotifier.value = validated;
     }
@@ -101,7 +104,7 @@ class _AddModifierViewState extends State<AddModifierView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.whiteSmoke,
+      color: AppColors.grey,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [

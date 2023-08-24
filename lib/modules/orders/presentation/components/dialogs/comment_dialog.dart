@@ -126,23 +126,23 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
               minLines: 1,
               maxLines: 5,
               style: regularTextStyle(
-                color: AppColors.blackCow,
+                color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
               decoration: InputDecoration(
                 hintText: AppStrings.order_comment.tr(),
                 hintStyle: regularTextStyle(
-                  color: AppColors.blackCow,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.blueViolet),
+                  borderSide: BorderSide(color: AppColors.primaryLight),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.blueViolet),
+                  borderSide: BorderSide(color: AppColors.primaryLight),
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.blackCow),
+                  borderSide: BorderSide(color: AppColors.black),
                 ),
               ),
               validator: (value) {

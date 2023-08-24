@@ -30,7 +30,7 @@ class HomeOrderNavCardShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: bgColor,
-      shadowColor: AppColors.smokeyGrey,
+      shadowColor: AppColors.greyDarker,
       elevation: 4,
       child: Padding(
         padding: EdgeInsets.symmetric(

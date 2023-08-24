@@ -30,7 +30,7 @@ class AccountSettingItem extends StatelessWidget {
           children: [
             Icon(
               iconData,
-              color: AppColors.blackCow,
+              color: AppColors.black,
             ),
             Expanded(
               child: Padding(
@@ -40,7 +40,7 @@ class AccountSettingItem extends StatelessWidget {
                 child: Text(
                   title,
                   style: mediumTextStyle(
-                    color: AppColors.blackCow,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s16.rSp,
                   ),
                 ),
@@ -48,7 +48,7 @@ class AccountSettingItem extends StatelessWidget {
             ),
             Icon(
               Icons.keyboard_arrow_right,
-              color: AppColors.blackCow,
+              color: AppColors.black,
             ),
           ],
         ),

@@ -126,7 +126,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                                         Text(
                                           '${index + 1}.',
                                           style: regularTextStyle(
-                                            color: AppColors.bluewood,
+                                            color: AppColors.black,
                                             fontSize: AppFontSize.s14.rSp,
                                           ),
                                         ),
@@ -135,7 +135,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                                           child: Text(
                                             _items[index].title,
                                             style: regularTextStyle(
-                                              color: AppColors.bluewood,
+                                              color: AppColors.black,
                                               fontSize: AppFontSize.s14.rSp,
                                             ),
                                           ),
@@ -157,7 +157,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
                                     providerId: widget.providerID,
                                     borderRadius: AppSize.s8.rSp,
                                     width: AppSize.s80.rw,
-                                    bgColor: AppColors.whiteSmoke,
+                                    bgColor: AppColors.grey,
                                     parentEnabled: widget.parentEnabled &&
                                         widget.subSections.enabled,
                                     brandId: widget.brandID,
@@ -194,7 +194,7 @@ class _SubMenuItemsListViewState extends State<SubMenuItemsListView> {
               child: Text(
                 AppStrings.no_item_found.tr(),
                 style: regularTextStyle(
-                  color: AppColors.bluewood,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),

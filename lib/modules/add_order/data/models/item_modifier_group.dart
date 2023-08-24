@@ -32,7 +32,9 @@ class ItemModifierGroupModel {
     label = json['label'];
     brandId = json['brand_id'];
     sequence = json['sequence'];
-    rule = json['rule'] != null ? ModifierRuleModel.fromJson(json['rule']) : ModifierRuleModel();
+    rule = json['rule'] != null
+        ? ModifierRuleModel.fromJson(json['rule'])
+        : ModifierRuleModel();
     if (json['statuses'] != null) {
       statuses = <ItemStatusModel>[];
       json['statuses'].forEach((v) {

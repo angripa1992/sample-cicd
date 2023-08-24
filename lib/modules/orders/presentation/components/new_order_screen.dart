@@ -92,9 +92,9 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
 
   void _refreshAllOrderCount() {
     context.read<AllOrderCubit>().fetchAllOrder(
-      providersID: _providers,
-      brandsID: _brands,
-    );
+          providersID: _providers,
+          brandsID: _brands,
+        );
   }
 
   void _refreshNewOrderCount() {
@@ -146,7 +146,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         context: context,
         title: title,
         order: order,
-        successCallback: (){
+        successCallback: () {
           _refresh(willBackground: true, isFromAction: true);
           if (isFromDetails) {
             Navigator.of(context).pop();
@@ -156,8 +156,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
             status: OrderStatus.CANCELLED,
             isFromDetails: isFromDetails,
           );
-        }
-    );
+        });
   }
 
   void _onAction({

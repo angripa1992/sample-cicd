@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
-import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
@@ -100,7 +99,7 @@ class _EditModifierViewState extends State<EditModifierView> {
       modifiers: _groups,
       item: _item,
       quantity: _quantity,
-      itemInstruction:  _textEditingController.text,
+      itemInstruction: _textEditingController.text,
       modifiersPrice: _modifierPrice,
       itemPrice: _itemPrice,
       brand: _brand!,
@@ -112,7 +111,7 @@ class _EditModifierViewState extends State<EditModifierView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.whiteSmoke,
+      color: AppColors.grey,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -135,16 +134,16 @@ class _EditModifierViewState extends State<EditModifierView> {
                     child: OutlinedButton(
                       onPressed: widget.onAddAsNew,
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: AppColors.purpleBlue),
+                        side: BorderSide(color: AppColors.primary),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.add, color: AppColors.purpleBlue),
+                          Icon(Icons.add, color: AppColors.primary),
                           Text(
                             AppStrings.add_as_new.tr(),
                             style: mediumTextStyle(
-                              color: AppColors.purpleBlue,
+                              color: AppColors.primary,
                               fontSize: AppFontSize.s14.rSp,
                             ),
                           ),

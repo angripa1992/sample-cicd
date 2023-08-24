@@ -10,7 +10,6 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../domain/entities/stock.dart';
 import 'menu_switch_view.dart';
 
 class MenuItemTitle extends StatefulWidget {
@@ -64,7 +63,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                     topLeft: Radius.circular(AppSize.s8.rSp),
                     bottomLeft: Radius.circular(AppSize.s8.rSp),
                   ),
-                  color: AppColors.purpleBlue,
+                  color: AppColors.primary,
                 ),
                 width: AppSize.s4.rw,
               ),
@@ -82,7 +81,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                         widget.controller.isExpanded
                             ? Icons.arrow_drop_up
                             : Icons.arrow_drop_down,
-                        color: AppColors.purpleBlue,
+                        color: AppColors.primary,
                         size: AppSize.s18.rSp,
                       ),
                     ),
@@ -94,7 +93,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                             Text(
                               '${widget.index + 1}. ',
                               style: regularTextStyle(
-                                color: AppColors.balticSea,
+                                color: AppColors.black,
                                 fontSize: AppFontSize.s17.rSp,
                               ),
                             ),
@@ -103,7 +102,7 @@ class _MenuItemTitleState extends State<MenuItemTitle> {
                             child: Text(
                               '${widget.sections.title} ${widget.controller.isExpanded ? '(${widget.sections.subSections.length})' : ''}',
                               style: regularTextStyle(
-                                color: AppColors.balticSea,
+                                color: AppColors.black,
                                 fontSize: AppFontSize.s16.rSp,
                               ),
                             ),

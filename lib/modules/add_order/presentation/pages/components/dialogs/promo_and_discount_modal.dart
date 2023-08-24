@@ -86,7 +86,9 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
       PromoInfo? promoInfo;
       if (_appliedPromo != null) {
         final willApplyCitizen = (_appliedPromo!.isSeniorCitizenPromo! &&
-            ((!widget.isItemDiscount && widget.orderType == OrderType.DINE_IN) || widget.isItemDiscount));
+            ((!widget.isItemDiscount &&
+                    widget.orderType == OrderType.DINE_IN) ||
+                widget.isItemDiscount));
         promoInfo = PromoInfo(
           promo: _appliedPromo!,
           citizen: willApplyCitizen ? (_citizen ?? 1) : null,
@@ -155,7 +157,7 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
           child: ElevatedButton(
             onPressed: _apply,
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.purpleBlue, // Background color
+              backgroundColor: AppColors.primary, // Background color
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
@@ -196,7 +198,7 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
                   ? 'Apply Item Promo and Discounts'
                   : 'Apply Promo and Discounts',
               style: mediumTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
               ),
             ),

@@ -42,9 +42,9 @@ class OrderActionButton extends StatelessWidget {
           Row(
             children: [
               Text(
-                AppStrings.total.tr() ,
+                AppStrings.total.tr(),
                 style: mediumTextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               ),
@@ -52,7 +52,7 @@ class OrderActionButton extends StatelessWidget {
               Text(
                 AppStrings.inc_vat.tr(),
                 style: regularTextStyle(
-                  color: AppColors.dustyGreay,
+                  color: AppColors.greyDarker,
                 ),
               ),
               const Spacer(),
@@ -63,7 +63,7 @@ class OrderActionButton extends StatelessWidget {
                   code: currency.code ?? EMPTY,
                 ),
                 style: TextStyle(
-                  color: AppColors.balticSea,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                   fontWeight: FontWeight.w500,
                 ),
@@ -74,15 +74,14 @@ class OrderActionButton extends StatelessWidget {
           ElevatedButton(
             onPressed: enable ? onProceed : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  enable ? AppColors.purpleBlue : AppColors.whiteSmoke,
+              backgroundColor: enable ? AppColors.primary : AppColors.grey,
             ),
             child: loading
                 ? SizedBox(
                     height: AppSize.s14.rh,
                     width: AppSize.s16.rw,
                     child: CircularProgressIndicator(
-                      color: AppColors.purpleBlue,
+                      color: AppColors.primary,
                     ),
                   )
                 : Padding(

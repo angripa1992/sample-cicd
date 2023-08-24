@@ -6,7 +6,8 @@ import '../../menu/domain/entities/price.dart';
 
 class OrderPriceProvider {
   static Prices klikitPrice(List<Prices> prices) {
-    return prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
+    return prices
+        .firstWhere((element) => element.providerId == ProviderID.KLIKIT);
   }
 
   static String klikitItemPrice(List<Prices> prices) {
@@ -20,7 +21,8 @@ class OrderPriceProvider {
   }
 
   static String modifierPrice(List<ItemPrice> prices) {
-    final price = prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
+    final price =
+        prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
     final priceStr = PriceCalculator.formatPrice(
       price: price.price,
       currencySymbol: price.symbol,

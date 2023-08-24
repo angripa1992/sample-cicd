@@ -22,7 +22,8 @@ class FetchSubSectionCubit extends Cubit<ResponseState> {
     response.fold(
       (failure) => emit(Failed(failure)),
       (successResponse) {
-        final subSectionListItems = _createSubSectionList(successResponse.sections);
+        final subSectionListItems =
+            _createSubSectionList(successResponse.sections);
         emit(Success<List<SubSectionListItem>>(subSectionListItems));
       },
     );
@@ -33,7 +34,9 @@ class FetchSubSectionCubit extends Cubit<ResponseState> {
     for (var section in sections) {
       if (section.enabled && !section.hidden) {
         for (var subSection in section.subSections) {
-          if (subSection.enabled && !subSection.hidden && subSection.items.isNotEmpty) {
+          if (subSection.enabled &&
+              !subSection.hidden &&
+              subSection.items.isNotEmpty) {
             final items = <MenuItems>[];
             for (var item in subSection.items) {
               if (!item.hidden) {
@@ -42,7 +45,8 @@ class FetchSubSectionCubit extends Cubit<ResponseState> {
               }
             }
             subSection.items = items;
-            final subSectionListItem = SubSectionListItem(section.availableTimes, subSection);
+            final subSectionListItem =
+                SubSectionListItem(section.availableTimes, subSection);
             subSectionsListItemDataHolder.add(subSectionListItem);
           }
         }

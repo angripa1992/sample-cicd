@@ -58,7 +58,7 @@ class CartItemView extends StatelessWidget {
                             child: Text(
                               '${cartItem.quantity}x ${cartItem.item.title}',
                               style: mediumTextStyle(
-                                color: AppColors.bluewood,
+                                color: AppColors.black,
                                 fontSize: AppFontSize.s16.rSp,
                               ),
                             ),
@@ -88,7 +88,7 @@ class CartItemView extends StatelessWidget {
                                 code: cartItem.itemPrice.code,
                               ),
                               style: TextStyle(
-                                color: AppColors.bluewood,
+                                color: AppColors.black,
                                 fontSize: AppFontSize.s14.rSp,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -103,7 +103,7 @@ class CartItemView extends StatelessWidget {
                             style: TextStyle(
                               color: haveDiscount
                                   ? AppColors.red
-                                  : AppColors.bluewood,
+                                  : AppColors.black,
                               fontSize: AppFontSize.s14.rSp,
                               fontWeight: FontWeight.w400,
                               decoration: haveDiscount
@@ -127,7 +127,7 @@ class CartItemView extends StatelessWidget {
                               child: Text(
                                 snapShot.data!,
                                 style: regularTextStyle(
-                                  color: AppColors.smokeyGrey,
+                                  color: AppColors.greyDarker,
                                 ),
                               ),
                             );
@@ -159,7 +159,7 @@ class CartItemView extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.whiteSmoke,
+        color: AppColors.grey,
       ),
       child: Row(
         children: [
@@ -169,16 +169,16 @@ class CartItemView extends StatelessWidget {
             child: Text(
               cartItem.promoInfo!.promo.code!,
               style: mediumTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
           ),
-          if(cartItem.promoInfo!.promo.isSeniorCitizenPromo!)
+          if (cartItem.promoInfo!.promo.isSeniorCitizenPromo!)
             Text(
               '${cartItem.promoInfo!.citizen} Pieces',
               style: mediumTextStyle(
-                color: AppColors.bluewood,
+                color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
@@ -231,7 +231,7 @@ class CartItemView extends StatelessWidget {
           vertical: AppSize.s4.rh,
         ),
         side: BorderSide(
-          color: enabled ? AppColors.purpleBlue : AppColors.dustyGreay,
+          color: enabled ? AppColors.primary : AppColors.greyDarker,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
@@ -243,14 +243,14 @@ class CartItemView extends StatelessWidget {
           if (icon != null)
             Icon(
               icon,
-              color: enabled ? AppColors.purpleBlue : AppColors.dustyGreay,
+              color: enabled ? AppColors.primary : AppColors.greyDarker,
               size: AppSize.s14.rSp,
             ),
           if (icon != null) SizedBox(width: AppSize.s4.rw),
           Text(
             text,
             style: mediumTextStyle(
-              color: enabled ? AppColors.purpleBlue : AppColors.dustyGreay,
+              color: enabled ? AppColors.primary : AppColors.greyDarker,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

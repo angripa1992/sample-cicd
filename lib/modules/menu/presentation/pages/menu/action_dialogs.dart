@@ -97,7 +97,7 @@ void showMenuItemActionDialog({
                         primary: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          side: BorderSide(color: AppColors.purpleBlue),
+                          side: BorderSide(color: AppColors.primary),
                         ),
                       ),
                       child: Padding(
@@ -105,7 +105,7 @@ void showMenuItemActionDialog({
                         child: Text(
                           AppStrings.discard.tr(),
                           style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
+                            color: AppColors.primary,
                             fontSize: AppFontSize.s16.rSp,
                           ),
                         ),
@@ -200,7 +200,7 @@ void showMenuActionDialog({
                         primary: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          side: BorderSide(color: AppColors.purpleBlue),
+                          side: BorderSide(color: AppColors.primary),
                         ),
                       ),
                       child: Padding(
@@ -208,7 +208,7 @@ void showMenuActionDialog({
                         child: Text(
                           AppStrings.discard.tr(),
                           style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
+                            color: AppColors.primary,
                             fontSize: AppFontSize.s16.rSp,
                           ),
                         ),

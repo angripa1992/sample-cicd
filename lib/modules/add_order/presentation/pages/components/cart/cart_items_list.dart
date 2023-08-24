@@ -74,8 +74,7 @@ class CartItemsListView extends StatelessWidget {
                     removeAll: removeAll,
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                    padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                     child: Column(
                       children: cartItems.map(
                         (cartItem) {
@@ -87,7 +86,8 @@ class CartItemsListView extends StatelessWidget {
                             addDiscount: addDiscount,
                             onDelete: onDelete,
                             onQuantityChanged: onQuantityChanged,
-                            itemBill: cartBill.items.firstWhere((element) => element.id == cartItem.item.id),
+                            itemBill: cartBill.items.firstWhere(
+                                (element) => element.id == cartItem.item.id),
                           );
                         },
                       ).toList(),
@@ -104,7 +104,7 @@ class CartItemsListView extends StatelessWidget {
                       child: Text(
                         '+ ${AppStrings.add_more_items.tr()}',
                         style: mediumTextStyle(
-                          color: AppColors.purpleBlue,
+                          color: AppColors.primary,
                         ),
                       ),
                     ),

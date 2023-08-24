@@ -38,14 +38,14 @@ class CheckoutAppBar extends StatelessWidget {
                 Text(
                   AppStrings.placed_order.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.balticSea,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s17.rSp,
                   ),
                 ),
                 Text(
                   SessionManager().currentUserBranchName(),
                   style: mediumTextStyle(
-                    color: AppColors.dustyGreay,
+                    color: AppColors.greyDarker,
                     fontSize: AppFontSize.s12.rSp,
                   ),
                 ),

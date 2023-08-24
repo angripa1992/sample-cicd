@@ -69,7 +69,7 @@ class _LevelTwoSelectMultipleViewState
               children: [
                 CheckboxListTile(
                   controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: AppColors.purpleBlue,
+                  activeColor: AppColors.primary,
                   title: ItemNamePriceTitle(
                     name: modifier.title,
                     prices: modifier.prices,

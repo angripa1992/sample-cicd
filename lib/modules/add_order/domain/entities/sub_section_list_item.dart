@@ -1,8 +1,7 @@
 import '../../../menu/domain/entities/avilable_times.dart';
-import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/sub_section.dart';
 
-class SubSectionListItem{
+class SubSectionListItem {
   final AvailableTimes availableTimes;
   final SubSections subSections;
 

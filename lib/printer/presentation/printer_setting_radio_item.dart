@@ -23,11 +23,11 @@ class PrinterSettingRadioItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return RadioListTile(
       contentPadding: EdgeInsets.zero,
-      activeColor: AppColors.purpleBlue,
+      activeColor: AppColors.primary,
       title: Text(
         name,
         style: regularTextStyle(
-          color: AppColors.bluewood,
+          color: AppColors.black,
           fontSize: AppSize.s16.rSp,
         ),
       ),

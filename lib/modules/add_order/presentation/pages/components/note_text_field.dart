@@ -23,7 +23,7 @@ class NoteTextField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.seaShell,
+        color: AppColors.greyLighter,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
@@ -35,7 +35,7 @@ class NoteTextField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: regularTextStyle(
-              color: AppColors.dustyGreay,
+              color: AppColors.greyDarker,
               fontSize: AppFontSize.s14.rSp,
             ),
             enabledBorder: const UnderlineInputBorder(

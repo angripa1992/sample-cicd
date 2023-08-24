@@ -11,10 +11,11 @@ TextStyle _getTextStyle(
 ) {
   return TextStyle(
     fontSize: fontSize ?? AppFontSize.s14.rSp,
-    fontFamily: AppFonts.Aeonik,
-    color: color ?? AppColors.bluewood,
+    fontFamily: AppFonts.Inter,
+    color: color ?? AppColors.black,
     fontWeight: fontWeight,
-    letterSpacing: -0.07,
+    letterSpacing: -0.5,
+    height: 1.30,
   );
 }
 
@@ -51,6 +52,17 @@ TextStyle boldTextStyle({
   );
 }
 
+TextStyle semiBoldTextStyle({
+  double? fontSize,
+  Color? color,
+}) {
+  return _getTextStyle(
+    fontSize,
+    color,
+    AppFontWeight.semiBold,
+  );
+}
+
 TextStyle mediumTextStyle({
   double? fontSize,
   Color? color,
@@ -59,6 +71,17 @@ TextStyle mediumTextStyle({
     fontSize,
     color,
     AppFontWeight.medium,
+  );
+}
+
+TextStyle thinTextStyle({
+  double? fontSize,
+  Color? color,
+}) {
+  return _getTextStyle(
+    fontSize,
+    color,
+    AppFontWeight.thin,
   );
 }
 

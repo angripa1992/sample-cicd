@@ -3,15 +3,19 @@ import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 
 class UsbPrinterHandler {
   static final UsbPrinterHandler _instance = UsbPrinterHandler._internal();
+
   factory UsbPrinterHandler() => _instance;
+
   UsbPrinterHandler._internal();
-  bool isConnected() => PrinterManager.instance.currentStatusUSB == USBStatus.connected;
+
+  bool isConnected() =>
+      PrinterManager.instance.currentStatusUSB == USBStatus.connected;
 
   Future<List<PrinterDevice>> getDevices() async {
     final scanResults = <PrinterDevice>[];
     final subscription =
-    PrinterManager.instance.discovery(type: PrinterType.bluetooth).listen(
-          (event) {
+        PrinterManager.instance.discovery(type: PrinterType.bluetooth).listen(
+      (event) {
         scanResults.add(event);
       },
     );

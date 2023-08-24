@@ -142,7 +142,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
         context: context,
         title: title,
         order: order,
-        successCallback: (){
+        successCallback: () {
           _refresh(willBackground: true);
           if (isFromDetails) {
             Navigator.of(context).pop();
@@ -152,8 +152,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
             status: OrderStatus.CANCELLED,
             isFromDetails: isFromDetails,
           );
-        }
-    );
+        });
   }
 
   void _onAction({

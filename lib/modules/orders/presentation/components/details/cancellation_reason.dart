@@ -26,7 +26,7 @@ class CancellationReasonView extends StatelessWidget {
           Text(
             'Cancellation Reason',
             style: boldTextStyle(
-              color: AppColors.warmRed,
+              color: AppColors.redDark,
               fontSize: AppFontSize.s15.rSp,
             ),
           ),
@@ -34,7 +34,7 @@ class CancellationReasonView extends StatelessWidget {
           Text(
             cancellationReason,
             style: regularTextStyle(
-              color: AppColors.bluewood,
+              color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
             ),
           ),

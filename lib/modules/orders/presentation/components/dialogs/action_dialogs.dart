@@ -71,9 +71,9 @@ void showOrderActionDialog({
                 Expanded(
                   child: AppButton(
                     text: AppStrings.no.tr(),
-                    borderColor: AppColors.blackCow,
+                    borderColor: AppColors.black,
                     color: AppColors.white,
-                    textColor: AppColors.blackCow,
+                    textColor: AppColors.black,
                     onTap: () {
                       Navigator.of(context).pop();
                     },

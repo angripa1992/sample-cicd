@@ -36,7 +36,7 @@ void showPauseNotificationConfirmationDialog({
                     ? 'Are you sure to resume notifications?'
                     : 'Are you sure to pause notifications?',
                 style: mediumTextStyle(
-                  color: AppColors.bluewood,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               ),
@@ -46,7 +46,7 @@ void showPauseNotificationConfirmationDialog({
                     ? 'You will be receiving any notifications of upcoming orders.'
                     : 'You won\'t be receiving any notifications of upcoming orders.',
                 style: regularTextStyle(
-                  color: AppColors.smokeyGrey,
+                  color: AppColors.greyDarker,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),
@@ -57,8 +57,8 @@ void showPauseNotificationConfirmationDialog({
                   AppButton(
                     text: 'Cancel',
                     color: AppColors.white,
-                    borderColor: AppColors.bluewood,
-                    textColor: AppColors.bluewood,
+                    borderColor: AppColors.black,
+                    textColor: AppColors.black,
                     onTap: () {
                       Navigator.of(context).pop();
                     },

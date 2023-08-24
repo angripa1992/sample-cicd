@@ -10,7 +10,9 @@ import '../../../../utils/order_price_provider.dart';
 class ItemNamePriceTitle extends StatelessWidget {
   final String name;
   final List<ItemPrice> prices;
-  const ItemNamePriceTitle({Key? key, required this.name, required this.prices}) : super(key: key);
+
+  const ItemNamePriceTitle({Key? key, required this.name, required this.prices})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ItemNamePriceTitle extends StatelessWidget {
           child: Text(
             name,
             style: regularTextStyle(
-              color: AppColors.balticSea,
+              color: AppColors.black,
               fontSize: AppFontSize.s15.rSp,
             ),
           ),
@@ -29,7 +31,7 @@ class ItemNamePriceTitle extends StatelessWidget {
         Text(
           OrderPriceProvider.modifierPrice(prices),
           style: TextStyle(
-            color: AppColors.balticSea,
+            color: AppColors.black,
             fontSize: AppFontSize.s15.rSp,
           ),
         ),

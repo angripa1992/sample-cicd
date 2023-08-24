@@ -40,7 +40,7 @@ class _CommentActionViewState extends State<CommentActionView> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.dawnPink,
+        color: AppColors.greyLight,
         // color: _currentOrder!.klikitComment.isEmpty
         //     ? AppColors.lightVioletTwo
         //     : AppColors.purpleBlue,
@@ -66,7 +66,7 @@ class _CommentActionViewState extends State<CommentActionView> {
                   ? Icons.add_comment_outlined
                   : Icons.chat,
               size: AppSize.s16.rSp,
-              color: AppColors.blackCow,
+              color: AppColors.black,
             ),
             SizedBox(width: AppSize.s8.rw),
             Flexible(
@@ -75,7 +75,7 @@ class _CommentActionViewState extends State<CommentActionView> {
                     ? AppStrings.add_comment.tr()
                     : AppStrings.see_comment.tr(),
                 style: regularTextStyle(
-                  color: AppColors.blackCow,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),

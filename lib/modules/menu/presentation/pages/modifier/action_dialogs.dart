@@ -93,7 +93,7 @@ void showEnableModifierDialog({
                         primary: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          side: BorderSide(color: AppColors.purpleBlue),
+                          side: BorderSide(color: AppColors.primary),
                         ),
                       ),
                       child: Padding(
@@ -101,7 +101,7 @@ void showEnableModifierDialog({
                         child: Text(
                           AppStrings.discard.tr(),
                           style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
+                            color: AppColors.primary,
                             fontSize: AppFontSize.s16.rSp,
                           ),
                         ),
@@ -161,7 +161,7 @@ void showDisableModifierDialog({
                           child: Text(
                             items!,
                             style: mediumTextStyle(
-                              color: AppColors.blueViolet,
+                              color: AppColors.primaryLight,
                               fontSize: AppFontSize.s14.rSp,
                             ),
                           ),
@@ -182,7 +182,7 @@ void showDisableModifierDialog({
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
                           showSuccessSnackBar(context,
-                              '${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr() } ${AppStrings.disabled_success.tr()}');
+                              '${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()} ${AppStrings.disabled_success.tr()}');
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
@@ -219,7 +219,7 @@ void showDisableModifierDialog({
                         primary: AppColors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          side: BorderSide(color: AppColors.purpleBlue),
+                          side: BorderSide(color: AppColors.primary),
                         ),
                       ),
                       child: Padding(
@@ -227,7 +227,7 @@ void showDisableModifierDialog({
                         child: Text(
                           AppStrings.discard.tr(),
                           style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
+                            color: AppColors.primary,
                             fontSize: AppFontSize.s16.rSp,
                           ),
                         ),

@@ -38,12 +38,17 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
-    final isWebshopOrder = widget.order.providerId == ProviderID.KLIKIT && !widget.order.isManualOrder;
-    final isManualOrderOrder = widget.order.providerId == ProviderID.KLIKIT && widget.order.isManualOrder;
+    final isWebshopOrder = widget.order.providerId == ProviderID.KLIKIT &&
+        !widget.order.isManualOrder;
+    final isManualOrderOrder = widget.order.providerId == ProviderID.KLIKIT &&
+        widget.order.isManualOrder;
     final serviceFee = widget.order.serviceFee;
     final gateWayFee = widget.order.gatewayFee;
-    final willShowServiceFee = (isWebshopOrder && serviceFee > 0 && gateWayFee > 0) || (isManualOrderOrder && serviceFee > 0);
-    final willShowProcessingFee = (isWebshopOrder && serviceFee > 0 && gateWayFee > 0);
+    final willShowServiceFee =
+        (isWebshopOrder && serviceFee > 0 && gateWayFee > 0) ||
+            (isManualOrderOrder && serviceFee > 0);
+    final willShowProcessingFee =
+        (isWebshopOrder && serviceFee > 0 && gateWayFee > 0);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
@@ -56,7 +61,7 @@ class _PriceViewState extends State<PriceView> {
               leadingPadding: EdgeInsets.zero,
               trailingPadding: EdgeInsets.zero,
               titlePadding: EdgeInsets.zero,
-              headerSplashColor: AppColors.lightGrey,
+              headerSplashColor: AppColors.greyLight,
               contentBackgroundColor: Colors.transparent,
               contentPadding: EdgeInsets.zero,
             ),
@@ -119,7 +124,7 @@ class _PriceViewState extends State<PriceView> {
                 Text(
                   AppStrings.total.tr(),
                   style: TextStyle(
-                    color: AppColors.darkGrey,
+                    color: AppColors.greyDarker,
                     fontSize: AppFontSize.s18.rSp,
                     fontWeight: AppFontWeight.bold,
                   ),
@@ -130,7 +135,7 @@ class _PriceViewState extends State<PriceView> {
                     widget.order.finalPrice,
                   ),
                   style: TextStyle(
-                    color: AppColors.darkGrey,
+                    color: AppColors.greyDarker,
                     fontSize: AppFontSize.s18.rSp,
                     fontWeight: AppFontWeight.bold,
                   ),
@@ -143,10 +148,11 @@ class _PriceViewState extends State<PriceView> {
     );
   }
 
-
-  String _vatTitle(Order order){
-    if (order.providerId == ProviderID.FOOD_PANDA && !order.isInterceptorOrder && !order.isVatIncluded) {
-      return  AppStrings.vat.tr();
+  String _vatTitle(Order order) {
+    if (order.providerId == ProviderID.FOOD_PANDA &&
+        !order.isInterceptorOrder &&
+        !order.isVatIncluded) {
+      return AppStrings.vat.tr();
     }
     return AppStrings.inc_vat.tr();
   }
@@ -154,7 +160,7 @@ class _PriceViewState extends State<PriceView> {
   Widget _getSubtotalItem(String name, num price,
       {Color? color, bool isDiscount = false}) {
     final textStyle = TextStyle(
-      color: color ?? AppColors.darkGrey,
+      color: color ?? AppColors.greyDarker,
       fontSize: AppFontSize.s14.rSp,
       fontWeight: AppFontWeight.regular,
     );
@@ -210,13 +216,13 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
         Text(
           AppStrings.sub_total.tr(),
           style: boldTextStyle(
-            color: AppColors.darkGrey,
+            color: AppColors.greyDarker,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
         Icon(
           _isExpanded! ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-          color: AppColors.darkGrey,
+          color: AppColors.greyDarker,
           size: AppSize.s24.rSp,
         ),
       ],

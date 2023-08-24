@@ -37,7 +37,7 @@ class _TypeSelectorState extends State<TypeSelector> {
   String _typeName(int type) {
     switch (type) {
       case OrderType.DINE_IN:
-        return AppStrings.dine_in.tr() ;
+        return AppStrings.dine_in.tr();
       case OrderType.DELIVERY:
         return AppStrings.deliver.tr();
       default:
@@ -75,7 +75,7 @@ class _TypeSelectorState extends State<TypeSelector> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TagTitleView(title: AppStrings.order_type.tr(),required: true),
+          TagTitleView(title: AppStrings.order_type.tr(), required: true),
           SizedBox(height: AppSize.s4.rh),
           Wrap(
             alignment: WrapAlignment.center,
@@ -88,15 +88,15 @@ class _TypeSelectorState extends State<TypeSelector> {
                   size: AppSize.s16.rSp,
                   color: _currentType == type
                       ? AppColors.white
-                      : AppColors.dustyGreay,
+                      : AppColors.greyDarker,
                 ),
                 selected: _currentType == type,
-                selectedColor: AppColors.purpleBlue,
-                backgroundColor: AppColors.whiteSmoke,
+                selectedColor: AppColors.primary,
+                backgroundColor: AppColors.grey,
                 labelStyle: mediumTextStyle(
                   color: _currentType == type
                       ? AppColors.white
-                      : AppColors.dustyGreay,
+                      : AppColors.greyDarker,
                   fontSize: AppFontSize.s12.rSp,
                 ),
                 onSelected: (bool selected) {

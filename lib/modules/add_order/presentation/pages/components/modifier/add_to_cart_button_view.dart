@@ -57,9 +57,8 @@ class AddToCartButtonView extends StatelessWidget {
                     onTap: enabled ? onAddToCart : null,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: enabled
-                            ? AppColors.purpleBlue
-                            : AppColors.smokeyGrey,
+                        color:
+                            enabled ? AppColors.primary : AppColors.greyDarker,
                         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                       ),
                       child: Padding(

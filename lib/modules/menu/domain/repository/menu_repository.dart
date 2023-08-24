@@ -13,7 +13,8 @@ import '../entities/modifiers_group.dart';
 import '../usecase/fetch_menus.dart';
 
 abstract class MenuRepository {
-  Future<Either<Failure, MenuBrands>> fetchMenuBrands(Map<String, dynamic> params);
+  Future<Either<Failure, MenuBrands>> fetchMenuBrands(
+      Map<String, dynamic> params);
 
   Future<Either<Failure, MenusData>> fetchMenus(FetchMenuParams params);
 
@@ -27,5 +28,6 @@ abstract class MenuRepository {
   Future<Either<Failure, ActionSuccess>> enableModifier(
       ModifierRequestModel params);
 
-  Future<Either<Failure, ModifierDisabledResponse>> disableModifier(ModifierRequestModel params);
+  Future<Either<Failure, ModifierDisabledResponse>> disableModifier(
+      ModifierRequestModel params);
 }

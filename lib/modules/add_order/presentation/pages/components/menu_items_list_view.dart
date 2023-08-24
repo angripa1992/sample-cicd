@@ -77,7 +77,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
     );
   }
 
-  void _addNonModifierItem(MenuItems item, int quantity,String instruction) {
+  void _addNonModifierItem(MenuItems item, int quantity, String instruction) {
     widget.onAddToCart(
       AddToCartItem(
         modifiers: [],
@@ -107,13 +107,13 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
               // borderRadius: BorderRadius.only(
               //     topLeft: Radius.circular(AppSize.s12.rSp),
               //     topRight: Radius.circular(AppSize.s12.rSp)),
-              color: AppColors.whiteSmoke,
+              color: AppColors.grey,
             ),
             child: MenuItemDescription(
               items: item,
-              addToCart: (quantity,instruction) {
+              addToCart: (quantity, instruction) {
                 Navigator.pop(context);
-                _addNonModifierItem(item, quantity,instruction);
+                _addNonModifierItem(item, quantity, instruction);
               },
             ),
           ),
@@ -225,7 +225,7 @@ class _MenuItemsListViewState extends State<MenuItemsListView> {
             itemBuilder: (BuildContext context, int index) {
               final listItem = widget.items[index];
               return Container(
-                color: AppColors.pearl,
+                color: AppColors.greyLight,
                 child: Column(
                   children: [
                     SubsectionInfoView(

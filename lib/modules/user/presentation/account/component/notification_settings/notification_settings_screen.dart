@@ -31,7 +31,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
       children: [
         Icon(
           Icons.notifications_active_outlined,
-          color: AppColors.blackCow,
+          color: AppColors.black,
         ),
         Expanded(
           child: Padding(
@@ -41,7 +41,7 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
             child: Text(
               'Notification',
               style: mediumTextStyle(
-                color: AppColors.blackCow,
+                color: AppColors.black,
                 fontSize: AppSize.s16.rSp,
               ),
             ),
@@ -51,8 +51,8 @@ class _NotificationSettingScreenState extends State<NotificationSettingScreen> {
           scale: 0.7,
           child: CupertinoSwitch(
             value: _isEnable!,
-            activeColor: AppColors.purpleBlue,
-            trackColor: AppColors.smokeyGrey,
+            activeColor: AppColors.primary,
+            trackColor: AppColors.greyDarker,
             onChanged: (enable) {
               showPauseNotificationConfirmationDialog(
                 context: context,

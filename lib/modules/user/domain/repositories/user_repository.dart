@@ -17,11 +17,14 @@ abstract class UserRepository {
   Future<Either<Failure, SuccessResponse>> updateUserInfo(
       UserUpdateRequestModel params, int userID);
 
-  Future<Either<Failure, SuccessResponse>> sendResetLink(ResetLinkRequestModel requestModel);
+  Future<Either<Failure, SuccessResponse>> sendResetLink(
+      ResetLinkRequestModel requestModel);
 
-  Future<Either<Failure, SuccessResponse>> changePassword(ChangePasswordRequestModel requestModel);
+  Future<Either<Failure, SuccessResponse>> changePassword(
+      ChangePasswordRequestModel requestModel);
 
-  Future<Either<Failure, SuccessResponse>> changeSettings(Map<String,dynamic> params);
+  Future<Either<Failure, SuccessResponse>> changeSettings(
+      Map<String, dynamic> params);
 
   Future<Either<Failure, UserSettings>> getUserSettings(int userId);
 }

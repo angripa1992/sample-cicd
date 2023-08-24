@@ -75,13 +75,13 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
           title: Text(
             AppStrings.kitchen.tr(),
             style: regularTextStyle(
-              color: AppColors.blueViolet,
+              color: AppColors.primaryLight,
               fontSize: AppSize.s16.rSp,
             ),
           ),
           leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
+            fillColor:
+                MaterialStateColor.resolveWith((states) => AppColors.primary),
             value: DocketType.kitchen,
             groupValue: _currentDocketType,
             onChanged: (int? type) => _changeDocketType(type!),
@@ -91,13 +91,13 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
           title: Text(
             AppStrings.customer.tr(),
             style: regularTextStyle(
-              color: AppColors.blueViolet,
+              color: AppColors.primaryLight,
               fontSize: AppSize.s16.rSp,
             ),
           ),
           leading: Radio(
-            fillColor: MaterialStateColor.resolveWith(
-                (states) => AppColors.purpleBlue),
+            fillColor:
+                MaterialStateColor.resolveWith((states) => AppColors.primary),
             value: DocketType.customer,
             groupValue: _currentDocketType,
             onChanged: (int? type) => _changeDocketType(type!),

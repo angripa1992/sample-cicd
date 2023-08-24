@@ -51,7 +51,7 @@ class _ItemCounterState extends State<ItemCounter> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.blueViolet,
+        color: AppColors.primaryLight,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(

@@ -41,9 +41,9 @@ class _BrandFilterItemState extends State<BrandFilterItem> {
       MaterialState.focused,
     };
     if (states.any(interactiveStates.contains)) {
-      return AppColors.purpleBlue;
+      return AppColors.primary;
     }
-    return AppColors.purpleBlue;
+    return AppColors.primary;
   }
 
   @override

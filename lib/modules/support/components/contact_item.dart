@@ -24,11 +24,11 @@ class ContactItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.whiteSmoke,
+      color: AppColors.grey,
       borderRadius: BorderRadius.circular(AppSize.s16.rSp),
       child: InkWell(
         onTap: onTap,
-        splashColor: AppColors.lightViolet,
+        splashColor: AppColors.primaryLight,
         borderRadius: BorderRadius.circular(AppSize.s16.rSp),
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -44,7 +44,7 @@ class ContactItem extends StatelessWidget {
                     Text(
                       title,
                       style: mediumTextStyle(
-                        color: AppColors.purpleBlue,
+                        color: AppColors.primary,
                         fontSize: AppFontSize.s16.rSp,
                       ),
                     ),
@@ -52,7 +52,7 @@ class ContactItem extends StatelessWidget {
                     Text(
                       description,
                       style: regularTextStyle(
-                        color: AppColors.blackCow,
+                        color: AppColors.black,
                         fontSize: AppFontSize.s14.rSp,
                       ),
                     ),
@@ -62,7 +62,7 @@ class ContactItem extends StatelessWidget {
               SizedBox(width: AppSize.s28.rw),
               Icon(
                 iconData,
-                color: iconColor ?? AppColors.purpleBlue,
+                color: iconColor ?? AppColors.primary,
                 size: AppSize.s32.rSp,
               ),
             ],

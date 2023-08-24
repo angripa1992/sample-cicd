@@ -110,7 +110,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                 Text(
                   AppStrings.out_of_stock_settings.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.dustyGrey,
+                    color: AppColors.greyDarker,
                   ),
                 ),
                 IconButton(
@@ -119,7 +119,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                   },
                   icon: Icon(
                     Icons.cancel,
-                    color: AppColors.dustyGrey,
+                    color: AppColors.greyDarker,
                     size: AppSize.s16.rSp,
                   ),
                 ),
@@ -131,7 +131,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                   child: Text(
                     AppStrings.out_of_stock.tr(),
                     style: mediumTextStyle(
-                      color: AppColors.balticSea,
+                      color: AppColors.black,
                       fontSize: AppFontSize.s14.rSp,
                     ),
                   ),
@@ -158,21 +158,21 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                     child: Text(
                       '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.item.stock.snooze.endTime)})',
                       style: mediumTextStyle(
-                        color: AppColors.warmRed,
+                        color: AppColors.redDark,
                         fontSize: AppFontSize.s12.rSp,
                       ),
                     ),
                   ),
               ],
             ),
-            Divider(color: AppColors.blueViolet),
+            Divider(color: AppColors.primaryLight),
             OutOfStockRadioGroup(
               stock: widget.item.stock,
               onDurationChanged: (duration) {
                 _currentDuration = duration;
               },
             ),
-            Divider(color: AppColors.blueViolet),
+            Divider(color: AppColors.primaryLight),
             Padding(
               padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               child: Row(
@@ -184,9 +184,9 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                         Navigator.pop(context);
                       },
                       text: AppStrings.cancel.tr(),
-                      textColor: AppColors.bluewood,
+                      textColor: AppColors.black,
                       color: AppColors.white,
-                      borderColor: AppColors.bluewood,
+                      borderColor: AppColors.black,
                     ),
                   ),
                   SizedBox(width: AppSize.s8.rw),
@@ -249,7 +249,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
   OOS? _groupValue;
   late TextEditingController _textEditingController;
   final _textStyle = regularTextStyle(
-    color: AppColors.balticSea,
+    color: AppColors.black,
     fontSize: AppFontSize.s14.rSp,
   );
 
@@ -315,7 +315,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           title: Text('1 ${AppStrings.day.tr()}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_1,
-          activeColor: AppColors.purpleBlue,
+          activeColor: AppColors.primary,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
@@ -327,7 +327,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           title: Text('3 ${AppStrings.day.tr()}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_3,
-          activeColor: AppColors.purpleBlue,
+          activeColor: AppColors.primary,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
@@ -339,7 +339,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           title: Text('7 ${AppStrings.day.tr()}', style: _textStyle),
           groupValue: _groupValue,
           value: OOS.day_7,
-          activeColor: AppColors.purpleBlue,
+          activeColor: AppColors.primary,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
@@ -355,7 +355,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
                 // height: AppSize.s32.rh,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                  color: AppColors.whiteSmoke,
+                  color: AppColors.grey,
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -366,7 +366,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
                     keyboardType: TextInputType.number,
                     style: const TextStyle(color: Colors.black),
                     controller: _textEditingController,
-                    cursorColor: AppColors.purpleBlue,
+                    cursorColor: AppColors.primary,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                     ),
@@ -379,7 +379,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           ),
           groupValue: _groupValue,
           value: OOS.hour,
-          activeColor: AppColors.purpleBlue,
+          activeColor: AppColors.primary,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;
@@ -391,7 +391,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           title: Text(AppStrings.untill_trun_back_on.tr(), style: _textStyle),
           groupValue: _groupValue,
           value: OOS.default_,
-          activeColor: AppColors.purpleBlue,
+          activeColor: AppColors.primary,
           onChanged: (OOS? value) {
             setState(() {
               _groupValue = value;

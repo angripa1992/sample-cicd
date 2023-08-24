@@ -45,8 +45,8 @@ class _CounterViewState extends State<CounterView> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void _increment(){
-    if(widget.enabled && _count < (_maxCount)){
+  void _increment() {
+    if (widget.enabled && _count < (_maxCount)) {
       setState(() {
         _count += 1;
       });
@@ -54,8 +54,8 @@ class _CounterViewState extends State<CounterView> {
     }
   }
 
-  void _decrement(){
-    if(widget.enabled && _count > widget.minCount){
+  void _decrement() {
+    if (widget.enabled && _count > widget.minCount) {
       setState(() {
         _count -= 1;
       });
@@ -69,7 +69,7 @@ class _CounterViewState extends State<CounterView> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
         border: Border.all(
-          color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
+          color: widget.enabled ? AppColors.black : AppColors.greyDarker,
         ),
       ),
       child: Padding(
@@ -85,11 +85,12 @@ class _CounterViewState extends State<CounterView> {
                 onPressed: _decrement,
                 icon: Icon(
                   Icons.remove,
-                  color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                  color:
+                      widget.enabled ? AppColors.black : AppColors.greyDarker,
                 ),
               ),
               VerticalDivider(
-                color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                color: widget.enabled ? AppColors.black : AppColors.greyDarker,
                 thickness: 1,
               ),
               Padding(
@@ -97,13 +98,14 @@ class _CounterViewState extends State<CounterView> {
                 child: Text(
                   _count.toString(),
                   style: mediumTextStyle(
-                    color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                    color:
+                        widget.enabled ? AppColors.black : AppColors.greyDarker,
                     fontSize: AppFontSize.s16.rSp,
                   ),
                 ),
               ),
               VerticalDivider(
-                color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                color: widget.enabled ? AppColors.black : AppColors.greyDarker,
                 thickness: 1,
               ),
               IconButton(
@@ -113,7 +115,8 @@ class _CounterViewState extends State<CounterView> {
                 onPressed: _increment,
                 icon: Icon(
                   Icons.add,
-                  color: widget.enabled ? AppColors.bluewood : AppColors.dustyGrey,
+                  color:
+                      widget.enabled ? AppColors.black : AppColors.greyDarker,
                 ),
               ),
             ],

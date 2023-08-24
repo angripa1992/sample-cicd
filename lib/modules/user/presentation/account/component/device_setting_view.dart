@@ -55,7 +55,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
               Text(
                 'Choose device type to connect printer',
                 style: mediumTextStyle(
-                  color: AppColors.blackCow,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
                 ),
               ),
@@ -67,14 +67,14 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                     title: Text(
                       device == Device.android ? 'Android' : 'Sunmi',
                       style: mediumTextStyle(
-                        color: AppColors.blackCow,
+                        color: AppColors.black,
                         fontSize: AppFontSize.s14.rSp,
                       ),
                     ),
                     leading: Radio<int>(
                       value: device,
                       groupValue: _device,
-                      activeColor: AppColors.purpleBlue,
+                      activeColor: AppColors.primary,
                       onChanged: (value) {
                         setState(() {
                           _device = value;
@@ -97,11 +97,13 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                   return LoadingButton(
                     isLoading: (state is Loading),
                     text: AppStrings.save.tr(),
-                    color: AppColors.purpleBlue,
-                    borderColor: AppColors.purpleBlue,
+                    color: AppColors.primary,
+                    borderColor: AppColors.primary,
                     textColor: AppColors.white,
                     onTap: () {
-                      context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
+                      context
+                          .read<DeviceSettingCubit>()
+                          .changeSunmiDeviceSetting(_device == Device.sunmi);
                     },
                   );
                 },

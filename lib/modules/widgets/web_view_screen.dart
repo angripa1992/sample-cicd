@@ -49,7 +49,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
             visible: _isLoading,
             child: Center(
               child: CircularProgressIndicator(
-                color: AppColors.purpleBlue,
+                color: AppColors.primary,
               ),
             ),
           ),

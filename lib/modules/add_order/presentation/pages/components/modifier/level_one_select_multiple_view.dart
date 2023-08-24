@@ -95,7 +95,7 @@ class _LevelOneSelectMultipleViewState
                   children: [
                     CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      activeColor: AppColors.purpleBlue,
+                      activeColor: AppColors.primary,
                       title: ItemNamePriceTitle(
                         name: modifier.title,
                         prices: modifier.prices,
@@ -137,7 +137,8 @@ class _LevelOneSelectMultipleViewState
                   child: Column(
                     children: [
                       ModifierGroupInfo(
-                        title: '${group.title} ${AppStrings.for_.tr()} ${modifier.title}',
+                        title:
+                            '${group.title} ${AppStrings.for_.tr()} ${modifier.title}',
                         rule: group.rule,
                       ),
                       (group.rule.typeTitle == RuleType.exact &&

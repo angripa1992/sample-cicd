@@ -95,7 +95,7 @@ class _ModifierScreenState extends State<ModifierScreen> {
                       }
                       return Center(
                         child: CircularProgressIndicator(
-                          color: AppColors.purpleBlue,
+                          color: AppColors.primary,
                         ),
                       );
                     },

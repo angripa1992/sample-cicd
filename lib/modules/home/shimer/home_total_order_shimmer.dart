@@ -15,11 +15,11 @@ Widget totalOrderShimmer(String text) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       TextShimmer(
-        baseColor: AppColors.blackCow,
-        highlightColor: AppColors.whiteSmoke,
+        baseColor: AppColors.black,
+        highlightColor: AppColors.grey,
         text: text,
         textStyle: regularTextStyle(
-          color: AppColors.blackCow,
+          color: AppColors.black,
           fontSize: AppFontSize.s14.rSp,
         ),
       ),
@@ -27,8 +27,8 @@ Widget totalOrderShimmer(String text) {
         height: AppSize.s8.rh,
       ),
       ContainerShimmer(
-        baseColor: AppColors.lightGrey,
-        highlightColor: AppColors.whiteSmoke,
+        baseColor: AppColors.greyLight,
+        highlightColor: AppColors.grey,
         height: AppFontSize.s14.rh,
         width: AppSize.s32.rw,
       ),
@@ -41,11 +41,11 @@ Widget yesterdayTotalOrderShimmer() {
     crossAxisAlignment: CrossAxisAlignment.end,
     children: [
       TextShimmer(
-        baseColor: AppColors.coolGrey,
-        highlightColor: AppColors.whiteSmoke,
+        baseColor: AppColors.greyDarker,
+        highlightColor: AppColors.grey,
         text: AppStrings.yesterday.tr(),
         textStyle: regularTextStyle(
-          color: AppColors.coolGrey,
+          color: AppColors.greyDarker,
           fontSize: AppFontSize.s14.rSp,
         ),
       ),
@@ -53,8 +53,8 @@ Widget yesterdayTotalOrderShimmer() {
         height: AppSize.s8.rh,
       ),
       ContainerShimmer(
-        baseColor: AppColors.lightGrey,
-        highlightColor: AppColors.whiteSmoke,
+        baseColor: AppColors.greyLight,
+        highlightColor: AppColors.grey,
         height: AppFontSize.s14.rh,
         width: AppSize.s32.rw,
       ),

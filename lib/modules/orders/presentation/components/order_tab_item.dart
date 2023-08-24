@@ -32,13 +32,13 @@ class OrderTabItem extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-              color: AppColors.purpleBlue,
+              color: AppColors.primary,
             ),
             child: Text(
               count.toString(),
               style: TextStyle(
                 fontSize: AppFontSize.s12.rSp,
-                fontFamily: AppFonts.Aeonik,
+                fontFamily: AppFonts.Inter,
                 fontWeight: AppFontWeight.regular,
                 color: AppColors.white,
               ),

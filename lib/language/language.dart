@@ -14,10 +14,10 @@ class Language {
   }
 }
 
-class AppLanguage{
- static const int ENGLISH = 1;
- static const int BAHASA = 2;
- static const int CHINESE_S = 3;
- static const int CHINESE_T = 4;
- static const int THAI = 5;
+class AppLanguage {
+  static const int ENGLISH = 1;
+  static const int BAHASA = 2;
+  static const int CHINESE_S = 3;
+  static const int CHINESE_T = 4;
+  static const int THAI = 5;
 }

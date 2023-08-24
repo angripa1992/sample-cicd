@@ -61,7 +61,7 @@ class ModifierGroupInfoView extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecoration(
-              color: AppColors.lightGrey,
+              color: AppColors.greyLight,
               borderRadius: BorderRadius.circular(AppSize.s4.rSp)),
           child: Padding(
             padding: EdgeInsets.symmetric(

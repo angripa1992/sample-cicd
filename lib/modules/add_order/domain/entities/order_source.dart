@@ -3,7 +3,8 @@ class AddOrderSourceType {
   final String name;
   final List<AddOrderSource> sources;
 
-  AddOrderSourceType({required this.id, required this.name, required this.sources});
+  AddOrderSourceType(
+      {required this.id, required this.name, required this.sources});
 }
 
 class AddOrderSource {

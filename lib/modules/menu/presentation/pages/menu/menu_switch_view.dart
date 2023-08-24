@@ -109,8 +109,8 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
                 child: CupertinoSwitch(
                   key: UniqueKey(),
                   value: _enabled,
-                  activeColor: AppColors.purpleBlue,
-                  trackColor: AppColors.blackCow,
+                  activeColor: AppColors.primary,
+                  trackColor: AppColors.black,
                   onChanged: !widget.parentEnabled
                       ? null
                       : (value) {

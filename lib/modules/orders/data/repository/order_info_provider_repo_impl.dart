@@ -64,7 +64,7 @@ class OrderInfoProviderRepoImpl extends OrderInfoProviderRepo {
   }
 
   @override
-  Future<Either<Failure, List<PaymentMethod>>> fetchPaymentMethods() async{
+  Future<Either<Failure, List<PaymentMethod>>> fetchPaymentMethods() async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchPaymentMethods();
@@ -79,7 +79,7 @@ class OrderInfoProviderRepoImpl extends OrderInfoProviderRepo {
   }
 
   @override
-  Future<Either<Failure, List<PaymentStatus>>> fetchPaymentSources() async{
+  Future<Either<Failure, List<PaymentStatus>>> fetchPaymentSources() async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchPaymentStatus();
