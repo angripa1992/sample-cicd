@@ -37,7 +37,8 @@ import '../../language/language_manager.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
 import '../add_order/presentation/pages/add_order_screen.dart';
-import '../home/home_screen.dart';
+import '../home/presentation/cubit/fetch_zreport_cubit.dart';
+import '../home/presentation/home_screen.dart';
 import '../menu/presentation/pages/stock_screen.dart';
 import '../orders/presentation/bloc/all_order_cubit.dart';
 import '../orders/presentation/bloc/schedule_order_cubit.dart';
@@ -150,6 +151,8 @@ class _BaseScreenState extends State<BaseScreen> {
             create: (_) => getIt.get<OngoingOrderCubit>()),
         BlocProvider<OrderActionCubit>(
             create: (_) => getIt.get<OrderActionCubit>()),
+        BlocProvider<FetchZReportCubit>(
+            create: (_) => getIt.get<FetchZReportCubit>()),
       ],
       child: WillPopScope(
         onWillPop: () {

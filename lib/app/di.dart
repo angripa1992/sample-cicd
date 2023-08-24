@@ -72,6 +72,10 @@ import '../modules/add_order/presentation/cubit/calculate_bill_cubit.dart';
 import '../modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
 import '../modules/add_order/presentation/cubit/place_order_cubit.dart';
 import '../modules/base/chnage_language_cubit.dart';
+import '../modules/home/data/datasource/home_data_source.dart';
+import '../modules/home/data/repository/home_repository_impl.dart';
+import '../modules/home/domain/home_repository.dart';
+import '../modules/home/presentation/cubit/fetch_zreport_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/data/repository/order_info_provider_repo_impl.dart';
 import '../modules/orders/domain/repository/order_info_provider_repo.dart';
@@ -135,6 +139,11 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => ChangePasswordCubit(getIt(), getIt()));
   getIt.registerFactory(() => ChangeNotificationSettingCubit(getIt()));
   getIt.registerFactory(() => DeviceSettingCubit(getIt()));
+
+  ///home
+  getIt.registerLazySingleton<HomeRemoteDataSource>(() => HomeRemoteDataSourceImpl(getIt()));
+  getIt.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(getIt(),getIt()));
+  getIt.registerFactory(() => FetchZReportCubit(getIt()));
 
   ///order
   getIt.registerLazySingleton<OrderRemoteDatasource>(

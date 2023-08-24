@@ -9,8 +9,8 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/home/shimer/home_order_nav_card_shimmer.dart';
-import 'package:klikit/modules/home/shimer/order_card_shimmer.dart';
+import 'package:klikit/modules/home/presentation/shimer/home_order_nav_card_shimmer.dart';
+import 'package:klikit/modules/home/presentation/shimer/order_card_shimmer.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/busy_mode_view.dart';
 import 'package:klikit/modules/orders/presentation/components/orders_card.dart';
@@ -20,18 +20,18 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../resources/styles.dart';
-import '../../app/session_manager.dart';
-import '../../segments/event_manager.dart';
-import '../../segments/segemnt_data_provider.dart';
-import '../add_order/presentation/pages/add_order_screen.dart';
-import '../base/base_screen_cubit.dart';
-import '../orders/presentation/bloc/cancelled_order_cubit.dart';
-import '../orders/presentation/bloc/completed_order_cubit.dart';
-import '../orders/presentation/bloc/new_order_cubit.dart';
-import '../orders/presentation/bloc/ongoing_order_cubit.dart';
-import '../orders/presentation/bloc/total_order_cubit.dart';
-import '../orders/presentation/bloc/yesterday_total_order_cubit.dart';
+import '../../../../../resources/styles.dart';
+import '../../../app/session_manager.dart';
+import '../../../segments/event_manager.dart';
+import '../../../segments/segemnt_data_provider.dart';
+import '../../add_order/presentation/pages/add_order_screen.dart';
+import '../../base/base_screen_cubit.dart';
+import '../../orders/presentation/bloc/cancelled_order_cubit.dart';
+import '../../orders/presentation/bloc/completed_order_cubit.dart';
+import '../../orders/presentation/bloc/new_order_cubit.dart';
+import '../../orders/presentation/bloc/ongoing_order_cubit.dart';
+import '../../orders/presentation/bloc/total_order_cubit.dart';
+import '../../orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import 'components/home_header_view.dart';
 import 'components/home_order_nav_card.dart';
 import 'components/home_total_order_card.dart';
@@ -304,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ? state.data.total.toString()
                         : "0",
                     bgColor: AppColors.white,
-                    textColor: AppColors.primaryLight,
+                    textColor: AppColors.black,
                     onTap: () {
                       context.read<BaseScreenCubit>().changeIndex(
                             NavigationData(
@@ -319,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            ZReportView(),
+            const ZReportView(),
           ],
         ),
       ),

@@ -6,7 +6,7 @@ import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../widgets/shimmer/container_shimmer.dart';
+import '../../../widgets/shimmer/container_shimmer.dart';
 
 class HomeOrderNavCardShimmer extends StatelessWidget {
   final String text;

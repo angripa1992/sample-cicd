@@ -38,8 +38,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   @override
   Future<UserModel> login(LoginRequestModel params) async {
     try {
-      final response =
-          await _restClient.request(Urls.login, Method.POST, params.toJson());
+      final response = await _restClient.request(Urls.login, Method.POST, params.toJson());
       return UserModel.fromJson(response);
     } on DioException {
       rethrow;

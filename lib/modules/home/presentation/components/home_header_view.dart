@@ -6,7 +6,7 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../resources/values.dart';
-import '../../add_order/presentation/pages/components/cart_badge.dart';
+import '../../../add_order/presentation/pages/components/cart_badge.dart';
 
 class HomeHeaderView extends StatelessWidget {
   final UserInfo userInfo;

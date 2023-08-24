@@ -65,12 +65,12 @@ class LoadingButton extends StatelessWidget {
       ),
       child: isLoading
           ? SizedBox(
-              height: AppSize.s12.rh,
-              width: AppSize.s12.rw,
-              child: CircularProgressIndicator(
-                color: borderColor ?? AppColors.primary,
-              ),
-            )
+            height: AppSize.s12.rh,
+            width: AppSize.s12.rw,
+            child: CircularProgressIndicator(
+              color: borderColor ?? AppColors.primary,
+            ),
+          )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

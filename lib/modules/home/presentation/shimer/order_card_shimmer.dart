@@ -6,7 +6,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/values.dart';
-import '../../widgets/shimmer/container_shimmer.dart';
+import '../../../widgets/shimmer/container_shimmer.dart';
 
 class OrdersCardShimmer extends StatelessWidget {
   final String text;

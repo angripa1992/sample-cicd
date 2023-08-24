@@ -8,7 +8,7 @@ import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
-import '../../widgets/shimmer/container_shimmer.dart';
+import '../../../widgets/shimmer/container_shimmer.dart';
 
 Widget totalOrderShimmer(String text) {
   return Column(

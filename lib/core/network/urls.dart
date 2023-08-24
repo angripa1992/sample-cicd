@@ -24,6 +24,7 @@ class Urls {
   static const String manualOrder = '/v1/oni/manualorder';
   static const String promos = '/v1/promoit/promo/common/search';
   static const String cancellationReasons = '/v1/oni/cancel-order-reasons';
+  static const String zReportSummary = '/v2/analyseit/z-report/summary';
 
   static String findRider(int id) => '/v1/oni/order/fulfillment/dispatch/$id';
 

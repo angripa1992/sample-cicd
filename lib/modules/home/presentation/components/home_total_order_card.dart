@@ -11,8 +11,8 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
-import '../../orders/presentation/bloc/total_order_cubit.dart';
-import '../../orders/presentation/bloc/yesterday_total_order_cubit.dart';
+import '../../../orders/presentation/bloc/total_order_cubit.dart';
+import '../../../orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import '../shimer/home_total_order_shimmer.dart';
 
 class HomeTotalOrdersCard extends StatelessWidget {
