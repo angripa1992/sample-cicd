@@ -92,8 +92,8 @@ class OrderSummaryItemModel {
   int? grossRevenue;
   int? realizedRevenue;
   int? lostRevenue;
-  double? avgCompletedBasketSize;
-  double? avgCancelledBasketSize;
+  num? avgCompletedBasketSize;
+  num? avgCancelledBasketSize;
   List<OrderSourceSummariesModel>? orderSourceSummaries;
   int? discount;
   int? ordersPercentage;
@@ -154,11 +154,11 @@ class OrderSourceSummariesModel {
   int? grossRevenue;
   int? realizedRevenue;
   int? lostRevenue;
-  double? avgCompletedBasketSize;
-  double? avgCancelledBasketSize;
+  num? avgCompletedBasketSize;
+  num? avgCancelledBasketSize;
   String? orderSource;
   int? discount;
-  double? ordersPercentage;
+  num? ordersPercentage;
   int? merchantDiscount;
   int? providerDiscount;
 
@@ -261,7 +261,7 @@ class PaymentSummaryItemModel {
   int? totalOrders;
   int? grossRevenue;
   int? discount;
-  double? avgBasketSize;
+  num? avgBasketSize;
   List<PaymentChannelAnalyticModel>? channelAnalytics;
 
   PaymentSummaryItemModel(
@@ -298,7 +298,7 @@ class PaymentChannelAnalyticModel {
   int? totalOrders;
   int? grossRevenue;
   int? discount;
-  double? avgBasketSize;
+  num? avgBasketSize;
 
   PaymentChannelAnalyticModel(
       {this.paymentChannel,

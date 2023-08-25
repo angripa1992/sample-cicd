@@ -8,15 +8,13 @@ class AppAssets {
 
 class AppImages {
   static const String splashLogo = "$IMAGE_PATH/splash_logo.png";
-  static const String klikit = "$IMAGE_PATH/klikit.png";
   static const String loginBG = "$IMAGE_PATH/login_bg.png";
-  static const String loginBgModified = "$IMAGE_PATH/login_bg_modified.png";
-  static const String newLoginBG = "$IMAGE_PATH/new_login_bg.png";
   static const String emptyCart = "$IMAGE_PATH/empty_cart.png";
   static const String klikitTextPurple = "$IMAGE_PATH/klikit_text_purple.png";
   static const String klikitTextWhite = "$IMAGE_PATH/klikit_text_white.png";
   static const String placeholder = "$IMAGE_PATH/placeholder.svg";
   static const String emptyCartSvg = "$IMAGE_PATH/empty_cart.svg";
+  static const String loginPageBG = "$IMAGE_PATH/login_page_bg.png";
 }
 
 class AppIcons {

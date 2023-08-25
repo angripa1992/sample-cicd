@@ -3,6 +3,7 @@ import 'package:docket_design_template/model/font_size.dart';
 import 'package:docket_design_template/model/order.dart';
 import 'package:docket_design_template/sunmi_design_template.dart';
 import 'package:docket_design_template/utils/printer_configuration.dart';
+import 'package:docket_design_template/zreport_design_template.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
@@ -10,14 +11,15 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/route/routes_generator.dart';
+import 'package:klikit/modules/home/data/model/z_report_data_model.dart';
 import 'package:klikit/modules/orders/domain/entities/brand.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
 import 'package:klikit/printer/data/printer_data_provider.dart';
+import 'package:klikit/printer/data/sticker_docket_generator.dart';
 import 'package:klikit/printer/presentation/capture_image_preview.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/presentation/select_docket_type_dialog.dart';
-import 'package:klikit/printer/sticker_docket_generator.dart';
 import 'package:klikit/printer/sticker_printer_handler.dart';
 import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:klikit/resources/strings.dart';
@@ -26,6 +28,7 @@ import '../core/utils/permission_handler.dart';
 import '../modules/orders/domain/entities/cart.dart';
 import '../modules/orders/domain/entities/order.dart';
 import '../modules/orders/provider/order_information_provider.dart';
+import 'data/z_report_data_mapper.dart';
 
 class PrintingHandler {
   final AppPreferences _preferences;
@@ -123,8 +126,7 @@ class PrintingHandler {
         } else {
           _doManualPrint(order);
         }
-      } else if (_preferences.printerSetting().connectionType ==
-          ConnectionType.BLUETOOTH) {
+      } else if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
         if (BluetoothPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _bluetoothAutoPrint(order);
@@ -286,6 +288,69 @@ class PrintingHandler {
     return PrinterDataProvider().createTemplateOrderData(
       brand: brand,
       order: order,
+    );
+  }
+
+  void printZReport(ZReportDataModel model) async {
+    if (_preferences.printerSetting().connectionType == ConnectionType.BLUETOOTH) {
+      if (BluetoothPrinterHandler().isConnected()) {
+        final printingData = await _getZReportTicket(model);
+        if(printingData != null){
+          await BluetoothPrinterHandler().printDocket(printingData);
+        }
+      } else {
+        showErrorSnackBar(
+          RoutesGenerator.navigatorKey.currentState!.context,
+          AppStrings.bluetooth_not_connected.tr(),
+        );
+      }
+    } else {
+      if (UsbPrinterHandler().isConnected()) {
+        final printingData = await _getZReportTicket(model);
+        if(printingData != null){
+          await UsbPrinterHandler().printDocket(printingData);
+        }
+      } else {
+        showErrorSnackBar(
+          RoutesGenerator.navigatorKey.currentState!.context,
+          AppStrings.usb_not_connected.tr(),
+        );
+      }
+    }
+  }
+
+  Future<List<int>?> _getZReportTicket(ZReportDataModel dataModel) async{
+    final data = await ZReportDataProvider().generateTemplateData(dataModel);
+    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+    final printingData = await ZReportDesignTemplate().generateTicket(
+      data,
+      PrinterConfiguration(
+        docket: Docket.customer,
+        roll: rollSize,
+        fontSize: _printerFonts(),
+      ),
+    );
+    return printingData;
+  }
+
+  void _printZReport(ZReportDataModel model) async {
+    final data = await ZReportDataProvider().generateTemplateData(model);
+    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+    final pdfImage = await ZReportDesignTemplate().generatePdfImage(
+      data,
+      PrinterConfiguration(
+        docket: Docket.customer,
+        roll: rollSize,
+        fontSize: _printerFonts(),
+      ),
+    );
+    Navigator.push(
+      RoutesGenerator.navigatorKey.currentState!.context,
+      MaterialPageRoute(
+        builder: (context) => CaptureImagePrivew(
+          capturedImage: pdfImage,
+        ),
+      ),
     );
   }
 

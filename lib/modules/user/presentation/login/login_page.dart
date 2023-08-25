@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
@@ -170,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.fill,
-                      image: AssetImage(AppImages.newLoginBG),
+                      image: AssetImage(AppImages.loginPageBG),
                     ),
                   ),
                 ),
