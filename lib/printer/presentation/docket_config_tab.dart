@@ -58,7 +58,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   void _initPrinterSetting() {
     final printerSetting = _appPreferences.printerSetting();
     _branchId = printerSetting.branchId;
-    _connectionType = printerSetting.connectionType;
+    _connectionType = printerSetting.type;
     _paperSize = printerSetting.paperSize;
     _customerCopyEnabled = printerSetting.customerCopyEnabled;
     _kitchenCopyEnabled = printerSetting.kitchenCopyEnabled;
@@ -76,7 +76,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     if (savingData == null) {
       _connectionStateListener.value = 0;
       _connectionStateListener.value =
-          _appPreferences.printerSetting().connectionType;
+          _appPreferences.printerSetting().type;
     }
   }
 
@@ -89,7 +89,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   PrinterSetting _createPrinterSettingFromLocalVariables(bool isUpdating) {
     return PrinterSetting(
       branchId: _branchId,
-      connectionType: _connectionType,
+      type: _connectionType,
       paperSize: _paperSize,
       customerCopyEnabled: _customerCopyEnabled,
       kitchenCopyEnabled: _kitchenCopyEnabled,
@@ -209,7 +209,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
               builder: (_, value, __) {
                 return AppButton(
                   enable:
-                      _appPreferences.printerSetting().connectionType == value,
+                      _appPreferences.printerSetting().type == value,
                   onTap: () {
                     _printingHandler.showDevices(
                         initialIndex: PrinterSelectIndex.docket);
@@ -218,8 +218,8 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                   color: AppColors.white,
                   borderColor: AppColors.black,
                   textColor: AppColors.black,
-                  icon: _appPreferences.printerSetting().connectionType ==
-                          ConnectionType.BLUETOOTH
+                  icon: _appPreferences.printerSetting().type ==
+                          CType.BLE
                       ? Icons.bluetooth
                       : Icons.usb,
                 );

@@ -48,8 +48,8 @@ class DeviceItemView extends StatelessWidget {
               ),
               AppButton(
                 color: AppColors.white,
-                textColor: AppColors.greyDarker,
-                borderColor: AppColors.greyDarker,
+                textColor: AppColors.black,
+                borderColor: AppColors.black,
                 onTap: () {
                   onConnect();
                 },

@@ -85,7 +85,7 @@ class AppPreferences {
     if (preferenceData == null) {
       return PrinterSetting(
         branchId: ZERO,
-        connectionType: ConnectionType.BLUETOOTH,
+        type: CType.BLE,
         paperSize: RollId.mm80,
         customerCopyEnabled: FALSE,
         kitchenCopyEnabled: FALSE,

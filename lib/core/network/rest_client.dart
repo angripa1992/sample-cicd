@@ -66,7 +66,9 @@ class RestClient {
   }
 
   void _handleRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     if (options.path == Urls.login || options.path == Urls.forgetPassword) {
       handler.next(options);
     } else {
@@ -82,8 +84,7 @@ class RestClient {
           },
         );
       } else {
-        options.headers[authorization] =
-            _token(_tokenProvider.getAccessToken());
+        options.headers[authorization] = _token(_tokenProvider.getAccessToken());
         handler.next(options);
       }
     }
@@ -100,10 +101,8 @@ class RestClient {
       return handler.next(error);
     } else {
       if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-        if (_token(_tokenProvider.getAccessToken()) !=
-            options?.headers[authorization]) {
-          options?.headers[authorization] =
-              _token(_tokenProvider.getAccessToken());
+        if (_token(_tokenProvider.getAccessToken()) != options?.headers[authorization]) {
+          options?.headers[authorization] = _token(_tokenProvider.getAccessToken());
           _dio.fetch(options!).then(
             (r) => handler.resolve(r),
             onError: (e) {

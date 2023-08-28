@@ -204,6 +204,8 @@ class OrderModel {
   int? cancellationReasonId;
   @JsonKey(name: 'cancellation_reason')
   String? cancellationReason;
+  @JsonKey(name: 'restaurant_service_fee')
+  int? restaurantServiceFee;
 
   OrderModel({
     this.id,
@@ -289,6 +291,7 @@ class OrderModel {
     this.itemAppliedPromos,
     this.cancellationReasonId,
     this.cancellationReason,
+    this.restaurantServiceFee,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
@@ -382,6 +385,7 @@ class OrderModel {
       itemAppliedPromos: itemAppliedPromos ?? [],
       cancellationReasonId: cancellationReasonId.orZero(),
       cancellationReason: cancellationReason.orEmpty(),
+        restaurantServiceFee: restaurantServiceFee.orZero(),
     );
   }
 }

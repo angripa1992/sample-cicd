@@ -73,7 +73,7 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
     final printerSetting = _appPreferences.printerSetting();
     return PrinterSetting(
       branchId: printerSetting.branchId,
-      connectionType: printerSetting.connectionType,
+      type: printerSetting.type,
       paperSize: printerSetting.paperSize,
       customerCopyEnabled: printerSetting.customerCopyEnabled,
       kitchenCopyEnabled: printerSetting.kitchenCopyEnabled,
@@ -111,10 +111,10 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
             SetPrinterConnectionType(
               willUsbEnabled: false,
               initType: _stickerPrinterEnabled
-                  ? ConnectionType.BLUETOOTH
-                  : ConnectionType.USB,
+                  ? CType.BLE
+                  : CType.USB,
               onChanged: (type) {
-                _stickerPrinterEnabled = type == ConnectionType.BLUETOOTH;
+                _stickerPrinterEnabled = type == CType.BLE;
                 _stickerPrinterStateListener.value = _stickerPrinterEnabled;
               },
             ),

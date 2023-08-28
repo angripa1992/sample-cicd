@@ -57,7 +57,7 @@ Map<String, dynamic> _$PrinterFontsModelToJson(PrinterFontsModel instance) =>
 PrinterSetting _$PrinterSettingFromJson(Map<String, dynamic> json) =>
     PrinterSetting(
       branchId: json['branch_id'] as int,
-      connectionType: json['type_id'] as int,
+      type: json['type_id'] as int,
       paperSize: json['roll_id'] as int,
       stickerPrinterEnabled: json['sticker_printer_enabled'] as bool,
       customerCopyEnabled: json['docket_customer_copy_enabled'] as bool,
@@ -73,7 +73,7 @@ PrinterSetting _$PrinterSettingFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PrinterSettingToJson(PrinterSetting instance) =>
     <String, dynamic>{
       'branch_id': instance.branchId,
-      'type_id': instance.connectionType,
+      'type_id': instance.type,
       'roll_id': instance.paperSize,
       'sticker_printer_enabled': instance.stickerPrinterEnabled,
       'docket_customer_copy_enabled': instance.customerCopyEnabled,

@@ -83,11 +83,11 @@ class DeviceListBottomSheetManager {
               ],
             ),
             title: Text(
-              type == ConnectionType.BLUETOOTH
+              type == CType.BLE
                   ? AppStrings.bluetooth_devices.tr()
                   : AppStrings.usb_devices.tr(),
               style: mediumTextStyle(
-                color: AppColors.greyDarker,
+                color: AppColors.black,
                 fontSize: AppSize.s18.rSp,
               ),
             ),

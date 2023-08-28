@@ -63,13 +63,13 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
               ),
             ),
             PrinterSettingRadioItem(
-              value: ConnectionType.BLUETOOTH,
+              value: CType.BLE,
               groupValue: _connectionType!,
               onChanged: _changePrinterConnectionType,
               name: AppStrings.bluetooth.tr(),
             ),
             PrinterSettingRadioItem(
-              value: ConnectionType.USB,
+              value: CType.USB,
               groupValue: _connectionType!,
               onChanged: _changePrinterConnectionType,
               name: widget.willUsbEnabled

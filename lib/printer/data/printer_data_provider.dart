@@ -50,6 +50,7 @@ class PrinterDataProvider {
       paymentMethod: order.paymentMethod,
       gatewayFee: order.gatewayFee,
       serviceFee: order.serviceFee,
+      restaurantServiceFee: order.restaurantServiceFee,
       tableNo: order.tableNo,
       branchName: SessionManager().currentUserBranchName(),
       isManualOrder: order.isManualOrder,

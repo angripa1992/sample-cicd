@@ -14,7 +14,7 @@ class UpdatePrinterSettingCubit extends Cubit<ResponseState> {
     emit(Loading());
     final params = {
       'branch_id': printerSetting.branchId,
-      'type_id': printerSetting.connectionType,
+      'type_id': printerSetting.type,
       'roll_id': printerSetting.paperSize,
       'font_id': printerSetting.fontId,
       'docket_customer_copy_enabled': printerSetting.customerCopyEnabled,

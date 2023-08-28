@@ -15,14 +15,21 @@ class FcmTokenManager {
   FcmTokenManager(this._restClient, this._deviceInformationProvider);
 
   Future<Either<Failure, bool>> registerToken(String fcmToken) async {
-    final String deviceId = await _deviceInformationProvider.FID();
+    final platform = _deviceInformationProvider.platformName();
+    final String os = await _deviceInformationProvider.getOsVersion();
+    final String model = await _deviceInformationProvider.getDeviceModel();
+    final userID = SessionManager().currentUser().id;
+    final branchID = SessionManager().currentUser().branchId;
+    final deviceInfo = '$platform/0s-$os/model-$model';
+    final uuid = '$userID/$branchID/$deviceInfo/$fcmToken';
+
     final Map<String, dynamic> params = {};
-    params['user_id'] = SessionManager().currentUser().id;
+    params['user_id'] = userID;
     params['token'] = fcmToken;
-    params['platform'] = _deviceInformationProvider.platformName();
+    params['platform'] = platform;
     params['app_type'] = 2;
-    params['branch_id'] = SessionManager().currentUserBranchId();
-    //params['uuid'] = deviceId;
+    params['branch_id'] = branchID;
+    params['uuid'] = uuid;
     try {
       await _restClient.request(Urls.tokenRegistration, Method.POST, params);
       return const Right(true);

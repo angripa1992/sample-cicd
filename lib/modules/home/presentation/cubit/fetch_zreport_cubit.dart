@@ -17,10 +17,10 @@ class FetchZReportCubit extends Cubit<ResponseState> {
     const endTime = '11:59:59';
     final response = await _repository.fetchZReportData(
       {
-        // 'period_start': '$date $startTime',
-        // 'period_end': '$date $endTime',
-        'period_start': '2023-08-11 10:10:00',
-        'period_end': '2023-08-18 11:10:00',
+        'period_start': '$date $startTime',
+        'period_end': '$date $endTime',
+        // 'period_start': '2023-08-11 10:10:00',
+        // 'period_end': '2023-08-18 11:10:00',
       },
     );
     response.fold(

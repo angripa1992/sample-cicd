@@ -48,7 +48,7 @@ class PrinterSettingModel {
   PrinterSetting toEntity() {
     return PrinterSetting(
       branchId: branchId.orZero(),
-      connectionType: typeId ?? ConnectionType.BLUETOOTH,
+      type: typeId ?? CType.BLE,
       paperSize: rollId ?? RollId.mm80,
       stickerPrinterEnabled: stickerPrinterEnabled.orFalse(),
       customerCopyEnabled: customerCopyEnabled.orFalse(),
@@ -97,10 +97,10 @@ class PrinterFontsModel {
   PrinterFonts toEntity() {
     return PrinterFonts(
       smallFontSize: smallFontSize ?? NormalFontSize.small,
-      regularFontSize: smallFontSize ?? NormalFontSize.regular,
-      mediumFontSize: smallFontSize ?? NormalFontSize.medium,
-      largeFontSize: smallFontSize ?? NormalFontSize.large,
-      extraLargeFontSize: smallFontSize ?? NormalFontSize.extraLarge,
+      regularFontSize: regularFontSize ?? NormalFontSize.regular,
+      mediumFontSize: mediumFontSize ?? NormalFontSize.medium,
+      largeFontSize: largeFontSize ?? NormalFontSize.large,
+      extraLargeFontSize: extraLargeFontSize ?? NormalFontSize.extraLarge,
     );
   }
 }
@@ -110,7 +110,7 @@ class PrinterSetting {
   @JsonKey(name: 'branch_id')
   int branchId;
   @JsonKey(name: 'type_id')
-  int connectionType;
+  int type;
   @JsonKey(name: 'roll_id')
   int paperSize;
   @JsonKey(name: 'sticker_printer_enabled')
@@ -129,7 +129,7 @@ class PrinterSetting {
 
   PrinterSetting({
     required this.branchId,
-    required this.connectionType,
+    required this.type,
     required this.paperSize,
     required this.stickerPrinterEnabled,
     required this.customerCopyEnabled,

@@ -30,7 +30,7 @@ void showSelectDocketTypeDialog({
             Text(
               AppStrings.select_docket_type.tr(),
               style: mediumTextStyle(
-                color: AppColors.black,
+                color: AppColors.primary,
                 fontSize: AppFontSize.s20.rSp,
               ),
             ),
@@ -75,7 +75,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
           title: Text(
             AppStrings.kitchen.tr(),
             style: regularTextStyle(
-              color: AppColors.primaryLight,
+              color: AppColors.black,
               fontSize: AppSize.s16.rSp,
             ),
           ),
@@ -91,7 +91,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
           title: Text(
             AppStrings.customer.tr(),
             style: regularTextStyle(
-              color: AppColors.primaryLight,
+              color: AppColors.black,
               fontSize: AppSize.s16.rSp,
             ),
           ),

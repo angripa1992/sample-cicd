@@ -101,6 +101,7 @@ class Order {
   final List<OrderAppliedPromo> itemAppliedPromos;
   final int cancellationReasonId;
   final String cancellationReason;
+  final int restaurantServiceFee;
   String klikitComment;
   int paymentMethod;
   int paymentChannel;
@@ -192,6 +193,7 @@ class Order {
     required this.itemAppliedPromos,
     required this.cancellationReasonId,
     required this.cancellationReason,
+    required this.restaurantServiceFee,
   });
 
   Order copy() => Order(
@@ -279,6 +281,7 @@ class Order {
         itemAppliedPromos: itemAppliedPromos,
         cancellationReasonId: cancellationReasonId,
         cancellationReason: cancellationReason,
+        restaurantServiceFee: restaurantServiceFee,
       );
 
   OrderModel toModel() => OrderModel(
@@ -364,5 +367,6 @@ class Order {
         itemAppliedPromos: itemAppliedPromos,
         cancellationReasonId: cancellationReasonId,
         cancellationReason: cancellationReason,
+        restaurantServiceFee: restaurantServiceFee,
       );
 }

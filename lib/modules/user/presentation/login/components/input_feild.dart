@@ -53,17 +53,17 @@ class _InputFieldState extends State<InputField> {
           obscureText: _obscureText!,
           keyboardType: widget.inputType,
           cursorColor: widget.textColor ?? AppColors.black,
-          style: mediumTextStyle(
+          style: regularTextStyle(
             color: widget.textColor ?? AppColors.black,
             fontSize: AppFontSize.s16.rSp,
           ),
           decoration: InputDecoration(
             label: Text(widget.label),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
             labelStyle: mediumTextStyle(
-              color: widget.labelColor ?? AppColors.primaryLight,
-              fontSize: AppFontSize.s18.rSp,
+              color: widget.labelColor ?? AppColors.black,
+              fontSize: AppFontSize.s24.rSp,
             ),
-            hintText: widget.hintText ?? '',
             suffixIcon: widget.isPasswordField
                 ? IconButton(
                     onPressed: () {

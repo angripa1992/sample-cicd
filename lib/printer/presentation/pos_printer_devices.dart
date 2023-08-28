@@ -25,7 +25,7 @@ class PosPrinterDevicesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<PrinterDevice>>(
-      future: type == ConnectionType.BLUETOOTH
+      future: type == CType.BLE
           ? BluetoothPrinterHandler().getDevices()
           : UsbPrinterHandler().getDevices(),
       builder: (context, snapshot) {
@@ -47,7 +47,7 @@ class PosPrinterDevicesView extends StatelessWidget {
                 itemCount: devices.length,
                 itemBuilder: (context, index) {
                   return DeviceItemView(
-                    icon: type == ConnectionType.BLUETOOTH
+                    icon: type == CType.BLE
                         ? Icons.bluetooth
                         : Icons.usb,
                     name: devices[index].name,

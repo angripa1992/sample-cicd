@@ -47,7 +47,7 @@ class TokenProvider {
         refreshToken: refreshToken,
       );
       return Left(accessToken);
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
         SessionManager().logout();
         return Right(error.response?.statusCode ?? ResponseCode.UNAUTHORISED);

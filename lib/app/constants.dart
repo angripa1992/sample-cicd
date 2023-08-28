@@ -123,8 +123,8 @@ class NotificationType {
   static const TERMINATED = 3;
 }
 
-class ConnectionType {
-  static const BLUETOOTH = 1;
+class CType {
+  static const BLE = 1;
   static const USB = 2;
 }
 
