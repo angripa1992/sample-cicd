@@ -102,8 +102,7 @@ class CartManager {
   }
 
   void changeQuantity(int itemId, int quantity) {
-    final item =
-        _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.quantity = quantity;
     }
@@ -116,10 +115,10 @@ class CartManager {
     String code = EMPTY;
 
     if (_carts.isNotEmpty) {
-      final branchInfo = _carts.first.item.branchInfo;
-      id = branchInfo.currencyID;
-      symbol = branchInfo.currencyCode ?? EMPTY;
-      code = branchInfo.currencyCode ?? EMPTY;
+      final price = _carts.first.itemPrice;
+      id = price.currencyId;
+      symbol = price.currencySymbol;
+      code = price.currencyCode;
     }
     return BillingCurrency(id: id, symbol: symbol, code: code);
   }

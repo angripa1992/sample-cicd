@@ -59,14 +59,18 @@ MenuItemModifierVisibility _v1ToModifierVisibility(
 }
 
 MenuItemModifierRule _v1ToModifierRule(MenuItemModifierRuleModel? data) {
+  final type = data?.typeTitle ?? EMPTY;
+  final value = data?.value ?? ZERO;
+  final min = data?.min ?? ZERO;
+  final max = data?.max ?? ZERO;
   return MenuItemModifierRule(
-    min: data?.min ?? ZERO,
-    max: data?.max ?? ZERO,
+    min: type == RuleType.exact ? value : min,
+    max: type == RuleType.exact ? value : max,
     id: data?.id ?? ZERO,
     title: data?.title ?? EMPTY,
-    typeTitle: data?.title ?? EMPTY,
-    value: data?.min ?? ZERO,
-    brandId: data?.min ?? ZERO,
+    typeTitle: data?.typeTitle ?? EMPTY,
+    value: data?.value ?? ZERO,
+    brandId: data?.brandId ?? ZERO,
   );
 }
 

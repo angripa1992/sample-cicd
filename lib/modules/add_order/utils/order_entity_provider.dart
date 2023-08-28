@@ -151,8 +151,7 @@ class OrderEntityProvider {
         label: group.label,
         brandId: group.brandId,
         sequence: group.sequence,
-        statuses:
-            group.visibilities.map((e) => e.toModel(group.enabled)).toList(),
+        statuses: group.visibilities.map((e) => e.toModel(group.enabled)).toList(),
         rule: group.rule.toModel(),
         modifiers: modifiers,
       );

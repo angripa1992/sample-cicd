@@ -34,14 +34,4 @@ class MenuItemPriceModel {
     data['price'] = price;
     return data;
   }
-
-  // AddOrderModifierItemPrice toEntity() {
-  //   return AddOrderModifierItemPrice(
-  //     providerId: providerId.orZero(),
-  //     currencyId: currencyId.orZero(),
-  //     code: code.orEmpty(),
-  //     symbol: symbol.orEmpty(),
-  //     price: price ?? ZERO,
-  //   );
-  // }
 }

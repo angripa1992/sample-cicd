@@ -30,6 +30,11 @@ class MenuItemModifierRule {
       );
 
   MenuItemModifierRuleModel toModel() => MenuItemModifierRuleModel(
+        id: id,
+        title: title,
+        typeTitle: typeTitle,
+        value: value,
+        brandId: brandId,
         min: min,
         max: max,
       );
