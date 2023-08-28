@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
@@ -9,13 +8,14 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../domain/entities/modifier/modifier_group.dart';
 import 'modifer_switch_view.dart';
 
 class ModifierGroupInfoView extends StatelessWidget {
   final int brandId;
   final int providerId;
-  final ModifiersGroup modifiersGroup;
-  final Function(ModifiersGroup) onChanged;
+  final ModifierGroup modifiersGroup;
+  final Function(ModifierGroup) onChanged;
 
   const ModifierGroupInfoView({
     Key? key,
@@ -45,15 +45,14 @@ class ModifierGroupInfoView extends StatelessWidget {
               ),
             ),
             ModifierSwitchView(
+              menuVersion: modifiersGroup.menuVersion,
               providerId: providerId,
               brandId: brandId,
-              groupId: modifiersGroup.groupId,
-              enabled: modifiersGroup.statuses.isEmpty
-                  ? false
-                  : modifiersGroup.statuses[0].enabled,
+              groupId: modifiersGroup.id,
+              enabled: modifiersGroup.isEnabled,
               type: ModifierType.GROUP,
               onSuccess: (enabled) {
-                modifiersGroup.statuses[0].enabled = enabled;
+                modifiersGroup.isEnabled = enabled;
                 onChanged(modifiersGroup);
               },
             ),

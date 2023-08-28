@@ -103,7 +103,7 @@ class MenuTabIndex {
 
 class MenuType {
   static const SECTION = 1;
-  static const SUB_SECTION = 2;
+  static const CATEGORY = 2;
   static const ITEM = 3;
 }
 
@@ -173,7 +173,12 @@ class PrinterSelectIndex {
   static const sticker = 1;
 }
 
-class FulfillmentStatusId {
+class MenuVersion{
+  static const v1 = 1;
+  static const v2= 2;
+}
+
+class FulfillmentStatusId{
   static const ALLOCATING_RIDER = 1; //or 2
   static const ALLOCATING_RIDER_TWO = 2;
   static const FOUND_RIDER = 3;
@@ -194,6 +199,6 @@ class ArgumentKey {
   static const String kPROVIDER_ID = 'provider_id';
   static const String kGROUP = 'group';
   static const String kBRAND_ID = 'brand_id';
-  static const String kSECTIONS = 'sections';
+  static const String kMENU_CATEGORY = 'menu_category';
   static const String kENABLED = 'enabled';
 }

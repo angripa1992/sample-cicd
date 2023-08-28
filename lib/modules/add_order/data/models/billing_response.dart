@@ -1,6 +1,6 @@
 import 'package:klikit/app/extensions.dart';
 
-import '../../domain/entities/billing_response.dart';
+import '../../domain/entities/cart_bill.dart';
 import 'applied_promo.dart';
 
 class CartBillModel {

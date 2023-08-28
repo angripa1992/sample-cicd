@@ -55,11 +55,13 @@ class SessionManager {
     _appPreferences.insertRefreshToken(refreshToken);
   }
 
-  UserInfo currentUser() => _user!;
+  UserInfo user() => _user!;
 
-  int currentUserBranchId() => _user!.branchId;
+  int branchId() => _user!.branchId;
 
-  String currentUserBranchName() => _user?.branchName ?? EMPTY;
+  int businessID() => _user!.businessId;
+
+  String branchName() => _user?.branchName ?? EMPTY;
 
   String lastLoginEmail() => _appPreferences.loginEmail();
 
@@ -72,6 +74,9 @@ class SessionManager {
   bool notificationEnable() => _appPreferences.notificationEnable();
 
   bool isSunmiDevice() => _appPreferences.sunmiDevice();
+
+
+  bool isMenuV2() => _user!.menuV2Enabled;
 
   int country() => _user!.countryIds.first;
 

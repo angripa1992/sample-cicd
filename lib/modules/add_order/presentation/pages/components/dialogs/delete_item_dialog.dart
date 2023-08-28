@@ -13,7 +13,7 @@ import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
-import '../../../../domain/entities/billing_response.dart';
+import '../../../../domain/entities/cart_bill.dart';
 import '../../../../utils/modifier_manager.dart';
 
 class DeleteItemDialogView extends StatelessWidget {
@@ -113,8 +113,8 @@ class DeleteItemDialogView extends StatelessWidget {
                                 PriceCalculator.formatPrice(
                                   price: itemBill.discountedItemPrice *
                                       cartItem.quantity,
-                                  currencySymbol: cartItem.itemPrice.symbol,
-                                  code: cartItem.itemPrice.code,
+                                  code: cartItem.itemPrice.currencyCode,
+                                  symbol: cartItem.itemPrice.currencySymbol,
                                 ),
                                 style: TextStyle(
                                   color: AppColors.black,
@@ -125,8 +125,8 @@ class DeleteItemDialogView extends StatelessWidget {
                             Text(
                               PriceCalculator.formatPrice(
                                 price: itemBill.itemPrice * cartItem.quantity,
-                                currencySymbol: cartItem.itemPrice.symbol,
-                                code: cartItem.itemPrice.code,
+                                code: cartItem.itemPrice.currencyCode,
+                                symbol: cartItem.itemPrice.currencySymbol,
                               ),
                               style: TextStyle(
                                 color: haveDiscount

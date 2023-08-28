@@ -59,8 +59,8 @@ class OrderActionButton extends StatelessWidget {
               Text(
                 PriceCalculator.formatPrice(
                   price: totalPrice,
-                  currencySymbol: currency.symbol ?? EMPTY,
                   code: currency.code ?? EMPTY,
+                  symbol: currency.symbol ?? EMPTY,
                 ),
                 style: TextStyle(
                   color: AppColors.black,

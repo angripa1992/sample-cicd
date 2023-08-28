@@ -3,12 +3,12 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../domain/entities/item_modifier.dart';
+import '../../../../domain/entities/modifier/item_modifier.dart';
 import 'item_counter.dart';
 import 'item_name_price_title.dart';
 
 class LevelTwoSelectMultipleView extends StatefulWidget {
-  final List<ItemModifier> modifiers;
+  final List<MenuItemModifier> modifiers;
   final VoidCallback onChanged;
 
   const LevelTwoSelectMultipleView(
@@ -34,7 +34,7 @@ class _LevelTwoSelectMultipleViewState
     super.initState();
   }
 
-  void _onChanged(ItemModifier modifier, bool? value) {
+  void _onChanged(MenuItemModifier modifier, bool? value) {
     if (value != null) {
       setState(() {
         _values[modifier.id] = value;

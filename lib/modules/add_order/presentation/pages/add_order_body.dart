@@ -4,19 +4,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
-import 'package:klikit/modules/add_order/domain/entities/sub_section_list_item.dart';
-import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
+import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
 
 import '../../../../app/di.dart';
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
 import '../../../../resources/strings.dart';
 import '../../../menu/domain/entities/brand.dart';
-import '../../../menu/domain/entities/items.dart';
+import '../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../../widgets/snackbars.dart';
-import '../../domain/entities/item_modifier_group.dart';
+import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
 import '../cubit/calculate_bill_cubit.dart';
 import '../cubit/place_order_cubit.dart';
@@ -204,8 +204,8 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   }
 
   void _addModifier({
-    required List<ItemModifierGroup> groups,
-    required MenuItems item,
+    required List<MenuItemModifierGroup> groups,
+    required MenuCategoryItem item,
     required MenuBrand brand,
   }) {
     showModalBottomSheet<void>(
@@ -246,7 +246,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
               brands: brands,
               onChanged: (brand) {
                 _selectedBrand = brand;
-                context.read<FetchSubSectionCubit>().fetchSubsection(brand);
+                context.read<FetchAddOrderMenuItemsCubit>().fetchSubsection(brand);
               },
               onBack: widget.onBack,
               onCartTap: _gotoCart,
@@ -255,20 +255,20 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           },
         ),
         Expanded(
-          child: BlocBuilder<FetchSubSectionCubit, ResponseState>(
+          child: BlocBuilder<FetchAddOrderMenuItemsCubit, ResponseState>(
             builder: (context, state) {
               if (state is Loading) {
                 EasyLoading.show();
                 return const SizedBox();
-              } else if (state is Success<List<SubSectionListItem>>) {
+              } else if (state is Success<List<MenuCategory>>) {
                 EasyLoading.dismiss();
                 if (state.data.isEmpty) {
                   return Center(
                     child: Text(AppStrings.no_item_found.tr()),
                   );
                 }
-                return MenuItemsListView(
-                  items: state.data,
+                return MenuCategoryItemsListView(
+                  categories: state.data,
                   brand: _selectedBrand,
                   onCartTap: _gotoCart,
                   onAddToCart: _addToCart,

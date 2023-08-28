@@ -52,7 +52,7 @@ class PrinterDataProvider {
       serviceFee: order.serviceFee,
       restaurantServiceFee: order.restaurantServiceFee,
       tableNo: order.tableNo,
-      branchName: SessionManager().currentUserBranchName(),
+      branchName: SessionManager().branchName(),
       isManualOrder: order.isManualOrder,
       isFoodpandaApiOrder: order.isFoodpandaApiOrder,
       is_vat_included: order.isVatIncluded,

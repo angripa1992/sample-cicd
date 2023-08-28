@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:klikit/modules/menu/domain/entities/items.dart';
+import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 
 import '../../../app/constants.dart';
 import '../../../app/extensions.dart';
@@ -8,12 +8,13 @@ import '../../../app/session_manager.dart';
 import '../../add_order/data/datasource/add_order_datasource.dart';
 import '../../add_order/data/models/applied_promo.dart';
 import '../../add_order/domain/entities/add_to_cart_item.dart';
-import '../../add_order/domain/entities/item_modifier_group.dart';
+import '../../add_order/domain/entities/modifier/item_modifier_group.dart';
 import '../../add_order/utils/cart_manager.dart';
 import '../../add_order/utils/modifier_manager.dart';
-import '../../add_order/utils/order_price_provider.dart';
 import '../../menu/data/datasource/menu_remote_datasource.dart';
 import '../../menu/domain/entities/brand.dart';
+import '../../menu/domain/entities/menu/menu_branch_info.dart';
+import '../../menu/domain/entities/menu/menu_item.dart';
 import '../data/models/order_applied_promo.dart';
 import '../domain/entities/cart.dart';
 import '../domain/entities/order.dart';
@@ -50,25 +51,30 @@ class UpdateManualOrderDataProvider {
   }
 
   Future<List<AddToCartItem>> _generateCartItem(
-      Order order, List<AppliedPromo> promos) async {
+    Order order,
+    List<AppliedPromo> promos,
+  ) async {
     try {
       List<AddToCartItem> carts = [];
       for (var cartv2 in order.cartV2) {
-        final modifierGroups = await _fetchModifiers(cartv2);
-        final brand = await _fetchMenuBrand(
-          brandId: cartv2.cartBrand.id,
-          branchId: order.branchId,
-        );
         final menuItemOrNull = await _fetchMenuItem(
           itemId: cartv2.id,
           brandId: cartv2.cartBrand.id,
           branchId: order.branchId,
+          providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
+          final modifierGroups = await _fetchModifiers(
+            cartv2,
+            menuItemOrNull.branchInfo,
+          );
+          final brand = await _fetchMenuBrand(
+            brandId: cartv2.cartBrand.id,
+            branchId: order.branchId,
+          );
           final modifiersPrice =
               await ModifierManager().calculateModifiersPrice(modifierGroups);
-          final itemPrice =
-              OrderPriceProvider.klikitPrice(menuItemOrNull.prices);
+          final itemPrice = menuItemOrNull.klikitPrice();
           final cartV1Item = order.cartV1
               .firstWhere((element) => element.itemId.toString() == cartv2.id);
           final promoInfo = _promoInfo(
@@ -157,7 +163,7 @@ class UpdateManualOrderDataProvider {
 
   Future<List<AppliedPromo>> _fetchPromos(Order order) async {
     try {
-      final user = SessionManager().currentUser();
+      final user = SessionManager().user();
       final params = {
         'country': user.countryIds.first,
         'business': user.businessId,
@@ -186,41 +192,50 @@ class UpdateManualOrderDataProvider {
         branchId: branchId,
       );
       return menuBrandResponse.toEntity();
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
 
-  Future<MenuItems?> _fetchMenuItem({
+  Future<MenuCategoryItem?> _fetchMenuItem({
     required String itemId,
     required int brandId,
     required int branchId,
+    required int providerId,
   }) async {
     try {
-      final menusItemsResponse = await _addOrderDatasource.fetchMenus(
-          branchId: branchId, brandId: brandId);
-      final sections = menusItemsResponse.toEntity().sections;
-      for (var section in sections) {
-        for (var subSection in section.subSections) {
-          for (var item in subSection.items) {
+      final menusItemsResponse = await _menuRemoteDatasource.fetchMenus(
+        FetchMenuParams(
+          businessId: SessionManager().user().businessId,
+          branchId: branchId,
+          brandId: brandId,
+          providerID: providerId,
+        ),
+      );
+      for (var section in menusItemsResponse.sections) {
+        for (var category in section.categories) {
+          for (var item in category.items) {
             if (item.id.toString() == itemId) {
-              item.availableTimes = section.availableTimes;
               return item;
             }
           }
         }
       }
       return null;
-    } on DioError {
+    } on DioException {
       rethrow;
     }
   }
 
-  Future<List<ItemModifierGroup>> _fetchModifiers(CartV2 cartV2) async {
+  Future<List<MenuItemModifierGroup>> _fetchModifiers(
+    CartV2 cartV2,
+    MenuBranchInfo branchInfo,
+  ) async {
     try {
-      final modifierGroupsResponse = await _addOrderDatasource.fetchModifiers(
-          itemId: int.parse(cartV2.id));
-      final groups = modifierGroupsResponse.map((e) => e.toEntity()).toList();
+      final groups = await _addOrderDatasource.fetchModifiers(
+        itemID: int.parse(cartV2.id),
+        branchInfo: branchInfo,
+      );
       for (var modifierGroupOne in cartV2.modifierGroups) {
         final groupLevelOne = groups.firstWhereOrNull(
             (element) => element.groupId.toString() == modifierGroupOne.id);

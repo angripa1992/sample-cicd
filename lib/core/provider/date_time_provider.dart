@@ -92,8 +92,7 @@ class DateTimeProvider {
   }
 
   static Future<String> timeZone() async {
-    final String currentTimeZone =
-        await FlutterNativeTimezone.getLocalTimezone();
+    final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
     return currentTimeZone;
   }
 

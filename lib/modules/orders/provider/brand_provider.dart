@@ -12,7 +12,7 @@ class BrandProvider {
   Future<List<Brand>> fetchBrands() async {
     if (_brands.isEmpty) {
       final requestModel = BrandRequestModel(
-        filterByBranch: SessionManager().currentUserBranchId(),
+        filterByBranch: SessionManager().branchId(),
       );
       final response = await _orderRepository.fetchBrand(requestModel);
       if (response.isRight()) {

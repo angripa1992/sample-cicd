@@ -13,7 +13,7 @@ class UpdateBusyModeCubit extends Cubit<ResponseState> {
   void updateStatus(bool isBusy) async {
     emit(Loading());
     final params = {
-      "branch_id": SessionManager().currentUserBranchId(),
+      "branch_id": SessionManager().branchId(),
       "is_busy": isBusy,
     };
     final response = await _updateBusyModeStatus(params);

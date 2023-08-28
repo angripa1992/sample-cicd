@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/presentation/pages/menu/menu_item_title.dart';
-import 'package:klikit/modules/menu/presentation/pages/menu/sub_menu_list_view.dart';
+import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_list.dart';
+import 'package:klikit/modules/menu/presentation/pages/menu/menu_section_item.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../domain/entities/sections.dart';
+import '../../../domain/entities/menu/menu_sections.dart';
 
 class MenuListView extends StatefulWidget {
-  final List<Sections> sections;
+  final List<MenuSection> sections;
   final int brandID;
   final int providerID;
 
@@ -52,11 +52,11 @@ class _MenuListViewState extends State<MenuListView> {
           ),
           controller: controller,
           trailing: const SizedBox(),
-          title: MenuItemTitle(
+          title: MenuSectionItem(
             controller: controller,
             index: index,
             providerID: widget.providerID,
-            sections: widget.sections[index],
+            section: widget.sections[index],
             onChanged: (enabled) {
               setState(() {
                 widget.sections[index].enabled = enabled;
@@ -74,13 +74,13 @@ class _MenuListViewState extends State<MenuListView> {
           ),
           content: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-            child: SubMenuListView(
+            child: MenuCategoryListView(
               key: UniqueKey(),
-              subSections: widget.sections[index].subSections,
+              categories: widget.sections[index].categories,
               parentEnabled: widget.sections[index].enabled,
               onChanged: (modifiedSubSections) {
                 setState(() {
-                  widget.sections[index].subSections = modifiedSubSections;
+                  widget.sections[index].categories = modifiedSubSections;
                 });
               },
               brandID: widget.brandID,

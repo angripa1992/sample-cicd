@@ -128,7 +128,7 @@ class OrderParameterProvider {
     final brands = brandsID ?? await _informationProvider.findBrandsIds();
     final providers =
         providersID ?? await _informationProvider.findProvidersIds();
-    final branch = SessionManager().currentUserBranchId();
+    final branch = SessionManager().branchId();
     final params = {
       "page": page ?? 1,
       "size": pageSize ?? 10,

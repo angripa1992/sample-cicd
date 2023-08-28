@@ -39,6 +39,8 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       first_login: json['first_login'] as bool?,
       order_notification_enabled: json['order_notification_enabled'] as bool?,
       sunmi_device: json['sunmi_device'] as bool?,
+      menuv2_enabled: json['menuv2_enabled'] as bool?,
+      menu_version: json['menu_version'] as int?,
       roles:
           (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList(),
       role_ids:
@@ -77,6 +79,8 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'first_login': instance.first_login,
       'order_notification_enabled': instance.order_notification_enabled,
       'sunmi_device': instance.sunmi_device,
+      'menuv2_enabled': instance.menuv2_enabled,
+      'menu_version': instance.menu_version,
       'roles': instance.roles,
       'role_ids': instance.role_ids,
       'display_roles': instance.display_roles,

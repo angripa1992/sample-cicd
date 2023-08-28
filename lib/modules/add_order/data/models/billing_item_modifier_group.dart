@@ -1,3 +1,4 @@
+
 import 'package:klikit/modules/add_order/data/models/title_v2.dart';
 
 import 'billing_item_modifier.dart';
@@ -25,7 +26,6 @@ class BillingItemModifierGroup {
       this.statuses,
       this.rule,
       this.modifiers});
-
   BillingItemModifierGroup.fromJson(Map<String, dynamic> json) {
     groupId = json['group_id'];
     title = json['title'];

@@ -13,7 +13,7 @@ class DeviceSettingCubit extends Cubit<ResponseState> {
   void changeSunmiDeviceSetting(bool isSunmiDevice) async {
     emit(Loading());
     final params = {
-      "user_id": SessionManager().currentUser().id,
+      "user_id": SessionManager().user().id,
       "sunmi_device": isSunmiDevice,
     };
     final response = await _repository.changeSettings(params);

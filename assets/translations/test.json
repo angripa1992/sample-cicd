@@ -1,92 +1,288 @@
-static  String select_docket_type = 'select_docket_type'.tr();
-static  String set_docket_type = "set_docket_type".tr();
-static  String successfully_added_to_cart = "successfully_added_to_cart".tr();
-static  String kitchen = "kitchen".tr();
-static  String customer = "customer".tr();
-static  String dine_in = "dine_in".tr();
-static String set_font_size = 'set_font_size'.tr().tr();
-static  String small = "small".tr();
-static  String normal = "normal".tr();
-static  String large = "large".tr();
-static  String huge = "huge".tr();
-static  String update_required = 'update_required'.tr();
-static  String update_app =  'update_app'.tr();
-static  String app_update_msg = 'app_update_msg'.tr();
-
-static  String no_item_found = "no_item_found".tr();
-static  String out_of_stock = "out_of_stock".tr();
-static  String unavailable = "unavailable".tr();
-static  String add_to_cart = "add_to_cart".tr();
-static  String go_to_cart = "go_to_cart".tr();
-static  String select_brand_name_msg = "select_brand_name_msg".tr();
-static  String click_button_to_select_brand = "click_button_to_select_brand".tr();
-static  String search_for_items = "search_for_items".tr();
-static  String categories = "categories".tr();
-static  String no_categories_found = "no_categories_found".tr();
-static  String Items = "Items".tr();
-static  String special_instruction = "special_instruction".tr();
-static  String add_instruction = "add_instruction".tr();
-static  String optional = "optional".tr();
-static  String required = "required".tr();
-static  String choose_upto = "choose_upto".tr();
-static  String choose = "choose".tr();
-static  String for_ = "for_".tr();
-static  String add_as_new = "add_as_new".tr();
-static  String select_brand_name = "select_brand_name".tr();
-
-static  String chnage_amount = 'chnage_amount'.tr();
-static  String can_not_be_greater_than_subtotal = 'can_not_be_greater_than_subtotal'.tr();
-static  String can_not_be_greater_than_100 = 'can_not_be_greater_than_100'.tr();
-static  String type = 'type'.tr();
-static  String flat = 'flat'.tr();
-static  String percentage = 'percentage'.tr();
-static  String want_to_delete_item_msg = 'want_to_delete_item_msg'.tr();
-static  String want_to_delete_all_item_msg = 'want_to_delete_all_item_msg'.tr();
-static  String payment_status = 'payment_status'.tr();
-static  String payment_method = 'payment_method'.tr();
-static  String select_payment_status = 'select_payment_status'.tr();
-static  String add_payment_method = 'add_payment_method'.tr();
-static  String customer_info = 'customer_info'.tr();
-static  String add_customer_info = 'add_customer_info'.tr();
-static  String phone = 'phone'.tr();
-static  String table_no = 'table_no'.tr();
-static  String submit = 'submit'.tr();
-static  String placed_order = 'placed_order'.tr();
-static  String update_order = 'update_order'.tr();
-static  String order_type = 'order_type'.tr();
-static  String cart = 'cart'.tr();
-static  String checkout = 'checkout'.tr();
-static  String order_source = 'order_source'.tr();
-static  String inc_vat = 'inc_vat'.tr();
-static  String your_cart_is_empty = 'your_cart_is_empty'.tr();
-static  String add_items_to_cart_msg = 'add_items_to_cart_msg'.tr();
-static  String add_items = 'add_items'.tr();
-static  String procees_to_checkout = 'procees_to_checkout'.tr();
-static  String service_fee = 'service_fee'.tr();
-static  String add_more_items = 'add_more_items'.tr();
-static  String remove_all = 'remove_all'.tr();
-static  String edit = 'edit'.tr();
-static  String calculated_at_next_step = 'calculated_at_next_step'.tr();
-static  String order_id = 'order_id'.tr();
-static  String delete_item = 'delete_item'.tr();
-static  String schedule = 'schedule'.tr();
-static  String history = 'history'.tr();
-static  String select_payment_method_and_status = 'select_payment_method_and_status'.tr();
-static  String pause_store = 'pause_store'.tr();
-static  String print = 'print'.tr();
-static  String accept = 'accept'.tr();
-static  String reject = 'reject'.tr();
-static  String proceed = 'proceed'.tr();
-static  String webshop = 'webshop'.tr();
-static  String update_payment_info = 'update_payment_info'.tr();
-static  String edit_order = 'edit_order'.tr();
-static  String modifier_group = 'modifier_group'.tr();
-static  String modifier = 'modifier'.tr();
-static  String categories_list = 'categories_list'.tr();
-static  String out_of_stock_settings = 'out_of_stock_settings'.tr();
-static  String out_of_stock_till= 'out_of_stock_till'.tr();
-static  String stock_disabled_successful= "stock_disabled_successful".tr();
-static  String day= 'day'.tr();
-static  String hours= 'hours'.tr();
-static  String untill_trun_back_on= 'untill_trun_back_on'.tr();
-static  String items_list= 'items_list'.tr();
+{
+  "branch_id": 2,
+  "business_id": 1,
+  "menu_version": 2,
+  "brand_id": 1,
+  "brand_name": "Cluccboi",
+  "currency": "PHP",
+  "currency_symbol": "₱",
+  "source": 1,
+  "type": 3,
+  "payment_status": 3,
+  "user": {},
+  "item_price": 12300,
+  "final_price": 11800,
+  "delivery_fee": 0,
+  "vat_amount": 0,
+  "discount_amount": 500,
+  "additional_fee": 0,
+  "service_fee": 0,
+  "cart": [
+    {
+      "id": 498,
+      "title_v2": {
+        "en": "Steamed Rice",
+        "tl": "Steamed Rice"
+      },
+      "description_v2": {
+        "en": "Steamed Rice Disco",
+        "tl": "Steamed Rice Disco"
+      },
+      "vat": 0,
+      "enabled": true,
+      "prices": [
+        {
+          "provider_id": 9,
+          "code": "PHP",
+          "price": 123
+        },
+        {
+          "provider_id": 14,
+          "code": "PHP",
+          "price": 110
+        },
+        {
+          "provider_id": 1,
+          "code": "PHP",
+          "price": 123
+        },
+        {
+          "provider_id": 2,
+          "code": "PHP",
+          "price": 123
+        },
+        {
+          "provider_id": 6,
+          "code": "PHP",
+          "price": 123
+        },
+        {
+          "provider_id": 7,
+          "code": "PHP",
+          "price": 123
+        }
+      ],
+      "item_is_enabled": true,
+      "item_visibilities": [],
+      "resources": [
+        {
+          "provider_id": 1,
+          "type": "image",
+          "paths": [
+            {
+              "path": "/images/aa99ab1dc7c423b3dd7311489b33336e77ed4d79.jpg",
+              "sequence": 1,
+              "default": true
+            },
+            {
+              "path": "/images/48a64adab34a241ee10b32e82016a9e249d71527.jpg",
+              "sequence": 2,
+              "default": false
+            }
+          ]
+        },
+        {
+          "provider_id": 2,
+          "type": "image",
+          "paths": [
+            {
+              "path": "/images/ea842891b6f8303ec57c0cba296f638213d5e26a.jpg",
+              "sequence": 1,
+              "default": true
+            },
+            {
+              "path": "/images/495c0afa2bc431832ffa24a471bee1c83ca83374.jpg",
+              "sequence": 2,
+              "default": false
+            }
+          ]
+        },
+        {
+          "provider_id": 6,
+          "type": "image",
+          "paths": [
+            {
+              "path": "/images/2bc85cfef183cb90b6789ee588f453886cd75c37.jpg",
+              "sequence": 1,
+              "default": true
+            },
+            {
+              "path": "/images/dd5a436047514faf90335f9ac13cb4bdd4e231c7.jpg",
+              "sequence": 2,
+              "default": false
+            },
+            {
+              "path": "/images/00c6f52eabb069d658f8acb308e54a10935a0faa.jpg",
+              "sequence": 3,
+              "default": false
+            },
+            {
+              "path": "/images/203e25084e7c1cbc8c8011558fc566b2f4185484.jpg",
+              "sequence": 4,
+              "default": false
+            },
+            {
+              "path": "/images/fd4628244e49b7f50076ee273caf1568cd3668c7.jpg",
+              "sequence": 5,
+              "default": false
+            },
+            {
+              "path": "/images/075539e4461196020965cfb42d6429b1822360e9.jpg",
+              "sequence": 6,
+              "default": false
+            },
+            {
+              "path": "/images/7778fd260df50f645331d2401dd1e8c9ca0c3a4b.jpg",
+              "sequence": 7,
+              "default": false
+            },
+            {
+              "path": "/images/1e193ccc69eb56832d89cef385a79ad63f412673.jpg",
+              "sequence": 8,
+              "default": false
+            }
+          ]
+        },
+        {
+          "provider_id": 7,
+          "type": "image",
+          "paths": [
+            {
+              "path": "/images/299153384206d499df42f327009661999606ec57.jpg",
+              "sequence": 2,
+              "default": true
+            },
+            {
+              "path": "/images/e5a0df501f2f3d582f9fba6d561b2736a8cf52a3.jpg",
+              "sequence": 3,
+              "default": false
+            }
+          ]
+        }
+      ],
+      "sequence": 2,
+      "oos": {
+        "available": true,
+        "snooze": null
+      },
+      "title": "Steamed Rice",
+      "image": "",
+      "stock": {
+        "available": true,
+        "snooze": null
+      },
+      "statuses": [],
+      "item_id": 498,
+      "cart_id": "498/1,499/2",
+      "unit_price": 123,
+      "groups": [
+        {
+          "id": 27,
+          "title": "Optional select 2",
+          "description": {
+            "en": "Optional select 2 disco",
+            "tl": "Optional select 2 disco"
+          },
+          "sequence": 1,
+          "visibilities": [],
+          "enabled": true,
+          "modifiers": [
+            {
+              "id": 499,
+              "title": "Extra Butter",
+              "description": {
+                "en": ""
+              },
+              "vat": null,
+              "enabled": true,
+              "visibilities": [],
+              "prices": [
+                {
+                  "provider_id": 7,
+                  "code": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 9,
+                  "code": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 1,
+                  "code": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 2,
+                  "code": "PHP",
+                  "price": 0
+                },
+                {
+                  "provider_id": 6,
+                  "code": "PHP",
+                  "price": 0
+                }
+              ],
+              "isCustomPrice": false,
+              "itemIsEnabled": true,
+              "itemVisibilities": [],
+              "resources": null,
+              "maxQuantityPerDay": -1,
+              "oos": {
+                "available": false,
+                "snooze": null
+              },
+              "groups": [],
+              "modifier_id": 499,
+              "statuses": [
+                {
+                  "provider_id": 1,
+                  "enabled": true,
+                  "hidden": false
+                }
+              ],
+              "is_selected": true,
+              "modifier_quantity": 2,
+              "extra_price": 0
+            }
+          ],
+          "label": "Optional select 2",
+          "group_id": 27,
+          "rule": {
+            "min": 0,
+            "max": 2,
+            "type_title": "range"
+          },
+          "statuses": [
+            {
+              "provider_id": 1,
+              "enabled": true,
+              "hidden": false
+            }
+          ]
+        }
+      ],
+      "quantity": 1,
+      "has_modifier_groups": true,
+      "brand": {
+        "id": 1,
+        "logo": "/images/664b6d55102caf29bac3c2193d2590131f3bc84a.png",
+        "title": "Cluccboi"
+      },
+      "promo_discount": 0,
+      "discount_type": 1,
+      "discount_value": 0,
+      "comment": ""
+    }
+  ],
+  "unique_items": 1,
+  "total_items": 1,
+  "currency_id": 2,
+  "discount_value": 5,
+  "discount_type": 1,
+  "order_comment": "",
+  "order_promo_discount": 0,
+  "applied_promo": null,
+  "number_of_customer": 1,
+  "number_of_senior_citizen": 1
+}

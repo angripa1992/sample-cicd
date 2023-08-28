@@ -13,24 +13,26 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/items.dart';
-import '../../../domain/entities/stock.dart';
+import '../../../domain/entities/menu/menu_item.dart';
+import '../../../domain/entities/menu/menu_out_of_stock.dart';
 import 'menu_snooze_view.dart';
 import 'menu_switch_view.dart';
 
 class MenuItemDetails extends StatefulWidget {
-  final MenuItems items;
+  final MenuCategoryItem menuCategoryItem;
   final bool parentEnabled;
-  final Function(Stock) onChanged;
+  final Function(MenuOutOfStock) onMenuItemSnoozeChanged;
+  final Function(bool) onMenuEnabledChanged;
   final int brandID;
   final int providerID;
   final int brandId;
 
   const MenuItemDetails({
     Key? key,
-    required this.items,
+    required this.menuCategoryItem,
     required this.parentEnabled,
-    required this.onChanged,
+    required this.onMenuItemSnoozeChanged,
+    required this.onMenuEnabledChanged,
     required this.brandID,
     required this.providerID,
     required this.brandId,
@@ -41,6 +43,22 @@ class MenuItemDetails extends StatefulWidget {
 }
 
 class _MenuItemDetailsState extends State<MenuItemDetails> {
+
+  void _onEnabledChanged(bool enabled){
+    widget.onMenuEnabledChanged(enabled);
+    setState(() {
+      widget.menuCategoryItem.outOfStock.available = enabled;
+      widget.menuCategoryItem.enabled = enabled;
+    });
+  }
+
+  void _onItemSnoozeChanged(MenuOutOfStock oos){
+    widget.onMenuItemSnoozeChanged(oos);
+    setState(() {
+      widget.menuCategoryItem.outOfStock = oos;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +71,8 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
           Stack(
             children: [
               CachedNetworkImage(
-                imageUrl: ImageUrlProvider.getUrl(widget.items.image),
+                imageUrl:
+                    ImageUrlProvider.getUrl(widget.menuCategoryItem.image),
                 imageBuilder: (context, imageProvider) => Container(
                   height: AppSize.s180.rh,
                   decoration: BoxDecoration(
@@ -107,7 +126,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
                     child: Text(
-                      widget.items.title,
+                      widget.menuCategoryItem.title,
                       style: regularTextStyle(
                         fontSize: AppFontSize.s16.rSp,
                         color: AppColors.black,
@@ -116,7 +135,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   ),
                 ),
                 MenuSnoozeView(
-                  items: widget.items,
+                  menuCategoryItem: widget.menuCategoryItem,
                   brandId: widget.brandId,
                   providerId: widget.providerID,
                   borderRadius: AppSize.s16.rSp,
@@ -124,46 +143,24 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   bgColor: AppColors.yellowDarker.withOpacity(0.1),
                   parentEnabled: widget.parentEnabled,
                   iconPath: AppIcons.edit,
-                  // onEnabledChange: (enabled) {
-                  //   widget.onChanged(enabled);
-                  //   setState(() {
-                  //     widget.items.stock.available = enabled;
-                  //   });
-                  //   //Navigator.pop(context);
-                  // },
-                  onChanged: (stock) {
-                    widget.onChanged(stock);
-                    setState(() {
-                      widget.items.stock = stock;
-                    });
-                  },
+                  onMenuItemSnoozeChanged: _onItemSnoozeChanged,
+                  onMenuEnabledChanged: _onEnabledChanged,
                 ),
                 MenuSwitchView(
-                  id: widget.items.id,
+                  menuVersion: widget.menuCategoryItem.menuVersion,
+                  id: widget.menuCategoryItem.id,
                   brandId: widget.brandID,
                   providerId: widget.providerID,
                   type: MenuType.ITEM,
-                  enabled: widget.items.stock.available,
+                  enabled: widget.menuCategoryItem.enabled,
                   parentEnabled: widget.parentEnabled,
-                  // on: (enabled) {
-                  //   widget.onChanged(enabled);
-                  //   setState(() {
-                  //     widget.items.stock.available = enabled;
-                  //   });
-                  // },
                   willShowBg: false,
-                  onItemChanged: (stock) {
-                    widget.onChanged(stock);
-                    setState(() {
-                      widget.items.stock = stock;
-                    });
-                  },
-                  onMenuChanged: (enabled) {},
+                  onMenuEnableChanged: _onEnabledChanged,
                 ),
               ],
             ),
           ),
-          if (widget.items.stock.snooze.endTime.isNotEmpty)
+          if (widget.menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
             Padding(
               padding: EdgeInsets.only(
                 bottom: AppSize.s8.rh,
@@ -171,7 +168,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                 left: AppSize.s10.rw,
               ),
               child: Text(
-                '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.items.stock.snooze.endTime)})',
+                '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
                 textAlign: TextAlign.right,
                 style: mediumTextStyle(
                   color: AppColors.redDark,
@@ -184,7 +181,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
                 child: Text(
-                  widget.items.description,
+                  widget.menuCategoryItem.description,
                   textAlign: TextAlign.start,
                   style: regularTextStyle(
                       fontSize: AppFontSize.s14.rSp,

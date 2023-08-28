@@ -2,9 +2,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 
-import '../data/models/billing_request.dart';
+import '../data/models/request/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
-import '../domain/entities/billing_response.dart';
+import '../domain/entities/cart_bill.dart';
 import '../domain/entities/selected_item_price.dart';
 import 'modifier_manager.dart';
 import 'order_entity_provider.dart';
@@ -102,8 +102,7 @@ class CartManager {
   }
 
   void changeQuantity(int itemId, int quantity) {
-    final item =
-        _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.quantity = quantity;
     }
@@ -118,8 +117,8 @@ class CartManager {
     if (_carts.isNotEmpty) {
       final price = _carts.first.itemPrice;
       id = price.currencyId;
-      symbol = price.symbol;
-      code = price.code;
+      symbol = price.currencySymbol;
+      code = price.currencyCode;
     }
     return BillingCurrency(id: id, symbol: symbol, code: code);
   }
@@ -147,8 +146,8 @@ class CartManager {
         final price =
             (item.modifiersPrice + item.itemPrice.price) * item.quantity;
         totalPrice += price;
-        symbol = item.itemPrice.symbol;
-        code = item.itemPrice.code;
+        symbol = item.itemPrice.currencySymbol;
+        code = item.itemPrice.currencySymbol;
       }
       final noOfItem = _noOfCartItem();
       _priceNotifier.value =

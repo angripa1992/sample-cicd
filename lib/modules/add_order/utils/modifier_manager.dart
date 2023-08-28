@@ -1,10 +1,8 @@
-import 'package:klikit/modules/add_order/data/models/billing_item_modifier.dart';
-import 'package:klikit/modules/add_order/data/models/billing_item_modifier_group.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_group_request.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_request.dart';
 
-import '../../../app/constants.dart';
-import '../../menu/domain/entities/items.dart';
-import '../domain/entities/item_modifier_group.dart';
-import '../domain/entities/item_price.dart';
+import '../../menu/domain/entities/menu/menu_item.dart';
+import '../domain/entities/modifier/item_modifier_group.dart';
 import 'order_entity_provider.dart';
 
 class ModifierManager {
@@ -14,28 +12,20 @@ class ModifierManager {
 
   ModifierManager._internal();
 
-  void removeDisabledModifier(List<ItemModifierGroup> groups) {
-    groups.removeWhere((element) => !element.statuses
-        .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
-        .enabled);
+  void removeDisabledModifier(List<MenuItemModifierGroup> groups) {
+    groups.removeWhere((element) => !element.enabled);
     for (var firstGroups in groups) {
-      firstGroups.modifiers.removeWhere((element) => !element.statuses
-          .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
-          .enabled);
+      firstGroups.modifiers.removeWhere((element) => !element.enabled);
       for (var firstModifier in firstGroups.modifiers) {
-        firstModifier.groups.removeWhere((element) => !element.statuses
-            .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
-            .enabled);
+        firstModifier.groups.removeWhere((element) => !element.enabled);
         for (var secondGroup in firstModifier.groups) {
-          secondGroup.modifiers.removeWhere((element) => !element.statuses
-              .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
-              .enabled);
+          secondGroup.modifiers.removeWhere((element) => !element.enabled);
         }
       }
     }
   }
 
-  Future<bool> verifyRules(List<ItemModifierGroup> groups) async {
+  Future<bool> verifyRules(List<MenuItemModifierGroup> groups) async {
     for (var groupLevelOne in groups) {
       int levelOneModifierQuantity = 0;
       for (var modifierLevelOne in groupLevelOne.modifiers) {
@@ -63,32 +53,31 @@ class ModifierManager {
     return true;
   }
 
-  bool _checkRole(int quantity, ItemModifierGroup group) {
+  bool _checkRole(int quantity, MenuItemModifierGroup group) {
     final rule = group.rule;
     // debugPrint('${group.title} ->  rule -> value = ${rule.value} -> min = ${rule.min} -> max = ${rule.max} -> quantity = $quantity');
 
-    if (rule.value > 0 && rule.value == quantity) {
+    if (rule.min == rule.max && rule.max == quantity) {
       return true;
-    } else if (rule.value == 0 &&
-        rule.min <= quantity &&
-        rule.max >= quantity) {
+    } else if (rule.min <= quantity && rule.max >= quantity) {
       return true;
     } else {
       return false;
     }
   }
 
-  Future<num> calculateModifiersPrice(List<ItemModifierGroup> groups) async {
+  Future<num> calculateModifiersPrice(
+      List<MenuItemModifierGroup> groups) async {
     num price = 0;
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          price += (_klikitPrice(modifierLevelOne.prices) *
+          price += (modifierLevelOne.klikitPrice().price *
               modifierLevelOne.quantity);
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                price += (_klikitPrice(modifierLevelTwo.prices) *
+                price += (modifierLevelTwo.klikitPrice().price *
                     modifierLevelTwo.quantity);
               }
             }
@@ -99,7 +88,8 @@ class ModifierManager {
     return price;
   }
 
-  Future<String> allCsvModifiersName(List<ItemModifierGroup> groups) async {
+  Future<String> allCsvModifiersName(
+      List<MenuItemModifierGroup> groups) async {
     final modifiers = [];
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
@@ -121,8 +111,8 @@ class ModifierManager {
   }
 
   Future<String> generateCheckingId({
-    required List<ItemModifierGroup> groups,
-    required MenuItems item,
+    required List<MenuItemModifierGroup> groups,
+    required MenuCategoryItem item,
   }) async {
     var uniqueId = '${item.id}';
     for (var groupLevelOne in groups) {
@@ -144,13 +134,7 @@ class ModifierManager {
     return uniqueId;
   }
 
-  num _klikitPrice(List<ItemPrice> prices) {
-    return prices
-        .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
-        .price;
-  }
-
-  Future<void> clearModifier(List<ItemModifierGroup> groups) async {
+  Future<void> clearModifier(List<MenuItemModifierGroup> groups) async {
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         modifierLevelOne.isSelected = false;
@@ -165,16 +149,17 @@ class ModifierManager {
     }
   }
 
-  Future<List<BillingItemModifierGroup>> billingItemModifiers(
-      List<ItemModifierGroup> groups) async {
-    final billingModifiersGroupsL1 = <BillingItemModifierGroup>[];
+  Future<List<BillingItemModifierGroupRequestModel>> billingItemModifiers(
+      List<MenuItemModifierGroup> groups) async {
+    final billingModifiersGroupsL1 = <BillingItemModifierGroupRequestModel>[];
     for (var groupLevelOne in groups) {
-      final billingModifiersL1 = <BillingItemModifier>[];
+      final billingModifiersL1 = <BillingItemModifierRequestModel>[];
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          final billingModifiersGroupsL2 = <BillingItemModifierGroup>[];
+          final billingModifiersGroupsL2 =
+              <BillingItemModifierGroupRequestModel>[];
           for (var groupLevelTwo in modifierLevelOne.groups) {
-            final billingModifiersL2 = <BillingItemModifier>[];
+            final billingModifiersL2 = <BillingItemModifierRequestModel>[];
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
                 billingModifiersL2.add(OrderEntityProvider()

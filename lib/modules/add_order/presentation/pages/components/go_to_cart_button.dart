@@ -55,8 +55,8 @@ class GoToCartButton extends StatelessWidget {
                           Text(
                             PriceCalculator.formatPrice(
                               price: value.totalPrice,
-                              currencySymbol: value.currencySymbol,
                               code: value.code,
+                              symbol: value.currencySymbol,
                             ),
                             style: TextStyle(
                               color: AppColors.white,

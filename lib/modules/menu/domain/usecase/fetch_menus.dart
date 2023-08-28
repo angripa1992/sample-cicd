@@ -3,26 +3,29 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/utils/usecase.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
 
-import '../entities/menues.dart';
+import '../entities/menu/menu_data.dart';
 
-class FetchMenus extends UseCase<MenusData, FetchMenuParams> {
+class FetchMenus extends UseCase<MenuData, FetchMenuParams> {
   final MenuRepository _repository;
 
   FetchMenus(this._repository);
 
   @override
-  Future<Either<Failure, MenusData>> call(FetchMenuParams params) {
-    return _repository.fetchMenus(params);
+  Future<Either<Failure, MenuData>> call(FetchMenuParams params) {
+    return _repository.fetchMenuV1(params);
   }
 }
 
 class FetchMenuParams {
+  final int businessId;
   final int branchId;
   final int brandId;
-  final String providerID;
+  final int? providerID;
 
-  FetchMenuParams(
-      {required this.branchId,
-      required this.brandId,
-      this.providerID = 'undefine'});
+  FetchMenuParams( {
+    required this.businessId,
+    required this.branchId,
+    required this.brandId,
+    required this.providerID,
+  });
 }

@@ -16,7 +16,7 @@ class BusyModeCubit extends Cubit<BusyModeState> {
 
   void checkCurrentStatus() async {
     final params = {
-      "branch_id": SessionManager().currentUserBranchId(),
+      "branch_id": SessionManager().branchId(),
     };
     final response = await _checkBusyMode(params);
     response.fold(

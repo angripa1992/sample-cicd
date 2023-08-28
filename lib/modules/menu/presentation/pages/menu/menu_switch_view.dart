@@ -4,16 +4,14 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/action_dialogs.dart';
 
-import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/stock.dart';
 
 class MenuSwitchView extends StatefulWidget {
+  final int menuVersion;
   final bool enabled;
   final bool parentEnabled;
-  final Function(Stock) onItemChanged;
-  final Function(bool) onMenuChanged;
+  final Function(bool) onMenuEnableChanged;
   final int brandId;
   final int id;
   final int type;
@@ -22,9 +20,9 @@ class MenuSwitchView extends StatefulWidget {
 
   const MenuSwitchView({
     Key? key,
+    required this.menuVersion,
     required this.enabled,
-    required this.onItemChanged,
-    required this.onMenuChanged,
+    required this.onMenuEnableChanged,
     required this.parentEnabled,
     required this.brandId,
     required this.id,
@@ -60,20 +58,20 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void _handleItem(bool value) {
-    showMenuItemActionDialog(
-      context: context,
-      brandId: widget.brandId,
-      itemId: widget.id,
-      enabled: value,
-      onSuccess: (stock) {
-        setState(() {
-          _enabled = value;
-          widget.onItemChanged(stock);
-        });
-      },
-    );
-  }
+  // void _handleItem(bool value) {
+  //   showMenuItemActionDialog(
+  //     context: context,
+  //     brandId: widget.brandId,
+  //     itemId: widget.id,
+  //     enabled: value,
+  //     onSuccess: (stock) {
+  //       setState(() {
+  //         _enabled = value;
+  //         widget.onItemChanged(stock);
+  //       });
+  //     },
+  //   );
+  // }
 
   void _handleMenu(bool value) {
     showMenuActionDialog(
@@ -85,7 +83,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
       onSuccess: () {
         setState(() {
           _enabled = value;
-          widget.onMenuChanged(_enabled);
+          widget.onMenuEnableChanged(_enabled);
         });
       },
     );
@@ -96,12 +94,6 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
     return widget.providerId == ZERO
         ? Container(
             decoration: const BoxDecoration(),
-            // decoration: !widget.willShowBg ? const BoxDecoration() :  BoxDecoration(
-            //   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            //   color: (_enabled && widget.parentEnabled)
-            //       ? AppColors.peppermint
-            //       : AppColors.whiteSmoke,
-            // ),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               child: Transform.scale(
@@ -111,15 +103,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
                   value: _enabled,
                   activeColor: AppColors.primary,
                   trackColor: AppColors.black,
-                  onChanged: !widget.parentEnabled
-                      ? null
-                      : (value) {
-                          if (widget.type == MenuType.ITEM) {
-                            _handleItem(value);
-                          } else {
-                            _handleMenu(value);
-                          }
-                        },
+                  onChanged: !widget.parentEnabled ? null : _handleMenu,
                 ),
               ),
             ),

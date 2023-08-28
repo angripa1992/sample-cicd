@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:klikit/modules/menu/domain/entities/avilable_times.dart';
+
+import '../../menu/domain/entities/menu/menu_available_times.dart';
 
 class AvailableTimeProvider {
   static final _instance = AvailableTimeProvider._internal();
@@ -16,7 +17,7 @@ class AvailableTimeProvider {
     return '$hoursStr:$minStr';
   }
 
-  DayInfo todayInfo(AvailableTimes availableTimes) {
+  MenuDay todayInfo(MenuAvailableTimes availableTimes) {
     final today = DateTime.now().weekday;
     switch (today) {
       case DateTime.monday:
@@ -36,7 +37,7 @@ class AvailableTimeProvider {
     }
   }
 
-  Slots? haveAvailableTime(DayInfo dayInfo) {
+  MenuSlots? haveAvailableTime(MenuDay dayInfo) {
     for (var slot in dayInfo.slots) {
       final currentMilitaryTime = int.tryParse(
         DateFormat('HH:mm').format(DateTime.now()).replaceAll(":", ""),
@@ -50,7 +51,7 @@ class AvailableTimeProvider {
     return null;
   }
 
-  String availableTime(AvailableTimes availableTimes) {
+  String availableTime(MenuAvailableTimes availableTimes) {
     final slot = haveAvailableTime(todayInfo(availableTimes));
     String availableTime = 'Unavailable';
     if (slot != null) {

@@ -10,10 +10,10 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../menu/domain/entities/items.dart';
-import '../../../../../menu/domain/entities/price.dart';
+import '../../../../../menu/domain/entities/menu/menu_item.dart';
+import '../../../../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
-import '../../../../domain/entities/item_modifier_group.dart';
+import '../../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
 import 'add_to_cart_button_view.dart';
 import 'item_description_view.dart';
@@ -44,10 +44,10 @@ class _EditModifierViewState extends State<EditModifierView> {
   final _textEditingController = TextEditingController();
   final _enabled = ValueNotifier<bool>(true);
   final _price = ValueNotifier<num>(0);
-  late List<ItemModifierGroup> _groups;
-  late MenuItems _item;
+  late List<MenuItemModifierGroup> _groups;
+  late MenuCategoryItem _item;
   late MenuBrand? _brand;
-  late Prices _itemPrice;
+  late MenuItemPrice _itemPrice;
   late num _modifierPrice;
   late int _quantity;
 
@@ -165,8 +165,7 @@ class _EditModifierViewState extends State<EditModifierView> {
                               title: group.title,
                               rule: group.rule,
                             ),
-                            (group.rule.typeTitle == RuleType.exact &&
-                                    group.rule.value == 1)
+                            ((group.rule.min == group.rule.max) && group.rule.max == 1)
                                 ? LevelOneSelectOneView(
                                     modifiers: group.modifiers,
                                     onChanged: _onChanged,
@@ -189,8 +188,8 @@ class _EditModifierViewState extends State<EditModifierView> {
             enabled: _enabled,
             price: _price,
             quantity: _quantity,
-            currencySymbol: _itemPrice.symbol,
-            currencyCode: _itemPrice.code,
+            currencyCode: _itemPrice.currencyCode,
+            currencySymbol: _itemPrice.currencySymbol,
             onQuantityChanged: _onQuantityChanged,
             onAddToCart: () => widget.onClose(_createCartItem()),
           ),

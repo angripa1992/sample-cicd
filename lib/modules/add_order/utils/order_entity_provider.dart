@@ -1,25 +1,25 @@
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/data/models/billing_item.dart';
-import 'package:klikit/modules/add_order/data/models/billing_item_modifier_group.dart';
-import 'package:klikit/modules/add_order/data/models/item_brand.dart';
-import 'package:klikit/modules/add_order/data/models/item_price.dart';
-import 'package:klikit/modules/add_order/data/models/item_status.dart';
-import 'package:klikit/modules/add_order/data/models/item_stock.dart';
-import 'package:klikit/modules/add_order/data/models/title_v2.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/item_price_model.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/item_status_model.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/item_stock_model.dart';
+import 'package:klikit/modules/add_order/data/models/modifier/title_v2_model.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_group_request.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_item_request.dart';
+import 'package:klikit/modules/add_order/data/models/request/item_brand_request.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
-import 'package:klikit/modules/menu/domain/entities/price.dart';
 
 import '../../../app/constants.dart';
 import '../../../app/session_manager.dart';
-import '../../menu/domain/entities/status.dart';
-import '../../menu/domain/entities/stock.dart';
-import '../data/models/billing_item_modifier.dart';
-import '../data/models/billing_request.dart';
-import '../data/models/place_order_data.dart';
-import '../domain/entities/billing_response.dart';
-import '../domain/entities/item_modifier.dart';
-import '../domain/entities/item_modifier_group.dart';
+import '../../menu/domain/entities/menu/menu_item_price.dart';
+import '../../menu/domain/entities/menu/menu_out_of_stock.dart';
+import '../../menu/domain/entities/menu/menu_visibility.dart';
+import '../data/models/request/billing_item_modifier_request.dart';
+import '../data/models/request/billing_request.dart';
+import '../data/models/request/place_order_data_request.dart';
+import '../domain/entities/cart_bill.dart';
+import '../domain/entities/modifier/item_modifier.dart';
+import '../domain/entities/modifier/item_modifier_group.dart';
 import 'cart_manager.dart';
 import 'modifier_manager.dart';
 
@@ -41,14 +41,19 @@ class OrderEntityProvider {
     final cartItem = cartItems.first;
     final orderPromoInfo = CartManager().getPromoInfo();
     return BillingRequestModel(
+      businessId: cartItem.item.branchInfo.businessID,
       orderType: orderType,
       brandId: cartItem.brand.id,
-      branchId: SessionManager().currentUserBranchId(),
+      branchId: SessionManager().branchId(),
       deliveryFee: deliveryFee,
       discountType: discountType,
       discountValue: discountValue,
       additionalFee: additionalFee,
-      currency: _billingCurrency(cartItem.itemPrice),
+      currency: BillingCurrency(
+        id: cartItem.itemPrice.currencyId,
+        code: cartItem.itemPrice.currencyCode,
+        symbol: cartItem.itemPrice.currencySymbol,
+      ),
       appliedPromoModel: orderPromoInfo?.promo,
       numberOfSeniorCitizen: orderPromoInfo?.citizen,
       numberOfCustomer: orderPromoInfo?.customer,
@@ -56,10 +61,10 @@ class OrderEntityProvider {
     );
   }
 
-  Future<List<BillingItem>> _cartsToBillingItemsForCalculateBill({
+  Future<List<BillingItemRequestModel>> _cartsToBillingItemsForCalculateBill({
     required List<AddToCartItem> cartsItems,
   }) async {
-    final items = <BillingItem>[];
+    final items = <BillingItemRequestModel>[];
     for (var item in cartsItems) {
       final groups =
           await ModifierManager().billingItemModifiers(item.modifiers);
@@ -75,11 +80,11 @@ class OrderEntityProvider {
     return items;
   }
 
-  Future<List<BillingItem>> _cartsToBillingItemsForPlaceOrder({
+  Future<List<BillingItemRequestModel>> _cartsToBillingItemsForPlaceOrder({
     required List<AddToCartItem> cartsItems,
     required List<ItemBill> itemBills,
   }) async {
-    final items = <BillingItem>[];
+    final items = <BillingItemRequestModel>[];
     for (var item in cartsItems) {
       final groups =
           await ModifierManager().billingItemModifiers(item.modifiers);
@@ -97,30 +102,32 @@ class OrderEntityProvider {
     return items;
   }
 
-  BillingItem _cartItemToBillingItem({
+  BillingItemRequestModel _cartItemToBillingItem({
     required AddToCartItem cartItem,
-    required List<BillingItemModifierGroup> groups,
+    required List<BillingItemModifierGroupRequestModel> groups,
     required num? promoDiscount,
     required PromoInfo? promoInfo,
   }) {
     final item = cartItem.item;
-    return BillingItem(
+    return BillingItemRequestModel(
       id: item.id,
       itemId: item.id,
       defaultItemId: item.defaultItemId,
       title: item.title,
-      titleV2: TitleV2Model(en: item.titleV2.en),
+      titleV2: MenuItemTitleV2Model(en: item.title),
       description: item.description,
-      descriptionV2: TitleV2Model(en: item.descriptionV2.en),
+      descriptionV2: MenuItemTitleV2Model(en: item.description),
       image: item.image,
       quantity: cartItem.quantity,
       sequence: item.sequence,
-      hidden: item.hidden,
+      hidden: !item.visible(ProviderID.KLIKIT),
       enabled: item.enabled,
       vat: item.vat,
       brand: _toBrandModel(cartItem.brand),
-      stock: _stockModel(item.stock),
-      statuses: item.statuses.map((e) => _statusModel(e)).toList(),
+      stock: _stockModel(item.outOfStock),
+      statuses: item.visibilities
+          .map((visibility) => _statusModel(item.enabled, visibility))
+          .toList(),
       prices: item.prices.map((e) => _priceModel(e)).toList(),
       groups: groups,
       unitPrice: cartItem.itemPrice.price,
@@ -133,32 +140,35 @@ class OrderEntityProvider {
     );
   }
 
-  BillingItemModifierGroup cartToBillingModifierGroup(
-    ItemModifierGroup group,
-    List<BillingItemModifier> modifiers,
+  BillingItemModifierGroupRequestModel cartToBillingModifierGroup(
+    MenuItemModifierGroup group,
+    List<BillingItemModifierRequestModel> modifiers,
   ) =>
-      BillingItemModifierGroup(
+      BillingItemModifierGroupRequestModel(
         groupId: group.groupId,
         title: group.title,
+        titleV2: MenuItemTitleV2Model(en: group.title),
         label: group.label,
         brandId: group.brandId,
         sequence: group.sequence,
-        statuses: group.statuses.map((e) => e.toModel()).toList(),
+        statuses: group.visibilities.map((e) => e.toModel(group.enabled)).toList(),
         rule: group.rule.toModel(),
         modifiers: modifiers,
       );
 
-  BillingItemModifier cartToBillingModifier(
-    ItemModifier modifier,
-    List<BillingItemModifierGroup> groups,
+  BillingItemModifierRequestModel cartToBillingModifier(
+    MenuItemModifier modifier,
+    List<BillingItemModifierGroupRequestModel> groups,
   ) =>
-      BillingItemModifier(
+      BillingItemModifierRequestModel(
         id: modifier.id,
         modifierId: modifier.modifierId,
         immgId: modifier.immgId,
         title: modifier.title,
-        titleV2: TitleV2Model(en: modifier.title),
-        statuses: modifier.statuses.map((e) => e.toModel()).toList(),
+        titleV2: MenuItemTitleV2Model(en: modifier.title),
+        statuses: modifier.visibilities
+            .map((e) => e.toModel(modifier.enabled))
+            .toList(),
         prices: modifier.prices.map((e) => e.toModel()).toList(),
         groups: groups,
         isSelected: modifier.isSelected,
@@ -168,43 +178,43 @@ class OrderEntityProvider {
             .price,
       );
 
-  ItemStockModel _stockModel(Stock stock) => ItemStockModel(
+  MenuItemOutOfStockModel _stockModel(MenuOutOfStock stock) =>
+      MenuItemOutOfStockModel(
         available: stock.available,
-        snooze: _snoozeModel(stock.snooze),
+        snooze: _snoozeModel(stock.menuSnooze),
       );
 
-  ItemSnoozeModel _snoozeModel(Snooze snooze) => ItemSnoozeModel(
+  MenuItemSnoozeModel _snoozeModel(MenuSnooze snooze) =>
+      MenuItemSnoozeModel(
         endTime: snooze.endTime,
         duration: snooze.duration,
       );
 
-  ItemStatusModel _statusModel(Statuses status) => ItemStatusModel(
-        providerId: status.providerId,
-        enabled: status.enabled,
-        hidden: status.hidden,
+  MenuItemStatusModel _statusModel(
+    bool enabled,
+    MenuVisibility visibility,
+  ) =>
+      MenuItemStatusModel(
+        providerId: visibility.providerID,
+        enabled: enabled,
+        hidden: visibility.visible,
       );
 
-  ItemPriceModel _priceModel(Prices prices) => ItemPriceModel(
-        providerId: prices.providerId,
-        currencyId: prices.currencyId,
-        symbol: prices.symbol,
-        code: prices.code,
-        price: prices.price,
+  MenuItemPriceModel _priceModel(MenuItemPrice price) =>
+      MenuItemPriceModel(
+        providerId: price.providerId,
+        currencyId: price.currencyId,
+        code: price.currencyCode,
+        price: price.price,
       );
 
-  ItemBrandModel _toBrandModel(MenuBrand brand) => ItemBrandModel(
+  ItemBrandRequestModel _toBrandModel(MenuBrand brand) => ItemBrandRequestModel(
         id: brand.id,
         logo: brand.logo,
         title: brand.title,
       );
 
-  BillingCurrency _billingCurrency(Prices price) => BillingCurrency(
-        id: price.currencyId,
-        symbol: price.symbol,
-        code: price.code,
-      );
-
-  Future<PlaceOrderDataModel> placeOrderRequestData({
+  Future<PlaceOrderDataRequestModel> placeOrderRequestData({
     required CheckoutData checkoutData,
     required int paymentStatus,
     required int? paymentMethod,
@@ -230,11 +240,13 @@ class OrderEntityProvider {
       user.phone = info.phone.notEmptyOrNull();
     }
     final updateInfo = CartManager().getUpdateCartInfo();
-    return PlaceOrderDataModel(
+    return PlaceOrderDataRequestModel(
       id: updateInfo?.id,
       externalId: updateInfo?.externalId,
       identity: updateInfo?.identity,
-      branchId: SessionManager().currentUserBranchId(),
+      branchId: SessionManager().branchId(),
+      businessId: SessionManager().businessID(),
+      menuVersion: SessionManager().isMenuV2() ? 2 : 1,
       currency: currency.code,
       currencySymbol: currency.symbol,
       currencyId: currency.id,

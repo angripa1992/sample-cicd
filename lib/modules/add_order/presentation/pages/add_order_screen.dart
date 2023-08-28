@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
+import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../app/di.dart';
@@ -21,7 +21,7 @@ class AddOrderScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<MenuBrandsCubit>(create: (_) => getIt.get()),
-        BlocProvider<FetchSubSectionCubit>(create: (_) => getIt.get()),
+        BlocProvider<FetchAddOrderMenuItemsCubit>(create: (_) => getIt.get()),
       ],
       child: Scaffold(
         appBar: AppBar(

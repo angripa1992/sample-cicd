@@ -34,6 +34,8 @@ User mapUserModelToUser(UserModel userModel) {
       permissions: userModel.user?.permissions ?? [],
       countryCodes: userModel.user?.country_codes ?? [],
       countryIds: userModel.user?.country_ids ?? [],
+      menuV2Enabled: userModel.user?.menuv2_enabled ?? false,
+      menuVersion: userModel.user?.menu_version ?? 1,
     ),
   );
 }

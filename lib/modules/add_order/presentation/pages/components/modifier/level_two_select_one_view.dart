@@ -3,11 +3,11 @@ import 'package:klikit/app/size_config.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../domain/entities/item_modifier.dart';
+import '../../../../domain/entities/modifier/item_modifier.dart';
 import 'item_name_price_title.dart';
 
 class LevelTwoSelectOneView extends StatefulWidget {
-  final List<ItemModifier> modifiers;
+  final List<MenuItemModifier> modifiers;
   final VoidCallback onChanged;
 
   const LevelTwoSelectOneView(

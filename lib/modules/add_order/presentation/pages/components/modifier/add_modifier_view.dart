@@ -3,15 +3,14 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/menu/domain/entities/brand.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_item_price.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../menu/domain/entities/items.dart';
-import '../../../../../menu/domain/entities/price.dart';
+import '../../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
-import '../../../../domain/entities/item_modifier_group.dart';
+import '../../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
-import '../../../../utils/order_price_provider.dart';
 import 'add_to_cart_button_view.dart';
 import 'item_description_view.dart';
 import 'level_one_select_multiple_view.dart';
@@ -20,8 +19,8 @@ import 'modifier_group_info.dart';
 import 'modifier_header_view.dart';
 
 class AddModifierView extends StatefulWidget {
-  final List<ItemModifierGroup> groups;
-  final MenuItems item;
+  final List<MenuItemModifierGroup> groups;
+  final MenuCategoryItem item;
   final MenuBrand brand;
   final Function(AddToCartItem?) onClose;
   final VoidCallback onCartTap;
@@ -43,13 +42,13 @@ class _AddModifierViewState extends State<AddModifierView> {
   final _textController = TextEditingController();
   final _enabledNotifier = ValueNotifier<bool>(false);
   final _priceNotifier = ValueNotifier<num>(0);
-  late Prices _itemPrice;
+  late MenuItemPrice _itemPrice;
   num _modifierPrice = 0;
   int _quantity = 1;
 
   @override
   void initState() {
-    _itemPrice = OrderPriceProvider.klikitPrice(widget.item.prices);
+    _itemPrice = widget.item.klikitPrice();
     _priceNotifier.value = _itemPrice.price;
     ModifierManager()
         .verifyRules(widget.groups)
@@ -133,8 +132,7 @@ class _AddModifierViewState extends State<AddModifierView> {
                               title: group.title,
                               rule: group.rule,
                             ),
-                            (group.rule.typeTitle == RuleType.exact &&
-                                    group.rule.value == 1)
+                            ((group.rule.min == group.rule.max) && group.rule.max == 1)
                                 ? LevelOneSelectOneView(
                                     modifiers: group.modifiers,
                                     onChanged: _onChanged,
@@ -157,8 +155,8 @@ class _AddModifierViewState extends State<AddModifierView> {
             enabled: _enabledNotifier,
             price: _priceNotifier,
             quantity: _quantity,
-            currencySymbol: _itemPrice.symbol,
-            currencyCode: _itemPrice.code,
+            currencyCode: _itemPrice.currencyCode,
+            currencySymbol: _itemPrice.currencySymbol,
             onQuantityChanged: _onQuantityChanged,
             onAddToCart: () => widget.onClose(_createCartItem()),
           ),

@@ -18,6 +18,8 @@ class Urls {
   static const String updatePaymentInfo = '/v1/oni/manualorder/payment';
   static const String tokenRegistration = '/v1/notify-token';
   static const String calculateBill = '/v1/menu/manual-order/calculate-bill';
+  static const String calculateBillV2 = '/v1/menu-v2/manual-order/calculate-bill';
+  static const String calculateGrabOrderBill = '/v1/oni/grabfoodorder/calculate-bill';
   static const String calculateGrabOrderBill =
       '/v1/oni/grabfoodorder/calculate-bill';
   static const String updateGrabOrder = '/v1/oni/grabfoodorder';
@@ -30,7 +32,8 @@ class Urls {
 
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
 
-  static String menus(int branchId) => '/v2/menu/branch/$branchId/menus';
+  static String menuV1(int branchId) => '/v2/menu/branch/$branchId/menus';
+  static String menuV2 = '/v1/menu-v2/nma/store/menus';
   static const String menuBrands = '/v1/brand';
 
   static String menuBrand(int brandId) => '/v1/brand/$brandId';
@@ -38,16 +41,19 @@ class Urls {
   static const String paymentMethod = '/v1/oni/payment-channels';
   static const String paymentStatus = '/v1/oni/payment-statuses';
 
-  static String updateItem(int id) => '/v2/menu/item/$id/stock/status';
+  static String updateV1ItemSnooze(int id) => '/v2/menu/item/$id/stock/status';
+  static String updateV2temSnooze(int id) => '/v1/menu-v2/items/$id/snooze';
 
-  static String updateMenu(int id, int type) =>
-      '/v1/menu/${type == MenuType.SECTION ? 'section' : 'sub_section'}/$id/enabled';
-  static const String modifiersGroup = '/v1/menu/groups/modifiers';
+  static String updateMenu(int id, int type) => '/v1/menu/${type == MenuType.SECTION ? 'section' : 'sub_section'}/$id/enabled';
+  static String updateV2Menu(String type) => '/v1/menu-v2/$type/enable';
+  static const String v1ModifiersGroup = '/v1/menu/groups/modifiers';
+  static const String v2ModifiersGroup = '/v1/menu-v2/nma/store/modifier-groups';
   static const String itmModifiers = '/v1/menu/item-modifiers';
+  static const String itmModifiersV2 = '/v1/menu-v2/nma/store/items/modifier-groups';
 
-  static String modifiersDisabled(int id, int type) =>
-      '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/verify/disabled';
+  static String checkAffect(int id, int type) => '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/verify/disabled';
+  static String checkAffectV2 = '/v1/menu-v2/nma/store/groups/verify/disabled';
 
-  static String modifiersEnabled(int id, int type) =>
-      '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/enabled';
+  static String updateModifierEnabled(int id, int type) => '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/enabled';
+  static String updateModifierEnabledV2(int type) => '/v1/menu-v2/modifier-groups${type == ModifierType.MODIFIER ? '/modifiers' : ''}/enable';
 }

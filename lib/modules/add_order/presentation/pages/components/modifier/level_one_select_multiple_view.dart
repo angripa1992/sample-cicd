@@ -2,12 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
-import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../domain/entities/item_modifier.dart';
-import '../../../../domain/entities/item_modifier_group.dart';
+import '../../../../domain/entities/modifier/item_modifier.dart';
+import '../../../../domain/entities/modifier/item_modifier_group.dart';
 import 'item_counter.dart';
 import 'item_name_price_title.dart';
 import 'level_two_select_multiple_view.dart';
@@ -15,7 +14,7 @@ import 'level_two_select_one_view.dart';
 import 'modifier_group_info.dart';
 
 class LevelOneSelectMultipleView extends StatefulWidget {
-  final List<ItemModifier> modifiers;
+  final List<MenuItemModifier> modifiers;
   final VoidCallback onChanged;
 
   const LevelOneSelectMultipleView(
@@ -31,7 +30,7 @@ class _LevelOneSelectMultipleViewState
     extends State<LevelOneSelectMultipleView> {
   final Map<int, bool> _values = {};
   final Map<int, int> _counter = {};
-  final List<ItemModifier> _currentModifierList = [];
+  final List<MenuItemModifier> _currentModifierList = [];
 
   @override
   void initState() {
@@ -45,7 +44,7 @@ class _LevelOneSelectMultipleViewState
     super.initState();
   }
 
-  void _onChanged(ItemModifier modifier, bool? value) {
+  void _onChanged(MenuItemModifier modifier, bool? value) {
     if (value != null) {
       setState(() {
         _values[modifier.id] = value;
@@ -64,7 +63,7 @@ class _LevelOneSelectMultipleViewState
     widget.onChanged();
   }
 
-  void _changeLevelTwoModifier(List<ItemModifierGroup> groups) {
+  void _changeLevelTwoModifier(List<MenuItemModifierGroup> groups) {
     for (var group in groups) {
       for (var modifier in group.modifiers) {
         modifier.isSelected = false;
@@ -141,8 +140,7 @@ class _LevelOneSelectMultipleViewState
                             '${group.title} ${AppStrings.for_.tr()} ${modifier.title}',
                         rule: group.rule,
                       ),
-                      (group.rule.typeTitle == RuleType.exact &&
-                              group.rule.value == 1)
+                      ((group.rule.min == group.rule.max) && group.rule.max == 1)
                           ? LevelTwoSelectOneView(
                               modifiers: group.modifiers,
                               onChanged: widget.onChanged,

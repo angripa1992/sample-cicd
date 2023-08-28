@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/modifiers_group.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
-import '../../../domain/entities/modifiers.dart';
+import '../../../domain/entities/modifier/grouped_modifier_item.dart';
+import '../../../domain/entities/modifier/modifier_group.dart';
 import 'modifer_switch_view.dart';
 
 class ModifierListView extends StatefulWidget {
   final int brandId;
   final int providerId;
-  final ModifiersGroup modifiersGroup;
-  final Function(List<Modifiers>) onChanged;
+  final ModifierGroup modifierGroup;
+  final Function(List<GroupedModifierItem>) onChanged;
 
   const ModifierListView(
       {Key? key,
-      required this.modifiersGroup,
+      required this.modifierGroup,
       required this.brandId,
       required this.onChanged,
       required this.providerId})
@@ -36,7 +36,7 @@ class _ModifierListViewState extends State<ModifierListView> {
         padding: EdgeInsets.only(top: AppSize.s8.rh),
         child: ListView.builder(
           key: UniqueKey(),
-          itemCount: widget.modifiersGroup.modifiers.length,
+          itemCount: widget.modifierGroup.modifiers.length,
           shrinkWrap: true,
           itemBuilder: (context, index) {
             return Card(
@@ -50,7 +50,7 @@ class _ModifierListViewState extends State<ModifierListView> {
                         padding:
                             EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                         child: Text(
-                          widget.modifiersGroup.modifiers[index].title,
+                          widget.modifierGroup.modifiers[index].title,
                           style: regularTextStyle(
                             color: AppColors.black,
                             fontSize: AppFontSize.s14.rSp,
@@ -59,22 +59,17 @@ class _ModifierListViewState extends State<ModifierListView> {
                       ),
                     ),
                     ModifierSwitchView(
+                      menuVersion: widget.modifierGroup.menuVersion,
                       providerId: widget.providerId,
                       brandId: widget.brandId,
-                      groupId: widget.modifiersGroup.groupId,
-                      modifierId:
-                          widget.modifiersGroup.modifiers[index].modifierId,
-                      enabled: widget
-                              .modifiersGroup.modifiers[index].statuses.isEmpty
-                          ? false
-                          : widget.modifiersGroup.modifiers[index].statuses[0]
-                              .enabled,
+                      groupId: widget.modifierGroup.id,
+                      modifierId: widget.modifierGroup.modifiers[index].id,
+                      enabled: widget.modifierGroup.modifiers[index].isEnabled,
                       type: ModifierType.MODIFIER,
                       onSuccess: (enabled) {
                         setState(() {
-                          widget.modifiersGroup.modifiers[index].statuses[0]
-                              .enabled = enabled;
-                          widget.onChanged(widget.modifiersGroup.modifiers);
+                          widget.modifierGroup.modifiers[index].isEnabled = enabled;
+                          widget.onChanged(widget.modifierGroup.modifiers);
                         });
                       },
                     ),

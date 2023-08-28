@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
@@ -26,15 +24,10 @@ import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
-import 'package:klikit/resources/assets.dart';
-import 'package:klikit/resources/fonts.dart';
-import 'package:klikit/resources/styles.dart';
-import 'package:klikit/resources/values.dart';
 
 import '../../app/constants.dart';
 import '../../core/utils/response_state.dart';
 import '../../language/language_manager.dart';
-import '../../resources/colors.dart';
 import '../../resources/strings.dart';
 import '../add_order/presentation/pages/add_order_screen.dart';
 import '../home/presentation/cubit/fetch_zreport_cubit.dart';
@@ -43,6 +36,7 @@ import '../menu/presentation/pages/stock_screen.dart';
 import '../orders/presentation/bloc/all_order_cubit.dart';
 import '../orders/presentation/bloc/schedule_order_cubit.dart';
 import '../user/presentation/account/account_screen.dart';
+import 'fab_bottom_appbar.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
@@ -58,6 +52,7 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   void initState() {
+    PermissionHandler().requestNotificationPermissions();
     context.read<PrinterSettingCubit>().getPrinterSetting();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
@@ -74,7 +69,6 @@ class _BaseScreenState extends State<BaseScreen> {
         }
       },
     );
-    PermissionHandler().requestNotificationPermissions();
     super.initState();
   }
 
@@ -108,16 +102,12 @@ class _BaseScreenState extends State<BaseScreen> {
       );
     } else if (navigationData.index == BottomNavItem.MENU) {
       return const StockScreen();
-    }
-    // else if (navigationData.index == BottomNavItem.ADD_ORDER) {
-    //   return const AddOrderScreen();
-    // }
-    else {
+    } else {
       return const AccountScreen();
     }
   }
 
-  void _goToAddOrderScreen(NavigationData data) {
+  void _goToAddOrderScreen() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const AddOrderScreen(
@@ -126,6 +116,16 @@ class _BaseScreenState extends State<BaseScreen> {
         ),
       ),
     );
+  }
+
+  void _selectedTab(int index) {
+    context.read<BaseScreenCubit>().changeIndex(
+          NavigationData(
+            index: index,
+            subTabIndex: null,
+            data: null,
+          ),
+        );
   }
 
   @override
@@ -154,116 +154,79 @@ class _BaseScreenState extends State<BaseScreen> {
         BlocProvider<FetchZReportCubit>(
             create: (_) => getIt.get<FetchZReportCubit>()),
       ],
-      child: WillPopScope(
-        onWillPop: () {
-          if (context.read<BaseScreenCubit>().state.index ==
-              BottomNavItem.HOME) {
-            return Future.value(true);
-          } else {
-            context.read<BaseScreenCubit>().changeIndex(
-                NavigationData(index: BottomNavItem.HOME, data: null));
-            return Future.value(false);
-          }
-        },
-        child: MultiBlocListener(
-          listeners: [
-            BlocListener<PrinterSettingCubit, ResponseState>(
-              listener: (context, state) {
-                if (state is Success<PrinterSetting>) {
-                  _handlePrinterSetting(state.data);
-                }
-              },
-            ),
-            BlocListener<ChangeLanguageCubit, ChangeLanguageState>(
-              listener: (_, state) {
-                if (state is OnChangeState) {
-                  _languageManager.changeLocale(
-                    context: context,
-                    locale: state.locale,
-                    languageId: state.id,
-                  );
-                }
-              },
-            ),
-          ],
-          child: BlocBuilder<BaseScreenCubit, NavigationData>(
-            builder: (context, data) {
-              return Scaffold(
-                body: Center(child: _getWidget(data)),
-                bottomNavigationBar: BottomNavigationBar(
-                  items: _navigationItems(),
-                  currentIndex: context.read<BaseScreenCubit>().state.index,
-                  onTap: (index) {
-                    if (index == BottomNavItem.ADD_ORDER) {
-                      _goToAddOrderScreen(data);
-                    } else {
-                      context.read<BaseScreenCubit>().changeIndex(
-                            NavigationData(
-                              index: index,
-                              subTabIndex: null,
-                              data: null,
-                            ),
-                          );
-                    }
-                  },
-                  backgroundColor: AppColors.grey,
-                  type: BottomNavigationBarType.fixed,
-                  selectedItemColor: AppColors.primary,
-                  unselectedItemColor: AppColors.greyDarker,
-                  selectedLabelStyle: regularTextStyle(
-                    color: AppColors.primary,
-                    fontSize: AppFontSize.s14.rSp,
-                  ),
-                  unselectedLabelStyle: regularTextStyle(
-                    color: AppColors.greyDarker,
-                    fontSize: AppFontSize.s14.rSp,
-                  ),
-                ),
-              );
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<PrinterSettingCubit, ResponseState>(
+            listener: (context, state) {
+              if (state is Success<PrinterSetting>) {
+                _handlePrinterSetting(state.data);
+              }
             },
           ),
+          BlocListener<ChangeLanguageCubit, ChangeLanguageState>(
+            listener: (_, state) {
+              if (state is OnChangeState) {
+                _languageManager.changeLocale(
+                  context: context,
+                  locale: state.locale,
+                  languageId: state.id,
+                );
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<BaseScreenCubit, NavigationData>(
+          builder: (context, data) {
+            return Scaffold(
+              body: BlocBuilder<BaseScreenCubit, NavigationData>(
+                builder: (context, navData) {
+                  return Center(child: _getWidget(navData));
+                },
+              ),
+              bottomNavigationBar: FABBottomAppBar(
+                initialIndex: BottomNavItem.HOME,
+                centerItemText: 'Add Order',
+                color: Colors.grey,
+                selectedColor: Colors.deepPurpleAccent,
+                notchedShape: const CircularNotchedRectangle(),
+                onTabSelected: _selectedTab,
+                items: [
+                  FABBottomAppBarItem(
+                    iconData: Icons.home_outlined,
+                    text: AppStrings.home.tr(),
+                    index: BottomNavItem.HOME,
+                  ),
+                  FABBottomAppBarItem(
+                    iconData: Icons.list_alt,
+                    text: AppStrings.orders.tr(),
+                    index: BottomNavItem.ORDER,
+                  ),
+                  FABBottomAppBarItem(
+                    iconData: Icons.dashboard,
+                    text: AppStrings.menu.tr(),
+                    index: BottomNavItem.MENU,
+                  ),
+                  FABBottomAppBarItem(
+                    iconData: Icons.account_circle_outlined,
+                    text: AppStrings.account.tr(),
+                    index: BottomNavItem.ACCOUNT,
+                  ),
+                ],
+                backgroundColor: Colors.white,
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerDocked,
+              floatingActionButton: FloatingActionButton(
+                onPressed: _goToAddOrderScreen,
+                tooltip: 'Add Order',
+                elevation: 2.0,
+                foregroundColor: Colors.grey,
+                backgroundColor: Colors.white,
+                child: const Icon(Icons.add),
+              ),
+            );
+          },
         ),
-      ),
-    );
-  }
-
-  List<BottomNavigationBarItem> _navigationItems() {
-    return [
-      BottomNavigationBarItem(
-        icon: _generateNavIcon(AppIcons.home),
-        activeIcon: _generateNavIcon(AppIcons.homeActive),
-        label: AppStrings.home.tr(),
-      ),
-      BottomNavigationBarItem(
-        icon: _generateNavIcon(AppIcons.order),
-        activeIcon: _generateNavIcon(AppIcons.orderActive),
-        label: AppStrings.orders.tr(),
-      ),
-      BottomNavigationBarItem(
-        icon: _generateNavIcon(AppIcons.add),
-        activeIcon: _generateNavIcon(AppIcons.addActive),
-        label: 'Add Order',
-      ),
-      BottomNavigationBarItem(
-        icon: _generateNavIcon(AppIcons.stock),
-        activeIcon: _generateNavIcon(AppIcons.stockActive),
-        label: AppStrings.menu.tr(),
-      ),
-      BottomNavigationBarItem(
-        icon: _generateNavIcon(AppIcons.account),
-        activeIcon: _generateNavIcon(AppIcons.accountActive),
-        label: AppStrings.account.tr(),
-      ),
-    ];
-  }
-
-  Widget _generateNavIcon(String iconPath) {
-    return Padding(
-      padding: const EdgeInsets.all(AppSize.s4),
-      child: SizedBox(
-        height: AppSize.s20.rh,
-        width: AppSize.s20.rw,
-        child: SvgPicture.asset(iconPath),
       ),
     );
   }

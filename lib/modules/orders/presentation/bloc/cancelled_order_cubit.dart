@@ -55,7 +55,7 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
       emit(Loading());
     }
     final status = [OrderStatus.CANCELLED];
-    final branch = SessionManager().currentUserBranchId();
+    final branch = SessionManager().branchId();
     params['filterByStatus'] = ListParam<int>(status, ListFormat.csv);
     params['filterByBranch'] = branch;
     final response = await _fetchCancelledOrder(params);

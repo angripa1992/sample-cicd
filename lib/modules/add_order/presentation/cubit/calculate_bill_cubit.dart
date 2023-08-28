@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/add_order/data/models/billing_request.dart';
-import 'package:klikit/modules/add_order/domain/entities/billing_response.dart';
+import 'package:klikit/modules/add_order/data/models/request/billing_request.dart';
+import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 
 import '../../domain/repository/add_order_repository.dart';
 

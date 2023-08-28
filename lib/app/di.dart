@@ -13,18 +13,18 @@ import 'package:klikit/modules/menu/domain/usecase/check_affected.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menu_brands.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 import 'package:klikit/modules/menu/domain/usecase/ftech_modifier_groups.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_item.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_menu.dart';
-import 'package:klikit/modules/menu/domain/usecase/update_modifier.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_item_snooze.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_menu_enabled.dart';
+import 'package:klikit/modules/menu/domain/usecase/update_modifier_enabled.dart';
 import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
-import 'package:klikit/modules/menu/presentation/cubit/modifier_groups_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/fetch_modifier_groups_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
-import 'package:klikit/modules/menu/presentation/cubit/update_item_cubit.dart';
-import 'package:klikit/modules/menu/presentation/cubit/update_menu_cubit.dart';
-import 'package:klikit/modules/menu/presentation/cubit/update_modifier_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/update_item_snooze_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/update_menu_enabled_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/update_modifier_enabled_cubit.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
 import 'package:klikit/modules/orders/data/repository/orders_repository_impl.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -69,7 +69,7 @@ import '../core/provider/location_provider.dart';
 import '../env/environment_variables.dart';
 import '../language/language_manager.dart';
 import '../modules/add_order/presentation/cubit/calculate_bill_cubit.dart';
-import '../modules/add_order/presentation/cubit/fetch_sub_section_cubit.dart';
+import '../modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
 import '../modules/add_order/presentation/cubit/place_order_cubit.dart';
 import '../modules/base/chnage_language_cubit.dart';
 import '../modules/home/data/datasource/home_data_source.dart';
@@ -197,16 +197,16 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => TabSelectionCubit());
   getIt.registerLazySingleton(() => FetchMenus(getIt.get()));
   getIt.registerFactory(() => MenusCubit(getIt.get()));
-  getIt.registerLazySingleton(() => UpdateItem(getIt.get()));
-  getIt.registerFactory(() => UpdateItemCubit(getIt.get()));
-  getIt.registerLazySingleton(() => UpdateMenu(getIt.get()));
-  getIt.registerFactory(() => UpdateMenuCubit(getIt.get()));
+  getIt.registerLazySingleton(() => UpdateItemSnooze(getIt.get()));
+  getIt.registerFactory(() => UpdateItemSnoozeCubit(getIt.get()));
+  getIt.registerLazySingleton(() => UpdateMenuEnabled(getIt.get()));
+  getIt.registerFactory(() => UpdateMenuEnabledCubit(getIt.get()));
   getIt.registerLazySingleton(() => FetchModifierGroups(getIt.get()));
-  getIt.registerFactory(() => ModifierGroupsCubit(getIt.get()));
+  getIt.registerFactory(() => FetchModifierGroupsCubit(getIt.get()));
   getIt.registerLazySingleton(() => CheckAffected(getIt.get()));
   getIt.registerFactory(() => CheckAffectedCubit(getIt.get(), getIt.get()));
-  getIt.registerLazySingleton(() => UpdateModifier(getIt.get()));
-  getIt.registerFactory(() => UpdateModifierCubit(getIt.get(), getIt.get()));
+  getIt.registerLazySingleton(() => UpdateModifierEnabled(getIt.get()));
+  getIt.registerFactory(() => UpdateModifierEnabledCubit(getIt.get(), getIt.get()));
   getIt.registerFactory(() => AggregatorSelectionCubit());
 
   ///printer
@@ -228,7 +228,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
       () => AddOrderDatasourceImpl(getIt()));
   getIt.registerLazySingleton<AddOrderRepository>(
       () => AddOrderRepositoryImpl(getIt(), getIt()));
-  getIt.registerFactory(() => FetchSubSectionCubit(getIt.get()));
+  getIt.registerFactory(() => FetchAddOrderMenuItemsCubit(getIt.get()));
   getIt.registerFactory(() => CalculateBillCubit(getIt.get()));
   getIt.registerFactory(() => PlaceOrderCubit(getIt.get()));
 }
