@@ -41,8 +41,9 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   }
 
   @override
-  Future<Either<Failure, CartBill>> calculateBill(
-      {required BillingRequestModel model}) async {
+  Future<Either<Failure, CartBill>> calculateBill({
+    required BillingRequestModel model,
+  }) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.calculateBill(model: model);
@@ -70,8 +71,9 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   }
 
   @override
-  Future<Either<Failure, PlacedOrderResponse>> placeOrder(
-      {required PlaceOrderDataRequestModel body}) async {
+  Future<Either<Failure, PlacedOrderResponse>> placeOrder({
+    required PlaceOrderDataRequestModel body,
+  }) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.placeOrder(body);
@@ -86,7 +88,8 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
 
   @override
   Future<Either<Failure, List<AppliedPromo>>> fetchPromos(
-      Map<String, dynamic> params) async {
+    Map<String, dynamic> params,
+  ) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchPromos(params);

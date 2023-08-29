@@ -239,11 +239,11 @@ class PrintingHandler {
     }
   }
 
-  void printZReport(ZReportDataModel model) async {
+  void printZReport(ZReportDataModel model, DateTime reportDate) async {
     if (await _isPermissionGranted()) {
       if (_preferences.printerSetting().type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
-          final printingData = await _generateZReportTicket(model);
+          final printingData = await _generateZReportTicket(model, reportDate);
           if (printingData != null) {
             await BluetoothPrinterHandler().printDocket(printingData);
           }
@@ -255,7 +255,7 @@ class PrintingHandler {
         }
       } else {
         if (UsbPrinterHandler().isConnected()) {
-          final printingData = await _generateZReportTicket(model);
+          final printingData = await _generateZReportTicket(model, reportDate);
           if (printingData != null) {
             await UsbPrinterHandler().printDocket(printingData);
           }
@@ -299,8 +299,12 @@ class PrintingHandler {
     return rawBytes;
   }
 
-  Future<List<int>?> _generateZReportTicket(ZReportDataModel dataModel) async {
-    final data = await ZReportDataProvider().generateTemplateData(dataModel);
+  Future<List<int>?> _generateZReportTicket(
+    ZReportDataModel dataModel,
+    DateTime reportTime,
+  ) async {
+    final data =
+        await ZReportDataProvider().generateTemplateData(dataModel, reportTime);
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     final printingData = await ZReportDesignTemplate().generateTicket(
       data,

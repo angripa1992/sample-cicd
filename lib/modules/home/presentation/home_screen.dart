@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 clipBehavior: Clip.none,
                 children: [
                   HomeHeaderView(
-                    userInfo: SessionManager().currentUser(),
+                    userInfo: SessionManager().user(),
                     onCartTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(

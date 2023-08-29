@@ -93,7 +93,7 @@ class _LevelOneSelectOneViewState extends State<LevelOneSelectOneView> {
                     name: modifier.title, prices: modifier.prices),
                 onChanged: _changeCurrentModifier,
                 selected: _currentModifierId == modifier.id,
-                activeColor: AppColors.purpleBlue,
+                activeColor: AppColors.primary,
               );
             }).toList(),
           ),

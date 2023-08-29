@@ -8,13 +8,11 @@ class UsbPrinterHandler {
 
   UsbPrinterHandler._internal();
 
-  bool isConnected() =>
-      PrinterManager.instance.currentStatusUSB == USBStatus.connected;
+  bool isConnected() => PrinterManager.instance.currentStatusUSB == USBStatus.connected;
 
   Future<List<PrinterDevice>> getDevices() async {
     final scanResults = <PrinterDevice>[];
-    final subscription =
-        PrinterManager.instance.discovery(type: PrinterType.bluetooth).listen(
+    final subscription = PrinterManager.instance.discovery(type: PrinterType.usb).listen(
       (event) {
         scanResults.add(event);
       },

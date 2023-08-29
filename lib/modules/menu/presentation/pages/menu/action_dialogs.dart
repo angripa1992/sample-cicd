@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/presentation/cubit/update_item_snooze_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_menu_enabled_cubit.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
@@ -17,7 +16,6 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../../widgets/snackbars.dart';
-import '../../../domain/entities/menu/menu_out_of_stock.dart';
 
 void showMenuActionDialog({
   required BuildContext context,
@@ -101,7 +99,7 @@ void showMenuActionDialog({
                             EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          side: BorderSide(color: AppColors.purpleBlue),
+                          side: BorderSide(color: AppColors.primary),
                         ),
                       ),
                       child: Padding(
@@ -109,7 +107,7 @@ void showMenuActionDialog({
                         child: Text(
                           AppStrings.discard.tr(),
                           style: mediumTextStyle(
-                            color: AppColors.purpleBlue,
+                            color: AppColors.primary,
                             fontSize: AppFontSize.s16.rSp,
                           ),
                         ),

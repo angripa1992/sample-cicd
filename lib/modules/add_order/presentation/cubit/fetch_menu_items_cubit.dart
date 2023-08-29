@@ -17,8 +17,9 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
 
   void fetchSubsection(MenuBrand brand) async {
     emit(Loading());
-    final response = await _repository.fetchMenuV1(
+    final response = await _repository.fetchMenu(
       FetchMenuParams(
+        menuV2Enabled: SessionManager().user().menuV2EnabledForKlikitOrder,
         branchId: SessionManager().branchId(),
         brandId: brand.id,
         businessId: SessionManager().user().businessId,

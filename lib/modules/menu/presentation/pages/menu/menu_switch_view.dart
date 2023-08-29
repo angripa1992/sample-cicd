@@ -58,21 +58,6 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
     super.didUpdateWidget(oldWidget);
   }
 
-  // void _handleItem(bool value) {
-  //   showMenuItemActionDialog(
-  //     context: context,
-  //     brandId: widget.brandId,
-  //     itemId: widget.id,
-  //     enabled: value,
-  //     onSuccess: (stock) {
-  //       setState(() {
-  //         _enabled = value;
-  //         widget.onItemChanged(stock);
-  //       });
-  //     },
-  //   );
-  // }
-
   void _handleMenu(bool value) {
     showMenuActionDialog(
       context: context,
@@ -86,6 +71,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
           widget.onMenuEnableChanged(_enabled);
         });
       },
+      menuVersion: widget.menuVersion,
     );
   }
 

@@ -36,6 +36,7 @@ User mapUserModelToUser(UserModel userModel) {
       countryIds: userModel.user?.country_ids ?? [],
       menuV2Enabled: userModel.user?.menuv2_enabled ?? false,
       menuVersion: userModel.user?.menu_version ?? 1,
+      menuV2EnabledForKlikitOrder: userModel.user?.menuv2_enabled_for_klikit_order ?? false,
     ),
   );
 }

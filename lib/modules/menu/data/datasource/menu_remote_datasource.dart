@@ -70,7 +70,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   @override
   Future<MenuData> fetchMenus(FetchMenuParams params) async {
     try {
-      if (SessionManager().isMenuV2()) {
+      if (params.menuV2Enabled) {
         final tz = await DateTimeProvider.timeZone();
         final fetchParams = <String, dynamic>{
           'businessID': params.businessId,
@@ -115,7 +115,8 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
 
   @override
   Future<MenuOosResponseModel> updateItemSnooze(
-      UpdateItemSnoozeParam params) async {
+    UpdateItemSnoozeParam params,
+  ) async {
     try {
       if (params.menuVersion == MenuVersion.v2) {
         final response = await _restClient.request(
@@ -193,7 +194,8 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
 
   @override
   Future<List<V1ModifierGroupModel>> fetchV1ModifiersGroup(
-      FetchModifierGroupParams params) async {
+    FetchModifierGroupParams params,
+  ) async {
     try {
       final fetchParams = {
         'brand_id': params.brandID,
@@ -213,7 +215,8 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
 
   @override
   Future<List<V2ModifierGroupModel>> fetchV2ModifiersGroup(
-      FetchModifierGroupParams params) async {
+    FetchModifierGroupParams params,
+  ) async {
     try {
       final fetchParams = {
         'brandID': params.brandID,
@@ -221,7 +224,10 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         'businessID': params.businessID,
       };
       final List<dynamic> response = await _restClient.request(
-          Urls.v2ModifiersGroup, Method.GET, fetchParams);
+        Urls.v2ModifiersGroup,
+        Method.GET,
+        fetchParams,
+      );
       return response.map((e) => V2ModifierGroupModel.fromJson(e)).toList();
     } on DioException {
       rethrow;

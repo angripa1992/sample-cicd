@@ -385,7 +385,7 @@ class OrderModel {
       itemAppliedPromos: itemAppliedPromos ?? [],
       cancellationReasonId: cancellationReasonId.orZero(),
       cancellationReason: cancellationReason.orEmpty(),
-        restaurantServiceFee: restaurantServiceFee.orZero(),
+      restaurantServiceFee: restaurantServiceFee.orZero(),
     );
   }
 }
@@ -410,7 +410,7 @@ class CartV2Model {
   @JsonKey(name: 'unit_price_display')
   String? unitPriceDisplay;
   @JsonKey(name: 'modifier_groups')
-  List<ModifierGroupsModel>? modifierGroups;
+  List<ModifierGroupsModel?>? modifierGroups;
 
   CartV2Model({
     this.id,
@@ -445,7 +445,18 @@ class CartV2Model {
       unitPrice: unitPrice.orEmpty(),
       unitPriceDisplay: unitPriceDisplay.orEmpty(),
       priceDisplay: priceDisplay.orEmpty(),
-      modifierGroups: modifierGroups?.map((e) => e.toEntity()).toList() ?? [],
+      modifierGroups: modifierGroups
+              ?.map(
+                (e) =>
+                    e?.toEntity() ??
+                    ModifierGroups(
+                      id: '0',
+                      name: EMPTY,
+                      modifiers: [],
+                    ),
+              )
+              .toList() ??
+          [],
       cartBrand: brand?.toEntity() ??
           CartBrand(
             id: ZERO,

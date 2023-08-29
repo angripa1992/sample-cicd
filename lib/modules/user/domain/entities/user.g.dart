@@ -52,6 +52,7 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
           .toList(),
       menuV2Enabled: json['menuV2Enabled'] as bool,
       menuVersion: json['menuVersion'] as int,
+      menuV2EnabledForKlikitOrder: json['menuV2EnabledForKlikitOrder'] as bool,
     );
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
@@ -75,6 +76,7 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'sunmiDevice': instance.sunmiDevice,
       'menuV2Enabled': instance.menuV2Enabled,
       'menuVersion': instance.menuVersion,
+      'menuV2EnabledForKlikitOrder': instance.menuV2EnabledForKlikitOrder,
       'roles': instance.roles,
       'roleIds': instance.roleIds,
       'displayRoles': instance.displayRoles,

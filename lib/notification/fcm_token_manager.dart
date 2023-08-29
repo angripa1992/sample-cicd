@@ -18,8 +18,8 @@ class FcmTokenManager {
     final platform = _deviceInformationProvider.platformName();
     final String os = await _deviceInformationProvider.getOsVersion();
     final String model = await _deviceInformationProvider.getDeviceModel();
-    final userID = SessionManager().currentUser().id;
-    final branchID = SessionManager().currentUser().branchId;
+    final userID = SessionManager().user().id;
+    final branchID = SessionManager().user().branchId;
     final deviceInfo = '$platform/0s-$os/model-$model';
     final uuid = '$userID/$branchID/$deviceInfo/$fcmToken';
 

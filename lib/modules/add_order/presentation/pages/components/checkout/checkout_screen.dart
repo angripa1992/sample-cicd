@@ -103,6 +103,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   PaymentMethodView(
                     initMethod: _paymentMethod,
+                    initChannel: _paymentChannel,
                     onChanged: (paymentMethod, paymentChannel) {
                       _paymentMethod = paymentMethod;
                       _paymentChannel = paymentChannel;

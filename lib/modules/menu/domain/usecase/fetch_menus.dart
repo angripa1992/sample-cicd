@@ -12,17 +12,19 @@ class FetchMenus extends UseCase<MenuData, FetchMenuParams> {
 
   @override
   Future<Either<Failure, MenuData>> call(FetchMenuParams params) {
-    return _repository.fetchMenuV1(params);
+    return _repository.fetchMenu(params);
   }
 }
 
 class FetchMenuParams {
+  final bool menuV2Enabled;
   final int businessId;
   final int branchId;
   final int brandId;
   final int? providerID;
 
   FetchMenuParams( {
+    required this.menuV2Enabled,
     required this.businessId,
     required this.branchId,
     required this.brandId,

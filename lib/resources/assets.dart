@@ -14,7 +14,8 @@ class AppImages {
   static const String klikitTextWhite = "$IMAGE_PATH/klikit_text_white.png";
   static const String placeholder = "$IMAGE_PATH/placeholder.svg";
   static const String emptyCartSvg = "$IMAGE_PATH/empty_cart.svg";
-  static const String loginPageBG = "$IMAGE_PATH/login_page_bg.png";
+  static const String loginPageBG = "$IMAGE_PATH/login_page_bg_image.png";
+  static const String loginPageLogo = "$IMAGE_PATH/login_page_logo.svg";
 }
 
 class AppIcons {

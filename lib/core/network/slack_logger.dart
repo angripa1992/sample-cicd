@@ -25,7 +25,7 @@ class SlackLoggerResolver {
       return;
     }
     final deviceInfo = getIt.get<DeviceInfoProvider>();
-    final user = SessionManager().currentUser();
+    final user = SessionManager().user();
     List<String> markdownMessageList = [
       "CREATED AT: ${DateTime.now().toLocal().toString()}",
       'Url: ${error.requestOptions.baseUrl}${error.requestOptions.path}',

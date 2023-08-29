@@ -16,14 +16,17 @@ abstract class AddOrderRepository {
     required MenuBranchInfo branchInfo,
   });
 
-  Future<Either<Failure, CartBill>> calculateBill(
-      {required BillingRequestModel model});
+  Future<Either<Failure, CartBill>> calculateBill({
+    required BillingRequestModel model,
+  });
 
-  Future<Either<Failure, PlacedOrderResponse>> placeOrder(
-      {required PlaceOrderDataRequestModel body});
+  Future<Either<Failure, PlacedOrderResponse>> placeOrder({
+    required PlaceOrderDataRequestModel body,
+  });
 
   Future<Either<Failure, List<AppliedPromo>>> fetchPromos(
-      Map<String, dynamic> params);
+    Map<String, dynamic> params,
+  );
 
   Future<List<AddOrderSourceType>> fetchSources();
 }

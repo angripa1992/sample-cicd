@@ -1,4 +1,5 @@
 import 'package:docket_design_template/model/z_report_data.dart';
+import 'package:intl/intl.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 
 import '../../app/constants.dart';
@@ -24,13 +25,14 @@ class ZReportDataProvider {
     final price = priceInCent / 100;
     return PriceCalculator.formatPrice(
       price: price,
-      currencySymbol: symbol,
+      symbol: symbol,
       code: code,
     );
   }
 
   Future<TemplateZReport> generateTemplateData(
     ZReportDataModel dataModel,
+    DateTime reportTime,
   ) async {
     final providerSummary =
         await _templateProviderSummary(dataModel.orderSummary);
@@ -40,7 +42,8 @@ class ZReportDataProvider {
     final paymentChannelSummary =
         await _templatePaymentChannelSummary(dataModel.paymentSummary!);
     return TemplateZReport(
-      generatedDate: dataModel.createdAt ?? '',
+      generatedDate: DateFormat('MMMM dd yyyy, hh:mm aaa').format(DateTime.now().toLocal()).toString(),
+      reportDate: DateFormat('MMMM dd, yyyy').format(reportTime).toString(),
       providerSummary: providerSummary,
       itemSummary: itemSummary,
       paymentMethodSummary: paymentMethodSummary,

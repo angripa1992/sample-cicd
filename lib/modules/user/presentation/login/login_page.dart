@@ -30,6 +30,7 @@ import '../../../../app/session_manager.dart';
 import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
 import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
 import '../../../../segments/segemnt_data_provider.dart';
+import '../header_view.dart';
 import 'bloc/login_event.dart';
 import 'bloc/login_state.dart';
 
@@ -162,23 +163,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  margin: EdgeInsets.only(
-                    left: AppSize.s16.rw,
-                  ),
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2.5,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(AppImages.loginPageBG),
-                    ),
-                  ),
-                ),
+                const RegistrationHeaderView(),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: AppSize.s16.rw,
-                    vertical: AppSize.s16.rh,
+                    vertical: AppSize.s32.rh,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -200,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.of(context).pushNamed(Routes.forget);
                           },
                           text: AppStrings.forgot_password.tr(),
-                          color: AppColors.primary,
+                          color: AppColors.primaryDark,
                           textSize: AppSize.s14.rSp,
                         ),
                       ),
@@ -251,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text(
                               AppStrings.dont_have_account.tr(),
                               style: boldTextStyle(
-                                color: AppColors.primary,
+                                color: AppColors.primaryDark,
                                 fontSize: AppFontSize.s14.rSp,
                               ),
                             ),

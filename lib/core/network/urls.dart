@@ -20,8 +20,6 @@ class Urls {
   static const String calculateBill = '/v1/menu/manual-order/calculate-bill';
   static const String calculateBillV2 = '/v1/menu-v2/manual-order/calculate-bill';
   static const String calculateGrabOrderBill = '/v1/oni/grabfoodorder/calculate-bill';
-  static const String calculateGrabOrderBill =
-      '/v1/oni/grabfoodorder/calculate-bill';
   static const String updateGrabOrder = '/v1/oni/grabfoodorder';
   static const String manualOrder = '/v1/oni/manualorder';
   static const String promos = '/v1/promoit/promo/common/search';

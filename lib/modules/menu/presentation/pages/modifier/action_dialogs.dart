@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/presentation/cubit/update_modifier_cubit.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../../../../../app/di.dart';
@@ -16,6 +15,7 @@ import '../../../../orders/data/models/action_success_model.dart';
 import '../../../../widgets/app_button.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../../widgets/snackbars.dart';
+import '../../cubit/update_modifier_enabled_cubit.dart';
 
 void showUpdateModifierEnabledConfirmationDialog({
   required BuildContext context,
@@ -43,7 +43,7 @@ void showUpdateModifierEnabledConfirmationDialog({
           ),
           icon: Icon(
             Icons.warning_amber_rounded,
-            color: AppColors.purpleBlue,
+            color: AppColors.primary,
           ),
           title: Text(
             (!isEnable && affected)
@@ -66,7 +66,7 @@ void showUpdateModifierEnabledConfirmationDialog({
                     child: Text(
                       items!,
                       style: mediumTextStyle(
-                        color: AppColors.blueViolet,
+                        color: AppColors.primaryLight,
                         fontSize: AppFontSize.s14.rSp,
                       ),
                     ),

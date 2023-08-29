@@ -28,7 +28,8 @@ class MenuRepositoryImpl extends MenuRepository {
 
   @override
   Future<Either<Failure, MenuBrands>> fetchMenuBrands(
-      Map<String, dynamic> params) async {
+    Map<String, dynamic> params,
+  ) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchMenuBrands(params);
@@ -42,7 +43,7 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, MenuData>> fetchMenuV1(FetchMenuParams params) async {
+  Future<Either<Failure, MenuData>> fetchMenu(FetchMenuParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchMenus(params);
@@ -57,7 +58,8 @@ class MenuRepositoryImpl extends MenuRepository {
 
   @override
   Future<Either<Failure, MenuOutOfStock>> updateItemSnooze(
-      UpdateItemSnoozeParam params) async {
+    UpdateItemSnoozeParam params,
+  ) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updateItemSnooze(params);
@@ -88,7 +90,8 @@ class MenuRepositoryImpl extends MenuRepository {
 
   @override
   Future<Either<Failure, List<ModifierGroup>>> fetchModifiersGroups(
-      FetchModifierGroupParams params) async {
+    FetchModifierGroupParams params,
+  ) async {
     if (await _connectivity.hasConnection()) {
       try {
         if (SessionManager().isMenuV2()) {

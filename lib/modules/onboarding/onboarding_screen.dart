@@ -14,6 +14,7 @@ import '../../core/utils/permission_handler.dart';
 import '../../notification/fcm_service.dart';
 import '../../notification/fcm_token_manager.dart';
 import '../../notification/local_notification_service.dart';
+import '../../resources/values.dart';
 import '../widgets/snackbars.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -43,11 +44,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (mounted) {
-          final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-              await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+          final notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
           if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-            NotificationHandler().handleBackgroundNotification(
-                notificationAppLaunchDetails?.notificationResponse?.payload);
+            NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
           } else {
             _gotoNextScreen();
           }
@@ -59,11 +58,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   void _gotoNextScreen() {
     Timer(const Duration(seconds: 2), () {
-      if (SessionManager().isLoggedIn() &&
-          !SessionManager().currentUser().firstLogin) {
+      if (SessionManager().isLoggedIn() && !SessionManager().user().firstLogin) {
         _registerFcmToken().then((value) {
-          Navigator.of(context)
-              .pushReplacementNamed(Routes.base, arguments: null);
+          Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
         });
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);
@@ -89,11 +86,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     ScreenSizes.screenHeight = size.height;
     ScreenSizes.statusBarHeight = MediaQuery.of(context).viewPadding.top;
     return Scaffold(
-      backgroundColor: AppColors.black,
+      backgroundColor: AppColors.white,
       body: Center(
         child: RotationTransition(
           turns: _turnsTween.animate(_controller),
           child: SizedBox(
+            height: AppSize.s180.rh,
+            width: AppSize.s180.rw,
             child: Image.asset(
               AppImages.splashLogo,
             ),

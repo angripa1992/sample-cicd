@@ -41,6 +41,7 @@ class UserInfo {
   final bool sunmiDevice;
   final bool menuV2Enabled;
   final int menuVersion;
+  final bool menuV2EnabledForKlikitOrder;
   final List<String> roles;
   final List<int> roleIds;
   final List<String> displayRoles;
@@ -75,6 +76,7 @@ class UserInfo {
     required this.countryCodes,
     required this.menuV2Enabled,
     required this.menuVersion,
+    required this.menuV2EnabledForKlikitOrder,
   });
 
   factory UserInfo.fromJson(Map<String, dynamic> json) =>
@@ -110,6 +112,7 @@ class UserInfo {
       countryCodes: countryCodes,
       menuV2Enabled: menuV2Enabled,
       menuVersion: menuVersion,
+      menuV2EnabledForKlikitOrder: menuV2EnabledForKlikitOrder,
     );
   }
 }

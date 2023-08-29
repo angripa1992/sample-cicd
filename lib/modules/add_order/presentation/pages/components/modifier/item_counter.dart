@@ -49,15 +49,16 @@ class _ItemCounterState extends State<ItemCounter> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s8.rw,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.primaryLight,
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s8.rw,
-          vertical: AppSize.s2.rh,
+        border: Border.all(
+          color: AppColors.black,
         ),
+      ),
+      child: IntrinsicHeight(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -67,18 +68,26 @@ class _ItemCounterState extends State<ItemCounter> {
               onPressed: _decrement,
               icon: Icon(
                 Icons.remove,
-                color: AppColors.white,
+                color: AppColors.black,
               ),
+            ),
+            VerticalDivider(
+              color: AppColors.black,
+              thickness: 1,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
               child: Text(
                 count.toString(),
                 style: mediumTextStyle(
-                  color: AppColors.white,
-                  fontSize: AppFontSize.s14.rSp,
+                  color: AppColors.black,
+                  fontSize: AppFontSize.s16.rSp,
                 ),
               ),
+            ),
+            VerticalDivider(
+              color: AppColors.black,
+              thickness: 1,
             ),
             IconButton(
               padding: EdgeInsets.zero,
@@ -87,7 +96,7 @@ class _ItemCounterState extends State<ItemCounter> {
               onPressed: _increment,
               icon: Icon(
                 Icons.add,
-                color: AppColors.white,
+                color: AppColors.black,
               ),
             ),
           ],

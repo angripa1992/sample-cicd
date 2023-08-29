@@ -20,6 +20,7 @@ import '../../../../resources/colors.dart';
 import '../../../../resources/strings.dart';
 import '../../../../resources/styles.dart';
 import '../../../../resources/values.dart';
+import '../header_view.dart';
 
 class ForgetScreen extends StatefulWidget {
   const ForgetScreen({Key? key}) : super(key: key);
@@ -46,110 +47,91 @@ class _ForgetScreenState extends State<ForgetScreen> {
       create: (_) => getIt.get<ForgetPasswordCubit>(),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: AppColors.black,
+          backgroundColor: AppColors.white,
           body: SingleChildScrollView(
-            child: Container(
-              height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
-              width: ScreenSizes.screenWidth,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: const AssetImage(AppImages.loginBG),
-                  colorFilter: ColorFilter.mode(
-                      AppColors.black.withOpacity(0.3), BlendMode.dstATop),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s28.rw,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: AppSize.s20.rh,
-                          horizontal: AppSize.s20.rw,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              AppStrings.password_reset_page.tr(),
-                              style: mediumTextStyle(
-                                color: AppColors.black,
-                                fontSize: AppSize.s24.rSp,
-                              ),
-                            ),
-                            UrlTextButton(
-                              text: AppStrings.dont_have_account.tr(),
-                              color: AppColors.black,
-                              fontWeight: AppFontWeight.bold,
-                              textSize: AppSize.s14.rSp,
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(
-                                  Routes.webView,
-                                  arguments: AppConstant.signUpUrl,
-                                );
-                              },
-                            ),
-                            SizedBox(height: AppSize.s32.rh),
-                            Form(
-                              key: _formKey,
-                              child: InputField(
-                                label: AppStrings.email.tr(),
-                                controller: _emailController,
-                                inputType: TextInputType.emailAddress,
-                                isPasswordField: false,
-                                hintText: AppStrings.type_your_email_here.tr(),
-                                labelColor: AppColors.greyDarker,
-                                textColor: AppColors.greyDarker,
-                                borderColor: AppColors.greyDarker,
-                              ),
-                            ),
-                            SizedBox(height: AppSize.s42.rh),
-                            BlocConsumer<ForgetPasswordCubit, CubitState>(
-                              builder: (context, state) {
-                                return LoadingButton(
-                                  isLoading: (state is Loading),
-                                  text: AppStrings.sent_reset_link.tr(),
-                                  onTap: () {
-                                    _validateAndSentResetLink(context);
-                                  },
-                                );
-                              },
-                              listener: (context, state) {
-                                if (state is Failed) {
-                                  showApiErrorSnackBar(context, state.failure);
-                                } else if (state is Success<SuccessResponse>) {
-                                  showSuccessSnackBar(
-                                      context, state.data.message);
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                            ),
-                            SizedBox(height: AppSize.s24.rh),
-                            UrlTextButton(
-                              text: AppStrings.back_to_login.tr(),
-                              color: AppColors.black,
-                              fontWeight: AppFontWeight.bold,
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const RegistrationHeaderView(),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSize.s32.rh,
+                    horizontal: AppSize.s16.rw,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        AppStrings.password_reset_page.tr(),
+                        style: boldTextStyle(
+                          color: AppColors.black,
+                          fontSize: AppSize.s18.rSp,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: AppSize.s4.rh),
+                      UrlTextButton(
+                        text: AppStrings.dont_have_account.tr(),
+                        color: AppColors.primaryDark,
+                        fontWeight: AppFontWeight.semiBold,
+                        textSize: AppSize.s14.rSp,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            Routes.webView,
+                            arguments: AppConstant.signUpUrl,
+                          );
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: AppSize.s32.rh),
+                        child: Form(
+                          key: _formKey,
+                          child: InputField(
+                            label: AppStrings.email.tr(),
+                            controller: _emailController,
+                            inputType: TextInputType.emailAddress,
+                            isPasswordField: false,
+                            hintText: AppStrings.type_your_email_here.tr(),
+                            labelColor: AppColors.black,
+                            textColor: AppColors.black,
+                            borderColor: AppColors.black,
+                          ),
+                        ),
+                      ),
+                      BlocConsumer<ForgetPasswordCubit, CubitState>(
+                        builder: (context, state) {
+                          return LoadingButton(
+                            isLoading: (state is Loading),
+                            text: AppStrings.sent_reset_link.tr(),
+                            onTap: () {
+                              _validateAndSentResetLink(context);
+                            },
+                          );
+                        },
+                        listener: (context, state) {
+                          if (state is Failed) {
+                            showApiErrorSnackBar(context, state.failure);
+                          } else if (state is Success<SuccessResponse>) {
+                            showSuccessSnackBar(
+                                context, state.data.message);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                      SizedBox(height: AppSize.s24.rh),
+                      UrlTextButton(
+                        text: AppStrings.back_to_login.tr(),
+                        color: AppColors.primaryDark,
+                        fontWeight: AppFontWeight.semiBold,
+                        textSize: AppSize.s14.rSp,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

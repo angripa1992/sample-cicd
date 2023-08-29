@@ -143,7 +143,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                         Text(
                                           '${index + 1}.',
                                           style: regularTextStyle(
-                                            color: AppColors.bluewood,
+                                            color: AppColors.black,
                                             fontSize: AppFontSize.s14.rSp,
                                           ),
                                         ),
@@ -152,7 +152,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                           child: Text(
                                             _menuCategoryItems[index].title,
                                             style: regularTextStyle(
-                                              color: AppColors.bluewood,
+                                              color: AppColors.black,
                                               fontSize: AppFontSize.s14.rSp,
                                             ),
                                           ),
@@ -175,8 +175,9 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                     providerId: widget.providerID,
                                     borderRadius: AppSize.s8.rSp,
                                     width: AppSize.s80.rw,
-                                    bgColor: AppColors.whiteSmoke,
-                                    parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+                                    bgColor: AppColors.grey,
+                                    parentEnabled: widget.parentEnabled &&
+                                        widget.menuCategory.enabled,
                                     brandId: widget.brandID,
                                     iconPath: AppIcons.editRound,
                                     onMenuItemSnoozeChanged: (oos) {
@@ -214,7 +215,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
               child: Text(
                 AppStrings.no_item_found.tr(),
                 style: regularTextStyle(
-                  color: AppColors.bluewood,
+                  color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),

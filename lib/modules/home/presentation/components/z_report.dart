@@ -30,7 +30,7 @@ class _ZReportViewState extends State<ZReportView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: AppSize.s12.rh,
+        vertical: AppSize.s24.rh,
         horizontal: AppSize.s16.rw,
       ),
       child: Column(
@@ -64,11 +64,9 @@ class _ZReportViewState extends State<ZReportView> {
                 BlocConsumer<FetchZReportCubit,ResponseState>(
                   listener: (ct,state){
                     if(state is Failed){
-                      debugPrint('_____________________${state.failure.message}');
                       showApiErrorSnackBar(context,state.failure);
                     }else if(state is Success<ZReportDataModel>){
-                      debugPrint('_____________________${state.data}');
-                      getIt.get<PrintingHandler>().printZReport(state.data);
+                      getIt.get<PrintingHandler>().printZReport(state.data,_selectedDate);
                     }
                   },
                   builder: (ct,state){
@@ -76,8 +74,8 @@ class _ZReportViewState extends State<ZReportView> {
                       isLoading: state is Loading,
                       text: 'Generate',
                       enabled: true,
-                      borderColor: AppColors.greyDarker,
-                      color: AppColors.greyDarker,
+                      borderColor: AppColors.primaryLight,
+                      color: AppColors.primaryLight,
                       icon: Icons.print,
                       textColor: AppColors.white,
                       onTap: () {

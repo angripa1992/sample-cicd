@@ -20,6 +20,9 @@ V2ItemModifierGroupModel _$V2ItemModifierGroupModelFromJson(
       enabled: json['enabled'] as bool?,
       min: json['min'] as int?,
       max: json['max'] as int?,
+      visibilities: (json['visibilities'] as List<dynamic>?)
+          ?.map((e) => V2VisibilityModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       modifiers: (json['modifiers'] as List<dynamic>?)
           ?.map((e) => V2ItemModifierModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -35,6 +38,7 @@ Map<String, dynamic> _$V2ItemModifierGroupModelToJson(
       'enabled': instance.enabled,
       'min': instance.min,
       'max': instance.max,
+      'visibilities': instance.visibilities,
       'modifiers': instance.modifiers,
     };
 

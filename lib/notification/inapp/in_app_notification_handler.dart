@@ -71,12 +71,11 @@ class InAppNotificationHandler {
   }
 
   void _handleDocketPrinting(NotificationData notificationData) async {
-    final isNewOrder =
-        notificationData.type.toInt() == NotificationOrderType.NEW;
+    final isNewOrder = notificationData.type.toInt() == NotificationOrderType.NEW;
     if (!isNewOrder) {
       return;
     }
-    Future.delayed(const Duration(seconds: 1), () async {
+    Future.delayed(const Duration(seconds: 2), () async {
       final order = await NotificationDataHandler().getOrderById(
         notificationData.orderId.toInt(),
       );

@@ -1,7 +1,7 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
+
 import '../../../../app/enums.dart';
+import '../../../../app/session_manager.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
 import '../../../../core/provider/date_time_provider.dart';
@@ -44,7 +44,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     required MenuBranchInfo branchInfo,
   }) async {
     try {
-      if (SessionManager().isMenuV2()) {
+      if (SessionManager().user().menuV2EnabledForKlikitOrder) {
         List<dynamic>? response = await _restClient.request(
           Urls.itmModifiersV2,
           Method.GET,
@@ -86,8 +86,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     required BillingRequestModel model,
   }) async {
     try {
-      if (SessionManager().isMenuV2()) {
-        final value = jsonEncode(model.toJsonV2());
+      if (SessionManager().user().menuV2EnabledForKlikitOrder) {
         final response = await _restClient.request(
           Urls.calculateBillV2,
           Method.POST,
@@ -95,7 +94,6 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         );
         return CartBillModel.fromJson(response);
       } else {
-        final value = jsonEncode(model.toJsonV1());
         final response = await _restClient.request(
           Urls.calculateBill,
           Method.POST,
@@ -111,8 +109,10 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<List<AddOrderSourcesModel>> fetchSources() async {
     try {
-      final List<dynamic>? responses = await _restClient.request(Urls.sources, Method.GET, null);
-      return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ?? [];
+      final List<dynamic>? responses =
+          await _restClient.request(Urls.sources, Method.GET, null);
+      return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ??
+          [];
     } on DioException {
       rethrow;
     }
@@ -122,7 +122,6 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   Future<PlacedOrderResponse> placeOrder(
       PlaceOrderDataRequestModel body) async {
     try {
-      final value = jsonEncode(body.toJson());
       final response = await _restClient.request(
         Urls.manualOrder,
         Method.POST,

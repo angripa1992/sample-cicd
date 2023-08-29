@@ -36,6 +36,7 @@ class UserInfoModel {
   bool? sunmi_device;
   bool? menuv2_enabled;
   int? menu_version;
+  bool? menuv2_enabled_for_klikit_order;
   List<String>? roles;
   List<int>? role_ids;
   List<String>? display_roles;
@@ -63,6 +64,7 @@ class UserInfoModel {
     this.sunmi_device,
     this.menuv2_enabled,
     this.menu_version,
+    this.menuv2_enabled_for_klikit_order,
     this.roles,
     this.role_ids,
     this.display_roles,

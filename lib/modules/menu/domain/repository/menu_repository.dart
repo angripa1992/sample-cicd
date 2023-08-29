@@ -18,7 +18,7 @@ abstract class MenuRepository {
     Map<String, dynamic> params,
   );
 
-  Future<Either<Failure, MenuData>> fetchMenuV1(FetchMenuParams params);
+  Future<Either<Failure, MenuData>> fetchMenu(FetchMenuParams params);
 
   Future<Either<Failure, MenuOutOfStock>> updateItemSnooze(UpdateItemSnoozeParam params);
 

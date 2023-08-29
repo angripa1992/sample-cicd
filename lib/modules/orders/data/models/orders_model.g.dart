@@ -229,7 +229,9 @@ CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(
           : CartBrandModel.fromJson(json['brand'] as Map<String, dynamic>),
       unitPrice: json['unit_price'] as String?,
       modifierGroups: (json['modifier_groups'] as List<dynamic>?)
-          ?.map((e) => ModifierGroupsModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => e == null
+              ? null
+              : ModifierGroupsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       unitPriceDisplay: json['unit_price_display'] as String?,
       priceDisplay: json['price_display'] as String?,
@@ -251,7 +253,7 @@ Map<String, dynamic> _$CartV2ModelToJson(CartV2Model instance) =>
       'unit_price': instance.unitPrice,
       'unit_price_display': instance.unitPriceDisplay,
       'modifier_groups':
-          instance.modifierGroups?.map((e) => e.toJson()).toList(),
+          instance.modifierGroups?.map((e) => e?.toJson()).toList(),
     };
 
 ModifierGroupsModel _$ModifierGroupsModelFromJson(Map<String, dynamic> json) =>

@@ -113,7 +113,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
           body: Container(
             margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
             decoration: BoxDecoration(
-              color: AppColors.whiteSmoke,
+              color: AppColors.grey,
             ),
             child: MenuItemDescription(
               menuCategoryItem: item,
@@ -231,7 +231,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
             itemBuilder: (BuildContext context, int index) {
               final category = widget.categories[index];
               return Container(
-                color: AppColors.pearl,
+                color: AppColors.white,
                 child: Column(
                   children: [
                     MenuCategoryInfoView(

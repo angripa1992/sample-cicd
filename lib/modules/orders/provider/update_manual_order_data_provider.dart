@@ -72,8 +72,7 @@ class UpdateManualOrderDataProvider {
             brandId: cartv2.cartBrand.id,
             branchId: order.branchId,
           );
-          final modifiersPrice =
-              await ModifierManager().calculateModifiersPrice(modifierGroups);
+          final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
           final cartV1Item = order.cartV1
               .firstWhere((element) => element.itemId.toString() == cartv2.id);
@@ -206,6 +205,7 @@ class UpdateManualOrderDataProvider {
     try {
       final menusItemsResponse = await _menuRemoteDatasource.fetchMenus(
         FetchMenuParams(
+          menuV2Enabled: SessionManager().user().menuV2EnabledForKlikitOrder,
           businessId: SessionManager().user().businessId,
           branchId: branchId,
           brandId: brandId,

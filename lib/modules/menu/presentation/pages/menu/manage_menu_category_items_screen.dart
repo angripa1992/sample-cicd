@@ -41,26 +41,13 @@ class ManageItemsScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: AppSize.s16.rh,
+            vertical: AppSize.s8.rh,
             horizontal: AppSize.s16.rw,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               MenuCategoryTitle(menuCategory: menuCategory),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSize.s16.rh,
-                  horizontal: AppSize.s8.rw,
-                ),
-                child: Text(
-                  AppStrings.items_list.tr(),
-                  style: regularTextStyle(
-                    color: AppColors.dustyGreay,
-                    fontSize: AppFontSize.s15.rSp,
-                  ),
-                ),
-              ),
               MenuCategoryItemListView(
                 menuCategory: menuCategory,
                 onChanged: (modifiedItems) {
