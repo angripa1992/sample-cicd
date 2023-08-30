@@ -84,21 +84,21 @@ class PaymentSummaryModel {
 
 class OrderSummaryItemModel {
   int? providerId;
-  int? totalOrders;
-  int? completedOrders;
-  int? cancelledOrders;
+  num? totalOrders;
+  num? completedOrders;
+  num? cancelledOrders;
   String? currency;
   String? currencySymbol;
-  int? grossRevenue;
-  int? realizedRevenue;
-  int? lostRevenue;
+  num? grossRevenue;
+  num? realizedRevenue;
+  num? lostRevenue;
   num? avgCompletedBasketSize;
   num? avgCancelledBasketSize;
   List<OrderSourceSummariesModel>? orderSourceSummaries;
-  int? discount;
-  int? ordersPercentage;
-  int? merchantDiscount;
-  int? providerDiscount;
+  num? discount;
+  num? ordersPercentage;
+  num? merchantDiscount;
+  num? providerDiscount;
 
   OrderSummaryItemModel({
     this.providerId,
@@ -146,21 +146,21 @@ class OrderSummaryItemModel {
 
 class OrderSourceSummariesModel {
   int? providerId;
-  int? totalOrders;
-  int? completedOrders;
-  int? cancelledOrders;
+  num? totalOrders;
+  num? completedOrders;
+  num? cancelledOrders;
   String? currency;
   String? currencySymbol;
-  int? grossRevenue;
-  int? realizedRevenue;
-  int? lostRevenue;
+  num? grossRevenue;
+  num? realizedRevenue;
+  num? lostRevenue;
   num? avgCompletedBasketSize;
   num? avgCancelledBasketSize;
   String? orderSource;
-  int? discount;
+  num? discount;
   num? ordersPercentage;
-  int? merchantDiscount;
-  int? providerDiscount;
+  num? merchantDiscount;
+  num? providerDiscount;
 
   OrderSourceSummariesModel(
       {this.providerId,
@@ -202,10 +202,10 @@ class OrderSourceSummariesModel {
 
 class ItemSummaryItemModel {
   String? title;
-  int? count;
+  num? count;
   int? quantity;
-  int? revenue;
-  int? revenueUsd;
+  num? revenue;
+  num? revenueUsd;
   List<ItemSummaryProviderModel>? providers;
 
   ItemSummaryItemModel(
@@ -233,10 +233,10 @@ class ItemSummaryItemModel {
 
 class ItemSummaryProviderModel {
   int? providerId;
-  int? orderCount;
+  num? orderCount;
   int? quantity;
-  int? revenue;
-  int? revenueUsd;
+  num? revenue;
+  num? revenueUsd;
 
   ItemSummaryProviderModel(
       {this.providerId,
@@ -258,9 +258,9 @@ class PaymentSummaryItemModel {
   String? paymentMethod;
   String? currency;
   String? currencySymbol;
-  int? totalOrders;
-  int? grossRevenue;
-  int? discount;
+  num? totalOrders;
+  num? grossRevenue;
+  num? discount;
   num? avgBasketSize;
   List<PaymentChannelAnalyticModel>? channelAnalytics;
 
@@ -295,9 +295,9 @@ class PaymentChannelAnalyticModel {
   String? paymentChannel;
   String? currency;
   String? currencySymbol;
-  int? totalOrders;
-  int? grossRevenue;
-  int? discount;
+  num? totalOrders;
+  num? grossRevenue;
+  num? discount;
   num? avgBasketSize;
 
   PaymentChannelAnalyticModel(

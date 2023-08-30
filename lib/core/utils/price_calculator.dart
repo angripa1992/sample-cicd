@@ -59,6 +59,7 @@ class PriceCalculator {
     }
     return NumberFormat.currency(
       name: code,
+      symbol: symbol,
       decimalDigits: 2,
     ).format(price);
   }
