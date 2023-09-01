@@ -29,8 +29,7 @@ class PriceCalculator {
     if (!order.isInterceptorOrder &&
         order.providerId != ProviderID.FOOD_PANDA) {
       num unitPrice = num.parse(modifiers.unitPrice);
-      modifierTotalPrice =
-          unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
+      modifierTotalPrice = unitPrice * modifiers.quantity * prevQuantity * itemQuantity;
     }
     return modifierTotalPrice;
   }

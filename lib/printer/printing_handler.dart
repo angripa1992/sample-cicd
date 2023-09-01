@@ -2,6 +2,7 @@ import 'package:docket_design_template/docket_design_template.dart';
 import 'package:docket_design_template/model/font_size.dart';
 import 'package:docket_design_template/model/order.dart';
 import 'package:docket_design_template/sunmi_design_template.dart';
+import 'package:docket_design_template/sunmi_zreport_design_template.dart';
 import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:docket_design_template/zreport_design_template.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -141,9 +142,13 @@ class PrintingHandler {
       onSelect: (type) async {
         //_showPreview(order: order, docketType: type);
         if (SessionManager().isSunmiDevice()) {
+          final rollSize = _preferences.printerSetting().paperSize.toRollSize();
           final templateOrder = await _generateTemplateOrder(order);
-          await SunmiDesignTemplate()
-              .printSunmi(templateOrder, type == DocketType.customer);
+          await SunmiDesignTemplate().printSunmi(
+            templateOrder,
+            type == DocketType.customer,
+            rollSize,
+          );
         } else {
           final printingData =
               await _generateDocketTicket(order: order, docketType: type);
@@ -216,14 +221,23 @@ class PrintingHandler {
   void _sunmiAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
     final templateOrder = await _generateTemplateOrder(order);
+    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     if (printerSetting.customerCopyEnabled) {
       for (int i = 0; i < printerSetting.customerCopyCount; i++) {
-        await SunmiDesignTemplate().printSunmi(templateOrder, true);
+        await SunmiDesignTemplate().printSunmi(
+          templateOrder,
+          true,
+          rollSize,
+        );
       }
     }
     if (printerSetting.kitchenCopyEnabled &&
         printerSetting.kitchenCopyCount > ZERO) {
-      await SunmiDesignTemplate().printSunmi(templateOrder, false);
+      await SunmiDesignTemplate().printSunmi(
+        templateOrder,
+        false,
+        rollSize,
+      );
     }
   }
 
@@ -240,7 +254,12 @@ class PrintingHandler {
   }
 
   void printZReport(ZReportDataModel model, DateTime reportDate) async {
-    if (await _isPermissionGranted()) {
+    if (SessionManager().isSunmiDevice()) {
+      final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+      final data =
+          await ZReportDataProvider().generateTemplateData(model, reportDate);
+      await SunmiZReportPrinter().printZReport(data, rollSize);
+    } else if (await _isPermissionGranted()) {
       if (_preferences.printerSetting().type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
           final printingData = await _generateZReportTicket(model, reportDate);
