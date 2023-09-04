@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
@@ -21,7 +24,7 @@ class FcmTokenManager {
     final userID = SessionManager().user().id;
     final branchID = SessionManager().user().branchId;
     final deviceInfo = '$platform/0s-$os/model-$model';
-    final uuid = '$userID/$branchID/$deviceInfo/$fcmToken';
+    final uuid = md5.convert(utf8.encode('$userID/$branchID/$deviceInfo/$fcmToken')).toString();
 
     final Map<String, dynamic> params = {};
     params['user_id'] = userID;

@@ -61,11 +61,15 @@ class AppButton extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            text,
-            style: mediumTextStyle(
-              color: enable ? (textColor ?? AppColors.white) : AppColors.white,
-              fontSize: AppFontSize.s16.rSp,
+          Expanded(
+            child: Center(
+              child: Text(
+                text,
+                style: mediumTextStyle(
+                  color: enable ? (textColor ?? AppColors.white) : AppColors.white,
+                  fontSize: AppFontSize.s16.rSp,
+                ),
+              ),
             ),
           ),
         ],

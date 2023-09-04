@@ -33,10 +33,7 @@ class PrintingHandler {
   final AppPreferences _preferences;
   final OrderInformationProvider _infoProvider;
 
-  PrintingHandler(
-    this._preferences,
-    this._infoProvider,
-  );
+  PrintingHandler(this._preferences, this._infoProvider);
 
   Future<bool> _isPermissionGranted() async {
     if (await PermissionHandler().isLocationPermissionGranted()) {
@@ -46,60 +43,38 @@ class PrintingHandler {
     }
   }
 
-  void showDevices({
-    Order? order,
-    required int initialIndex,
-  }) async {
-    final type = _preferences.printerSetting().type;
+  void showDevices({Order? order, required int initialIndex}) async {
+    final type = _preferences
+        .printerSetting()
+        .type;
     if (await _isPermissionGranted()) {
       DeviceListBottomSheetManager().showBottomSheet(
         initialIndex: initialIndex,
         type: type,
         onPOSConnect: (device) async {
-          final isSuccessfullyConnected = type == CType.BLE
-              ? await BluetoothPrinterHandler().connect(device)
-              : await UsbPrinterHandler().connect(device);
+          final isSuccessfullyConnected = type == CType.BLE ? await BluetoothPrinterHandler().connect(device) : await UsbPrinterHandler().connect(device);
           if (isSuccessfullyConnected) {
-            showSuccessSnackBar(
-              RoutesGenerator.navigatorKey.currentState!.context,
-              type == CType.BLE
-                  ? AppStrings.bluetooth_successfully_connected.tr()
-                  : AppStrings.usb_successfully_connected.tr(),
-            );
+            showSuccessSnackBar(RoutesGenerator.navigatorKey.currentState!.context, type == CType.BLE ? AppStrings.bluetooth_successfully_connected.tr() : AppStrings.usb_successfully_connected.tr());
             if (order != null) {
               printDocket(order: order, willPrintSticker: false);
             }
           } else {
-            showErrorSnackBar(
-              RoutesGenerator.navigatorKey.currentState!.context,
-              AppStrings.can_not_connect_device.tr(),
-            );
+            showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.can_not_connect_device.tr());
           }
         },
         onStickerConnect: (stickerDevice) async {
-          final isConnected =
-              await StickerPrinterHandler().connect(stickerDevice);
+          final isConnected = await StickerPrinterHandler().connect(stickerDevice);
           if (isConnected) {
-            showSuccessSnackBar(
-              RoutesGenerator.navigatorKey.currentState!.context,
-              "Sticker Printer Successfully Connected",
-            );
+            showSuccessSnackBar(RoutesGenerator.navigatorKey.currentState!.context, "Sticker Printer Successfully Connected");
           } else {
-            showErrorSnackBar(
-              RoutesGenerator.navigatorKey.currentState!.context,
-              AppStrings.can_not_connect_device.tr(),
-            );
+            showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.can_not_connect_device.tr());
           }
         },
       );
     }
   }
 
-  void printDocket({
-    required Order order,
-    bool isAutoPrint = false,
-    bool willPrintSticker = true,
-  }) async {
+  void printDocket({required Order order, bool isAutoPrint = false, bool willPrintSticker = true}) async {
     if (await _isPermissionGranted()) {
       if (SessionManager().isSunmiDevice()) {
         if (isAutoPrint) {
@@ -107,7 +82,9 @@ class PrintingHandler {
         } else {
           _doManualPrint(order);
         }
-      } else if (_preferences.printerSetting().type == CType.BLE) {
+      } else if (_preferences
+          .printerSetting()
+          .type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _bluetoothAutoPrint(order);
@@ -115,10 +92,7 @@ class PrintingHandler {
             _doManualPrint(order);
           }
         } else {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.bluetooth_not_connected.tr(),
-          );
+          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
         }
       } else {
         if (UsbPrinterHandler().isConnected()) {
@@ -128,10 +102,7 @@ class PrintingHandler {
             _doManualPrint(order);
           }
         } else {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.usb_not_connected.tr(),
-          );
+          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.usb_not_connected.tr());
         }
       }
     }
@@ -140,20 +111,19 @@ class PrintingHandler {
   void _doManualPrint(Order order) {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
-        //_showPreview(order: order, docketType: type);
         if (SessionManager().isSunmiDevice()) {
-          final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+          final rollSize = _preferences
+              .printerSetting()
+              .paperSize
+              .toRollSize();
           final templateOrder = await _generateTemplateOrder(order);
-          await SunmiDesignTemplate().printSunmi(
-            templateOrder,
-            type == DocketType.customer,
-            rollSize,
-          );
+          await SunmiDesignTemplate().printSunmi(templateOrder, type == DocketType.customer, rollSize);
         } else {
-          final printingData =
-              await _generateDocketTicket(order: order, docketType: type);
+          final printingData = await _generateDocketTicket(order: order, docketType: type);
           if (printingData != null) {
-            if (_preferences.printerSetting().type == CType.BLE) {
+            if (_preferences
+                .printerSetting()
+                .type == CType.BLE) {
               await BluetoothPrinterHandler().printDocket(printingData);
             } else {
               await UsbPrinterHandler().printDocket(printingData);
@@ -166,14 +136,8 @@ class PrintingHandler {
 
   void _bluetoothAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
-    final customerCopy = await _generateDocketTicket(
-      order: order,
-      docketType: DocketType.customer,
-    );
-    final kitchenCopy = await _generateDocketTicket(
-      order: order,
-      docketType: DocketType.kitchen,
-    );
+    final customerCopy = await _generateDocketTicket(order: order, docketType: DocketType.customer);
+    final kitchenCopy = await _generateDocketTicket(order: order, docketType: DocketType.kitchen);
     if (printerSetting.customerCopyEnabled) {
       if (customerCopy != null) {
         for (int i = 0; i < printerSetting.customerCopyCount; i++) {
@@ -181,8 +145,7 @@ class PrintingHandler {
         }
       }
     }
-    if (printerSetting.kitchenCopyEnabled &&
-        printerSetting.kitchenCopyCount > ZERO) {
+    if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
       if (kitchenCopy != null) {
         for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
           await BluetoothPrinterHandler().printDocket(kitchenCopy);
@@ -193,14 +156,8 @@ class PrintingHandler {
 
   void _usbAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
-    final customerCopy = await _generateDocketTicket(
-      order: order,
-      docketType: DocketType.customer,
-    );
-    final kitchenCopy = await _generateDocketTicket(
-      order: order,
-      docketType: DocketType.kitchen,
-    );
+    final customerCopy = await _generateDocketTicket(order: order, docketType: DocketType.customer);
+    final kitchenCopy = await _generateDocketTicket(order: order, docketType: DocketType.kitchen);
     if (printerSetting.customerCopyEnabled) {
       if (customerCopy != null) {
         for (int i = 0; i < printerSetting.customerCopyCount; i++) {
@@ -208,8 +165,7 @@ class PrintingHandler {
         }
       }
     }
-    if (printerSetting.kitchenCopyEnabled &&
-        printerSetting.kitchenCopyCount > ZERO) {
+    if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
       if (kitchenCopy != null) {
         for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
           await UsbPrinterHandler().printDocket(kitchenCopy);
@@ -221,23 +177,17 @@ class PrintingHandler {
   void _sunmiAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
     final templateOrder = await _generateTemplateOrder(order);
-    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+    final rollSize = _preferences
+        .printerSetting()
+        .paperSize
+        .toRollSize();
     if (printerSetting.customerCopyEnabled) {
       for (int i = 0; i < printerSetting.customerCopyCount; i++) {
-        await SunmiDesignTemplate().printSunmi(
-          templateOrder,
-          true,
-          rollSize,
-        );
+        await SunmiDesignTemplate().printSunmi(templateOrder, true, rollSize);
       }
     }
-    if (printerSetting.kitchenCopyEnabled &&
-        printerSetting.kitchenCopyCount > ZERO) {
-      await SunmiDesignTemplate().printSunmi(
-        templateOrder,
-        false,
-        rollSize,
-      );
+    if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
+      await SunmiDesignTemplate().printSunmi(templateOrder, false, rollSize);
     }
   }
 
@@ -246,31 +196,29 @@ class PrintingHandler {
       final command = StickerDocketGenerator().generateDocket(order, item);
       StickerPrinterHandler().print(command);
     } else {
-      showErrorSnackBar(
-        RoutesGenerator.navigatorKey.currentState!.context,
-        'Sticker printer not connected',
-      );
+      showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, 'Sticker printer not connected');
     }
   }
 
   void printZReport(ZReportDataModel model, DateTime reportDate) async {
     if (SessionManager().isSunmiDevice()) {
-      final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-      final data =
-          await ZReportDataProvider().generateTemplateData(model, reportDate);
+      final rollSize = _preferences
+          .printerSetting()
+          .paperSize
+          .toRollSize();
+      final data = await ZReportDataProvider().generateTemplateData(model, reportDate);
       await SunmiZReportPrinter().printZReport(data, rollSize);
     } else if (await _isPermissionGranted()) {
-      if (_preferences.printerSetting().type == CType.BLE) {
+      if (_preferences
+          .printerSetting()
+          .type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
           final printingData = await _generateZReportTicket(model, reportDate);
           if (printingData != null) {
             await BluetoothPrinterHandler().printDocket(printingData);
           }
         } else {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.bluetooth_not_connected.tr(),
-          );
+          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
         }
       } else {
         if (UsbPrinterHandler().isConnected()) {
@@ -279,10 +227,7 @@ class PrintingHandler {
             await UsbPrinterHandler().printDocket(printingData);
           }
         } else {
-          showErrorSnackBar(
-            RoutesGenerator.navigatorKey.currentState!.context,
-            AppStrings.usb_not_connected.tr(),
-          );
+          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.usb_not_connected.tr());
         }
       }
     }
@@ -303,41 +248,36 @@ class PrintingHandler {
     required Order order,
     required int docketType,
   }) async {
-    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+    final rollSize = _preferences
+        .printerSetting()
+        .paperSize
+        .toRollSize();
     final templateOrder = await _generateTemplateOrder(order);
     List<int>? rawBytes = await DocketDesignTemplate().generateTicket(
       templateOrder,
-      PrinterConfiguration(
-        docket: docketType == DocketType.customer
-            ? Docket.customer
-            : Docket.kitchen,
-        roll: rollSize,
-        fontSize: _printerFonts(),
-      ),
+      PrinterConfiguration(docket: docketType == DocketType.customer ? Docket.customer : Docket.kitchen, roll: rollSize, fontSize: _printerFonts()),
     );
     return rawBytes;
   }
 
-  Future<List<int>?> _generateZReportTicket(
-    ZReportDataModel dataModel,
-    DateTime reportTime,
-  ) async {
-    final data =
-        await ZReportDataProvider().generateTemplateData(dataModel, reportTime);
-    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+  Future<List<int>?> _generateZReportTicket(ZReportDataModel dataModel,
+      DateTime reportTime,) async {
+    final data = await ZReportDataProvider().generateTemplateData(dataModel, reportTime);
+    final rollSize = _preferences
+        .printerSetting()
+        .paperSize
+        .toRollSize();
     final printingData = await ZReportDesignTemplate().generateTicket(
       data,
-      PrinterConfiguration(
-        docket: Docket.customer,
-        roll: rollSize,
-        fontSize: _printerFonts(),
-      ),
+      PrinterConfiguration(docket: Docket.customer, roll: rollSize, fontSize: _printerFonts()),
     );
     return printingData;
   }
 
   PrinterFonts _printerFonts() {
-    final font = _preferences.printerSetting().fonts!;
+    final font = _preferences
+        .printerSetting()
+        .fonts!;
     return PrinterFonts(
       smallFontSize: font.smallFontSize.toDouble(),
       regularFontSize: font.regularFontSize.toDouble(),
@@ -346,4 +286,5 @@ class PrintingHandler {
       extraLargeFontSize: font.extraLargeFontSize.toDouble(),
     );
   }
+
 }

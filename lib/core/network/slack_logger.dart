@@ -34,7 +34,7 @@ class SlackLoggerResolver {
       'Params: ${error.requestOptions.queryParameters}',
       "********** BUSINESS **********",
       "Branch: ${user.branchName} (${user.branchId})",
-      "Brand: ${user.brandName} (${user.branchId})",
+      "Brand: ${user.brandName} (${user.brandId})",
       "Business: ${user.businessName} (${user.businessId})",
       "********** METADATA **********",
       "Version: ${await deviceInfo.versionName()}",
@@ -42,9 +42,6 @@ class SlackLoggerResolver {
       "OS: ${await deviceInfo.getOsVersion()}",
       "Device: ${await deviceInfo.getDeviceModel()}",
     ];
-    SlackLogger.instance.sendMarkdownAsAttachment(
-      markdownMessageList: markdownMessageList,
-      color: "#FF0000",
-    );
+    SlackLogger.instance.sendMarkdownAsAttachment(markdownMessageList: markdownMessageList, color: "#FF0000");
   }
 }

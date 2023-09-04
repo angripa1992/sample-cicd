@@ -119,26 +119,30 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    AppStrings.cancel.tr(),
-                    style: regularTextStyle(
-                      color: AppColors.redDark,
-                      fontSize: AppFontSize.s14.rSp,
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppStrings.cancel.tr(),
+                      style: regularTextStyle(
+                        color: AppColors.redDark,
+                        fontSize: AppFontSize.s14.rSp,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(width: AppSize.s16.rh),
-                AppButton(
-                  enable: true,
-                  onTap: () {
-                    _changeLocale();
-                    Navigator.pop(context);
-                  },
-                  text: AppStrings.select.tr(),
+                Expanded(
+                  child: AppButton(
+                    enable: true,
+                    onTap: () {
+                      _changeLocale();
+                      Navigator.pop(context);
+                    },
+                    text: AppStrings.select.tr(),
+                  ),
                 ),
               ],
             ),

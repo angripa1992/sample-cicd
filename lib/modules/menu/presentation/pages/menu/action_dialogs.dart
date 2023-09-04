@@ -33,8 +33,7 @@ void showMenuActionDialog({
       return BlocProvider<UpdateMenuEnabledCubit>(
         create: (_) => getIt.get<UpdateMenuEnabledCubit>(),
         child: AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -57,10 +56,7 @@ void showMenuActionDialog({
                       listener: (context, state) {
                         if (state is Success<ActionSuccess>) {
                           Navigator.of(context).pop();
-                          showSuccessSnackBar(
-                            context,
-                            state.data.message ?? AppStrings.successful.tr(),
-                          );
+                          showSuccessSnackBar(context, state.data.message ?? AppStrings.successful.tr());
                           onSuccess();
                         } else if (state is Failed) {
                           Navigator.of(context).pop();
@@ -71,17 +67,9 @@ void showMenuActionDialog({
                         return LoadingButton(
                           isLoading: (state is Loading),
                           onTap: () {
-                            context.read<UpdateMenuEnabledCubit>().updateMenu(
-                                  menuVersion: menuVersion,
-                                  brandId: brandId,
-                                  id: id,
-                                  enabled: enabled,
-                                  type: type,
-                                );
+                            context.read<UpdateMenuEnabledCubit>().updateMenu(menuVersion: menuVersion, brandId: brandId, id: id, enabled: enabled, type: type);
                           },
-                          text: enabled
-                              ? AppStrings.enable.tr()
-                              : AppStrings.disable.tr(),
+                          text: enabled ? AppStrings.enable.tr() : AppStrings.disable.tr(),
                         );
                       },
                     ),
@@ -95,8 +83,7 @@ void showMenuActionDialog({
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.zero,
                         backgroundColor: AppColors.white,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+                        padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                           side: BorderSide(color: AppColors.primary),

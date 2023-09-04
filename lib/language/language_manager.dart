@@ -12,8 +12,7 @@ class LanguageManager {
   final AppPreferences _appPreferences;
   final _languages = <Language>[];
   final _fallbackLocale = const Locale('en', 'US');
-  final _fallbackLanguage =
-      Language(id: 1, title: 'English', code: 'en', countryCode: 'US');
+  final _fallbackLanguage = Language(id: 1, title: 'English', code: 'en', countryCode: 'US');
 
   LanguageManager(this._appPreferences);
 
@@ -49,8 +48,7 @@ class LanguageManager {
       final remoteLanguages = await _fetchLanguages();
       _languages.addAll(remoteLanguages);
     }
-    final supportedLocales =
-        _languages.map((e) => makeLocaleFromLanguage(e)).toList();
+    final supportedLocales = _languages.map((e) => makeLocaleFromLanguage(e)).toList();
     if (supportedLocales.isEmpty) {
       return [_fallbackLocale];
     }
@@ -59,8 +57,7 @@ class LanguageManager {
 
   Future<Locale> getStartLocale() async {
     try {
-      final currentLanguage =
-          _languages.firstWhere((element) => element.id == currentLanguageId());
+      final currentLanguage = _languages.firstWhere((element) => element.id == currentLanguageId());
       return makeLocaleFromLanguage(currentLanguage);
     } catch (e) {
       return _fallbackLocale;

@@ -34,8 +34,7 @@ class RestClient {
     final versionCode = await deviceInfoProvider.versionCode();
     final versionName = await deviceInfoProvider.versionName();
     _dio.options.headers[contentType] = 'application/json';
-    _dio.options.headers[appAgent] =
-        'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
+    _dio.options.headers[appAgent] = 'enterprise/${deviceInfoProvider.platformName()}/$versionCode';
     _dio.options.headers[appVersion] = versionCode;
     _dio.options.headers[appVersionName] = versionName.removeDot();
   }
@@ -96,21 +95,22 @@ class RestClient {
     if (error.response?.statusCode == ResponseCode.UPDATE_REQUIRED) {
       AppUpdateManager().showAppUpdateDialog();
       return handler.reject(error);
-    }
-    if (options?.path == Urls.login || options?.path == Urls.forgetPassword) {
+    } else if (options?.path == Urls.login || options?.path == Urls.forgetPassword) {
       return handler.next(error);
-    } else {
-      if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-        if (_token(_tokenProvider.getAccessToken()) != options?.headers[authorization]) {
-          options?.headers[authorization] = _token(_tokenProvider.getAccessToken());
-          _dio.fetch(options!).then(
-            (r) => handler.resolve(r),
-            onError: (e) {
-              handler.reject(e);
-            },
-          );
-          return;
-        }
+    } else if (options?.path == Urls.logout && error.response?.statusCode == ResponseCode.UNAUTHORISED) {
+      SessionManager().logout();
+      return handler.reject(error);
+    } else if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
+      if (_token(_tokenProvider.getAccessToken()) != options?.headers[authorization]) {
+        options?.headers[authorization] = _token(_tokenProvider.getAccessToken());
+        _dio.fetch(options!).then(
+          (r) => handler.resolve(r),
+          onError: (e) {
+            handler.reject(e);
+          },
+        );
+        return;
+      } else {
         final tokenResponse = await _tokenProvider.fetchTokenFromServer();
         tokenResponse.fold(
           (accessToken) {
@@ -131,8 +131,9 @@ class RestClient {
         );
         return;
       }
+    } else {
+      return handler.next(error);
     }
-    return handler.next(error);
   }
 
   Future<dynamic> request(
