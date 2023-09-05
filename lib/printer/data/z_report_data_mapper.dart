@@ -102,7 +102,7 @@ class ZReportDataProvider {
     final providerSummaries = <TemplateSummaryItem>[];
     num totalSales = 0;
     for (var providerSummary in summaries!) {
-      totalSales += providerSummary.grossRevenue!;
+      totalSales += providerSummary.realizedRevenue!;
       if (providerSummary.providerId! == ProviderID.KLIKIT) {
         for (var klikitProvider in providerSummary.orderSourceSummaries!) {
           String name = 'Klikit Webshop';
@@ -115,7 +115,7 @@ class ZReportDataProvider {
               amount: _convertPrice(
                 code: currency.code,
                 symbol: currency.symbol,
-                priceInCent: klikitProvider.grossRevenue!,
+                priceInCent: klikitProvider.realizedRevenue!,
               ),
             ),
           );
@@ -130,7 +130,7 @@ class ZReportDataProvider {
             amount: _convertPrice(
               code: currency.code,
               symbol: currency.symbol,
-              priceInCent: providerSummary.grossRevenue!,
+              priceInCent: providerSummary.realizedRevenue!,
             ),
           ),
         );
