@@ -13,7 +13,7 @@ class Urls {
   static const String brand = '/v1/brand';
   static const String provider = '/v1/provider';
   static const String printerSettings = '/v1/printer/settings';
-  static const String busy = '/v1/brand-provider/busy';
+  static const String pauseStore = '/v1/brand-provider/busy';
   static const String updateStatus = '/v1/oni/order/status';
   static const String updatePaymentInfo = '/v1/oni/manualorder/payment';
   static const String tokenRegistration = '/v1/notify-token';

@@ -16,14 +16,11 @@ abstract class UserRemoteDataSource {
 
   Future<SuccessResponseModel> logout();
 
-  Future<SuccessResponseModel> updateUserInfo(
-      UserUpdateRequestModel params, int userID);
+  Future<SuccessResponseModel> updateUserInfo(UserUpdateRequestModel params, int userID);
 
-  Future<SuccessResponseModel> sendResetLink(
-      ResetLinkRequestModel requestModel);
+  Future<SuccessResponseModel> sendResetLink(ResetLinkRequestModel requestModel);
 
-  Future<SuccessResponseModel> changePassword(
-      ChangePasswordRequestModel requestModel);
+  Future<SuccessResponseModel> changePassword(ChangePasswordRequestModel requestModel);
 
   Future<SuccessResponseModel> changeUserSetting(Map<String, dynamic> params);
 
@@ -48,8 +45,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   @override
   Future<SuccessResponseModel> logout() async {
     try {
-      final response =
-          await _restClient.request(Urls.logout, Method.POST, null);
+      final response = await _restClient.request(Urls.logout, Method.POST, null);
       return SuccessResponseModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -57,11 +53,9 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }
 
   @override
-  Future<SuccessResponseModel> updateUserInfo(
-      UserUpdateRequestModel params, int userID) async {
+  Future<SuccessResponseModel> updateUserInfo(UserUpdateRequestModel params, int userID) async {
     try {
-      final response = await _restClient.request(
-          '${Urls.userUpdate}/$userID', Method.PATCH, params.toJson());
+      final response = await _restClient.request('${Urls.userUpdate}/$userID', Method.PATCH, params.toJson());
       return SuccessResponseModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -69,11 +63,9 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }
 
   @override
-  Future<SuccessResponseModel> sendResetLink(
-      ResetLinkRequestModel requestModel) async {
+  Future<SuccessResponseModel> sendResetLink(ResetLinkRequestModel requestModel) async {
     try {
-      final response = await _restClient.request(
-          Urls.forgetPassword, Method.POST, requestModel.toJson());
+      final response = await _restClient.request(Urls.forgetPassword, Method.POST, requestModel.toJson());
       return SuccessResponseModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -81,11 +73,9 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }
 
   @override
-  Future<SuccessResponseModel> changePassword(
-      ChangePasswordRequestModel requestModel) async {
+  Future<SuccessResponseModel> changePassword(ChangePasswordRequestModel requestModel) async {
     try {
-      final response = await _restClient.request(
-          Urls.changePassword, Method.POST, requestModel.toJson());
+      final response = await _restClient.request(Urls.changePassword, Method.POST, requestModel.toJson());
       return SuccessResponseModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -93,11 +83,9 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   }
 
   @override
-  Future<SuccessResponseModel> changeUserSetting(
-      Map<String, dynamic> params) async {
+  Future<SuccessResponseModel> changeUserSetting(Map<String, dynamic> params) async {
     try {
-      final response =
-          await _restClient.request(Urls.userSettings, Method.POST, params);
+      final response = await _restClient.request(Urls.userSettings, Method.POST, params);
       return SuccessResponseModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -107,8 +95,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   @override
   Future<UserSettingsModel> getUserSettings(int userId) async {
     try {
-      final response = await _restClient.request(
-          '${Urls.userSettings}/$userId', Method.GET, null);
+      final response = await _restClient.request('${Urls.userSettings}/$userId', Method.GET, null);
       return UserSettingsModel.fromJson(response);
     } on DioException {
       rethrow;

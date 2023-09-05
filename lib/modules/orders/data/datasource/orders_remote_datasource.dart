@@ -123,7 +123,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<BusyModeGetResponseModel> isBusy(Map<String, dynamic> params) async {
     try {
-      final response = await _restClient.request(Urls.busy, Method.GET, params);
+      final response = await _restClient.request(Urls.pauseStore, Method.GET, params);
       return BusyModeGetResponseModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -135,7 +135,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       Map<String, dynamic> params) async {
     try {
       final response =
-          await _restClient.request(Urls.busy, Method.POST, params);
+          await _restClient.request(Urls.pauseStore, Method.POST, params);
       return BusyModePostResponseModel.fromJson(response);
     } on DioException {
       rethrow;
