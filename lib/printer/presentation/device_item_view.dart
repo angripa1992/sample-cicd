@@ -46,14 +46,16 @@ class DeviceItemView extends StatelessWidget {
                   ),
                 ),
               ),
-              AppButton(
-                color: AppColors.white,
-                textColor: AppColors.black,
-                borderColor: AppColors.black,
-                onTap: () {
-                  onConnect();
-                },
-                text: AppStrings.connect.tr(),
+              Expanded(
+                child: AppButton(
+                  color: AppColors.white,
+                  textColor: AppColors.black,
+                  borderColor: AppColors.black,
+                  onTap: () {
+                    onConnect();
+                  },
+                  text: AppStrings.connect.tr(),
+                ),
               ),
             ],
           ),
