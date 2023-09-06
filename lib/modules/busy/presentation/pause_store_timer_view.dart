@@ -1,0 +1,96 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
+
+import '../../../resources/colors.dart';
+import '../../../resources/fonts.dart';
+import '../../../resources/styles.dart';
+import '../../../resources/values.dart';
+
+class PauseStoreTimerView extends StatefulWidget {
+  final int duration;
+  final int timeLeft;
+
+  const PauseStoreTimerView({
+    Key? key,
+    required this.duration,
+    required this.timeLeft,
+  }) : super(key: key);
+
+  @override
+  State<PauseStoreTimerView> createState() => _PauseStoreTimerViewState();
+}
+
+class _PauseStoreTimerViewState extends State<PauseStoreTimerView> {
+  ValueNotifier<int>? _timerListener;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    _timerListener = ValueNotifier(widget.timeLeft - 1);
+    _startTimer(
+      duration: widget.duration,
+      timeLeft: widget.timeLeft - 1,
+    );
+    super.initState();
+  }
+
+  void _startTimer({required int timeLeft, required int duration}) {
+    _timer = Timer.periodic(
+      const Duration(minutes: 1),
+      (timer) {
+        _timerListener?.value = timeLeft - timer.tick;
+        if (timer.tick == timeLeft) {
+          _cancelTimer();
+        }
+      },
+    );
+  }
+
+  void _cancelTimer() {
+    _timer?.cancel();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s8.rw,
+        vertical: AppSize.s2.rh,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s18.rSp),
+        color: AppColors.redLighter,
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.access_time,
+            color: AppColors.redDark,
+            size: AppSize.s18.rSp,
+          ),
+          SizedBox(width: AppSize.s8.rw),
+          ValueListenableBuilder<int>(
+            valueListenable: _timerListener!,
+            builder: (_, time, __) {
+              return Text(
+                time.toString(),
+                style: mediumTextStyle(
+                  color: AppColors.redDark,
+                  fontSize: AppFontSize.s14.rSp,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _cancelTimer();
+    super.dispose();
+  }
+}

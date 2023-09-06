@@ -26,6 +26,7 @@ import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
 import '../../add_order/presentation/pages/add_order_screen.dart';
 import '../../base/base_screen_cubit.dart';
+import '../../busy/presentation/pause_store_header_view.dart';
 import '../../orders/presentation/bloc/cancelled_order_cubit.dart';
 import '../../orders/presentation/bloc/completed_order_cubit.dart';
 import '../../orders/presentation/bloc/new_order_cubit.dart';
@@ -235,6 +236,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 vertical: AppSize.s16.rh,
               ),
               child: const BusyModeView(),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSize.s20.rw,
+                vertical: AppSize.s16.rh,
+              ),
+              child:  const PauseStoreHeaderView(),
             ),
             Padding(
               padding: EdgeInsets.symmetric(

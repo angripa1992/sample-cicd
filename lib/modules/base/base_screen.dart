@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +28,7 @@ import '../../core/utils/response_state.dart';
 import '../../language/language_manager.dart';
 import '../../resources/strings.dart';
 import '../add_order/presentation/pages/add_order_screen.dart';
+import '../busy/presentation/bloc/fetch_pause_store_data_cubit.dart';
 import '../home/presentation/cubit/fetch_zreport_cubit.dart';
 import '../home/presentation/home_screen.dart';
 import '../menu/presentation/pages/stock_screen.dart';
@@ -57,12 +56,10 @@ class _BaseScreenState extends State<BaseScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (mounted) {
-          final args = ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>?;
+          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
           if (args != null) {
             if (args[ArgumentKey.kIS_NOTIFICATION]) {
-              final navData = NotificationDataHandler()
-                  .getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
+              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
               context.read<BaseScreenCubit>().changeIndex(navData);
             }
           }
@@ -73,17 +70,14 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void _handlePrinterSetting(PrinterSetting setting) async {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     await _appPreferences.savePrinterSettings(printerSetting: setting);
     if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
       if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
         return;
       }
-      final NotificationData notificationData =
-          args[ArgumentKey.kNOTIFICATION_DATA];
-      final order = await NotificationDataHandler()
-          .getOrderById(notificationData.orderId.toInt());
+      final NotificationData notificationData = args[ArgumentKey.kNOTIFICATION_DATA];
+      final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
       if (order != null && order.status == OrderStatus.ACCEPTED) {
         _printingHandler.printDocket(order: order, isAutoPrint: true);
       }
@@ -132,27 +126,19 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<FetchPauseStoreDataCubit>(create: (_) => getIt.get()),
         BlocProvider<BusyModeCubit>(create: (_) => getIt.get<BusyModeCubit>()),
-        BlocProvider<UpdateBusyModeCubit>(
-            create: (_) => getIt.get<UpdateBusyModeCubit>()),
-        BlocProvider<TotalOrderCubit>(
-            create: (_) => getIt.get<TotalOrderCubit>()),
-        BlocProvider<YesterdayTotalOrderCubit>(
-            create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
-        BlocProvider<CompletedOrderCubit>(
-            create: (_) => getIt.get<CompletedOrderCubit>()),
-        BlocProvider<CancelledOrderCubit>(
-            create: (_) => getIt.get<CancelledOrderCubit>()),
+        BlocProvider<UpdateBusyModeCubit>(create: (_) => getIt.get<UpdateBusyModeCubit>()),
+        BlocProvider<TotalOrderCubit>(create: (_) => getIt.get<TotalOrderCubit>()),
+        BlocProvider<YesterdayTotalOrderCubit>(create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
+        BlocProvider<CompletedOrderCubit>(create: (_) => getIt.get<CompletedOrderCubit>()),
+        BlocProvider<CancelledOrderCubit>(create: (_) => getIt.get<CancelledOrderCubit>()),
         BlocProvider<NewOrderCubit>(create: (_) => getIt.get<NewOrderCubit>()),
         BlocProvider<AllOrderCubit>(create: (_) => getIt.get<AllOrderCubit>()),
-        BlocProvider<ScheduleOrderCubit>(
-            create: (_) => getIt.get<ScheduleOrderCubit>()),
-        BlocProvider<OngoingOrderCubit>(
-            create: (_) => getIt.get<OngoingOrderCubit>()),
-        BlocProvider<OrderActionCubit>(
-            create: (_) => getIt.get<OrderActionCubit>()),
-        BlocProvider<FetchZReportCubit>(
-            create: (_) => getIt.get<FetchZReportCubit>()),
+        BlocProvider<ScheduleOrderCubit>(create: (_) => getIt.get<ScheduleOrderCubit>()),
+        BlocProvider<OngoingOrderCubit>(create: (_) => getIt.get<OngoingOrderCubit>()),
+        BlocProvider<OrderActionCubit>(create: (_) => getIt.get<OrderActionCubit>()),
+        BlocProvider<FetchZReportCubit>(create: (_) => getIt.get<FetchZReportCubit>()),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -214,8 +200,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 ],
                 backgroundColor: Colors.white,
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
               floatingActionButton: FloatingActionButton(
                 onPressed: _goToAddOrderScreen,
                 tooltip: 'Add Order',
