@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_breakdowns.dart';
@@ -30,18 +31,34 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
     super.initState();
   }
 
-  void _showBreakDowns(PauseStoresData data) {
+  void _showBreakDowns() {
     showModalBottomSheet(
-        context: context,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppSize.s16.rSp),
-          ),
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppSize.s16.rSp),
         ),
-        builder: (ct) {
-          return PauseStoreBreakdownView(data: data);
-        });
+      ),
+      builder: (ct) {
+        return BlocProvider(
+          create: (_) => getIt.get<FetchPauseStoreDataCubit>(),
+          child: const PauseStoreBreakdownView(),
+        );
+      },
+    );
   }
+
+  // void _fetchCurrentDataAndShowBreakdowns() async {
+  //   EasyLoading.show();
+  //   final response = await getIt.get<PauseStoreRepository>().fetchPauseStoresData(SessionManager().branchId());
+  //   EasyLoading.dismiss();
+  //   response.fold(
+  //     (failure) {},
+  //     (data) {
+  //       _showBreakDowns(data);
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +95,10 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
     final noOfPausedStore = _numberOfPausedStore(data);
     return Row(
       children: [
-        PauseStoreToggleButton(isBusy: data.isBusy),
+        PauseStoreToggleButton(
+          isBusy: data.isBusy,
+          isBranch: true,
+        ),
         Text(
           AppStrings.pause_store.tr(),
           style: mediumTextStyle(
@@ -91,7 +111,7 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
         const Spacer(),
         IconButton(
           onPressed: () {
-            _showBreakDowns(data);
+            _showBreakDowns();
           },
           icon: Icon(
             Icons.arrow_forward_ios_rounded,
