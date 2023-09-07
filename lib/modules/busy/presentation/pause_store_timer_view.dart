@@ -11,11 +11,13 @@ import '../../../resources/values.dart';
 class PauseStoreTimerView extends StatefulWidget {
   final int duration;
   final int timeLeft;
+  final VoidCallback onFinished;
 
   const PauseStoreTimerView({
     Key? key,
     required this.duration,
     required this.timeLeft,
+    required this.onFinished,
   }) : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class _PauseStoreTimerViewState extends State<PauseStoreTimerView> {
         _timerListener?.value = timeLeft - timer.tick;
         if (timer.tick == timeLeft) {
           _cancelTimer();
+          widget.onFinished();
         }
       },
     );
@@ -56,8 +59,8 @@ class _PauseStoreTimerViewState extends State<PauseStoreTimerView> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s8.rw,
-        vertical: AppSize.s2.rh,
+        horizontal: AppSize.s6.rw,
+        vertical: AppSize.s4.rh,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s18.rSp),
@@ -68,17 +71,17 @@ class _PauseStoreTimerViewState extends State<PauseStoreTimerView> {
           Icon(
             Icons.access_time,
             color: AppColors.redDark,
-            size: AppSize.s18.rSp,
+            size: AppSize.s16.rSp,
           ),
-          SizedBox(width: AppSize.s8.rw),
+          SizedBox(width: AppSize.s4.rw),
           ValueListenableBuilder<int>(
             valueListenable: _timerListener!,
             builder: (_, time, __) {
               return Text(
-                time.toString(),
+                '$time m',
                 style: mediumTextStyle(
                   color: AppColors.redDark,
-                  fontSize: AppFontSize.s14.rSp,
+                  fontSize: AppFontSize.s12.rSp,
                 ),
               );
             },

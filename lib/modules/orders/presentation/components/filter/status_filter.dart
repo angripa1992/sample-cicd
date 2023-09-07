@@ -88,13 +88,13 @@ class _StatusFilterState extends State<StatusFilter> {
             padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
             child: ExpandedTile(
               theme: ExpandedTileThemeData(
-                headerColor: AppColors.greyLight,
+                headerColor: AppColors.white,
                 headerPadding: EdgeInsets.symmetric(
                   horizontal: AppSize.s8.rw,
                   vertical: AppSize.s8.rh,
                 ),
-                headerSplashColor: AppColors.primaryLight,
-                contentBackgroundColor: AppColors.greyLight,
+                headerSplashColor: AppColors.white,
+                contentBackgroundColor: AppColors.white,
                 contentPadding: EdgeInsets.zero,
               ),
               trailing: Icon(

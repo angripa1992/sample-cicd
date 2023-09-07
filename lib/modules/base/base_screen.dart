@@ -7,14 +7,12 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/new_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/ongoing_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/order_action_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/total_order_cubit.dart';
-import 'package:klikit/modules/orders/presentation/bloc/update_busy_mode_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/orders_screen.dart';
 import 'package:klikit/notification/notification_data.dart';
@@ -127,8 +125,6 @@ class _BaseScreenState extends State<BaseScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<FetchPauseStoreDataCubit>(create: (_) => getIt.get()),
-        BlocProvider<BusyModeCubit>(create: (_) => getIt.get<BusyModeCubit>()),
-        BlocProvider<UpdateBusyModeCubit>(create: (_) => getIt.get<UpdateBusyModeCubit>()),
         BlocProvider<TotalOrderCubit>(create: (_) => getIt.get<TotalOrderCubit>()),
         BlocProvider<YesterdayTotalOrderCubit>(create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
         BlocProvider<CompletedOrderCubit>(create: (_) => getIt.get<CompletedOrderCubit>()),

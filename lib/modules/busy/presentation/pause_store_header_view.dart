@@ -27,8 +27,12 @@ class PauseStoreHeaderView extends StatefulWidget {
 class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
   @override
   void initState() {
-    context.read<FetchPauseStoreDataCubit>().fetchPauseStoreData();
+    _fetchData();
     super.initState();
+  }
+
+  void _fetchData() {
+    context.read<FetchPauseStoreDataCubit>().fetchPauseStoreData();
   }
 
   void _showBreakDowns() {
@@ -42,27 +46,21 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
       builder: (ct) {
         return BlocProvider(
           create: (_) => getIt.get<FetchPauseStoreDataCubit>(),
-          child: const PauseStoreBreakdownView(),
+          child: const Scaffold(
+            backgroundColor: Colors.transparent,
+            body: PauseStoreBreakdownView(),
+          ),
         );
       },
-    );
+    ).then((value) {
+      _fetchData();
+    });
   }
-
-  // void _fetchCurrentDataAndShowBreakdowns() async {
-  //   EasyLoading.show();
-  //   final response = await getIt.get<PauseStoreRepository>().fetchPauseStoresData(SessionManager().branchId());
-  //   EasyLoading.dismiss();
-  //   response.fold(
-  //     (failure) {},
-  //     (data) {
-  //       _showBreakDowns(data);
-  //     },
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s4.rSp),
         color: AppColors.white,
@@ -75,7 +73,11 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
           } else if (state is Success<PauseStoresData>) {
             return _body(state.data);
           }
-          return const CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primary,
+            ),
+          );
         },
       ),
     );
@@ -98,6 +100,7 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
         PauseStoreToggleButton(
           isBusy: data.isBusy,
           isBranch: true,
+          onSuccess: _fetchData,
         ),
         Text(
           AppStrings.pause_store.tr(),
@@ -107,7 +110,13 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
           ),
         ),
         SizedBox(width: AppSize.s16.rw),
-        data.isBusy ? PauseStoreTimerView(duration: data.duration, timeLeft: data.timeLeft) : (noOfPausedStore > 0 ? Text('$noOfPausedStore Paused') : Text('Disabled')),
+        data.isBusy
+            ? PauseStoreTimerView(
+                duration: data.duration,
+                timeLeft: data.timeLeft,
+                onFinished: _fetchData,
+              )
+            : (noOfPausedStore > 0 ? Text('$noOfPausedStore Paused') : const SizedBox()),
         const Spacer(),
         IconButton(
           onPressed: () {

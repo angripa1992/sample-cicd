@@ -110,13 +110,13 @@ class _AggregatorsFilterState extends State<AggregatorsFilter> {
   Widget build(BuildContext context) {
     return ExpandedTile(
       theme: ExpandedTileThemeData(
-        headerColor: AppColors.greyLight,
+        headerColor: AppColors.white,
         headerPadding: EdgeInsets.symmetric(
           horizontal: AppSize.s8.rw,
           vertical: AppSize.s8.rh,
         ),
-        headerSplashColor: AppColors.primaryLight,
-        contentBackgroundColor: AppColors.greyLight,
+        headerSplashColor: AppColors.white,
+        contentBackgroundColor: AppColors.white,
         contentPadding: EdgeInsets.zero,
       ),
       trailing: Icon(

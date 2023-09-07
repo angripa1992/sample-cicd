@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/di.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/widgets/snackbars.dart';
 
 import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
@@ -9,17 +12,20 @@ import '../../../resources/strings.dart';
 import '../../../resources/styles.dart';
 import '../../../resources/values.dart';
 import '../../widgets/app_button.dart';
+import '../domain/repository/pause_store_repository.dart';
 
 class PauseStoreToggleButton extends StatefulWidget {
   final bool isBusy;
   final bool isBranch;
   final double scale;
+  final VoidCallback onSuccess;
   final int? brandID;
 
   const PauseStoreToggleButton({
     Key? key,
     required this.isBusy,
     required this.isBranch,
+    required this.onSuccess,
     this.scale = 0.75,
     this.brandID,
   }) : super(key: key);
@@ -29,6 +35,26 @@ class PauseStoreToggleButton extends StatefulWidget {
 }
 
 class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
+  void _updatePauseStore(bool isBusy) async {
+    final params = {
+      'branch_id': SessionManager().branchId(),
+      'is_busy': isBusy,
+    };
+    if (!widget.isBranch && widget.brandID != null) {
+      params['brand_id'] = widget.brandID!;
+    }
+    final response = await getIt.get<PauseStoreRepository>().updatePauseStore(params);
+    response.fold(
+      (failure) {
+        showApiErrorSnackBar(context, failure);
+      },
+      (successResponse) {
+        showSuccessSnackBar(context, successResponse.message);
+        widget.onSuccess();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Transform.scale(
@@ -37,11 +63,13 @@ class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
         onChanged: (isBusy) {
           _showPauseStoreConfirmDialog(
             isBusy,
-            () {},
+            () {
+              _updatePauseStore(isBusy);
+            },
           );
         },
         value: widget.isBusy,
-        activeColor: AppColors.black,
+        activeColor: AppColors.greyDarker,
         trackColor: AppColors.primary,
       ),
     );
@@ -79,37 +107,37 @@ class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
               ),
             ],
           ),
+          actionsPadding: EdgeInsets.only(
+            left: AppSize.s16.rw,
+            right: AppSize.s16.rw,
+            bottom: AppSize.s8.rh,
+          ),
           actions: [
-            IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: AppButton(
-                      onTap: () {},
-                      text: isBusy ? AppStrings.go_offline.tr() : AppStrings.go_online.tr(),
-                      color: isBusy ? AppColors.redDark : AppColors.green,
-                      borderColor: isBusy ? AppColors.redDark : AppColors.green,
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: AppButton(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      onAction();
+                    },
+                    text: isBusy ? AppStrings.go_offline.tr() : AppStrings.go_online.tr(),
+                    color: isBusy ? AppColors.redDark : AppColors.green,
+                    borderColor: isBusy ? AppColors.redDark : AppColors.green,
                   ),
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Center(
-                        child: Text(
-                          AppStrings.not_now.tr(),
-                          style: mediumTextStyle(
-                            color: AppColors.primary,
-                            fontSize: AppFontSize.s16.rSp,
-                          ),
-                        ),
-                      ),
-                    ),
+                ),
+                Expanded(
+                  child: AppButton(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    text: AppStrings.not_now.tr(),
+                    borderColor: AppColors.black,
+                    textColor: AppColors.black,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         );

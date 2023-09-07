@@ -22,7 +22,7 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-          color: AppColors.greyLight,
+          color: AppColors.white,
         ),
         child: tabBar,
       ),

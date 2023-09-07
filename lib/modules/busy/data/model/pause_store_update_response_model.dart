@@ -14,7 +14,7 @@ class PauseStoreUpdateResponseModel {
     duration = json['duration'];
     message = json['message'];
     timeLeft = json['time_left'];
-    warning = json['warning'].cast<String>();
+    warning = json['warning']?.cast<String>() ?? [];
   }
 
   PauseStoreUpdateResponse toEntity() => PauseStoreUpdateResponse(

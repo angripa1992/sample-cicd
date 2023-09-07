@@ -29,7 +29,6 @@ import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.d
 import 'package:klikit/modules/orders/data/repository/orders_repository_impl.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/domain/usecases/add_comment.dart';
-import 'package:klikit/modules/orders/domain/usecases/check_busy_mode.dart';
 import 'package:klikit/modules/orders/domain/usecases/delete_comment.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_cancelled_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_completed_order.dart';
@@ -37,7 +36,6 @@ import 'package:klikit/modules/orders/domain/usecases/fetch_new_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_ongoing_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_total_orders.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_yesterday_total_order.dart';
-import 'package:klikit/modules/orders/domain/usecases/update_busy_mode_status.dart';
 import 'package:klikit/modules/orders/domain/usecases/update_order_status.dart';
 import 'package:klikit/modules/orders/provider/order_information_provider.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
@@ -87,7 +85,6 @@ import '../modules/orders/edit_order/calculate_grab_order_cubit.dart';
 import '../modules/orders/edit_order/update_grab_order_cubit.dart';
 import '../modules/orders/presentation/bloc/add_comment_cubit.dart';
 import '../modules/orders/presentation/bloc/all_order_cubit.dart';
-import '../modules/orders/presentation/bloc/busy_mode_cubit.dart';
 import '../modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import '../modules/orders/presentation/bloc/completed_order_cubit.dart';
 import '../modules/orders/presentation/bloc/delete_comment_cubit.dart';
@@ -96,7 +93,6 @@ import '../modules/orders/presentation/bloc/ongoing_order_cubit.dart';
 import '../modules/orders/presentation/bloc/order_action_cubit.dart';
 import '../modules/orders/presentation/bloc/schedule_order_cubit.dart';
 import '../modules/orders/presentation/bloc/total_order_cubit.dart';
-import '../modules/orders/presentation/bloc/update_busy_mode_cubit.dart';
 import '../modules/orders/presentation/bloc/update_payment_info_cubit.dart';
 import '../modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import '../modules/orders/provider/order_parameter_provider.dart';
@@ -142,7 +138,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
 
   ///pause store
   getIt.registerLazySingleton<PauseStoreRemoteDataSource>(() => PauseStoreRemoteDataSourceImpl(getIt()));
-  getIt.registerLazySingleton<PauseStoreRepository>(() => PauseStoreRepositoryImpl(getIt(),getIt()));
+  getIt.registerLazySingleton<PauseStoreRepository>(() => PauseStoreRepositoryImpl(getIt(), getIt()));
   getIt.registerFactory(() => FetchPauseStoreDataCubit(getIt()));
 
   ///home
@@ -180,12 +176,6 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => CalculateGrabBillCubit(getIt()));
   getIt.registerFactory(() => UpdateGrabOrderCubit(getIt()));
   getIt.registerLazySingleton(() => UpdateManualOrderDataProvider(getIt(), getIt(), getIt()));
-
-  ///busy mode
-  getIt.registerLazySingleton(() => CheckBusyMode(getIt()));
-  getIt.registerLazySingleton(() => UpdateBusyModeStatus(getIt()));
-  getIt.registerFactory(() => BusyModeCubit(getIt()));
-  getIt.registerFactory(() => UpdateBusyModeCubit(getIt()));
 
   ///menu mgt
   getIt.registerLazySingleton<MenuRemoteDatasource>(() => MenuRemoteDatasourceImpl(getIt.get()));

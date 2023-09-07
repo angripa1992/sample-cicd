@@ -25,8 +25,12 @@ class PauseStoreBreakdownView extends StatefulWidget {
 class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
   @override
   void initState() {
-    context.read<FetchPauseStoreDataCubit>().fetchPauseStoreData();
+    _fetchData();
     super.initState();
+  }
+
+  void _fetchData() {
+    context.read<FetchPauseStoreDataCubit>().fetchPauseStoreData();
   }
 
   @override
@@ -95,6 +99,7 @@ class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
             PauseStoreToggleButton(
               isBusy: data.isBusy,
               isBranch: true,
+              onSuccess: _fetchData,
             ),
           ],
         ),
@@ -119,7 +124,13 @@ class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
                             ),
                           ),
                           SizedBox(width: AppSize.s16.rw),
-                          data.breakdowns[index].isBusy ? PauseStoreTimerView(duration: data.duration, timeLeft: data.timeLeft) : const SizedBox(),
+                          data.breakdowns[index].isBusy
+                              ? PauseStoreTimerView(
+                                  duration: data.duration,
+                                  timeLeft: data.timeLeft,
+                                  onFinished: _fetchData,
+                                )
+                              : const SizedBox(),
                         ],
                       ),
                     ),
@@ -128,6 +139,7 @@ class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
                       isBranch: false,
                       brandID: data.breakdowns[index].brandId,
                       scale: 0.65,
+                      onSuccess: _fetchData,
                     ),
                   ],
                 ),

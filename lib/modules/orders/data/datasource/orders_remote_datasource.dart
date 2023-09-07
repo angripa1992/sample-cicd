@@ -5,7 +5,6 @@ import 'package:klikit/core/network/rest_client.dart';
 import 'package:klikit/core/network/urls.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/data/models/brand_model.dart';
-import 'package:klikit/modules/orders/data/models/busy_mode_model.dart';
 import 'package:klikit/modules/orders/data/models/orders_model.dart';
 import 'package:klikit/modules/orders/data/models/provider_model.dart';
 import 'package:klikit/modules/orders/data/models/settings_model.dart';
@@ -36,10 +35,6 @@ abstract class OrderRemoteDatasource {
 
   Future<OrderModel> fetchOrderById(int id);
 
-  Future<BusyModeGetResponseModel> isBusy(Map<String, dynamic> params);
-
-  Future<BusyModePostResponseModel> updateBusyMode(Map<String, dynamic> params);
-
   Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params);
 
   Future<ActionSuccess> updatePaymentInfo(Map<String, dynamic> params);
@@ -65,10 +60,8 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<List<OrderStatusModel>> fetchOrderStatus() async {
     try {
-      final List<dynamic> response =
-          await _restClient.request(Urls.status, Method.GET, null);
-      final List<OrderStatusModel> result =
-          response.map((e) => OrderStatusModel.fromJson(e)).toList();
+      final List<dynamic> response = await _restClient.request(Urls.status, Method.GET, null);
+      final List<OrderStatusModel> result = response.map((e) => OrderStatusModel.fromJson(e)).toList();
       return result;
     } on DioException {
       rethrow;
@@ -78,8 +71,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<BrandModel> fetchBrand(BrandRequestModel requestModel) async {
     try {
-      final response = await _restClient.request(
-          Urls.brand, Method.GET, requestModel.toJson());
+      final response = await _restClient.request(Urls.brand, Method.GET, requestModel.toJson());
       return BrandModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -89,8 +81,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<List<ProviderModel>> fetchProvider(Map<String, dynamic> param) async {
     try {
-      final List<dynamic> response =
-          await _restClient.request(Urls.provider, Method.GET, param);
+      final List<dynamic> response = await _restClient.request(Urls.provider, Method.GET, param);
       final data = response.map((e) => ProviderModel.fromJson(e)).toList();
       return data;
     } on DioException {
@@ -101,8 +92,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<SettingsModel> fetchSettings(int id) async {
     try {
-      final response = await _restClient.request(
-          '${Urls.printerSettings}/$id', Method.GET, null);
+      final response = await _restClient.request('${Urls.printerSettings}/$id', Method.GET, null);
       return SettingsModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -112,31 +102,8 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<OrdersModel> fetchOrder(Map<String, dynamic> params) async {
     try {
-      final response =
-          await _restClient.request(Urls.order, Method.GET, params);
+      final response = await _restClient.request(Urls.order, Method.GET, params);
       return OrdersModel.fromJson(response);
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<BusyModeGetResponseModel> isBusy(Map<String, dynamic> params) async {
-    try {
-      final response = await _restClient.request(Urls.pauseStore, Method.GET, params);
-      return BusyModeGetResponseModel.fromJson(response);
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<BusyModePostResponseModel> updateBusyMode(
-      Map<String, dynamic> params) async {
-    try {
-      final response =
-          await _restClient.request(Urls.pauseStore, Method.POST, params);
-      return BusyModePostResponseModel.fromJson(response);
     } on DioException {
       rethrow;
     }
@@ -145,8 +112,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params) async {
     try {
-      final response =
-          await _restClient.request(Urls.updateStatus, Method.PATCH, params);
+      final response = await _restClient.request(Urls.updateStatus, Method.PATCH, params);
       return ActionSuccess.fromJson(response);
     } on DioException {
       rethrow;
@@ -154,11 +120,9 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> addComment(
-      Map<String, dynamic> params, int orderID) async {
+  Future<ActionSuccess> addComment(Map<String, dynamic> params, int orderID) async {
     try {
-      final response = await _restClient.request(
-          Urls.comment(orderID), Method.PATCH, params);
+      final response = await _restClient.request(Urls.comment(orderID), Method.PATCH, params);
       return ActionSuccess.fromJson(response);
     } on DioException {
       rethrow;
@@ -168,8 +132,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<ActionSuccess> deleteComment(int orderID) async {
     try {
-      final response =
-          await _restClient.request(Urls.comment(orderID), Method.DELETE, null);
+      final response = await _restClient.request(Urls.comment(orderID), Method.DELETE, null);
       return ActionSuccess.fromJson(response);
     } on DioException {
       rethrow;
@@ -179,8 +142,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<OrderModel> fetchOrderById(int id) async {
     try {
-      final response =
-          await _restClient.request('${Urls.order}/$id', Method.GET, null);
+      final response = await _restClient.request('${Urls.order}/$id', Method.GET, null);
       return OrderModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -190,8 +152,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<List<SourcesModel>> fetchSources() async {
     try {
-      final List<dynamic> response =
-          await _restClient.request(Urls.sources, Method.GET, null);
+      final List<dynamic> response = await _restClient.request(Urls.sources, Method.GET, null);
       final data = response.map((e) => SourcesModel.fromJson(e)).toList();
       return data;
     } on DioException {
@@ -219,8 +180,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<List<PaymentStatusModel>> fetchPaymentStatus() async {
     try {
-      final List<dynamic> response =
-          await _restClient.request(Urls.paymentStatus, Method.GET, null);
+      final List<dynamic> response = await _restClient.request(Urls.paymentStatus, Method.GET, null);
       final data = response.map((e) => PaymentStatusModel.fromJson(e)).toList();
       return data;
     } on DioException {
@@ -231,8 +191,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<ActionSuccess> updatePaymentInfo(Map<String, dynamic> params) async {
     try {
-      final response = await _restClient.request(
-          Urls.updatePaymentInfo, Method.PATCH, params);
+      final response = await _restClient.request(Urls.updatePaymentInfo, Method.PATCH, params);
       return ActionSuccess.fromJson(response);
     } on DioException {
       rethrow;
@@ -254,12 +213,10 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> updateGrabOrder(
-      GrabOrderUpdateRequestModel model) async {
+  Future<ActionSuccess> updateGrabOrder(GrabOrderUpdateRequestModel model) async {
     try {
       final payload = model.toJson();
-      final response =
-          await _restClient.request(Urls.updateGrabOrder, Method.PUT, payload);
+      final response = await _restClient.request(Urls.updateGrabOrder, Method.PUT, payload);
       return ActionSuccess.fromJson(response);
     } on DioException {
       rethrow;
@@ -269,8 +226,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   @override
   Future<ActionSuccess> findRider(int id) async {
     try {
-      final response =
-          await _restClient.request(Urls.findRider(id), Method.PATCH, {});
+      final response = await _restClient.request(Urls.findRider(id), Method.PATCH, {});
       return ActionSuccess.fromJson(response);
     } on DioException {
       rethrow;

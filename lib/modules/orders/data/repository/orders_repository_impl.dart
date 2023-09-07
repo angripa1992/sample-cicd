@@ -6,7 +6,6 @@ import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/data/models/order_status_model.dart';
-import 'package:klikit/modules/orders/domain/entities/busy_mode.dart';
 import 'package:klikit/modules/orders/domain/entities/cancellation_reason.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
@@ -22,12 +21,10 @@ class OrderRepositoryImpl extends OrderRepository {
   final NetworkConnectivity _connectivity;
   final OrderInformationProvider _orderInformationProvider;
 
-  OrderRepositoryImpl(
-      this._datasource, this._connectivity, this._orderInformationProvider);
+  OrderRepositoryImpl(this._datasource, this._connectivity, this._orderInformationProvider);
 
   @override
-  Future<Either<Failure, order.Orders>> fetchOrder(
-      Map<String, dynamic> params) async {
+  Future<Either<Failure, order.Orders>> fetchOrder(Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchOrder(params);
@@ -77,40 +74,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, BusyModeGetResponse>> isBusy(
-    Map<String, dynamic> params,
-  ) async {
-    if (await _connectivity.hasConnection()) {
-      try {
-        final response = await _datasource.isBusy(params);
-        return Right(response.toEntity());
-      } on DioException catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    } else {
-      return Left(ErrorHandler.handleInternetConnection().failure);
-    }
-  }
-
-  @override
-  Future<Either<Failure, BusyModePostResponse>> updateBusyMode(
-    Map<String, dynamic> params,
-  ) async {
-    if (await _connectivity.hasConnection()) {
-      try {
-        final response = await _datasource.updateBusyMode(params);
-        return Right(response.toEntity());
-      } on DioException catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    } else {
-      return Left(ErrorHandler.handleInternetConnection().failure);
-    }
-  }
-
-  @override
-  Future<Either<Failure, ActionSuccess>> updateStatus(
-      Map<String, dynamic> params) async {
+  Future<Either<Failure, ActionSuccess>> updateStatus(Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updateOrderStatus(params);
@@ -174,20 +138,16 @@ class OrderRepositoryImpl extends OrderRepository {
     late OrderSource orderSource;
     if (sourceId > 0) {
       final source = await _orderInformationProvider.findSourceById(sourceId);
-      orderSource =
-          OrderSource(source.id, source.name, source.image, SourceTpe.source);
+      orderSource = OrderSource(source.id, source.name, source.image, SourceTpe.source);
     } else {
-      final provider =
-          await _orderInformationProvider.findProviderById(providerId);
-      orderSource = OrderSource(
-          provider.id, provider.title, provider.logo, SourceTpe.provider);
+      final provider = await _orderInformationProvider.findProviderById(providerId);
+      orderSource = OrderSource(provider.id, provider.title, provider.logo, SourceTpe.provider);
     }
     return orderModel.toEntity(orderSource: orderSource);
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> updatePaymentInfo(
-      Map<String, dynamic> params) async {
+  Future<Either<Failure, ActionSuccess>> updatePaymentInfo(Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updatePaymentInfo(params);
@@ -201,8 +161,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, order.Order>> calculateGrabBill(
-      OrderModel model) async {
+  Future<Either<Failure, order.Order>> calculateGrabBill(OrderModel model) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.calculateGrabOrder(model);
@@ -217,8 +176,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> updateGrabOrder(
-      GrabOrderUpdateRequestModel model) async {
+  Future<Either<Failure, ActionSuccess>> updateGrabOrder(GrabOrderUpdateRequestModel model) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updateGrabOrder(model);
@@ -246,8 +204,7 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<Either<Failure, List<CancellationReason>>>
-      fetchCancellationReason() async {
+  Future<Either<Failure, List<CancellationReason>>> fetchCancellationReason() async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchCancellationReasons();

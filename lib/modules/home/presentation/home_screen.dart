@@ -12,7 +12,6 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/home/presentation/shimer/home_order_nav_card_shimmer.dart';
 import 'package:klikit/modules/home/presentation/shimer/order_card_shimmer.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/presentation/components/busy_mode_view.dart';
 import 'package:klikit/modules/orders/presentation/components/orders_card.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
@@ -135,8 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   index: BottomNavItem.ORDER,
                                   subTabIndex: OrderTab.History,
                                   data: {
-                                    HistoryNavData.HISTORY_NAV_DATA:
-                                        HistoryNavData.yesterday(),
+                                    HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.yesterday(),
                                   },
                                 ),
                               );
@@ -147,8 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   index: BottomNavItem.ORDER,
                                   subTabIndex: OrderTab.History,
                                   data: {
-                                    HistoryNavData.HISTORY_NAV_DATA:
-                                        HistoryNavData.today(),
+                                    HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.today(),
                                   },
                                 ),
                               );
@@ -186,9 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: AppSize.s90.rh,
                             width: AppSize.s100.rw,
                             text: AppStrings.completed_orders.tr(),
-                            orders: (state is Success<Orders>)
-                                ? state.data.total.toString()
-                                : '0',
+                            orders: (state is Success<Orders>) ? state.data.total.toString() : '0',
                             orderColor: AppColors.primary,
                             fontSize: AppFontSize.s14.rSp,
                             orderFontSize: AppFontSize.s24.rSp,
@@ -216,9 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: AppSize.s90.rh,
                             width: AppSize.s100.rw,
                             text: AppStrings.cancelled_orders.tr(),
-                            orders: (state is Success<Orders>)
-                                ? state.data.total.toString()
-                                : '0',
+                            orders: (state is Success<Orders>) ? state.data.total.toString() : '0',
                             orderColor: AppColors.red,
                             fontSize: AppFontSize.s14.rSp,
                             orderFontSize: AppFontSize.s24.rSp,
@@ -235,14 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 horizontal: AppSize.s20.rw,
                 vertical: AppSize.s16.rh,
               ),
-              child: const BusyModeView(),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s20.rw,
-                vertical: AppSize.s16.rh,
-              ),
-              child:  const PauseStoreHeaderView(),
+              child: const PauseStoreHeaderView(),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -266,9 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   return HomeOrderNavCard(
-                    numberOfOrders: (state is Success<Orders>)
-                        ? state.data.total.toString()
-                        : "0",
+                    numberOfOrders: (state is Success<Orders>) ? state.data.total.toString() : "0",
                     bgColor: AppColors.primary,
                     textColor: AppColors.white,
                     onTap: () {
@@ -308,9 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   return HomeOrderNavCard(
-                    numberOfOrders: (state is Success<Orders>)
-                        ? state.data.total.toString()
-                        : "0",
+                    numberOfOrders: (state is Success<Orders>) ? state.data.total.toString() : "0",
                     bgColor: AppColors.white,
                     textColor: AppColors.black,
                     onTap: () {

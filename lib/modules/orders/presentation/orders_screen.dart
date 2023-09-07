@@ -99,6 +99,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         flexibleSpace: getAppBarBackground(),
         centerTitle: true,
       ),
+      backgroundColor: AppColors.grey,
       body: NestedScrollView(
         physics: const NeverScrollableScrollPhysics(),
         headerSliverBuilder: (context, isScrolled) {
