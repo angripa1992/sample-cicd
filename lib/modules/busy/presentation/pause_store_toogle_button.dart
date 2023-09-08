@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
@@ -35,7 +36,9 @@ class PauseStoreToggleButton extends StatefulWidget {
 }
 
 class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
+
   void _updatePauseStore(bool isBusy) async {
+    EasyLoading.show();
     final params = {
       'branch_id': SessionManager().branchId(),
       'is_busy': isBusy,
@@ -44,6 +47,7 @@ class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
       params['brand_id'] = widget.brandID!;
     }
     final response = await getIt.get<PauseStoreRepository>().updatePauseStore(params);
+    EasyLoading.dismiss();
     response.fold(
       (failure) {
         showApiErrorSnackBar(context, failure);
@@ -127,6 +131,7 @@ class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
                     borderColor: isBusy ? AppColors.redDark : AppColors.green,
                   ),
                 ),
+                SizedBox(width: AppSize.s8.rw),
                 Expanded(
                   child: AppButton(
                     onTap: () {
@@ -135,6 +140,7 @@ class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
                     text: AppStrings.not_now.tr(),
                     borderColor: AppColors.black,
                     textColor: AppColors.black,
+                    color: AppColors.white,
                   ),
                 ),
               ],
