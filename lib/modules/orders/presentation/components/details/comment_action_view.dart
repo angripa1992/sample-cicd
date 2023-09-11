@@ -40,10 +40,7 @@ class _CommentActionViewState extends State<CommentActionView> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.greyLight,
-        // color: _currentOrder!.klikitComment.isEmpty
-        //     ? AppColors.lightVioletTwo
-        //     : AppColors.purpleBlue,
+        border: Border.all(color: AppColors.black),
       ),
       child: InkWell(
         onTap: () {

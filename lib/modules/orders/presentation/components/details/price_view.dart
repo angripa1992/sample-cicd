@@ -38,17 +38,12 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
-    final isWebshopOrder = widget.order.providerId == ProviderID.KLIKIT &&
-        !widget.order.isManualOrder;
-    final isManualOrderOrder = widget.order.providerId == ProviderID.KLIKIT &&
-        widget.order.isManualOrder;
+    final isWebshopOrder = widget.order.providerId == ProviderID.KLIKIT && !widget.order.isManualOrder;
+    final isManualOrderOrder = widget.order.providerId == ProviderID.KLIKIT && widget.order.isManualOrder;
     final serviceFee = widget.order.serviceFee;
     final gateWayFee = widget.order.gatewayFee;
-    final willShowServiceFee =
-        (isWebshopOrder && serviceFee > 0 && gateWayFee > 0) ||
-            (isManualOrderOrder && serviceFee > 0);
-    final willShowProcessingFee =
-        (isWebshopOrder && serviceFee > 0 && gateWayFee > 0);
+    final willShowServiceFee = (isWebshopOrder && serviceFee > 0 && gateWayFee > 0) || (isManualOrderOrder && serviceFee > 0);
+    final willShowProcessingFee = (isWebshopOrder && serviceFee > 0 && gateWayFee > 0);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
@@ -96,14 +91,14 @@ class _PriceViewState extends State<PriceView> {
                     widget.order.additionalFee,
                   ),
                   if (willShowServiceFee) SizedBox(height: AppSize.s2.rh),
-                  if (willShowServiceFee)_getSubtotalItem('Service Fee', serviceFee),
+                  if (willShowServiceFee) _getSubtotalItem('Service Fee', serviceFee),
                   if (willShowProcessingFee) SizedBox(height: AppSize.s2.rh),
-                  if (willShowProcessingFee)_getSubtotalItem('Processing Fee', gateWayFee),
+                  if (willShowProcessingFee) _getSubtotalItem('Processing Fee', gateWayFee),
                   if (widget.order.restaurantServiceFee > 0) SizedBox(height: AppSize.s2.rh),
-                  if (widget.order.restaurantServiceFee > 0)_getSubtotalItem('Restaurant Service Fee', widget.order.restaurantServiceFee),
+                  if (widget.order.restaurantServiceFee > 0) _getSubtotalItem('Restaurant Service Fee', widget.order.restaurantServiceFee),
                   SizedBox(height: AppSize.s2.rh),
                   _getSubtotalItem(
-                    AppStrings.discount.tr(),
+                    '${AppStrings.discount.tr()} (${_appliedPromos(widget.order)})',
                     widget.order.discount,
                     color: AppColors.red,
                     isDiscount: true,
@@ -124,7 +119,7 @@ class _PriceViewState extends State<PriceView> {
                 Text(
                   AppStrings.total.tr(),
                   style: TextStyle(
-                    color: AppColors.greyDarker,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s18.rSp,
                     fontWeight: AppFontWeight.bold,
                   ),
@@ -135,7 +130,7 @@ class _PriceViewState extends State<PriceView> {
                     widget.order.finalPrice,
                   ),
                   style: TextStyle(
-                    color: AppColors.greyDarker,
+                    color: AppColors.black,
                     fontSize: AppFontSize.s18.rSp,
                     fontWeight: AppFontWeight.bold,
                   ),
@@ -148,19 +143,29 @@ class _PriceViewState extends State<PriceView> {
     );
   }
 
+  String _appliedPromos(Order order) {
+    final Set<String> promos = <String>{};
+    for (var element in order.appliedPromos) {
+      promos.add(element.code);
+    }
+    return promos.join(', ');
+  }
+
   String _vatTitle(Order order) {
-    if (order.providerId == ProviderID.FOOD_PANDA &&
-        !order.isInterceptorOrder &&
-        !order.isVatIncluded) {
+    if (order.providerId == ProviderID.FOOD_PANDA && !order.isInterceptorOrder && !order.isVatIncluded) {
       return AppStrings.vat.tr();
     }
     return AppStrings.inc_vat.tr();
   }
 
-  Widget _getSubtotalItem(String name, num price,
-      {Color? color, bool isDiscount = false}) {
+  Widget _getSubtotalItem(
+    String name,
+    num price, {
+    Color? color,
+    bool isDiscount = false,
+  }) {
     final textStyle = TextStyle(
-      color: color ?? AppColors.greyDarker,
+      color: color ?? AppColors.black,
       fontSize: AppFontSize.s14.rSp,
       fontWeight: AppFontWeight.regular,
     );
@@ -186,8 +191,7 @@ class _PriceViewState extends State<PriceView> {
 class SubtotalExpandHeader extends StatefulWidget {
   final ExpandedTileController controller;
 
-  const SubtotalExpandHeader({Key? key, required this.controller})
-      : super(key: key);
+  const SubtotalExpandHeader({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<SubtotalExpandHeader> createState() => _SubtotalExpandHeaderState();
@@ -216,13 +220,13 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
         Text(
           AppStrings.sub_total.tr(),
           style: boldTextStyle(
-            color: AppColors.greyDarker,
+            color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
         Icon(
           _isExpanded! ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-          color: AppColors.greyDarker,
+          color: AppColors.black,
           size: AppSize.s24.rSp,
         ),
       ],

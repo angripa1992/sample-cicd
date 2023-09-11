@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/presentation/components/details/pickup_time_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/price_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/rider_info_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/scheduled_view.dart';
+import 'package:klikit/modules/orders/presentation/components/details/rider_action_view.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
@@ -20,6 +22,7 @@ import '../../../edit_order/update_grab_order_cubit.dart';
 import 'cancellation_reason.dart';
 import 'comment_view.dart';
 import 'customer_info_view.dart';
+import 'delivery_address_view.dart';
 import 'order_details_header.dart';
 import 'order_item_details.dart';
 
@@ -101,8 +104,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                if (_currentOrder.status == OrderStatus.SCHEDULED &&
-                    _currentOrder.scheduledTime.isNotEmpty)
+                if (_currentOrder.status == OrderStatus.SCHEDULED && _currentOrder.scheduledTime.isNotEmpty)
                   ScheduledDetailsView(
                     scheduleTime: _currentOrder.scheduledTime,
                   ),
@@ -113,23 +115,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     _editGrabOrderOrder(_currentOrder);
                   },
                   onEditManualOrder: widget.onEditManualOrder,
-                  onRiderFind: widget.onRiderFind,
                 ),
-                if (_currentOrder.status == OrderStatus.CANCELLED)
-                  CancellationReasonView(
-                      cancellationReason: _currentOrder.cancellationReason),
+                RiderActionView(order: _currentOrder, onRiderFind: widget.onRiderFind),
+                CancellationReasonView(order: _currentOrder),
                 OrderItemDetails(order: _currentOrder),
                 CommentView(comment: _currentOrder.orderComment),
-                if (_currentOrder.isThreePlOrder &&
-                    _currentOrder.fulfillmentRider != null)
-                  RiderInfoView(
-                    riderInfo: _currentOrder.fulfillmentRider!,
-                    pickUpTime: _currentOrder.fulfillmentExpectedPickupTime,
-                  ),
-                if (_currentOrder.status != OrderStatus.CANCELLED &&
-                    _currentOrder.status != OrderStatus.DELIVERED &&
-                    _currentOrder.status != OrderStatus.PICKED_UP)
-                  OrderCustomerInfoView(order: _currentOrder),
+                RiderInfoView(order: _currentOrder),
+                OrderCustomerInfoView(order: _currentOrder),
+                PickupTimeView(order: _currentOrder),
+                DeliveryAddressView(order: _currentOrder),
                 PriceView(order: _currentOrder),
               ],
             ),

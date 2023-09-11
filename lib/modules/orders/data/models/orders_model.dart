@@ -3,7 +3,9 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
 import '../../domain/entities/brand.dart';
+import '../../domain/entities/delicery_info.dart';
 import '../../domain/entities/order.dart';
+import '../../domain/entities/promo.dart';
 import '../../domain/entities/rider_info.dart';
 import '../../domain/entities/source.dart';
 import 'brand_model.dart';
@@ -20,8 +22,7 @@ class OrdersModel {
 
   OrdersModel({this.orders, this.total, this.page, this.size});
 
-  factory OrdersModel.fromJson(Map<String, dynamic> json) =>
-      _$OrdersModelFromJson(json);
+  factory OrdersModel.fromJson(Map<String, dynamic> json) => _$OrdersModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrdersModelToJson(this);
 
@@ -204,8 +205,13 @@ class OrderModel {
   int? cancellationReasonId;
   @JsonKey(name: 'cancellation_reason')
   String? cancellationReason;
+  @JsonKey(name: 'pickup_at')
+  String? pickUpAt;
   @JsonKey(name: 'restaurant_service_fee')
   int? restaurantServiceFee;
+  List<OrderAppliedPromoModel>? promos;
+  @JsonKey(name: 'delivery_info')
+  DeliveryInfoModel? deliveryInfo;
 
   OrderModel({
     this.id,
@@ -292,10 +298,12 @@ class OrderModel {
     this.cancellationReasonId,
     this.cancellationReason,
     this.restaurantServiceFee,
+    this.promos,
+    this.pickUpAt,
+    this.deliveryInfo,
   });
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) =>
-      _$OrderModelFromJson(json);
+  factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 
@@ -386,6 +394,9 @@ class OrderModel {
       cancellationReasonId: cancellationReasonId.orZero(),
       cancellationReason: cancellationReason.orEmpty(),
       restaurantServiceFee: restaurantServiceFee.orZero(),
+      appliedPromos: promos?.map((e) => e.toEntity()).toList() ?? [],
+      pickUpAt: pickUpAt.orEmpty(),
+      deliveryInfo: deliveryInfo?.toEntity(),
     );
   }
 }
@@ -428,8 +439,7 @@ class CartV2Model {
     this.modifierGroupPrice,
   });
 
-  factory CartV2Model.fromJson(Map<String, dynamic> json) =>
-      _$CartV2ModelFromJson(json);
+  factory CartV2Model.fromJson(Map<String, dynamic> json) => _$CartV2ModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$CartV2ModelToJson(this);
 
@@ -476,8 +486,7 @@ class ModifierGroupsModel {
 
   ModifierGroupsModel({this.id, this.name, this.modifiers});
 
-  factory ModifierGroupsModel.fromJson(Map<String, dynamic> json) =>
-      _$ModifierGroupsModelFromJson(json);
+  factory ModifierGroupsModel.fromJson(Map<String, dynamic> json) => _$ModifierGroupsModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModifierGroupsModelToJson(this);
 
@@ -516,8 +525,7 @@ class ModifiersModel {
     this.unitPriceDisplay,
   });
 
-  factory ModifiersModel.fromJson(Map<String, dynamic> json) =>
-      _$ModifiersModelFromJson(json);
+  factory ModifiersModel.fromJson(Map<String, dynamic> json) => _$ModifiersModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModifiersModelToJson(this);
 
@@ -543,21 +551,114 @@ class CartV1Model {
   int? discountType;
   @JsonKey(name: 'discount_value')
   num? discountValue;
+  @JsonKey(name: 'applied_promo')
+  ItemAppliedPromoModel? appliedPromo;
+  @JsonKey(name: 'quantity_of_sc_promo_item')
+  int? quantityOfScPromoItem;
 
   CartV1Model({
     this.itemId,
     this.discountType,
     this.discountValue,
+    this.quantityOfScPromoItem,
   });
 
-  factory CartV1Model.fromJson(Map<String, dynamic> json) =>
-      _$CartV1ModelFromJson(json);
+  factory CartV1Model.fromJson(Map<String, dynamic> json) => _$CartV1ModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$CartV1ModelToJson(this);
 
   CartV1 toEntity() => CartV1(
-        itemId.orZero(),
-        discountType.orZero(),
-        discountValue ?? ZERO,
+        itemId: itemId.orZero(),
+        discountType: discountType.orZero(),
+        discountValue: discountValue ?? ZERO,
+        quantityOfScPromoItem: quantityOfScPromoItem.orZero(),
+        appliedPromo: appliedPromo?.toEntity(),
+      );
+}
+
+@JsonSerializable(explicitToJson: true)
+class OrderAppliedPromoModel {
+  int? id;
+  String? code;
+  num? discount;
+
+  OrderAppliedPromoModel({
+    this.id,
+    this.code,
+    this.discount,
+  });
+
+  factory OrderAppliedPromoModel.fromJson(Map<String, dynamic> json) => _$OrderAppliedPromoModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderAppliedPromoModelToJson(this);
+
+  OrderAppliedPromos toEntity() => OrderAppliedPromos(
+        id: id.orZero(),
+        code: code.orEmpty(),
+        discount: discount ?? ZERO,
+      );
+}
+
+@JsonSerializable(explicitToJson: true)
+class ItemAppliedPromoModel {
+  int? id;
+  String? code;
+  num? value;
+  @JsonKey(name: 'is_senior_citizen_promo')
+  bool? isSeniorCitizenPromo;
+
+  ItemAppliedPromoModel({
+    this.id,
+    this.code,
+    this.value,
+    this.isSeniorCitizenPromo,
+  });
+
+  factory ItemAppliedPromoModel.fromJson(Map<String, dynamic> json) => _$ItemAppliedPromoModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ItemAppliedPromoModelToJson(this);
+
+  ItemAppliedPromo toEntity() => ItemAppliedPromo(
+        id: id.orZero(),
+        code: code.orEmpty(),
+        value: value ?? ZERO,
+        isSeniorCitizenPromo: isSeniorCitizenPromo.orFalse(),
+      );
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeliveryInfoModel {
+  String? email;
+  String? phone;
+  String? address;
+  String? keywords;
+  @JsonKey(name: 'last_name')
+  String? lastName;
+  @JsonKey(name: 'first_name')
+  String? firstName;
+  String? instruction;
+
+  DeliveryInfoModel({
+    this.email,
+    this.phone,
+    this.address,
+    this.keywords,
+    this.lastName,
+    this.firstName,
+    this.instruction,
+  });
+
+  factory DeliveryInfoModel.fromJson(Map<String, dynamic> json) => _$DeliveryInfoModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DeliveryInfoModelToJson(this);
+
+  OrderDeliveryInfo toEntity() => OrderDeliveryInfo(
+        email: email.orEmpty(),
+        phone: phone.orEmpty(),
+        address: address.orEmpty(),
+        keywords: keywords.orEmpty(),
+        lastName: lastName.orEmpty(),
+        firstName: firstName.orEmpty(),
+        instruction: instruction.orEmpty(),
       );
 }

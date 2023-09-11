@@ -19,7 +19,6 @@ import '../../../domain/entities/provider.dart';
 import '../../../provider/order_information_provider.dart';
 import '../order_item/three_pl_status.dart';
 import 'comment_action_view.dart';
-import 'find_rider_button.dart';
 import 'order_tags.dart';
 
 class OrderDetailsHeaderView extends StatelessWidget {
@@ -27,7 +26,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
   final VoidCallback onCommentActionSuccess;
   final VoidCallback onEditGrabOrder;
   final VoidCallback onEditManualOrder;
-  final VoidCallback onRiderFind;
 
   const OrderDetailsHeaderView({
     Key? key,
@@ -35,18 +33,12 @@ class OrderDetailsHeaderView extends StatelessWidget {
     required this.onCommentActionSuccess,
     required this.onEditGrabOrder,
     required this.onEditManualOrder,
-    required this.onRiderFind,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) &&
-        order.externalId.isNotEmpty &&
-        order.canUpdate;
-    final canUpdateManualOrder = (order.providerId == ProviderID.KLIKIT) &&
-        order.isManualOrder &&
-        (order.status == OrderStatus.ACCEPTED ||
-            order.status == OrderStatus.PLACED);
+    final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
+    final canUpdateManualOrder = (order.providerId == ProviderID.KLIKIT) && order.isManualOrder && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
@@ -68,21 +60,10 @@ class OrderDetailsHeaderView extends StatelessWidget {
             children: [
               if (canUpdateManualOrder || canUpdateGrabOrder)
                 Expanded(
-                  child: _editOrderButton(
-                      canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder),
+                  child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder),
                 ),
-              if (canUpdateManualOrder || canUpdateGrabOrder)
-                SizedBox(width: AppSize.s8.rw),
-              if (order.isThreePlOrder && order.canFindFulfillmentRider)
-                Expanded(
-                  child: Center(
-                    child: FindRiderView(
-                      onRiderFind: onRiderFind,
-                    ),
-                  ),
-                ),
-              if (order.isThreePlOrder && order.canFindFulfillmentRider)
-                SizedBox(width: AppSize.s8.rw),
+              if (canUpdateManualOrder || canUpdateGrabOrder) SizedBox(width: AppSize.s8.rw),
+              if (order.isThreePlOrder && order.canFindFulfillmentRider) SizedBox(width: AppSize.s8.rw),
               Expanded(
                 child: CommentActionView(
                   onCommentActionSuccess: onCommentActionSuccess,
@@ -106,7 +87,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-          color: AppColors.greyLight,
+          border: Border.all(color: AppColors.black),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -138,9 +119,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            (order.providerId == ProviderID.KLIKIT)
-                ? '#${order.id}'
-                : '#${order.shortId}',
+            (order.providerId == ProviderID.KLIKIT) ? '#${order.id}' : '#${order.shortId}',
             style: boldTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s20.rSp,
@@ -149,17 +128,13 @@ class OrderDetailsHeaderView extends StatelessWidget {
         ),
         SizedBox(width: AppSize.s8.rw),
         _copyIdView(
-          (order.providerId == ProviderID.KLIKIT)
-              ? order.id.toString()
-              : order.shortId,
+          (order.providerId == ProviderID.KLIKIT) ? order.id.toString() : order.shortId,
         ),
         if (order.providerId > ZERO)
           Padding(
             padding: EdgeInsets.only(left: AppSize.s18.rw),
             child: FutureBuilder<Provider>(
-              future: getIt
-                  .get<OrderInformationProvider>()
-                  .findProviderById(order.providerId),
+              future: getIt.get<OrderInformationProvider>().findProviderById(order.providerId),
               builder: (_, result) {
                 if (result.hasData && result.data != null) {
                   return Container(

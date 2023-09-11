@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
-import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
+import 'package:klikit/modules/orders/domain/entities/order.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -10,56 +10,55 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 
 class RiderInfoView extends StatelessWidget {
-  final RiderInfo riderInfo;
-  final String? pickUpTime;
+  final Order order;
 
-  const RiderInfoView({Key? key, required this.riderInfo, this.pickUpTime})
-      : super(key: key);
+  const RiderInfoView({Key? key, required this.order}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s16.rw,
-        vertical: AppSize.s8.rh,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Divider(),
-          Text(
-            'Rider Info',
-            style: boldTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s15.rSp,
+    return Visibility(
+      visible: order.isThreePlOrder && order.fulfillmentRider != null,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s16.rw,
+          vertical: AppSize.s8.rh,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Divider(),
+            Text(
+              'Rider Info',
+              style: boldTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s15.rSp,
+              ),
             ),
-          ),
-          SizedBox(height: AppSize.s4.rh),
-          Row(
-            children: [
-              Expanded(
-                child: _infoItem('Name', riderInfo.name ?? EMPTY),
-              ),
-              Expanded(
-                child: _infoItem(
-                    'Vehicle Registration', riderInfo.licensePlate ?? EMPTY),
-              ),
-            ],
-          ),
-          SizedBox(height: AppSize.s4.rh),
-          Row(
-            children: [
-              Expanded(
-                child: _infoItem('Contact', riderInfo.phone ?? EMPTY),
-              ),
-              if (pickUpTime != null)
+            SizedBox(height: AppSize.s4.rh),
+            Row(
+              children: [
                 Expanded(
-                  child: _infoItem('Estimated Pickup Time',
-                      DateTimeProvider.parseOrderCreatedDate(pickUpTime!)),
+                  child: _infoItem('Name', order.fulfillmentRider?.name ?? EMPTY),
                 ),
-            ],
-          ),
-        ],
+                Expanded(
+                  child: _infoItem('Vehicle Registration', order.fulfillmentRider?.licensePlate ?? EMPTY),
+                ),
+              ],
+            ),
+            SizedBox(height: AppSize.s4.rh),
+            Row(
+              children: [
+                Expanded(
+                  child: _infoItem('Contact', order.fulfillmentRider?.phone ?? EMPTY),
+                ),
+                if (order.fulfillmentExpectedPickupTime.isNotEmpty)
+                  Expanded(
+                    child: _infoItem('Estimated Pickup Time', DateTimeProvider.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime)),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

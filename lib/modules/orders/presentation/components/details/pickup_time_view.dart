@@ -1,5 +1,5 @@
+import 'package:docket_design_template/utils/date_time_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../resources/colors.dart';
@@ -8,15 +8,15 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/order.dart';
 
-class CancellationReasonView extends StatelessWidget {
+class PickupTimeView extends StatelessWidget {
   final Order order;
 
-  const CancellationReasonView({Key? key, required this.order}) : super(key: key);
+  const PickupTimeView({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: order.status == OrderStatus.CANCELLED && order.cancellationReason.isNotEmpty,
+      visible: order.pickUpAt.isNotEmpty,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s16.rw,
@@ -25,23 +25,21 @@ class CancellationReasonView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Divider(),
             Text(
-              'Cancellation Reason',
-              style: boldTextStyle(
-                color: AppColors.redDark,
+              'Estimated Pickup Time',
+              style: semiBoldTextStyle(
+                color: AppColors.black,
                 fontSize: AppFontSize.s15.rSp,
               ),
             ),
             SizedBox(height: AppSize.s4.rh),
             Text(
-              order.cancellationReason,
+              DateTimeProvider.pickupTime(DateTime.now().toString()),
               style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
-            const Divider(),
           ],
         ),
       ),

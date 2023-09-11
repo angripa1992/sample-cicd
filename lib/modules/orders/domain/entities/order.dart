@@ -1,4 +1,5 @@
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/orders/domain/entities/promo.dart';
 import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
 import 'package:klikit/modules/orders/domain/entities/source.dart';
 
@@ -6,6 +7,7 @@ import '../../data/models/order_applied_promo.dart';
 import '../../data/models/orders_model.dart';
 import 'brand.dart';
 import 'cart.dart';
+import 'delicery_info.dart';
 
 class Orders {
   final int total;
@@ -102,6 +104,9 @@ class Order {
   final int cancellationReasonId;
   final String cancellationReason;
   final int restaurantServiceFee;
+  final List<OrderAppliedPromos> appliedPromos;
+  final String pickUpAt;
+  final OrderDeliveryInfo? deliveryInfo;
   String klikitComment;
   int paymentMethod;
   int paymentChannel;
@@ -194,6 +199,9 @@ class Order {
     required this.cancellationReasonId,
     required this.cancellationReason,
     required this.restaurantServiceFee,
+    required this.appliedPromos,
+    required this.pickUpAt,
+    required this.deliveryInfo,
   });
 
   Order copy() => Order(
@@ -282,6 +290,9 @@ class Order {
         cancellationReasonId: cancellationReasonId,
         cancellationReason: cancellationReason,
         restaurantServiceFee: restaurantServiceFee,
+        appliedPromos: appliedPromos,
+        pickUpAt: pickUpAt,
+        deliveryInfo: deliveryInfo,
       );
 
   OrderModel toModel() => OrderModel(
@@ -368,5 +379,6 @@ class Order {
         cancellationReasonId: cancellationReasonId,
         cancellationReason: cancellationReason,
         restaurantServiceFee: restaurantServiceFee,
+        pickUpAt: pickUpAt,
       );
 }

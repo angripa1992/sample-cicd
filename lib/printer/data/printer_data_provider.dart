@@ -3,6 +3,7 @@ import 'package:docket_design_template/model/cart.dart';
 import 'package:docket_design_template/model/modifiers.dart';
 import 'package:docket_design_template/model/order.dart';
 import 'package:docket_design_template/model/rider_info.dart';
+import 'package:docket_design_template/utils/date_time_provider.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -77,6 +78,7 @@ class PrinterDataProvider {
                   : null,
             )
           : null,
+      pickupAt: order.pickUpAt.isNotEmpty ?  DateTimeProvider.pickupTime(order.pickUpAt) : order.pickUpAt,
     );
   }
 
@@ -101,8 +103,7 @@ class PrinterDataProvider {
       quantity: cartV2.quantity,
       unitPrice: cartV2.unitPrice,
       cartBrand: _createTemplateCartBrand(cartV2.cartBrand),
-      modifierGroups:
-          __createTemplateModifiersGroupsList(cartV2.modifierGroups),
+      modifierGroups: __createTemplateModifiersGroupsList(cartV2.modifierGroups),
     );
   }
 
@@ -113,13 +114,11 @@ class PrinterDataProvider {
       price: modifiers.price,
       quantity: modifiers.quantity,
       unitPrice: modifiers.unitPrice,
-      modifierGroups:
-          __createTemplateModifiersGroupsList(modifiers.modifierGroups),
+      modifierGroups: __createTemplateModifiersGroupsList(modifiers.modifierGroups),
     );
   }
 
-  TemplateModifierGroups _createTemplateModifierGroups(
-      ModifierGroups modifierGroups) {
+  TemplateModifierGroups _createTemplateModifierGroups(ModifierGroups modifierGroups) {
     return TemplateModifierGroups(
       id: modifierGroups.id,
       name: modifierGroups.name,
@@ -135,8 +134,7 @@ class PrinterDataProvider {
     );
   }
 
-  List<TemplateModifierGroups> __createTemplateModifiersGroupsList(
-      List<ModifierGroups> modifierGroups) {
+  List<TemplateModifierGroups> __createTemplateModifiersGroupsList(List<ModifierGroups> modifierGroups) {
     List<TemplateModifierGroups> templateModifiersGroups = [];
     for (var element in modifierGroups) {
       templateModifiersGroups.add(_createTemplateModifierGroups(element));
@@ -144,8 +142,7 @@ class PrinterDataProvider {
     return templateModifiersGroups;
   }
 
-  List<TemplateModifiers> __createTemplateModifiersList(
-      List<Modifiers> modifiers) {
+  List<TemplateModifiers> __createTemplateModifiersList(List<Modifiers> modifiers) {
     List<TemplateModifiers> templateModifiers = [];
     for (var element in modifiers) {
       templateModifiers.add(_createTemplateModifiers(element));
@@ -153,8 +150,7 @@ class PrinterDataProvider {
     return templateModifiers;
   }
 
-  List<TemplateCartBrand> _createTemplateCartsBrandList(
-      List<CartBrand> brands) {
+  List<TemplateCartBrand> _createTemplateCartsBrandList(List<CartBrand> brands) {
     List<TemplateCartBrand> templateBrands = [];
     for (var cartBrand in brands) {
       templateBrands.add(_createTemplateCartBrand(cartBrand));

@@ -24,17 +24,17 @@ class OrderItemDetails extends StatelessWidget {
   OrderItemDetails({Key? key, required this.order}) : super(key: key);
 
   final _itemTextStyle = mediumTextStyle(
-    color: AppColors.greyDarker,
+    color: AppColors.black,
     fontSize: AppFontSize.s14.rSp,
   );
 
   final _modifiersTextStyle = regularTextStyle(
-    color: AppColors.greyDarker,
+    color: AppColors.black,
     fontSize: AppFontSize.s14.rSp,
   );
 
   final _modifiersItemTextStyle = regularTextStyle(
-    color: AppColors.greyDarker,
+    color: AppColors.black,
     fontSize: AppFontSize.s14.rSp,
   );
 
