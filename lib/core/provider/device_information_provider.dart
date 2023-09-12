@@ -1,16 +1,9 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class DeviceInfoProvider {
-  Future<String> FID() async {
-    final fid = await FirebaseInstallations.instance.getId();
-    print('FID ============> $fid');
-    return '';
-  }
-
   String platformName() {
     if (Platform.isIOS) {
       return 'ios';
