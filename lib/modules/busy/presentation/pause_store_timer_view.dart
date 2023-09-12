@@ -30,12 +30,22 @@ class _PauseStoreTimerViewState extends State<PauseStoreTimerView> {
 
   @override
   void initState() {
+    _init();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant PauseStoreTimerView oldWidget) {
+    _init();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _init(){
     _timerListener = ValueNotifier(widget.timeLeft - 1);
     _startTimer(
       duration: widget.duration,
       timeLeft: widget.timeLeft - 1,
     );
-    super.initState();
   }
 
   void _startTimer({required int timeLeft, required int duration}) {

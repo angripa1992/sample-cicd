@@ -49,6 +49,7 @@ dependencies:
   flutter_blue_plus: ^1.5.2
   slack_logger: ^1.0.6
   crypto: ^3.0.2
+  wakelock: ^0.6.2
   # firebase
   firebase_core: ^2.11.0
   firebase_messaging: ^14.5.0

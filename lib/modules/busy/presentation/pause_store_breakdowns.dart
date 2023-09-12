@@ -109,45 +109,66 @@ class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
             shrinkWrap: true,
             itemCount: data.breakdowns.length,
             itemBuilder: (_, index) {
-              return Padding(
-                padding: EdgeInsets.only(bottom: AppSize.s8.rh),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Text(
-                            data.breakdowns[index].brandName,
-                            style: mediumTextStyle(
-                              color: AppColors.black,
-                              fontSize: AppFontSize.s14.rSp,
-                            ),
-                          ),
-                          SizedBox(width: AppSize.s16.rw),
-                          data.breakdowns[index].isBusy
-                              ? PauseStoreTimerView(
-                                  duration: data.duration,
-                                  timeLeft: data.timeLeft,
-                                  onFinished: _fetchData,
-                                )
-                              : const SizedBox(),
-                        ],
-                      ),
-                    ),
-                    PauseStoreToggleButton(
-                      isBusy: data.breakdowns[index].isBusy,
-                      isBranch: false,
-                      brandID: data.breakdowns[index].brandId,
-                      scale: 0.65,
-                      onSuccess: _fetchData,
-                    ),
-                  ],
-                ),
+              return PauseStoreBreakDownTile(
+                key: UniqueKey(),
+                data: data.breakdowns[index],
+                onFinished: _fetchData,
               );
             },
           ),
         ),
       ],
+    );
+  }
+}
+
+class PauseStoreBreakDownTile extends StatefulWidget {
+  final PausedStore data;
+  final VoidCallback onFinished;
+
+  const PauseStoreBreakDownTile({super.key, required this.data, required this.onFinished});
+
+  @override
+  State<PauseStoreBreakDownTile> createState() => _PauseStoreBreakDownTileState();
+}
+
+class _PauseStoreBreakDownTileState extends State<PauseStoreBreakDownTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppSize.s8.rh),
+      child: Row(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Text(
+                  widget.data.brandName,
+                  style: mediumTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
+                ),
+                SizedBox(width: AppSize.s16.rw),
+                widget.data.isBusy
+                    ? PauseStoreTimerView(
+                        duration: widget.data.duration,
+                        timeLeft: widget.data.timeLeft,
+                        onFinished: widget.onFinished,
+                      )
+                    : const SizedBox(),
+              ],
+            ),
+          ),
+          PauseStoreToggleButton(
+            isBusy: widget.data.isBusy,
+            isBranch: false,
+            brandID: widget.data.brandId,
+            scale: 0.65,
+            onSuccess: widget.onFinished,
+          ),
+        ],
+      ),
     );
   }
 }

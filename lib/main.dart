@@ -8,6 +8,7 @@ import 'package:klikit/core/network/slack_logger.dart';
 import 'package:klikit/env/environment_variables.dart';
 import 'package:klikit/language/smart_asset_loader.dart';
 import 'package:klikit/resources/assets.dart';
+import 'package:wakelock/wakelock.dart';
 
 import 'app/crashlytics_config.dart';
 import 'app/di.dart';
@@ -19,6 +20,7 @@ import 'notification/local_notification_service.dart';
 
 void mainCommon(EnvironmentVariables env) async {
   WidgetsFlutterBinding.ensureInitialized();
+  Wakelock.enable();
   await Firebase.initializeApp();
   final environmentVariables = await EnvManager().fetchEnv(env);
   CrashlyticsConfiguration().initialize();
