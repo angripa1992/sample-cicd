@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/presentation/components/order_item/wolt_order_action_button.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/strings.dart';
 
@@ -217,7 +218,7 @@ class AcceptButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             side: BorderSide(
-              color: AppColors.primary,
+              color: enabled ? AppColors.primary : Colors.transparent,
             ),
           ),
         ),
@@ -227,7 +228,7 @@ class AcceptButton extends StatelessWidget {
             Icon(
               Icons.check,
               size: AppSize.s16.rSp,
-              color: AppColors.primary,
+              color: enabled ? AppColors.primary : AppColors.greyDarker,
             ),
             if (expanded)
               Padding(
@@ -235,7 +236,7 @@ class AcceptButton extends StatelessWidget {
                 child: Text(
                   AppStrings.accept.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.primary,
+                    color: enabled ? AppColors.primary : AppColors.greyDarker,
                     fontSize: AppFontSize.s12.rSp,
                   ),
                 ),
@@ -270,20 +271,23 @@ class CanceledButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSize.s8.rSp), side: BorderSide(color: AppColors.red)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+            side: BorderSide(color: enabled ? AppColors.red : Colors.transparent),
+          ),
         ),
         child: expanded
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.clear, color: AppColors.red),
+                  Icon(Icons.clear, color: enabled ? AppColors.red : AppColors.greyDarker),
                   if (expanded)
                     Padding(
                       padding: EdgeInsets.only(left: AppSize.s8.rw),
                       child: Text(
                         AppStrings.reject.tr(),
                         style: mediumTextStyle(
-                          color: AppColors.red,
+                          color: enabled ? AppColors.red : AppColors.greyDarker,
                           fontSize: AppFontSize.s12.rSp,
                         ),
                       ),
@@ -293,7 +297,7 @@ class CanceledButton extends StatelessWidget {
             : Icon(
                 Icons.clear,
                 size: AppSize.s16.rSp,
-                color: AppColors.red,
+                color: enabled ? AppColors.red : AppColors.greyDarker,
               ),
       ),
     );
@@ -372,6 +376,14 @@ Widget getActionButtons({
   required VoidCallback onEditManualOrder,
   required VoidCallback onRiderFind,
 }) {
+  if (order.providerId == ProviderID.WOLT) {
+    return getWoltOrderActionButtons(
+      order: order,
+      onAction: onAction,
+      onCancel: onCancel,
+      onPrint: onPrint,
+    );
+  }
   final orderStatus = order.status;
   final provider = order.providerId;
   final orderType = order.type;
@@ -417,7 +429,7 @@ Widget getActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.PICKED_UP && (provider == ProviderID.GRAB_FOOD || provider == ProviderID.WOLT) && orderType != OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.PICKED_UP && provider == ProviderID.GRAB_FOOD && orderType != OrderType.PICKUP) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -476,7 +488,7 @@ Widget getActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD || provider == ProviderID.WOLT) && orderType == OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) && orderType == OrderType.PICKUP) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -536,6 +548,14 @@ Widget getExpandActionButtons({
   required Function(String) onCancel,
   required VoidCallback onPrint,
 }) {
+  if (order.providerId == ProviderID.WOLT) {
+    return getExpandedWoltOrderActionButtons(
+      order: order,
+      onPrint: onPrint,
+      onCancel: onCancel,
+      onAction: onAction,
+    );
+  }
   final orderStatus = order.status;
   final provider = order.providerId;
   final orderType = order.type;
