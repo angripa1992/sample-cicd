@@ -26,35 +26,32 @@ void showPauseNotificationConfirmationDialog({
       return BlocProvider<ChangeNotificationSettingCubit>(
         create: (_) => getIt.get<ChangeNotificationSettingCubit>(),
         child: AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                enable
-                    ? 'Are you sure to resume notifications?'
-                    : 'Are you sure to pause notifications?',
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
-              ),
-              SizedBox(height: AppSize.s8.rh),
-              Text(
-                enable
-                    ? 'You will be receiving any notifications of upcoming orders.'
-                    : 'You won\'t be receiving any notifications of upcoming orders.',
-                style: regularTextStyle(
-                  color: AppColors.greyDarker,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
-              SizedBox(height: AppSize.s16.rh),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  AppButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          title: Text(
+            enable ? 'Are you sure to resume notifications?' : 'Are you sure to pause notifications?',
+            style: mediumTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s16.rSp,
+            ),
+          ),
+          content: Text(
+            enable ? 'You will be receiving any notifications of upcoming orders.' : 'You won\'t be receiving any notifications of upcoming orders.',
+            style: regularTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s14.rSp,
+            ),
+          ),
+          actionsPadding: EdgeInsets.only(
+            left: AppSize.s16.rw,
+            right: AppSize.s16.rw,
+            bottom: AppSize.s8.rh,
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: AppButton(
                     text: 'Cancel',
                     color: AppColors.white,
                     borderColor: AppColors.black,
@@ -63,8 +60,10 @@ void showPauseNotificationConfirmationDialog({
                       Navigator.of(context).pop();
                     },
                   ),
-                  SizedBox(width: AppSize.s16.rw),
-                  BlocConsumer<ChangeNotificationSettingCubit, ResponseState>(
+                ),
+                SizedBox(width: AppSize.s16.rw),
+                Expanded(
+                  child: BlocConsumer<ChangeNotificationSettingCubit, ResponseState>(
                     listener: (context, state) {
                       if (state is Success<SuccessResponse>) {
                         Navigator.of(context).pop();
@@ -80,17 +79,15 @@ void showPauseNotificationConfirmationDialog({
                         text: enable ? 'Resume' : 'Pause',
                         isLoading: state is Loading,
                         onTap: () {
-                          context
-                              .read<ChangeNotificationSettingCubit>()
-                              .changeNotificationSetting(enable);
+                          context.read<ChangeNotificationSettingCubit>().changeNotificationSetting(enable);
                         },
                       );
                     },
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       );
     },

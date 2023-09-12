@@ -98,7 +98,7 @@ class _PriceViewState extends State<PriceView> {
                   if (widget.order.restaurantServiceFee > 0) _getSubtotalItem('Restaurant Service Fee', widget.order.restaurantServiceFee),
                   SizedBox(height: AppSize.s2.rh),
                   _getSubtotalItem(
-                    '${AppStrings.discount.tr()} (${_appliedPromos(widget.order)})',
+                    '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
                     widget.order.discount,
                     color: AppColors.red,
                     isDiscount: true,
@@ -148,7 +148,8 @@ class _PriceViewState extends State<PriceView> {
     for (var element in order.appliedPromos) {
       promos.add(element.code);
     }
-    return promos.join(', ');
+    final promoStr =  promos.join(', ');
+    return promoStr.isEmpty ? promoStr : '($promoStr)';
   }
 
   String _vatTitle(Order order) {

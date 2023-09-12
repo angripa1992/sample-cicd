@@ -594,7 +594,7 @@ Widget getExpandActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.PICKED_UP && (provider == ProviderID.GRAB_FOOD || provider == ProviderID.WOLT) && orderType != OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.PICKED_UP && provider == ProviderID.GRAB_FOOD && orderType != OrderType.PICKUP) {
     return Row(
       children: [
         Expanded(
@@ -646,7 +646,7 @@ Widget getExpandActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD || provider == ProviderID.WOLT) && orderType == OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) && orderType == OrderType.PICKUP) {
     return Row(
       children: [
         Expanded(
