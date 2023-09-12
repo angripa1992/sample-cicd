@@ -82,6 +82,7 @@ class ProviderID {
   static const int GRAB_FOOD = 6;
   static const int FOOD_PANDA = 7;
   static const int SHOPEE = 11;
+  static const int WOLT = 14;
 }
 
 class OrderStatus {

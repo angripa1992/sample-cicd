@@ -39,8 +39,7 @@ void mainCommon(EnvironmentVariables env) async {
 
   SlackLoggerResolver().initLogger();
 
-  final supportedLocale =
-      await getIt.get<LanguageManager>().getSupportedLocale();
+  final supportedLocale = await getIt.get<LanguageManager>().getSupportedLocale();
   final startLocale = await getIt.get<LanguageManager>().getStartLocale();
 
   configLoading();

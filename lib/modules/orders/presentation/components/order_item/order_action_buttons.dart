@@ -270,9 +270,7 @@ class CanceledButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-              side: BorderSide(color: AppColors.red)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSize.s8.rSp), side: BorderSide(color: AppColors.red)),
         ),
         child: expanded
             ? Row(
@@ -321,9 +319,7 @@ class EditButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-              side: BorderSide(color: AppColors.primary)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSize.s8.rSp), side: BorderSide(color: AppColors.primary)),
         ),
         child: SvgPicture.asset(
           AppIcons.tablerEdit,
@@ -355,9 +351,7 @@ class FindRiderButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-              side: BorderSide(color: AppColors.primary)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSize.s8.rSp), side: BorderSide(color: AppColors.primary)),
         ),
         child: Icon(
           Icons.delivery_dining_rounded,
@@ -381,13 +375,8 @@ Widget getActionButtons({
   final orderStatus = order.status;
   final provider = order.providerId;
   final orderType = order.type;
-  final canUpdateGrabOrder = (provider == ProviderID.GRAB_FOOD) &&
-      order.externalId.isNotEmpty &&
-      order.canUpdate;
-  final canUpdateManualOrder = (provider == ProviderID.KLIKIT) &&
-      order.isManualOrder &&
-      (orderStatus == OrderStatus.ACCEPTED ||
-          orderStatus == OrderStatus.PLACED);
+  final canUpdateGrabOrder = (provider == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
+  final canUpdateManualOrder = (provider == ProviderID.KLIKIT) && order.isManualOrder && (orderStatus == OrderStatus.ACCEPTED || orderStatus == OrderStatus.PLACED);
   if (orderStatus == OrderStatus.PLACED) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -428,9 +417,7 @@ Widget getActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.PICKED_UP &&
-      provider == ProviderID.GRAB_FOOD &&
-      orderType != OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.PICKED_UP && (provider == ProviderID.GRAB_FOOD || provider == ProviderID.WOLT) && orderType != OrderType.PICKUP) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -443,18 +430,14 @@ Widget getActionButtons({
         DeliverButton(
           expanded: false,
           onDeliver: () {
-            onAction('${AppStrings.deliver_order.tr()} #${order.id}',
-                OrderStatus.DELIVERED);
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
           },
           enabled: !order.isInterceptorOrder,
         ),
       ],
     );
   }
-  if (orderStatus == OrderStatus.ACCEPTED ||
-      (orderStatus == OrderStatus.PICKED_UP &&
-          provider != ProviderID.FOOD_PANDA &&
-          orderType != OrderType.PICKUP)) {
+  if (orderStatus == OrderStatus.ACCEPTED || (orderStatus == OrderStatus.PICKED_UP && provider != ProviderID.FOOD_PANDA && orderType != OrderType.PICKUP)) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -486,17 +469,14 @@ Widget getActionButtons({
         ReadyButton(
           expanded: false,
           onReady: () {
-            onAction('${AppStrings.ready_order.tr()} #${order.id}',
-                OrderStatus.READY);
+            onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
           },
           enabled: !order.isInterceptorOrder,
         ),
       ],
     );
   }
-  if (orderStatus == OrderStatus.READY &&
-      (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) &&
-      orderType == OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD || provider == ProviderID.WOLT) && orderType == OrderType.PICKUP) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -509,8 +489,7 @@ Widget getActionButtons({
         PickedUpButton(
           expanded: false,
           onPickedUp: () {
-            onAction('${AppStrings.pickup_order.tr()} #${order.id}',
-                OrderStatus.PICKED_UP);
+            onAction('${AppStrings.pickup_order.tr()} #${order.id}', OrderStatus.PICKED_UP);
           },
           enabled: !order.isInterceptorOrder,
         ),
@@ -543,8 +522,7 @@ Widget getActionButtons({
         DeliverButton(
           expanded: false,
           onDeliver: () {
-            onAction('${AppStrings.deliver_order.tr()} #${order.id}',
-                OrderStatus.DELIVERED);
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
           },
           enabled: !order.isInterceptorOrder,
         ),
@@ -596,9 +574,7 @@ Widget getExpandActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.PICKED_UP &&
-      provider == ProviderID.GRAB_FOOD &&
-      orderType != OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.PICKED_UP && (provider == ProviderID.GRAB_FOOD || provider == ProviderID.WOLT) && orderType != OrderType.PICKUP) {
     return Row(
       children: [
         Expanded(
@@ -624,10 +600,7 @@ Widget getExpandActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.ACCEPTED ||
-      (orderStatus == OrderStatus.PICKED_UP &&
-          provider != ProviderID.FOOD_PANDA &&
-          orderType != OrderType.PICKUP)) {
+  if (orderStatus == OrderStatus.ACCEPTED || (orderStatus == OrderStatus.PICKED_UP && provider != ProviderID.FOOD_PANDA && orderType != OrderType.PICKUP)) {
     return Row(
       children: [
         Expanded(
@@ -653,9 +626,7 @@ Widget getExpandActionButtons({
       ],
     );
   }
-  if (orderStatus == OrderStatus.READY &&
-      (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) &&
-      orderType == OrderType.PICKUP) {
+  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD || provider == ProviderID.WOLT) && orderType == OrderType.PICKUP) {
     return Row(
       children: [
         Expanded(
