@@ -29,8 +29,6 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       profile_pic: json['profile_pic'] as String?,
       business_id: json['business_id'] as int?,
       business_name: json['business_name'] as String?,
-      brand_id: json['brand_id'] as int?,
-      brand_name: json['brand_name'] as String?,
       branch_id: json['branch_id'] as int?,
       branch_name: json['branch_name'] as String?,
       created_at: json['created_at'] as String?,
@@ -59,6 +57,11 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       country_codes: (json['country_codes'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      brand_ids:
+          (json['brand_ids'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      brand_titles: (json['brand_titles'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     )..phone = json['phone'] as String?;
 
 Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
@@ -71,8 +74,6 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'profile_pic': instance.profile_pic,
       'business_id': instance.business_id,
       'business_name': instance.business_name,
-      'brand_id': instance.brand_id,
-      'brand_name': instance.brand_name,
       'branch_id': instance.branch_id,
       'branch_name': instance.branch_name,
       'created_at': instance.created_at,
@@ -91,4 +92,6 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'permissions': instance.permissions,
       'country_ids': instance.country_ids,
       'country_codes': instance.country_codes,
+      'brand_ids': instance.brand_ids,
+      'brand_titles': instance.brand_titles,
     };

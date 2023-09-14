@@ -74,8 +74,7 @@ class UpdateManualOrderDataProvider {
           );
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
-          final cartV1Item = order.cartV1
-              .firstWhere((element) => element.itemId.toString() == cartv2.id);
+          final cartV1Item = order.cartV1.firstWhere((element) => element.itemId.toString() == cartv2.id);
           final promoInfo = _promoInfo(
             promos: promos,
             orderPromo: null,
@@ -92,9 +91,7 @@ class UpdateManualOrderDataProvider {
             itemPrice: itemPrice,
             brand: brand,
             promoInfo: promoInfo,
-            discountType: cartV1Item.discountType == 0
-                ? DiscountType.flat
-                : cartV1Item.discountType,
+            discountType: cartV1Item.discountType == 0 ? DiscountType.flat : cartV1Item.discountType,
             discountValue: cartV1Item.discountValue,
           );
           carts.add(cartItem);
@@ -116,18 +113,13 @@ class UpdateManualOrderDataProvider {
     try {
       if (isItemPromo) {
         if (itemPromos.isEmpty) return null;
-        final itemPromo =
-            itemPromos.firstWhere((element) => element.itemId == itemId);
-        final promo =
-            promos.firstWhere((element) => itemPromo.promoId == element.id);
-        return _promoInfoFromAppliedPromo(
-            appliedPromo: itemPromo, promo: promo, isItemPromo: true);
+        final itemPromo = itemPromos.firstWhere((element) => element.itemId == itemId);
+        final promo = promos.firstWhere((element) => itemPromo.promoId == element.id);
+        return _promoInfoFromAppliedPromo(appliedPromo: itemPromo, promo: promo, isItemPromo: true);
       } else {
         if (orderPromo == null) return null;
-        final promo =
-            promos.firstWhere((element) => orderPromo.promoId == element.id);
-        return _promoInfoFromAppliedPromo(
-            appliedPromo: orderPromo, promo: promo, isItemPromo: false);
+        final promo = promos.firstWhere((element) => orderPromo.promoId == element.id);
+        return _promoInfoFromAppliedPromo(appliedPromo: orderPromo, promo: promo, isItemPromo: false);
       }
     } catch (e) {
       return null;
@@ -164,7 +156,7 @@ class UpdateManualOrderDataProvider {
     try {
       final user = SessionManager().user();
       final params = {
-        'country': user.countryIds.first,
+        'country': user!.countryIds.first,
         'business': user.businessId,
         'branch': user.branchId,
         'product_type': 'add_order',
@@ -205,8 +197,8 @@ class UpdateManualOrderDataProvider {
     try {
       final menusItemsResponse = await _menuRemoteDatasource.fetchMenus(
         FetchMenuParams(
-          menuV2Enabled: SessionManager().user().menuV2EnabledForKlikitOrder,
-          businessId: SessionManager().user().businessId,
+          menuV2Enabled: SessionManager().menuV2EnabledForKlikitOrder(),
+          businessId: SessionManager().businessID(),
           branchId: branchId,
           brandId: brandId,
           providerID: providerId,
@@ -237,22 +229,17 @@ class UpdateManualOrderDataProvider {
         branchInfo: branchInfo,
       );
       for (var modifierGroupOne in cartV2.modifierGroups) {
-        final groupLevelOne = groups.firstWhereOrNull(
-            (element) => element.groupId.toString() == modifierGroupOne.id);
+        final groupLevelOne = groups.firstWhereOrNull((element) => element.groupId.toString() == modifierGroupOne.id);
         for (var modifierOne in modifierGroupOne.modifiers) {
-          final modifierLevelOne = groupLevelOne?.modifiers.firstWhereOrNull(
-              (element) => element.modifierId.toString() == modifierOne.id);
+          final modifierLevelOne = groupLevelOne?.modifiers.firstWhereOrNull((element) => element.modifierId.toString() == modifierOne.id);
           if (modifierLevelOne != null) {
             modifierLevelOne.isSelected = true;
             modifierLevelOne.quantity = modifierOne.quantity;
           }
           for (var modifierGroupTwo in modifierOne.modifierGroups) {
-            final groupLevelTwo = modifierLevelOne?.groups.firstWhereOrNull(
-                (element) => element.groupId.toString() == modifierGroupTwo.id);
+            final groupLevelTwo = modifierLevelOne?.groups.firstWhereOrNull((element) => element.groupId.toString() == modifierGroupTwo.id);
             for (var modifierTwo in modifierGroupTwo.modifiers) {
-              final modifierLevelTwo = groupLevelTwo?.modifiers
-                  .firstWhereOrNull((element) =>
-                      element.modifierId.toString() == modifierTwo.id);
+              final modifierLevelTwo = groupLevelTwo?.modifiers.firstWhereOrNull((element) => element.modifierId.toString() == modifierTwo.id);
               if (modifierLevelTwo != null) {
                 modifierLevelTwo.isSelected = true;
                 modifierLevelTwo.quantity = modifierTwo.quantity;
@@ -286,12 +273,8 @@ class UpdateManualOrderDataProvider {
     );
     final paymentInfo = PaymentInfo(
       paymentStatus: order.paymentStatus,
-      paymentMethod: order.paymentMethod == ZERO
-          ? PaymentMethodID.CASH
-          : order.paymentMethod,
-      paymentChannel: order.paymentChannel == ZERO
-          ? PaymentChannelID.CASH
-          : order.paymentChannel,
+      paymentMethod: order.paymentMethod == ZERO ? PaymentMethodID.CASH : order.paymentMethod,
+      paymentChannel: order.paymentChannel == ZERO ? PaymentChannelID.CASH : order.paymentChannel,
     );
     final updateCartInfo = UpdateCartInfo(
       id: order.id,

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/env/environment_variables.dart';
 import 'package:slack_logger/slack_logger.dart';
@@ -21,7 +24,7 @@ class SlackLoggerResolver {
   }
 
   void sendApiError(DioException error) async {
-    if (!kReleaseMode || error.response == null) {
+    if (!kReleaseMode || error.response == null || error.response?.statusCode == ResponseCode.UNAUTHORISED) {
       return;
     }
     final deviceInfo = getIt.get<DeviceInfoProvider>();
@@ -31,11 +34,11 @@ class SlackLoggerResolver {
       'Url: ${error.requestOptions.baseUrl}${error.requestOptions.path}',
       'Status Code: ${error.response?.statusCode?.toString()}',
       'Response: ${error.response?.toString()}',
-      'Params: ${error.requestOptions.queryParameters}',
+      'Params: ${json.encode(error.requestOptions.queryParameters)}',
       "********** BUSINESS **********",
-      "Branch: ${user.branchName} (${user.branchId})",
-      "Brand: ${user.brandName} (${user.brandId})",
-      "Business: ${user.businessName} (${user.businessId})",
+      "Branch: ${user?.branchName} (${user?.branchId})",
+      "Brand: ${user?.brandIDs.join(', ')}",
+      "Business: ${user?.businessName} (${user?.businessId})",
       "********** METADATA **********",
       "Version: ${await deviceInfo.versionName()}",
       "Package: ${await deviceInfo.packageName()}",

@@ -27,8 +27,6 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       profilePic: json['profilePic'] as String,
       businessId: json['businessId'] as int,
       businessName: json['businessName'] as String,
-      brandId: json['brandId'] as int,
-      brandName: json['brandName'] as String,
       branchId: json['branchId'] as int,
       branchName: json['branchName'] as String,
       createdAt: json['createdAt'] as String,
@@ -50,6 +48,11 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       countryCodes: (json['countryCodes'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      brandIDs:
+          (json['brandIDs'] as List<dynamic>).map((e) => e as int).toList(),
+      brandTitles: (json['brandTitles'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       menuV2Enabled: json['menuV2Enabled'] as bool,
       menuVersion: json['menuVersion'] as int,
       menuV2EnabledForKlikitOrder: json['menuV2EnabledForKlikitOrder'] as bool,
@@ -64,8 +67,6 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'profilePic': instance.profilePic,
       'businessId': instance.businessId,
       'businessName': instance.businessName,
-      'brandId': instance.brandId,
-      'brandName': instance.brandName,
       'branchId': instance.branchId,
       'branchName': instance.branchName,
       'createdAt': instance.createdAt,
@@ -83,4 +84,6 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'permissions': instance.permissions,
       'countryIds': instance.countryIds,
       'countryCodes': instance.countryCodes,
+      'brandIDs': instance.brandIDs,
+      'brandTitles': instance.brandTitles,
     };

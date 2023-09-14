@@ -27,7 +27,7 @@ MenuData mapMMV1toMenu(MenuV1MenusDataModel menusData) {
 
 MenuBranchInfo _menuV1dataToMenuBranchInfo(MenuV1BranchInfo data) {
   return MenuBranchInfo(
-    businessID: SessionManager().user().businessId,
+    businessID: SessionManager().businessID(),
     brandID: data.branchId,
     branchID: data.branchId.orZero(),
     countryID: data.countryId.orZero(),

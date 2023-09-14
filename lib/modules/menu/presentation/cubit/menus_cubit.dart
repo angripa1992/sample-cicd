@@ -23,7 +23,7 @@ class MenusCubit extends Cubit<ResponseState> {
         branchId: SessionManager().branchId(),
         brandId: brandId,
         providerID: providerId == ZERO ? null : providerId,
-        businessId: SessionManager().user().businessId,
+        businessId: SessionManager().businessID(),
       ),
     );
     response.fold(
@@ -52,23 +52,19 @@ class MenusCubit extends Cubit<ResponseState> {
 
   void _filterHiddenSections(int? providerId, List<MenuSection> data) {
     data.removeWhere((section) {
-      return section.visibilities
-          .any((visibility) => _willRemove(visibility, providerId));
+      return section.visibilities.any((visibility) => _willRemove(visibility, providerId));
     });
   }
 
   void _filterHiddenSubSections(int? providerId, List<MenuCategory> data) {
     data.removeWhere((category) {
-      return category.visibilities
-          .any((visibility) => _willRemove(visibility, providerId));
+      return category.visibilities.any((visibility) => _willRemove(visibility, providerId));
     });
   }
 
-  void _filterHiddenSubSectionsItems(
-      int? providerId, List<MenuCategoryItem> data) {
+  void _filterHiddenSubSectionsItems(int? providerId, List<MenuCategoryItem> data) {
     data.removeWhere((categoryItem) {
-      return categoryItem.visibilities
-          .any((visibility) => _willRemove(visibility, providerId));
+      return categoryItem.visibilities.any((visibility) => _willRemove(visibility, providerId));
     });
   }
 
