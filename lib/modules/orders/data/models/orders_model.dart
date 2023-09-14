@@ -205,7 +205,7 @@ class OrderModel {
   int? cancellationReasonId;
   @JsonKey(name: 'cancellation_reason')
   String? cancellationReason;
-  @JsonKey(name: 'pickup_at')
+  @JsonKey(name: 'estimated_pickup_at')
   String? pickUpAt;
   @JsonKey(name: 'restaurant_service_fee')
   int? restaurantServiceFee;

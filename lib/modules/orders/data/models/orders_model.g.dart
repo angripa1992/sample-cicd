@@ -128,7 +128,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
           ?.map(
               (e) => OrderAppliedPromoModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pickUpAt: json['pickup_at'] as String?,
+      pickUpAt: json['estimated_pickup_at'] as String?,
       deliveryInfo: json['delivery_info'] == null
           ? null
           : DeliveryInfoModel.fromJson(
@@ -222,7 +222,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
           instance.itemAppliedPromos?.map((e) => e.toJson()).toList(),
       'cancellation_reason_id': instance.cancellationReasonId,
       'cancellation_reason': instance.cancellationReason,
-      'pickup_at': instance.pickUpAt,
+      'estimated_pickup_at': instance.pickUpAt,
       'restaurant_service_fee': instance.restaurantServiceFee,
       'promos': instance.promos?.map((e) => e.toJson()).toList(),
       'delivery_info': instance.deliveryInfo?.toJson(),

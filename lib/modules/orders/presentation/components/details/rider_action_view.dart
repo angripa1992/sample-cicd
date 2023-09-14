@@ -64,7 +64,10 @@ class RiderActionView extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: order.fulfillmentTrackingUrl.isNotEmpty,
+            visible: (order.status != OrderStatus.CANCELLED
+                && order.status != OrderStatus.DELIVERED
+                && order.status != OrderStatus.PICKED_UP)
+                && order.fulfillmentTrackingUrl.isNotEmpty,
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushNamed(
