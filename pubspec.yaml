@@ -50,6 +50,7 @@ dependencies:
   slack_logger: ^1.0.6
   crypto: ^3.0.2
   wakelock: ^0.6.2
+  salesiq_mobilisten: ^3.1.1
   # firebase
   firebase_core: ^2.11.0
   firebase_messaging: ^14.5.0

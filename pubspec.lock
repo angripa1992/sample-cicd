@@ -1164,6 +1164,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.27.7"
+  salesiq_mobilisten:
+    dependency: "direct main"
+    description:
+      name: salesiq_mobilisten
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
   scrollable_list_tab_scroller:
     dependency: "direct main"
     description:
