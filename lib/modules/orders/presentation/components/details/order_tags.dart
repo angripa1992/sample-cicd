@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
@@ -14,6 +13,8 @@ import 'order_payment_info.dart';
 
 class OrderTagsView extends StatelessWidget {
   final Order order;
+  static const _type = 'type';
+  static const _typeColor = 'type_color';
 
   const OrderTagsView({Key? key, required this.order}) : super(key: key);
 
@@ -42,41 +43,42 @@ class OrderTagsView extends StatelessWidget {
     }
   }
 
-  String _getType() {
+  Map<String, dynamic> _getType() {
     switch (order.type) {
       case OrderType.PICKUP:
-        return AppStrings.pickup.tr();
+        return {
+          _type: AppStrings.pickup.tr(),
+          _typeColor: 0xFF468E4,
+        };
       case OrderType.DELIVERY:
-        return AppStrings.deliver.tr();
-      case OrderType.DINE_IN:
-        return AppStrings.dine_in.tr();
+        return {
+          _type: AppStrings.deliver.tr(),
+          _typeColor: 0xFFFFA133,
+        };
       default:
-        return EMPTY;
+        return {
+          _type: AppStrings.dine_in.tr(),
+          _typeColor: 0xFF27AE60,
+        };
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final type = _getType();
     return Align(
       alignment: Alignment.topLeft,
       child: Wrap(
         runSpacing: AppSize.s8.rh,
         spacing: AppSize.s8.rw,
         children: [
-          OrderPaymentInfoView(order: order),
+          _orderTypeTagView(_getType()),
           if (order.providerId == ProviderID.KLIKIT)
             _tagView(
-              order.isManualOrder
-                  ? AppStrings.manual.tr()
-                  : AppStrings.webshop.tr(),
+              order.isManualOrder ? AppStrings.manual.tr() : AppStrings.webshop.tr(),
             ),
-          if (order.providerId == ProviderID.KLIKIT &&
-              !order.isManualOrder &&
-              order.tableNo.isNotEmpty)
-            _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
-          if (type.isNotEmpty) _tagView(_getType()),
+          if (order.providerId == ProviderID.KLIKIT && !order.isManualOrder && order.tableNo.isNotEmpty) _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
           _tagView(_getStatus()),
+          OrderPaymentInfoView(order: order),
         ],
       ),
     );
@@ -96,7 +98,27 @@ class OrderTagsView extends StatelessWidget {
         tagName,
         style: regularTextStyle(
           color: AppColors.black,
-          fontSize: AppFontSize.s12.rSp,
+          fontSize: AppFontSize.s14.rSp,
+        ),
+      ),
+    );
+  }
+
+  Widget _orderTypeTagView(Map<String, dynamic> typeMap) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: AppSize.s4.rh,
+        horizontal: AppSize.s8.rw,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+        color: Color(typeMap[_typeColor]!),
+      ),
+      child: Text(
+        typeMap[_type]!,
+        style: regularTextStyle(
+          color: AppColors.black,
+          fontSize: AppFontSize.s14.rSp,
         ),
       ),
     );
