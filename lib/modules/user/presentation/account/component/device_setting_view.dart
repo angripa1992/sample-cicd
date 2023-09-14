@@ -42,7 +42,6 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Device Setting'),
-          flexibleSpace: getAppBarBackground(),
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(
@@ -101,9 +100,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                     borderColor: AppColors.primary,
                     textColor: AppColors.white,
                     onTap: () {
-                      context
-                          .read<DeviceSettingCubit>()
-                          .changeSunmiDeviceSetting(_device == Device.sunmi);
+                      context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
                     },
                   );
                 },

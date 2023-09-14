@@ -45,8 +45,8 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
           padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
           child: Text(
             AppStrings.filter_by_brand.tr(),
-            style: regularTextStyle(
-              color: AppColors.primary,
+            style: mediumTextStyle(
+              color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
           ),
@@ -54,7 +54,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            color: AppColors.greyLight,
+            color: AppColors.grey,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
@@ -65,7 +65,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
               underline: const SizedBox(),
               icon: Icon(
                 Icons.keyboard_arrow_down,
-                color: AppColors.primary,
+                color: AppColors.black,
               ),
               hint: Container(
                 alignment: Alignment.centerLeft,

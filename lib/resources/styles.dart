@@ -85,25 +85,19 @@ TextStyle thinTextStyle({
   );
 }
 
-TextStyle getAppBarTextStyle() {
-  return regularTextStyle(
-    color: AppColors.white,
-    fontSize: AppFontSize.s17.rSp,
-  );
-}
 
-Widget getAppBarBackground() {
-  return Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-        colors: [
-          const Color(0xFF000000).withOpacity(1.0),
-          const Color(0xFF6A13F4).withOpacity(1.0),
-          const Color(0xFFFAF84F).withOpacity(1.0),
-        ],
-      ),
-    ),
-  );
-}
+// Widget getAppBarBackground() {
+//   return Container(
+//     decoration: BoxDecoration(
+//       gradient: LinearGradient(
+//         begin: Alignment.centerLeft,
+//         end: Alignment.centerRight,
+//         colors: [
+//           const Color(0xFF000000).withOpacity(1.0),
+//           const Color(0xFF6A13F4).withOpacity(1.0),
+//           const Color(0xFFFAF84F).withOpacity(1.0),
+//         ],
+//       ),
+//     ),
+//   );
+// }

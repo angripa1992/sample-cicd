@@ -128,11 +128,8 @@ class _AccountScreenState extends State<AccountScreen> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          leading: const SizedBox(),
           title: Text(AppStrings.account.tr()),
-          titleTextStyle: getAppBarTextStyle(),
           centerTitle: true,
-          flexibleSpace: getAppBarBackground(),
         ),
         body: SingleChildScrollView(
           child: Padding(

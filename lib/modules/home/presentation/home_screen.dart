@@ -94,223 +94,220 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.grey,
-      appBar: AppBar(
-        toolbarHeight: 0,
-        flexibleSpace: getAppBarBackground(),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            DeferredPointerHandler(
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  HomeHeaderView(
-                    userInfo: SessionManager().user(),
-                    onCartTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const AddOrderScreen(
-                            willOpenCart: true,
-                            willUpdateCart: false,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  Positioned(
-                    bottom: -50.rh,
-                    left: AppSize.s20.rw,
-                    right: AppSize.s20.rw,
-                    child: DeferPointer(
-                      child: HomeTotalOrdersCard(
-                        onYesterday: () {
-                          context.read<BaseScreenCubit>().changeIndex(
-                                NavigationData(
-                                  index: BottomNavItem.ORDER,
-                                  subTabIndex: OrderTab.History,
-                                  data: {
-                                    HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.yesterday(),
-                                  },
-                                ),
-                              );
-                        },
-                        onToday: () {
-                          context.read<BaseScreenCubit>().changeIndex(
-                                NavigationData(
-                                  index: BottomNavItem.ORDER,
-                                  subTabIndex: OrderTab.History,
-                                  data: {
-                                    HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.today(),
-                                  },
-                                ),
-                              );
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: AppSize.s90.rh),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s20.rw,
-              ),
-              child: IntrinsicHeight(
-                child: Row(
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              DeferredPointerHandler(
+                child: Stack(
+                  clipBehavior: Clip.none,
                   children: [
-                    Expanded(
-                      child: BlocConsumer<CompletedOrderCubit, ResponseState>(
-                        listener: (context, state) {
-                          if (state is Failed) {
-                            showApiErrorSnackBar(context, state.failure);
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is Loading) {
-                            return OrdersCardShimmer(
-                              text: AppStrings.completed_orders.tr(),
-                              fontSize: AppFontSize.s14.rSp,
-                              orderTextHeight: AppFontSize.s24.rSp,
-                            );
-                          }
-                          return OrdersCard(
-                            height: AppSize.s90.rh,
-                            width: AppSize.s100.rw,
-                            text: AppStrings.completed_orders.tr(),
-                            orders: (state is Success<Orders>) ? state.data.total.toString() : '0',
-                            orderColor: AppColors.primary,
-                            fontSize: AppFontSize.s14.rSp,
-                            orderFontSize: AppFontSize.s24.rSp,
-                          );
-                        },
-                      ),
+                    HomeHeaderView(
+                      userInfo: SessionManager().user(),
+                      onCartTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const AddOrderScreen(
+                              willOpenCart: true,
+                              willUpdateCart: false,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    SizedBox(width: AppSize.s8.rw),
-                    Expanded(
-                      child: BlocConsumer<CancelledOrderCubit, ResponseState>(
-                        listener: (context, state) {
-                          if (state is Failed) {
-                            showApiErrorSnackBar(context, state.failure);
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is Loading) {
-                            return OrdersCardShimmer(
-                              text: AppStrings.cancelled_orders.tr(),
-                              fontSize: AppFontSize.s14.rSp,
-                              orderTextHeight: AppFontSize.s24.rSp,
-                            );
-                          }
-                          return OrdersCard(
-                            height: AppSize.s90.rh,
-                            width: AppSize.s100.rw,
-                            text: AppStrings.cancelled_orders.tr(),
-                            orders: (state is Success<Orders>) ? state.data.total.toString() : '0',
-                            orderColor: AppColors.red,
-                            fontSize: AppFontSize.s14.rSp,
-                            orderFontSize: AppFontSize.s24.rSp,
-                          );
-                        },
+                    Positioned(
+                      bottom: -50.rh,
+                      left: AppSize.s20.rw,
+                      right: AppSize.s20.rw,
+                      child: DeferPointer(
+                        child: HomeTotalOrdersCard(
+                          onYesterday: () {
+                            context.read<BaseScreenCubit>().changeIndex(
+                                  NavigationData(
+                                    index: BottomNavItem.ORDER,
+                                    subTabIndex: OrderTab.History,
+                                    data: {
+                                      HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.yesterday(),
+                                    },
+                                  ),
+                                );
+                          },
+                          onToday: () {
+                            context.read<BaseScreenCubit>().changeIndex(
+                                  NavigationData(
+                                    index: BottomNavItem.ORDER,
+                                    subTabIndex: OrderTab.History,
+                                    data: {
+                                      HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.today(),
+                                    },
+                                  ),
+                                );
+                          },
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s20.rw,
-                vertical: AppSize.s16.rh,
+              SizedBox(height: AppSize.s90.rh),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s20.rw,
+                ),
+                child: IntrinsicHeight(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: BlocConsumer<CompletedOrderCubit, ResponseState>(
+                          listener: (context, state) {
+                            if (state is Failed) {
+                              showApiErrorSnackBar(context, state.failure);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is Loading) {
+                              return OrdersCardShimmer(
+                                text: AppStrings.completed_orders.tr(),
+                                fontSize: AppFontSize.s14.rSp,
+                                orderTextHeight: AppFontSize.s24.rSp,
+                              );
+                            }
+                            return OrdersCard(
+                              height: AppSize.s90.rh,
+                              width: AppSize.s100.rw,
+                              text: AppStrings.completed_orders.tr(),
+                              orders: (state is Success<Orders>) ? state.data.total.toString() : '0',
+                              orderColor: AppColors.primary,
+                              fontSize: AppFontSize.s14.rSp,
+                              orderFontSize: AppFontSize.s24.rSp,
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(width: AppSize.s8.rw),
+                      Expanded(
+                        child: BlocConsumer<CancelledOrderCubit, ResponseState>(
+                          listener: (context, state) {
+                            if (state is Failed) {
+                              showApiErrorSnackBar(context, state.failure);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is Loading) {
+                              return OrdersCardShimmer(
+                                text: AppStrings.cancelled_orders.tr(),
+                                fontSize: AppFontSize.s14.rSp,
+                                orderTextHeight: AppFontSize.s24.rSp,
+                              );
+                            }
+                            return OrdersCard(
+                              height: AppSize.s90.rh,
+                              width: AppSize.s100.rw,
+                              text: AppStrings.cancelled_orders.tr(),
+                              orders: (state is Success<Orders>) ? state.data.total.toString() : '0',
+                              orderColor: AppColors.red,
+                              fontSize: AppFontSize.s14.rSp,
+                              orderFontSize: AppFontSize.s24.rSp,
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: const PauseStoreHeaderView(),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s20.rw,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s20.rw,
+                  vertical: AppSize.s16.rh,
+                ),
+                child: const PauseStoreHeaderView(),
               ),
-              child: BlocConsumer<NewOrderCubit, ResponseState>(
-                listener: (context, state) {
-                  if (state is Failed) {
-                    showApiErrorSnackBar(context, state.failure);
-                  }
-                },
-                builder: (context, state) {
-                  if (state is Loading) {
-                    return HomeOrderNavCardShimmer(
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s20.rw,
+                ),
+                child: BlocConsumer<NewOrderCubit, ResponseState>(
+                  listener: (context, state) {
+                    if (state is Failed) {
+                      showApiErrorSnackBar(context, state.failure);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is Loading) {
+                      return HomeOrderNavCardShimmer(
+                        bgColor: AppColors.primary,
+                        text: AppStrings.new_orders.tr(),
+                        textBaseColor: AppColors.white,
+                        textHighlightColor: AppColors.primaryLight,
+                        containerBaseColor: AppColors.primaryLight,
+                        containerHighlightColor: AppColors.grey,
+                      );
+                    }
+                    return HomeOrderNavCard(
+                      numberOfOrders: (state is Success<Orders>) ? state.data.total.toString() : "0",
                       bgColor: AppColors.primary,
+                      textColor: AppColors.white,
+                      onTap: () {
+                        context.read<BaseScreenCubit>().changeIndex(
+                              NavigationData(
+                                index: BottomNavItem.ORDER,
+                                subTabIndex: OrderTab.NEW,
+                                data: null,
+                              ),
+                            );
+                      },
                       text: AppStrings.new_orders.tr(),
-                      textBaseColor: AppColors.white,
-                      textHighlightColor: AppColors.primaryLight,
-                      containerBaseColor: AppColors.primaryLight,
-                      containerHighlightColor: AppColors.grey,
                     );
-                  }
-                  return HomeOrderNavCard(
-                    numberOfOrders: (state is Success<Orders>) ? state.data.total.toString() : "0",
-                    bgColor: AppColors.primary,
-                    textColor: AppColors.white,
-                    onTap: () {
-                      context.read<BaseScreenCubit>().changeIndex(
-                            NavigationData(
-                              index: BottomNavItem.ORDER,
-                              subTabIndex: OrderTab.NEW,
-                              data: null,
-                            ),
-                          );
-                    },
-                    text: AppStrings.new_orders.tr(),
-                  );
-                },
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s20.rw,
-                vertical: AppSize.s12.rh,
-              ),
-              child: BlocConsumer<OngoingOrderCubit, ResponseState>(
-                listener: (context, state) {
-                  if (state is Failed) {
-                    showApiErrorSnackBar(context, state.failure);
-                  }
-                },
-                builder: (context, state) {
-                  if (state is Loading) {
-                    return HomeOrderNavCardShimmer(
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s20.rw,
+                  vertical: AppSize.s12.rh,
+                ),
+                child: BlocConsumer<OngoingOrderCubit, ResponseState>(
+                  listener: (context, state) {
+                    if (state is Failed) {
+                      showApiErrorSnackBar(context, state.failure);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is Loading) {
+                      return HomeOrderNavCardShimmer(
+                        bgColor: AppColors.white,
+                        text: AppStrings.ongoing_orders.tr(),
+                        textBaseColor: AppColors.primaryLight,
+                        textHighlightColor: AppColors.grey,
+                        containerBaseColor: AppColors.primaryLight,
+                        containerHighlightColor: AppColors.grey,
+                      );
+                    }
+                    return HomeOrderNavCard(
+                      numberOfOrders: (state is Success<Orders>) ? state.data.total.toString() : "0",
                       bgColor: AppColors.white,
+                      textColor: AppColors.black,
+                      onTap: () {
+                        context.read<BaseScreenCubit>().changeIndex(
+                              NavigationData(
+                                index: BottomNavItem.ORDER,
+                                subTabIndex: OrderTab.ONGOING,
+                                data: null,
+                              ),
+                            );
+                      },
                       text: AppStrings.ongoing_orders.tr(),
-                      textBaseColor: AppColors.primaryLight,
-                      textHighlightColor: AppColors.grey,
-                      containerBaseColor: AppColors.primaryLight,
-                      containerHighlightColor: AppColors.grey,
                     );
-                  }
-                  return HomeOrderNavCard(
-                    numberOfOrders: (state is Success<Orders>) ? state.data.total.toString() : "0",
-                    bgColor: AppColors.white,
-                    textColor: AppColors.black,
-                    onTap: () {
-                      context.read<BaseScreenCubit>().changeIndex(
-                            NavigationData(
-                              index: BottomNavItem.ORDER,
-                              subTabIndex: OrderTab.ONGOING,
-                              data: null,
-                            ),
-                          );
-                    },
-                    text: AppStrings.ongoing_orders.tr(),
-                  );
-                },
+                  },
+                ),
               ),
-            ),
-            const ZReportView(),
-          ],
+              const ZReportView(),
+            ],
+          ),
         ),
       ),
     );

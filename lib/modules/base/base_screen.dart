@@ -29,7 +29,7 @@ import '../add_order/presentation/pages/add_order_screen.dart';
 import '../busy/presentation/bloc/fetch_pause_store_data_cubit.dart';
 import '../home/presentation/cubit/fetch_zreport_cubit.dart';
 import '../home/presentation/home_screen.dart';
-import '../menu/presentation/pages/stock_screen.dart';
+import '../menu/presentation/pages/menu_management_screen.dart';
 import '../orders/presentation/bloc/all_order_cubit.dart';
 import '../orders/presentation/bloc/schedule_order_cubit.dart';
 import '../user/presentation/account/account_screen.dart';
@@ -93,7 +93,7 @@ class _BaseScreenState extends State<BaseScreen> {
         data: navigationData.data,
       );
     } else if (navigationData.index == BottomNavItem.MENU) {
-      return const StockScreen();
+      return const MenuManagementScreen();
     } else {
       return const AccountScreen();
     }

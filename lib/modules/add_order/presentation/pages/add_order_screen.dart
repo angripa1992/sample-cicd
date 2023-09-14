@@ -12,9 +12,7 @@ class AddOrderScreen extends StatelessWidget {
   final bool willOpenCart;
   final bool willUpdateCart;
 
-  const AddOrderScreen(
-      {Key? key, required this.willOpenCart, required this.willUpdateCart})
-      : super(key: key);
+  const AddOrderScreen({Key? key, required this.willOpenCart, required this.willUpdateCart}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +21,17 @@ class AddOrderScreen extends StatelessWidget {
         BlocProvider<MenuBrandsCubit>(create: (_) => getIt.get()),
         BlocProvider<FetchAddOrderMenuItemsCubit>(create: (_) => getIt.get()),
       ],
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 0,
-          flexibleSpace: getAppBarBackground(),
-        ),
-        body: AddOrderBody(
-          onBack: () {
-            if (willUpdateCart) {
-              CartManager().clear();
-            }
-            Navigator.pop(context);
-          },
-          willOpenCart: willOpenCart,
+      child: SafeArea(
+        child: Scaffold(
+          body: AddOrderBody(
+            onBack: () {
+              if (willUpdateCart) {
+                CartManager().clear();
+              }
+              Navigator.pop(context);
+            },
+            willOpenCart: willOpenCart,
+          ),
         ),
       ),
     );
