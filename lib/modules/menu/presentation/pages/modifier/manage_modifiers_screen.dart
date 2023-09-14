@@ -20,8 +20,7 @@ class ManageModifiersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-    ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     ModifierGroup modifierGroup = args[ArgumentKey.kGROUP];
     final brandId = args[ArgumentKey.kBRAND_ID];
     final providerId = args[ArgumentKey.kPROVIDER_ID];
@@ -41,8 +40,6 @@ class ManageModifiersScreen extends StatelessWidget {
               icon: const Icon(Icons.arrow_back_outlined),
             ),
             title: Text(AppStrings.modifiers.tr()),
-            titleTextStyle: getAppBarTextStyle(),
-            flexibleSpace: getAppBarBackground(),
           ),
           body: Padding(
             padding: EdgeInsets.symmetric(

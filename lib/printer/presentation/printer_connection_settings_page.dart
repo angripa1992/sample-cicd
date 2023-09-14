@@ -19,14 +19,12 @@ class PrinterConnectionSettingPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(AppStrings.printer_settings.tr()),
-          titleTextStyle: getAppBarTextStyle(),
-          flexibleSpace: getAppBarBackground(),
           bottom: TabBar(
-            indicatorColor: AppColors.yellowDark,
-            unselectedLabelColor: AppColors.white,
-            labelColor: AppColors.yellowDark,
+            indicatorColor: AppColors.primary,
+            unselectedLabelColor: AppColors.black,
+            labelColor: AppColors.primary,
             labelStyle: TextStyle(
-              fontSize: AppFontSize.s14.rSp,
+              fontSize: AppFontSize.s16.rSp,
             ),
             tabs: const [Tab(text: 'Docket'), Tab(text: 'Sticker')],
           ),

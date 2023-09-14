@@ -95,10 +95,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       create: (_) => getIt.get<UpdateUserInfoCubit>(),
       child: Scaffold(
         appBar: AppBar(
-          // iconTheme: const IconThemeData(color: Colors.black),
-          // foregroundColor: Colors.black,
           title: Text(AppStrings.edit_profile.tr()),
-          flexibleSpace: getAppBarBackground(),
         ),
         body: SingleChildScrollView(
           child: Column(

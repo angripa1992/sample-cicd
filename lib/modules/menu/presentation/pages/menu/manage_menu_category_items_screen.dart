@@ -16,8 +16,7 @@ class ManageItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final menuCategory = args[ArgumentKey.kMENU_CATEGORY];
     final parentEnabled = args[ArgumentKey.kENABLED];
     final brandId = args[ArgumentKey.kBRAND_ID];
@@ -36,8 +35,6 @@ class ManageItemsScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_outlined),
           ),
           title: Text(AppStrings.manage_items.tr()),
-          titleTextStyle: getAppBarTextStyle(),
-          flexibleSpace: getAppBarBackground(),
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(

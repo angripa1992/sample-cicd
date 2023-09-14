@@ -5,7 +5,6 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/strings.dart';
-import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,8 +20,7 @@ class ContactSupportScreen extends StatefulWidget {
 
 class _ContactSupportScreenState extends State<ContactSupportScreen> {
   Future<void> _launchWhatsapp() async {
-    final whatsappAndroid =
-        Uri.parse("whatsapp://send?phone=${AppConstant.whatappSupportNumber}");
+    final whatsappAndroid = Uri.parse("whatsapp://send?phone=${AppConstant.whatappSupportNumber}");
     try {
       await launchUrl(whatsappAndroid);
     } on PlatformException catch (e) {
@@ -41,8 +39,6 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppStrings.contact_support.tr()),
-        titleTextStyle: getAppBarTextStyle(),
-        flexibleSpace: getAppBarBackground(),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(

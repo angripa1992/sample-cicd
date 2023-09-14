@@ -95,11 +95,8 @@ class _OrdersScreenState extends State<OrdersScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(AppStrings.order_dashboard.tr()),
-        titleTextStyle: getAppBarTextStyle(),
-        flexibleSpace: getAppBarBackground(),
         centerTitle: true,
       ),
-      backgroundColor: AppColors.grey,
       body: NestedScrollView(
         physics: const NeverScrollableScrollPhysics(),
         headerSliverBuilder: (context, isScrolled) {

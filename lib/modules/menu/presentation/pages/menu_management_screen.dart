@@ -18,14 +18,14 @@ import '../../../../segments/segemnt_data_provider.dart';
 import '../cubit/aggregator_selection_cubit.dart';
 import '../cubit/menu_brands_cubit.dart';
 
-class StockScreen extends StatefulWidget {
-  const StockScreen({Key? key}) : super(key: key);
+class MenuManagementScreen extends StatefulWidget {
+  const MenuManagementScreen({Key? key}) : super(key: key);
 
   @override
-  State<StockScreen> createState() => _StockScreenState();
+  State<MenuManagementScreen> createState() => _MenuManagementScreenState();
 }
 
-class _StockScreenState extends State<StockScreen> {
+class _MenuManagementScreenState extends State<MenuManagementScreen> {
   @override
   void initState() {
     SegmentManager().screen(event: SegmentEvents.MENU_TAB, name: 'Menu Tab');
@@ -48,11 +48,8 @@ class _StockScreenState extends State<StockScreen> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          leading: const SizedBox(),
           title: Text(AppStrings.menu.tr()),
-          titleTextStyle: getAppBarTextStyle(),
           centerTitle: true,
-          flexibleSpace: getAppBarBackground(),
         ),
         body: const MenuMgtScreen(),
       ),

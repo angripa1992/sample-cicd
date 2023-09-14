@@ -52,16 +52,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(AppStrings.account.tr()),
-          titleTextStyle: getAppBarTextStyle(),
-          flexibleSpace: getAppBarBackground(),
         ),
         body: SingleChildScrollView(
           child: SizedBox(
             height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight,
             width: ScreenSizes.screenWidth,
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s20.rw, vertical: AppSize.s12.rh),
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw, vertical: AppSize.s12.rh),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,

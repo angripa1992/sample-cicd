@@ -50,8 +50,8 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
           padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
           child: Text(
             AppStrings.delivery_aggregator.tr(),
-            style: regularTextStyle(
-              color: AppColors.primary,
+            style: mediumTextStyle(
+              color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
           ),
@@ -59,7 +59,7 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            color: AppColors.greyLight,
+            color: AppColors.grey,
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
@@ -72,15 +72,8 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
                   underline: const SizedBox(),
                   icon: Icon(
                     Icons.keyboard_arrow_down,
-                    color: AppColors.primary,
+                    color: AppColors.black,
                   ),
-                  // hint: Container(
-                  //   alignment: Alignment.centerLeft,
-                  //   child: Text(
-                  //     AppStrings.select_aggregator.tr(),
-                  //     style: dropDownTextStyle,
-                  //   ),
-                  // ),
                   selectedItemBuilder: (BuildContext context) {
                     return _providers.map<Widget>((Provider item) {
                       return Container(
