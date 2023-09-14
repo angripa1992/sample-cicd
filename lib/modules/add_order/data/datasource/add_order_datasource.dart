@@ -44,7 +44,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     required MenuBranchInfo branchInfo,
   }) async {
     try {
-      if (SessionManager().user().menuV2EnabledForKlikitOrder) {
+      if (SessionManager().user()!.menuV2EnabledForKlikitOrder) {
         List<dynamic>? response = await _restClient.request(
           Urls.itmModifiersV2,
           Method.GET,
@@ -86,7 +86,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     required BillingRequestModel model,
   }) async {
     try {
-      if (SessionManager().user().menuV2EnabledForKlikitOrder) {
+      if (SessionManager().menuV2EnabledForKlikitOrder()) {
         final response = await _restClient.request(
           Urls.calculateBillV2,
           Method.POST,

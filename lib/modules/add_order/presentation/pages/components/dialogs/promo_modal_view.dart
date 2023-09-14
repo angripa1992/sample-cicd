@@ -69,7 +69,7 @@ class _PromoModalViewState extends State<PromoModalView> {
   Map<String, dynamic> _params() {
     final user = SessionManager().user();
     return {
-      'country': user.countryIds.first,
+      'country': user!.countryIds.first,
       'business': user.businessId,
       'branch': user.branchId,
       'product_type': 'add_order',
@@ -109,11 +109,8 @@ class _PromoModalViewState extends State<PromoModalView> {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                      child: FutureBuilder<
-                          dartz.Either<Failure, List<AppliedPromo>>>(
-                        future: getIt
-                            .get<AddOrderRepository>()
-                            .fetchPromos(_params()),
+                      child: FutureBuilder<dartz.Either<Failure, List<AppliedPromo>>>(
+                        future: getIt.get<AddOrderRepository>().fetchPromos(_params()),
                         builder: (context, snap) {
                           if (snap.hasData && snap.data != null) {
                             return snap.data!.fold(
@@ -134,8 +131,7 @@ class _PromoModalViewState extends State<PromoModalView> {
                                 } else {
                                   return Center(
                                     child: Padding(
-                                      padding:
-                                          EdgeInsets.only(top: AppSize.s32.rh),
+                                      padding: EdgeInsets.only(top: AppSize.s32.rh),
                                       child: const Text(
                                         'No promos available right now',
                                       ),
@@ -163,9 +159,7 @@ class _PromoModalViewState extends State<PromoModalView> {
                         if (data != null &&
                             _appliedPromo != null &&
                             _appliedPromo!.isSeniorCitizenPromo! &&
-                            ((!widget.isItemDiscount &&
-                                    widget.orderType == OrderType.DINE_IN) ||
-                                widget.isItemDiscount)) {
+                            ((!widget.isItemDiscount && widget.orderType == OrderType.DINE_IN) || widget.isItemDiscount)) {
                           return SeniorCitizenDiscountView(
                             initialCustomerCount: _customer,
                             initialCitizenCount: _citizen,

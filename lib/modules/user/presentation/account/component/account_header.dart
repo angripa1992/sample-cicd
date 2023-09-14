@@ -16,7 +16,7 @@ class AccountHeader extends StatelessWidget {
     return Column(
       children: [
         Text(
-          '${userInfo.firstName} ${userInfo.lastName}',
+          '${userInfo!.firstName} ${userInfo.lastName}',
           style: boldTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s18.rSp,

@@ -29,8 +29,6 @@ class UserInfo {
   final String profilePic;
   final int businessId;
   final String businessName;
-  final int brandId;
-  final String brandName;
   final int branchId;
   final String branchName;
   final String createdAt;
@@ -48,6 +46,8 @@ class UserInfo {
   final List<String> permissions;
   final List<int> countryIds;
   final List<String> countryCodes;
+  final List<int> brandIDs;
+  final List<String> brandTitles;
 
   UserInfo({
     required this.id,
@@ -58,8 +58,6 @@ class UserInfo {
     required this.profilePic,
     required this.businessId,
     required this.businessName,
-    required this.brandId,
-    required this.brandName,
     required this.branchId,
     required this.branchName,
     required this.createdAt,
@@ -74,6 +72,8 @@ class UserInfo {
     required this.permissions,
     required this.countryIds,
     required this.countryCodes,
+    required this.brandIDs,
+    required this.brandTitles,
     required this.menuV2Enabled,
     required this.menuVersion,
     required this.menuV2EnabledForKlikitOrder,
@@ -94,8 +94,6 @@ class UserInfo {
       profilePic: profilePic,
       businessId: businessId,
       businessName: businessName,
-      brandId: brandId,
-      brandName: brandName,
       branchId: branchId,
       branchName: branchName,
       createdAt: createdAt,
@@ -110,6 +108,8 @@ class UserInfo {
       permissions: permissions,
       countryIds: countryIds,
       countryCodes: countryCodes,
+      brandIDs: brandIDs,
+      brandTitles: brandTitles,
       menuV2Enabled: menuV2Enabled,
       menuVersion: menuVersion,
       menuV2EnabledForKlikitOrder: menuV2EnabledForKlikitOrder,

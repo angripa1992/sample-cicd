@@ -6,8 +6,6 @@ part 'user_update_request_model.g.dart';
 class UserUpdateRequestModel {
   @JsonKey(name: 'branch_id')
   int? branchId;
-  @JsonKey(name: 'brand_id')
-  int? brandId;
   @JsonKey(name: 'business_id')
   int? businessId;
   @JsonKey(name: 'first_name')
@@ -21,18 +19,17 @@ class UserUpdateRequestModel {
   @JsonKey(name: 'country_ids')
   List<int>? countryIds;
 
-  UserUpdateRequestModel(
-      {this.branchId,
-      this.brandId,
-      this.businessId,
-      this.firstName,
-      this.lastName,
-      this.phone,
-      this.roleIds,
-      this.countryIds});
+  UserUpdateRequestModel({
+    this.branchId,
+    this.businessId,
+    this.firstName,
+    this.lastName,
+    this.phone,
+    this.roleIds,
+    this.countryIds,
+  });
 
-  factory UserUpdateRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$UserUpdateRequestModelFromJson(json);
+  factory UserUpdateRequestModel.fromJson(Map<String, dynamic> json) => _$UserUpdateRequestModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserUpdateRequestModelToJson(this);
 }

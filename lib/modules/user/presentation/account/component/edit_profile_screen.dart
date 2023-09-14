@@ -36,7 +36,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
-    _user = SessionManager().user();
+    _user = SessionManager().user()!;
     _firstNameController.text = _user.firstName;
     _lastNameController.text = _user.lastName;
     _phoneNameController.text = _user.phone;
@@ -61,7 +61,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               UpdateUserInfoParams(
                 UserUpdateRequestModel(
                   branchId: _user.branchId,
-                  brandId: _user.brandId == 0 ? null : _user.brandId,
                   businessId: _user.businessId,
                   firstName: _firstNameController.text,
                   lastName: _lastNameController.text,
@@ -85,7 +84,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
     setState(() {
-      _user = SessionManager().user();
+      _user = SessionManager().user()!;
     });
   }
 

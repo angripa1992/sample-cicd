@@ -15,11 +15,10 @@ class AggregatorProvider {
   Future<List<Provider>> fetchProviders() async {
     if (_providers.isEmpty) {
       final ids = ListParam<int>(
-        SessionManager().user().countryIds,
+        SessionManager().user()!.countryIds,
         ListFormat.csv,
       );
-      final response =
-          await _orderRepository.fetchProvider({"filterByCountry": ids});
+      final response = await _orderRepository.fetchProvider({"filterByCountry": ids});
       if (response.isRight()) {
         final data = response.getOrElse(() => []);
         _providers = data;

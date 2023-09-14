@@ -19,10 +19,10 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
     emit(Loading());
     final response = await _repository.fetchMenu(
       FetchMenuParams(
-        menuV2Enabled: SessionManager().user().menuV2EnabledForKlikitOrder,
+        menuV2Enabled: SessionManager().menuV2EnabledForKlikitOrder(),
         branchId: SessionManager().branchId(),
         brandId: brand.id,
-        businessId: SessionManager().user().businessId,
+        businessId: SessionManager().businessID(),
         providerID: null,
       ),
     );
@@ -40,9 +40,7 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
     for (var section in sections) {
       if (section.enabled && section.visible(ProviderID.KLIKIT)) {
         for (var category in section.categories) {
-          if (category.enabled &&
-              category.visible(ProviderID.KLIKIT) &&
-              category.items.isNotEmpty) {
+          if (category.enabled && category.visible(ProviderID.KLIKIT) && category.items.isNotEmpty) {
             final categoryItems = <MenuCategoryItem>[];
             for (var item in category.items) {
               if (item.visible(ProviderID.KLIKIT)) {

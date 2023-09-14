@@ -24,8 +24,6 @@ class UserInfoModel {
   String? profile_pic;
   int? business_id;
   String? business_name;
-  int? brand_id;
-  String? brand_name;
   int? branch_id;
   String? branch_name;
   String? created_at;
@@ -43,6 +41,8 @@ class UserInfoModel {
   List<String>? permissions;
   List<int>? country_ids;
   List<String>? country_codes;
+  List<int>? brand_ids;
+  List<String>? brand_titles;
 
   UserInfoModel({
     this.id,
@@ -52,8 +52,6 @@ class UserInfoModel {
     this.profile_pic,
     this.business_id,
     this.business_name,
-    this.brand_id,
-    this.brand_name,
     this.branch_id,
     this.branch_name,
     this.created_at,
@@ -71,6 +69,8 @@ class UserInfoModel {
     this.permissions,
     this.country_ids,
     this.country_codes,
+    this.brand_ids,
+    this.brand_titles,
   });
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) =>

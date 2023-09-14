@@ -13,7 +13,7 @@ class ChangeNotificationSettingCubit extends Cubit<ResponseState> {
   void changeNotificationSetting(bool enable) async {
     emit(Loading());
     final params = {
-      "user_id": SessionManager().user().id,
+      "user_id": SessionManager().user()!.id,
       "order_notification_enabled": enable,
     };
     final response = await _repository.changeSettings(params);

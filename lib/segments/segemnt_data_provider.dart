@@ -33,7 +33,7 @@ class SegmentDataProvider {
 
   SegmentTraits _getTraits() {
     if (_traits == null) {
-      final userInfo = SessionManager().user();
+      final userInfo = SessionManager().user()!;
       _traits = SegmentTraits(
         email: userInfo.email,
         phone: userInfo.phone,
@@ -62,8 +62,7 @@ class SegmentDataProvider {
   Future<SegmentLocation?> _getLocation() async {
     final position = await _locationProvider.currentPosition();
     if (position == null) return _geCountryId();
-    final placeMark = await _locationProvider.placeMarkFromCoordinates(
-        lat: position.latitude, lan: position.longitude);
+    final placeMark = await _locationProvider.placeMarkFromCoordinates(lat: position.latitude, lan: position.longitude);
     if (placeMark == null) return _geCountryId();
     return SegmentLocation(
       city: placeMark.locality,
@@ -74,7 +73,7 @@ class SegmentDataProvider {
   }
 
   SegmentLocation _geCountryId() {
-    final countryCode = SessionManager().user().countryCodes.first;
+    final countryCode = SessionManager().user()!.countryCodes.first;
     return SegmentLocation(
       country: countryCode,
     );
@@ -84,7 +83,7 @@ class SegmentDataProvider {
 
   Future<SegmentData> identifyData({required String event}) async {
     return SegmentData(
-      userId: SessionManager().user().id.toString(),
+      userId: SessionManager().id().toString(),
       event: event,
       timestamp: _timestamp(),
       traits: _getTraits(),
@@ -101,7 +100,7 @@ class SegmentDataProvider {
     Map<String, dynamic>? properties,
   }) async {
     return SegmentData(
-      userId: SessionManager().user().id.toString(),
+      userId: SessionManager().id().toString(),
       event: event,
       properties: properties,
       timestamp: _timestamp(),
@@ -120,7 +119,7 @@ class SegmentDataProvider {
     Map<String, dynamic>? properties,
   }) async {
     return SegmentData(
-      userId: SessionManager().user().id.toString(),
+      userId: SessionManager().id().toString(),
       event: event,
       name: name,
       properties: properties,
