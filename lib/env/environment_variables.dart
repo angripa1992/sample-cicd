@@ -5,12 +5,16 @@ class EnvironmentVariables {
   String cdnUrl;
   String segmentWriteKey;
   String slackUrl;
+  String zohoAppKey;
+  String zohoAppAccessKey;
 
   EnvironmentVariables({
     required this.baseUrl,
     required this.cdnUrl,
     required this.segmentWriteKey,
     required this.slackUrl,
+    required this.zohoAppKey,
+    required this.zohoAppAccessKey,
   });
 }
 
@@ -34,6 +38,8 @@ class EnvironmentVariablesModel {
         cdnUrl: cdnUrl.orEmpty(),
         segmentWriteKey: segmentWriteKey.orEmpty(),
         slackUrl: slackUrl.orEmpty(),
+        zohoAppKey: '',
+        zohoAppAccessKey: '',
       );
 }
 
