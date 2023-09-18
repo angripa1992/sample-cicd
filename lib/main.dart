@@ -21,6 +21,11 @@ import 'notification/local_notification_service.dart';
 void mainCommon(EnvironmentVariables env) async {
   WidgetsFlutterBinding.ensureInitialized();
   Wakelock.enable();
+  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //   statusBarColor: Colors.white,
+  //   statusBarIconBrightness: Brightness.light, // For Android (dark icons)
+  //   statusBarBrightness: Brightness.light, // For iOS (dark icons)
+  // ));
   await Firebase.initializeApp();
   final environmentVariables = await EnvManager().fetchEnv(env);
   CrashlyticsConfiguration().initialize();
