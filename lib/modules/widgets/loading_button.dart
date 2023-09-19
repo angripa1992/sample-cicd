@@ -82,14 +82,12 @@ class LoadingButton extends StatelessWidget {
                       color: textColor ?? AppColors.white,
                     ),
                   ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      text,
-                      style: mediumTextStyle(
-                        color: textColor ?? AppColors.white,
-                        fontSize: AppFontSize.s16.rSp,
-                      ),
+                Flexible(
+                  child: Text(
+                    text,
+                    style: mediumTextStyle(
+                      color: textColor ?? AppColors.white,
+                      fontSize: AppFontSize.s16.rSp,
                     ),
                   ),
                 ),

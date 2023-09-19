@@ -120,6 +120,7 @@ class _BaseScreenState extends State<BaseScreen> {
         );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -136,77 +137,84 @@ class _BaseScreenState extends State<BaseScreen> {
         BlocProvider<OrderActionCubit>(create: (_) => getIt.get<OrderActionCubit>()),
         BlocProvider<FetchZReportCubit>(create: (_) => getIt.get<FetchZReportCubit>()),
       ],
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<PrinterSettingCubit, ResponseState>(
-            listener: (context, state) {
-              if (state is Success<PrinterSetting>) {
-                _handlePrinterSetting(state.data);
-              }
+      child: WillPopScope(
+        onWillPop: () {
+          final index = context.read<BaseScreenCubit>().state.index;
+          if (context.read<BaseScreenCubit>().state.index == BottomNavItem.HOME) {
+            return Future.value(true);
+          } else {
+            _selectedTab(BottomNavItem.HOME);
+            return Future.value(false);
+          }
+        },
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<PrinterSettingCubit, ResponseState>(
+              listener: (context, state) {
+                if (state is Success<PrinterSetting>) {
+                  _handlePrinterSetting(state.data);
+                }
+              },
+            ),
+            BlocListener<ChangeLanguageCubit, ChangeLanguageState>(
+              listener: (_, state) {
+                if (state is OnChangeState) {
+                  _languageManager.changeLocale(
+                    context: context,
+                    locale: state.locale,
+                    languageId: state.id,
+                  );
+                }
+              },
+            ),
+          ],
+          child: BlocBuilder<BaseScreenCubit, NavigationData>(
+            builder: (context, data) {
+              return Scaffold(
+                body: Center(child: _getWidget(data)),
+                bottomNavigationBar: FABBottomAppBar(
+                  initialIndex: data.index,
+                  centerItemText: AppStrings.add_order.tr(),
+                  color: Colors.grey,
+                  selectedColor: Colors.deepPurpleAccent,
+                  notchedShape: const CircularNotchedRectangle(),
+                  onTabSelected: _selectedTab,
+                  items: [
+                    FABBottomAppBarItem(
+                      iconData: Icons.home_outlined,
+                      text: AppStrings.home.tr(),
+                      index: BottomNavItem.HOME,
+                    ),
+                    FABBottomAppBarItem(
+                      iconData: Icons.list_alt,
+                      text: AppStrings.orders.tr(),
+                      index: BottomNavItem.ORDER,
+                    ),
+                    FABBottomAppBarItem(
+                      iconData: Icons.dashboard,
+                      text: AppStrings.menu.tr(),
+                      index: BottomNavItem.MENU,
+                    ),
+                    FABBottomAppBarItem(
+                      iconData: Icons.account_circle_outlined,
+                      text: AppStrings.account.tr(),
+                      index: BottomNavItem.ACCOUNT,
+                    ),
+                  ],
+                  backgroundColor: Colors.white,
+                ),
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+                floatingActionButton: FloatingActionButton(
+                  onPressed: _goToAddOrderScreen,
+                  tooltip: AppStrings.add_order.tr(),
+                  elevation: 2.0,
+                  foregroundColor: Colors.grey,
+                  backgroundColor: Colors.white,
+                  child: const Icon(Icons.add),
+                ),
+              );
             },
           ),
-          BlocListener<ChangeLanguageCubit, ChangeLanguageState>(
-            listener: (_, state) {
-              if (state is OnChangeState) {
-                _languageManager.changeLocale(
-                  context: context,
-                  locale: state.locale,
-                  languageId: state.id,
-                );
-              }
-            },
-          ),
-        ],
-        child: BlocBuilder<BaseScreenCubit, NavigationData>(
-          builder: (context, data) {
-            return Scaffold(
-              body: BlocBuilder<BaseScreenCubit, NavigationData>(
-                builder: (context, navData) {
-                  return Center(child: _getWidget(navData));
-                },
-              ),
-              bottomNavigationBar: FABBottomAppBar(
-                initialIndex: BottomNavItem.HOME,
-                centerItemText: AppStrings.add_order.tr(),
-                color: Colors.grey,
-                selectedColor: Colors.deepPurpleAccent,
-                notchedShape: const CircularNotchedRectangle(),
-                onTabSelected: _selectedTab,
-                items: [
-                  FABBottomAppBarItem(
-                    iconData: Icons.home_outlined,
-                    text: AppStrings.home.tr(),
-                    index: BottomNavItem.HOME,
-                  ),
-                  FABBottomAppBarItem(
-                    iconData: Icons.list_alt,
-                    text: AppStrings.orders.tr(),
-                    index: BottomNavItem.ORDER,
-                  ),
-                  FABBottomAppBarItem(
-                    iconData: Icons.dashboard,
-                    text: AppStrings.menu.tr(),
-                    index: BottomNavItem.MENU,
-                  ),
-                  FABBottomAppBarItem(
-                    iconData: Icons.account_circle_outlined,
-                    text: AppStrings.account.tr(),
-                    index: BottomNavItem.ACCOUNT,
-                  ),
-                ],
-                backgroundColor: Colors.white,
-              ),
-              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-              floatingActionButton: FloatingActionButton(
-                onPressed: _goToAddOrderScreen,
-                tooltip: AppStrings.add_order.tr(),
-                elevation: 2.0,
-                foregroundColor: Colors.grey,
-                backgroundColor: Colors.white,
-                child: const Icon(Icons.add),
-              ),
-            );
-          },
         ),
       ),
     );

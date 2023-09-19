@@ -14,14 +14,7 @@ class NavigationData {
 }
 
 class BaseScreenCubit extends Cubit<NavigationData> {
-  BaseScreenCubit()
-      : super(
-          NavigationData(
-            index: BottomNavItem.HOME,
-            data: null,
-            subTabIndex: null,
-          ),
-        );
+  BaseScreenCubit() : super(NavigationData(index: BottomNavItem.HOME, data: null, subTabIndex: null));
 
   void changeIndex(NavigationData data) {
     emit(data);

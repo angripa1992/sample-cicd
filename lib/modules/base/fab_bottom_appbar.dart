@@ -47,10 +47,17 @@ class FABBottomAppBar extends StatefulWidget {
 class FABBottomAppBarState extends State<FABBottomAppBar> {
   late int _selectedIndex;
 
+
   @override
   void initState() {
     _selectedIndex = widget.initialIndex;
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant FABBottomAppBar oldWidget) {
+    _selectedIndex = widget.initialIndex;
+    super.didUpdateWidget(oldWidget);
   }
 
   _updateIndex(int index) {
@@ -104,8 +111,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     required FABBottomAppBarItem item,
     required ValueChanged<int> onPressed,
   }) {
-    Color color =
-        _selectedIndex == item.index ? widget.selectedColor : widget.color;
+    Color color = _selectedIndex == item.index ? widget.selectedColor : widget.color;
     return Expanded(
       child: SizedBox(
         height: widget.height,
