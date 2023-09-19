@@ -49,7 +49,7 @@ void showUpdateModifierEnabledConfirmationDialog({
             (!isEnable && affected)
                 ? AppStrings.modifier_required_msg.tr()
                 : (isEnable
-                    ? '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? 'modifier group' : 'modifier'}?'
+                    ? '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()}?'
                     : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()}?'),
             style: mediumTextStyle(
               color: AppColors.black,
@@ -78,8 +78,7 @@ void showUpdateModifierEnabledConfirmationDialog({
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child:
-                      BlocConsumer<UpdateModifierEnabledCubit, ResponseState>(
+                  child: BlocConsumer<UpdateModifierEnabledCubit, ResponseState>(
                     listener: (context, state) {
                       if (state is Success<ActionSuccess>) {
                         Navigator.of(context).pop();
@@ -97,9 +96,7 @@ void showUpdateModifierEnabledConfirmationDialog({
                       return LoadingButton(
                         isLoading: (state is Loading),
                         onTap: () {
-                          context
-                              .read<UpdateModifierEnabledCubit>()
-                              .updateModifier(
+                          context.read<UpdateModifierEnabledCubit>().updateModifier(
                                 menuVersion: menuVersion,
                                 type: type,
                                 enabled: isEnable,
@@ -108,9 +105,7 @@ void showUpdateModifierEnabledConfirmationDialog({
                                 modifierId: modifierId,
                               );
                         },
-                        text: isEnable
-                            ? AppStrings.enable.tr()
-                            : AppStrings.disable.tr(),
+                        text: isEnable ? AppStrings.enable.tr() : AppStrings.disable.tr(),
                       );
                     },
                   ),

@@ -33,14 +33,14 @@ class AddDiscountModalView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Discount',
+              AppStrings.discount.tr(),
               style: mediumTextStyle(
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
             SizedBox(height: AppSize.s2.rh),
             Text(
-              'Select one and put the value in the field',
+              AppStrings.select_one_and_put_the_value.tr(),
               style: regularTextStyle(
                 fontSize: AppFontSize.s12.rSp,
                 color: AppColors.greyDarker,
@@ -64,18 +64,14 @@ class AddDiscountModalView extends StatelessWidget {
                   controller: discountValueController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText:
-                        '${AppStrings.add.tr()} ${AppStrings.discount.tr()}',
+                    hintText: '${AppStrings.add.tr()} ${AppStrings.discount.tr()}',
                     hintStyle: regularTextStyle(
                       color: AppColors.greyDarker,
                       fontSize: AppFontSize.s14.rSp,
                     ),
-                    enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent)),
-                    focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent)),
-                    border: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent)),
+                    enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                    border: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
                   ),
                 ),
               ),

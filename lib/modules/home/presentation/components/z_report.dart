@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +6,7 @@ import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../app/di.dart';
 import '../../../../printer/printing_handler.dart';
@@ -37,7 +39,7 @@ class _ZReportViewState extends State<ZReportView> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Z-Report',
+            AppStrings.z_report.tr(),
             style: boldTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
@@ -61,18 +63,18 @@ class _ZReportViewState extends State<ZReportView> {
                   },
                 ),
                 SizedBox(height: AppSize.s16.rh),
-                BlocConsumer<FetchZReportCubit,ResponseState>(
-                  listener: (ct,state){
-                    if(state is Failed){
-                      showApiErrorSnackBar(context,state.failure);
-                    }else if(state is Success<ZReportDataModel>){
-                      getIt.get<PrintingHandler>().printZReport(state.data,_selectedDate);
+                BlocConsumer<FetchZReportCubit, ResponseState>(
+                  listener: (ct, state) {
+                    if (state is Failed) {
+                      showApiErrorSnackBar(context, state.failure);
+                    } else if (state is Success<ZReportDataModel>) {
+                      getIt.get<PrintingHandler>().printZReport(state.data, _selectedDate);
                     }
                   },
-                  builder: (ct,state){
+                  builder: (ct, state) {
                     return LoadingButton(
                       isLoading: state is Loading,
-                      text: 'Generate',
+                      text: AppStrings.generate.tr(),
                       enabled: true,
                       borderColor: AppColors.primaryLight,
                       color: AppColors.primaryLight,
@@ -164,19 +166,15 @@ class _ZReportSelectorState extends State<ZReportSelector> {
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: _selectedValue == DateType.today
-                    ? AppColors.primary
-                    : AppColors.greyLight,
+                color: _selectedValue == DateType.today ? AppColors.primary : AppColors.greyLight,
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                 child: Center(
                   child: Text(
-                    'Today',
+                    AppStrings.today.tr(),
                     style: regularTextStyle(
-                      color: _selectedValue == DateType.today
-                          ? AppColors.white
-                          : AppColors.black,
+                      color: _selectedValue == DateType.today ? AppColors.white : AppColors.black,
                       fontSize: AppFontSize.s14.rSp,
                     ),
                   ),
@@ -198,19 +196,15 @@ class _ZReportSelectorState extends State<ZReportSelector> {
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: _selectedValue == DateType.yesterday
-                    ? AppColors.primary
-                    : AppColors.greyLight,
+                color: _selectedValue == DateType.yesterday ? AppColors.primary : AppColors.greyLight,
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
                 child: Center(
                   child: Text(
-                    'Yesterday',
+                    AppStrings.yesterday.tr(),
                     style: regularTextStyle(
-                      color: _selectedValue == DateType.yesterday
-                          ? AppColors.white
-                          : AppColors.black,
+                      color: _selectedValue == DateType.yesterday ? AppColors.white : AppColors.black,
                       fontSize: AppFontSize.s14.rSp,
                     ),
                   ),
@@ -227,9 +221,7 @@ class _ZReportSelectorState extends State<ZReportSelector> {
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: _selectedValue == DateType.range
-                    ? AppColors.primary
-                    : AppColors.greyLight,
+                color: _selectedValue == DateType.range ? AppColors.primary : AppColors.greyLight,
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -242,20 +234,14 @@ class _ZReportSelectorState extends State<ZReportSelector> {
                     Icon(
                       Icons.date_range,
                       size: AppSize.s14.rSp,
-                      color: _selectedValue == DateType.range
-                          ? AppColors.white
-                          : AppColors.black,
+                      color: _selectedValue == DateType.range ? AppColors.white : AppColors.black,
                     ),
                     SizedBox(width: AppSize.s4.rw),
                     Flexible(
                       child: Text(
-                        (_selectedValue == DateType.range)
-                            ? DateFormat('d MMM').format(_selectedDate)
-                            : 'Custom',
+                        (_selectedValue == DateType.range) ? DateFormat('d MMM').format(_selectedDate) : AppStrings.custom.tr(),
                         style: regularTextStyle(
-                          color: _selectedValue == DateType.range
-                              ? AppColors.white
-                              : AppColors.black,
+                          color: _selectedValue == DateType.range ? AppColors.white : AppColors.black,
                           fontSize: AppFontSize.s14.rSp,
                         ),
                       ),

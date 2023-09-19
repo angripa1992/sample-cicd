@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/resources/assets.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../app/di.dart';
 import '../../../../../resources/colors.dart';
@@ -30,7 +32,7 @@ class AppVersionInfo extends StatelessWidget {
           builder: (_, version) {
             if (version.hasData) {
               return Text(
-                'App Version :  ${version.data!}',
+                '${AppStrings.app_version.tr()} :  ${version.data!}',
                 style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,

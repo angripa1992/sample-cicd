@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -28,7 +30,7 @@ class RiderInfoView extends StatelessWidget {
           children: [
             const Divider(),
             Text(
-              'Rider Info',
+              AppStrings.rider_info.tr(),
               style: boldTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s15.rSp,
@@ -38,10 +40,10 @@ class RiderInfoView extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _infoItem('Name', order.fulfillmentRider?.name ?? EMPTY),
+                  child: _infoItem(AppStrings.name.tr(), order.fulfillmentRider?.name ?? EMPTY),
                 ),
                 Expanded(
-                  child: _infoItem('Vehicle Registration', order.fulfillmentRider?.licensePlate ?? EMPTY),
+                  child: _infoItem(AppStrings.vehicle_registration.tr(), order.fulfillmentRider?.licensePlate ?? EMPTY),
                 ),
               ],
             ),
@@ -49,11 +51,11 @@ class RiderInfoView extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: _infoItem('Contact', order.fulfillmentRider?.phone ?? EMPTY),
+                  child: _infoItem(AppStrings.contact.tr(), order.fulfillmentRider?.phone ?? EMPTY),
                 ),
                 if (order.fulfillmentExpectedPickupTime.isNotEmpty)
                   Expanded(
-                    child: _infoItem('Estimated Pickup Time', DateTimeProvider.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime)),
+                    child: _infoItem(AppStrings.estimated_pickup_time.tr(), DateTimeProvider.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime)),
                   ),
               ],
             ),

@@ -81,20 +81,14 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
     final validatedMsg = _validate();
     if (validatedMsg == null) {
       Navigator.pop(context);
-      final value =
-          _discountController.text.isEmpty ? '0' : _discountController.text;
+      final value = _discountController.text.isEmpty ? '0' : _discountController.text;
       PromoInfo? promoInfo;
       if (_appliedPromo != null) {
-        final willApplyCitizen = (_appliedPromo!.isSeniorCitizenPromo! &&
-            ((!widget.isItemDiscount &&
-                    widget.orderType == OrderType.DINE_IN) ||
-                widget.isItemDiscount));
+        final willApplyCitizen = (_appliedPromo!.isSeniorCitizenPromo! && ((!widget.isItemDiscount && widget.orderType == OrderType.DINE_IN) || widget.isItemDiscount));
         promoInfo = PromoInfo(
           promo: _appliedPromo!,
           citizen: willApplyCitizen ? (_citizen ?? 1) : null,
-          customer: willApplyCitizen
-              ? ((!widget.isItemDiscount && _customer == null) ? 1 : _customer)
-              : null,
+          customer: willApplyCitizen ? ((!widget.isItemDiscount && _customer == null) ? 1 : _customer) : null,
         );
       }
       widget.onApply(_discountType, num.parse(value), promoInfo);
@@ -194,9 +188,7 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
         children: [
           Expanded(
             child: Text(
-              widget.isItemDiscount
-                  ? 'Apply Item Promo and Discounts'
-                  : 'Apply Promo and Discounts',
+              widget.isItemDiscount ? AppStrings.apply_item_promo_and_discount.tr() : AppStrings.apply_promo_and_discount.tr(),
               style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,

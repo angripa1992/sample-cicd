@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../app/di.dart';
 import '../../../../../../resources/colors.dart';
@@ -28,14 +30,14 @@ void showPauseNotificationConfirmationDialog({
         child: AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
           title: Text(
-            enable ? 'Are you sure to resume notifications?' : 'Are you sure to pause notifications?',
+            enable ? AppStrings.resume_notification_alert_msg.tr() : AppStrings.pause_notification_alert_msg.tr(),
             style: mediumTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
             ),
           ),
           content: Text(
-            enable ? 'You will be receiving any notifications of upcoming orders.' : 'You won\'t be receiving any notifications of upcoming orders.',
+            enable ? AppStrings.you_will_receive_notification.tr() : AppStrings.you_wont_receive_notification.tr(),
             style: regularTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,
@@ -52,7 +54,7 @@ void showPauseNotificationConfirmationDialog({
               children: [
                 Expanded(
                   child: AppButton(
-                    text: 'Cancel',
+                    text: AppStrings.cancel.tr(),
                     color: AppColors.white,
                     borderColor: AppColors.black,
                     textColor: AppColors.black,
@@ -76,7 +78,7 @@ void showPauseNotificationConfirmationDialog({
                     },
                     builder: (context, state) {
                       return LoadingButton(
-                        text: enable ? 'Resume' : 'Pause',
+                        text: enable ? AppStrings.resume.tr() : AppStrings.pause.tr(),
                         isLoading: state is Loading,
                         onTap: () {
                           context.read<ChangeNotificationSettingCubit>().changeNotificationSetting(enable);

@@ -4,7 +4,6 @@ import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cub
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../app/di.dart';
-import '../../../../resources/styles.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import 'add_order_body.dart';
 

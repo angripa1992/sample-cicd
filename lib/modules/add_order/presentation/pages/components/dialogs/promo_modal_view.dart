@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
@@ -9,6 +10,7 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/promo_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/senior_citizen_discount.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
@@ -90,14 +92,14 @@ class _PromoModalViewState extends State<PromoModalView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Available Promos',
+              AppStrings.available_promos.tr(),
               style: mediumTextStyle(
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
             SizedBox(height: AppSize.s2.rh),
             Text(
-              'Select only one promo from below',
+              AppStrings.select_only_one_promo.tr(),
               style: regularTextStyle(
                 fontSize: AppFontSize.s12.rSp,
                 color: AppColors.greyDarker,
@@ -132,8 +134,8 @@ class _PromoModalViewState extends State<PromoModalView> {
                                   return Center(
                                     child: Padding(
                                       padding: EdgeInsets.only(top: AppSize.s32.rh),
-                                      child: const Text(
-                                        'No promos available right now',
+                                      child: Text(
+                                        AppStrings.no_promo_available.tr(),
                                       ),
                                     ),
                                   );

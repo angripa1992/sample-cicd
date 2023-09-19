@@ -53,13 +53,11 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
 
   void _savePrinterSettingLocally({PrinterSetting? savingData}) async {
     await _appPreferences.savePrinterSettings(
-      printerSetting:
-          savingData ?? _createPrinterSettingFromLocalVariables(false),
+      printerSetting: savingData ?? _createPrinterSettingFromLocalVariables(false),
     );
     if (savingData == null) {
       _stickerPrinterStateListener.value = !_stickerPrinterEnabled;
-      _stickerPrinterStateListener.value =
-          _appPreferences.printerSetting().stickerPrinterEnabled;
+      _stickerPrinterStateListener.value = _appPreferences.printerSetting().stickerPrinterEnabled;
     }
   }
 
@@ -110,9 +108,7 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
           children: [
             SetPrinterConnectionType(
               willUsbEnabled: false,
-              initType: _stickerPrinterEnabled
-                  ? CType.BLE
-                  : CType.USB,
+              initType: _stickerPrinterEnabled ? CType.BLE : CType.USB,
               onChanged: (type) {
                 _stickerPrinterEnabled = type == CType.BLE;
                 _stickerPrinterStateListener.value = _stickerPrinterEnabled;
@@ -151,19 +147,15 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
               valueListenable: _stickerPrinterStateListener,
               builder: (_, value, __) {
                 return AppButton(
-                  enable:
-                      _appPreferences.printerSetting().stickerPrinterEnabled,
+                  enable: _appPreferences.printerSetting().stickerPrinterEnabled,
                   onTap: () {
-                    _printingHandler.showDevices(
-                        initialIndex: PrinterSelectIndex.sticker);
+                    _printingHandler.showDevices(initialIndex: PrinterSelectIndex.sticker);
                   },
                   text: AppStrings.show_devices.tr(),
                   color: AppColors.white,
                   borderColor: AppColors.black,
                   textColor: AppColors.black,
-                  icon: _appPreferences.printerSetting().stickerPrinterEnabled
-                      ? Icons.bluetooth
-                      : Icons.bluetooth_disabled,
+                  icon: _appPreferences.printerSetting().stickerPrinterEnabled ? Icons.bluetooth : Icons.bluetooth_disabled,
                 );
               },
             ),

@@ -26,7 +26,10 @@ class PrinterConnectionSettingPage extends StatelessWidget {
             labelStyle: TextStyle(
               fontSize: AppFontSize.s16.rSp,
             ),
-            tabs: const [Tab(text: 'Docket'), Tab(text: 'Sticker')],
+            tabs: [
+              Tab(text: AppStrings.docket.tr()),
+              Tab(text: AppStrings.sticker.tr()),
+            ],
           ),
         ),
         body: const TabBarView(

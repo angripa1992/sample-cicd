@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -27,7 +29,7 @@ class CancellationReasonView extends StatelessWidget {
           children: [
             const Divider(),
             Text(
-              'Cancellation Reason',
+             AppStrings.cancellation_reason.tr(),
               style: boldTextStyle(
                 color: AppColors.redDark,
                 fontSize: AppFontSize.s15.rSp,

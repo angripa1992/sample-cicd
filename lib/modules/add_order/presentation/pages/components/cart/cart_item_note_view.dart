@@ -107,7 +107,7 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Notes',
+                      AppStrings.note.tr(),
                       style: boldTextStyle(
                         color: AppColors.black,
                         fontSize: AppFontSize.s16.rSp,
@@ -126,7 +126,7 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
               ),
               SizedBox(height: AppSize.s12.rh),
               Text(
-                'Add notes for this item',
+                AppStrings.add_note_for_item.tr(),
                 style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,
@@ -148,7 +148,7 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
                   child: Text(
-                    'Save',
+                    AppStrings.save.tr(),
                     style: mediumTextStyle(
                       color: AppColors.white,
                       fontSize: AppFontSize.s14.rSp,

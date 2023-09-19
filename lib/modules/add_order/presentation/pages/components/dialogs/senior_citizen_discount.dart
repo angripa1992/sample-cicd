@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
@@ -26,8 +28,7 @@ class SeniorCitizenDiscountView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SeniorCitizenDiscountView> createState() =>
-      _SeniorCitizenDiscountViewState();
+  State<SeniorCitizenDiscountView> createState() => _SeniorCitizenDiscountViewState();
 }
 
 class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
@@ -58,9 +59,7 @@ class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          widget.isItemDiscount
-              ? 'Enter the number of items for senior citizens in your order'
-              : 'Enter the number of senior citizens in your order',
+          widget.isItemDiscount ? AppStrings.enter_number_of_items_for_sc.tr() : AppStrings.enter_number_of_sc.tr(),
           style: regularTextStyle(
             fontSize: AppFontSize.s12.rSp,
             color: AppColors.greyDarker,
@@ -92,7 +91,7 @@ class _SeniorCitizenDiscountViewState extends State<SeniorCitizenDiscountView> {
                 child: const Divider(),
               ),
               Text(
-                'Enter the number of total customers in your order',
+                AppStrings.enter_number_of_total_customer.tr(),
                 style: regularTextStyle(
                   fontSize: AppFontSize.s12.rSp,
                   color: AppColors.greyDarker,

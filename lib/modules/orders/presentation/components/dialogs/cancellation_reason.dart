@@ -95,12 +95,10 @@ class CancellationReasonDialogContent extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CancellationReasonDialogContent> createState() =>
-      _CancellationReasonDialogContentState();
+  State<CancellationReasonDialogContent> createState() => _CancellationReasonDialogContentState();
 }
 
-class _CancellationReasonDialogContentState
-    extends State<CancellationReasonDialogContent> {
+class _CancellationReasonDialogContentState extends State<CancellationReasonDialogContent> {
   final _valueNotifier = ValueNotifier<int?>(null);
   final _textController = TextEditingController();
   int? _cancellationReasonId;
@@ -131,7 +129,7 @@ class _CancellationReasonDialogContentState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Are you sure you want to cancel this order? This action cannot be undone.',
+            AppStrings.cancel_order_alert_msg.tr(),
             style: regularTextStyle(
               color: AppColors.greyDarker,
               fontSize: AppFontSize.s16.rSp,
@@ -139,7 +137,7 @@ class _CancellationReasonDialogContentState
           ),
           SizedBox(height: AppSize.s16.rh),
           Text(
-            'Cancellation Reason',
+            AppStrings.cancellation_reason.tr(),
             style: mediumTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
@@ -155,7 +153,7 @@ class _CancellationReasonDialogContentState
           ),
           SizedBox(height: AppSize.s16.rh),
           Text(
-            'Notes',
+            AppStrings.note.tr(),
             style: mediumTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s16.rSp,
@@ -174,7 +172,7 @@ class _CancellationReasonDialogContentState
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                 borderSide: BorderSide(color: AppColors.greyDarker),
               ),
-              labelText: 'Enter Description',
+              labelText: AppStrings.enter_description.tr(),
               labelStyle: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s16.rSp,
@@ -186,7 +184,7 @@ class _CancellationReasonDialogContentState
             children: [
               Expanded(
                 child: AppButton(
-                  text: 'Dismiss',
+                  text: AppStrings.dismiss.tr(),
                   borderColor: AppColors.greyDarker,
                   color: AppColors.white,
                   textColor: AppColors.black,
@@ -201,8 +199,7 @@ class _CancellationReasonDialogContentState
                   listener: (context, state) {
                     if (state is Success<ActionSuccess>) {
                       Navigator.of(context).pop();
-                      showSuccessSnackBar(
-                          context, state.data.message!.orEmpty());
+                      showSuccessSnackBar(context, state.data.message!.orEmpty());
                       widget.successCallback();
                     } else if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
@@ -245,12 +242,10 @@ class CancellationReasonSelector extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CancellationReasonSelector> createState() =>
-      _CancellationReasonSelectorState();
+  State<CancellationReasonSelector> createState() => _CancellationReasonSelectorState();
 }
 
-class _CancellationReasonSelectorState
-    extends State<CancellationReasonSelector> {
+class _CancellationReasonSelectorState extends State<CancellationReasonSelector> {
   int? _value;
 
   @override
@@ -266,7 +261,7 @@ class _CancellationReasonSelectorState
         underline: const SizedBox(),
         isExpanded: true,
         hint: Text(
-          'Select a reason',
+          AppStrings.select_reason.tr(),
           style: regularTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,

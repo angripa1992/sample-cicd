@@ -77,15 +77,13 @@ class DeviceListBottomSheetManager {
               labelStyle: TextStyle(
                 fontSize: AppFontSize.s14.rSp,
               ),
-              tabs: const [
-                Tab(icon: Text('Docket')),
-                Tab(icon: Text('Sticker')),
+              tabs: [
+                Tab(icon: Text(AppStrings.docket.tr())),
+                Tab(icon: Text(AppStrings.sticker.tr())),
               ],
             ),
             title: Text(
-              type == CType.BLE
-                  ? AppStrings.bluetooth_devices.tr()
-                  : AppStrings.usb_devices.tr(),
+              type == CType.BLE ? AppStrings.bluetooth_devices.tr() : AppStrings.usb_devices.tr(),
               style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppSize.s18.rSp,

@@ -1,5 +1,3 @@
-
-
 class AppStrings {
   //error message
   static const String noRouteFound = "noRouteFound";
@@ -48,8 +46,7 @@ class AppStrings {
   static const String reset_password = "reset_password";
   static const String first_name = "first_name";
   static const String last_name = "last_name";
-  static const String same_value_validation_message =
-      "same_value_validation_message";
+  static const String same_value_validation_message = "same_value_validation_message";
   static const String logout_confirm_message = "logout_confirm_message";
   static const String cancel = "cancel";
   static const String select_language = "select_language";
@@ -63,16 +60,13 @@ class AppStrings {
   static const String new_password = "new_password";
   static const String confirm_new_password = "confirm_new_password";
   static const String goto_profile = "goto_profile";
-  static const String enter_your_current_password =
-      "enter_your_current_password";
+  static const String enter_your_current_password = "enter_your_current_password";
   static const String enter_your_new_password = "enter_your_new_password";
   static const String please_enter_new_password = "please_enter_new_password";
   static const String current_password_required = "current_password_required";
-  static const String please_enter_password_again =
-      "please_enter_password_again";
+  static const String please_enter_password_again = "please_enter_password_again";
   static const String new_and_confirm_not_match = "new_and_confirm_not_match";
-  static const String internet_connection_reestablished =
-      "internet_connection_reestablished";
+  static const String internet_connection_reestablished = "internet_connection_reestablished";
   static const String invalid_information = "invalid_information";
   static const String ok = "ok";
   static const String phone_validation_message = "phone_validation_message";
@@ -81,16 +75,11 @@ class AppStrings {
   static const String access_denied = "access_denied";
   static const String access_denied_message = "access_denied_message";
   static const String go_back = "go_back";
-  static const String access_denied_message_header_part_one =
-      "access_denied_message_header_part_one";
-  static const String access_denied_message_header_part_two =
-      "access_denied_message_header_part_two";
-  static const String access_denied_message_middle_part_one =
-      "access_denied_message_middle_part_one";
-  static const String access_denied_message_middle_part_two =
-      "access_denied_message_middle_part_two";
-  static const String access_denied_message_footer =
-      "access_denied_message_footer";
+  static const String access_denied_message_header_part_one = "access_denied_message_header_part_one";
+  static const String access_denied_message_header_part_two = "access_denied_message_header_part_two";
+  static const String access_denied_message_middle_part_one = "access_denied_message_middle_part_one";
+  static const String access_denied_message_middle_part_two = "access_denied_message_middle_part_two";
+  static const String access_denied_message_footer = "access_denied_message_footer";
   static const String admin = "admin";
   static const String business_owner = "business_owner";
   static const String brand_manager = "brand_manager";
@@ -117,16 +106,13 @@ class AppStrings {
 
   ///printer
   static const String printer_settings = "printer_settings";
-  static const String printer_connection_settings =
-      "printer_connection_settings";
-  static const String set_printer_connection_type =
-      "set_printer_connection_type";
+  static const String printer_connection_settings = "printer_connection_settings";
+  static const String set_printer_connection_type = "set_printer_connection_type";
   static const String bluetooth = "bluetooth";
   static const String bluetooth_devices = "bluetooth_devices";
   static const String no_bluetooth_devices = "no_bluetooth_devices";
   static const String usb_not_connected = "usb_not_connected";
-  static const String no_bluetooth_devices_message =
-      "no_bluetooth_devices_message";
+  static const String no_bluetooth_devices_message = "no_bluetooth_devices_message";
   static const String bluetooth_not_connected = "bluetooth_not_connected";
   static const String usb = "usb";
   static const String usb_devices = "usb_devices";
@@ -137,8 +123,7 @@ class AppStrings {
   static const String save = "save";
   static const String successfully_saved = "successfully_saved";
   static const String usb_successfully_connected = "usb_successfully_connected";
-  static const String bluetooth_successfully_connected =
-      "bluetooth_successfully_connected";
+  static const String bluetooth_successfully_connected = "bluetooth_successfully_connected";
   static const String can_not_connect_device = "can_not_connect_device";
   static const String show_devices = "show_devices";
   static const String looking_for_devices = "looking_for_devices";
@@ -205,11 +190,9 @@ class AppStrings {
   static const String edit_comment = "edit_comment";
   static const String order_comment = "order_comment";
   static const String comment_validation_msg = "comment_validation_msg";
-  static const String comment_deleted_successfully =
-      "comment_deleted_successfully";
+  static const String comment_deleted_successfully = "comment_deleted_successfully";
   static const String comment_added_successfully = "comment_added_successfully";
-  static const String comment_updated_successfully =
-      "comment_updated_successfully";
+  static const String comment_updated_successfully = "comment_updated_successfully";
   static const String view_orders = "view_orders";
   static const String orders_has_been_canceled = "orders_has_been_canceled";
   static const String you_have_received = "you_have_received";
@@ -265,8 +248,7 @@ class AppStrings {
   static const String add_to_cart = "add_to_cart";
   static const String go_to_cart = "go_to_cart";
   static const String select_brand_name_msg = "select_brand_name_msg";
-  static const String click_button_to_select_brand =
-      "click_button_to_select_brand";
+  static const String click_button_to_select_brand = "click_button_to_select_brand";
   static const String search_for_items = "search_for_items";
   static const String categories = "categories";
   static const String no_categories_found = "no_categories_found";
@@ -282,16 +264,13 @@ class AppStrings {
   static const String select_brand_name = "select_brand_name";
 
   static const String chnage_amount = 'chnage_amount';
-  static const String can_not_be_greater_than_subtotal =
-      'can_not_be_greater_than_subtotal';
-  static const String can_not_be_greater_than_100 =
-      'can_not_be_greater_than_100';
+  static const String can_not_be_greater_than_subtotal = 'can_not_be_greater_than_subtotal';
+  static const String can_not_be_greater_than_100 = 'can_not_be_greater_than_100';
   static const String type = 'type';
   static const String flat = 'flat';
   static const String percentage = 'percentage';
   static const String want_to_delete_item_msg = 'want_to_delete_item_msg';
-  static const String want_to_delete_all_item_msg =
-      'want_to_delete_all_item_msg';
+  static const String want_to_delete_all_item_msg = 'want_to_delete_all_item_msg';
   static const String payment_status = 'payment_status';
   static const String payment_method = 'payment_method';
   static const String select_payment_status = 'select_payment_status';
@@ -321,8 +300,7 @@ class AppStrings {
   static const String delete_item = 'delete_item';
   static const String schedule = 'schedule';
   static const String history = 'history';
-  static const String select_payment_method_and_status =
-      'select_payment_method_and_status';
+  static const String select_payment_method_and_status = 'select_payment_method_and_status';
   static const String pause_store = 'pause_store';
   static const String print = 'print';
   static const String accept = 'accept';
@@ -341,4 +319,60 @@ class AppStrings {
   static const String hours = 'hours';
   static const String untill_trun_back_on = 'untill_trun_back_on';
   static const String items_list = 'items_list';
+
+  static const String enter_number_of_total_customer = 'enter_number_of_total_customer';
+  static const String enter_number_of_sc = 'enter_number_of_sc';
+  static const String enter_number_of_items_for_sc = 'enter_number_of_items_for_sc';
+  static const String no_promo_available = 'no_promo_available';
+  static const String select_only_one_promo = 'select_only_one_promo';
+  static const String available_promos = 'available_promos';
+  static const String promo_end = 'promo_end';
+  static const String min_value = 'min_value';
+  static const String max_value = 'max_value';
+  static const String value_type = 'value_type';
+  static const String apply_promo_and_discount = 'apply_promo_and_discount';
+  static const String apply_item_promo_and_discount = 'apply_item_promo_and_discount';
+  static const String select_one_and_put_the_value = 'select_one_and_put_the_value';
+  static const String add_note_for_item = 'add_note_for_item';
+  static const String pieces = 'pieces';
+  static const String add_order = 'add_order';
+  static const String paused = 'paused';
+  static const String store = 'store';
+  static const String custom = 'custom';
+  static const String today = 'today';
+  static const String generate = 'generate';
+  static const String z_report = 'z_report';
+  static const String new_str = 'new_str';
+  static const String all = 'all';
+  static const String other = 'other';
+  static const String select_reason = 'select_reason';
+  static const String dismiss = 'dismiss';
+  static const String enter_description = 'enter_description';
+  static const String cancellation_reason = 'cancellation_reason';
+  static const String cancel_order_alert_msg = 'cancel_order_alert_msg';
+  static const String estimated_pickup_time = 'estimated_pickup_time';
+  static const String contact = 'contact';
+  static const String vehicle_registration = 'vehicle_registration';
+  static const String rider_info = 'rider_info';
+  static const String track_rider = 'track_rider';
+  static const String find_rider = 'find_rider';
+  static const String restaurant_service_fee = 'restaurant_service_fee';
+  static const String processing_fee = 'processing_fee';
+  static const String delivery_instruction = 'delivery_instruction';
+  static const String address_instruction = 'address_instruction';
+  static const String delivery_address = 'delivery_address';
+  static const String phone_number = 'phone_number';
+  static const String device_setting = 'device_setting';
+  static const String settings = 'settings';
+  static const String choose_device_type_to_connect_printer = 'choose_device_type_to_connect_printer';
+  static const String app_version = 'app_version';
+  static const String notification = 'notification';
+  static const String resume = 'resume';
+  static const String pause = 'pause';
+  static const String resume_notification_alert_msg = 'resume_notification_alert_msg';
+  static const String pause_notification_alert_msg = 'pause_notification_alert_msg';
+  static const String you_will_receive_notification = 'you_will_receive_notification';
+  static const String you_wont_receive_notification = 'you_wont_receive_notification';
+  static const String docket = 'docket';
+  static const String sticker = 'sticker';
 }

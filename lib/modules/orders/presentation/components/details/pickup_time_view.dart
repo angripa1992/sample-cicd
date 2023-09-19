@@ -1,6 +1,8 @@
 import 'package:docket_design_template/utils/date_time_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -26,7 +28,7 @@ class PickupTimeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Estimated Pickup Time',
+              AppStrings.estimated_pickup_time.tr(),
               style: semiBoldTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s15.rSp,

@@ -90,7 +90,7 @@ class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Store',
+              AppStrings.store.tr(),
               style: semiBoldTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s18.rSp,

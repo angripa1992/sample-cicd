@@ -69,8 +69,7 @@ class DeleteItemDialogView extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                       shape: BoxShape.rectangle,
-                      image: DecorationImage(
-                          image: imageProvider, fit: BoxFit.cover),
+                      image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
                     ),
                   ),
                   progressIndicatorBuilder: (_, __, ___) => Center(
@@ -111,8 +110,7 @@ class DeleteItemDialogView extends StatelessWidget {
                             if (haveDiscount)
                               Text(
                                 PriceCalculator.formatPrice(
-                                  price: itemBill.discountedItemPrice *
-                                      cartItem.quantity,
+                                  price: itemBill.discountedItemPrice * cartItem.quantity,
                                   code: cartItem.itemPrice.currencyCode,
                                   symbol: cartItem.itemPrice.currencySymbol,
                                 ),
@@ -129,14 +127,10 @@ class DeleteItemDialogView extends StatelessWidget {
                                 symbol: cartItem.itemPrice.currencySymbol,
                               ),
                               style: TextStyle(
-                                color: haveDiscount
-                                    ? AppColors.red
-                                    : AppColors.black,
+                                color: haveDiscount ? AppColors.red : AppColors.black,
                                 fontSize: AppFontSize.s14.rSp,
                                 fontWeight: FontWeight.w500,
-                                decoration: haveDiscount
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
+                                decoration: haveDiscount ? TextDecoration.lineThrough : TextDecoration.none,
                               ),
                             ),
                           ],
@@ -145,8 +139,7 @@ class DeleteItemDialogView extends StatelessWidget {
                     ),
                     SizedBox(height: AppSize.s8.rh),
                     FutureBuilder<String>(
-                      future: ModifierManager()
-                          .allCsvModifiersName(cartItem.modifiers),
+                      future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
                       builder: (context, snapShot) {
                         if (snapShot.hasData) {
                           return Text(snapShot.data!);

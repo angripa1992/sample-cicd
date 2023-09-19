@@ -41,7 +41,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
       create: (_) => getIt.get<DeviceSettingCubit>(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Device Setting'),
+          title: Text(AppStrings.printer_settings.tr()),
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(
@@ -52,7 +52,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Choose device type to connect printer',
+                AppStrings.choose_device_type_to_connect_printer.tr(),
                 style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,

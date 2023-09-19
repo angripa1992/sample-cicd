@@ -82,8 +82,7 @@ class CartItemView extends StatelessWidget {
                           if (haveDiscount)
                             Text(
                               PriceCalculator.formatPrice(
-                                price: itemBill.discountedItemPrice *
-                                    cartItem.quantity,
+                                price: itemBill.discountedItemPrice * cartItem.quantity,
                                 code: cartItem.itemPrice.currencyCode,
                                 symbol: cartItem.itemPrice.currencySymbol,
                               ),
@@ -101,28 +100,21 @@ class CartItemView extends StatelessWidget {
                               symbol: cartItem.itemPrice.currencySymbol,
                             ),
                             style: TextStyle(
-                              color: haveDiscount
-                                  ? AppColors.red
-                                  : AppColors.black,
+                              color: haveDiscount ? AppColors.red : AppColors.black,
                               fontSize: AppFontSize.s14.rSp,
                               fontWeight: FontWeight.w400,
-                              decoration: haveDiscount
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
+                              decoration: haveDiscount ? TextDecoration.lineThrough : TextDecoration.none,
                             ),
                           ),
                         ],
                       ),
                       FutureBuilder<String>(
-                        future: ModifierManager()
-                            .allCsvModifiersName(cartItem.modifiers),
+                        future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
                         builder: (context, snapShot) {
                           if (snapShot.hasData) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                top: snapShot.data!.isNotEmpty
-                                    ? AppSize.s8.rh
-                                    : 0,
+                                top: snapShot.data!.isNotEmpty ? AppSize.s8.rh : 0,
                               ),
                               child: Text(
                                 snapShot.data!,
@@ -176,7 +168,7 @@ class CartItemView extends StatelessWidget {
           ),
           if (cartItem.promoInfo!.promo.isSeniorCitizenPromo!)
             Text(
-              '${cartItem.promoInfo!.citizen} Pieces',
+              '${cartItem.promoInfo!.citizen} ${AppStrings.pieces.tr()}',
               style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,

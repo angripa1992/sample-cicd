@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
@@ -27,7 +29,7 @@ class OrderCustomerInfoView extends StatelessWidget {
           children: [
             const Divider(),
             Text(
-              'Customer Info',
+              AppStrings.customer_info.tr(),
               style: semiBoldTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s15.rSp,
@@ -39,13 +41,13 @@ class OrderCustomerInfoView extends StatelessWidget {
                 Expanded(
                   child: Visibility(
                     visible: order.userFirstName.isNotEmpty,
-                    child: _infoItem('Name', '${order.userFirstName} ${order.userLastName}'),
+                    child: _infoItem(AppStrings.name.tr(), '${order.userFirstName} ${order.userLastName}'),
                   ),
                 ),
                 Expanded(
                   child: Visibility(
                     visible: order.userPhone.isNotEmpty,
-                    child: _infoItem('Phone Number', order.userPhone),
+                    child: _infoItem(AppStrings.phone_number.tr(), order.userPhone),
                   ),
                 ),
               ],

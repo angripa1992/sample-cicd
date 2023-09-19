@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -51,7 +52,7 @@ class RiderActionView extends StatelessWidget {
                     SizedBox(width: AppSize.s8.rw),
                     Flexible(
                       child: Text(
-                        'Find Rider',
+                        AppStrings.find_rider.tr(),
                         style: regularTextStyle(
                           color: AppColors.black,
                           fontSize: AppFontSize.s14.rSp,
@@ -64,10 +65,7 @@ class RiderActionView extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: (order.status != OrderStatus.CANCELLED
-                && order.status != OrderStatus.DELIVERED
-                && order.status != OrderStatus.PICKED_UP)
-                && order.fulfillmentTrackingUrl.isNotEmpty,
+            visible: (order.status != OrderStatus.CANCELLED && order.status != OrderStatus.DELIVERED && order.status != OrderStatus.PICKED_UP) && order.fulfillmentTrackingUrl.isNotEmpty,
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushNamed(
@@ -95,7 +93,7 @@ class RiderActionView extends StatelessWidget {
                     SizedBox(width: AppSize.s8.rw),
                     Flexible(
                       child: Text(
-                        'Track Rider',
+                        AppStrings.track_rider.tr(),
                         style: regularTextStyle(
                           color: AppColors.black,
                           fontSize: AppFontSize.s14.rSp,

@@ -57,9 +57,7 @@ class _AccountScreenState extends State<AccountScreen> {
           locale: locale,
           languageId: id,
         );
-        context
-            .read<ChangeLanguageCubit>()
-            .openLanguageSettingDialog(locale, id);
+        context.read<ChangeLanguageCubit>().openLanguageSettingDialog(locale, id);
       },
     );
   }
@@ -70,8 +68,7 @@ class _AccountScreenState extends State<AccountScreen> {
       barrierDismissible: false,
       builder: (dContext) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
           icon: Icon(
             Icons.logout,
             color: AppColors.redDark,
@@ -123,8 +120,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(lazy: false, create: (_) => getIt.get<LogoutCubit>()),
-        BlocProvider(
-            lazy: false, create: (_) => getIt.get<ConsumerProtectionCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt.get<ConsumerProtectionCubit>()),
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -166,8 +162,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               showApiErrorSnackBar(context, state.failure);
                             } else if (state is Success<SuccessResponse>) {
                               showSuccessSnackBar(context, state.data.message);
-                              SegmentManager().identify(
-                                  event: SegmentEvents.USER_LOGGED_OUT);
+                              SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
                               SessionManager().logout();
                             }
                           },
@@ -190,7 +185,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 ),
                 Text(
-                  'Settings',
+                  AppStrings.settings.tr(),
                   style: boldTextStyle(
                     color: AppColors.black,
                     fontSize: AppSize.s16.rSp,
@@ -211,7 +206,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   },
                 ),
                 AccountSettingItem(
-                  title: 'Device Setting',
+                  title: AppStrings.device_setting.tr(),
                   iconData: Icons.phone_android_rounded,
                   onTap: () {
                     Navigator.of(context).pushNamed(Routes.deviceSetting);

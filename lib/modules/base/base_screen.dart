@@ -167,7 +167,7 @@ class _BaseScreenState extends State<BaseScreen> {
               ),
               bottomNavigationBar: FABBottomAppBar(
                 initialIndex: BottomNavItem.HOME,
-                centerItemText: 'Add Order',
+                centerItemText: AppStrings.add_order.tr(),
                 color: Colors.grey,
                 selectedColor: Colors.deepPurpleAccent,
                 notchedShape: const CircularNotchedRectangle(),
@@ -199,7 +199,7 @@ class _BaseScreenState extends State<BaseScreen> {
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
               floatingActionButton: FloatingActionButton(
                 onPressed: _goToAddOrderScreen,
-                tooltip: 'Add Order',
+                tooltip: AppStrings.add_order.tr(),
                 elevation: 2.0,
                 foregroundColor: Colors.grey,
                 backgroundColor: Colors.white,

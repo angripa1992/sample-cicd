@@ -34,15 +34,13 @@ class OrdersScreen extends StatefulWidget {
   final int tabIndex;
   final Map<String, dynamic>? data;
 
-  const OrdersScreen({Key? key, required this.tabIndex, required this.data})
-      : super(key: key);
+  const OrdersScreen({Key? key, required this.tabIndex, required this.data}) : super(key: key);
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen>
-    with SingleTickerProviderStateMixin, FilterObserver {
+class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderStateMixin, FilterObserver {
   final _filterSubject = FilterSubject();
   TabController? _tabController;
   List<int>? _providers;
@@ -115,9 +113,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                     BlocBuilder<NewOrderCubit, ResponseState>(
                       builder: (context, state) {
                         return OrderTabItem(
-                          title: 'New',
-                          count:
-                              state is Success<Orders> ? state.data.total : 0,
+                          title: AppStrings.new_str.tr(),
+                          count: state is Success<Orders> ? state.data.total : 0,
                         );
                       },
                     ),
@@ -125,17 +122,15 @@ class _OrdersScreenState extends State<OrdersScreen>
                       builder: (context, state) {
                         return OrderTabItem(
                           title: AppStrings.ready.tr(),
-                          count:
-                              state is Success<Orders> ? state.data.total : 0,
+                          count: state is Success<Orders> ? state.data.total : 0,
                         );
                       },
                     ),
                     BlocBuilder<AllOrderCubit, ResponseState>(
                       builder: (context, state) {
                         return OrderTabItem(
-                          title: 'All',
-                          count:
-                              state is Success<Orders> ? state.data.total : 0,
+                          title: AppStrings.all.tr(),
+                          count: state is Success<Orders> ? state.data.total : 0,
                         );
                       },
                     ),
@@ -143,8 +138,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                       builder: (context, state) {
                         return OrderTabItem(
                           title: AppStrings.schedule.tr(),
-                          count:
-                              state is Success<Orders> ? state.data.total : 0,
+                          count: state is Success<Orders> ? state.data.total : 0,
                         );
                       },
                     ),
@@ -152,8 +146,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                       title: AppStrings.history.tr(),
                       count: 0,
                     ),
-                    const OrderTabItem(
-                      title: 'Others',
+                    OrderTabItem(
+                      title: AppStrings.other.tr(),
                       count: 0,
                     ),
                   ],

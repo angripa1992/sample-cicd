@@ -91,11 +91,11 @@ class _PriceViewState extends State<PriceView> {
                     widget.order.additionalFee,
                   ),
                   if (willShowServiceFee) SizedBox(height: AppSize.s2.rh),
-                  if (willShowServiceFee) _getSubtotalItem('Service Fee', serviceFee),
+                  if (willShowServiceFee) _getSubtotalItem(AppStrings.service_fee.tr(), serviceFee),
                   if (willShowProcessingFee) SizedBox(height: AppSize.s2.rh),
-                  if (willShowProcessingFee) _getSubtotalItem('Processing Fee', gateWayFee),
+                  if (willShowProcessingFee) _getSubtotalItem(AppStrings.processing_fee.tr(), gateWayFee),
                   if (widget.order.restaurantServiceFee > 0) SizedBox(height: AppSize.s2.rh),
-                  if (widget.order.restaurantServiceFee > 0) _getSubtotalItem('Restaurant Service Fee', widget.order.restaurantServiceFee),
+                  if (widget.order.restaurantServiceFee > 0) _getSubtotalItem(AppStrings.restaurant_service_fee.tr(), widget.order.restaurantServiceFee),
                   SizedBox(height: AppSize.s2.rh),
                   _getSubtotalItem(
                     '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
@@ -148,7 +148,7 @@ class _PriceViewState extends State<PriceView> {
     for (var element in order.appliedPromos) {
       promos.add(element.code);
     }
-    final promoStr =  promos.join(', ');
+    final promoStr = promos.join(', ');
     return promoStr.isEmpty ? promoStr : '($promoStr)';
   }
 

@@ -116,7 +116,7 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
                 timeLeft: data.timeLeft,
                 onFinished: _fetchData,
               )
-            : (noOfPausedStore > 0 ? Text('$noOfPausedStore Paused') : const SizedBox()),
+            : (noOfPausedStore > 0 ? Text('$noOfPausedStore ${AppStrings.paused.tr()}') : const SizedBox()),
         const Spacer(),
         IconButton(
           onPressed: () {

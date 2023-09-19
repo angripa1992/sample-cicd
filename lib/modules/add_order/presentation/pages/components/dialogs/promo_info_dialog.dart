@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
@@ -51,16 +53,16 @@ class PromoInfoView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _itemInfo('Value Type', promo.valueType ?? ''),
-            _itemInfo('Max Value', '$currencySymbol ${promo.maxDiscount}'),
+            _itemInfo(AppStrings.value_type.tr(), promo.valueType ?? ''),
+            _itemInfo(AppStrings.max_value.tr(), '$currencySymbol ${promo.maxDiscount}'),
           ],
         ),
         SizedBox(height: AppSize.s16.rh),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _itemInfo('Min Value', '$currencySymbol ${promo.minOrderAmount}'),
-            _itemInfo('Promo End', DateTimeProvider.dateTime(promo.endTime!)),
+            _itemInfo(AppStrings.min_value.tr(), '$currencySymbol ${promo.minOrderAmount}'),
+            _itemInfo(AppStrings.promo_end.tr(), DateTimeProvider.dateTime(promo.endTime!)),
           ],
         ),
       ],
