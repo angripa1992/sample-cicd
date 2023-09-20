@@ -27,16 +27,12 @@ MenuItemModifierGroup _v2ToModifierGroup(
     brandId: branchInfo.brandID!,
     sequence: data.sequence.orZero(),
     enabled: data.enabled ?? true,
-    visibilities:
-        data.visibilities?.map((e) => _v2ToModifierVisibility(e)).toList() ??
-            [],
+    visibilities: data.visibilities?.map((e) => _v2ToModifierVisibility(e)).toList() ?? [],
     rule: _v2ToModifierRule(
       data.max.orZero(),
       data.min.orZero(),
     ),
-    modifiers:
-        data.modifiers?.map((e) => _v1ToModifierItem(e, branchInfo)).toList() ??
-            [],
+    modifiers: data.modifiers?.map((e) => _v1ToModifierItem(e, branchInfo)).toList() ?? [],
   );
 }
 
@@ -51,14 +47,9 @@ MenuItemModifier _v1ToModifierItem(
     title: data.title?.en ?? EMPTY,
     sequence: ZERO,
     enabled: data.enabled ?? true,
-    visibilities:
-        data.visibilities?.map((e) => _v2ToModifierVisibility(e)).toList() ??
-            [],
-    prices:
-        data.prices?.map((e) => _v2ToItemPrice(e, branchInfo)).toList() ?? [],
-    groups:
-        data.groups?.map((e) => _v2ToModifierGroup(e, branchInfo)).toList() ??
-            [],
+    visibilities: data.visibilities?.map((e) => _v2ToModifierVisibility(e)).toList() ?? [],
+    prices: data.prices?.map((e) => _v2ToItemPrice(e, branchInfo)).toList() ?? [],
+    groups: data.groups?.map((e) => _v2ToModifierGroup(e, branchInfo)).toList() ?? [],
   );
 }
 
@@ -88,14 +79,12 @@ MenuItemModifierPrice _v2ToItemPrice(
   V2PriceModel data,
   MenuBranchInfo branchInfo,
 ) {
-  final priceDetails = data.details!.firstWhere((element) =>
-      element.currencyCode!.toUpperCase() ==
-      branchInfo.currencyCode!.toUpperCase());
+  final priceDetails = data.details!.firstWhere((element) => element.currencyCode!.toUpperCase() == branchInfo.currencyCode.toUpperCase());
   return MenuItemModifierPrice(
     providerId: data.providerID.orZero(),
     currencyId: branchInfo.currencyID,
-    code: priceDetails.currencyCode.orEmpty(),
-    symbol: priceDetails.currencyCode.orEmpty(),
+    code: branchInfo.currencyCode,
+    symbol: branchInfo.currencySymbol,
     price: priceDetails.price ?? 0,
   );
 }

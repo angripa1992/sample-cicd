@@ -7,7 +7,8 @@ class MenuBranchInfo {
   final int availabilityMask;
   final String providerIDs;
   final String languageCode;
-  final String? currencyCode;
+  final String currencyCode;
+  final String currencySymbol;
   final int? businessID;
   final int? brandID;
 
@@ -23,5 +24,6 @@ class MenuBranchInfo {
     required this.providerIDs,
     required this.languageCode,
     required this.currencyCode,
+    required this.currencySymbol,
   });
 }

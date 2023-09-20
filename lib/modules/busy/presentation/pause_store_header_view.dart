@@ -65,10 +65,14 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
         borderRadius: BorderRadius.circular(AppSize.s4.rSp),
         color: AppColors.white,
       ),
-      child: BlocBuilder<FetchPauseStoreDataCubit, ResponseState>(
+      child: BlocConsumer<FetchPauseStoreDataCubit, ResponseState>(
+        listener: (ct,state){
+          if(state is Failed){
+            showApiErrorSnackBar(context, state.failure);
+          }
+        },
         builder: (ct, state) {
           if (state is Failed) {
-            showApiErrorSnackBar(context, state.failure);
             return const SizedBox();
           } else if (state is Success<PauseStoresData>) {
             return _body(state.data);

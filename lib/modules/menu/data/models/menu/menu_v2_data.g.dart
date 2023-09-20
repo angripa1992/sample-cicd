@@ -36,6 +36,7 @@ MenuV2BranchInfo _$MenuV2BranchInfoFromJson(Map<String, dynamic> json) =>
       providerIDs: json['providerIDs'] as String?,
       languageCode: json['languageCode'] as String?,
       currencyCode: json['currencyCode'] as String?,
+      currencySymbol: json['currencySymbol'] as String?,
     );
 
 Map<String, dynamic> _$MenuV2BranchInfoToJson(MenuV2BranchInfo instance) =>
@@ -51,6 +52,7 @@ Map<String, dynamic> _$MenuV2BranchInfoToJson(MenuV2BranchInfo instance) =>
       'providerIDs': instance.providerIDs,
       'languageCode': instance.languageCode,
       'currencyCode': instance.currencyCode,
+      'currencySymbol': instance.currencySymbol,
     };
 
 MenuV2Sections _$MenuV2SectionsFromJson(Map<String, dynamic> json) =>

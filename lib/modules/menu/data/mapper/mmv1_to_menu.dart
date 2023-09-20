@@ -17,10 +17,7 @@ MenuData mapMMV1toMenu(MenuV1MenusDataModel menusData) {
   final branchInfo = _menuV1dataToMenuBranchInfo(menusData.branchInfo!);
   final menuData = MenuData(
     branchInfo: branchInfo,
-    sections: menusData.sections
-            ?.map((e) => _menuV1SectionsToMenuSections(e,branchInfo))
-            .toList() ??
-        [],
+    sections: menusData.sections?.map((e) => _menuV1SectionsToMenuSections(e, branchInfo)).toList() ?? [],
   );
   return menuData;
 }
@@ -37,7 +34,8 @@ MenuBranchInfo _menuV1dataToMenuBranchInfo(MenuV1BranchInfo data) {
     availabilityMask: data.availabilityMask.orZero(),
     providerIDs: data.providerIds.orEmpty(),
     languageCode: data.languageCode.orEmpty(),
-    currencyCode: null,
+    currencyCode: EMPTY,
+    currencySymbol: EMPTY,
   );
 }
 
@@ -45,8 +43,7 @@ MenuSection _menuV1SectionsToMenuSections(
   MenuV1SectionsModel data,
   MenuBranchInfo branchInfo,
 ) {
-  final menuAvailableTimes =
-      _menuV1AvailableTimesModelToMenuAvailableTimes(data.availableTimes!);
+  final menuAvailableTimes = _menuV1AvailableTimesModelToMenuAvailableTimes(data.availableTimes!);
   return MenuSection(
     branchInfo: branchInfo,
     menuVersion: MenuVersion.v1,
@@ -55,13 +52,8 @@ MenuSection _menuV1SectionsToMenuSections(
     description: EMPTY,
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
-    visibilities:
-        data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ??
-            [],
-    categories: data.subSections
-            ?.map((e) => _menuV1SubSectionToMenuCategory(e, menuAvailableTimes,branchInfo))
-            .toList() ??
-        [],
+    visibilities: data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ?? [],
+    categories: data.subSections?.map((e) => _menuV1SubSectionToMenuCategory(e, menuAvailableTimes, branchInfo)).toList() ?? [],
     availableTimes: menuAvailableTimes,
   );
 }
@@ -69,7 +61,7 @@ MenuSection _menuV1SectionsToMenuSections(
 MenuCategory _menuV1SubSectionToMenuCategory(
   MenuV1SubSectionsModel data,
   MenuAvailableTimes availableTimes,
-    MenuBranchInfo branchInfo,
+  MenuBranchInfo branchInfo,
 ) {
   return MenuCategory(
     branchInfo: branchInfo,
@@ -77,16 +69,11 @@ MenuCategory _menuV1SubSectionToMenuCategory(
     id: data.id.orZero(),
     title: data.title.orEmpty(),
     description: data.description.orEmpty(),
-    visibilities:
-        data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ??
-            [],
+    visibilities: data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ?? [],
     enabled: data.enabled.orFalse(),
     alcBeverages: data.alcBeverages.orFalse(),
     sequence: data.sequence.orZero(),
-    items: data.items
-            ?.map((e) => _menuV1ItemToMenuItem(e, availableTimes,branchInfo))
-            .toList() ??
-        [],
+    items: data.items?.map((e) => _menuV1ItemToMenuItem(e, availableTimes, branchInfo)).toList() ?? [],
     availableTimes: availableTimes,
   );
 }
@@ -94,7 +81,7 @@ MenuCategory _menuV1SubSectionToMenuCategory(
 MenuCategoryItem _menuV1ItemToMenuItem(
   MenuV1ItemsModel data,
   MenuAvailableTimes availableTimes,
-    MenuBranchInfo branchInfo,
+  MenuBranchInfo branchInfo,
 ) {
   return MenuCategoryItem(
     branchInfo: branchInfo,
@@ -102,15 +89,12 @@ MenuCategoryItem _menuV1ItemToMenuItem(
     id: data.id.orZero(),
     defaultItemId: data.defaultItemId.orZero(),
     title: data.title.orEmpty(),
-    prices:
-        data.prices?.map((e) => _mmV1PriceToMenuItemPrice(e)).toList() ?? [],
+    prices: data.prices?.map((e) => _mmV1PriceToMenuItemPrice(e)).toList() ?? [],
     vat: data.vat.orZero(),
     description: data.description.orEmpty(),
     image: data.image.orEmpty(),
     enabled: data.enabled.orFalse(),
-    visibilities:
-        data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ??
-            [],
+    visibilities: data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ?? [],
     sequence: data.sequence.orZero(),
     outOfStock: _menuV1StockModelToMenuOutOfStock(data.stock!),
     availableTimes: availableTimes,

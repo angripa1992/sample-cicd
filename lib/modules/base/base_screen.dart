@@ -139,7 +139,6 @@ class _BaseScreenState extends State<BaseScreen> {
       ],
       child: WillPopScope(
         onWillPop: () {
-          final index = context.read<BaseScreenCubit>().state.index;
           if (context.read<BaseScreenCubit>().state.index == BottomNavItem.HOME) {
             return Future.value(true);
           } else {

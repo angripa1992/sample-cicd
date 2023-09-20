@@ -31,6 +31,7 @@ class MenuV2BranchInfo {
   String? providerIDs;
   String? languageCode;
   String? currencyCode;
+  String? currencySymbol;
 
   MenuV2BranchInfo({
     this.businessID,
@@ -44,6 +45,7 @@ class MenuV2BranchInfo {
     this.providerIDs,
     this.languageCode,
     this.currencyCode,
+    this.currencySymbol,
   });
 
   factory MenuV2BranchInfo.fromJson(Map<String, dynamic> json) =>

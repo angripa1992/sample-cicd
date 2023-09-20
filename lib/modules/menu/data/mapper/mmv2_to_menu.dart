@@ -19,10 +19,7 @@ MenuData mapMMV2toMenu(MenuV2DataModel menusData) {
   final branchInfo = _v2ToMenuBranch(menusData.branchInfo);
   final menuData = MenuData(
     branchInfo: branchInfo,
-    sections: menusData.sections
-            ?.map((e) => _v2ToMenuSection(e, branchInfo))
-            .toList() ??
-        [],
+    sections: menusData.sections?.map((e) => _v2ToMenuSection(e, branchInfo)).toList() ?? [],
   );
   return menuData;
 }
@@ -39,7 +36,8 @@ MenuBranchInfo _v2ToMenuBranch(MenuV2BranchInfo? data) {
     availabilityMask: data?.availabilityMask ?? ZERO,
     providerIDs: data?.providerIDs ?? EMPTY,
     languageCode: data?.languageCode ?? EMPTY,
-    currencyCode: data?.currencyCode.orEmpty(),
+    currencyCode: data?.currencyCode ?? EMPTY,
+    currencySymbol: data?.currencySymbol ?? EMPTY,
   );
 }
 
@@ -56,13 +54,8 @@ MenuSection _v2ToMenuSection(
     description: data.description?.en ?? EMPTY,
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
-    visibilities:
-        data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ??
-            [],
-    categories: data.categories
-            ?.map((e) => _v2ToMenuCategory(e, menuAvailableTimes, branchInfo))
-            .toList() ??
-        [],
+    visibilities: data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ?? [],
+    categories: data.categories?.map((e) => _v2ToMenuCategory(e, menuAvailableTimes, branchInfo)).toList() ?? [],
     availableTimes: menuAvailableTimes,
   );
 }
@@ -78,16 +71,11 @@ MenuCategory _v2ToMenuCategory(
     id: data.id.orZero(),
     title: data.title?.en ?? EMPTY,
     description: data.description?.en ?? EMPTY,
-    visibilities:
-        data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ??
-            [],
+    visibilities: data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ?? [],
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
     alcBeverages: data.alcBeverages.orFalse(),
-    items: data.items
-            ?.map((e) => _v2ToMenuCategoryItem(e, availableTimes, branchInfo))
-            .toList() ??
-        [],
+    items: data.items?.map((e) => _v2ToMenuCategoryItem(e, availableTimes, branchInfo)).toList() ?? [],
     availableTimes: availableTimes,
   );
 }
@@ -104,14 +92,10 @@ MenuCategoryItem _v2ToMenuCategoryItem(
     defaultItemId: data.id.orZero(),
     title: data.title?.en ?? EMPTY,
     description: data.description?.en ?? EMPTY,
-    visibilities:
-        data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ??
-            [],
+    visibilities: data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ?? [],
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
-    prices:
-        data.prices?.map((e) => _v2ToMenuItemPrice(e, branchInfo)).toList() ??
-            [],
+    prices: data.prices?.map((e) => _v2ToMenuItemPrice(e, branchInfo)).toList() ?? [],
     vat: data.vat.orZero(),
     image: _defaultImage(data.resources),
     outOfStock: _v2ToMenuOutOfStock(data.oos!),
@@ -188,23 +172,19 @@ MenuItemPrice _v2ToMenuItemPrice(
   V2PriceModel data,
   MenuBranchInfo branchInfo,
 ) {
-  final v2PriceDetails = data.details!.firstWhere((element) =>
-      element.currencyCode!.toUpperCase() ==
-      branchInfo.currencyCode!.toUpperCase());
+  final v2PriceDetails = data.details!.firstWhere((element) => element.currencyCode!.toUpperCase() == branchInfo.currencyCode.toUpperCase());
   return MenuItemPrice(
     providerId: data.providerID.orZero(),
     currencyId: branchInfo.currencyID.orZero(),
-    currencyCode: v2PriceDetails.currencyCode ?? EMPTY,
-    currencySymbol: v2PriceDetails.currencyCode ?? EMPTY,
+    currencyCode: branchInfo.currencyCode,
+    currencySymbol: branchInfo.currencySymbol,
     price: v2PriceDetails.price ?? ZERO,
     takeAwayPrice: v2PriceDetails.takeAwayPrice ?? ZERO,
   );
 }
 
 String _defaultImage(List<V2ResourcesModel>? data) {
-  final resource = data
-      ?.firstWhereOrNull((element) => element.providerID == ProviderID.KLIKIT);
-  final path =
-      resource?.paths?.firstWhereOrNull((element) => element.byDefault!)?.path;
+  final resource = data?.firstWhereOrNull((element) => element.providerID == ProviderID.KLIKIT);
+  final path = resource?.paths?.firstWhereOrNull((element) => element.byDefault!)?.path;
   return path ?? EMPTY;
 }

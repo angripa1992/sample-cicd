@@ -21,12 +21,8 @@ ModifierGroup _v2ToModifierGroup(V2ModifierGroupModel data) {
     title: data.title?.en ?? EMPTY,
     description: data.description?.en ?? EMPTY,
     isEnabled: data.isEnabled.orFalse(),
-    modifiers: data.groupedModifiers
-            ?.map((e) => _v2ToModifier(e, businessID))
-            .toList() ??
-        [],
-    visibilities:
-        data.visibilities?.map((e) => _v2ToVisibility(e)).toList() ?? [],
+    modifiers: data.groupedModifiers?.map((e) => _v2ToModifier(e, businessID)).toList() ?? [],
+    visibilities: data.visibilities?.map((e) => _v2ToVisibility(e)).toList() ?? [],
   );
 }
 
@@ -42,8 +38,7 @@ GroupedModifierItem _v2ToModifier(
     description: data.description?.en ?? EMPTY,
     sequence: data.sequence.orZero(),
     isEnabled: data.isEnabled.orFalse(),
-    visibilities:
-        data.visibilities?.map((e) => _v2ToVisibility(e)).toList() ?? [],
+    visibilities: data.visibilities?.map((e) => _v2ToVisibility(e)).toList() ?? [],
   );
 }
 
