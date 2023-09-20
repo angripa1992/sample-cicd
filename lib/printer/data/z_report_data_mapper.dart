@@ -60,6 +60,10 @@ class ZReportDataProvider {
       dataModel.itemSummary,
       currency,
     );
+    final itemModifierSummary = await _templateItemSummary(
+      dataModel.modifierItemSummary,
+      currency,
+    );
     final paymentMethodSummary = await _templatePaymentMethodSummary(
       dataModel.paymentSummary!,
       currency,
@@ -75,6 +79,7 @@ class ZReportDataProvider {
       reportDate: DateFormat('MMMM dd, yyyy').format(reportTime).toString(),
       providerSummary: providerSummary,
       itemSummary: itemSummary,
+      modifierItemSummary: itemModifierSummary,
       paymentMethodSummary: paymentMethodSummary,
       paymentChannelSummary: paymentChannelSummary,
     );
@@ -89,7 +94,6 @@ class ZReportDataProvider {
       currency,
     );
     return TemplateProviderSummary(
-      lastRefreshedTime: orderSummaryModel.lastRefreshedAt ?? '',
       totalSales: response[_total],
       summaries: response[_summaries],
     );
@@ -155,7 +159,6 @@ class ZReportDataProvider {
       currency,
     );
     return TemplateItemSummary(
-      lastRefreshedTime: summaryModel.lastRefreshedAt ?? '',
       totalSales: response[_total],
       summaries: response[_summaries],
     );
@@ -200,7 +203,6 @@ class ZReportDataProvider {
       currency,
     );
     return TemplatePaymentMethodSummary(
-      lastRefreshedTime: summaryModel.lastRefreshedAt ?? '',
       totalSales: response[_total],
       summaries: response[_summaries],
     );
@@ -244,7 +246,6 @@ class ZReportDataProvider {
       currency,
     );
     return TemplatePaymentChannelSummary(
-      lastRefreshedTime: summaryModel.lastRefreshedAt ?? '',
       totalSales: response[_total],
       summaries: response[_summaries],
     );

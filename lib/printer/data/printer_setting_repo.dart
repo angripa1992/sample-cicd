@@ -10,11 +10,9 @@ import 'package:klikit/printer/data/printer_setting.dart';
 import '../../core/network/network_connectivity.dart';
 
 abstract class PrinterSettingRepository {
-  Future<Either<Failure, List<PrinterSetting>>> getPrinterSettings(
-      int branchId);
+  Future<Either<Failure, List<PrinterSetting>>> getPrinterSettings(int branchId);
 
-  Future<Either<Failure, ActionSuccess>> updatePrinterSettings(
-      Map<String, dynamic> params);
+  Future<Either<Failure, ActionSuccess>> updatePrinterSettings(Map<String, dynamic> params);
 }
 
 class PrinterSettingRepositoryImpl extends PrinterSettingRepository {
@@ -24,8 +22,7 @@ class PrinterSettingRepositoryImpl extends PrinterSettingRepository {
   PrinterSettingRepositoryImpl(this._connectivity, this._restClient);
 
   @override
-  Future<Either<Failure, List<PrinterSetting>>> getPrinterSettings(
-      int branchId) async {
+  Future<Either<Failure, List<PrinterSetting>>> getPrinterSettings(int branchId) async {
     if (await _connectivity.hasConnection()) {
       try {
         final List<dynamic> response = await _restClient.request(
@@ -33,9 +30,7 @@ class PrinterSettingRepositoryImpl extends PrinterSettingRepository {
           Method.GET,
           null,
         );
-        final List<PrinterSetting> settings = response
-            .map((e) => PrinterSettingModel.fromJson(e).toEntity())
-            .toList();
+        final List<PrinterSetting> settings = response.map((e) => PrinterSettingModel.fromJson(e).toEntity()).toList();
         return Right(settings);
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
@@ -46,12 +41,10 @@ class PrinterSettingRepositoryImpl extends PrinterSettingRepository {
   }
 
   @override
-  Future<Either<Failure, ActionSuccess>> updatePrinterSettings(
-      Map<String, dynamic> params) async {
+  Future<Either<Failure, ActionSuccess>> updatePrinterSettings(Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _restClient.request(
-            Urls.printerSettings, Method.POST, params);
+        final response = await _restClient.request(Urls.printerSettings, Method.POST, params);
         return Right(ActionSuccess.fromJson(response));
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
