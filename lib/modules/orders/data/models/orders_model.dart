@@ -168,7 +168,7 @@ class OrderModel {
   @JsonKey(name: 'discount_type')
   int? discountTYpe;
   @JsonKey(name: 'discount_value')
-  int? discountValue;
+  num? discountValue;
   @JsonKey(name: 'identity')
   String? identity;
   @JsonKey(name: 'is_mix_and_match_order')

@@ -63,11 +63,9 @@ class SessionManager {
 
   bool menuV2EnabledForKlikitOrder() => _user?.menuV2EnabledForKlikitOrder ?? false;
 
-  //int branchId() => _user?.branchIDs.first ?? 0;
-  int branchId() => 773;
+  int branchId() => _user?.branchIDs.first ?? 0;
 
-  //String branchName() => _user?.branchTitles.first ?? EMPTY;
-  String branchName() => 'xyz';
+  String branchName() => _user?.branchTitles.first ?? EMPTY;
 
   int businessID() => _user?.businessId ?? 0;
 

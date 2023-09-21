@@ -36,6 +36,16 @@ extension ZeroToNUll on int? {
   }
 }
 
+extension NumZeroToNUll on num? {
+  num? notZeroOrNull() {
+    if (this != null && this! > 0) {
+      return this!;
+    } else {
+      return null;
+    }
+  }
+}
+
 extension NonNullInteger on int? {
   int orZero() {
     if (this == null) {
@@ -48,6 +58,16 @@ extension NonNullInteger on int? {
 
 extension NonNullDouble on double? {
   double orZero() {
+    if (this == null) {
+      return ZERO_DECIMAL;
+    } else {
+      return this!;
+    }
+  }
+}
+
+extension NonNullNum on num? {
+  num orZero() {
     if (this == null) {
       return ZERO_DECIMAL;
     } else {

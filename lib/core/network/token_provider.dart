@@ -10,6 +10,8 @@ import '../../app/enums.dart';
 import 'error_handler.dart';
 
 class TokenProvider {
+ // String? getAccessToken() => SessionManager().accessToke();
+
   String? getAccessToken() => SessionManager().accessToke();
 
   Future<Either<String, int>> fetchTokenFromServer() async {

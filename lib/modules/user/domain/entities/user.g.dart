@@ -30,29 +30,16 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       firstLogin: json['firstLogin'] as bool,
       orderNotificationEnabled: json['orderNotificationEnabled'] as bool,
       sunmiDevice: json['sunmiDevice'] as bool,
-      branchIDs:
-          (json['branchIDs'] as List<dynamic>).map((e) => e as int).toList(),
-      branchTitles: (json['branchTitles'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      branchIDs: (json['branchIDs'] as List<dynamic>).map((e) => e as int).toList(),
+      branchTitles: (json['branchTitles'] as List<dynamic>).map((e) => e as String).toList(),
       roles: (json['roles'] as List<dynamic>).map((e) => e as String).toList(),
       roleIds: (json['roleIds'] as List<dynamic>).map((e) => e as int).toList(),
-      displayRoles: (json['displayRoles'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      permissions: (json['permissions'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      countryIds:
-          (json['countryIds'] as List<dynamic>).map((e) => e as int).toList(),
-      countryCodes: (json['countryCodes'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      brandIDs:
-          (json['brandIDs'] as List<dynamic>).map((e) => e as int).toList(),
-      brandTitles: (json['brandTitles'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      displayRoles: (json['displayRoles'] as List<dynamic>).map((e) => e as String).toList(),
+      permissions: (json['permissions'] as List<dynamic>).map((e) => e as String).toList(),
+      countryIds: (json['countryIds'] as List<dynamic>).map((e) => e as int).toList(),
+      countryCodes: (json['countryCodes'] as List<dynamic>).map((e) => e as String).toList(),
+      brandIDs: (json['brandIDs'] as List<dynamic>).map((e) => e as int).toList(),
+      brandTitles: (json['brandTitles'] as List<dynamic>).map((e) => e as String).toList(),
       menuV2Enabled: json['menuV2Enabled'] as bool,
       menuVersion: json['menuVersion'] as int,
       menuV2EnabledForKlikitOrder: json['menuV2EnabledForKlikitOrder'] as bool,

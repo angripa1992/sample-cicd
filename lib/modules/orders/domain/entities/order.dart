@@ -83,7 +83,7 @@ class Order {
   final String providerDiscountDisplay;
   final String vatDisplay;
   final int discountTYpe;
-  final int discountValue;
+  final num discountValue;
   final String identity;
   final bool isMixAndMatchOrder;
   final String triggeredTime;

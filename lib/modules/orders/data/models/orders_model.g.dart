@@ -93,7 +93,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       providerDiscountDisplay: json['provider_discount_display'] as String?,
       vatDisplay: json['vat_display'] as String?,
       discountTYpe: json['discount_type'] as int?,
-      discountValue: json['discount_value'] as int?,
+      discountValue: json['discount_value'] as num?,
       identity: json['identity'] as String?,
       isMixAndMatchOrder: json['is_mix_and_match_order'] as bool?,
       triggeredTime: json['triggered_time'] as String?,
