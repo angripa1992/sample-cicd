@@ -123,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
     response.fold(
       (failure) {
         showApiErrorSnackBar(context, failure);
+        print(failure.message);
       },
       (success) {
         _navigate(user);

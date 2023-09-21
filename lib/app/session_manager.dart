@@ -63,9 +63,11 @@ class SessionManager {
 
   bool menuV2EnabledForKlikitOrder() => _user?.menuV2EnabledForKlikitOrder ?? false;
 
-  int branchId() => _user?.branchIDs.first ?? 0;
+  //int branchId() => _user?.branchIDs.first ?? 0;
+  int branchId() => 773;
 
-  String branchName() => _user?.branchTitles.first ?? EMPTY;
+  //String branchName() => _user?.branchTitles.first ?? EMPTY;
+  String branchName() => 'xyz';
 
   int businessID() => _user?.businessId ?? 0;
 
@@ -100,11 +102,11 @@ class SessionManager {
     await setLoginState(isLoggedIn: false);
     getIt.get<OrderInformationProvider>().clearData();
     _appPreferences.clearPreferences().then(
-      (value) {
+          (value) {
         Navigator.pushNamedAndRemoveUntil(
           RoutesGenerator.navigatorKey.currentState!.context,
           Routes.login,
-          (route) => false,
+              (route) => false,
         );
       },
     );

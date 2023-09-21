@@ -22,8 +22,8 @@ class _KlikitState extends State<Klikit> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-    initMobilisten();
+  //  initPlatformState();
+   // initMobilisten();
   }
 
   Future<void> initMobilisten() async {

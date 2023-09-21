@@ -20,6 +20,7 @@ class FcmTokenManager {
 
   Future<Either<Failure, bool>> registerToken(String fcmToken) async {
     final userID = SessionManager().id();
+    print(userID);
     if (userID == ZERO) {
       return Left(Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT));
     }
@@ -37,8 +38,10 @@ class FcmTokenManager {
     params['app_type'] = 2;
     params['branch_id'] = branchID;
     params['uuid'] = uuid;
+    print(params);
     try {
       await _restClient.request(Urls.tokenRegistration, Method.POST, params);
+      print(';;;;;;;;;;;;;;;;;;');
       return const Right(true);
     } on DioException catch (error) {
       return Left(ErrorHandler.handle(error).failure);
