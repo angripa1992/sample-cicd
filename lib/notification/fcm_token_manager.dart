@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/network/rest_client.dart';
 import 'package:klikit/core/network/urls.dart';
@@ -18,10 +19,13 @@ class FcmTokenManager {
   FcmTokenManager(this._restClient, this._deviceInformationProvider);
 
   Future<Either<Failure, bool>> registerToken(String fcmToken) async {
+    final userID = SessionManager().id();
+    if (userID == ZERO) {
+      return Left(Failure(ResponseCode.DEFAULT, ResponseMessage.DEFAULT));
+    }
     final platform = _deviceInformationProvider.platformName();
     final String os = await _deviceInformationProvider.getOsVersion();
     final String model = await _deviceInformationProvider.getDeviceModel();
-    final userID = SessionManager().id();
     final branchID = SessionManager().branchId();
     final deviceInfo = '$platform/0s-$os/model-$model';
     final uuid = md5.convert(utf8.encode('$userID/$branchID/$deviceInfo/$fcmToken')).toString();

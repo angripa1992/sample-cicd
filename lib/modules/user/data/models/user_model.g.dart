@@ -29,11 +29,6 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       profile_pic: json['profile_pic'] as String?,
       business_id: json['business_id'] as int?,
       business_name: json['business_name'] as String?,
-      branch_id: json['branch_id'] as int?,
-      branch_name: json['branch_name'] as String?,
-      created_at: json['created_at'] as String?,
-      updated_at: json['updated_at'] as String?,
-      last_login_at: json['last_login_at'] as String?,
       first_login: json['first_login'] as bool?,
       order_notification_enabled: json['order_notification_enabled'] as bool?,
       sunmi_device: json['sunmi_device'] as bool?,
@@ -41,6 +36,11 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       menu_version: json['menu_version'] as int?,
       menuv2_enabled_for_klikit_order:
           json['menuv2_enabled_for_klikit_order'] as bool?,
+      branch_ids:
+          (json['branch_ids'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      branch_titles: (json['branch_titles'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       roles:
           (json['roles'] as List<dynamic>?)?.map((e) => e as String).toList(),
       role_ids:
@@ -74,11 +74,6 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'profile_pic': instance.profile_pic,
       'business_id': instance.business_id,
       'business_name': instance.business_name,
-      'branch_id': instance.branch_id,
-      'branch_name': instance.branch_name,
-      'created_at': instance.created_at,
-      'updated_at': instance.updated_at,
-      'last_login_at': instance.last_login_at,
       'first_login': instance.first_login,
       'order_notification_enabled': instance.order_notification_enabled,
       'sunmi_device': instance.sunmi_device,
@@ -86,6 +81,8 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'menu_version': instance.menu_version,
       'menuv2_enabled_for_klikit_order':
           instance.menuv2_enabled_for_klikit_order,
+      'branch_ids': instance.branch_ids,
+      'branch_titles': instance.branch_titles,
       'roles': instance.roles,
       'role_ids': instance.role_ids,
       'display_roles': instance.display_roles,

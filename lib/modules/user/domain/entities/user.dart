@@ -29,17 +29,14 @@ class UserInfo {
   final String profilePic;
   final int businessId;
   final String businessName;
-  final int branchId;
-  final String branchName;
-  final String createdAt;
-  final String updatedAt;
-  final String lastLoginAt;
   final bool firstLogin;
   final bool orderNotificationEnabled;
   final bool sunmiDevice;
   final bool menuV2Enabled;
   final int menuVersion;
   final bool menuV2EnabledForKlikitOrder;
+  final List<int> branchIDs;
+  final List<String> branchTitles;
   final List<String> roles;
   final List<int> roleIds;
   final List<String> displayRoles;
@@ -58,14 +55,11 @@ class UserInfo {
     required this.profilePic,
     required this.businessId,
     required this.businessName,
-    required this.branchId,
-    required this.branchName,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.lastLoginAt,
     required this.firstLogin,
     required this.orderNotificationEnabled,
     required this.sunmiDevice,
+    required this.branchIDs,
+    required this.branchTitles,
     required this.roles,
     required this.roleIds,
     required this.displayRoles,
@@ -79,8 +73,7 @@ class UserInfo {
     required this.menuV2EnabledForKlikitOrder,
   });
 
-  factory UserInfo.fromJson(Map<String, dynamic> json) =>
-      _$UserInfoFromJson(json);
+  factory UserInfo.fromJson(Map<String, dynamic> json) => _$UserInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserInfoToJson(this);
 
@@ -94,14 +87,11 @@ class UserInfo {
       profilePic: profilePic,
       businessId: businessId,
       businessName: businessName,
-      branchId: branchId,
-      branchName: branchName,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      lastLoginAt: lastLoginAt,
       firstLogin: firstLogin,
       orderNotificationEnabled: orderNotificationEnabled,
       sunmiDevice: sunmiDevice,
+      branchIDs: branchIDs,
+      branchTitles: branchTitles,
       roles: roles,
       roleIds: roleIds,
       displayRoles: displayRoles,

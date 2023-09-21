@@ -24,8 +24,7 @@ class OnboardingScreen extends StatefulWidget {
   State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen>
-    with TickerProviderStateMixin {
+class _OnboardingScreenState extends State<OnboardingScreen> with TickerProviderStateMixin {
   final _fcmTokenManager = getIt.get<FcmTokenManager>();
 
   late final AnimationController _controller = AnimationController(
@@ -59,9 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   void _gotoNextScreen() {
     Timer(const Duration(seconds: 2), () {
       if (SessionManager().isLoggedIn() && !SessionManager().firstLogin()) {
-        _registerFcmToken().then((value) {
-          Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
-        });
+        _registerFcmToken();
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);
       }
@@ -75,7 +72,9 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       (failure) {
         showApiErrorSnackBar(context, failure);
       },
-      (success) {},
+      (success) {
+        Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
+      },
     );
   }
 
@@ -86,7 +85,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     ScreenSizes.screenHeight = size.height;
     ScreenSizes.statusBarHeight = MediaQuery.of(context).viewPadding.top;
     return Scaffold(
-      backgroundColor: AppColors.white,
       body: Center(
         child: RotationTransition(
           turns: _turnsTween.animate(_controller),

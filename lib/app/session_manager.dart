@@ -59,15 +59,25 @@ class SessionManager {
 
   int id() => _user?.id ?? 0;
 
+  String userName() => '${_user?.firstName} ${_user?.lastName}';
+
   bool menuV2EnabledForKlikitOrder() => _user?.menuV2EnabledForKlikitOrder ?? false;
 
-  int branchId() => _user?.branchId ?? 0;
+  //int branchId() => _user?.branchIDs.first ?? 0;
+  int branchId() => 773;
 
-  bool firstLogin() => _user?.firstLogin ?? false;
+  //String branchName() => _user?.branchTitles.first ?? EMPTY;
+  String branchName() => 'xyz';
 
   int businessID() => _user?.businessId ?? 0;
 
-  String branchName() => _user?.branchName ?? EMPTY;
+  String businessName() => _user?.businessName ?? EMPTY;
+
+  List<int> brandIDs() => _user?.brandIDs ?? [];
+
+  List<String> brandTitles() => _user?.brandTitles ?? [];
+
+  bool firstLogin() => _user?.firstLogin ?? false;
 
   String lastLoginEmail() => _appPreferences.loginEmail();
 
@@ -81,9 +91,11 @@ class SessionManager {
 
   bool isSunmiDevice() => _appPreferences.sunmiDevice();
 
-  bool isMenuV2() => _user!.menuV2Enabled;
+  bool isMenuV2() => _user?.menuV2Enabled ?? false;
 
-  int country() => _user!.countryIds.first;
+  int country() => _user?.countryIds.first ?? 0;
+
+  String userDisplayRole() => _user?.displayRoles.first ?? EMPTY;
 
   Future<void> logout() async {
     CartManager().clear();

@@ -10,42 +10,20 @@ import '../../app/enums.dart';
 import 'error_handler.dart';
 
 class TokenProvider {
-  // TokenProvider() {
-  //   _initInterceptor();
-  //   _tokenDio.options.baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
-  // }
-  //
-  // void _initInterceptor() {
-  //   _tokenDio.interceptors.add(
-  //     PrettyDioLogger(
-  //       requestHeader: true,
-  //       requestBody: true,
-  //       responseBody: true,
-  //       responseHeader: false,
-  //       error: true,
-  //       compact: true,
-  //       maxWidth: 90,
-  //     ),
-  //   );
-  // }
-
   String? getAccessToken() => SessionManager().accessToke();
-
-  String? getRefreshToken() => SessionManager().refreshToken();
 
   Future<Either<String, int>> fetchTokenFromServer() async {
     try {
       final response = await PublicRestClient().request(
         '${getIt.get<EnvironmentVariables>().baseUrl}${Urls.refreshToken}',
         Method.POST,
-        {"refresh_token": getRefreshToken()},
+        {
+          "refresh_token": SessionManager().refreshToken(),
+        },
       );
       final accessToken = response['access_token'];
       final refreshToken = response['refresh_token'];
-      await SessionManager().saveToken(
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      );
+      await SessionManager().saveToken(accessToken: accessToken, refreshToken: refreshToken);
       return Left(accessToken);
     } on DioException catch (error) {
       if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {

@@ -69,11 +69,10 @@ class _PromoModalViewState extends State<PromoModalView> {
   }
 
   Map<String, dynamic> _params() {
-    final user = SessionManager().user();
     return {
-      'country': user!.countryIds.first,
-      'business': user.businessId,
-      'branch': user.branchId,
+      'country': SessionManager().country(),
+      'business': SessionManager().businessID(),
+      'branch': SessionManager().branchId(),
       'product_type': 'add_order',
       'order_amount': widget.subtotal,
       'brands': ListParam<int>(widget.brands, ListFormat.csv),

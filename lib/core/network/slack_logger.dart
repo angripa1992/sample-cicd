@@ -28,7 +28,6 @@ class SlackLoggerResolver {
       return;
     }
     final deviceInfo = getIt.get<DeviceInfoProvider>();
-    final user = SessionManager().user();
     List<String> markdownMessageList = [
       "CREATED AT: ${DateTime.now().toLocal().toString()}",
       'Url: ${error.requestOptions.baseUrl}${error.requestOptions.path}',
@@ -36,9 +35,9 @@ class SlackLoggerResolver {
       'Response: ${error.response?.toString()}',
       'Params: ${json.encode(error.requestOptions.queryParameters)}',
       "********** BUSINESS **********",
-      "Branch: ${user?.branchName} (${user?.branchId})",
-      "Brand: ${user?.brandIDs.join(', ')}",
-      "Business: ${user?.businessName} (${user?.businessId})",
+      "Branch: ${SessionManager().branchName()} (${SessionManager().branchId()})",
+      "Brand: ${SessionManager().brandIDs().join(', ')}",
+      "Business: ${SessionManager().businessID()} (${SessionManager().businessID()})",
       "********** METADATA **********",
       "Version: ${await deviceInfo.versionName()}",
       "Package: ${await deviceInfo.packageName()}",

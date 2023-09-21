@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -9,12 +9,9 @@ import '../../../../../resources/values.dart';
 import '../../../add_order/presentation/pages/components/cart_badge.dart';
 
 class HomeHeaderView extends StatelessWidget {
-  final UserInfo userInfo;
   final VoidCallback onCartTap;
 
-  const HomeHeaderView(
-      {Key? key, required this.userInfo, required this.onCartTap})
-      : super(key: key);
+  const HomeHeaderView({Key? key, required this.onCartTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +30,7 @@ class HomeHeaderView extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    '${userInfo.firstName} ${userInfo.lastName}',
+                    SessionManager().userName(),
                     style: regularTextStyle(
                       color: AppColors.white,
                       fontSize: AppFontSize.s25.rSp,
@@ -61,7 +58,7 @@ class HomeHeaderView extends StatelessWidget {
                   horizontal: AppSize.s12.rw,
                 ),
                 child: Text(
-                  '${userInfo.displayRoles[0]}, ${userInfo.businessName}, ${userInfo.branchName} ',
+                  '${SessionManager().userDisplayRole()}, ${SessionManager().businessName()}, ${SessionManager().branchName()} ',
                   style: regularTextStyle(
                     color: AppColors.white,
                     fontSize: AppFontSize.s12.rSp,

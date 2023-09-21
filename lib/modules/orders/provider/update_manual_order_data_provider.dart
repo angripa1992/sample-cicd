@@ -154,11 +154,10 @@ class UpdateManualOrderDataProvider {
 
   Future<List<AppliedPromo>> _fetchPromos(Order order) async {
     try {
-      final user = SessionManager().user();
       final params = {
-        'country': user!.countryIds.first,
-        'business': user.businessId,
-        'branch': user.branchId,
+        'country': SessionManager().country(),
+        'business': SessionManager().businessID(),
+        'branch': SessionManager().branchId(),
         'product_type': 'add_order',
         'order_amount': order.itemPrice / 100,
         'brands': ListParam<int>(

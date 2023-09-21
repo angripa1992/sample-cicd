@@ -19,8 +19,6 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../../resources/styles.dart';
-import '../../../app/session_manager.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
 import '../../add_order/presentation/pages/add_order_screen.dart';
@@ -106,7 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   clipBehavior: Clip.none,
                   children: [
                     HomeHeaderView(
-                      userInfo: SessionManager().user()!,
                       onCartTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

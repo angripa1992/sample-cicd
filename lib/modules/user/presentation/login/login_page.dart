@@ -108,15 +108,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     await SessionManager().setLoginState(isLoggedIn: true);
     await _saveUserSetting(user.userInfo);
-    SessionManager().saveUser(user.userInfo).then((_) {
-      _registerFcmToken(user);
-      SegmentManager().identify(event: SegmentEvents.USER_LOGGED_IN);
-    });
+    await SessionManager().saveUser(user.userInfo);
+    _registerFcmToken(user);
   }
 
   Future<void> _saveUserSetting(UserInfo userInfo) async {
-    await SessionManager()
-        .setNotificationEnabled(userInfo.orderNotificationEnabled);
+    await SessionManager().setNotificationEnabled(userInfo.orderNotificationEnabled);
     await SessionManager().setSunmiDevice(userInfo.sunmiDevice);
   }
 
@@ -138,6 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pushReplacementNamed(Routes.changePassword);
     } else if (args == null) {
       Navigator.of(context).pushReplacementNamed(Routes.base);
+      SegmentManager().identify(event: SegmentEvents.USER_LOGGED_IN);
     } else {
       NotificationHandler().navigateToOrderScreen(
         args![ArgumentKey.kNOTIFICATION_DATA],
@@ -152,9 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => getIt.get<LoginBloc>()),
-        BlocProvider(
-            create: (BuildContext context) =>
-                getIt.get<ConsumerProtectionCubit>()),
+        BlocProvider(create: (BuildContext context) => getIt.get<ConsumerProtectionCubit>()),
       ],
       child: SafeArea(
         child: Scaffold(
