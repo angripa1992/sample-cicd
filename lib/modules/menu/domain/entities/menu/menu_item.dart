@@ -11,11 +11,16 @@ import 'menu_visibility.dart';
 class MenuCategoryItem {
   final int menuVersion;
   final int id;
+  final int sectionID;
+  final String sectionName;
+  final int categoryID;
+  final String categoryName;
   final int defaultItemId;
   final String title;
   final String description;
   final List<MenuItemPrice> prices;
   final int vat;
+  final String skuID;
   final String image;
   final int sequence;
   final List<MenuVisibility> visibilities;
@@ -28,10 +33,15 @@ class MenuCategoryItem {
   MenuCategoryItem({
     required this.menuVersion,
     required this.id,
+    required this.sectionID,
+    required this.sectionName,
+    required this.categoryID,
+    required this.categoryName,
     required this.defaultItemId,
     required this.title,
     required this.prices,
     required this.vat,
+    required this.skuID,
     required this.description,
     required this.image,
     required this.enabled,

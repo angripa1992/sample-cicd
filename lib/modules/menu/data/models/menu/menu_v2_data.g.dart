@@ -198,6 +198,7 @@ MenuV2CategoryItem _$MenuV2CategoryItemFromJson(Map<String, dynamic> json) =>
           ? null
           : V2TitleModel.fromJson(json['description'] as Map<String, dynamic>),
       vat: json['vat'] as int?,
+      skuID: json['skuID'] as String?,
       enabled: json['enabled'] as bool?,
       visibilities: (json['visibilities'] as List<dynamic>?)
           ?.map((e) => V2VisibilityModel.fromJson(e as Map<String, dynamic>))
@@ -221,6 +222,7 @@ Map<String, dynamic> _$MenuV2CategoryItemToJson(MenuV2CategoryItem instance) =>
       'title': instance.title,
       'description': instance.description,
       'vat': instance.vat,
+      'skuID': instance.skuID,
       'enabled': instance.enabled,
       'visibilities': instance.visibilities,
       'prices': instance.prices,

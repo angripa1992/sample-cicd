@@ -6,7 +6,10 @@ import 'item_visibility.dart';
 class MenuItemModifier {
   final int id;
   final int modifierId;
+  final int modifierGroupId;
+  final String modifierGroupName;
   final int immgId;
+  final String skuID;
   final String title;
   final int sequence;
   final bool enabled;
@@ -19,7 +22,10 @@ class MenuItemModifier {
   MenuItemModifier({
     required this.id,
     required this.modifierId,
+    required this.modifierGroupId,
+    required this.modifierGroupName,
     required this.immgId,
+    required this.skuID,
     required this.title,
     required this.sequence,
     required this.enabled,
@@ -33,7 +39,10 @@ class MenuItemModifier {
   MenuItemModifier copy() => MenuItemModifier(
         id: id,
         modifierId: modifierId,
+        modifierGroupId: modifierGroupId,
+        modifierGroupName: modifierGroupName,
         immgId: immgId,
+        skuID: skuID,
         title: title,
         sequence: sequence,
         enabled: enabled,

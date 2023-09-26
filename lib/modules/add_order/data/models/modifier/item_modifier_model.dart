@@ -51,17 +51,4 @@ class MenuItemModifierModel {
       });
     }
   }
-
-  // AddOrderItemModifier toEntity() {
-  //   return AddOrderItemModifier(
-  //     id: id.orZero(),
-  //     modifierId: modifierId.orZero(),
-  //     immgId: immgId.orZero(),
-  //     title: title.orEmpty(),
-  //     sequence: sequence.orZero(),
-  //     statuses: statuses?.map((e) => e.toEntity()).toList() ?? [],
-  //     prices: prices?.map((e) => e.toEntity()).toList() ?? [],
-  //     groups: groups?.map((e) => e.toEntity()).toList() ?? [],
-  //   );
-  // }
 }

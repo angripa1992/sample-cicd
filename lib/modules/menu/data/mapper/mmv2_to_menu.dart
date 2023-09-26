@@ -55,12 +55,23 @@ MenuSection _v2ToMenuSection(
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
     visibilities: data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ?? [],
-    categories: data.categories?.map((e) => _v2ToMenuCategory(e, menuAvailableTimes, branchInfo)).toList() ?? [],
+    categories: data.categories
+            ?.map((category) => _v2ToMenuCategory(
+                  data.id.orZero(),
+                  data.title?.en ?? EMPTY,
+                  category,
+                  menuAvailableTimes,
+                  branchInfo,
+                ))
+            .toList() ??
+        [],
     availableTimes: menuAvailableTimes,
   );
 }
 
 MenuCategory _v2ToMenuCategory(
+  int sectionID,
+  String sectionName,
   MenuV2Category data,
   MenuAvailableTimes availableTimes,
   MenuBranchInfo branchInfo,
@@ -75,12 +86,27 @@ MenuCategory _v2ToMenuCategory(
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
     alcBeverages: data.alcBeverages.orFalse(),
-    items: data.items?.map((e) => _v2ToMenuCategoryItem(e, availableTimes, branchInfo)).toList() ?? [],
+    items: data.items
+            ?.map((item) => _v2ToMenuCategoryItem(
+                  sectionID,
+                  sectionName,
+                  data.id.orZero(),
+                  data.title?.en ?? EMPTY,
+                  item,
+                  availableTimes,
+                  branchInfo,
+                ))
+            .toList() ??
+        [],
     availableTimes: availableTimes,
   );
 }
 
 MenuCategoryItem _v2ToMenuCategoryItem(
+  int sectionID,
+  String sectionName,
+  int categoryID,
+  String categoryName,
   MenuV2CategoryItem data,
   MenuAvailableTimes availableTimes,
   MenuBranchInfo branchInfo,
@@ -89,6 +115,10 @@ MenuCategoryItem _v2ToMenuCategoryItem(
     branchInfo: branchInfo,
     menuVersion: MenuVersion.v2,
     id: data.id.orZero(),
+    sectionID: sectionID,
+    sectionName: sectionName,
+    categoryID: categoryID,
+    categoryName: categoryName,
     defaultItemId: data.id.orZero(),
     title: data.title?.en ?? EMPTY,
     description: data.description?.en ?? EMPTY,
@@ -97,6 +127,7 @@ MenuCategoryItem _v2ToMenuCategoryItem(
     sequence: data.sequence.orZero(),
     prices: data.prices?.map((e) => _v2ToMenuItemPrice(e, branchInfo)).toList() ?? [],
     vat: data.vat.orZero(),
+    skuID: data.skuID.orEmpty(),
     image: _defaultImage(data.resources),
     outOfStock: _v2ToMenuOutOfStock(data.oos!),
     resources: data.resources?.map((e) => _v2ToMenuResource(e)).toList() ?? [],

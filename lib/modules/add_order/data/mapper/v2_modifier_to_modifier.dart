@@ -28,22 +28,32 @@ MenuItemModifierGroup _v2ToModifierGroup(
     sequence: data.sequence.orZero(),
     enabled: data.enabled ?? true,
     visibilities: data.visibilities?.map((e) => _v2ToModifierVisibility(e)).toList() ?? [],
-    rule: _v2ToModifierRule(
-      data.max.orZero(),
-      data.min.orZero(),
-    ),
-    modifiers: data.modifiers?.map((e) => _v1ToModifierItem(e, branchInfo)).toList() ?? [],
+    rule: _v2ToModifierRule(data.max.orZero(), data.min.orZero()),
+    modifiers: data.modifiers
+            ?.map((modifier) => _v1ToModifierItem(
+                  data.id.orZero(),
+                  data.title?.en ?? EMPTY,
+                  modifier,
+                  branchInfo,
+                ))
+            .toList() ??
+        [],
   );
 }
 
 MenuItemModifier _v1ToModifierItem(
+  int groupID,
+  String groupName,
   V2ItemModifierModel data,
   MenuBranchInfo branchInfo,
 ) {
   return MenuItemModifier(
     id: data.id.orZero(),
     modifierId: data.id.orZero(),
+    modifierGroupId: groupID,
+    modifierGroupName: groupName,
     immgId: ZERO,
+    skuID: EMPTY,
     title: data.title?.en ?? EMPTY,
     sequence: ZERO,
     enabled: data.enabled ?? true,

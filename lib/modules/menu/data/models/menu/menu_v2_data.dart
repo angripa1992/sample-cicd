@@ -171,6 +171,7 @@ class MenuV2CategoryItem {
   V2TitleModel? title;
   V2TitleModel? description;
   int? vat;
+  String? skuID;
   bool? enabled;
   List<V2VisibilityModel>? visibilities;
   List<V2PriceModel>? prices;
@@ -184,6 +185,7 @@ class MenuV2CategoryItem {
     this.title,
     this.description,
     this.vat,
+    this.skuID,
     this.enabled,
     this.visibilities,
     this.prices,

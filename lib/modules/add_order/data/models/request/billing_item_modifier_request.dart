@@ -6,6 +6,8 @@ import 'billing_item_modifier_group_request.dart';
 
 class BillingItemModifierRequestModel {
   int? id;
+  int? klkitID;
+  int? klkitGroupID;
   int? modifierId;
   List<MenuItemStatusModel>? statuses;
   List<MenuItemPriceModel>? prices;
@@ -14,7 +16,12 @@ class BillingItemModifierRequestModel {
   int? modifierQuantity;
   num? extraPrice;
   int? immgId;
+  String? klkitSkuID;
   String? title;
+  String? klikitName;
+  String? klikitGroupName;
+  String? klikitImage;
+  num? klikitModifierPrice;
   int? sequence;
   MenuItemTitleV2Model? titleV2;
   String? selectedTitle;
@@ -33,6 +40,13 @@ class BillingItemModifierRequestModel {
     this.sequence,
     this.titleV2,
     this.selectedTitle,
+    this.klkitID,
+    this.klikitName,
+    this.klikitModifierPrice,
+    this.klkitSkuID,
+    this.klikitImage,
+    this.klkitGroupID,
+    this.klikitGroupName,
   });
 
   Map<String, dynamic> toJsonV1() {
@@ -58,6 +72,13 @@ class BillingItemModifierRequestModel {
     data['modifier_quantity'] = modifierQuantity;
     data['extra_price'] = extraPrice;
     data['selectedTitle'] = selectedTitle;
+    data['klikit_id'] = klkitID;
+    data['klikit_name'] = klikitName;
+    data['klikit_modifier_price'] = klikitModifierPrice;
+    data['klikit_sku_id'] = klkitSkuID;
+    data['klikit_image'] = klikitImage;
+    data['klikit_group_id'] = klkitGroupID;
+    data['klikit_group_name'] = klikitGroupName;
     return data;
   }
 
@@ -71,6 +92,13 @@ class BillingItemModifierRequestModel {
     data['is_selected'] = isSelected;
     data['modifier_quantity'] = modifierQuantity;
     data['extra_price'] = extraPrice;
+    data['klikit_id'] = klkitID;
+    data['klikit_name'] = klikitName;
+    data['klikit_modifier_price'] = klikitModifierPrice;
+    data['klikit_sku_id'] = klkitSkuID;
+    data['klikit_image'] = klikitImage;
+    data['klikit_group_id'] = klkitGroupID;
+    data['klikit_group_name'] = klikitGroupName;
     return data;
   }
 }

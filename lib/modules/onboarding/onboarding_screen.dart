@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
-import 'package:klikit/resources/colors.dart';
 
 import '../../app/size_config.dart';
 import '../../core/route/routes.dart';
@@ -67,16 +65,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
 
   Future _registerFcmToken() async {
     final fcmToken = await FcmService().getFcmToken();
-    print('come');
     final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
-    print('come2');
     response.fold(
       (failure) {
         showApiErrorSnackBar(context, failure);
-        print(failure.message);
       },
       (success) {
-        print('success');
         Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
       },
     );

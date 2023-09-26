@@ -24,6 +24,9 @@ class SessionManager {
 
   void _init() {
     _user = _appPreferences.getUser();
+    if (_user == null) {
+      logout();
+    }
   }
 
   Future<void> saveUser(UserInfo user) async {
@@ -63,11 +66,9 @@ class SessionManager {
 
   bool menuV2EnabledForKlikitOrder() => _user?.menuV2EnabledForKlikitOrder ?? false;
 
-  //int branchId() => _user?.branchIDs.first ?? 0;
-  int branchId() => 773;
+  int branchId() => _user?.branchIDs.first ?? 0;
 
-  //String branchName() => _user?.branchTitles.first ?? EMPTY;
-  String branchName() => 'xyz';
+  String branchName() => _user?.branchTitles.first ?? EMPTY;
 
   int businessID() => _user?.businessId ?? 0;
 
@@ -101,13 +102,11 @@ class SessionManager {
     CartManager().clear();
     await setLoginState(isLoggedIn: false);
     getIt.get<OrderInformationProvider>().clearData();
+    final context = RoutesGenerator.navigatorKey.currentState?.context;
+    if (context == null) return;
     _appPreferences.clearPreferences().then(
-          (value) {
-        Navigator.pushNamedAndRemoveUntil(
-          RoutesGenerator.navigatorKey.currentState!.context,
-          Routes.login,
-              (route) => false,
-        );
+      (value) {
+        Navigator.pushNamedAndRemoveUntil(context, Routes.login, (route) => false);
       },
     );
   }

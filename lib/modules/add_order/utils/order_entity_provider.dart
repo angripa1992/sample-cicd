@@ -66,8 +66,7 @@ class OrderEntityProvider {
   }) async {
     final items = <BillingItemRequestModel>[];
     for (var item in cartsItems) {
-      final groups =
-          await ModifierManager().billingItemModifiers(item.modifiers);
+      final groups = await ModifierManager().billingItemModifiers(item.modifiers);
       items.add(
         _cartItemToBillingItem(
           cartItem: item,
@@ -86,10 +85,8 @@ class OrderEntityProvider {
   }) async {
     final items = <BillingItemRequestModel>[];
     for (var item in cartsItems) {
-      final groups =
-          await ModifierManager().billingItemModifiers(item.modifiers);
-      final itemBill =
-          itemBills.firstWhere((element) => element.id == item.item.id);
+      final groups = await ModifierManager().billingItemModifiers(item.modifiers);
+      final itemBill = itemBills.firstWhere((element) => element.id == item.item.id);
       items.add(
         _cartItemToBillingItem(
           cartItem: item,
@@ -125,9 +122,7 @@ class OrderEntityProvider {
       vat: item.vat,
       brand: _toBrandModel(cartItem.brand),
       stock: _stockModel(item.outOfStock),
-      statuses: item.visibilities
-          .map((visibility) => _statusModel(item.enabled, visibility))
-          .toList(),
+      statuses: item.visibilities.map((visibility) => _statusModel(item.enabled, visibility)).toList(),
       prices: item.prices.map((e) => _priceModel(e)).toList(),
       groups: groups,
       unitPrice: cartItem.itemPrice.price,
@@ -137,6 +132,15 @@ class OrderEntityProvider {
       appliedPromoModel: promoInfo?.promo,
       quantityOfScPromoItem: promoInfo?.citizen,
       promoDiscount: promoDiscount,
+      klkitID: item.id,
+      klkitName: item.title,
+      klikitPrice: cartItem.itemPrice.price,
+      klikitSkuID: item.skuID,
+      klikitImage: item.image,
+      klikitSectionID: item.sectionID,
+      klikitSectionName: item.sectionName,
+      klikitCategoryID: item.categoryID,
+      klikitCategoryName: item.categoryName,
     );
   }
 
@@ -146,6 +150,8 @@ class OrderEntityProvider {
   ) =>
       BillingItemModifierGroupRequestModel(
         groupId: group.groupId,
+        klikitGroupId: group.groupId,
+        klikitGroupName: group.title,
         title: group.title,
         titleV2: MenuItemTitleV2Model(en: group.title),
         label: group.label,
@@ -166,26 +172,27 @@ class OrderEntityProvider {
         immgId: modifier.immgId,
         title: modifier.title,
         titleV2: MenuItemTitleV2Model(en: modifier.title),
-        statuses: modifier.visibilities
-            .map((e) => e.toModel(modifier.enabled))
-            .toList(),
+        statuses: modifier.visibilities.map((e) => e.toModel(modifier.enabled)).toList(),
         prices: modifier.prices.map((e) => e.toModel()).toList(),
         groups: groups,
         isSelected: modifier.isSelected,
         modifierQuantity: modifier.quantity,
-        extraPrice: modifier.prices
-            .firstWhere((element) => element.providerId == ProviderID.KLIKIT)
-            .price,
+        extraPrice: modifier.prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT).price,
+        klkitID: modifier.id,
+        klikitName: modifier.title,
+        klikitModifierPrice: modifier.prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT).price,
+        klkitSkuID: modifier.skuID,
+        klikitImage: EMPTY,
+        klkitGroupID: modifier.modifierGroupId,
+        klikitGroupName: modifier.modifierGroupName,
       );
 
-  MenuItemOutOfStockModel _stockModel(MenuOutOfStock stock) =>
-      MenuItemOutOfStockModel(
+  MenuItemOutOfStockModel _stockModel(MenuOutOfStock stock) => MenuItemOutOfStockModel(
         available: stock.available,
         snooze: _snoozeModel(stock.menuSnooze),
       );
 
-  MenuItemSnoozeModel _snoozeModel(MenuSnooze snooze) =>
-      MenuItemSnoozeModel(
+  MenuItemSnoozeModel _snoozeModel(MenuSnooze snooze) => MenuItemSnoozeModel(
         endTime: snooze.endTime,
         duration: snooze.duration,
       );
@@ -200,8 +207,7 @@ class OrderEntityProvider {
         hidden: visibility.visible,
       );
 
-  MenuItemPriceModel _priceModel(MenuItemPrice price) =>
-      MenuItemPriceModel(
+  MenuItemPriceModel _priceModel(MenuItemPrice price) => MenuItemPriceModel(
         providerId: price.providerId,
         currencyId: price.currencyId,
         code: price.currencyCode,
@@ -270,10 +276,8 @@ class OrderEntityProvider {
       itemPrice: bill.subTotalCent.toInt(),
       cart: cartItems,
       orderComment: checkoutData.instruction,
-      numberOfSeniorCitizen:
-          bill.numberOfSeniorCitizen > 0 ? bill.numberOfSeniorCitizen : null,
-      numberOfCustomer:
-          bill.numberOfSeniorCustomer > 0 ? bill.numberOfSeniorCustomer : null,
+      numberOfSeniorCitizen: bill.numberOfSeniorCitizen > 0 ? bill.numberOfSeniorCitizen : null,
+      numberOfCustomer: bill.numberOfSeniorCustomer > 0 ? bill.numberOfSeniorCustomer : null,
       orderPromoDiscount: bill.orderPromoDiscountCent,
       appliedPromoModel: bill.appliedPromo,
     );

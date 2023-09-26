@@ -12,8 +12,7 @@ import '../models/modifier/item_price_model.dart';
 import '../models/modifier/item_status_model.dart';
 import '../models/modifier/modifier_rule.dart';
 
-List<MenuItemModifierGroup> mapAddOrderV1ModifierToModifier(
-    List<MenuItemModifierGroupModel>? data) {
+List<MenuItemModifierGroup> mapAddOrderV1ModifierToModifier(List<MenuItemModifierGroupModel>? data) {
   return data?.map((e) => _v1ToModifierGroup(e)).toList() ?? [];
 }
 
@@ -27,23 +26,31 @@ MenuItemModifierGroup _v1ToModifierGroup(
     brandId: data.brandId.orZero(),
     sequence: data.sequence.orZero(),
     enabled: _enabled(data.statuses),
-    visibilities:
-        data.statuses?.map((e) => _v1ToModifierVisibility(e)).toList() ?? [],
+    visibilities: data.statuses?.map((e) => _v1ToModifierVisibility(e)).toList() ?? [],
     rule: _v1ToModifierRule(data.rule),
-    modifiers: data.modifiers?.map((e) => _v1ToModifierItem(e)).toList() ?? [],
+    modifiers: data.modifiers
+            ?.map((modifier) => _v1ToModifierItem(
+                  data.groupId.orZero(),
+                  data.title.orEmpty(),
+                  modifier,
+                ))
+            .toList() ??
+        [],
   );
 }
 
-MenuItemModifier _v1ToModifierItem(MenuItemModifierModel data) {
+MenuItemModifier _v1ToModifierItem(int groupID, String groupName, MenuItemModifierModel data) {
   return MenuItemModifier(
     id: data.id.orZero(),
     modifierId: data.modifierId.orZero(),
+    modifierGroupId: groupID,
+    modifierGroupName: groupName,
     immgId: data.immgId.orZero(),
+    skuID: EMPTY,
     title: data.title.orEmpty(),
     sequence: data.sequence.orZero(),
     enabled: _enabled(data.statuses),
-    visibilities:
-        data.statuses?.map((e) => _v1ToModifierVisibility(e)).toList() ?? [],
+    visibilities: data.statuses?.map((e) => _v1ToModifierVisibility(e)).toList() ?? [],
     prices: data.prices?.map((e) => _v1ToItemPrice(e)).toList() ?? [],
     groups: data.groups?.map((e) => _v1ToModifierGroup(e)).toList() ?? [],
   );

@@ -64,76 +64,40 @@ class RestClient {
     );
   }
 
-  void _handleRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
-    if (options.path == Urls.login || options.path == Urls.forgetPassword) {
-      handler.next(options);
-    } else {
-      if (_tokenProvider.getAccessToken() == null) {
-        final tokenResponse = await _tokenProvider.fetchTokenFromServer();
-        tokenResponse.fold(
-          (accessToken) {
-            options.headers[authorization] = _token(accessToken);
-            handler.next(options);
-          },
-          (errorCode) {
-            SessionManager().logout();
-          },
-        );
-      } else {
-        options.headers[authorization] = _token(_tokenProvider.getAccessToken());
-        handler.next(options);
-      }
+  void _handleRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    if (options.path != Urls.login || options.path != Urls.forgetPassword) {
+      options.headers[authorization] = _token(_tokenProvider.getAccessToken());
     }
+    handler.next(options);
   }
 
   void _handleError(DioException error, ErrorInterceptorHandler handler) async {
-    SlackLoggerResolver().sendApiError(error);
     var options = error.response?.requestOptions;
-    if (error.response?.statusCode == ResponseCode.UPDATE_REQUIRED) {
+    final statusCode = error.response?.statusCode;
+    if (statusCode == ResponseCode.UPDATE_REQUIRED) {
+      handler.reject(error);
       AppUpdateManager().showAppUpdateDialog();
-      return handler.reject(error);
-    } else if (options?.path == Urls.login || options?.path == Urls.forgetPassword) {
-      return handler.next(error);
-    } else if (options?.path == Urls.logout && error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-      SessionManager().logout();
-      return handler.reject(error);
-    } else if (error.response?.statusCode == ResponseCode.UNAUTHORISED) {
-      if (_token(_tokenProvider.getAccessToken()) != options?.headers[authorization]) {
-        options?.headers[authorization] = _token(_tokenProvider.getAccessToken());
-        _dio.fetch(options!).then(
-          (r) => handler.resolve(r),
-          onError: (e) {
-            handler.reject(e);
-          },
-        );
-        return;
-      } else {
-        final tokenResponse = await _tokenProvider.fetchTokenFromServer();
-        tokenResponse.fold(
-          (accessToken) {
-            options?.headers[authorization] = _token(accessToken);
-            _dio.fetch(options!).then(
-              (r) => handler.resolve(r),
-              onError: (e) {
-                handler.reject(e);
-              },
-            );
-          },
-          (errorCode) {
-            if (errorCode == ResponseCode.UNAUTHORISED) {
-              return;
-            }
-            handler.reject(error);
-          },
-        );
-        return;
-      }
+    } else if (statusCode == ResponseCode.UNAUTHORISED) {
+      final tokenResponse = await _tokenProvider.fetchTokenFromServer();
+      tokenResponse.fold(
+        (accessToken) {
+          options?.headers[authorization] = _token(accessToken);
+          _dio.fetch(options!).then(
+            (r) => handler.resolve(r),
+            onError: (e) {
+              handler.reject(e);
+            },
+          );
+        },
+        (failure) {
+          handler.reject(error);
+          SessionManager().logout();
+        },
+      );
     } else {
-      return handler.next(error);
+      handler.next(error);
     }
+    SlackLoggerResolver().sendApiError(error);
   }
 
   Future<dynamic> request(

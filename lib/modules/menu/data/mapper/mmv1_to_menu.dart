@@ -53,12 +53,23 @@ MenuSection _menuV1SectionsToMenuSections(
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
     visibilities: data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ?? [],
-    categories: data.subSections?.map((e) => _menuV1SubSectionToMenuCategory(e, menuAvailableTimes, branchInfo)).toList() ?? [],
+    categories: data.subSections
+            ?.map((category) => _menuV1SubSectionToMenuCategory(
+                  data.id.orZero(),
+                  data.title.orEmpty(),
+                  category,
+                  menuAvailableTimes,
+                  branchInfo,
+                ))
+            .toList() ??
+        [],
     availableTimes: menuAvailableTimes,
   );
 }
 
 MenuCategory _menuV1SubSectionToMenuCategory(
+  int sectionID,
+  String sectionName,
   MenuV1SubSectionsModel data,
   MenuAvailableTimes availableTimes,
   MenuBranchInfo branchInfo,
@@ -73,12 +84,27 @@ MenuCategory _menuV1SubSectionToMenuCategory(
     enabled: data.enabled.orFalse(),
     alcBeverages: data.alcBeverages.orFalse(),
     sequence: data.sequence.orZero(),
-    items: data.items?.map((e) => _menuV1ItemToMenuItem(e, availableTimes, branchInfo)).toList() ?? [],
+    items: data.items
+            ?.map((item) => _menuV1ItemToMenuItem(
+                  sectionID,
+                  sectionName,
+                  data.id.orZero(),
+                  data.title.orEmpty(),
+                  item,
+                  availableTimes,
+                  branchInfo,
+                ))
+            .toList() ??
+        [],
     availableTimes: availableTimes,
   );
 }
 
 MenuCategoryItem _menuV1ItemToMenuItem(
+  int sectionID,
+  String sectionName,
+  int categoryID,
+  String categoryName,
   MenuV1ItemsModel data,
   MenuAvailableTimes availableTimes,
   MenuBranchInfo branchInfo,
@@ -87,10 +113,15 @@ MenuCategoryItem _menuV1ItemToMenuItem(
     branchInfo: branchInfo,
     menuVersion: MenuVersion.v1,
     id: data.id.orZero(),
+    sectionID: sectionID,
+    sectionName: sectionName,
+    categoryID: categoryID,
+    categoryName: categoryName,
     defaultItemId: data.defaultItemId.orZero(),
     title: data.title.orEmpty(),
     prices: data.prices?.map((e) => _mmV1PriceToMenuItemPrice(e)).toList() ?? [],
     vat: data.vat.orZero(),
+    skuID: EMPTY,
     description: data.description.orEmpty(),
     image: data.image.orEmpty(),
     enabled: data.enabled.orFalse(),

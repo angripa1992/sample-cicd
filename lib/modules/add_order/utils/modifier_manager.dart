@@ -66,19 +66,16 @@ class ModifierManager {
     }
   }
 
-  Future<num> calculateModifiersPrice(
-      List<MenuItemModifierGroup> groups) async {
+  Future<num> calculateModifiersPrice(List<MenuItemModifierGroup> groups) async {
     num price = 0;
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          price += (modifierLevelOne.klikitPrice().price *
-              modifierLevelOne.quantity);
+          price += (modifierLevelOne.klikitPrice().price * modifierLevelOne.quantity);
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                price += (modifierLevelTwo.klikitPrice().price *
-                    modifierLevelTwo.quantity);
+                price += (modifierLevelTwo.klikitPrice().price * modifierLevelTwo.quantity);
               }
             }
           }
@@ -88,19 +85,16 @@ class ModifierManager {
     return price;
   }
 
-  Future<String> allCsvModifiersName(
-      List<MenuItemModifierGroup> groups) async {
+  Future<String> allCsvModifiersName(List<MenuItemModifierGroup> groups) async {
     final modifiers = [];
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          modifiers
-              .add('${modifierLevelOne.quantity}x ${modifierLevelOne.title}');
+          modifiers.add('${modifierLevelOne.quantity}x ${modifierLevelOne.title}');
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                modifiers.add(
-                    '${modifierLevelTwo.quantity}x ${modifierLevelTwo.title}');
+                modifiers.add('${modifierLevelTwo.quantity}x ${modifierLevelTwo.title}');
               }
             }
           }
@@ -118,13 +112,11 @@ class ModifierManager {
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          uniqueId =
-              '${uniqueId}_${modifierLevelOne.id}/${modifierLevelOne.quantity}';
+          uniqueId = '${uniqueId}_${modifierLevelOne.id}/${modifierLevelOne.quantity}';
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                uniqueId =
-                    '${uniqueId}_${modifierLevelTwo.id}/${modifierLevelTwo.quantity}';
+                uniqueId = '${uniqueId}_${modifierLevelTwo.id}/${modifierLevelTwo.quantity}';
               }
             }
           }
@@ -149,36 +141,29 @@ class ModifierManager {
     }
   }
 
-  Future<List<BillingItemModifierGroupRequestModel>> billingItemModifiers(
-      List<MenuItemModifierGroup> groups) async {
+  Future<List<BillingItemModifierGroupRequestModel>> billingItemModifiers(List<MenuItemModifierGroup> groups) async {
     final billingModifiersGroupsL1 = <BillingItemModifierGroupRequestModel>[];
     for (var groupLevelOne in groups) {
       final billingModifiersL1 = <BillingItemModifierRequestModel>[];
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          final billingModifiersGroupsL2 =
-              <BillingItemModifierGroupRequestModel>[];
+          final billingModifiersGroupsL2 = <BillingItemModifierGroupRequestModel>[];
           for (var groupLevelTwo in modifierLevelOne.groups) {
             final billingModifiersL2 = <BillingItemModifierRequestModel>[];
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                billingModifiersL2.add(OrderEntityProvider()
-                    .cartToBillingModifier(modifierLevelTwo, []));
+                billingModifiersL2.add(OrderEntityProvider().cartToBillingModifier(modifierLevelTwo, []));
               }
             }
             if (billingModifiersL2.isNotEmpty) {
-              billingModifiersGroupsL2.add(OrderEntityProvider()
-                  .cartToBillingModifierGroup(
-                      groupLevelTwo, billingModifiersL2));
+              billingModifiersGroupsL2.add(OrderEntityProvider().cartToBillingModifierGroup(groupLevelTwo, billingModifiersL2));
             }
           }
-          billingModifiersL1.add(OrderEntityProvider().cartToBillingModifier(
-              modifierLevelOne, billingModifiersGroupsL2));
+          billingModifiersL1.add(OrderEntityProvider().cartToBillingModifier(modifierLevelOne, billingModifiersGroupsL2));
         }
       }
       if (billingModifiersL1.isNotEmpty) {
-        billingModifiersGroupsL1.add(OrderEntityProvider()
-            .cartToBillingModifierGroup(groupLevelOne, billingModifiersL1));
+        billingModifiersGroupsL1.add(OrderEntityProvider().cartToBillingModifierGroup(groupLevelOne, billingModifiersL1));
       }
     }
     return billingModifiersGroupsL1;
