@@ -27,8 +27,8 @@ class FcmTokenManager {
     final String os = await _deviceInformationProvider.getOsVersion();
     final String model = await _deviceInformationProvider.getDeviceModel();
     final branchID = SessionManager().branchId();
-    final deviceInfo = '$platform/0s-$os/model-$model';
-    final uuid = md5.convert(utf8.encode('$userID/$branchID/$deviceInfo/$fcmToken')).toString();
+    final deviceInfo = '$platform/$model';
+    final uuid = md5.convert(utf8.encode('$userID/$deviceInfo/$fcmToken')).toString();
 
     final Map<String, dynamic> params = {};
     params['user_id'] = userID;
