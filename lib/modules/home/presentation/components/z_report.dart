@@ -76,8 +76,8 @@ class _ZReportViewState extends State<ZReportView> {
                       isLoading: state is Loading,
                       text: AppStrings.generate.tr(),
                       enabled: true,
-                      borderColor: AppColors.primaryLight,
-                      color: AppColors.primaryLight,
+                      borderColor: AppColors.primary,
+                      color: AppColors.primary,
                       icon: Icons.print,
                       textColor: AppColors.white,
                       onTap: () {
