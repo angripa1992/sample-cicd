@@ -48,7 +48,7 @@ class OrderTagsView extends StatelessWidget {
       case OrderType.PICKUP:
         return {
           _type: AppStrings.pickup.tr(),
-          _typeColor: 0xFF468E4,
+          _typeColor: 0xFF0468E4,
         };
       case OrderType.DELIVERY:
         return {
