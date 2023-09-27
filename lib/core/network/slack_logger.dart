@@ -33,7 +33,7 @@ class SlackLoggerResolver {
       'Url: ${error.requestOptions.baseUrl}${error.requestOptions.path}',
       'Status Code: ${error.response?.statusCode?.toString()}',
       'Response: ${error.response?.toString()}',
-      'Params: ${json.encode(error.requestOptions.queryParameters)}',
+      'Params: ${error.requestOptions.queryParameters}',
       "********** BUSINESS **********",
       "Branch: ${SessionManager().branchName()} (${SessionManager().branchId()})",
       "Brand: ${SessionManager().brandIDs().join(', ')}",
