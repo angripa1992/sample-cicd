@@ -89,8 +89,7 @@ class OrderItemView extends StatelessWidget {
                                 text: _id(),
                               ),
                             ).then((value) {
-                              showSuccessSnackBar(
-                                  context, AppStrings.order_id_copied.tr());
+                              showSuccessSnackBar(context, AppStrings.order_id_copied.tr());
                             });
                           },
                           child: Icon(
@@ -120,8 +119,7 @@ class OrderItemView extends StatelessWidget {
                     if (order.isThreePlOrder && order.fulfillmentStatusId > 0)
                       Padding(
                         padding: EdgeInsets.only(top: AppSize.s6.rh),
-                        child: ThreePlStatus(
-                            threePlStatus: order.fulfillmentStatusId),
+                        child: ThreePlStatus(threePlStatus: order.fulfillmentStatusId),
                       ),
                   ],
                 ),
@@ -176,9 +174,7 @@ class OrderItemView extends StatelessWidget {
   }
 
   Widget _getActionButton() {
-    if (order.status == OrderStatus.CANCELLED ||
-        order.status == OrderStatus.DELIVERED ||
-        order.status == OrderStatus.PICKED_UP) {
+    if (order.status == OrderStatus.CANCELLED || order.status == OrderStatus.DELIVERED || order.status == OrderStatus.PICKED_UP) {
       return SizedBox(
         width: AppSize.s42.rw,
         child: PrintButton(

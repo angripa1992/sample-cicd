@@ -13,6 +13,350 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
+
+Widget getActionButtons({
+  required Order order,
+  required Function(String, int) onAction,
+  required Function(String) onCancel,
+  required VoidCallback onPrint,
+  required VoidCallback onEditGrabOrder,
+  required VoidCallback onEditManualOrder,
+  required VoidCallback onRiderFind,
+}) {
+  if (order.providerId == ProviderID.WOLT) {
+    return getWoltOrderActionButtons(
+      order: order,
+      onAction: onAction,
+      onCancel: onCancel,
+      onPrint: onPrint,
+    );
+  }
+  final orderStatus = order.status;
+  final provider = order.providerId;
+  final orderType = order.type;
+  final canUpdateGrabOrder = (provider == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
+  final canUpdateManualOrder = (provider == ProviderID.KLIKIT) && order.isManualOrder && (orderStatus == OrderStatus.ACCEPTED || orderStatus == OrderStatus.PLACED);
+  if (orderStatus == OrderStatus.PLACED) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        AcceptButton(
+          expanded: false,
+          onAccept: () {
+            onAction(
+              '${AppStrings.accept_order.tr()} #${order.id}',
+              OrderStatus.ACCEPTED,
+            );
+          },
+          enabled: !order.isInterceptorOrder,
+        ),
+        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+        CanceledButton(
+          expanded: false,
+          onCanceled: () {
+            onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
+          },
+          enabled: !order.isInterceptorOrder,
+        ),
+        if (canUpdateGrabOrder || canUpdateManualOrder)
+          Padding(
+            padding: EdgeInsets.only(
+              left: ScreenSizes.isTablet ? AppSize.s8.rw : 0,
+            ),
+            child: EditButton(
+              onEdit: () {
+                if (canUpdateManualOrder) {
+                  onEditManualOrder();
+                } else {
+                  onEditGrabOrder();
+                }
+              },
+            ),
+          ),
+      ],
+    );
+  }
+  if (orderStatus == OrderStatus.PICKED_UP && provider == ProviderID.GRAB_FOOD && orderType != OrderType.PICKUP) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        PrintButton(
+          onPrint: onPrint,
+          padding: AppSize.s16,
+          expanded: false,
+        ),
+        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+        DeliverButton(
+          expanded: false,
+          onDeliver: () {
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
+          },
+          enabled: !order.isInterceptorOrder,
+        ),
+      ],
+    );
+  }
+  if (orderStatus == OrderStatus.ACCEPTED || (orderStatus == OrderStatus.PICKED_UP && provider != ProviderID.FOOD_PANDA && orderType != OrderType.PICKUP)) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        PrintButton(
+          onPrint: onPrint,
+          padding: AppSize.s16,
+          expanded: false,
+        ),
+        if (order.isThreePlOrder && order.canFindFulfillmentRider)
+          FindRiderButton(
+            onFound: onRiderFind,
+          ),
+        if (canUpdateGrabOrder || canUpdateManualOrder)
+          Padding(
+            padding: EdgeInsets.only(
+              left: ScreenSizes.isTablet ? AppSize.s8.rw : 0,
+            ),
+            child: EditButton(
+              onEdit: () {
+                if (canUpdateManualOrder) {
+                  onEditManualOrder();
+                } else {
+                  onEditGrabOrder();
+                }
+              },
+            ),
+          ),
+        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+        ReadyButton(
+          expanded: false,
+          onReady: () {
+            onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
+          },
+          enabled: !order.isInterceptorOrder,
+        ),
+      ],
+    );
+  }
+  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) && orderType == OrderType.PICKUP) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        PrintButton(
+          onPrint: onPrint,
+          padding: AppSize.s16,
+          expanded: false,
+        ),
+        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+        PickedUpButton(
+          expanded: false,
+          onPickedUp: () {
+            onAction('${AppStrings.pickup_order.tr()} #${order.id}', OrderStatus.PICKED_UP);
+          },
+          enabled: !order.isInterceptorOrder,
+        ),
+        if (canUpdateGrabOrder) EditButton(onEdit: onEditGrabOrder),
+      ],
+    );
+  }
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      PrintButton(
+        onPrint: onPrint,
+        padding: AppSize.s16,
+        expanded: false,
+      ),
+      if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
+      if (order.isThreePlOrder && order.canFindFulfillmentRider)
+        FindRiderButton(
+          onFound: onRiderFind,
+        ),
+      if (order.isThreePlOrder && order.canMarkCancel)
+        CanceledButton(
+          onCanceled: () {
+            onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
+          },
+          enabled: true,
+          expanded: false,
+        ),
+      if (!order.isThreePlOrder)
+        DeliverButton(
+          expanded: false,
+          onDeliver: () {
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
+          },
+          enabled: !order.isInterceptorOrder,
+        ),
+    ],
+  );
+}
+
+Widget getExpandActionButtons({
+  required Order order,
+  required Function(String, int) onAction,
+  required Function(String) onCancel,
+  required VoidCallback onPrint,
+}) {
+  if (order.providerId == ProviderID.WOLT) {
+    return getExpandedWoltOrderActionButtons(
+      order: order,
+      onPrint: onPrint,
+      onCancel: onCancel,
+      onAction: onAction,
+    );
+  }
+  final orderStatus = order.status;
+  final provider = order.providerId;
+  final orderType = order.type;
+  if (orderStatus == OrderStatus.SCHEDULED) {
+    return PrintButton(
+      expanded: true,
+      onPrint: onPrint,
+      padding: AppSize.s16,
+    );
+  }
+  if (orderStatus == OrderStatus.PLACED) {
+    return Row(
+      children: [
+        Expanded(
+          child: AcceptButton(
+            expanded: true,
+            onAccept: () {
+              onAction(
+                '${AppStrings.accept_order.tr()} #${order.id}',
+                OrderStatus.ACCEPTED,
+              );
+            },
+            enabled: !order.isInterceptorOrder,
+          ),
+        ),
+        SizedBox(width: AppSize.s8.rw),
+        Expanded(
+          child: CanceledButton(
+            expanded: true,
+            onCanceled: () {
+              onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
+            },
+            enabled: !order.isInterceptorOrder,
+          ),
+        ),
+      ],
+    );
+  }
+  if (orderStatus == OrderStatus.PICKED_UP && provider == ProviderID.GRAB_FOOD && orderType != OrderType.PICKUP) {
+    return Row(
+      children: [
+        Expanded(
+          child: PrintButton(
+            expanded: true,
+            onPrint: onPrint,
+            padding: AppSize.s16,
+          ),
+        ),
+        SizedBox(width: AppSize.s8.rw),
+        Expanded(
+          child: DeliverButton(
+            expanded: true,
+            onDeliver: () {
+              onAction(
+                '${AppStrings.deliver_order.tr()} #${order.id}',
+                OrderStatus.DELIVERED,
+              );
+            },
+            enabled: !order.isInterceptorOrder,
+          ),
+        ),
+      ],
+    );
+  }
+  if (orderStatus == OrderStatus.ACCEPTED || (orderStatus == OrderStatus.PICKED_UP && provider != ProviderID.FOOD_PANDA && orderType != OrderType.PICKUP)) {
+    return Row(
+      children: [
+        Expanded(
+          child: PrintButton(
+            expanded: true,
+            onPrint: onPrint,
+            padding: AppSize.s16,
+          ),
+        ),
+        SizedBox(width: AppSize.s8.rw),
+        Expanded(
+          child: ReadyButton(
+            expanded: true,
+            onReady: () {
+              onAction(
+                '${AppStrings.ready_order.tr()} #${order.id}',
+                OrderStatus.READY,
+              );
+            },
+            enabled: !order.isInterceptorOrder,
+          ),
+        ),
+      ],
+    );
+  }
+  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) && orderType == OrderType.PICKUP) {
+    return Row(
+      children: [
+        Expanded(
+          child: PrintButton(
+            expanded: true,
+            onPrint: onPrint,
+            padding: AppSize.s16,
+          ),
+        ),
+        SizedBox(width: AppSize.s8.rw),
+        Expanded(
+          child: PickedUpButton(
+            expanded: true,
+            onPickedUp: () {
+              onAction(
+                '${AppStrings.pickup_order.tr()} #${order.id}',
+                OrderStatus.PICKED_UP,
+              );
+            },
+            enabled: !order.isInterceptorOrder,
+          ),
+        ),
+      ],
+    );
+  }
+  return Row(
+    children: [
+      Expanded(
+        child: PrintButton(
+          expanded: true,
+          onPrint: onPrint,
+          padding: AppSize.s16,
+        ),
+      ),
+      SizedBox(width: AppSize.s8.rw),
+      if (order.isThreePlOrder && order.canMarkCancel)
+        Expanded(
+          child: CanceledButton(
+            onCanceled: () {
+              onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
+            },
+            enabled: true,
+            expanded: false,
+          ),
+        ),
+      if (!order.isThreePlOrder)
+        Expanded(
+          child: DeliverButton(
+            expanded: true,
+            onDeliver: () {
+              onAction(
+                '${AppStrings.deliver_order.tr()} #${order.id}',
+                OrderStatus.DELIVERED,
+              );
+            },
+            enabled: !order.isInterceptorOrder,
+          ),
+        ),
+    ],
+  );
+}
+
+
 class PrintButton extends StatelessWidget {
   final VoidCallback onPrint;
   final double padding;
@@ -365,346 +709,4 @@ class FindRiderButton extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget getActionButtons({
-  required Order order,
-  required Function(String, int) onAction,
-  required Function(String) onCancel,
-  required VoidCallback onPrint,
-  required VoidCallback onEditGrabOrder,
-  required VoidCallback onEditManualOrder,
-  required VoidCallback onRiderFind,
-}) {
-  if (order.providerId == ProviderID.WOLT) {
-    return getWoltOrderActionButtons(
-      order: order,
-      onAction: onAction,
-      onCancel: onCancel,
-      onPrint: onPrint,
-    );
-  }
-  final orderStatus = order.status;
-  final provider = order.providerId;
-  final orderType = order.type;
-  final canUpdateGrabOrder = (provider == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
-  final canUpdateManualOrder = (provider == ProviderID.KLIKIT) && order.isManualOrder && (orderStatus == OrderStatus.ACCEPTED || orderStatus == OrderStatus.PLACED);
-  if (orderStatus == OrderStatus.PLACED) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        AcceptButton(
-          expanded: false,
-          onAccept: () {
-            onAction(
-              '${AppStrings.accept_order.tr()} #${order.id}',
-              OrderStatus.ACCEPTED,
-            );
-          },
-          enabled: !order.isInterceptorOrder,
-        ),
-        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
-        CanceledButton(
-          expanded: false,
-          onCanceled: () {
-            onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
-          },
-          enabled: !order.isInterceptorOrder,
-        ),
-        if (canUpdateGrabOrder || canUpdateManualOrder)
-          Padding(
-            padding: EdgeInsets.only(
-              left: ScreenSizes.isTablet ? AppSize.s8.rw : 0,
-            ),
-            child: EditButton(
-              onEdit: () {
-                if (canUpdateManualOrder) {
-                  onEditManualOrder();
-                } else {
-                  onEditGrabOrder();
-                }
-              },
-            ),
-          ),
-      ],
-    );
-  }
-  if (orderStatus == OrderStatus.PICKED_UP && provider == ProviderID.GRAB_FOOD && orderType != OrderType.PICKUP) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        PrintButton(
-          onPrint: onPrint,
-          padding: AppSize.s16,
-          expanded: false,
-        ),
-        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
-        DeliverButton(
-          expanded: false,
-          onDeliver: () {
-            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
-          },
-          enabled: !order.isInterceptorOrder,
-        ),
-      ],
-    );
-  }
-  if (orderStatus == OrderStatus.ACCEPTED || (orderStatus == OrderStatus.PICKED_UP && provider != ProviderID.FOOD_PANDA && orderType != OrderType.PICKUP)) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        PrintButton(
-          onPrint: onPrint,
-          padding: AppSize.s16,
-          expanded: false,
-        ),
-        if (order.isThreePlOrder && order.canFindFulfillmentRider)
-          FindRiderButton(
-            onFound: onRiderFind,
-          ),
-        if (canUpdateGrabOrder || canUpdateManualOrder)
-          Padding(
-            padding: EdgeInsets.only(
-              left: ScreenSizes.isTablet ? AppSize.s8.rw : 0,
-            ),
-            child: EditButton(
-              onEdit: () {
-                if (canUpdateManualOrder) {
-                  onEditManualOrder();
-                } else {
-                  onEditGrabOrder();
-                }
-              },
-            ),
-          ),
-        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
-        ReadyButton(
-          expanded: false,
-          onReady: () {
-            onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
-          },
-          enabled: !order.isInterceptorOrder,
-        ),
-      ],
-    );
-  }
-  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) && orderType == OrderType.PICKUP) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        PrintButton(
-          onPrint: onPrint,
-          padding: AppSize.s16,
-          expanded: false,
-        ),
-        if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
-        PickedUpButton(
-          expanded: false,
-          onPickedUp: () {
-            onAction('${AppStrings.pickup_order.tr()} #${order.id}', OrderStatus.PICKED_UP);
-          },
-          enabled: !order.isInterceptorOrder,
-        ),
-        if (canUpdateGrabOrder) EditButton(onEdit: onEditGrabOrder),
-      ],
-    );
-  }
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.end,
-    children: [
-      PrintButton(
-        onPrint: onPrint,
-        padding: AppSize.s16,
-        expanded: false,
-      ),
-      if (ScreenSizes.isTablet) SizedBox(width: AppSize.s8.rw),
-      if (order.isThreePlOrder && order.canFindFulfillmentRider)
-        FindRiderButton(
-          onFound: onRiderFind,
-        ),
-      if (order.isThreePlOrder && order.canMarkCancel)
-        CanceledButton(
-          onCanceled: () {
-            onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
-          },
-          enabled: true,
-          expanded: false,
-        ),
-      if (!order.isThreePlOrder)
-        DeliverButton(
-          expanded: false,
-          onDeliver: () {
-            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
-          },
-          enabled: !order.isInterceptorOrder,
-        ),
-    ],
-  );
-}
-
-Widget getExpandActionButtons({
-  required Order order,
-  required Function(String, int) onAction,
-  required Function(String) onCancel,
-  required VoidCallback onPrint,
-}) {
-  if (order.providerId == ProviderID.WOLT) {
-    return getExpandedWoltOrderActionButtons(
-      order: order,
-      onPrint: onPrint,
-      onCancel: onCancel,
-      onAction: onAction,
-    );
-  }
-  final orderStatus = order.status;
-  final provider = order.providerId;
-  final orderType = order.type;
-  if (orderStatus == OrderStatus.SCHEDULED) {
-    return PrintButton(
-      expanded: true,
-      onPrint: onPrint,
-      padding: AppSize.s16,
-    );
-  }
-  if (orderStatus == OrderStatus.PLACED) {
-    return Row(
-      children: [
-        Expanded(
-          child: AcceptButton(
-            expanded: true,
-            onAccept: () {
-              onAction(
-                '${AppStrings.accept_order.tr()} #${order.id}',
-                OrderStatus.ACCEPTED,
-              );
-            },
-            enabled: !order.isInterceptorOrder,
-          ),
-        ),
-        SizedBox(width: AppSize.s8.rw),
-        Expanded(
-          child: CanceledButton(
-            expanded: true,
-            onCanceled: () {
-              onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
-            },
-            enabled: !order.isInterceptorOrder,
-          ),
-        ),
-      ],
-    );
-  }
-  if (orderStatus == OrderStatus.PICKED_UP && provider == ProviderID.GRAB_FOOD && orderType != OrderType.PICKUP) {
-    return Row(
-      children: [
-        Expanded(
-          child: PrintButton(
-            expanded: true,
-            onPrint: onPrint,
-            padding: AppSize.s16,
-          ),
-        ),
-        SizedBox(width: AppSize.s8.rw),
-        Expanded(
-          child: DeliverButton(
-            expanded: true,
-            onDeliver: () {
-              onAction(
-                '${AppStrings.deliver_order.tr()} #${order.id}',
-                OrderStatus.DELIVERED,
-              );
-            },
-            enabled: !order.isInterceptorOrder,
-          ),
-        ),
-      ],
-    );
-  }
-  if (orderStatus == OrderStatus.ACCEPTED || (orderStatus == OrderStatus.PICKED_UP && provider != ProviderID.FOOD_PANDA && orderType != OrderType.PICKUP)) {
-    return Row(
-      children: [
-        Expanded(
-          child: PrintButton(
-            expanded: true,
-            onPrint: onPrint,
-            padding: AppSize.s16,
-          ),
-        ),
-        SizedBox(width: AppSize.s8.rw),
-        Expanded(
-          child: ReadyButton(
-            expanded: true,
-            onReady: () {
-              onAction(
-                '${AppStrings.ready_order.tr()} #${order.id}',
-                OrderStatus.READY,
-              );
-            },
-            enabled: !order.isInterceptorOrder,
-          ),
-        ),
-      ],
-    );
-  }
-  if (orderStatus == OrderStatus.READY && (provider == ProviderID.FOOD_PANDA || provider == ProviderID.GRAB_FOOD) && orderType == OrderType.PICKUP) {
-    return Row(
-      children: [
-        Expanded(
-          child: PrintButton(
-            expanded: true,
-            onPrint: onPrint,
-            padding: AppSize.s16,
-          ),
-        ),
-        SizedBox(width: AppSize.s8.rw),
-        Expanded(
-          child: PickedUpButton(
-            expanded: true,
-            onPickedUp: () {
-              onAction(
-                '${AppStrings.pickup_order.tr()} #${order.id}',
-                OrderStatus.PICKED_UP,
-              );
-            },
-            enabled: !order.isInterceptorOrder,
-          ),
-        ),
-      ],
-    );
-  }
-  return Row(
-    children: [
-      Expanded(
-        child: PrintButton(
-          expanded: true,
-          onPrint: onPrint,
-          padding: AppSize.s16,
-        ),
-      ),
-      SizedBox(width: AppSize.s8.rw),
-      if (order.isThreePlOrder && order.canMarkCancel)
-        Expanded(
-          child: CanceledButton(
-            onCanceled: () {
-              onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
-            },
-            enabled: true,
-            expanded: false,
-          ),
-        ),
-      if (!order.isThreePlOrder)
-        Expanded(
-          child: DeliverButton(
-            expanded: true,
-            onDeliver: () {
-              onAction(
-                '${AppStrings.deliver_order.tr()} #${order.id}',
-                OrderStatus.DELIVERED,
-              );
-            },
-            enabled: !order.isInterceptorOrder,
-          ),
-        ),
-    ],
-  );
 }

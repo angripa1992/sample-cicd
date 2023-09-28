@@ -34,8 +34,7 @@ class OngoingOrderScreen extends StatefulWidget {
   State<OngoingOrderScreen> createState() => _OngoingOrderScreenState();
 }
 
-class _OngoingOrderScreenState extends State<OngoingOrderScreen>
-    with FilterObserver {
+class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
   final _printingHandler = getIt.get<PrintingHandler>();
@@ -133,9 +132,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
     bool willCancel = false,
     bool isFromDetails = false,
   }) {
-    if (status == OrderStatus.DELIVERED &&
-        (order.paymentStatus == PaymentStatusId.pending ||
-            order.paymentStatus == PaymentStatusId.failed)) {
+    if (status == OrderStatus.DELIVERED && (order.paymentStatus == PaymentStatusId.pending || order.paymentStatus == PaymentStatusId.failed)) {
       showAddPaymentStatusMethodDialog(
         title: AppStrings.select_payment_method_and_status.tr(),
         context: context,
@@ -265,10 +262,8 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen>
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
         newPageProgressIndicatorBuilder: getNewPageProgressIndicator,
         noItemsFoundIndicatorBuilder: noItemsFoundIndicator,
-        newPageErrorIndicatorBuilder: (_) =>
-            getPageErrorIndicator(() => _refresh()),
-        firstPageErrorIndicatorBuilder: (_) =>
-            getPageErrorIndicator(() => _refresh()),
+        newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
+        firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
       ),
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
