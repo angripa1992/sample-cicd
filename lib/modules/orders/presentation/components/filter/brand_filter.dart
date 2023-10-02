@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/domain/entities/brand.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/orders/presentation/components/filter/select_all_view.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -12,7 +12,7 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/di.dart';
 import '../../../../widgets/app_button.dart';
-import '../../../provider/order_information_provider.dart';
+import '../../../../common/business_information_provider.dart';
 import '../../filter_subject.dart';
 import 'brand_filter_item.dart';
 
@@ -27,7 +27,7 @@ class BrandFilter extends StatefulWidget {
 
 class _BrandFilterState extends State<BrandFilter> {
   final _controller = ExpandedTileController(isExpanded: false);
-  final _orderInfoProvider = getIt.get<OrderInformationProvider>();
+  final _orderInfoProvider = getIt.get<BusinessInformationProvider>();
   final List<Brand> _brands = [];
   final List<Brand> _applyingBrands = [];
   String _title = AppStrings.brand.tr();

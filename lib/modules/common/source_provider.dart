@@ -1,10 +1,10 @@
 import 'package:klikit/app/extensions.dart';
 
-import '../domain/entities/source.dart';
-import '../domain/repository/order_info_provider_repo.dart';
+import 'data/business_info_provider_repo.dart';
+import 'entities/source.dart';
 
 class SourceProvider {
-  final OrderInfoProviderRepo _orderRepository;
+  final BusinessInfoProviderRepo _orderRepository;
   List<Source> _sources = [];
 
   SourceProvider(this._orderRepository);

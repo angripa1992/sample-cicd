@@ -1,4 +1,4 @@
-import '../../data/models/brand_model.dart';
+import '../model/brand_model.dart';
 
 class Brands {
   final List<Brand> brands;

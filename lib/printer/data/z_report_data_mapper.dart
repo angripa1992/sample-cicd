@@ -5,7 +5,7 @@ import 'package:klikit/core/utils/price_calculator.dart';
 import '../../app/constants.dart';
 import '../../app/di.dart';
 import '../../modules/home/data/model/z_report_data_model.dart';
-import '../../modules/orders/provider/order_information_provider.dart';
+import '../../modules/common/business_information_provider.dart';
 
 class ZReportCurrency {
   final String code;
@@ -126,7 +126,7 @@ class ZReportDataProvider {
         }
       } else {
         final provider = await getIt
-            .get<OrderInformationProvider>()
+            .get<BusinessInformationProvider>()
             .findProviderById(providerSummary.providerId!);
         providerSummaries.add(
           TemplateSummaryItem(

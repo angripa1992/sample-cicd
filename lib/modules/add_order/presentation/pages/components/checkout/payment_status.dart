@@ -9,8 +9,8 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../orders/domain/entities/payment_info.dart';
-import '../../../../../orders/provider/order_information_provider.dart';
+import '../../../../../common/entities/payment_info.dart';
+import '../../../../../common/business_information_provider.dart';
 import '../cart/tag_title.dart';
 
 class PaymentStatusView extends StatefulWidget {
@@ -18,12 +18,7 @@ class PaymentStatusView extends StatefulWidget {
   final int? initStatus;
   final bool willShowReqTag;
 
-  const PaymentStatusView(
-      {Key? key,
-      required this.onChanged,
-      this.initStatus,
-      this.willShowReqTag = true})
-      : super(key: key);
+  const PaymentStatusView({Key? key, required this.onChanged, this.initStatus, this.willShowReqTag = true}) : super(key: key);
 
   @override
   State<PaymentStatusView> createState() => _PaymentStatusViewState();
@@ -54,7 +49,7 @@ class _PaymentStatusViewState extends State<PaymentStatusView> {
             willShowReqTag: widget.willShowReqTag,
           ),
           FutureBuilder<List<PaymentStatus>>(
-            future: getIt.get<OrderInformationProvider>().fetchPaymentStatues(),
+            future: getIt.get<BusinessInformationProvider>().fetchPaymentStatues(),
             builder: (_, snap) {
               if (snap.hasData) {
                 return PaymentStatusDropdown(
@@ -77,12 +72,7 @@ class PaymentStatusDropdown extends StatefulWidget {
   final Function(int) onChanged;
   final int? initStatus;
 
-  const PaymentStatusDropdown(
-      {Key? key,
-      required this.statues,
-      required this.onChanged,
-      this.initStatus})
-      : super(key: key);
+  const PaymentStatusDropdown({Key? key, required this.statues, required this.onChanged, this.initStatus}) : super(key: key);
 
   @override
   State<PaymentStatusDropdown> createState() => _PaymentStatusDropdownState();
@@ -97,8 +87,7 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
 
   @override
   void initState() {
-    _paymentStatus = widget.statues.firstWhere((element) =>
-        element.id == (widget.initStatus ?? PaymentStatusId.pending));
+    _paymentStatus = widget.statues.firstWhere((element) => element.id == (widget.initStatus ?? PaymentStatusId.pending));
     super.initState();
   }
 
@@ -122,27 +111,22 @@ class _PaymentStatusDropdownState extends State<PaymentStatusDropdown> {
             style: _textStyle,
           ),
         ),
-        items: widget.statues
-            .map<DropdownMenuItem<PaymentStatus>>((PaymentStatus value) {
+        items: widget.statues.map<DropdownMenuItem<PaymentStatus>>((PaymentStatus value) {
           return DropdownMenuItem<PaymentStatus>(
               value: value,
               child: ListTile(
-                tileColor:
-                    (_paymentStatus != null && _paymentStatus!.id == value.id)
-                        ? AppColors.greyLighter
-                        : AppColors.white,
+                tileColor: (_paymentStatus != null && _paymentStatus!.id == value.id) ? AppColors.greyLighter : AppColors.white,
                 title: Text(
                   value.title,
                   style: _textStyle,
                 ),
-                trailing:
-                    (_paymentStatus != null && _paymentStatus!.id == value.id)
-                        ? Icon(
-                            Icons.check,
-                            size: AppSize.s18.rSp,
-                            color: AppColors.primary,
-                          )
-                        : const SizedBox(),
+                trailing: (_paymentStatus != null && _paymentStatus!.id == value.id)
+                    ? Icon(
+                        Icons.check,
+                        size: AppSize.s18.rSp,
+                        color: AppColors.primary,
+                      )
+                    : const SizedBox(),
               ));
         }).toList(),
         selectedItemBuilder: (BuildContext context) {

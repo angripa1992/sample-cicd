@@ -2,20 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../common/entities/provider.dart';
+
 class FilterByAggregatorView extends StatefulWidget {
   final List<Provider> providers;
   final Function(Provider?) onChanged;
 
-  const FilterByAggregatorView(
-      {Key? key, required this.providers, required this.onChanged})
-      : super(key: key);
+  const FilterByAggregatorView({Key? key, required this.providers, required this.onChanged}) : super(key: key);
 
   @override
   State<FilterByAggregatorView> createState() => _FilterByAggregatorViewState();

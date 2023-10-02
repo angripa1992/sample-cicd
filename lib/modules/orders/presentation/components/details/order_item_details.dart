@@ -15,7 +15,7 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../app/app_preferences.dart';
 import '../../../../../printer/printing_handler.dart';
 import '../../../../widgets/image_view.dart';
-import '../../../domain/entities/brand.dart';
+import '../../../../common/entities/brand.dart';
 
 class OrderItemDetails extends StatelessWidget {
   final _printerSetting = getIt.get<AppPreferences>().printerSetting();

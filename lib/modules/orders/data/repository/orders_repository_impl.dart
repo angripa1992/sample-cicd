@@ -9,17 +9,17 @@ import 'package:klikit/modules/orders/data/models/order_status_model.dart';
 import 'package:klikit/modules/orders/domain/entities/cancellation_reason.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
-import 'package:klikit/modules/orders/domain/entities/source.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/edit_order/grab_order_update_request_model.dart';
 
-import '../../provider/order_information_provider.dart';
+import '../../../common/entities/source.dart';
+import '../../../common/business_information_provider.dart';
 import '../models/orders_model.dart';
 
 class OrderRepositoryImpl extends OrderRepository {
   final OrderRemoteDatasource _datasource;
   final NetworkConnectivity _connectivity;
-  final OrderInformationProvider _orderInformationProvider;
+  final BusinessInformationProvider _orderInformationProvider;
 
   OrderRepositoryImpl(this._datasource, this._connectivity, this._orderInformationProvider);
 

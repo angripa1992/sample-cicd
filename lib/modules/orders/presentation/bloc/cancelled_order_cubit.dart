@@ -7,11 +7,11 @@ import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../app/session_manager.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/usecases/fetch_cancelled_order.dart';
-import '../../provider/order_information_provider.dart';
+import '../../../common/business_information_provider.dart';
 
 class CancelledOrderCubit extends Cubit<ResponseState> {
   final FetchCancelledOrder _fetchCancelledOrder;
-  final OrderInformationProvider _informationProvider;
+  final BusinessInformationProvider _informationProvider;
 
   CancelledOrderCubit(this._fetchCancelledOrder, this._informationProvider)
       : super(Empty());

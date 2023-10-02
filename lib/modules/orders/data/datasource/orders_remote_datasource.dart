@@ -1,33 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
-import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/rest_client.dart';
 import 'package:klikit/core/network/urls.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
-import 'package:klikit/modules/orders/data/models/brand_model.dart';
 import 'package:klikit/modules/orders/data/models/orders_model.dart';
-import 'package:klikit/modules/orders/data/models/provider_model.dart';
 import 'package:klikit/modules/orders/data/models/settings_model.dart';
-import 'package:klikit/modules/orders/data/models/source_model.dart';
-import 'package:klikit/modules/orders/data/request_models/brand_request_model.dart';
 
 import '../../edit_order/grab_order_update_request_model.dart';
 import '../models/cancellation_reason_model.dart';
 import '../models/order_status_model.dart';
-import '../models/payment_info.dart';
 
 abstract class OrderRemoteDatasource {
   Future<List<OrderStatusModel>> fetchOrderStatus();
-
-  Future<BrandModel> fetchBrand(BrandRequestModel requestModel);
-
-  Future<List<ProviderModel>> fetchProvider(Map<String, dynamic> param);
-
-  Future<List<SourcesModel>> fetchSources();
-
-  Future<List<PaymentMethodModel>> fetchPaymentMethods();
-
-  Future<List<PaymentStatusModel>> fetchPaymentStatus();
 
   Future<SettingsModel> fetchSettings(int id);
 
@@ -63,27 +47,6 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
       final List<dynamic> response = await _restClient.request(Urls.status, Method.GET, null);
       final List<OrderStatusModel> result = response.map((e) => OrderStatusModel.fromJson(e)).toList();
       return result;
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<BrandModel> fetchBrand(BrandRequestModel requestModel) async {
-    try {
-      final response = await _restClient.request(Urls.brand, Method.GET, requestModel.toJson());
-      return BrandModel.fromJson(response);
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<ProviderModel>> fetchProvider(Map<String, dynamic> param) async {
-    try {
-      final List<dynamic> response = await _restClient.request(Urls.provider, Method.GET, param);
-      final data = response.map((e) => ProviderModel.fromJson(e)).toList();
-      return data;
     } on DioException {
       rethrow;
     }
@@ -144,45 +107,6 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
     try {
       final response = await _restClient.request('${Urls.order}/$id', Method.GET, null);
       return OrderModel.fromJson(response);
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<SourcesModel>> fetchSources() async {
-    try {
-      final List<dynamic> response = await _restClient.request(Urls.sources, Method.GET, null);
-      final data = response.map((e) => SourcesModel.fromJson(e)).toList();
-      return data;
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<PaymentMethodModel>> fetchPaymentMethods() async {
-    try {
-      final List<dynamic> response = await _restClient.request(
-        Urls.paymentMethod,
-        Method.GET,
-        {
-          'country_id': SessionManager().country(),
-        },
-      );
-      final data = response.map((e) => PaymentMethodModel.fromJson(e)).toList();
-      return data;
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<PaymentStatusModel>> fetchPaymentStatus() async {
-    try {
-      final List<dynamic> response = await _restClient.request(Urls.paymentStatus, Method.GET, null);
-      final data = response.map((e) => PaymentStatusModel.fromJson(e)).toList();
-      return data;
     } on DioException {
       rethrow;
     }

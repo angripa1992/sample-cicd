@@ -7,7 +7,7 @@ import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/bloc/schedule_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
-import 'package:klikit/modules/orders/provider/order_parameter_provider.dart';
+import 'package:klikit/modules/common/order_parameter_provider.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';

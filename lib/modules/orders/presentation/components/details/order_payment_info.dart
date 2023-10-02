@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/provider/order_information_provider.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../../common/entities/payment_info.dart';
 import '../../../domain/entities/order.dart';
-import '../../../domain/entities/payment_info.dart';
 import '../dialogs/add_payment_method_and_status.dart';
 
 class OrderPaymentInfoView extends StatefulWidget {
@@ -61,7 +61,7 @@ class _OrderPaymentInfoViewState extends State<OrderPaymentInfoView> {
 }
 
 class OrderPaymentMethodView extends StatelessWidget {
-  final _provider = getIt.get<OrderInformationProvider>();
+  final _provider = getIt.get<BusinessInformationProvider>();
   final Order order;
   final Function(int, int, int) onPaymentInfoChanged;
 
@@ -90,7 +90,7 @@ class OrderPaymentMethodView extends StatelessWidget {
 }
 
 class OrderPaymentStatusView extends StatelessWidget {
-  final _provider = getIt.get<OrderInformationProvider>();
+  final _provider = getIt.get<BusinessInformationProvider>();
   final Order order;
   final Function(int, int, int) onPaymentInfoChanged;
 

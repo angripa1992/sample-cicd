@@ -1,11 +1,11 @@
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/promo.dart';
 import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
-import 'package:klikit/modules/orders/domain/entities/source.dart';
 
+import '../../../common/entities/source.dart';
 import '../../data/models/order_applied_promo.dart';
 import '../../data/models/orders_model.dart';
-import 'brand.dart';
+import '../../../common/entities/brand.dart';
 import 'cart.dart';
 import 'delicery_info.dart';
 

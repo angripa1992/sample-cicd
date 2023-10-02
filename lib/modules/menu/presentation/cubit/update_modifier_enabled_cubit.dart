@@ -3,13 +3,13 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../app/session_manager.dart';
-import '../../../orders/provider/order_information_provider.dart';
+import '../../../common/business_information_provider.dart';
 import '../../data/models/modifier_request_model.dart';
 import '../../domain/usecase/update_modifier_enabled.dart';
 
 class UpdateModifierEnabledCubit extends Cubit<ResponseState> {
   final UpdateModifierEnabled _updateModifier;
-  final OrderInformationProvider _informationProvider;
+  final BusinessInformationProvider _informationProvider;
 
   UpdateModifierEnabledCubit(this._updateModifier, this._informationProvider)
       : super(Empty());

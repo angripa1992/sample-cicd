@@ -7,7 +7,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
-import 'package:klikit/modules/orders/provider/order_parameter_provider.dart';
+import 'package:klikit/modules/common/order_parameter_provider.dart';
 import 'package:klikit/printer/printing_handler.dart';
 
 import '../../../../../app/constants.dart';
@@ -20,7 +20,7 @@ import '../../../widgets/snackbars.dart';
 import '../../edit_order/calculate_grab_order_cubit.dart';
 import '../../edit_order/edit_grab_order.dart';
 import '../../edit_order/update_grab_order_cubit.dart';
-import '../../provider/update_manual_order_data_provider.dart';
+import '../../utils/update_manual_order_data_provider.dart';
 import '../bloc/all_order_cubit.dart';
 import '../bloc/new_order_cubit.dart';
 import '../bloc/ongoing_order_cubit.dart';
@@ -355,10 +355,8 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
         newPageProgressIndicatorBuilder: getNewPageProgressIndicator,
         noItemsFoundIndicatorBuilder: noItemsFoundIndicator,
-        newPageErrorIndicatorBuilder: (_) =>
-            getPageErrorIndicator(() => _refresh()),
-        firstPageErrorIndicatorBuilder: (_) =>
-            getPageErrorIndicator(() => _refresh()),
+        newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
+        firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
       ),
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );

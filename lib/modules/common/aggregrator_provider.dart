@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/extensions.dart';
 
-import '../../../app/session_manager.dart';
-import '../domain/entities/provider.dart';
-import '../domain/repository/order_info_provider_repo.dart';
+import '../../app/session_manager.dart';
+import 'data/business_info_provider_repo.dart';
+import 'entities/provider.dart';
 
 class AggregatorProvider {
-  final OrderInfoProviderRepo _orderRepository;
+  final BusinessInfoProviderRepo _orderRepository;
   final _emptyProvider = Provider(ZERO, EMPTY, EMPTY, EMPTY);
   List<Provider> _providers = [];
 

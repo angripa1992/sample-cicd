@@ -7,11 +7,11 @@ import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../app/session_manager.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/usecases/fetch_completed_order.dart';
-import '../../provider/order_information_provider.dart';
+import '../../../common/business_information_provider.dart';
 
 class CompletedOrderCubit extends Cubit<ResponseState> {
   final FetchCompletedOrder _fetchCompletedOrder;
-  final OrderInformationProvider _informationProvider;
+  final BusinessInformationProvider _informationProvider;
 
   CompletedOrderCubit(this._fetchCompletedOrder, this._informationProvider)
       : super(Empty());

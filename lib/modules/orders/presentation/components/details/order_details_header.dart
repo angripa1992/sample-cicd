@@ -14,9 +14,9 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../../../app/extensions.dart';
+import '../../../../common/entities/provider.dart';
 import '../../../../widgets/snackbars.dart';
-import '../../../domain/entities/provider.dart';
-import '../../../provider/order_information_provider.dart';
+import '../../../../common/business_information_provider.dart';
 import '../order_item/three_pl_status.dart';
 import 'comment_action_view.dart';
 import 'order_tags.dart';
@@ -134,7 +134,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: AppSize.s18.rw),
             child: FutureBuilder<Provider>(
-              future: getIt.get<OrderInformationProvider>().findProviderById(order.providerId),
+              future: getIt.get<BusinessInformationProvider>().findProviderById(order.providerId),
               builder: (_, result) {
                 if (result.hasData && result.data != null) {
                   return Container(

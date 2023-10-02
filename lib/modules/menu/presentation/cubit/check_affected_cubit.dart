@@ -7,12 +7,12 @@ import 'package:klikit/modules/menu/domain/entities/modifier/affected_modifier_r
 
 import '../../../../app/session_manager.dart';
 import '../../../../core/network/error_handler.dart';
-import '../../../orders/provider/order_information_provider.dart';
+import '../../../common/business_information_provider.dart';
 import '../../domain/usecase/check_affected.dart';
 
 class CheckAffectedCubit extends Cubit<ResponseState> {
   final CheckAffected _checkAffected;
-  final OrderInformationProvider _informationProvider;
+  final BusinessInformationProvider _informationProvider;
 
   CheckAffectedCubit(this._checkAffected, this._informationProvider)
       : super(Empty());

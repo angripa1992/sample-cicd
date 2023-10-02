@@ -6,7 +6,7 @@ import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../core/route/routes.dart';
 import '../core/route/routes_generator.dart';
-import '../modules/orders/provider/order_information_provider.dart';
+import '../modules/common/business_information_provider.dart';
 import '../modules/user/domain/entities/user.dart';
 
 class SessionManager {
@@ -101,7 +101,7 @@ class SessionManager {
   Future<void> logout() async {
     CartManager().clear();
     await setLoginState(isLoggedIn: false);
-    getIt.get<OrderInformationProvider>().clearData();
+    getIt.get<BusinessInformationProvider>().clearData();
     final context = RoutesGenerator.navigatorKey.currentState?.context;
     if (context == null) return;
     _appPreferences.clearPreferences().then(

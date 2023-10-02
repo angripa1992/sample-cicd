@@ -1,11 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 
-import '../../domain/entities/source.dart';
+import '../entities/source.dart';
 
-part 'source_model.g.dart';
-
-@JsonSerializable()
 class SourcesModel {
   int? id;
   String? name;
@@ -13,8 +9,11 @@ class SourcesModel {
 
   SourcesModel({this.id, this.name, this.sources});
 
-  factory SourcesModel.fromJson(Map<String, dynamic> json) =>
-      _$SourcesModelFromJson(json);
+  factory SourcesModel.fromJson(Map<String, dynamic> json) => SourcesModel(
+        id: json['id'] as int?,
+        name: json['name'] as String?,
+        sources: (json['sources'] as List<dynamic>?)?.map((e) => SourceModel.fromJson(e as Map<String, dynamic>)).toList(),
+      );
 
   Sources toEntity() {
     return Sources(id: id.orZero(), name: name.orEmpty(), sources: _sources());
@@ -31,7 +30,6 @@ class SourcesModel {
   }
 }
 
-@JsonSerializable()
 class SourceModel {
   int? id;
   String? name;
@@ -39,11 +37,13 @@ class SourceModel {
 
   SourceModel({this.id, this.name, this.image});
 
-  factory SourceModel.fromJson(Map<String, dynamic> json) =>
-      _$SourceModelFromJson(json);
+  factory SourceModel.fromJson(Map<String, dynamic> json) => SourceModel(
+        id: json['id'] as int?,
+        name: json['name'] as String?,
+        image: json['image'] as String?,
+      );
 
   Source toEntity() {
-    return Source(
-        id: id.orZero(), name: name.orEmpty(), image: image.orEmpty());
+    return Source(id: id.orZero(), name: name.orEmpty(), image: image.orEmpty());
   }
 }

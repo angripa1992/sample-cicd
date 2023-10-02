@@ -1,4 +1,4 @@
-import 'package:klikit/modules/orders/domain/entities/brand.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/orders/domain/entities/promo.dart';
 
 import '../../data/models/orders_model.dart';

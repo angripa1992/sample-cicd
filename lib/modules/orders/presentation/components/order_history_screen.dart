@@ -5,7 +5,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
-import 'package:klikit/modules/orders/provider/order_parameter_provider.dart';
+import 'package:klikit/modules/common/order_parameter_provider.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';

@@ -8,8 +8,8 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../orders/domain/entities/payment_info.dart';
-import '../../../../../orders/provider/order_information_provider.dart';
+import '../../../../../common/entities/payment_info.dart';
+import '../../../../../common/business_information_provider.dart';
 import '../cart/tag_title.dart';
 
 class PaymentMethodView extends StatefulWidget {
@@ -57,7 +57,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
             willShowReqTag: widget.willShowReqTag,
           ),
           FutureBuilder<List<PaymentMethod>>(
-            future: getIt.get<OrderInformationProvider>().fetchPaymentMethods(),
+            future: getIt.get<BusinessInformationProvider>().fetchPaymentMethods(),
             builder: (_, snap) {
               if (snap.hasData) {
                 return PaymentMethodSelector(

@@ -7,11 +7,11 @@ import 'package:klikit/modules/orders/domain/entities/order.dart';
 
 import '../../../../app/session_manager.dart';
 import '../../domain/usecases/fetch_total_orders.dart';
-import '../../provider/order_information_provider.dart';
+import '../../../common/business_information_provider.dart';
 
 class TotalOrderCubit extends Cubit<ResponseState> {
   final FetchTotalOrders _fetchTotalOrders;
-  final OrderInformationProvider _informationProvider;
+  final BusinessInformationProvider _informationProvider;
 
   TotalOrderCubit(this._fetchTotalOrders, this._informationProvider)
       : super(Empty());

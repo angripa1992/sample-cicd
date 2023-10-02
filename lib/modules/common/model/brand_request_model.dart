@@ -1,8 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'brand_request_model.g.dart';
-
-@JsonSerializable()
 class BrandRequestModel {
   final int filterByBranch;
   final int page;
@@ -14,5 +9,9 @@ class BrandRequestModel {
     this.size = 1000,
   });
 
-  Map<String, dynamic> toJson() => _$BrandRequestModelToJson(this);
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'filterByBranch': filterByBranch,
+        'page': page,
+        'size': size,
+      };
 }

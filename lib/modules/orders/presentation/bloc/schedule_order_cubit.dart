@@ -3,7 +3,7 @@ import 'package:klikit/core/utils/response_state.dart';
 
 import '../../domain/entities/order.dart';
 import '../../domain/repository/orders_repository.dart';
-import '../../provider/order_parameter_provider.dart';
+import '../../../common/order_parameter_provider.dart';
 
 class ScheduleOrderCubit extends Cubit<ResponseState> {
   final OrderRepository _orderRepository;

@@ -2,13 +2,13 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
-import '../../domain/entities/brand.dart';
+import '../../../common/entities/brand.dart';
+import '../../../common/entities/source.dart';
 import '../../domain/entities/delicery_info.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/promo.dart';
 import '../../domain/entities/rider_info.dart';
-import '../../domain/entities/source.dart';
-import 'brand_model.dart';
+import '../../../common/model/brand_model.dart';
 import 'order_applied_promo.dart';
 
 part 'orders_model.g.dart';

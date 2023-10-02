@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/orders/domain/entities/provider.dart';
 import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../common/entities/provider.dart';
 
 class AggregatorItem extends StatefulWidget {
   final Provider provider;
   final Function(bool, Provider) onChange;
 
-  const AggregatorItem(
-      {Key? key, required this.provider, required this.onChange})
-      : super(key: key);
+  const AggregatorItem({Key? key, required this.provider, required this.onChange}) : super(key: key);
 
   @override
   State<AggregatorItem> createState() => _AggregatorItemState();

@@ -8,7 +8,7 @@ import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../modules/orders/domain/entities/brand.dart';
+import '../../modules/common/entities/brand.dart';
 
 class PrinterDataProvider {
   static final _instance = PrinterDataProvider._internal();

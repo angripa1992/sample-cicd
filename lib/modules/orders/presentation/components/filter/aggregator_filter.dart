@@ -4,15 +4,15 @@ import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/presentation/components/filter/select_all_view.dart';
-import 'package:klikit/modules/orders/provider/order_information_provider.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../resources/strings.dart';
+import '../../../../common/entities/provider.dart';
 import '../../../../widgets/app_button.dart';
-import '../../../domain/entities/provider.dart';
 import '../../filter_subject.dart';
 import 'aggregrator_item.dart';
 
@@ -28,7 +28,7 @@ class AggregatorsFilter extends StatefulWidget {
 
 class _AggregatorsFilterState extends State<AggregatorsFilter> {
   final _controller = ExpandedTileController(isExpanded: false);
-  final _orderInfoProvider = getIt.get<OrderInformationProvider>();
+  final _orderInfoProvider = getIt.get<BusinessInformationProvider>();
   final List<Provider> _providers = [];
   final List<Provider> _applyingProvider = [];
   String _title = AppStrings.delivery_aggregator.tr();

@@ -6,11 +6,11 @@ import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dar
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/filter_by_brands_view.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_screen.dart';
-import 'package:klikit/modules/orders/domain/entities/provider.dart';
-import 'package:klikit/modules/orders/provider/order_information_provider.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../app/di.dart';
+import '../../../common/entities/provider.dart';
 import '../../domain/entities/brand.dart';
 import '../cubit/aggregator_selection_cubit.dart';
 import 'filter_by_aggregator_view.dart';
@@ -19,7 +19,7 @@ import 'menu_tabbar_view.dart';
 
 class MenuMgtBody extends StatelessWidget {
   final List<MenuBrand> brands;
-  final _informationProvider = getIt.get<OrderInformationProvider>();
+  final _informationProvider = getIt.get<BusinessInformationProvider>();
 
   MenuMgtBody({Key? key, required this.brands}) : super(key: key);
 
@@ -54,9 +54,7 @@ class MenuMgtBody extends StatelessWidget {
                       child: FilterByAggregatorView(
                         providers: snapshot.data!,
                         onChanged: (provider) {
-                          context
-                              .read<AggregatorSelectionCubit>()
-                              .changeAggregator(provider?.id);
+                          context.read<AggregatorSelectionCubit>().changeAggregator(provider?.id);
                         },
                       ),
                     );

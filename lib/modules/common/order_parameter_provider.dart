@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../../app/constants.dart';
-import '../../../app/session_manager.dart';
-import 'order_information_provider.dart';
+import '../../app/constants.dart';
+import '../../app/session_manager.dart';
+import 'business_information_provider.dart';
 
 class OrderParameterProvider {
-  final OrderInformationProvider _informationProvider;
+  final BusinessInformationProvider _informationProvider;
 
   OrderParameterProvider(this._informationProvider);
 

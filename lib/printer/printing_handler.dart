@@ -12,7 +12,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/modules/home/data/model/z_report_data_model.dart';
-import 'package:klikit/modules/orders/domain/entities/brand.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
 import 'package:klikit/printer/data/printer_data_provider.dart';
@@ -26,12 +26,12 @@ import 'package:klikit/resources/strings.dart';
 import '../core/utils/permission_handler.dart';
 import '../modules/orders/domain/entities/cart.dart';
 import '../modules/orders/domain/entities/order.dart';
-import '../modules/orders/provider/order_information_provider.dart';
+import '../modules/common/business_information_provider.dart';
 import 'data/z_report_data_mapper.dart';
 
 class PrintingHandler {
   final AppPreferences _preferences;
-  final OrderInformationProvider _infoProvider;
+  final BusinessInformationProvider _infoProvider;
 
   PrintingHandler(this._preferences, this._infoProvider);
 

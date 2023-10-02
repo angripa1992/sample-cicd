@@ -1,10 +1,10 @@
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/common/entities/payment_info.dart';
 
-import '../domain/entities/payment_info.dart';
-import '../domain/repository/order_info_provider_repo.dart';
+import 'data/business_info_provider_repo.dart';
 
 class PaymentInfoProvider {
-  final OrderInfoProviderRepo _orderRepository;
+  final BusinessInfoProviderRepo _orderRepository;
   final List<PaymentStatus> _statuses = [];
   final List<PaymentMethod> _methods = [];
 

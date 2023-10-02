@@ -1,6 +1,6 @@
 import 'package:klikit/app/extensions.dart';
 
-import '../../domain/entities/payment_info.dart';
+import '../entities/payment_info.dart';
 
 class PaymentMethodModel {
   int? id;
