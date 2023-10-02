@@ -6,7 +6,7 @@ import '../../../../../app/constants.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/order.dart';
-import 'order_action_buttons.dart';
+import 'order_action_button_components.dart';
 
 Widget getWoltOrderActionButtons({
   required Order order,
@@ -70,7 +70,6 @@ Widget getWoltOrderActionButtons({
     ],
   );
 }
-
 
 Widget getExpandedWoltOrderActionButtons({
   required Order order,

@@ -78,10 +78,16 @@ class PaymentChannelID {
 
 class ProviderID {
   static const int KLIKIT = 1;
+  static const int UBER_EATS = 2;
+  static const int DELIVEROO = 3;
+  static const int DOOR_DASH = 5;
   static const int GRAB_FOOD = 6;
   static const int FOOD_PANDA = 7;
+  static const int GO_FOOD = 9;
   static const int SHOPEE = 11;
+  static const int PICKAROO = 13;
   static const int WOLT = 14;
+  static const int SQUARE = 15;
 }
 
 class OrderStatus {

@@ -133,6 +133,9 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
           ? null
           : DeliveryInfoModel.fromJson(
               json['delivery_info'] as Map<String, dynamic>),
+      providerSubTotal: json['provider_sub_total'] as num?,
+      providerGrandTotal: json['provider_grand_total'] as num?,
+      providerAdditionalFee: json['provider_additional_fee'] as num?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -226,6 +229,9 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'restaurant_service_fee': instance.restaurantServiceFee,
       'promos': instance.promos?.map((e) => e.toJson()).toList(),
       'delivery_info': instance.deliveryInfo?.toJson(),
+      'provider_sub_total': instance.providerSubTotal,
+      'provider_grand_total': instance.providerGrandTotal,
+      'provider_additional_fee': instance.providerAdditionalFee,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

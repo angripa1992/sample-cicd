@@ -50,38 +50,18 @@ class UpdateManualOrderDataProvider {
     _setEditableInfo(order);
   }
 
-  Future<List<AddToCartItem>> _generateCartItem(
-    Order order,
-    List<AppliedPromo> promos,
-  ) async {
+  Future<List<AddToCartItem>> _generateCartItem(Order order, List<AppliedPromo> promos) async {
     try {
       List<AddToCartItem> carts = [];
       for (var cartv2 in order.cartV2) {
-        final menuItemOrNull = await _fetchMenuItem(
-          itemId: cartv2.id,
-          brandId: cartv2.cartBrand.id,
-          branchId: order.branchId,
-          providerId: order.providerId,
-        );
+        final menuItemOrNull = await _fetchMenuItem(itemId: cartv2.id, brandId: cartv2.cartBrand.id, branchId: order.branchId, providerId: order.providerId);
         if (menuItemOrNull != null) {
-          final modifierGroups = await _fetchModifiers(
-            cartv2,
-            menuItemOrNull.branchInfo,
-          );
-          final brand = await _fetchMenuBrand(
-            brandId: cartv2.cartBrand.id,
-            branchId: order.branchId,
-          );
+          final modifierGroups = await _fetchModifiers(cartv2, menuItemOrNull.branchInfo);
+          final brand = await _fetchMenuBrand(brandId: cartv2.cartBrand.id, branchId: order.branchId);
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
           final cartV1Item = order.cartV1.firstWhere((element) => element.itemId.toString() == cartv2.id);
-          final promoInfo = _promoInfo(
-            promos: promos,
-            orderPromo: null,
-            itemPromos: order.itemAppliedPromos,
-            isItemPromo: true,
-            itemId: cartV1Item.itemId,
-          );
+          final promoInfo = _promoInfo(promos: promos, orderPromo: null, itemPromos: order.itemAppliedPromos, isItemPromo: true, itemId: cartV1Item.itemId);
           final cartItem = AddToCartItem(
             modifiers: modifierGroups,
             item: menuItemOrNull,
@@ -218,15 +198,9 @@ class UpdateManualOrderDataProvider {
     }
   }
 
-  Future<List<MenuItemModifierGroup>> _fetchModifiers(
-    CartV2 cartV2,
-    MenuBranchInfo branchInfo,
-  ) async {
+  Future<List<MenuItemModifierGroup>> _fetchModifiers(CartV2 cartV2, MenuBranchInfo branchInfo) async {
     try {
-      final groups = await _addOrderDatasource.fetchModifiers(
-        itemID: int.parse(cartV2.id),
-        branchInfo: branchInfo,
-      );
+      final groups = await _addOrderDatasource.fetchModifiers(itemID: int.parse(cartV2.id), branchInfo: branchInfo);
       for (var modifierGroupOne in cartV2.modifierGroups) {
         final groupLevelOne = groups.firstWhereOrNull((element) => element.groupId.toString() == modifierGroupOne.id);
         for (var modifierOne in modifierGroupOne.modifiers) {

@@ -170,9 +170,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
             child: Text(
               AppStrings.order_details.tr(),
-              style: mediumTextStyle(
+              style: boldTextStyle(
                 color: AppColors.black,
-                fontSize: AppFontSize.s16.rSp,
+                fontSize: AppFontSize.s18.rSp,
               ),
             ),
           ),
@@ -182,7 +182,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             },
             icon: Icon(
               Icons.clear,
-              size: AppSize.s18.rSp,
               color: AppColors.black,
             ),
           )

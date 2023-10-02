@@ -107,6 +107,9 @@ class Order {
   final List<OrderAppliedPromos> appliedPromos;
   final String pickUpAt;
   final OrderDeliveryInfo? deliveryInfo;
+  final num providerSubTotal;
+  final num providerGrandTotal;
+  final num providerAdditionalFee;
   String klikitComment;
   int paymentMethod;
   int paymentChannel;
@@ -202,6 +205,9 @@ class Order {
     required this.appliedPromos,
     required this.pickUpAt,
     required this.deliveryInfo,
+    required this.providerSubTotal,
+    required this.providerGrandTotal,
+    required this.providerAdditionalFee,
   });
 
   Order copy() => Order(
@@ -293,6 +299,9 @@ class Order {
         appliedPromos: appliedPromos,
         pickUpAt: pickUpAt,
         deliveryInfo: deliveryInfo,
+        providerSubTotal: providerSubTotal,
+        providerGrandTotal: providerGrandTotal,
+        providerAdditionalFee: providerAdditionalFee,
       );
 
   OrderModel toModel() => OrderModel(
@@ -380,5 +389,8 @@ class Order {
         cancellationReason: cancellationReason,
         restaurantServiceFee: restaurantServiceFee,
         pickUpAt: pickUpAt,
+        providerSubTotal: providerSubTotal,
+        providerGrandTotal: providerGrandTotal,
+        providerAdditionalFee: providerAdditionalFee,
       );
 }

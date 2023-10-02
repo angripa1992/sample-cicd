@@ -212,6 +212,12 @@ class OrderModel {
   List<OrderAppliedPromoModel>? promos;
   @JsonKey(name: 'delivery_info')
   DeliveryInfoModel? deliveryInfo;
+  @JsonKey(name: 'provider_sub_total')
+  num? providerSubTotal;
+  @JsonKey(name: 'provider_grand_total')
+  num? providerGrandTotal;
+  @JsonKey(name: 'provider_additional_fee')
+  num? providerAdditionalFee;
 
   OrderModel({
     this.id,
@@ -301,6 +307,9 @@ class OrderModel {
     this.promos,
     this.pickUpAt,
     this.deliveryInfo,
+    this.providerSubTotal,
+    this.providerGrandTotal,
+    this.providerAdditionalFee,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -397,6 +406,9 @@ class OrderModel {
       appliedPromos: promos?.map((e) => e.toEntity()).toList() ?? [],
       pickUpAt: pickUpAt.orEmpty(),
       deliveryInfo: deliveryInfo?.toEntity(),
+      providerSubTotal: providerSubTotal.orZero(),
+      providerGrandTotal: providerGrandTotal.orZero(),
+      providerAdditionalFee: providerAdditionalFee.orZero(),
     );
   }
 }

@@ -80,11 +80,11 @@ class _PriceViewState extends State<PriceView> {
                     _vatTitle(widget.order),
                     widget.order.vat,
                   ),
-                  SizedBox(height: AppSize.s2.rh),
-                  _getSubtotalItem(
-                    AppStrings.delivery_fee.tr(),
-                    widget.order.deliveryFee,
-                  ),
+                 // SizedBox(height: AppSize.s2.rh),
+                  // _getSubtotalItem(
+                  //   AppStrings.delivery_fee.tr(),
+                  //   widget.order.deliveryFee,
+                  // ),
                   SizedBox(height: AppSize.s2.rh),
                   _getSubtotalItem(
                     AppStrings.additional_fee.tr(),

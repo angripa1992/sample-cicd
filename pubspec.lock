@@ -356,7 +356,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: a998e932244ca479afe6144fb34baccbff342a89
+      resolved-ref: "85b92d3aadbdfbcc441d58422fae754443133efe"
       url: "https://github.com/klikit/docket_design_template.git"
     source: git
     version: "0.0.1"
@@ -786,6 +786,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.2"
+  in_app_update:
+    dependency: "direct main"
+    description:
+      name: in_app_update
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.2.1"
   infinite_scroll_pagination:
     dependency: "direct main"
     description:
