@@ -2,11 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/presentation/components/order_item/wolt_order_action_button.dart';
 import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
-import 'package:klikit/resources/values.dart';
 import 'order_action_button_components.dart';
 import 'order_action_button_manager.dart';
 
@@ -110,70 +109,88 @@ Widget getExpandActionButtons({
       Visibility(
         visible: OrderActionButtonManager().canAccept(order),
         child: Expanded(
-          child: AcceptButton(
-            expanded: true,
-            enabled: true,
-            onAccept: () {
-              onAction('${AppStrings.accept_order.tr()} #${order.id}', OrderStatus.ACCEPTED);
-            },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s2.rw),
+            child: AcceptButton(
+              expanded: true,
+              enabled: true,
+              onAccept: () {
+                onAction('${AppStrings.accept_order.tr()} #${order.id}', OrderStatus.ACCEPTED);
+              },
+            ),
           ),
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canReject(order),
         child: Expanded(
-          child: CanceledButton(
-            expanded: true,
-            enabled: true,
-            onCanceled: () {
-              onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
-            },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s2.rw),
+            child: CanceledButton(
+              expanded: true,
+              enabled: true,
+              onCanceled: () {
+                onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
+              },
+            ),
           ),
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canReady(order),
         child: Expanded(
-          child: ReadyButton(
-            expanded: true,
-            enabled: true,
-            onReady: () {
-              onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
-            },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s2.rw),
+            child: ReadyButton(
+              expanded: true,
+              enabled: true,
+              onReady: () {
+                onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
+              },
+            ),
           ),
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canDelivery(order),
         child: Expanded(
-          child: DeliverButton(
-            expanded: true,
-            enabled: true,
-            onDeliver: () {
-              onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
-            },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s2.rw),
+            child: DeliverButton(
+              expanded: true,
+              enabled: true,
+              onDeliver: () {
+                onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
+              },
+            ),
           ),
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canPickedUp(order),
         child: Expanded(
-          child: PickedUpButton(
-            expanded: true,
-            enabled: true,
-            onPickedUp: () {
-              onAction('${AppStrings.pickup_order.tr()} #${order.id}', OrderStatus.PICKED_UP);
-            },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s2.rw),
+            child: PickedUpButton(
+              expanded: true,
+              enabled: true,
+              onPickedUp: () {
+                onAction('${AppStrings.pickup_order.tr()} #${order.id}', OrderStatus.PICKED_UP);
+              },
+            ),
           ),
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canPrint(order),
         child: Expanded(
-          child: PrintButton(
-            onPrint: onPrint,
-            padding: AppSize.s16,
-            expanded: true,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s2.rw),
+            child: PrintButton(
+              onPrint: onPrint,
+              padding: AppSize.s16,
+              expanded: true,
+            ),
           ),
         ),
       ),

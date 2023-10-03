@@ -14,8 +14,8 @@ import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../app/app_preferences.dart';
 import '../../../../../printer/printing_handler.dart';
-import '../../../../widgets/image_view.dart';
 import '../../../../common/entities/brand.dart';
+import '../../../../widgets/image_view.dart';
 
 class OrderItemDetails extends StatelessWidget {
   final _printerSetting = getIt.get<AppPreferences>().printerSetting();
@@ -101,16 +101,13 @@ class OrderItemDetails extends StatelessWidget {
                                   paddingLevel: 1,
                                 ),
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: cart.modifierGroups.map(
                                     (modifiersGroupOne) {
                                       return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           ///level 1 modifiers group
                                           _showModifierGroupName(
@@ -118,60 +115,39 @@ class OrderItemDetails extends StatelessWidget {
                                             paddingLevel: 2,
                                           ),
                                           Column(
-                                            children:
-                                                modifiersGroupOne.modifiers.map(
+                                            children: modifiersGroupOne.modifiers.map(
                                               (modifiersOne) {
                                                 return Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .stretch,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     ///level 1 modifiers
                                                     _modifierItemView(
                                                       modifiers: modifiersOne,
                                                       prevQuantity: 1,
-                                                      itemQuantity:
-                                                          cart.quantity,
+                                                      itemQuantity: cart.quantity,
                                                       paddingLevel: 3,
                                                     ),
                                                     Column(
-                                                      children: modifiersOne
-                                                          .modifierGroups
-                                                          .map(
+                                                      children: modifiersOne.modifierGroups.map(
                                                         (secondModifierGroups) {
                                                           return Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .stretch,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
+                                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
                                                               ///level 2 modifiers group
                                                               _showModifierGroupName(
-                                                                name:
-                                                                    secondModifierGroups
-                                                                        .name,
+                                                                name: secondModifierGroups.name,
                                                                 paddingLevel: 4,
                                                               ),
                                                               Column(
-                                                                children:
-                                                                    secondModifierGroups
-                                                                        .modifiers
-                                                                        .map(
+                                                                children: secondModifierGroups.modifiers.map(
                                                                   (secondModifier) {
                                                                     return _modifierItemView(
-                                                                      modifiers:
-                                                                          secondModifier,
-                                                                      prevQuantity:
-                                                                          modifiersOne
-                                                                              .quantity,
-                                                                      itemQuantity:
-                                                                          cart.quantity,
-                                                                      paddingLevel:
-                                                                          5,
+                                                                      modifiers: secondModifier,
+                                                                      prevQuantity: modifiersOne.quantity,
+                                                                      itemQuantity: cart.quantity,
+                                                                      paddingLevel: 5,
                                                                     );
                                                                   },
                                                                 ).toList(),
@@ -241,13 +217,12 @@ class OrderItemDetails extends StatelessWidget {
         Expanded(
           flex: 3,
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _printerSetting.stickerPrinterEnabled
                   ? IconButton(
                       onPressed: () {
-                        getIt
-                            .get<PrintingHandler>()
-                            .printSticker(order, cartV2);
+                        getIt.get<PrintingHandler>().printSticker(order, cartV2);
                       },
                       icon: Icon(
                         Icons.print,
@@ -255,7 +230,7 @@ class OrderItemDetails extends StatelessWidget {
                       ),
                     )
                   : const SizedBox(),
-              Text('${cartV2.quantity} x', style: _itemTextStyle),
+              Text('${cartV2.quantity}x ', style: _itemTextStyle),
               SizedBox(width: AppSize.s4.rw),
               Expanded(child: Text(cartV2.name, style: _itemTextStyle)),
             ],
@@ -296,12 +271,11 @@ class OrderItemDetails extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.only(left: (AppSize.s8.rw * paddingLevel)),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('${modifiers.quantity} x', style: _modifiersItemTextStyle),
                 SizedBox(width: AppSize.s4.rw),
-                Expanded(
-                    child:
-                        Text(modifiers.name, style: _modifiersItemTextStyle)),
+                Expanded(child: Text(modifiers.name, style: _modifiersItemTextStyle)),
               ],
             ),
           ),
