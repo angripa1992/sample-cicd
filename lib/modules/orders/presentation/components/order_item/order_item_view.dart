@@ -128,46 +128,44 @@ class OrderItemView extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: AppSize.s8.rh,
-              right: AppSize.s4.rw,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                _getActionButton(),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: EdgeInsets.only(
-                      top: AppSize.s10.rh,
-                      bottom: AppSize.s4.rh,
-                    ),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        Padding(
+          padding: EdgeInsets.only(
+            top: AppSize.s8.rh,
+            right: AppSize.s4.rw,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              _getActionButton(),
+              TextButton(
+                style: TextButton.styleFrom(
+                  minimumSize: Size.zero,
+                  padding: EdgeInsets.only(
+                    top: AppSize.s10.rh,
+                    bottom: AppSize.s4.rh,
                   ),
-                  onPressed: seeDetails,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        AppStrings.see_details.tr(),
-                        style: mediumTextStyle(
-                          color: AppColors.primary,
-                          fontSize: AppFontSize.s12.rSp,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        color: AppColors.primary,
-                        size: AppSize.s16.rSp,
-                      ),
-                    ],
-                  ),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-              ],
-            ),
+                onPressed: seeDetails,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      AppStrings.see_details.tr(),
+                      style: mediumTextStyle(
+                        color: AppColors.primary,
+                        fontSize: AppFontSize.s12.rSp,
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: AppColors.primary,
+                      size: AppSize.s16.rSp,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ],
