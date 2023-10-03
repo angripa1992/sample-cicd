@@ -39,12 +39,6 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
-    final isWebshopOrder = widget.order.providerId == ProviderID.KLIKIT && !widget.order.isManualOrder;
-    final isManualOrderOrder = widget.order.providerId == ProviderID.KLIKIT && widget.order.isManualOrder;
-    final serviceFee = widget.order.serviceFee;
-    final gateWayFee = widget.order.gatewayFee;
-    final willShowServiceFee = (isWebshopOrder && serviceFee > 0 && gateWayFee > 0) || (isManualOrderOrder && serviceFee > 0);
-    final willShowProcessingFee = (isWebshopOrder && serviceFee > 0 && gateWayFee > 0);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
@@ -77,33 +71,42 @@ class _PriceViewState extends State<PriceView> {
               ),
               child: Column(
                 children: [
-                  _getSubtotalItem(
-                    _vatTitle(widget.order),
-                    widget.order.vat,
-                  ),
-                  // SizedBox(height: AppSize.s2.rh),
+                  if (widget.order.vat > 0)
+                    _getSubtotalItem(
+                      _vatTitle(widget.order),
+                      widget.order.vat,
+                    ),
                   // _getSubtotalItem(
                   //   AppStrings.delivery_fee.tr(),
                   //   widget.order.deliveryFee,
                   // ),
-                  SizedBox(height: AppSize.s2.rh),
-                  _getSubtotalItem(
-                    AppStrings.additional_fee.tr(),
-                    widget.order.additionalFee,
-                  ),
-                  if (willShowServiceFee) SizedBox(height: AppSize.s2.rh),
-                  if (willShowServiceFee) _getSubtotalItem(AppStrings.service_fee.tr(), serviceFee),
-                  if (willShowProcessingFee) SizedBox(height: AppSize.s2.rh),
-                  if (willShowProcessingFee) _getSubtotalItem(AppStrings.processing_fee.tr(), gateWayFee),
-                  if (widget.order.restaurantServiceFee > 0) SizedBox(height: AppSize.s2.rh),
-                  if (widget.order.restaurantServiceFee > 0) _getSubtotalItem(AppStrings.restaurant_service_fee.tr(), widget.order.restaurantServiceFee),
-                  SizedBox(height: AppSize.s2.rh),
-                  _getSubtotalItem(
-                    '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
-                    widget.order.discount,
-                    color: AppColors.red,
-                    isDiscount: true,
-                  ),
+                  if (widget.order.additionalFee > 0)
+                    _getSubtotalItem(
+                      AppStrings.additional_fee.tr(),
+                      widget.order.additionalFee,
+                    ),
+                  if (widget.order.providerId != ProviderID.KLIKIT)
+                    _getSubtotalItem(
+                      AppStrings.service_fee.tr(),
+                      widget.order.serviceFee,
+                    ),
+                  if (widget.order.providerId != ProviderID.KLIKIT)
+                    _getSubtotalItem(
+                      AppStrings.processing_fee.tr(),
+                      widget.order.gatewayFee,
+                    ),
+                  if (widget.order.restaurantServiceFee > 0)
+                    _getSubtotalItem(
+                      AppStrings.restaurant_service_fee.tr(),
+                      widget.order.restaurantServiceFee,
+                    ),
+                  if (widget.order.discount > 0)
+                    _getSubtotalItem(
+                      '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
+                      widget.order.discount,
+                      color: AppColors.red,
+                      isDiscount: true,
+                    ),
                 ],
               ),
             ),
@@ -111,9 +114,7 @@ class _PriceViewState extends State<PriceView> {
           ),
           const Divider(),
           Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSize.s8.rh,
-            ),
+            padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -126,10 +127,7 @@ class _PriceViewState extends State<PriceView> {
                   ),
                 ),
                 Text(
-                  PriceCalculator.convertPrice(
-                    widget.order,
-                    widget.order.finalPrice,
-                  ),
+                  PriceCalculator.convertPrice(widget.order, widget.order.finalPrice),
                   style: TextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s18.rSp,
@@ -171,21 +169,18 @@ class _PriceViewState extends State<PriceView> {
       fontSize: AppFontSize.s14.rSp,
       fontWeight: AppFontWeight.regular,
     );
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          name,
-          style: textStyle,
-        ),
-        Text(
-          '${isDiscount ? '-' : ''}${PriceCalculator.convertPrice(
-            widget.order,
-            price,
-          )}',
-          style: textStyle,
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(top: AppSize.s2.rh),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(name, style: textStyle),
+          Text(
+            '${isDiscount ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
+            style: textStyle,
+          ),
+        ],
+      ),
     );
   }
 }

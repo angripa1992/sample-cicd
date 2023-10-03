@@ -127,7 +127,7 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
             _showBreakDowns();
           },
           icon: Icon(
-            Icons.arrow_forward_ios_rounded,
+            Icons.keyboard_arrow_right_rounded,
             color: AppColors.black,
           ),
         )
