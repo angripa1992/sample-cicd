@@ -10,7 +10,7 @@ class SmallFontSize {
   static const double regular = 9;
   static const double medium = 10;
   static const double large = 14;
-  static const double extraLarge = 20;
+  static const double extraLarge = 22;
 }
 
 class NormalFontSize {
@@ -18,7 +18,7 @@ class NormalFontSize {
   static const double regular = 11;
   static const double medium = 12;
   static const double large = 16;
-  static const double extraLarge = 22;
+  static const double extraLarge = 24;
 }
 
 class LargeFontSize {
@@ -26,7 +26,7 @@ class LargeFontSize {
   static const double regular = 13;
   static const double medium = 14;
   static const double large = 18;
-  static const double extraLarge = 24;
+  static const double extraLarge = 26;
 }
 
 class ExtraLargeFontSize {
@@ -34,5 +34,5 @@ class ExtraLargeFontSize {
   static const double regular = 15;
   static const double medium = 16;
   static const double large = 20;
-  static const double extraLarge = 26;
+  static const double extraLarge = 28;
 }
