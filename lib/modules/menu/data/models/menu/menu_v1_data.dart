@@ -185,6 +185,8 @@ class MenuV1ItemsModel {
   MenuV1StockModel? stock;
   @JsonKey(name: 'default_item_id')
   int? defaultItemId;
+  @JsonKey(name: 'sku_id')
+  String? skuID;
 
   MenuV1ItemsModel({
     this.id,
@@ -199,6 +201,7 @@ class MenuV1ItemsModel {
     this.sequence,
     this.defaultItemId,
     this.stock,
+    this.skuID,
   });
 
   factory MenuV1ItemsModel.fromJson(Map<String, dynamic> json) => _$MenuV1ItemsModelFromJson(json);

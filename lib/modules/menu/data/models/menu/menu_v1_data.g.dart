@@ -192,6 +192,7 @@ MenuV1ItemsModel _$MenuV1ItemsModelFromJson(Map<String, dynamic> json) =>
       stock: json['stock'] == null
           ? null
           : MenuV1StockModel.fromJson(json['stock'] as Map<String, dynamic>),
+      skuID: json['sku_id'] as String?,
     );
 
 Map<String, dynamic> _$MenuV1ItemsModelToJson(MenuV1ItemsModel instance) =>
@@ -208,6 +209,7 @@ Map<String, dynamic> _$MenuV1ItemsModelToJson(MenuV1ItemsModel instance) =>
       'sequence': instance.sequence,
       'stock': instance.stock,
       'default_item_id': instance.defaultItemId,
+      'sku_id': instance.skuID,
     };
 
 MenuV1SubSectionsModel _$MenuV1SubSectionsModelFromJson(

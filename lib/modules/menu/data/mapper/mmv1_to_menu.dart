@@ -121,7 +121,7 @@ MenuCategoryItem _menuV1ItemToMenuItem(
     title: data.title.orEmpty(),
     prices: data.prices?.map((e) => _mmV1PriceToMenuItemPrice(e)).toList() ?? [],
     vat: data.vat.orZero(),
-    skuID: EMPTY,
+    skuID: data.skuID.orEmpty(),
     description: data.description.orEmpty(),
     image: data.image.orEmpty(),
     enabled: data.enabled.orFalse(),
