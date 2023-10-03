@@ -139,22 +139,16 @@ class CartV1 {
   final int itemId;
   final int discountType;
   final num discountValue;
-  final ItemAppliedPromo? appliedPromo;
-  final int? quantityOfScPromoItem;
 
   CartV1({
     required this.itemId,
     required this.discountType,
     required this.discountValue,
-    required this.quantityOfScPromoItem,
-    required this.appliedPromo,
   });
 
   CartV1 copy() => CartV1(
         itemId: itemId,
         discountType: discountType,
         discountValue: discountValue,
-        appliedPromo: appliedPromo,
-        quantityOfScPromoItem: quantityOfScPromoItem,
       );
 }

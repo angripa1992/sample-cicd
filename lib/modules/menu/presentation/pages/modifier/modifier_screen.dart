@@ -14,15 +14,14 @@ import 'package:klikit/resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../domain/entities/brand.dart';
+import '../../../../common/entities/brand.dart';
 import '../../../domain/entities/modifier/modifier_group.dart';
 
 class ModifierScreen extends StatefulWidget {
-  final MenuBrand? brand;
+  final Brand? brand;
   final int? providerId;
 
-  const ModifierScreen({Key? key, required this.brand, this.providerId})
-      : super(key: key);
+  const ModifierScreen({Key? key, required this.brand, this.providerId}) : super(key: key);
 
   @override
   State<ModifierScreen> createState() => _ModifierScreenState();
@@ -41,9 +40,7 @@ class _ModifierScreenState extends State<ModifierScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.brand != null) {
-      context
-          .read<FetchModifierGroupsCubit>()
-          .fetchModifierGroups(widget.brand!.id, widget.providerId);
+      context.read<FetchModifierGroupsCubit>().fetchModifierGroups(widget.brand!.id, widget.providerId);
     }
     return Expanded(
       child: widget.brand == null

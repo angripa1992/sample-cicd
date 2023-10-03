@@ -11,11 +11,10 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../../data/models/applied_promo.dart';
-import '../../../../domain/entities/add_to_cart_item.dart';
 import 'discount_modal_view.dart';
 
 class OrderDiscountModalView extends StatefulWidget {
-  final PromoInfo? promoInfo;
+  final AppliedPromoInfo? promoInfo;
   final int initialDiscountType;
   final num initialDiscountVale;
   final num subtotal;
@@ -24,7 +23,7 @@ class OrderDiscountModalView extends StatefulWidget {
   final int itemQuantity;
   final bool willShowPromo;
   final int orderType;
-  final Function(int, num, PromoInfo?) onApply;
+  final Function(int, num, AppliedPromoInfo?) onApply;
 
   const OrderDiscountModalView({
     Key? key,
@@ -47,7 +46,7 @@ class OrderDiscountModalView extends StatefulWidget {
 class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
   final _discountController = TextEditingController();
   late int _discountType;
-  AppliedPromo? _appliedPromo;
+  Promo? _appliedPromo;
   int? _citizen;
   int? _customer;
 
@@ -56,8 +55,8 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
     _discountType = widget.initialDiscountType;
     _discountController.text = widget.initialDiscountVale.toString();
     _appliedPromo = widget.promoInfo?.promo;
-    _citizen = widget.promoInfo?.citizen;
-    _customer = widget.promoInfo?.customer;
+    _citizen = widget.promoInfo?.numberOfSeniorCitizen;
+    _customer = widget.promoInfo?.numberOfCustomer;
     super.initState();
   }
 
@@ -82,13 +81,13 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
     if (validatedMsg == null) {
       Navigator.pop(context);
       final value = _discountController.text.isEmpty ? '0' : _discountController.text;
-      PromoInfo? promoInfo;
+      AppliedPromoInfo? promoInfo;
       if (_appliedPromo != null) {
         final willApplyCitizen = (_appliedPromo!.isSeniorCitizenPromo! && ((!widget.isItemDiscount && widget.orderType == OrderType.DINE_IN) || widget.isItemDiscount));
-        promoInfo = PromoInfo(
+        promoInfo = AppliedPromoInfo(
           promo: _appliedPromo!,
-          citizen: willApplyCitizen ? (_citizen ?? 1) : null,
-          customer: willApplyCitizen ? ((!widget.isItemDiscount && _customer == null) ? 1 : _customer) : null,
+          numberOfSeniorCitizen: willApplyCitizen ? (_citizen ?? 1) : null,
+          numberOfCustomer: willApplyCitizen ? ((!widget.isItemDiscount && _customer == null) ? 1 : _customer) : null,
         );
       }
       widget.onApply(_discountType, num.parse(value), promoInfo);

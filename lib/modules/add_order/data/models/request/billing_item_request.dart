@@ -22,7 +22,7 @@ class BillingItemRequestModel {
   int? quantity;
   ItemBrandRequestModel? brand;
   int? quantityOfScPromoItem;
-  AppliedPromo? appliedPromoModel;
+  Promo? appliedPromoModel;
   num? promoDiscount;
   String? title;
   String? description;

@@ -6,13 +6,13 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
 
 import '../../../../app/di.dart';
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
 import '../../../../resources/strings.dart';
-import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../../widgets/snackbars.dart';
@@ -33,17 +33,15 @@ class AddOrderBody extends StatefulWidget {
   final VoidCallback onBack;
   final bool willOpenCart;
 
-  const AddOrderBody(
-      {Key? key, required this.onBack, required this.willOpenCart})
-      : super(key: key);
+  const AddOrderBody({Key? key, required this.onBack, required this.willOpenCart}) : super(key: key);
 
   @override
   State<AddOrderBody> createState() => _AddOrderBodyState();
 }
 
 class _AddOrderBodyState extends State<AddOrderBody> {
-  final _changeBrandNotifier = ValueNotifier<MenuBrand?>(null);
-  MenuBrand? _selectedBrand;
+  final _changeBrandNotifier = ValueNotifier<Brand?>(null);
+  Brand? _selectedBrand;
 
   @override
   void initState() {
@@ -55,7 +53,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   Widget build(BuildContext context) {
     return BlocConsumer<MenuBrandsCubit, ResponseState>(
       listener: (context, state) {
-        if (state is Success<List<MenuBrand>> && widget.willOpenCart) {
+        if (state is Success<List<Brand>> && widget.willOpenCart) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             _gotoCart();
           });
@@ -64,7 +62,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
       builder: (context, state) {
         if (state is Loading) {
           EasyLoading.show();
-        } else if (state is Success<List<MenuBrand>>) {
+        } else if (state is Success<List<Brand>>) {
           EasyLoading.dismiss();
           return _body(state.data);
         } else if (state is Failed) {
@@ -206,7 +204,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   void _addModifier({
     required List<MenuItemModifierGroup> groups,
     required MenuCategoryItem item,
-    required MenuBrand brand,
+    required Brand brand,
   }) {
     showModalBottomSheet<void>(
       context: context,
@@ -236,10 +234,10 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     );
   }
 
-  Widget _body(List<MenuBrand> brands) {
+  Widget _body(List<Brand> brands) {
     return Column(
       children: [
-        ValueListenableBuilder<MenuBrand?>(
+        ValueListenableBuilder<Brand?>(
           valueListenable: _changeBrandNotifier,
           builder: (_, initialBrand, __) {
             return BrandSelectorAppBar(

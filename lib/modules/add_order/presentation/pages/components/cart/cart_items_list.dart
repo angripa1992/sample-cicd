@@ -2,12 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../menu/domain/entities/brand.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../utils/cart_manager.dart';
 import '../modifier/speacial_instruction.dart';
@@ -22,7 +22,7 @@ class CartItemsListView extends StatelessWidget {
   final VoidCallback onDiscount;
   final VoidCallback onAdditionalFee;
   final Function(AddToCartItem) onEdit;
-  final Function(MenuBrand) addMore;
+  final Function(Brand) addMore;
   final Function(AddToCartItem) addDiscount;
   final Function(AddToCartItem) onDelete;
   final Function(int, int) onQuantityChanged;
@@ -86,8 +86,7 @@ class CartItemsListView extends StatelessWidget {
                             addDiscount: addDiscount,
                             onDelete: onDelete,
                             onQuantityChanged: onQuantityChanged,
-                            itemBill: cartBill.items.firstWhere(
-                                (element) => element.id == cartItem.item.id),
+                            itemBill: cartBill.items.firstWhere((element) => element.id == cartItem.item.id),
                           );
                         },
                       ).toList(),

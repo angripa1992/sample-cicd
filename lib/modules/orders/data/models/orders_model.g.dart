@@ -116,17 +116,16 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       threePlDispatchType: json['three_pl_dispatch_type'] as int?,
       orderAppliedPromo: json['order_applied_promo'] == null
           ? null
-          : OrderAppliedPromo.fromJson(
+          : AppliedPromoInfo.fromJson(
               json['order_applied_promo'] as Map<String, dynamic>),
       itemAppliedPromos: (json['item_applied_promos'] as List<dynamic>?)
-          ?.map((e) => OrderAppliedPromo.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => AppliedPromoInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       cancellationReasonId: json['cancellation_reason_id'] as int?,
       cancellationReason: json['cancellation_reason'] as String?,
       restaurantServiceFee: json['restaurant_service_fee'] as int?,
       promos: (json['promos'] as List<dynamic>?)
-          ?.map(
-              (e) => OrderAppliedPromoModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => AppliedPromoItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       pickUpAt: json['estimated_pickup_at'] as String?,
       deliveryInfo: json['delivery_info'] == null
@@ -220,18 +219,18 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'can_mark_accept': instance.canMarkAccept,
       'can_mark_cancel': instance.canMarkCancel,
       'three_pl_dispatch_type': instance.threePlDispatchType,
-      'order_applied_promo': instance.orderAppliedPromo?.toJson(),
-      'item_applied_promos':
-          instance.itemAppliedPromos?.map((e) => e.toJson()).toList(),
       'cancellation_reason_id': instance.cancellationReasonId,
       'cancellation_reason': instance.cancellationReason,
       'estimated_pickup_at': instance.pickUpAt,
       'restaurant_service_fee': instance.restaurantServiceFee,
-      'promos': instance.promos?.map((e) => e.toJson()).toList(),
       'delivery_info': instance.deliveryInfo?.toJson(),
       'provider_sub_total': instance.providerSubTotal,
       'provider_grand_total': instance.providerGrandTotal,
       'provider_additional_fee': instance.providerAdditionalFee,
+      'promos': instance.promos?.map((e) => e.toJson()).toList(),
+      'order_applied_promo': instance.orderAppliedPromo?.toJson(),
+      'item_applied_promos':
+          instance.itemAppliedPromos?.map((e) => e.toJson()).toList(),
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(
@@ -322,53 +321,13 @@ CartV1Model _$CartV1ModelFromJson(Map<String, dynamic> json) => CartV1Model(
       itemId: json['item_id'] as int?,
       discountType: json['discount_type'] as int?,
       discountValue: json['discount_value'] as num?,
-      quantityOfScPromoItem: json['quantity_of_sc_promo_item'] as int?,
-    )..appliedPromo = json['applied_promo'] == null
-        ? null
-        : ItemAppliedPromoModel.fromJson(
-            json['applied_promo'] as Map<String, dynamic>);
+    );
 
 Map<String, dynamic> _$CartV1ModelToJson(CartV1Model instance) =>
     <String, dynamic>{
       'item_id': instance.itemId,
       'discount_type': instance.discountType,
       'discount_value': instance.discountValue,
-      'applied_promo': instance.appliedPromo?.toJson(),
-      'quantity_of_sc_promo_item': instance.quantityOfScPromoItem,
-    };
-
-OrderAppliedPromoModel _$OrderAppliedPromoModelFromJson(
-        Map<String, dynamic> json) =>
-    OrderAppliedPromoModel(
-      id: json['id'] as int?,
-      code: json['code'] as String?,
-      discount: json['discount'] as num?,
-    );
-
-Map<String, dynamic> _$OrderAppliedPromoModelToJson(
-        OrderAppliedPromoModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'code': instance.code,
-      'discount': instance.discount,
-    };
-
-ItemAppliedPromoModel _$ItemAppliedPromoModelFromJson(
-        Map<String, dynamic> json) =>
-    ItemAppliedPromoModel(
-      id: json['id'] as int?,
-      code: json['code'] as String?,
-      value: json['value'] as num?,
-      isSeniorCitizenPromo: json['is_senior_citizen_promo'] as bool?,
-    );
-
-Map<String, dynamic> _$ItemAppliedPromoModelToJson(
-        ItemAppliedPromoModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'code': instance.code,
-      'value': instance.value,
-      'is_senior_citizen_promo': instance.isSeniorCitizenPromo,
     };
 
 DeliveryInfoModel _$DeliveryInfoModelFromJson(Map<String, dynamic> json) =>

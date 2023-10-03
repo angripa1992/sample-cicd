@@ -2,9 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 
-import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../menu/domain/entities/menu/menu_sections.dart';
@@ -15,7 +15,7 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
 
   FetchAddOrderMenuItemsCubit(this._repository) : super(Empty());
 
-  void fetchSubsection(MenuBrand brand) async {
+  void fetchSubsection(Brand brand) async {
     emit(Loading());
     final response = await _repository.fetchMenu(
       FetchMenuParams(

@@ -7,13 +7,14 @@ import 'package:klikit/modules/add_order/data/models/request/billing_item_modifi
 import 'package:klikit/modules/add_order/data/models/request/billing_item_request.dart';
 import 'package:klikit/modules/add_order/data/models/request/item_brand_request.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
-import 'package:klikit/modules/menu/domain/entities/brand.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../app/constants.dart';
 import '../../../app/session_manager.dart';
 import '../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../menu/domain/entities/menu/menu_out_of_stock.dart';
 import '../../menu/domain/entities/menu/menu_visibility.dart';
+import '../data/models/applied_promo.dart';
 import '../data/models/request/billing_item_modifier_request.dart';
 import '../data/models/request/billing_request.dart';
 import '../data/models/request/place_order_data_request.dart';
@@ -55,8 +56,8 @@ class OrderEntityProvider {
         symbol: cartItem.itemPrice.currencySymbol,
       ),
       appliedPromoModel: orderPromoInfo?.promo,
-      numberOfSeniorCitizen: orderPromoInfo?.citizen,
-      numberOfCustomer: orderPromoInfo?.customer,
+      numberOfSeniorCitizen: orderPromoInfo?.numberOfSeniorCitizen,
+      numberOfCustomer: orderPromoInfo?.numberOfCustomer,
       items: await _cartsToBillingItemsForCalculateBill(cartsItems: cartItems),
     );
   }
@@ -103,7 +104,7 @@ class OrderEntityProvider {
     required AddToCartItem cartItem,
     required List<BillingItemModifierGroupRequestModel> groups,
     required num? promoDiscount,
-    required PromoInfo? promoInfo,
+    required AppliedPromoInfo? promoInfo,
   }) {
     final item = cartItem.item;
     return BillingItemRequestModel(
@@ -130,7 +131,7 @@ class OrderEntityProvider {
       discountType: cartItem.discountType,
       comment: cartItem.itemInstruction,
       appliedPromoModel: promoInfo?.promo,
-      quantityOfScPromoItem: promoInfo?.citizen,
+      quantityOfScPromoItem: promoInfo?.numberOfSeniorCitizen,
       promoDiscount: promoDiscount,
       klkitID: item.id,
       klkitName: item.title,
@@ -214,7 +215,7 @@ class OrderEntityProvider {
         price: price.price,
       );
 
-  ItemBrandRequestModel _toBrandModel(MenuBrand brand) => ItemBrandRequestModel(
+  ItemBrandRequestModel _toBrandModel(Brand brand) => ItemBrandRequestModel(
         id: brand.id,
         logo: brand.logo,
         title: brand.title,

@@ -9,9 +9,9 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
 class PromoSelectorView extends StatefulWidget {
-  final AppliedPromo? initialPromo;
-  final Function(AppliedPromo?, bool) onChanged;
-  final List<AppliedPromo> promos;
+  final Promo? initialPromo;
+  final Function(Promo?, bool) onChanged;
+  final List<Promo> promos;
 
   const PromoSelectorView({
     Key? key,
@@ -37,7 +37,7 @@ class _PromoSelectorViewState extends State<PromoSelectorView> {
     setState(() {
       _appliedPromoId = promoId;
     });
-    AppliedPromo? promo;
+    Promo? promo;
     if (promoId != null) {
       promo = widget.promos.firstWhere((element) => element.id == promoId);
     }

@@ -159,16 +159,16 @@ class CartItemView extends StatelessWidget {
           SizedBox(width: AppSize.s8.rw),
           Expanded(
             child: Text(
-              cartItem.promoInfo!.promo.code!,
+              cartItem.promoInfo?.promo?.code ?? '',
               style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
           ),
-          if (cartItem.promoInfo!.promo.isSeniorCitizenPromo!)
+          if (cartItem.promoInfo?.promo?.isSeniorCitizenPromo ?? false)
             Text(
-              '${cartItem.promoInfo!.citizen} ${AppStrings.pieces.tr()}',
+              '${cartItem.promoInfo?.numberOfSeniorCitizen} ${AppStrings.pieces.tr()}',
               style: mediumTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,

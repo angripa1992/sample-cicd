@@ -1,5 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:klikit/app/di.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 
 import '../../../app/constants.dart';
@@ -12,13 +15,12 @@ import '../../add_order/domain/entities/modifier/item_modifier_group.dart';
 import '../../add_order/utils/cart_manager.dart';
 import '../../add_order/utils/modifier_manager.dart';
 import '../../menu/data/datasource/menu_remote_datasource.dart';
-import '../../menu/domain/entities/brand.dart';
 import '../../menu/domain/entities/menu/menu_branch_info.dart';
 import '../../menu/domain/entities/menu/menu_item.dart';
-import '../data/models/order_applied_promo.dart';
 import '../domain/entities/cart.dart';
 import '../domain/entities/order.dart';
 import '../domain/repository/orders_repository.dart';
+import 'applied_promo_provider.dart';
 
 class UpdateManualOrderDataProvider {
   final MenuRemoteDatasource _menuRemoteDatasource;
@@ -33,35 +35,44 @@ class UpdateManualOrderDataProvider {
 
   Future<void> generateCartData(Order manualOrder) async {
     final order = await _orderRepository.fetchOrderById(manualOrder.id);
-    final promos = await _fetchPromos(order!);
+    final promos = await AppliedPromoProvider().fetchPromos(_addOrderDatasource, order!);
     final cartItems = await _generateCartItem(order, promos);
     CartManager().clear();
     for (var cartItem in cartItems) {
       await CartManager().addToCart(cartItem);
     }
-    final promoInfo = _promoInfo(
+    final promoInfo = AppliedPromoProvider().appliedPromoInfo(
       promos: promos,
       orderPromo: order.orderAppliedPromo,
       itemPromos: [],
-      isItemPromo: false,
-      itemId: 0,
     );
     CartManager().setPromoInfo(promoInfo);
     _setEditableInfo(order);
   }
 
-  Future<List<AddToCartItem>> _generateCartItem(Order order, List<AppliedPromo> promos) async {
+  Future<List<AddToCartItem>> _generateCartItem(Order order, List<Promo> promos) async {
     try {
       List<AddToCartItem> carts = [];
       for (var cartv2 in order.cartV2) {
-        final menuItemOrNull = await _fetchMenuItem(itemId: cartv2.id, brandId: cartv2.cartBrand.id, branchId: order.branchId, providerId: order.providerId);
+        final menuItemOrNull = await _fetchMenuItem(
+          itemId: cartv2.id,
+          brandId: cartv2.cartBrand.id,
+          branchId: order.branchId,
+          providerId: order.providerId,
+        );
         if (menuItemOrNull != null) {
           final modifierGroups = await _fetchModifiers(cartv2, menuItemOrNull.branchInfo);
-          final brand = await _fetchMenuBrand(brandId: cartv2.cartBrand.id, branchId: order.branchId);
+          final brand = await _fetchMenuBrand(brandId: cartv2.cartBrand.id);
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
           final cartV1Item = order.cartV1.firstWhere((element) => element.itemId.toString() == cartv2.id);
-          final promoInfo = _promoInfo(promos: promos, orderPromo: null, itemPromos: order.itemAppliedPromos, isItemPromo: true, itemId: cartV1Item.itemId);
+          final promoInfo = AppliedPromoProvider().appliedPromoInfo(
+            promos: promos,
+            orderPromo: null,
+            itemPromos: order.itemAppliedPromos,
+            isItemPromo: true,
+            itemId: cartV1Item.itemId,
+          );
           final cartItem = AddToCartItem(
             modifiers: modifierGroups,
             item: menuItemOrNull,
@@ -69,7 +80,7 @@ class UpdateManualOrderDataProvider {
             itemInstruction: cartv2.comment,
             modifiersPrice: modifiersPrice,
             itemPrice: itemPrice,
-            brand: brand,
+            brand: brand!,
             promoInfo: promoInfo,
             discountType: cartV1Item.discountType == 0 ? DiscountType.flat : cartV1Item.discountType,
             discountValue: cartV1Item.discountValue,
@@ -83,85 +94,10 @@ class UpdateManualOrderDataProvider {
     }
   }
 
-  PromoInfo? _promoInfo({
-    required List<AppliedPromo> promos,
-    required OrderAppliedPromo? orderPromo,
-    required List<OrderAppliedPromo> itemPromos,
-    required bool isItemPromo,
-    required int itemId,
-  }) {
+  Future<Brand?> _fetchMenuBrand({required int brandId}) async {
     try {
-      if (isItemPromo) {
-        if (itemPromos.isEmpty) return null;
-        final itemPromo = itemPromos.firstWhere((element) => element.itemId == itemId);
-        final promo = promos.firstWhere((element) => itemPromo.promoId == element.id);
-        return _promoInfoFromAppliedPromo(appliedPromo: itemPromo, promo: promo, isItemPromo: true);
-      } else {
-        if (orderPromo == null) return null;
-        final promo = promos.firstWhere((element) => orderPromo.promoId == element.id);
-        return _promoInfoFromAppliedPromo(appliedPromo: orderPromo, promo: promo, isItemPromo: false);
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-
-  PromoInfo _promoInfoFromAppliedPromo({
-    required OrderAppliedPromo appliedPromo,
-    required AppliedPromo promo,
-    required bool isItemPromo,
-  }) {
-    int? citizen;
-    int? customer;
-    if (isItemPromo) {
-      citizen = appliedPromo.quantityOfScPromoItem;
-    } else {
-      citizen = appliedPromo.numberOfSeniorCitizen;
-      customer = appliedPromo.numberOfCustomer;
-    }
-    if (!appliedPromo.isSeniorCitizenPromo!) {
-      citizen = null;
-      customer = null;
-    }
-    if (citizen != null && citizen <= 0) {
-      citizen = null;
-    }
-    if (customer != null && customer <= 0) {
-      customer = null;
-    }
-    return PromoInfo(promo: promo, citizen: citizen, customer: customer);
-  }
-
-  Future<List<AppliedPromo>> _fetchPromos(Order order) async {
-    try {
-      final params = {
-        'country': SessionManager().country(),
-        'business': SessionManager().businessID(),
-        'branch': SessionManager().branchId(),
-        'product_type': 'add_order',
-        'order_amount': order.itemPrice / 100,
-        'brands': ListParam<int>(
-          order.brands.map((e) => e.id).toList(),
-          ListFormat.csv,
-        ),
-      };
-      final response = await _addOrderDatasource.fetchPromos(params);
-      return response;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<MenuBrand> _fetchMenuBrand({
-    required int brandId,
-    required int branchId,
-  }) async {
-    try {
-      final menuBrandResponse = await _menuRemoteDatasource.fetchMenuBrand(
-        brandId: brandId,
-        branchId: branchId,
-      );
-      return menuBrandResponse.toEntity();
+      final brand = await getIt.get<BusinessInformationProvider>().findBrandById(brandId);
+      return brand;
     } on DioException {
       rethrow;
     }

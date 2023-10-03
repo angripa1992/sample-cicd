@@ -13,7 +13,7 @@ class BillingRequestModel {
   List<BillingItemRequestModel>? items;
   int? numberOfSeniorCitizen;
   int? numberOfCustomer;
-  AppliedPromo? appliedPromoModel;
+  Promo? appliedPromoModel;
   int? orderType;
 
   BillingRequestModel({

@@ -27,7 +27,7 @@ class WebShopOrderDetailsModel {
   WebShopUserModel? user;
   String? platform;
   int? type;
-  AppliedPromo? appliedPromo;
+  Promo? appliedPromo;
   int? numberOfSeniorCitizen;
   int? numberOfCustomer;
   int? orderPromoDiscount;
@@ -131,7 +131,7 @@ class WebShopOrderDetailsModel {
     user = json['user'] != null ? WebShopUserModel.fromJson(json['user']) : null;
     platform = json['platform'];
     type = json['type'];
-    appliedPromo = json['applied_promo'] != null ? AppliedPromo.fromJson(json['applied_promo']) : null;
+    appliedPromo = json['applied_promo'] != null ? Promo.fromJson(json['applied_promo']) : null;
     numberOfSeniorCitizen = json['number_of_senior_citizen'];
     numberOfCustomer = json['number_of_customer'];
     orderPromoDiscount = json['order_promo_discount'];
@@ -169,7 +169,7 @@ class WebShopCartModel {
   int? discountType;
   List<WebShopModifierGroupModel>? groups;
   WebShopMenuBrandModel? brand;
-  AppliedPromo? appliedPromo;
+  Promo? appliedPromo;
   int? quantityOfScPromoItem;
   int? promoDiscount;
   String? comment;

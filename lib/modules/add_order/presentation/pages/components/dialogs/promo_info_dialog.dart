@@ -11,7 +11,7 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
-void showPromoInfoDialog(BuildContext context, AppliedPromo promo) {
+void showPromoInfoDialog(BuildContext context, Promo promo) {
   showDialog(
     context: context,
     builder: (dContext) {
@@ -28,7 +28,7 @@ void showPromoInfoDialog(BuildContext context, AppliedPromo promo) {
 }
 
 class PromoInfoView extends StatelessWidget {
-  final AppliedPromo promo;
+  final Promo promo;
 
   const PromoInfoView({Key? key, required this.promo}) : super(key: key);
 

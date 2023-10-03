@@ -23,7 +23,7 @@ class CartBill {
   final List<ItemBill> items;
   final int numberOfSeniorCitizen;
   final int numberOfSeniorCustomer;
-  final AppliedPromo? appliedPromo;
+  final Promo? appliedPromo;
 
   CartBill({
     required this.subTotal,
@@ -64,7 +64,7 @@ class ItemBill {
   final num promoDiscountCent;
   final num itemFinalPrice;
   final int quantityOfPromoItem;
-  final AppliedPromo? appliedPromo;
+  final Promo? appliedPromo;
 
   ItemBill({
     required this.id,

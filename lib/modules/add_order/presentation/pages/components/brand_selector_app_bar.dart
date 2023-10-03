@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dropdown/select_brand_dropdown.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
-import '../../../../menu/domain/entities/brand.dart';
 import 'cart_badge.dart';
 
 class BrandSelectorAppBar extends StatelessWidget {
-  final MenuBrand? initialBrand;
-  final List<MenuBrand> brands;
-  final Function(MenuBrand) onChanged;
+  final Brand? initialBrand;
+  final List<Brand> brands;
+  final Function(Brand) onChanged;
   final VoidCallback onBack;
   final VoidCallback onCartTap;
 

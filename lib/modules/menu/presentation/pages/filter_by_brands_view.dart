@@ -1,28 +1,25 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../domain/entities/brand.dart';
-
 class FilterByBrandsView extends StatefulWidget {
-  final List<MenuBrand> brands;
-  final Function(MenuBrand) onChanged;
+  final List<Brand> brands;
+  final Function(Brand) onChanged;
 
-  const FilterByBrandsView(
-      {Key? key, required this.brands, required this.onChanged})
-      : super(key: key);
+  const FilterByBrandsView({Key? key, required this.brands, required this.onChanged}) : super(key: key);
 
   @override
   State<FilterByBrandsView> createState() => _FilterByBrandsViewState();
 }
 
 class _FilterByBrandsViewState extends State<FilterByBrandsView> {
-  MenuBrand? dropDownValue;
+  Brand? dropDownValue;
   late GlobalKey _dropdownKey;
 
   @override
@@ -58,7 +55,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-            child: DropdownButton<MenuBrand>(
+            child: DropdownButton<Brand>(
               key: _dropdownKey,
               value: dropDownValue,
               isExpanded: true,
@@ -75,7 +72,7 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
                 ),
               ),
               selectedItemBuilder: (BuildContext context) {
-                return widget.brands.map<Widget>((MenuBrand item) {
+                return widget.brands.map<Widget>((Brand item) {
                   return Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -85,11 +82,11 @@ class _FilterByBrandsViewState extends State<FilterByBrandsView> {
                   );
                 }).toList();
               },
-              items: widget.brands.map<DropdownMenuItem<MenuBrand>>(
+              items: widget.brands.map<DropdownMenuItem<Brand>>(
                 (menu) {
-                  return DropdownMenuItem<MenuBrand>(
+                  return DropdownMenuItem<Brand>(
                     value: menu,
-                    child: RadioListTile<MenuBrand>(
+                    child: RadioListTile<Brand>(
                       title: Text(menu.title, style: dropDownTextStyle),
                       value: menu,
                       groupValue: dropDownValue,

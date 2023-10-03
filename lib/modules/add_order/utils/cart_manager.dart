@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 
+import '../data/models/applied_promo.dart';
 import '../data/models/request/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
 import '../domain/entities/cart_bill.dart';
@@ -16,7 +17,7 @@ class CartManager {
   static CustomerInfo? _customerInfo;
   static PaymentInfo? _paymentInfo;
   static UpdateCartInfo? _updateCartInfo;
-  static PromoInfo? _promoInfo;
+  static AppliedPromoInfo? _promoInfo;
   static final _cartItemNotifier = ValueNotifier<int>(0);
   static final _noOfCartItemNotifier = ValueNotifier<int>(0);
   static final _priceNotifier = ValueNotifier<SelectedItemPrice?>(null);
@@ -41,9 +42,7 @@ class CartManager {
     required AddToCartItem newItem,
     required AddToCartItem oldItem,
   }) async {
-    _carts.removeWhere((element) =>
-        element.item.id == oldItem.item.id &&
-        element.quantity == oldItem.quantity);
+    _carts.removeWhere((element) => element.item.id == oldItem.item.id && element.quantity == oldItem.quantity);
     await addToCart(newItem);
   }
 
@@ -57,8 +56,7 @@ class CartManager {
 
   void removeFromCart(AddToCartItem item) {
     _carts.removeWhere(
-      (element) =>
-          element.item.id == item.item.id && element.quantity == item.quantity,
+      (element) => element.item.id == item.item.id && element.quantity == item.quantity,
     );
     _checkCartAndClearIfNeeded();
   }
@@ -93,8 +91,7 @@ class CartManager {
     required int type,
     required num value,
   }) {
-    final item =
-        _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.discountValue = value;
       item.discountType = type;
@@ -143,15 +140,13 @@ class CartManager {
       String symbol = EMPTY;
       String code = EMPTY;
       for (var item in _carts) {
-        final price =
-            (item.modifiersPrice + item.itemPrice.price) * item.quantity;
+        final price = (item.modifiersPrice + item.itemPrice.price) * item.quantity;
         totalPrice += price;
         symbol = item.itemPrice.currencySymbol;
         code = item.itemPrice.currencySymbol;
       }
       final noOfItem = _noOfCartItem();
-      _priceNotifier.value =
-          SelectedItemPrice(noOfItem, symbol, totalPrice, code);
+      _priceNotifier.value = SelectedItemPrice(noOfItem, symbol, totalPrice, code);
       _noOfCartItemNotifier.value = noOfItem;
     }
   }
@@ -180,8 +175,7 @@ class CartManager {
   }
 
   Future<AddToCartItem?> _findDuplicate(AddToCartItem cartItem) async {
-    final searchedItem = _carts
-        .firstWhereOrNull((element) => element.item.id == cartItem.item.id);
+    final searchedItem = _carts.firstWhereOrNull((element) => element.item.id == cartItem.item.id);
     if (searchedItem != null) {
       final newtUniqueId = await ModifierManager().generateCheckingId(
         groups: cartItem.modifiers,
@@ -226,7 +220,7 @@ class CartManager {
 
   UpdateCartInfo? getUpdateCartInfo() => _updateCartInfo;
 
-  PromoInfo? getPromoInfo() => _promoInfo;
+  AppliedPromoInfo? getPromoInfo() => _promoInfo;
 
   void setEditInfo(CartInfo info) {
     _cartInfo = info;
@@ -244,13 +238,12 @@ class CartManager {
     _updateCartInfo = data;
   }
 
-  void setPromoInfo(PromoInfo? data) {
+  void setPromoInfo(AppliedPromoInfo? data) {
     _promoInfo = data;
   }
 
-  void addPromoToItem(int itemId, PromoInfo? promoInfo) {
-    final item =
-        _carts.firstWhereOrNull((element) => element.item.id == itemId);
+  void addPromoToItem(int itemId, AppliedPromoInfo? promoInfo) {
+    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
     if (item != null) {
       item.promoInfo = promoInfo;
     }
@@ -284,18 +277,6 @@ class CartManager {
     for (var item in _carts) {
       item.promoInfo = null;
     }
-    // if(orderType != OrderType.DINE_IN){
-    //   if(_promoInfo != null && _promoInfo!.promo.isSeniorCitizenPromo!){
-    //     _promoInfo?.citizen = null;
-    //     _promoInfo?.customer = null;
-    //   }
-    //   for(var item in _carts){
-    //     if(item.promoInfo != null && item.promoInfo!.promo.isSeniorCitizenPromo!){
-    //       item.promoInfo?.citizen = null;
-    //       item.promoInfo?.customer = null;
-    //     }
-    //   }
-    // }
   }
 
   void syncPromoWithCalculateBill(CartBill cartBill) {
@@ -303,11 +284,9 @@ class CartManager {
       final cartItem = findCartItem(element.id.toInt());
       if (cartItem != null) {
         if (element.appliedPromo != null) {
-          final promoInfo = PromoInfo(
+          final promoInfo = AppliedPromoInfo(
             promo: element.appliedPromo!,
-            citizen: element.quantityOfPromoItem > 0
-                ? element.quantityOfPromoItem
-                : null,
+            numberOfSeniorCitizen: element.quantityOfPromoItem > 0 ? element.quantityOfPromoItem : null,
           );
           cartItem.promoInfo = promoInfo;
         } else {
@@ -316,14 +295,10 @@ class CartManager {
       }
     }
     if (cartBill.appliedPromo != null) {
-      final promoInfo = PromoInfo(
+      final promoInfo = AppliedPromoInfo(
         promo: cartBill.appliedPromo!,
-        citizen: cartBill.numberOfSeniorCitizen > 0
-            ? cartBill.numberOfSeniorCitizen
-            : null,
-        customer: cartBill.numberOfSeniorCustomer > 0
-            ? cartBill.numberOfSeniorCustomer
-            : null,
+        numberOfSeniorCitizen: cartBill.numberOfSeniorCitizen > 0 ? cartBill.numberOfSeniorCitizen : null,
+        numberOfCustomer: cartBill.numberOfSeniorCustomer > 0 ? cartBill.numberOfSeniorCustomer : null,
       );
       setPromoInfo(promoInfo);
     } else {

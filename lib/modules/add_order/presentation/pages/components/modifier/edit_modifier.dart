@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
-import 'package:klikit/modules/menu/domain/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../../common/entities/brand.dart';
 import '../../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
@@ -46,7 +46,7 @@ class _EditModifierViewState extends State<EditModifierView> {
   final _price = ValueNotifier<num>(0);
   late List<MenuItemModifierGroup> _groups;
   late MenuCategoryItem _item;
-  late MenuBrand? _brand;
+  late Brand? _brand;
   late MenuItemPrice _itemPrice;
   late num _modifierPrice;
   late int _quantity;

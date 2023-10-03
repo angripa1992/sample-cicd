@@ -1,18 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../menu/domain/entities/brand.dart';
 
 class SelectBrandDropDown extends StatefulWidget {
-  final List<MenuBrand> brands;
-  final MenuBrand? initialBrand;
-  final Function(MenuBrand) onChanged;
+  final List<Brand> brands;
+  final Brand? initialBrand;
+  final Function(Brand) onChanged;
 
   const SelectBrandDropDown({
     Key? key,
@@ -26,7 +26,7 @@ class SelectBrandDropDown extends StatefulWidget {
 }
 
 class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
-  MenuBrand? _dropDownValue;
+  Brand? _dropDownValue;
   final _textStyle = mediumTextStyle(
     color: AppColors.black,
     fontSize: AppFontSize.s16.rSp,
@@ -41,9 +41,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
   @override
   void didUpdateWidget(covariant SelectBrandDropDown oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (((_dropDownValue != null && widget.initialBrand != null) &&
-            _dropDownValue!.id != widget.initialBrand!.id) ||
-        widget.initialBrand != null) {
+    if (((_dropDownValue != null && widget.initialBrand != null) && _dropDownValue!.id != widget.initialBrand!.id) || widget.initialBrand != null) {
       setState(() {
         _dropDownValue = widget.initialBrand;
         widget.onChanged(_dropDownValue!);
@@ -59,7 +57,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
         border: Border.all(color: AppColors.primary, width: AppSize.s1.rSp),
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
       ),
-      child: DropdownButton<MenuBrand>(
+      child: DropdownButton<Brand>(
         value: _dropDownValue,
         underline: const SizedBox(),
         icon: Icon(
@@ -70,7 +68,7 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
           child: Text(AppStrings.select_brand_name.tr(), style: _textStyle),
         ),
         selectedItemBuilder: (BuildContext context) {
-          return widget.brands.map<Widget>((MenuBrand item) {
+          return widget.brands.map<Widget>((Brand item) {
             return Container(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -80,9 +78,9 @@ class _SelectBrandDropDownState extends State<SelectBrandDropDown> {
             );
           }).toList();
         },
-        items: widget.brands.map<DropdownMenuItem<MenuBrand>>(
+        items: widget.brands.map<DropdownMenuItem<Brand>>(
           (menu) {
-            return DropdownMenuItem<MenuBrand>(
+            return DropdownMenuItem<Brand>(
               value: menu,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

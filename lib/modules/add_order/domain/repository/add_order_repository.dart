@@ -24,7 +24,7 @@ abstract class AddOrderRepository {
     required PlaceOrderDataRequestModel body,
   });
 
-  Future<Either<Failure, List<AppliedPromo>>> fetchPromos(
+  Future<Either<Failure, List<Promo>>> fetchPromos(
     Map<String, dynamic> params,
   );
 

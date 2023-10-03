@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/filter_by_brands_view.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_screen.dart';
-import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../app/di.dart';
+import '../../../common/entities/brand.dart';
 import '../../../common/entities/provider.dart';
-import '../../domain/entities/brand.dart';
 import '../cubit/aggregator_selection_cubit.dart';
 import 'filter_by_aggregator_view.dart';
 import 'menu/menu_screen.dart';
 import 'menu_tabbar_view.dart';
 
 class MenuMgtBody extends StatelessWidget {
-  final List<MenuBrand> brands;
+  final List<Brand> brands;
   final _informationProvider = getIt.get<BusinessInformationProvider>();
 
   MenuMgtBody({Key? key, required this.brands}) : super(key: key);
@@ -40,7 +40,7 @@ class MenuMgtBody extends StatelessWidget {
               context.read<AggregatorSelectionCubit>().changeAggregator(null);
             },
           ),
-          BlocBuilder<BrandSelectionCubit, MenuBrand?>(
+          BlocBuilder<BrandSelectionCubit, Brand?>(
             builder: (context, brandState) {
               if (brandState == null) {
                 return const SizedBox();
@@ -68,7 +68,7 @@ class MenuMgtBody extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: AppSize.s20.rh),
             child: const MenuTabBarView(),
           ),
-          BlocBuilder<BrandSelectionCubit, MenuBrand?>(
+          BlocBuilder<BrandSelectionCubit, Brand?>(
             builder: (context, brandState) {
               return BlocBuilder<AggregatorSelectionCubit, int?>(
                 builder: (context, aggregatorState) {

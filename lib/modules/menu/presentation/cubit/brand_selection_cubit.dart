@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/modules/menu/domain/entities/brand.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 
-class BrandSelectionCubit extends Cubit<MenuBrand?> {
+class BrandSelectionCubit extends Cubit<Brand?> {
   BrandSelectionCubit() : super(null);
 
-  void changeBrand(MenuBrand brand) {
+  void changeBrand(Brand brand) {
     emit(brand);
   }
 }

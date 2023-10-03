@@ -16,8 +16,6 @@ import '../../domain/usecase/fetch_menus.dart';
 import '../../domain/usecase/ftech_modifier_groups.dart';
 import '../mapper/mmv1_to_menu.dart';
 import '../mapper/mmv2_to_menu.dart';
-import '../models/brand_model.dart';
-import '../models/brands_model.dart';
 import '../models/menu/menu_oos_response_model.dart';
 import '../models/menu/menu_v1_data.dart';
 import '../models/menu/menu_v2_data.dart';
@@ -25,10 +23,6 @@ import '../models/modifier/modifier_v1_data.dart';
 import '../models/modifier/modifier_v2_data.dart';
 
 abstract class MenuRemoteDatasource {
-  Future<MenuBrandsModel> fetchMenuBrands(Map<String, dynamic> params);
-
-  Future<MenuBrandModel> fetchMenuBrand({required int brandId, required int branchId});
-
   Future<MenuData> fetchMenus(FetchMenuParams params);
 
   Future<MenuOosResponseModel> updateItemSnooze(UpdateItemSnoozeParam params);
@@ -48,16 +42,6 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   final RestClient _restClient;
 
   MenuRemoteDatasourceImpl(this._restClient);
-
-  @override
-  Future<MenuBrandsModel> fetchMenuBrands(Map<String, dynamic> params) async {
-    try {
-      final response = await _restClient.request(Urls.menuBrands, Method.GET, params);
-      return MenuBrandsModel.fromJson(response);
-    } on DioException {
-      rethrow;
-    }
-  }
 
   @override
   Future<MenuData> fetchMenus(FetchMenuParams params) async {
@@ -257,16 +241,6 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         final response = await _restClient.request(Urls.updateModifierEnabledV2(param.type), Method.PATCH, param.toV2Json());
         return ActionSuccess.fromJson(response);
       }
-    } on DioException {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<MenuBrandModel> fetchMenuBrand({required int brandId, required int branchId}) async {
-    try {
-      final response = await _restClient.request(Urls.menuBrand(brandId), Method.GET, {'filterByBranch': branchId});
-      return MenuBrandModel.fromJson(response);
     } on DioException {
       rethrow;
     }

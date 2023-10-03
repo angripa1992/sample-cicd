@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 
+import '../../../add_order/data/models/applied_promo.dart';
 import '../../../common/entities/brand.dart';
 import '../../../common/entities/source.dart';
 import '../../domain/entities/delicery_info.dart';
@@ -9,7 +10,6 @@ import '../../domain/entities/order.dart';
 import '../../domain/entities/promo.dart';
 import '../../domain/entities/rider_info.dart';
 import '../../../common/model/brand_model.dart';
-import 'order_applied_promo.dart';
 
 part 'orders_model.g.dart';
 
@@ -197,10 +197,6 @@ class OrderModel {
   bool? canMarkCancel;
   @JsonKey(name: 'three_pl_dispatch_type')
   int? threePlDispatchType;
-  @JsonKey(name: 'order_applied_promo')
-  OrderAppliedPromo? orderAppliedPromo;
-  @JsonKey(name: 'item_applied_promos')
-  List<OrderAppliedPromo>? itemAppliedPromos;
   @JsonKey(name: 'cancellation_reason_id')
   int? cancellationReasonId;
   @JsonKey(name: 'cancellation_reason')
@@ -209,7 +205,6 @@ class OrderModel {
   String? pickUpAt;
   @JsonKey(name: 'restaurant_service_fee')
   int? restaurantServiceFee;
-  List<OrderAppliedPromoModel>? promos;
   @JsonKey(name: 'delivery_info')
   DeliveryInfoModel? deliveryInfo;
   @JsonKey(name: 'provider_sub_total')
@@ -218,6 +213,11 @@ class OrderModel {
   num? providerGrandTotal;
   @JsonKey(name: 'provider_additional_fee')
   num? providerAdditionalFee;
+  List<AppliedPromoItem>? promos;
+  @JsonKey(name: 'order_applied_promo')
+  AppliedPromoInfo? orderAppliedPromo;
+  @JsonKey(name: 'item_applied_promos')
+  List<AppliedPromoInfo>? itemAppliedPromos;
 
   OrderModel({
     this.id,
@@ -403,7 +403,7 @@ class OrderModel {
       cancellationReasonId: cancellationReasonId.orZero(),
       cancellationReason: cancellationReason.orEmpty(),
       restaurantServiceFee: restaurantServiceFee.orZero(),
-      appliedPromos: promos?.map((e) => e.toEntity()).toList() ?? [],
+      appliedPromos: promos ?? [],
       pickUpAt: pickUpAt.orEmpty(),
       deliveryInfo: deliveryInfo?.toEntity(),
       providerSubTotal: providerSubTotal.orZero(),
@@ -563,16 +563,11 @@ class CartV1Model {
   int? discountType;
   @JsonKey(name: 'discount_value')
   num? discountValue;
-  @JsonKey(name: 'applied_promo')
-  ItemAppliedPromoModel? appliedPromo;
-  @JsonKey(name: 'quantity_of_sc_promo_item')
-  int? quantityOfScPromoItem;
 
   CartV1Model({
     this.itemId,
     this.discountType,
     this.discountValue,
-    this.quantityOfScPromoItem,
   });
 
   factory CartV1Model.fromJson(Map<String, dynamic> json) => _$CartV1ModelFromJson(json);
@@ -583,58 +578,6 @@ class CartV1Model {
         itemId: itemId.orZero(),
         discountType: discountType.orZero(),
         discountValue: discountValue ?? ZERO,
-        quantityOfScPromoItem: quantityOfScPromoItem.orZero(),
-        appliedPromo: appliedPromo?.toEntity(),
-      );
-}
-
-@JsonSerializable(explicitToJson: true)
-class OrderAppliedPromoModel {
-  int? id;
-  String? code;
-  num? discount;
-
-  OrderAppliedPromoModel({
-    this.id,
-    this.code,
-    this.discount,
-  });
-
-  factory OrderAppliedPromoModel.fromJson(Map<String, dynamic> json) => _$OrderAppliedPromoModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$OrderAppliedPromoModelToJson(this);
-
-  OrderAppliedPromos toEntity() => OrderAppliedPromos(
-        id: id.orZero(),
-        code: code.orEmpty(),
-        discount: discount ?? ZERO,
-      );
-}
-
-@JsonSerializable(explicitToJson: true)
-class ItemAppliedPromoModel {
-  int? id;
-  String? code;
-  num? value;
-  @JsonKey(name: 'is_senior_citizen_promo')
-  bool? isSeniorCitizenPromo;
-
-  ItemAppliedPromoModel({
-    this.id,
-    this.code,
-    this.value,
-    this.isSeniorCitizenPromo,
-  });
-
-  factory ItemAppliedPromoModel.fromJson(Map<String, dynamic> json) => _$ItemAppliedPromoModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ItemAppliedPromoModelToJson(this);
-
-  ItemAppliedPromo toEntity() => ItemAppliedPromo(
-        id: id.orZero(),
-        code: code.orEmpty(),
-        value: value ?? ZERO,
-        isSeniorCitizenPromo: isSeniorCitizenPromo.orFalse(),
       );
 }
 

@@ -36,7 +36,7 @@ class PlaceOrderDataRequestModel {
   int? numberOfSeniorCitizen;
   int? numberOfCustomer;
   num? orderPromoDiscount;
-  AppliedPromo? appliedPromoModel;
+  Promo? appliedPromoModel;
 
   PlaceOrderDataRequestModel({
     this.id,

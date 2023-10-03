@@ -1,4 +1,4 @@
-class AppliedPromo {
+class Promo {
   int? id;
   String? code;
   String? startTime;
@@ -20,7 +20,7 @@ class AppliedPromo {
   String? updatedAt;
   bool? isSeniorCitizenPromo;
 
-  AppliedPromo(
+  Promo(
       {this.id,
       this.code,
       this.startTime,
@@ -42,7 +42,7 @@ class AppliedPromo {
       this.updatedAt,
       this.isSeniorCitizenPromo});
 
-  AppliedPromo.fromJson(Map<String, dynamic> json) {
+  Promo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     code = json['code'];
     startTime = json['start_time'];
@@ -87,6 +87,72 @@ class AppliedPromo {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['is_senior_citizen_promo'] = isSeniorCitizenPromo;
+    return data;
+  }
+}
+
+class AppliedPromoItem {
+  int? id;
+  String? code;
+  int? discount;
+
+  AppliedPromoItem({this.id, this.code, this.discount});
+
+  AppliedPromoItem.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    code = json['code'];
+    discount = json['discount'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['code'] = code;
+    data['discount'] = discount;
+    return data;
+  }
+}
+
+class AppliedPromoInfo {
+  int? itemId;
+  int? promoId;
+  String? promoCode;
+  bool? isSeniorCitizenPromo;
+  int? numberOfSeniorCitizen;
+  int? numberOfCustomer;
+  int? quantityOfScPromoItem;
+  Promo? promo;
+
+  AppliedPromoInfo({
+    this.itemId,
+    this.promoId,
+    this.promoCode,
+    this.isSeniorCitizenPromo,
+    this.numberOfSeniorCitizen,
+    this.numberOfCustomer,
+    this.quantityOfScPromoItem,
+    this.promo,
+  });
+
+  AppliedPromoInfo.fromJson(Map<String, dynamic> json) {
+    itemId = json['item_id'];
+    promoId = json['promo_id'];
+    promoCode = json['promo_code'];
+    isSeniorCitizenPromo = json['is_senior_citizen_promo'];
+    numberOfSeniorCitizen = json['number_of_senior_citizen'];
+    numberOfCustomer = json['number_of_customer'];
+    quantityOfScPromoItem = json['quantity_of_sc_promo_item'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['item_id'] = itemId;
+    data['promo_id'] = promoId;
+    data['promo_code'] = promoCode;
+    data['is_senior_citizen_promo'] = isSeniorCitizenPromo;
+    data['number_of_senior_citizen'] = numberOfSeniorCitizen;
+    data['number_of_customer'] = numberOfCustomer;
+    data['quantity_of_sc_promo_item'] = quantityOfScPromoItem;
     return data;
   }
 }

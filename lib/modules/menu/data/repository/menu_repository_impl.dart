@@ -4,7 +4,6 @@ import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
-import 'package:klikit/modules/menu/domain/entities/brands.dart';
 import 'package:klikit/modules/menu/domain/entities/modifier/affected_modifier_response.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_item_snooze.dart';
@@ -25,22 +24,6 @@ class MenuRepositoryImpl extends MenuRepository {
   final NetworkConnectivity _connectivity;
 
   MenuRepositoryImpl(this._datasource, this._connectivity);
-
-  @override
-  Future<Either<Failure, MenuBrands>> fetchMenuBrands(
-    Map<String, dynamic> params,
-  ) async {
-    if (await _connectivity.hasConnection()) {
-      try {
-        final response = await _datasource.fetchMenuBrands(params);
-        return Right(response.toEntity());
-      } on DioException catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    } else {
-      return Left(ErrorHandler.handleInternetConnection().failure);
-    }
-  }
 
   @override
   Future<Either<Failure, MenuData>> fetchMenu(FetchMenuParams params) async {

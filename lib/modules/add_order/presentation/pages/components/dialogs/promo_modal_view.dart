@@ -17,16 +17,15 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../data/models/applied_promo.dart';
-import '../../../../domain/entities/add_to_cart_item.dart';
 
 class PromoModalView extends StatefulWidget {
   final num subtotal;
   final int orderType;
   final List<int> brands;
   final bool isItemDiscount;
-  final PromoInfo? promoInfo;
+  final AppliedPromoInfo? promoInfo;
   final int citizenMaxCount;
-  final Function(AppliedPromo?, bool) onPromoChanged;
+  final Function(Promo?, bool) onPromoChanged;
   final Function(int) onCitizenChanged;
   final Function(int) onCustomerChanged;
 
@@ -49,15 +48,15 @@ class PromoModalView extends StatefulWidget {
 
 class _PromoModalViewState extends State<PromoModalView> {
   final _valueNotifier = ValueNotifier<int?>(null);
-  AppliedPromo? _appliedPromo;
+  Promo? _appliedPromo;
   int? _citizen;
   int? _customer;
 
   @override
   void initState() {
     _appliedPromo = widget.promoInfo?.promo;
-    _citizen = widget.promoInfo?.citizen;
-    _customer = widget.promoInfo?.customer;
+    _citizen = widget.promoInfo?.numberOfSeniorCitizen;
+    _customer = widget.promoInfo?.numberOfCustomer;
     _valueNotifier.value = _appliedPromo?.id;
     super.initState();
   }
@@ -110,7 +109,7 @@ class _PromoModalViewState extends State<PromoModalView> {
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                      child: FutureBuilder<dartz.Either<Failure, List<AppliedPromo>>>(
+                      child: FutureBuilder<dartz.Either<Failure, List<Promo>>>(
                         future: getIt.get<AddOrderRepository>().fetchPromos(_params()),
                         builder: (context, snap) {
                           if (snap.hasData && snap.data != null) {

@@ -1,6 +1,6 @@
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 
-import '../../../menu/domain/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../data/models/applied_promo.dart';
@@ -12,11 +12,11 @@ class AddToCartItem {
   final num modifiersPrice;
   final MenuItemPrice itemPrice;
   String itemInstruction;
-  MenuBrand brand;
+  Brand brand;
   int quantity;
   int discountType;
   num discountValue;
-  PromoInfo? promoInfo;
+  AppliedPromoInfo? promoInfo;
 
   AddToCartItem({
     required this.modifiers,
@@ -103,12 +103,7 @@ class CustomerInfo {
   final String phone;
   final String tableNo;
 
-  CustomerInfo(
-      {required this.firstName,
-      required this.lastName,
-      required this.email,
-      required this.phone,
-      required this.tableNo});
+  CustomerInfo({required this.firstName, required this.lastName, required this.email, required this.phone, required this.tableNo});
 }
 
 class UpdateCartInfo {
@@ -120,17 +115,5 @@ class UpdateCartInfo {
     required this.id,
     required this.externalId,
     required this.identity,
-  });
-}
-
-class PromoInfo {
-  AppliedPromo promo;
-  int? citizen;
-  int? customer;
-
-  PromoInfo({
-    required this.promo,
-    required this.citizen,
-    this.customer,
   });
 }

@@ -1,3 +1,4 @@
+import 'package:docket_design_template/utils/extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
@@ -80,7 +81,7 @@ class _PriceViewState extends State<PriceView> {
                     _vatTitle(widget.order),
                     widget.order.vat,
                   ),
-                 // SizedBox(height: AppSize.s2.rh),
+                  // SizedBox(height: AppSize.s2.rh),
                   // _getSubtotalItem(
                   //   AppStrings.delivery_fee.tr(),
                   //   widget.order.deliveryFee,
@@ -146,7 +147,7 @@ class _PriceViewState extends State<PriceView> {
   String _appliedPromos(Order order) {
     final Set<String> promos = <String>{};
     for (var element in order.appliedPromos) {
-      promos.add(element.code);
+      promos.add(element.code ?? EMPTY);
     }
     final promoStr = promos.join(', ');
     return promoStr.isEmpty ? promoStr : '($promoStr)';

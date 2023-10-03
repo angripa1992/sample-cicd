@@ -30,7 +30,7 @@ abstract class AddOrderDatasource {
 
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataRequestModel body);
 
-  Future<List<AppliedPromo>> fetchPromos(Map<String, dynamic> params);
+  Future<List<Promo>> fetchPromos(Map<String, dynamic> params);
 }
 
 class AddOrderDatasourceImpl extends AddOrderDatasource {
@@ -134,7 +134,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   }
 
   @override
-  Future<List<AppliedPromo>> fetchPromos(Map<String, dynamic> params) async {
+  Future<List<Promo>> fetchPromos(Map<String, dynamic> params) async {
     try {
       final timezone = await DateTimeProvider.timeZone();
       params['timezone'] = timezone;
@@ -143,7 +143,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         Method.GET,
         params,
       );
-      return response?.map((e) => AppliedPromo.fromJson(e)).toList() ?? [];
+      return response?.map((e) => Promo.fromJson(e)).toList() ?? [];
     } on DioException {
       rethrow;
     }

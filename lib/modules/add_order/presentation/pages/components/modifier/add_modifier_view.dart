@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
-import 'package:klikit/modules/menu/domain/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item_price.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../../common/entities/brand.dart';
 import '../../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../domain/entities/modifier/item_modifier_group.dart';
@@ -21,7 +21,7 @@ import 'modifier_header_view.dart';
 class AddModifierView extends StatefulWidget {
   final List<MenuItemModifierGroup> groups;
   final MenuCategoryItem item;
-  final MenuBrand brand;
+  final Brand brand;
   final Function(AddToCartItem?) onClose;
   final VoidCallback onCartTap;
 
@@ -50,9 +50,7 @@ class _AddModifierViewState extends State<AddModifierView> {
   void initState() {
     _itemPrice = widget.item.klikitPrice();
     _priceNotifier.value = _itemPrice.price;
-    ModifierManager()
-        .verifyRules(widget.groups)
-        .then((value) => _enabledNotifier.value = value);
+    ModifierManager().verifyRules(widget.groups).then((value) => _enabledNotifier.value = value);
     super.initState();
   }
 
@@ -66,8 +64,7 @@ class _AddModifierViewState extends State<AddModifierView> {
 
   void _onChanged() async {
     final validated = await ModifierManager().verifyRules(widget.groups);
-    _modifierPrice =
-        await ModifierManager().calculateModifiersPrice(widget.groups);
+    _modifierPrice = await ModifierManager().calculateModifiersPrice(widget.groups);
     if (_enabledNotifier.value != validated) {
       _enabledNotifier.value = validated;
     }

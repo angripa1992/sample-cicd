@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_list_view.dart';
 import 'package:klikit/resources/colors.dart';
@@ -13,15 +14,13 @@ import 'package:klikit/resources/styles.dart';
 
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
-import '../../../domain/entities/brand.dart';
 import '../../../domain/entities/menu/menu_data.dart';
 
 class MenuScreen extends StatefulWidget {
-  final MenuBrand? brand;
+  final Brand? brand;
   final int? providerId;
 
-  const MenuScreen({Key? key, required this.brand, this.providerId})
-      : super(key: key);
+  const MenuScreen({Key? key, required this.brand, this.providerId}) : super(key: key);
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
@@ -30,8 +29,7 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
-    SegmentManager()
-        .screen(event: SegmentEvents.MENU_SCREEN, name: 'Menu Screen');
+    SegmentManager().screen(event: SegmentEvents.MENU_SCREEN, name: 'Menu Screen');
     super.initState();
   }
 

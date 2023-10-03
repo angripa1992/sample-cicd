@@ -11,11 +11,11 @@ import 'package:klikit/modules/add_order/presentation/pages/components/cart/sour
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/step_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/type_selector.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../menu/domain/entities/brand.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../../domain/entities/order_source.dart';
 import '../dialogs/delete_item_dialog.dart';
@@ -29,7 +29,7 @@ import 'order_action_button.dart';
 class CartScreen extends StatefulWidget {
   final VoidCallback onClose;
   final Function(AddToCartItem) onEdit;
-  final Function(MenuBrand) addMore;
+  final Function(Brand) addMore;
   final Function(CheckoutData) onCheckout;
 
   const CartScreen({
@@ -124,8 +124,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
           content: DeleteItemDialogView(
             cartItem: item,
-            itemBill: _cartBill!.items
-                .firstWhere((element) => element.id == item.item.id),
+            itemBill: _cartBill!.items.firstWhere((element) => element.id == item.item.id),
             onDelete: () {
               CartManager().removeFromCart(item);
               _calculateBill();
@@ -203,24 +202,14 @@ class _CartScreenState extends State<CartScreen> {
             margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
             color: AppColors.grey,
             child: OrderDiscountModalView(
-              promoInfo: isItemDiscount
-                  ? cartItem!.promoInfo
-                  : CartManager().getPromoInfo(),
-              initialDiscountType:
-                  isItemDiscount ? cartItem!.discountType : discountType!,
-              initialDiscountVale:
-                  isItemDiscount ? cartItem!.discountValue : discountValue!,
-              brands: isItemDiscount
-                  ? [cartItem!.brand.id]
-                  : CartManager().availableBrands(),
+              promoInfo: isItemDiscount ? cartItem!.promoInfo : CartManager().getPromoInfo(),
+              initialDiscountType: isItemDiscount ? cartItem!.discountType : discountType!,
+              initialDiscountVale: isItemDiscount ? cartItem!.discountValue : discountValue!,
+              brands: isItemDiscount ? [cartItem!.brand.id] : CartManager().availableBrands(),
               subtotal: _cartBill!.subTotal,
               isItemDiscount: isItemDiscount,
-              itemQuantity: isItemDiscount
-                  ? cartItem!.quantity
-                  : CartManager().totalItemQuantity(),
-              willShowPromo: isItemDiscount
-                  ? _cartBill!.orderPromoDiscount <= 0
-                  : _cartBill!.itemPromoDiscount <= 0,
+              itemQuantity: isItemDiscount ? cartItem!.quantity : CartManager().totalItemQuantity(),
+              willShowPromo: isItemDiscount ? _cartBill!.orderPromoDiscount <= 0 : _cartBill!.itemPromoDiscount <= 0,
               orderType: _currentOrderType,
               onApply: (discountType, discountValue, promoInfo) {
                 if (isItemDiscount) {
@@ -254,8 +243,7 @@ class _CartScreenState extends State<CartScreen> {
     );
     if (payload == null) return;
     EasyLoading.show();
-    final response =
-        await getIt.get<AddOrderRepository>().calculateBill(model: payload);
+    final response = await getIt.get<AddOrderRepository>().calculateBill(model: payload);
     EasyLoading.dismiss();
     response.fold(
       (failure) {

@@ -26,7 +26,7 @@ class CartBillModel {
   List<ItemBillModel>? items;
   int? numberOfSeniorCitizen;
   int? numberOfSeniorCustomer;
-  AppliedPromo? appliedPromo;
+  Promo? appliedPromo;
 
   CartBillModel({
     this.subTotal,
@@ -77,7 +77,7 @@ class CartBillModel {
     numberOfSeniorCitizen = json['number_of_senior_citizen'];
     numberOfSeniorCustomer = json['number_of_customer'];
     appliedPromo = json['applied_promo'] != null
-        ? AppliedPromo.fromJson(json['applied_promo'])
+        ? Promo.fromJson(json['applied_promo'])
         : null;
     if (json['items'] != null) {
       items = <ItemBillModel>[];
@@ -126,7 +126,7 @@ class ItemBillModel {
   num? quantity;
   num? itemFinalPrice;
   int? quantityOfPromoItem;
-  AppliedPromo? appliedPromo;
+  Promo? appliedPromo;
 
   ItemBillModel({
     this.id,
@@ -156,7 +156,7 @@ class ItemBillModel {
     itemFinalPrice = json['item_final_price'];
     quantityOfPromoItem = json['quantity_of_sc_promo_item'];
     appliedPromo = json['applied_promo'] != null
-        ? AppliedPromo.fromJson(json['applied_promo'])
+        ? Promo.fromJson(json['applied_promo'])
         : null;
   }
 

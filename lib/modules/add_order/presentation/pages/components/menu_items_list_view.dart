@@ -8,7 +8,7 @@ import 'package:klikit/modules/add_order/presentation/pages/components/search/me
 import 'package:klikit/modules/add_order/presentation/pages/components/search/search_button.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/tab_item_view.dart';
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
-import 'package:klikit/modules/menu/domain/entities/brand.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:scrollable_list_tab_scroller/scrollable_list_tab_scroller.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -26,12 +26,11 @@ import 'menu_category_item_view.dart';
 import 'menu_item_description.dart';
 
 class MenuCategoryItemsListView extends StatefulWidget {
-  final MenuBrand? brand;
+  final Brand? brand;
   final List<MenuCategory> categories;
   final VoidCallback onCartTap;
   final Function(AddToCartItem?) onAddToCart;
-  final Function(List<MenuItemModifierGroup>, MenuCategoryItem, MenuBrand)
-      onAddModifier;
+  final Function(List<MenuItemModifierGroup>, MenuCategoryItem, Brand) onAddModifier;
 
   const MenuCategoryItemsListView({
     Key? key,
@@ -43,8 +42,7 @@ class MenuCategoryItemsListView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MenuCategoryItemsListView> createState() =>
-      _MenuCategoryItemsListViewState();
+  State<MenuCategoryItemsListView> createState() => _MenuCategoryItemsListViewState();
 }
 
 class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
@@ -255,8 +253,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
                         itemBuilder: (BuildContext context, int index) {
                           return MenuCategoryItemView(
                             menuItem: category.items[index],
-                            dayInfo: AvailableTimeProvider()
-                                .todayInfo(category.availableTimes),
+                            dayInfo: AvailableTimeProvider().todayInfo(category.availableTimes),
                             onAddItem: () {
                               _fetchModifier(category.items[index]);
                             },
