@@ -312,29 +312,35 @@ class _CartScreenState extends State<CartScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                FutureBuilder<List<AddOrderSourceType>>(
-                  future: getIt.get<AddOrderRepository>().fetchSources(),
-                  builder: (_, snap) {
-                    if (snap.hasData && snap.data != null) {
-                      return SourceSelector(
-                        sources: snap.data!,
-                        initialSource: _currentSource,
-                        onChangeSource: (source) {
-                          _currentSource = source.id;
-                          _saveCurrentEditInfo();
-                        },
-                      );
-                    }
-                    return const SizedBox();
-                  },
+                Visibility(
+                  visible: !CartManager().getUpdateCartInfo()!.isWebShopOrder,
+                  child: FutureBuilder<List<AddOrderSourceType>>(
+                    future: getIt.get<AddOrderRepository>().fetchSources(),
+                    builder: (_, snap) {
+                      if (snap.hasData && snap.data != null) {
+                        return SourceSelector(
+                          sources: snap.data!,
+                          initialSource: _currentSource,
+                          onChangeSource: (source) {
+                            _currentSource = source.id;
+                            _saveCurrentEditInfo();
+                          },
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  ),
                 ),
-                TypeSelector(
-                  initialType: _currentOrderType,
-                  onTypeChange: (type) {
-                    _currentOrderType = type;
-                    CartManager().removePromoForOrderType(_currentOrderType);
-                    _calculateBill();
-                  },
+                Visibility(
+                  visible: !CartManager().getUpdateCartInfo()!.isWebShopOrder,
+                  child: TypeSelector(
+                    initialType: _currentOrderType,
+                    onTypeChange: (type) {
+                      _currentOrderType = type;
+                      CartManager().removePromoForOrderType(_currentOrderType);
+                      _calculateBill();
+                    },
+                  ),
                 ),
                 CartItemsListView(
                   cartBill: _cartBill!,

@@ -110,10 +110,16 @@ class UpdateCartInfo {
   final int id;
   final String externalId;
   final String identity;
+  final bool isPrePayment;
+  final bool isWebShopOrder;
+  final num itemPrice;
 
   UpdateCartInfo({
     required this.id,
     required this.externalId,
     required this.identity,
+    required this.isPrePayment,
+    required this.isWebShopOrder,
+    required this.itemPrice,
   });
 }

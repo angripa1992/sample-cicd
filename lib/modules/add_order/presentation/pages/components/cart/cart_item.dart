@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 
 import '../../../../../../core/utils/price_calculator.dart';
@@ -188,13 +189,16 @@ class CartItemView extends StatelessWidget {
           enabled: cartItem.modifiers.isNotEmpty,
         ),
         SizedBox(width: AppSize.s8.rw),
-        _outlineButton(
-          text: AppStrings.discount.tr(),
-          icon: itemBill.discount > 0 ? Icons.edit : Icons.add,
-          enabled: true,
-          onPressed: () {
-            addDiscount(cartItem);
-          },
+        Visibility(
+          visible: !CartManager().getUpdateCartInfo()!.isWebShopOrder,
+          child: _outlineButton(
+            text: AppStrings.discount.tr(),
+            icon: itemBill.discount > 0 ? Icons.edit : Icons.add,
+            enabled: true,
+            onPressed: () {
+              addDiscount(cartItem);
+            },
+          ),
         ),
         const Spacer(),
         CounterView(

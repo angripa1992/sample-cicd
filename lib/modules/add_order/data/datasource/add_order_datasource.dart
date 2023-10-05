@@ -19,10 +19,7 @@ import '../models/request/billing_request.dart';
 import '../models/request/place_order_data_request.dart';
 
 abstract class AddOrderDatasource {
-  Future<List<MenuItemModifierGroup>> fetchModifiers({
-    required int itemID,
-    required MenuBranchInfo branchInfo,
-  });
+  Future<List<MenuItemModifierGroup>> fetchModifiers({required int itemID, required MenuBranchInfo branchInfo});
 
   Future<CartBillModel> calculateBill({required BillingRequestModel model});
 
@@ -57,9 +54,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         );
         if (response != null && response.isNotEmpty) {
           final modifierGroupsResponse = response.first as List<dynamic>;
-          final v2Modifiers = modifierGroupsResponse
-              .map((e) => V2ItemModifierGroupModel.fromJson(e))
-              .toList();
+          final v2Modifiers = modifierGroupsResponse.map((e) => V2ItemModifierGroupModel.fromJson(e)).toList();
           return mapAddOrderV2ModifierToModifier(v2Modifiers, branchInfo);
         } else {
           return [];
@@ -70,10 +65,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
           Method.GET,
           {'item_id': itemID},
         );
-        final v1Modifiers = response
-                ?.map((e) => MenuItemModifierGroupModel.fromJson(e))
-                .toList() ??
-            [];
+        final v1Modifiers = response?.map((e) => MenuItemModifierGroupModel.fromJson(e)).toList() ?? [];
         return mapAddOrderV1ModifierToModifier(v1Modifiers);
       }
     } on DioException {
@@ -109,18 +101,15 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<List<AddOrderSourcesModel>> fetchSources() async {
     try {
-      final List<dynamic>? responses =
-          await _restClient.request(Urls.sources, Method.GET, null);
-      return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ??
-          [];
+      final List<dynamic>? responses = await _restClient.request(Urls.sources, Method.GET, null);
+      return responses?.map((e) => AddOrderSourcesModel.fromJson(e)).toList() ?? [];
     } on DioException {
       rethrow;
     }
   }
 
   @override
-  Future<PlacedOrderResponse> placeOrder(
-      PlaceOrderDataRequestModel body) async {
+  Future<PlacedOrderResponse> placeOrder(PlaceOrderDataRequestModel body) async {
     try {
       final response = await _restClient.request(
         Urls.manualOrder,

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/promo_modal_view.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../resources/colors.dart';
@@ -103,17 +104,20 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _appBar(),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: AppSize.s8.rh,
-            horizontal: AppSize.s8.rw,
-          ),
-          child: AddDiscountModalView(
-            initialType: _discountType,
-            onTypeChanged: (discountType) {
-              _discountType = discountType;
-            },
-            discountValueController: _discountController,
+        Visibility(
+          visible: !CartManager().getUpdateCartInfo()!.isWebShopOrder,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: AppSize.s8.rh,
+              horizontal: AppSize.s8.rw,
+            ),
+            child: AddDiscountModalView(
+              initialType: _discountType,
+              onTypeChanged: (discountType) {
+                _discountType = discountType;
+              },
+              discountValueController: _discountController,
+            ),
           ),
         ),
         if (widget.willShowPromo)

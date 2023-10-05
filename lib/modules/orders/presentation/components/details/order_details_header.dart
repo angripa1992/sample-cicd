@@ -14,9 +14,9 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../../../../app/extensions.dart';
+import '../../../../common/business_information_provider.dart';
 import '../../../../common/entities/provider.dart';
 import '../../../../widgets/snackbars.dart';
-import '../../../../common/business_information_provider.dart';
 import '../order_item/three_pl_status.dart';
 import 'comment_action_view.dart';
 import 'order_tags.dart';
@@ -38,7 +38,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
-    final canUpdateManualOrder = (order.providerId == ProviderID.KLIKIT) && order.isManualOrder && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
+    final canUpdateKlikitOrder = (order.providerId == ProviderID.KLIKIT) && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
@@ -58,11 +58,11 @@ class OrderDetailsHeaderView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (canUpdateManualOrder || canUpdateGrabOrder)
+              if (canUpdateKlikitOrder || canUpdateGrabOrder)
                 Expanded(
                   child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder),
                 ),
-              if (canUpdateManualOrder || canUpdateGrabOrder) SizedBox(width: AppSize.s8.rw),
+              if (canUpdateKlikitOrder || canUpdateGrabOrder) SizedBox(width: AppSize.s8.rw),
               if (order.isThreePlOrder && order.canFindFulfillmentRider) SizedBox(width: AppSize.s8.rw),
               Expanded(
                 child: CommentActionView(

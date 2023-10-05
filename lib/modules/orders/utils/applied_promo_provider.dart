@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:klikit/app/di.dart';
+import 'package:klikit/modules/orders/data/models/webshop_order_details_model.dart';
 
 import '../../../app/session_manager.dart';
 import '../../add_order/data/datasource/add_order_datasource.dart';
 import '../../add_order/data/models/applied_promo.dart';
-import '../domain/entities/order.dart';
 
 class AppliedPromoProvider {
   static final _instance = AppliedPromoProvider._internal();
@@ -12,21 +13,39 @@ class AppliedPromoProvider {
 
   AppliedPromoProvider._internal();
 
-  Future<List<Promo>> fetchPromos(AddOrderDatasource datasource, Order order) async {
+  Future<List<Promo>> fetchPromos({
+    required String productType,
+    required num orderAmountInCent,
+    required List<int> brandsID,
+  }) async {
     try {
       final params = {
         'country': SessionManager().country(),
         'business': SessionManager().businessID(),
         'branch': SessionManager().branchId(),
-        'product_type': 'add_order',
-        'order_amount': order.itemPrice / 100,
-        'brands': ListParam<int>(order.brands.map((e) => e.id).toList(), ListFormat.csv),
+        'product_type': productType,
+        'order_amount': orderAmountInCent / 100,
+        'brands': ListParam<int>(brandsID, ListFormat.csv),
       };
-      final response = await datasource.fetchPromos(params);
+      final response = await getIt.get<AddOrderDatasource>().fetchPromos(params);
       return response;
     } catch (e) {
       return [];
     }
+  }
+
+  AppliedPromoInfo? appliedPromoInfoForWebShopOrder(WebShopOrderDetailsModel orderDetailsModel) {
+    final promo = orderDetailsModel.appliedPromo;
+    if (promo == null) return null;
+    return AppliedPromoInfo(
+      promo: promo,
+      isSeniorCitizenPromo: promo.isSeniorCitizenPromo!,
+      itemId: 0,
+      promoId: promo.id,
+      numberOfSeniorCitizen: orderDetailsModel.numberOfSeniorCitizen,
+      numberOfCustomer: orderDetailsModel.numberOfCustomer,
+      promoCode: promo.code,
+    );
   }
 
   AppliedPromoInfo? appliedPromoInfo({

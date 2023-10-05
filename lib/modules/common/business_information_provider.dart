@@ -1,12 +1,13 @@
 import 'package:klikit/modules/common/payment_info_provider.dart';
 import 'package:klikit/modules/common/source_provider.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
 
+import 'aggregrator_provider.dart';
 import 'branch_info_provider.dart';
+import 'brand_provider.dart';
+import 'data/business_info_provider_repo.dart';
 import 'entities/branch_info.dart';
 import 'entities/brand.dart';
-import 'data/business_info_provider_repo.dart';
-import 'aggregrator_provider.dart';
-import 'brand_provider.dart';
 import 'entities/payment_info.dart';
 import 'entities/provider.dart';
 import 'entities/source.dart';
@@ -63,6 +64,8 @@ class BusinessInformationProvider {
 
   ///branch
   Future<BusinessBranchInfo?> branchInfo() => _branchInfoProvider.getBranchInfo();
+
+  Future<MenuBranchInfo?> menuBranchInfo() => _branchInfoProvider.getMenuBranchInfo();
 
   ///clear data after logout
   void clearData() {

@@ -9,6 +9,7 @@ import 'package:klikit/modules/orders/data/models/settings_model.dart';
 import '../../edit_order/grab_order_update_request_model.dart';
 import '../models/cancellation_reason_model.dart';
 import '../models/order_status_model.dart';
+import '../models/webshop_order_details_model.dart';
 
 abstract class OrderRemoteDatasource {
   Future<List<OrderStatusModel>> fetchOrderStatus();
@@ -18,6 +19,8 @@ abstract class OrderRemoteDatasource {
   Future<OrdersModel> fetchOrder(Map<String, dynamic> params);
 
   Future<OrderModel> fetchOrderById(int id);
+
+  Future<WebShopOrderDetailsModel> fetchOmsOrderById(String externalID);
 
   Future<ActionSuccess> updateOrderStatus(Map<String, dynamic> params);
 
@@ -166,6 +169,16 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
         {'type_id': 1},
       );
       return response.map((e) => CancellationReasonModel.fromJson(e)).toList();
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<WebShopOrderDetailsModel> fetchOmsOrderById(String externalID) async {
+    try {
+      final response = await _restClient.request('${Urls.omsOrder}/$externalID', Method.GET, null);
+      return WebShopOrderDetailsModel.fromJson(response);
     } on DioException {
       rethrow;
     }

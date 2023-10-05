@@ -6,14 +6,15 @@ import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/data/models/order_status_model.dart';
+import 'package:klikit/modules/orders/data/models/webshop_order_details_model.dart';
 import 'package:klikit/modules/orders/domain/entities/cancellation_reason.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/edit_order/grab_order_update_request_model.dart';
 
-import '../../../common/entities/source.dart';
 import '../../../common/business_information_provider.dart';
+import '../../../common/entities/source.dart';
 import '../models/orders_model.dart';
 
 class OrderRepositoryImpl extends OrderRepository {
@@ -214,6 +215,20 @@ class OrderRepositoryImpl extends OrderRepository {
       }
     } else {
       return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<WebShopOrderDetailsModel?> fetchOmsOrderById(String externalID) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchOmsOrderById(externalID);
+        return response;
+      } on DioException {
+        return null;
+      }
+    } else {
+      return null;
     }
   }
 }

@@ -61,11 +61,16 @@ class CartPriceView extends StatelessWidget {
               price: cartBill.serviceFee,
             ),
             SizedBox(height: AppSize.s12.rh),
-            _editableItem(
-              title: AppStrings.delivery_fee.tr(),
-              price: cartBill.deliveryFee,
-              onTap: onDeliveryFee,
-            ),
+            CartManager().getUpdateCartInfo()!.isWebShopOrder
+                ? _item(
+                    title: AppStrings.delivery_fee.tr(),
+                    price: cartBill.deliveryFee,
+                  )
+                : _editableItem(
+                    title: AppStrings.delivery_fee.tr(),
+                    price: cartBill.deliveryFee,
+                    onTap: onDeliveryFee,
+                  ),
             SizedBox(height: AppSize.s12.rh),
             _editableItem(
               title: AppStrings.discount.tr(),
@@ -73,11 +78,16 @@ class CartPriceView extends StatelessWidget {
               onTap: onDiscount,
             ),
             SizedBox(height: AppSize.s12.rh),
-            _editableItem(
-              title: AppStrings.additional_fee.tr(),
-              price: cartBill.additionalFee,
-              onTap: onAdditionalFee,
-            ),
+            CartManager().getUpdateCartInfo()!.isWebShopOrder
+                ? _item(
+                    title: AppStrings.additional_fee.tr(),
+                    price: cartBill.additionalFee,
+                  )
+                : _editableItem(
+                    title: AppStrings.additional_fee.tr(),
+                    price: cartBill.additionalFee,
+                    onTap: onAdditionalFee,
+                  ),
           ],
         ),
       ),
