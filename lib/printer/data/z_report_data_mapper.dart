@@ -4,8 +4,8 @@ import 'package:klikit/core/utils/price_calculator.dart';
 
 import '../../app/constants.dart';
 import '../../app/di.dart';
-import '../../modules/home/data/model/z_report_data_model.dart';
 import '../../modules/common/business_information_provider.dart';
+import '../../modules/home/data/model/z_report_data_model.dart';
 
 class ZReportCurrency {
   final String code;
@@ -37,45 +37,29 @@ class ZReportDataProvider {
     );
   }
 
-  ZReportCurrency _currency(OrderSummaryModel? orderSummary) {
+  Future<ZReportCurrency> _currency(OrderSummaryModel? orderSummary) async {
     if (orderSummary != null && orderSummary.summary != null) {
       if (orderSummary.summary!.isNotEmpty) {
         final summary = orderSummary.summary!.first;
         return ZReportCurrency(summary.currency!, summary.currencySymbol!);
       }
     }
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
+    if (branchInfo != null) {
+      return ZReportCurrency(branchInfo.currencyCode, branchInfo.currencySymbol);
+    }
     return ZReportCurrency('USD', '\$');
   }
 
-  Future<TemplateZReport> generateTemplateData(
-    ZReportDataModel dataModel,
-    DateTime reportTime,
-  ) async {
-    final currency = _currency(dataModel.orderSummary);
-    final providerSummary = await _templateProviderSummary(
-      dataModel.orderSummary,
-      currency,
-    );
-    final itemSummary = await _templateItemSummary(
-      dataModel.itemSummary,
-      currency,
-    );
-    final itemModifierSummary = await _templateItemSummary(
-      dataModel.modifierItemSummary,
-      currency,
-    );
-    final paymentMethodSummary = await _templatePaymentMethodSummary(
-      dataModel.paymentSummary!,
-      currency,
-    );
-    final paymentChannelSummary = await _templatePaymentChannelSummary(
-      dataModel.paymentSummary!,
-      currency,
-    );
+  Future<TemplateZReport> generateTemplateData(ZReportDataModel dataModel, DateTime reportTime) async {
+    final currency = await _currency(dataModel.orderSummary);
+    final providerSummary = await _templateProviderSummary(dataModel.orderSummary, currency);
+    final itemSummary = await _templateItemSummary(dataModel.itemSummary, currency);
+    final itemModifierSummary = await _templateItemSummary(dataModel.modifierItemSummary, currency);
+    final paymentMethodSummary = await _templatePaymentMethodSummary(dataModel.paymentSummary!, currency);
+    final paymentChannelSummary = await _templatePaymentChannelSummary(dataModel.paymentSummary!, currency);
     return TemplateZReport(
-      generatedDate: DateFormat('MMMM dd yyyy, hh:mm aaa')
-          .format(DateTime.now().toLocal())
-          .toString(),
+      generatedDate: DateFormat('MMMM dd yyyy, hh:mm aaa').format(DateTime.now().toLocal()).toString(),
       reportDate: DateFormat('MMMM dd, yyyy').format(reportTime).toString(),
       providerSummary: providerSummary,
       itemSummary: itemSummary,
@@ -125,9 +109,7 @@ class ZReportDataProvider {
           );
         }
       } else {
-        final provider = await getIt
-            .get<BusinessInformationProvider>()
-            .findProviderById(providerSummary.providerId!);
+        final provider = await getIt.get<BusinessInformationProvider>().findProviderById(providerSummary.providerId!);
         providerSummaries.add(
           TemplateSummaryItem(
             name: provider.title,
