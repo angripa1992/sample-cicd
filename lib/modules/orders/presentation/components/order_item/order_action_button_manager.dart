@@ -62,7 +62,7 @@ class OrderActionButtonManager {
       return false;
     } else if (order.providerId == ProviderID.KLIKIT && order.status == OrderStatus.READY) {
       return true;
-    } else if ((order.providerId == ProviderID.GRAB_FOOD || order.providerId == ProviderID.FOOD_PANDA) && order.type != OrderType.PICKUP && order.status == OrderStatus.READY) {
+    } else if ((order.providerId == ProviderID.FOOD_PANDA) && order.type != OrderType.PICKUP && order.status == OrderStatus.READY) {
       return true;
     } else if (order.providerId == ProviderID.WOLT && order.type == OrderType.PICKUP && order.status == OrderStatus.READY) {
       return true;

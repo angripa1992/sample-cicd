@@ -72,11 +72,8 @@ class OrderTagsView extends StatelessWidget {
         spacing: AppSize.s8.rw,
         children: [
           _orderTypeTagView(_getType()),
-          if (order.providerId == ProviderID.KLIKIT)
-            _tagView(
-              order.isManualOrder ? AppStrings.manual.tr() : AppStrings.webshop.tr(),
-            ),
-          if (order.providerId == ProviderID.KLIKIT && !order.isManualOrder && order.tableNo.isNotEmpty) _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
+          if (order.providerId == ProviderID.KLIKIT) _tagView(order.isManualOrder ? AppStrings.manual.tr() : AppStrings.webshop.tr()),
+          if (order.providerId == ProviderID.KLIKIT && order.tableNo.isNotEmpty) _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
           _tagView(_getStatus()),
           OrderPaymentInfoView(order: order),
         ],
