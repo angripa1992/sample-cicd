@@ -62,16 +62,6 @@ Widget getActionButtons({
         ),
       ),
       Visibility(
-        visible: OrderActionButtonManager().canPickedUp(order),
-        child: PickedUpButton(
-          expanded: false,
-          enabled: true,
-          onPickedUp: () {
-            onAction('${AppStrings.pickup_order.tr()} #${order.id}', OrderStatus.PICKED_UP);
-          },
-        ),
-      ),
-      Visibility(
         visible: OrderActionButtonManager().canUpdateOrder(order),
         child: EditButton(
           onEdit: () {
@@ -161,21 +151,6 @@ Widget getExpandActionButtons({
               enabled: true,
               onDeliver: () {
                 onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
-              },
-            ),
-          ),
-        ),
-      ),
-      Visibility(
-        visible: OrderActionButtonManager().canPickedUp(order),
-        child: Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s2.rw),
-            child: PickedUpButton(
-              expanded: true,
-              enabled: true,
-              onPickedUp: () {
-                onAction('${AppStrings.pickup_order.tr()} #${order.id}', OrderStatus.PICKED_UP);
               },
             ),
           ),
