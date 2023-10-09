@@ -72,13 +72,13 @@ class BillingItemModifierRequestModel {
     data['modifier_quantity'] = modifierQuantity;
     data['extra_price'] = extraPrice;
     data['selectedTitle'] = selectedTitle;
-    data['klikit_id'] = klkitID;
-    data['klikit_name'] = klikitName;
-    data['klikit_modifier_price'] = klikitModifierPrice;
-    data['klikit_sku_id'] = klkitSkuID;
-    data['klikit_image'] = klikitImage;
-    data['klikit_group_id'] = klkitGroupID;
-    data['klikit_group_name'] = klikitGroupName;
+    // data['klikit_id'] = klkitID;
+    // data['klikit_name'] = klikitName;
+    // data['klikit_modifier_price'] = klikitModifierPrice;
+    // data['klikit_sku_id'] = klkitSkuID;
+    // data['klikit_image'] = klikitImage;
+    // data['klikit_group_id'] = klkitGroupID;
+    // data['klikit_group_name'] = klikitGroupName;
     return data;
   }
 
@@ -92,13 +92,13 @@ class BillingItemModifierRequestModel {
     data['is_selected'] = isSelected;
     data['modifier_quantity'] = modifierQuantity;
     data['extra_price'] = extraPrice;
-    data['klikit_id'] = klkitID;
-    data['klikit_name'] = klikitName;
-    data['klikit_modifier_price'] = klikitModifierPrice;
-    data['klikit_sku_id'] = klkitSkuID;
-    data['klikit_image'] = klikitImage;
-    data['klikit_group_id'] = klkitGroupID;
-    data['klikit_group_name'] = klikitGroupName;
+    // data['klikit_id'] = klkitID;
+    // data['klikit_name'] = klikitName;
+    // data['klikit_modifier_price'] = klikitModifierPrice;
+    // data['klikit_sku_id'] = klkitSkuID;
+    // data['klikit_image'] = klikitImage;
+    // data['klikit_group_id'] = klkitGroupID;
+    // data['klikit_group_name'] = klikitGroupName;
     return data;
   }
 }

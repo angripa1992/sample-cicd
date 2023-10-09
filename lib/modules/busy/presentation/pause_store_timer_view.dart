@@ -40,21 +40,22 @@ class _PauseStoreTimerViewState extends State<PauseStoreTimerView> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void _init(){
-    _timerListener = ValueNotifier(widget.timeLeft - 1);
+  void _init() {
+    _timerListener = ValueNotifier(widget.timeLeft);
     _startTimer(
       duration: widget.duration,
-      timeLeft: widget.timeLeft - 1,
+      timeLeft: widget.timeLeft,
     );
   }
 
   void _startTimer({required int timeLeft, required int duration}) {
     _timer = Timer.periodic(
       const Duration(minutes: 1),
-      (timer) {
+      (timer) async {
         _timerListener?.value = timeLeft - timer.tick;
         if (timer.tick == timeLeft) {
           _cancelTimer();
+          await Future.delayed(const Duration(seconds: 5));
           widget.onFinished();
         }
       },
