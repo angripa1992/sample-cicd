@@ -85,7 +85,7 @@ class OrderMenuItemProvider {
       for (var modifierGroupOne in cart.groups ?? <WebShopModifierGroupModel>[]) {
         final groupLevelOne = groups.firstWhereOrNull((element) => element.groupId == modifierGroupOne.groupId);
         for (var modifierOne in modifierGroupOne.modifiers ?? <WebShopModifierModel>[]) {
-          final modifierLevelOne = groupLevelOne?.modifiers.firstWhereOrNull((element) => element.modifierId == modifierOne.id);
+          final modifierLevelOne = groupLevelOne?.modifiers.firstWhereOrNull((element) => element.modifierId == modifierOne.modifierId);
           if (modifierLevelOne != null) {
             modifierLevelOne.isSelected = true;
             modifierLevelOne.quantity = modifierOne.modifierQuantity!;
@@ -93,7 +93,7 @@ class OrderMenuItemProvider {
           for (var modifierGroupTwo in modifierOne.groups ?? <WebShopModifierGroupModel>[]) {
             final groupLevelTwo = modifierLevelOne?.groups.firstWhereOrNull((element) => element.groupId == modifierGroupTwo.groupId);
             for (var modifierTwo in modifierGroupTwo.modifiers ?? <WebShopModifierModel>[]) {
-              final modifierLevelTwo = groupLevelTwo?.modifiers.firstWhereOrNull((element) => element.modifierId == modifierTwo.id);
+              final modifierLevelTwo = groupLevelTwo?.modifiers.firstWhereOrNull((element) => element.modifierId == modifierTwo.modifierId);
               if (modifierLevelTwo != null) {
                 modifierLevelTwo.isSelected = true;
                 modifierLevelTwo.quantity = modifierTwo.modifierQuantity!;
