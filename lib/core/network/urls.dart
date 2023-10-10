@@ -11,7 +11,7 @@ class Urls {
   static const String status = '/v1/oni/statuses';
   static const String order = '/v1/oni/order';
   static const String brand = '/v1/brand';
-  static String branch(int id) => 'v1/branch/$id';
+  static String branch(int id) => '/v1/branch/$id';
   static const String provider = '/v1/provider';
   static const String printerSettings = '/v1/printer/settings';
   static const String pauseStore = '/v1/brand-provider/busy';
