@@ -10,7 +10,7 @@ class OrderActionButtonManager {
   OrderActionButtonManager._internal();
 
   bool canAccept(Order order) {
-    if (order.isInterceptorOrder || order.status != OrderStatus.PLACED) {
+    if (order.isInterceptorOrder || order.status != OrderStatus.PLACED || order.providerId == ProviderID.GO_FOOD) {
       return false;
     } else {
       return true;
@@ -18,7 +18,7 @@ class OrderActionButtonManager {
   }
 
   bool canReject(Order order) {
-    if (order.isInterceptorOrder) {
+    if (order.isInterceptorOrder || order.providerId == ProviderID.GO_FOOD) {
       return false;
     } else if (order.status == OrderStatus.PLACED) {
       return true;
@@ -40,7 +40,7 @@ class OrderActionButtonManager {
   }
 
   bool canDelivery(Order order) {
-    if (order.isInterceptorOrder) {
+    if (order.isInterceptorOrder || order.providerId == ProviderID.GO_FOOD) {
       return false;
     } else if (order.providerId == ProviderID.KLIKIT && order.status == OrderStatus.READY) {
       return true;
@@ -51,6 +51,8 @@ class OrderActionButtonManager {
     } else if (order.providerId == ProviderID.WOLT && order.status == OrderStatus.READY && order.type == OrderType.PICKUP) {
       return true;
     } else if (order.providerId == ProviderID.DELIVEROO && order.status == OrderStatus.READY) {
+      return true;
+    } else if (order.providerId == ProviderID.UBER_EATS && order.status == OrderStatus.READY) {
       return true;
     } else {
       return false;

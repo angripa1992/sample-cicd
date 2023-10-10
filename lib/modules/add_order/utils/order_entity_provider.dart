@@ -1,3 +1,4 @@
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/add_order/data/models/modifier/item_price_model.dart';
 import 'package:klikit/modules/add_order/data/models/modifier/item_status_model.dart';
@@ -7,6 +8,7 @@ import 'package:klikit/modules/add_order/data/models/request/billing_item_modifi
 import 'package:klikit/modules/add_order/data/models/request/billing_item_request.dart';
 import 'package:klikit/modules/add_order/data/models/request/item_brand_request.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../app/constants.dart';
@@ -247,6 +249,7 @@ class OrderEntityProvider {
       user.phone = info.phone.notEmptyOrNull();
     }
     final updateInfo = CartManager().getUpdateCartInfo();
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
     return PlaceOrderDataRequestModel(
       id: updateInfo?.orderID,
       externalId: updateInfo?.externalId,
@@ -281,6 +284,7 @@ class OrderEntityProvider {
       numberOfCustomer: bill.numberOfSeniorCustomer > 0 ? bill.numberOfSeniorCustomer : null,
       orderPromoDiscount: bill.orderPromoDiscountCent,
       appliedPromoModel: bill.appliedPromo,
+      manualOrderAutoAcceptEnabled: branchInfo?.manualOrderAutoAcceptEnabled,
     );
   }
 }
