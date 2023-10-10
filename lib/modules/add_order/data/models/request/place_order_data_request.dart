@@ -36,6 +36,7 @@ class PlaceOrderDataRequestModel {
   int? numberOfSeniorCitizen;
   int? numberOfCustomer;
   num? orderPromoDiscount;
+  bool? manualOrderAutoAcceptEnabled;
   Promo? appliedPromoModel;
 
   PlaceOrderDataRequestModel({
@@ -73,6 +74,7 @@ class PlaceOrderDataRequestModel {
     this.numberOfSeniorCitizen,
     this.numberOfCustomer,
     this.appliedPromoModel,
+    this.manualOrderAutoAcceptEnabled,
     this.orderPromoDiscount,
   });
 
@@ -143,6 +145,7 @@ class PlaceOrderDataRequestModel {
     if (appliedPromoModel != null) {
       data['applied_promo'] = appliedPromoModel!.toJson();
     }
+    data['manual_order_auto_accept_enabled'] = manualOrderAutoAcceptEnabled;
     return data;
   }
 }

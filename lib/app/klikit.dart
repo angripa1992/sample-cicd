@@ -8,7 +8,6 @@ import '../core/route/routes.dart';
 import '../core/route/routes_generator.dart';
 import '../core/route/routes_observer.dart';
 import 'dart:io' as io;
-import 'package:in_app_update/in_app_update.dart';
 
 
 import '../env/environment_variables.dart';
