@@ -45,20 +45,23 @@ class WebShopEntityProvider {
       brand: ItemBrandRequestModel(id: cartItem.brand.id, logo: cartItem.brand.logo, title: cartItem.brand.title),
       comment: cartItem.itemInstruction,
       discountValue: null,
-      itemFinalPrice: 0,
       itemId: cartItem.item.id,
+      subSectionId: cartItem.item.categoryID,
       itemName: cartItem.item.title,
       menuVersion: cartItem.item.menuVersion,
       quantity: cartItem.quantity,
-      prices: cartItem.item.prices
-          .map((price) => MenuItemPriceModel(
-                providerId: price.providerId,
-                currencyId: price.currencyId,
-                code: price.currencyCode,
-                price: price.price,
-              ))
-          .toList(),
-
+      itemFinalPrice: cartItem.itemPrice.price.toInt() / 100,
+      unitPrice: cartItem.itemPrice.price.toInt() / 100,
+      price: (cartItem.itemPrice.price * cartItem.quantity) / 100,
+      vat: cartItem.item.vat / 100,
+      prices: [
+        MenuItemPriceModel(
+          providerId: cartItem.item.klikitPrice().providerId,
+          currencyId: cartItem.item.klikitPrice().currencyId,
+          code: cartItem.item.klikitPrice().currencyCode,
+          price: cartItem.item.klikitPrice().price / 100,
+        ),
+      ],
     );
   }
 }

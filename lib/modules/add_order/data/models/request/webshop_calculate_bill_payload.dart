@@ -31,20 +31,21 @@ class WebShopCalculateBillPayload {
 }
 
 class WebShopCartItemPayload {
+  num? itemId;
+  num? subSectionId;
   BusinessBranchInfo? branch;
   ItemBrandRequestModel? brand;
   String? comment;
   num? discountValue;
   List<WebShopGroupPayload>? groups;
-  int? itemFinalPrice;
-  int? itemId;
+  num? itemFinalPrice;
   String? itemName;
-  int? menuVersion;
-  int? price;
+  num? menuVersion;
+  num? price;
   List<MenuItemPriceModel>? prices;
-  int? quantity;
-  int? unitPrice;
-  int? vat;
+  num? quantity;
+  num? unitPrice;
+  num? vat;
 
   WebShopCartItemPayload({
     this.branch,
@@ -54,6 +55,7 @@ class WebShopCartItemPayload {
     this.groups,
     this.itemFinalPrice,
     this.itemId,
+    this.subSectionId,
     this.itemName,
     this.menuVersion,
     this.price,
@@ -78,6 +80,7 @@ class WebShopCartItemPayload {
     }
     data['item_final_price'] = itemFinalPrice;
     data['item_id'] = itemId;
+    data['subsection_id'] = subSectionId;
     data['item_name'] = itemName;
     data['menu_version'] = menuVersion;
     data['price'] = price;
@@ -112,11 +115,11 @@ class WebShopGroupPayload {
 }
 
 class WebShopModifierPayload {
-  int? extraPrice;
+  num? extraPrice;
   List<WebShopGroupPayload>? groups;
   int? id;
   int? modifierId;
-  int? modifierQuantity;
+  num? modifierQuantity;
 
   WebShopModifierPayload({this.extraPrice, this.groups, this.id, this.modifierId, this.modifierQuantity});
 

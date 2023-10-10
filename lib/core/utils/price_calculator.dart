@@ -51,9 +51,15 @@ class PriceCalculator {
   }) {
     if (code.toUpperCase() == 'IDR') {
       return NumberFormat.currency(
-        locale: 'id',
+        locale:  'id',
         symbol: symbol,
-        decimalDigits: 2,
+        decimalDigits: 0,
+      ).format(price);
+    }else if(code.toUpperCase() == 'JPY'){
+      return NumberFormat.currency(
+        locale:  'ja',
+        symbol: symbol,
+        decimalDigits: 0,
       ).format(price);
     }
     return NumberFormat.currency(
