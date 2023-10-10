@@ -18,6 +18,7 @@ import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../../domain/entities/order_source.dart';
+import '../../../../utils/order_entity_provider.dart';
 import '../dialogs/delete_item_dialog.dart';
 import '../dialogs/fee_dialogs.dart';
 import '../dialogs/promo_and_discount_modal.dart';
@@ -234,14 +235,16 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _calculateBill() async {
-    final payload = await CartManager().calculateBillingRequestPaylod(
+    final items = CartManager().items();
+    if(items.isEmpty) return null;
+    final payload = await OrderEntityProvider().billingRequestModel(
       orderType: _currentOrderType,
       discountType: _currentDiscountType,
       discountValue: _globalDiscount,
       additionalFee: _globalAdditionalFee,
       deliveryFee: _globalDeliveryFee,
+      cartItems: items,
     );
-    if (payload == null) return;
     EasyLoading.show();
     final response = await getIt.get<AddOrderRepository>().calculateBill(model: payload);
     EasyLoading.dismiss();

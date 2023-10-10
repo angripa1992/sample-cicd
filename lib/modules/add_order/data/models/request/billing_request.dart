@@ -41,7 +41,7 @@ class BillingRequestModel {
     data['discount_value'] = discountValue;
     data['additional_fee'] = additionalFee;
     if (currency != null) {
-      data['currency'] = currency!.toJsonV1();
+      data['currency'] = currency!.toJson();
     }
     if (items != null) {
       data['items'] = items!.map((v) => v.toJsonV1()).toList();
@@ -70,7 +70,7 @@ class BillingRequestModel {
     data['discount_value'] = discountValue;
     data['additional_fee'] = additionalFee;
     if (currency != null) {
-      data['currency'] = currency!.toJsonV2();
+      data['currency'] = currency!.toString();
     }
     if (items != null) {
       data['items'] = items!.map((v) => v.toJsonV2()).toList();
@@ -98,15 +98,7 @@ class BillingCurrency {
 
   BillingCurrency({this.id, this.symbol, this.code});
 
-  Map<String, dynamic> toJsonV1() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['symbol'] = symbol;
-    data['code'] = code;
-    return data;
-  }
-
-  Map<String, dynamic> toJsonV2() {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['symbol'] = symbol;

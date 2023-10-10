@@ -8,7 +8,6 @@ import '../domain/entities/add_to_cart_item.dart';
 import '../domain/entities/cart_bill.dart';
 import '../domain/entities/selected_item_price.dart';
 import 'modifier_manager.dart';
-import 'order_entity_provider.dart';
 
 class CartManager {
   static final _instance = CartManager._internal();
@@ -26,7 +25,50 @@ class CartManager {
 
   CartManager._internal();
 
+  ValueNotifier<int> getNotifyListener() => _cartItemNotifier;
+
+  ValueNotifier<SelectedItemPrice?> getPriceNotifyListener() => _priceNotifier;
+
+  ValueNotifier<int> cartItemNotifier() => _noOfCartItemNotifier;
+
   List<AddToCartItem> items() => _carts;
+
+  CustomerInfo? getCustomerInfo() => _customerInfo;
+
+  CartInfo? getEditInfo() => _cartInfo;
+
+  PaymentInfo? getPaymentInfo() => _paymentInfo;
+
+  UpdateCartInfo? getUpdateCartInfo() => _updateCartInfo;
+
+  AppliedPromoInfo? getPromoInfo() => _promoInfo;
+
+  void setEditInfo(CartInfo info) {
+    _cartInfo = info;
+  }
+
+  void setCustomerInfo(CustomerInfo data) {
+    _customerInfo = data;
+  }
+
+  void setPaymentInfo(PaymentInfo data) {
+    _paymentInfo = data;
+  }
+
+  void setUpdateCartInfo(UpdateCartInfo data) {
+    _updateCartInfo = data;
+  }
+
+  void setPromoInfo(AppliedPromoInfo? data) {
+    _promoInfo = data;
+  }
+
+  void addPromoToItem(int itemId, AppliedPromoInfo? promoInfo) {
+    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
+    if (item != null) {
+      item.promoInfo = promoInfo;
+    }
+  }
 
   Future<void> addToCart(AddToCartItem cartItem) async {
     final duplicateItem = await _findDuplicate(cartItem);
@@ -125,12 +167,6 @@ class CartManager {
     _updatePrice();
   }
 
-  ValueNotifier<int> getNotifyListener() => _cartItemNotifier;
-
-  ValueNotifier<SelectedItemPrice?> getPriceNotifyListener() => _priceNotifier;
-
-  ValueNotifier<int> cartItemNotifier() => _noOfCartItemNotifier;
-
   void _updatePrice() {
     if (_carts.isEmpty) {
       _priceNotifier.value = null;
@@ -190,63 +226,6 @@ class CartManager {
       }
     }
     return null;
-  }
-
-  Future<BillingRequestModel?> calculateBillingRequestPaylod({
-    required int orderType,
-    required int discountType,
-    required num discountValue,
-    required num additionalFee,
-    required num deliveryFee,
-  }) async {
-    if (_carts.isNotEmpty) {
-      return OrderEntityProvider().billingRequestModel(
-        cartItems: _carts,
-        discountType: discountType,
-        discountValue: discountValue,
-        additionalFee: additionalFee,
-        deliveryFee: deliveryFee,
-        orderType: orderType,
-      );
-    }
-    return null;
-  }
-
-  CustomerInfo? getCustomerInfo() => _customerInfo;
-
-  CartInfo? getEditInfo() => _cartInfo;
-
-  PaymentInfo? getPaymentInfo() => _paymentInfo;
-
-  UpdateCartInfo? getUpdateCartInfo() => _updateCartInfo;
-
-  AppliedPromoInfo? getPromoInfo() => _promoInfo;
-
-  void setEditInfo(CartInfo info) {
-    _cartInfo = info;
-  }
-
-  void setCustomerInfo(CustomerInfo data) {
-    _customerInfo = data;
-  }
-
-  void setPaymentInfo(PaymentInfo data) {
-    _paymentInfo = data;
-  }
-
-  void setUpdateCartInfo(UpdateCartInfo data) {
-    _updateCartInfo = data;
-  }
-
-  void setPromoInfo(AppliedPromoInfo? data) {
-    _promoInfo = data;
-  }
-
-  void addPromoToItem(int itemId, AppliedPromoInfo? promoInfo) {
-    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
-    if (item != null) {
-      item.promoInfo = promoInfo;
-    }
   }
 
   int totalItemQuantity() {
