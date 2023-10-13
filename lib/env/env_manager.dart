@@ -24,6 +24,7 @@ class EnvManager {
     }
     mainEnv.zohoAppKey = env.zohoAppKey;
     mainEnv.zohoAppAccessKey = env.zohoAppAccessKey;
+    mainEnv.consumerUrl = env.consumerUrl;
     return mainEnv;
   }
 

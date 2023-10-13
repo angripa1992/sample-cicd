@@ -5,6 +5,7 @@ void main() {
   final environmentVariables = EnvironmentVariables(
     baseUrl: 'https://gateway-enterprise.klikit.io',
     cdnUrl: 'https://assets.klikit.io',
+    consumerUrl: 'https://consumer.dev.shadowchef.co',
     segmentWriteKey: 'Sm10a3NTc2lnUjJVMXpBb05JalNJZk4wQjU1SWxyZWg=',
     slackUrl: 'https://hooks.slack.com/services/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',
     zohoAppKey: 'FlIXMZG3VUtYzlN8MUemAXC8RKrBKQds1Er4rWZQvv5GPkjAZYzxQ9OtSvBx7ai6',

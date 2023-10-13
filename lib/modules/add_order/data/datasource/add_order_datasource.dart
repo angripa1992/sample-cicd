@@ -1,10 +1,16 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:klikit/modules/add_order/data/models/webshop_calculate_bill_response.dart';
+
+import '../../../../app/di.dart';
 import '../../../../app/enums.dart';
 import '../../../../app/session_manager.dart';
+import '../../../../core/network/public_rest_client.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
 import '../../../../core/provider/date_time_provider.dart';
+import '../../../../env/environment_variables.dart';
 import '../../../menu/domain/entities/menu/menu_branch_info.dart';
 import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../mapper/v1_modifier_to_modifier.dart';
@@ -17,11 +23,14 @@ import '../models/order_source.dart';
 import '../models/placed_order_response.dart';
 import '../models/request/billing_request.dart';
 import '../models/request/place_order_data_request.dart';
+import '../models/request/webshop_calculate_bill_payload.dart';
 
 abstract class AddOrderDatasource {
   Future<List<MenuItemModifierGroup>> fetchModifiers({required int itemID, required MenuBranchInfo branchInfo});
 
   Future<CartBillModel> calculateBill({required BillingRequestModel model});
+
+  Future<WebShopCalculateBillResponse> webShopCalculateBill({required WebShopCalculateBillPayload model});
 
   Future<List<AddOrderSourcesModel>> fetchSources();
 
@@ -74,11 +83,10 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   }
 
   @override
-  Future<CartBillModel> calculateBill({
-    required BillingRequestModel model,
-  }) async {
+  Future<CartBillModel> calculateBill({required BillingRequestModel model}) async {
     try {
       if (SessionManager().menuV2EnabledForKlikitOrder()) {
+        final string = json.encode(model.toJsonV2());
         final response = await _restClient.request(
           Urls.calculateBillV2,
           Method.POST,
@@ -133,6 +141,20 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         params,
       );
       return response?.map((e) => Promo.fromJson(e)).toList() ?? [];
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<WebShopCalculateBillResponse> webShopCalculateBill({required WebShopCalculateBillPayload model}) async {
+    try {
+      final response = await PublicRestClient().request(
+        '${getIt.get<EnvironmentVariables>().consumerUrl}${Urls.webShopCalculateBill}',
+        Method.POST,
+        model.toJson(),
+      );
+      return WebShopCalculateBillResponse.fromJson(response);
     } on DioException {
       rethrow;
     }

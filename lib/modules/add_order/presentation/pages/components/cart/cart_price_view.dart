@@ -61,7 +61,7 @@ class CartPriceView extends StatelessWidget {
               price: cartBill.serviceFee,
             ),
             SizedBox(height: AppSize.s12.rh),
-            CartManager().getUpdateCartInfo()!.isWebShopOrder
+            CartManager().isWebShoOrder()
                 ? _item(
                     title: AppStrings.delivery_fee.tr(),
                     price: cartBill.deliveryFee,
@@ -78,7 +78,7 @@ class CartPriceView extends StatelessWidget {
               onTap: onDiscount,
             ),
             SizedBox(height: AppSize.s12.rh),
-            CartManager().getUpdateCartInfo()!.isWebShopOrder
+            CartManager().isWebShoOrder()
                 ? _item(
                     title: AppStrings.additional_fee.tr(),
                     price: cartBill.additionalFee,

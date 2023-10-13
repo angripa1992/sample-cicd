@@ -3,6 +3,7 @@ import 'package:klikit/app/extensions.dart';
 class EnvironmentVariables {
   String baseUrl;
   String cdnUrl;
+  String consumerUrl;
   String segmentWriteKey;
   String slackUrl;
   String zohoAppKey;
@@ -11,6 +12,7 @@ class EnvironmentVariables {
   EnvironmentVariables({
     required this.baseUrl,
     required this.cdnUrl,
+    required this.consumerUrl,
     required this.segmentWriteKey,
     required this.slackUrl,
     required this.zohoAppKey,
@@ -40,6 +42,7 @@ class EnvironmentVariablesModel {
         slackUrl: slackUrl.orEmpty(),
         zohoAppKey: '',
         zohoAppAccessKey: '',
+        consumerUrl: '',
       );
 }
 

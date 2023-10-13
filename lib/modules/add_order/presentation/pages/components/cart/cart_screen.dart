@@ -1,9 +1,11 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
@@ -11,6 +13,7 @@ import 'package:klikit/modules/add_order/presentation/pages/components/cart/sour
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/step_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/type_selector.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
@@ -236,17 +239,23 @@ class _CartScreenState extends State<CartScreen> {
 
   void _calculateBill() async {
     final items = CartManager().items();
-    if(items.isEmpty) return null;
-    final payload = await OrderEntityProvider().billingRequestModel(
-      orderType: _currentOrderType,
-      discountType: _currentDiscountType,
-      discountValue: _globalDiscount,
-      additionalFee: _globalAdditionalFee,
-      deliveryFee: _globalDeliveryFee,
-      cartItems: items,
-    );
+    if (items.isEmpty) return null;
     EasyLoading.show();
-    final response = await getIt.get<AddOrderRepository>().calculateBill(model: payload);
+    dartz.Either<Failure, CartBill>? response;
+    if (CartManager().getUpdateCartInfo()?.isWebShopOrder ?? false) {
+      final payload = await WebShopEntityProvider().calculateBillPayload(cartItems: items);
+      response = await getIt.get<AddOrderRepository>().webShopCalculateBill(payload: payload);
+    } else {
+      final payload = await OrderEntityProvider().billingRequestModel(
+        orderType: _currentOrderType,
+        discountType: _currentDiscountType,
+        discountValue: _globalDiscount,
+        additionalFee: _globalAdditionalFee,
+        deliveryFee: _globalDeliveryFee,
+        cartItems: items,
+      );
+      response = await getIt.get<AddOrderRepository>().calculateBill(model: payload);
+    }
     EasyLoading.dismiss();
     response.fold(
       (failure) {
@@ -309,14 +318,17 @@ class _CartScreenState extends State<CartScreen> {
             horizontal: AppSize.s10.rw,
             vertical: AppSize.s8.rh,
           ),
-          child: const StepView(stepPosition: StepPosition.cart),
+          child: Visibility(
+            visible: !CartManager().isWebShoOrder(),
+            child: const StepView(stepPosition: StepPosition.cart),
+          ),
         ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Visibility(
-                  visible: !CartManager().getUpdateCartInfo()!.isWebShopOrder,
+                  visible: !CartManager().isWebShoOrder(),
                   child: FutureBuilder<List<AddOrderSourceType>>(
                     future: getIt.get<AddOrderRepository>().fetchSources(),
                     builder: (_, snap) {
@@ -335,7 +347,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: !CartManager().getUpdateCartInfo()!.isWebShopOrder,
+                  visible: !CartManager().isWebShoOrder(),
                   child: TypeSelector(
                     initialType: _currentOrderType,
                     onTypeChange: (type) {

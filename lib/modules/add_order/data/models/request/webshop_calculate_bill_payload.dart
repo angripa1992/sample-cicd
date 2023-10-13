@@ -108,7 +108,7 @@ class WebShopGroupPayload {
       data['modifiers'] = modifiers!.map((v) => v.toJson()).toList();
     }
     if (rule != null) {
-      data['rule'] = rule!.toJsonV2();
+      data['rule'] = rule!.toWebShopJson();
     }
     return data;
   }
@@ -120,8 +120,16 @@ class WebShopModifierPayload {
   int? id;
   int? modifierId;
   num? modifierQuantity;
+  bool? isSelected;
 
-  WebShopModifierPayload({this.extraPrice, this.groups, this.id, this.modifierId, this.modifierQuantity});
+  WebShopModifierPayload({
+    this.extraPrice,
+    this.groups,
+    this.id,
+    this.modifierId,
+    this.modifierQuantity,
+    this.isSelected,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -132,6 +140,7 @@ class WebShopModifierPayload {
     data['id'] = id;
     data['modifier_id'] = modifierId;
     data['modifier_quantity'] = modifierQuantity;
+    data['is_selected'] = isSelected;
     return data;
   }
 }

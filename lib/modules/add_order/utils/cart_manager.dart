@@ -43,6 +43,8 @@ class CartManager {
 
   AppliedPromoInfo? getPromoInfo() => _promoInfo;
 
+  bool isWebShoOrder() => _updateCartInfo?.isWebShopOrder ?? false;
+
   void setEditInfo(CartInfo info) {
     _cartInfo = info;
   }

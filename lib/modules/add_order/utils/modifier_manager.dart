@@ -1,7 +1,9 @@
 import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_group_request.dart';
 import 'package:klikit/modules/add_order/data/models/request/billing_item_modifier_request.dart';
+import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
 
 import '../../menu/domain/entities/menu/menu_item.dart';
+import '../data/models/request/webshop_calculate_bill_payload.dart';
 import '../domain/entities/modifier/item_modifier_group.dart';
 import 'order_entity_provider.dart';
 
@@ -164,6 +166,34 @@ class ModifierManager {
       }
       if (billingModifiersL1.isNotEmpty) {
         billingModifiersGroupsL1.add(OrderEntityProvider().cartToBillingModifierGroup(groupLevelOne, billingModifiersL1));
+      }
+    }
+    return billingModifiersGroupsL1;
+  }
+
+  Future<List<WebShopGroupPayload>> billingWebShopItemModifiers(List<MenuItemModifierGroup> groups) async {
+    final billingModifiersGroupsL1 = <WebShopGroupPayload>[];
+    for (var groupLevelOne in groups) {
+      final billingModifiersL1 = <WebShopModifierPayload>[];
+      for (var modifierLevelOne in groupLevelOne.modifiers) {
+        if (modifierLevelOne.isSelected) {
+          final billingModifiersGroupsL2 = <WebShopGroupPayload>[];
+          for (var groupLevelTwo in modifierLevelOne.groups) {
+            final billingModifiersL2 = <WebShopModifierPayload>[];
+            for (var modifierLevelTwo in groupLevelTwo.modifiers) {
+              if (modifierLevelTwo.isSelected) {
+                billingModifiersL2.add(WebShopEntityProvider().webShopModifier(modifierLevelTwo, []));
+              }
+            }
+            if (billingModifiersL2.isNotEmpty) {
+              billingModifiersGroupsL2.add(WebShopEntityProvider().webShopModifierGroup(groupLevelTwo, billingModifiersL2));
+            }
+          }
+          billingModifiersL1.add(WebShopEntityProvider().webShopModifier(modifierLevelOne, billingModifiersGroupsL2));
+        }
+      }
+      if (billingModifiersL1.isNotEmpty) {
+        billingModifiersGroupsL1.add(WebShopEntityProvider().webShopModifierGroup(groupLevelOne, billingModifiersL1));
       }
     }
     return billingModifiersGroupsL1;

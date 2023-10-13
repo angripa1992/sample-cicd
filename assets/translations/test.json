@@ -1,0 +1,42 @@
+{
+  "business_id": 430,
+  "branch_id": 680,
+  "delivery_fee": 0,
+  "discount_type": 1,
+  "discount_value": 0,
+  "additional_fee": 0,
+  "currency": "Instance of 'BillingCurrency'",
+  "items": [
+    {
+      "item_id": 3725,
+      "vat": 0,
+      "unit_price": 200,
+      "quantity": 1,
+      "discount_type": 1,
+      "discount_value": 0,
+      "groups": [
+        {
+          "group_id": 144,
+          "rule": {
+            "min": 0,
+            "max": 1
+          },
+          "modifiers": [
+            {
+              "id": 3730,
+              "modifier_id": 3730,
+              "groups": [],
+              "is_selected": true,
+              "modifier_quantity": 1,
+              "extra_price": 30
+            }
+          ]
+        }
+      ],
+      "brand": {
+        "id": 383
+      }
+    }
+  ],
+  "order_type": 3
+}

@@ -4,6 +4,7 @@ import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/data/models/request/billing_request.dart';
 import 'package:klikit/modules/add_order/data/models/request/place_order_data_request.dart';
+import 'package:klikit/modules/add_order/data/models/request/webshop_calculate_bill_payload.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier_group.dart';
 import 'package:klikit/modules/add_order/domain/entities/order_source.dart';
@@ -94,6 +95,20 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
       try {
         final response = await _datasource.fetchPromos(params);
         return Right(response);
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, CartBill>> webShopCalculateBill({required WebShopCalculateBillPayload payload}) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.webShopCalculateBill(model: payload);
+        return Right(response.toCartBill());
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

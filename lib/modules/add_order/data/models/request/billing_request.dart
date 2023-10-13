@@ -70,7 +70,7 @@ class BillingRequestModel {
     data['discount_value'] = discountValue;
     data['additional_fee'] = additionalFee;
     if (currency != null) {
-      data['currency'] = currency!.toString();
+      data['currency'] = currency!.toJson();
     }
     if (items != null) {
       data['items'] = items!.map((v) => v.toJsonV2()).toList();

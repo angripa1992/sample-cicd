@@ -1,3 +1,6 @@
+import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/session_manager.dart';
+
 class MenuItemModifierRuleModel {
   int? id;
   String? title;
@@ -44,5 +47,18 @@ class MenuItemModifierRuleModel {
     data['min'] = min;
     data['max'] = max;
     return data;
+  }
+
+  Map<String, dynamic> toWebShopJson() {
+    final isV2 = SessionManager().isMenuV2();
+    if (isV2) {
+      final Map<String, dynamic> data = {};
+      data['min'] = min;
+      data['max'] = max;
+      data['type_title'] = min == max ? 'exact' : 'range';
+      return data;
+    } else {
+      return toJsonV1();
+    }
   }
 }
