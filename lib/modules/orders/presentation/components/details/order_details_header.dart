@@ -5,6 +5,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/presentation/components/order_item/order_action_button_manager.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -38,7 +39,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
-    final canUpdateKlikitOrder = (order.providerId == ProviderID.KLIKIT) && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
+    final canUpdateKlikitOrder = OrderActionButtonManager().canUpdateOrder(order);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
@@ -58,10 +59,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (canUpdateKlikitOrder || canUpdateGrabOrder)
-                Expanded(
-                  child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder),
-                ),
+              if (canUpdateKlikitOrder || canUpdateGrabOrder) Expanded(child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder)),
               if (canUpdateKlikitOrder || canUpdateGrabOrder) SizedBox(width: AppSize.s8.rw),
               if (order.isThreePlOrder && order.canFindFulfillmentRider) SizedBox(width: AppSize.s8.rw),
               Expanded(

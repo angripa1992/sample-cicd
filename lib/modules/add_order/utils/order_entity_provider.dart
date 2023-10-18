@@ -248,7 +248,7 @@ class OrderEntityProvider {
     }
     final updateInfo = CartManager().getUpdateCartInfo();
     return PlaceOrderDataRequestModel(
-      id: updateInfo?.id,
+      id: updateInfo?.orderID,
       externalId: updateInfo?.externalId,
       identity: updateInfo?.identity,
       branchId: SessionManager().branchId(),

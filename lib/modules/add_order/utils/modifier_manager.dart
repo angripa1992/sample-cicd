@@ -171,13 +171,13 @@ class ModifierManager {
     return billingModifiersGroupsL1;
   }
 
-  Future<List<WebShopGroupPayload>> billingWebShopItemModifiers(List<MenuItemModifierGroup> groups) async {
-    final billingModifiersGroupsL1 = <WebShopGroupPayload>[];
+  Future<List<WebShopModifierGroupPayload>> billingWebShopItemModifiers(List<MenuItemModifierGroup> groups) async {
+    final billingModifiersGroupsL1 = <WebShopModifierGroupPayload>[];
     for (var groupLevelOne in groups) {
       final billingModifiersL1 = <WebShopModifierPayload>[];
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          final billingModifiersGroupsL2 = <WebShopGroupPayload>[];
+          final billingModifiersGroupsL2 = <WebShopModifierGroupPayload>[];
           for (var groupLevelTwo in modifierLevelOne.groups) {
             final billingModifiersL2 = <WebShopModifierPayload>[];
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {

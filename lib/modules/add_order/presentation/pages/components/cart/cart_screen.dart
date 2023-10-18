@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
@@ -9,6 +10,7 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
+import 'package:klikit/modules/add_order/presentation/cubit/update_webshop_order_cubit.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/step_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/type_selector.dart';
@@ -16,10 +18,12 @@ import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 
+import '../../../../../../core/utils/response_state.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/snackbars.dart';
+import '../../../../data/models/update_webshop_order_response.dart';
 import '../../../../domain/entities/order_source.dart';
 import '../../../../utils/order_entity_provider.dart';
 import '../dialogs/delete_item_dialog.dart';
@@ -273,6 +277,18 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+  void _updateWebShopOrder() {
+    _saveCurrentEditInfo();
+    final cartInfo = CartManager().getUpdateCartInfo();
+    if (_cartBill == null || cartInfo == null) return;
+    final orderID = cartInfo.orderID;
+    if (cartInfo.isPrePayment && cartInfo.totalPrice < _cartBill!.totalPrice) {
+      showErrorSnackBar(context, 'Total price can not be more than paid amount');
+      return;
+    }
+    context.read<UpdateWebShopOrderCubit>().updateWebShopOrder(orderID, _cartBill!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -396,13 +412,34 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ),
-        OrderActionButton(
-          buttonText: AppStrings.procees_to_checkout.tr(),
-          enable: true,
-          loading: false,
-          totalPrice: _cartBill!.totalPrice,
-          onProceed: _onCheckout,
-        ),
+        CartManager().isWebShoOrder()
+            ? BlocConsumer<UpdateWebShopOrderCubit, ResponseState>(
+                listener: (context, state) {
+                  if (state is Success<UpdateWebShopOrderResponse>) {
+                    showSuccessSnackBar(context, state.data.message ?? '');
+                    CartManager().clear();
+                    widget.onClose();
+                  } else if (state is Failed) {
+                    showApiErrorSnackBar(context, state.failure);
+                  }
+                },
+                builder: (context, state) {
+                  return OrderActionButton(
+                    buttonText: AppStrings.update_order.tr(),
+                    enable: state is Loading ? false : true,
+                    totalPrice: _cartBill!.totalPrice,
+                    onProceed: _updateWebShopOrder,
+                    loading: state is Loading,
+                  );
+                },
+              )
+            : OrderActionButton(
+                buttonText: AppStrings.procees_to_checkout.tr(),
+                enable: true,
+                loading: false,
+                totalPrice: _cartBill!.totalPrice,
+                onProceed: _onCheckout,
+              ),
       ],
     );
   }

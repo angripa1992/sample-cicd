@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:klikit/modules/add_order/data/models/update_webshop_order_response.dart';
 import 'package:klikit/modules/add_order/data/models/webshop_calculate_bill_response.dart';
 
 import '../../../../app/di.dart';
@@ -24,6 +25,7 @@ import '../models/placed_order_response.dart';
 import '../models/request/billing_request.dart';
 import '../models/request/place_order_data_request.dart';
 import '../models/request/webshop_calculate_bill_payload.dart';
+import '../models/request/webshop_pace_order_payload.dart';
 
 abstract class AddOrderDatasource {
   Future<List<MenuItemModifierGroup>> fetchModifiers({required int itemID, required MenuBranchInfo branchInfo});
@@ -37,6 +39,8 @@ abstract class AddOrderDatasource {
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataRequestModel body);
 
   Future<List<Promo>> fetchPromos(Map<String, dynamic> params);
+
+  Future<UpdateWebShopOrderResponse> updateWebShopOrder(int id, WebShopPlaceOrderPayload payload);
 }
 
 class AddOrderDatasourceImpl extends AddOrderDatasource {
@@ -86,7 +90,6 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   Future<CartBillModel> calculateBill({required BillingRequestModel model}) async {
     try {
       if (SessionManager().menuV2EnabledForKlikitOrder()) {
-        final string = json.encode(model.toJsonV2());
         final response = await _restClient.request(
           Urls.calculateBillV2,
           Method.POST,
@@ -149,12 +152,28 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<WebShopCalculateBillResponse> webShopCalculateBill({required WebShopCalculateBillPayload model}) async {
     try {
+      final str = json.encode(model.toJson());
       final response = await PublicRestClient().request(
         '${getIt.get<EnvironmentVariables>().consumerUrl}${Urls.webShopCalculateBill}',
         Method.POST,
         model.toJson(),
       );
       return WebShopCalculateBillResponse.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UpdateWebShopOrderResponse> updateWebShopOrder(int id, WebShopPlaceOrderPayload payload) async {
+    try {
+      final str = json.encode(payload.toJson());
+      final response = await _restClient.request(
+        Urls.updateWebShopOrder(id),
+        Method.PATCH,
+        payload.toJson(),
+      );
+      return UpdateWebShopOrderResponse(message: 'Order Successfully Updated');
     } on DioException {
       rethrow;
     }

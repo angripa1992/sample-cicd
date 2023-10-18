@@ -127,12 +127,13 @@ class UpdateManualOrderDataProvider {
       paymentChannel: order.paymentChannel == ZERO ? PaymentChannelID.CASH : order.paymentChannel,
     );
     final updateCartInfo = UpdateCartInfo(
-      id: order.id,
+      orderID: order.id,
       externalId: order.externalId,
       identity: order.identity,
       isWebShopOrder: false,
       isPrePayment: order.paymentStatus == PaymentStatusId.paid,
-      itemPrice: order.itemPrice / 100,
+      totalPrice: order.finalPrice / 100,
+      orderHash: order.externalId,
     );
     CartManager().setCustomerInfo(customerInfo);
     CartManager().setEditInfo(editInfo);

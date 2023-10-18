@@ -7,7 +7,6 @@ import '../../add_order/utils/cart_manager.dart';
 import '../../add_order/utils/modifier_manager.dart';
 import '../../common/business_information_provider.dart';
 import '../../common/entities/brand.dart';
-import '../data/models/webshop_order_details_model.dart';
 import '../domain/entities/order.dart';
 import '../domain/repository/orders_repository.dart';
 import 'applied_promo_provider.dart';
@@ -20,45 +19,46 @@ class UpdateWebShopOrderDataProvider {
 
   Future<void> generateCartData(Order manualOrder) async {
     try {
-      final webShopOrder = await _orderRepository.fetchOmsOrderById(manualOrder.externalId);
-      final cartItems = await _generateCartItem(webShopOrder!);
+      final order = await _orderRepository.fetchOrderById(manualOrder.id);
+      final cartItems = await _generateCartItem(order!);
       CartManager().clear();
       for (var cartItem in cartItems) {
         await CartManager().addToCart(cartItem);
       }
-      CartManager().setPromoInfo(AppliedPromoProvider().appliedPromoInfoForWebShopOrder(webShopOrder));
-      _setEditableInfo(webShopOrder);
+      final orderPromo = await AppliedPromoProvider().appliedPromoInfoForWebShopOrder(order);
+      CartManager().setPromoInfo(orderPromo);
+      _setEditableInfo(order);
     } catch (error) {
       rethrow;
     }
   }
 
-  Future<List<AddToCartItem>> _generateCartItem(WebShopOrderDetailsModel order) async {
+  Future<List<AddToCartItem>> _generateCartItem(Order order) async {
     try {
       List<AddToCartItem> carts = [];
-      for (var cart in order.cart ?? <WebShopCartModel>[]) {
+      for (var cart in order.cartV2) {
         final menuItemOrNull = await OrderMenuItemProvider().fetchMenuItem(
-          itemId: cart.itemId!.toString(),
-          brandId: cart.brand!.id!,
-          branchId: order.branchId!,
-          providerId: ProviderID.KLIKIT,
+          itemId: cart.id,
+          brandId: cart.cartBrand.id,
+          branchId: order.branchId,
+          providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
-          final modifierGroups = await OrderMenuItemProvider().fetchModifiersForWebShopOrder(cart, menuItemOrNull.branchInfo);
-          final brand = await _fetchMenuBrand(brandId: cart.brand!.id!);
+          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cart, menuItemOrNull.branchInfo);
+          final brand = await _fetchMenuBrand(brandId: cart.cartBrand.id);
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
           final cartItem = AddToCartItem(
             modifiers: modifierGroups,
             item: menuItemOrNull,
-            quantity: cart.quantity!,
-            itemInstruction: cart.comment!,
+            quantity: cart.quantity,
+            itemInstruction: cart.comment,
             modifiersPrice: modifiersPrice,
             itemPrice: itemPrice,
             brand: brand!,
             promoInfo: null,
-            discountType: cart.discountType ?? DiscountType.flat,
-            discountValue: cart.discountValue ?? 0,
+            discountType: DiscountType.flat,
+            discountValue: order.discountValue,
           );
           carts.add(cartItem);
         }
@@ -78,36 +78,37 @@ class UpdateWebShopOrderDataProvider {
     }
   }
 
-  void _setEditableInfo(WebShopOrderDetailsModel order) {
+  void _setEditableInfo(Order order) {
     try {
       final editInfo = CartInfo(
-        type: order.type ?? 0,
+        type: order.type,
         source: 0,
         discountType: DiscountType.flat,
         discountValue: 0,
-        additionalFee: order.additionalFee! / 100,
-        deliveryFee: order.deliveryFee! / 100,
-        comment: order.orderComment ?? '',
+        additionalFee: order.additionalFee / 100,
+        deliveryFee: order.deliveryFee / 100,
+        comment: order.orderComment,
       );
       final customerInfo = CustomerInfo(
-        firstName: order.user?.firstName ?? '',
-        lastName: order.user?.lastName ?? '',
-        email: order.user?.email ?? '',
-        phone: order.user?.phone ?? '',
-        tableNo: order.tableNo ?? '',
+        firstName: order.userFirstName,
+        lastName: order.userLastName,
+        email: order.userEmail,
+        phone: order.userPhone,
+        tableNo: order.tableNo,
       );
       final paymentInfo = PaymentInfo(
         paymentStatus: order.paymentStatus,
         paymentMethod: order.paymentMethod,
-        paymentChannel: order.paymentChannelId,
+        paymentChannel: order.paymentChannel,
       );
       final updateCartInfo = UpdateCartInfo(
-        id: 0,
-        externalId: order.externalId ?? '',
-        identity: order.identity ?? '',
+        orderID: order.id,
+        externalId: order.externalId,
+        identity: order.identity,
         isWebShopOrder: true,
         isPrePayment: order.paymentStatus == PaymentStatusId.paid,
-        itemPrice: order.itemPrice! / 100,
+        totalPrice: order.finalPrice / 100,
+        orderHash: order.externalId,
       );
       CartManager().setCustomerInfo(customerInfo);
       CartManager().setEditInfo(editInfo);
@@ -117,6 +118,4 @@ class UpdateWebShopOrderDataProvider {
       rethrow;
     }
   }
-
-
 }

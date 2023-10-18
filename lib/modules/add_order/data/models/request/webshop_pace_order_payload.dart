@@ -1,9 +1,12 @@
 import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
+import 'package:klikit/modules/add_order/data/models/request/webshop_calculate_bill_payload.dart';
 
+import '../../../../common/entities/branch_info.dart';
 import '../modifier/item_price_model.dart';
 import '../modifier/modifier_rule.dart';
 import '../modifier/title_v2_model.dart';
 import 'billing_request.dart';
+import 'item_brand_request.dart';
 
 class WebShopPlaceOrderPayload {
   num? itemPrice;
@@ -22,6 +25,7 @@ class WebShopPlaceOrderPayload {
   String? tableNo;
   BillingCurrency? currency;
   Promo? appliedPromo;
+  String? orderComment;
 
   WebShopPlaceOrderPayload({
     this.itemPrice,
@@ -40,6 +44,7 @@ class WebShopPlaceOrderPayload {
     this.tableNo,
     this.currency,
     this.appliedPromo,
+    this.orderComment,
   });
 
   Map<String, dynamic> toJson() {
@@ -66,6 +71,7 @@ class WebShopPlaceOrderPayload {
     if (appliedPromo != null) {
       data['applied_promo'] = appliedPromo!.toJson();
     }
+    data['order_comment'] = orderComment;
     return data;
   }
 }
@@ -77,8 +83,9 @@ class WebShopPlaceOrderCartItem {
   String? image;
   num? price;
   String? title;
+  String? comment;
   MenuItemTitleV2Model? titleV2;
-  List<WebShopPlaceOrderModifierGroup>? groups;
+  List<WebShopModifierGroupPayload>? groups;
   String? itemName;
   num? unitPrice;
   int? discountType;
@@ -86,6 +93,8 @@ class WebShopPlaceOrderCartItem {
   num? itemFinalPrice;
   num? quantity;
   List<MenuItemPriceModel>? prices;
+  ItemBrandRequestModel? brand;
+  BusinessBranchInfo? branch;
 
   WebShopPlaceOrderCartItem({
     this.itemId,
@@ -103,6 +112,9 @@ class WebShopPlaceOrderCartItem {
     this.itemFinalPrice,
     this.quantity,
     this.prices,
+    this.comment,
+    this.brand,
+    this.branch,
   });
 
   Map<String, dynamic> toJson() {
@@ -113,6 +125,7 @@ class WebShopPlaceOrderCartItem {
     data['image'] = image;
     data['price'] = price;
     data['title'] = title;
+    data['comment'] = comment;
     if (titleV2 != null) {
       data['title_v2'] = titleV2!.toJson();
     }
@@ -128,70 +141,11 @@ class WebShopPlaceOrderCartItem {
     if (prices != null) {
       data['prices'] = prices!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class WebShopPlaceOrderModifierGroup {
-  int? groupId;
-  String? title;
-  MenuItemTitleV2Model? titleV2;
-  MenuItemModifierRuleModel? rule;
-  List<WebShopPlaceOrderModifier>? modifiers;
-
-  WebShopPlaceOrderModifierGroup({this.groupId, this.title, this.titleV2, this.rule, this.modifiers});
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['group_id'] = groupId;
-    data['title'] = title;
-    if (titleV2 != null) {
-      data['title_v2'] = titleV2!.toJson();
+    if (brand != null) {
+      data['brand'] = brand!.toJsonV1();
     }
-    if (rule != null) {
-      data['rule'] = rule!.toWebShopJson();
-    }
-    if (modifiers != null) {
-      data['modifiers'] = modifiers!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class WebShopPlaceOrderModifier {
-  int? id;
-  int? modifierId;
-  String? title;
-  MenuItemTitleV2Model? titleV2;
-  bool? isSelected;
-  num? modifierQuantity;
-  num? extraPrice;
-  List<WebShopPlaceOrderModifierGroup>? groups;
-
-  WebShopPlaceOrderModifier({
-    this.id,
-    this.modifierId,
-    this.title,
-    this.titleV2,
-    this.isSelected,
-    this.modifierQuantity,
-    this.extraPrice,
-    this.groups,
-  });
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['modifier_id'] = modifierId;
-    data['title'] = title;
-    if (titleV2 != null) {
-      data['title_v2'] = titleV2!.toJson();
-    }
-    data['is_selected'] = isSelected;
-    data['modifier_quantity'] = modifierQuantity;
-    data['extra_price'] = extraPrice;
-    if (groups != null) {
-      data['groups'] = groups!.map((v) => v.toJson()).toList();
+    if (branch != null) {
+      data['branch'] = branch!.toJson();
     }
     return data;
   }

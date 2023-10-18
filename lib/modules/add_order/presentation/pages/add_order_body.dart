@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
+import 'package:klikit/modules/add_order/presentation/cubit/update_webshop_order_cubit.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
@@ -83,6 +84,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         return MultiBlocProvider(
           providers: [
             BlocProvider<CalculateBillCubit>(create: (_) => getIt.get()),
+            BlocProvider<UpdateWebShopOrderCubit>(create: (_) => getIt.get()),
           ],
           child: Scaffold(
             backgroundColor: Colors.transparent,

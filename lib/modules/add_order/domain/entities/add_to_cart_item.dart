@@ -107,19 +107,21 @@ class CustomerInfo {
 }
 
 class UpdateCartInfo {
-  final int id;
+  final int orderID;
   final String externalId;
   final String identity;
   final bool isPrePayment;
   final bool isWebShopOrder;
-  final num itemPrice;
+  final num totalPrice;
+  final String orderHash;
 
   UpdateCartInfo({
-    required this.id,
+    required this.orderID,
     required this.externalId,
     required this.identity,
     required this.isPrePayment,
     required this.isWebShopOrder,
-    required this.itemPrice,
+    required this.totalPrice,
+    required this.orderHash,
   });
 }

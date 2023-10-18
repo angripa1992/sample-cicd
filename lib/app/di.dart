@@ -5,6 +5,7 @@ import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/modules/add_order/data/datasource/add_order_datasource.dart';
 import 'package:klikit/modules/add_order/data/repository/add_order_repository_impl.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
+import 'package:klikit/modules/add_order/presentation/cubit/update_webshop_order_cubit.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/data/business_remote_datasource.dart';
@@ -176,6 +177,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => AddCommentCubit(getIt()));
   getIt.registerFactory(() => DeleteCommentCubit(getIt()));
   getIt.registerFactory(() => CalculateGrabBillCubit(getIt()));
+  getIt.registerFactory(() => UpdateWebShopOrderCubit(getIt()));
   getIt.registerFactory(() => UpdateGrabOrderCubit(getIt()));
   getIt.registerLazySingleton(() => UpdateWebShopOrderDataProvider(getIt()));
   getIt.registerLazySingleton(() => UpdateManualOrderDataProvider(getIt()));

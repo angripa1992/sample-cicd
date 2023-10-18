@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/modules/orders/data/models/webshop_order_details_model.dart';
+import 'package:klikit/modules/orders/domain/entities/order.dart';
 
 import '../../../app/session_manager.dart';
 import '../../add_order/data/datasource/add_order_datasource.dart';
@@ -34,16 +34,22 @@ class AppliedPromoProvider {
     }
   }
 
-  AppliedPromoInfo? appliedPromoInfoForWebShopOrder(WebShopOrderDetailsModel orderDetailsModel) {
-    final promo = orderDetailsModel.appliedPromo;
-    if (promo == null) return null;
+  Future<AppliedPromoInfo?> appliedPromoInfoForWebShopOrder(Order order) async {
+    final appliedPromo = order.orderAppliedPromo;
+    if (appliedPromo == null) return null;
+    final promos = await AppliedPromoProvider().fetchPromos(
+      productType: 'web_shop',
+      orderAmountInCent: order.itemPrice,
+      brandsID: order.brands.map((e) => e.id).toList(),
+    );
+    final promo = promos.firstWhere((element) => appliedPromo.promoId == element.id);
     return AppliedPromoInfo(
       promo: promo,
-      isSeniorCitizenPromo: promo.isSeniorCitizenPromo!,
+      isSeniorCitizenPromo: appliedPromo.isSeniorCitizenPromo,
       itemId: 0,
       promoId: promo.id,
-      numberOfSeniorCitizen: orderDetailsModel.numberOfSeniorCitizen,
-      numberOfCustomer: orderDetailsModel.numberOfCustomer,
+      numberOfSeniorCitizen: appliedPromo.numberOfSeniorCitizen,
+      numberOfCustomer: appliedPromo.numberOfCustomer,
       promoCode: promo.code,
     );
   }

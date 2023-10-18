@@ -9,7 +9,6 @@ import '../../add_order/domain/entities/modifier/item_modifier_group.dart';
 import '../../menu/domain/entities/menu/menu_branch_info.dart';
 import '../../menu/domain/entities/menu/menu_item.dart';
 import '../../menu/domain/usecase/fetch_menus.dart';
-import '../data/models/webshop_order_details_model.dart';
 import '../domain/entities/cart.dart';
 
 class OrderMenuItemProvider {
@@ -68,35 +67,6 @@ class OrderMenuItemProvider {
               if (modifierLevelTwo != null) {
                 modifierLevelTwo.isSelected = true;
                 modifierLevelTwo.quantity = modifierTwo.quantity;
-              }
-            }
-          }
-        }
-      }
-      return groups;
-    } on Exception {
-      rethrow;
-    }
-  }
-
-  Future<List<MenuItemModifierGroup>> fetchModifiersForWebShopOrder(WebShopCartModel? cart, MenuBranchInfo branchInfo) async {
-    try {
-      final groups = await getIt.get<AddOrderDatasource>().fetchModifiers(itemID: cart!.itemId!, branchInfo: branchInfo);
-      for (var modifierGroupOne in cart.groups ?? <WebShopModifierGroupModel>[]) {
-        final groupLevelOne = groups.firstWhereOrNull((element) => element.groupId == modifierGroupOne.groupId);
-        for (var modifierOne in modifierGroupOne.modifiers ?? <WebShopModifierModel>[]) {
-          final modifierLevelOne = groupLevelOne?.modifiers.firstWhereOrNull((element) => element.modifierId == modifierOne.modifierId);
-          if (modifierLevelOne != null) {
-            modifierLevelOne.isSelected = true;
-            modifierLevelOne.quantity = modifierOne.modifierQuantity!;
-          }
-          for (var modifierGroupTwo in modifierOne.groups ?? <WebShopModifierGroupModel>[]) {
-            final groupLevelTwo = modifierLevelOne?.groups.firstWhereOrNull((element) => element.groupId == modifierGroupTwo.groupId);
-            for (var modifierTwo in modifierGroupTwo.modifiers ?? <WebShopModifierModel>[]) {
-              final modifierLevelTwo = groupLevelTwo?.modifiers.firstWhereOrNull((element) => element.modifierId == modifierTwo.modifierId);
-              if (modifierLevelTwo != null) {
-                modifierLevelTwo.isSelected = true;
-                modifierLevelTwo.quantity = modifierTwo.modifierQuantity!;
               }
             }
           }

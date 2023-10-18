@@ -3,20 +3,31 @@ import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 import '../../../../common/entities/branch_info.dart';
 import '../modifier/item_price_model.dart';
 import '../modifier/modifier_rule.dart';
+import '../modifier/title_v2_model.dart';
 import 'billing_request.dart';
 import 'item_brand_request.dart';
 
 class WebShopCalculateBillPayload {
   int? branchId;
+  String? orderHash;
+  int? orderType;
   BillingCurrency? currency;
   List<WebShopCartItemPayload>? cart;
   Promo? appliedPromo;
 
-  WebShopCalculateBillPayload({this.branchId, this.currency, this.cart, this.appliedPromo});
+  WebShopCalculateBillPayload({
+    this.branchId,
+    this.orderHash,
+    this.currency,
+    this.cart,
+    this.appliedPromo,
+    this.orderType,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['branch_id'] = branchId;
+    data['order_type'] = orderType;
     if (currency != null) {
       data['currency'] = currency!.toJson();
     }
@@ -25,6 +36,9 @@ class WebShopCalculateBillPayload {
     }
     if (appliedPromo != null) {
       data['applied_promo'] = appliedPromo!.toJson();
+    }
+    if (orderHash != null) {
+      data['order_hash'] = orderHash;
     }
     return data;
   }
@@ -37,7 +51,7 @@ class WebShopCartItemPayload {
   ItemBrandRequestModel? brand;
   String? comment;
   num? discountValue;
-  List<WebShopGroupPayload>? groups;
+  List<WebShopModifierGroupPayload>? groups;
   num? itemFinalPrice;
   String? itemName;
   num? menuVersion;
@@ -94,12 +108,20 @@ class WebShopCartItemPayload {
   }
 }
 
-class WebShopGroupPayload {
+class WebShopModifierGroupPayload {
   int? groupId;
   List<WebShopModifierPayload>? modifiers;
   MenuItemModifierRuleModel? rule;
+  String? title;
+  MenuItemTitleV2Model? titleV2;
 
-  WebShopGroupPayload({this.groupId, this.modifiers, this.rule});
+  WebShopModifierGroupPayload({
+    this.groupId,
+    this.modifiers,
+    this.rule,
+    this.title,
+    this.titleV2,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -110,17 +132,25 @@ class WebShopGroupPayload {
     if (rule != null) {
       data['rule'] = rule!.toWebShopJson();
     }
+    if (title != null) {
+      data['title'] = title;
+    }
+    if (titleV2 != null) {
+      data['title_v2'] = titleV2!.toJson();
+    }
     return data;
   }
 }
 
 class WebShopModifierPayload {
   num? extraPrice;
-  List<WebShopGroupPayload>? groups;
+  List<WebShopModifierGroupPayload>? groups;
   int? id;
   int? modifierId;
   num? modifierQuantity;
   bool? isSelected;
+  String? title;
+  MenuItemTitleV2Model? titleV2;
 
   WebShopModifierPayload({
     this.extraPrice,
@@ -129,18 +159,26 @@ class WebShopModifierPayload {
     this.modifierId,
     this.modifierQuantity,
     this.isSelected,
+    this.title,
+    this.titleV2,
   });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['extra_price'] = extraPrice;
-    if (groups != null) {
-      data['groups'] = groups!.map((v) => v.toJson()).toList();
-    }
     data['id'] = id;
     data['modifier_id'] = modifierId;
     data['modifier_quantity'] = modifierQuantity;
     data['is_selected'] = isSelected;
+    if (groups != null) {
+      data['groups'] = groups!.map((v) => v.toJson()).toList();
+    }
+    if (title != null) {
+      data['title'] = title;
+    }
+    if (titleV2 != null) {
+      data['title_v2'] = titleV2!.toJson();
+    }
     return data;
   }
 }
