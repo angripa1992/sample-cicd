@@ -5,11 +5,10 @@ import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import '../../../add_order/data/models/applied_promo.dart';
 import '../../../common/entities/brand.dart';
 import '../../../common/entities/source.dart';
+import '../../../common/model/brand_model.dart';
 import '../../domain/entities/delicery_info.dart';
 import '../../domain/entities/order.dart';
-import '../../domain/entities/promo.dart';
 import '../../domain/entities/rider_info.dart';
-import '../../../common/model/brand_model.dart';
 
 part 'orders_model.g.dart';
 
@@ -218,6 +217,8 @@ class OrderModel {
   AppliedPromoInfo? orderAppliedPromo;
   @JsonKey(name: 'item_applied_promos')
   List<AppliedPromoInfo>? itemAppliedPromos;
+  @JsonKey(name: 'preparation_time')
+  num? preparationTime;
 
   OrderModel({
     this.id,
@@ -310,6 +311,7 @@ class OrderModel {
     this.providerSubTotal,
     this.providerGrandTotal,
     this.providerAdditionalFee,
+    this.preparationTime,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -404,11 +406,12 @@ class OrderModel {
       cancellationReason: cancellationReason.orEmpty(),
       restaurantServiceFee: restaurantServiceFee.orZero(),
       appliedPromos: promos ?? [],
-      pickUpAt: pickUpAt.orEmpty(),
+      estimatedPickUpAt: pickUpAt.orEmpty(),
       deliveryInfo: deliveryInfo?.toEntity(),
       providerSubTotal: providerSubTotal.orZero(),
       providerGrandTotal: providerGrandTotal.orZero(),
       providerAdditionalFee: providerAdditionalFee.orZero(),
+      preparationTime: preparationTime.orZero(),
     );
   }
 }

@@ -42,11 +42,7 @@ class WebShopOrderDetailsModel {
   String? paymentChannel;
   int? status;
   bool? isThreePlOrder;
-  dynamic fulfillmentSender;
-  dynamic fulfillmentReceiver;
-  dynamic fulfillmentMeta;
-  dynamic fulfillmentExpectedPickupTime;
-  dynamic fulfillmentExpectedDeliveryTime;
+  FulfillmentReceiver? fulfillmentReceiver;
   bool? orderAutoAcceptEnabled;
 
   WebShopOrderDetailsModel({
@@ -91,11 +87,7 @@ class WebShopOrderDetailsModel {
     this.paymentChannel,
     this.status,
     this.isThreePlOrder,
-    this.fulfillmentSender,
     this.fulfillmentReceiver,
-    this.fulfillmentMeta,
-    this.fulfillmentExpectedPickupTime,
-    this.fulfillmentExpectedDeliveryTime,
     this.orderAutoAcceptEnabled,
   });
 
@@ -146,12 +138,8 @@ class WebShopOrderDetailsModel {
     paymentChannel = json['payment_channel'];
     status = json['status'];
     isThreePlOrder = json['is_three_pl_order'];
-    fulfillmentSender = json['fulfillment_sender'];
-    fulfillmentReceiver = json['fulfillment_receiver'];
-    fulfillmentMeta = json['fulfillment_meta'];
-    fulfillmentExpectedPickupTime = json['fulfillment_expected_pickup_time'];
-    fulfillmentExpectedDeliveryTime = json['fulfillment_expected_delivery_time'];
     orderAutoAcceptEnabled = json['order_auto_accept_enabled'];
+    fulfillmentReceiver = json['fulfillment_receiver'] != null ? FulfillmentReceiver.fromJson(json['fulfillment_receiver']) : null;
   }
 }
 
@@ -403,5 +391,50 @@ class WebShopUserModel {
     phone = json['phone'];
     email = json['email'];
     logo = json['logo'];
+  }
+}
+
+class FulfillmentReceiver {
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
+  String? address;
+  String? keywords;
+  String? instruction;
+  Coordinates? coordinates;
+
+  FulfillmentReceiver({
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.phone,
+    this.address,
+    this.keywords,
+    this.instruction,
+    this.coordinates,
+  });
+
+  FulfillmentReceiver.fromJson(Map<String, dynamic> json) {
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    email = json['email'];
+    phone = json['phone'];
+    address = json['address'];
+    keywords = json['keywords'];
+    instruction = json['instruction'];
+    coordinates = json['coordinates'] != null ? Coordinates.fromJson(json['coordinates']) : null;
+  }
+}
+
+class Coordinates {
+  double? latitude;
+  double? longitude;
+
+  Coordinates({this.latitude, this.longitude});
+
+  Coordinates.fromJson(Map<String, dynamic> json) {
+    latitude = json['latitude'];
+    longitude = json['longitude'];
   }
 }

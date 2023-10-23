@@ -4,6 +4,7 @@ import 'package:klikit/modules/common/entities/brand.dart';
 import '../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../menu/domain/entities/menu/menu_item_price.dart';
 import '../../data/models/applied_promo.dart';
+import '../../data/models/request/webshop_calculate_bill_payload.dart';
 import 'modifier/item_modifier_group.dart';
 
 class AddToCartItem {
@@ -114,6 +115,7 @@ class UpdateCartInfo {
   final bool isWebShopOrder;
   final num totalPrice;
   final String orderHash;
+  final OrderDeliveryLocation? deliveryLocation;
 
   UpdateCartInfo({
     required this.orderID,
@@ -123,5 +125,6 @@ class UpdateCartInfo {
     required this.isWebShopOrder,
     required this.totalPrice,
     required this.orderHash,
+    this.deliveryLocation,
   });
 }

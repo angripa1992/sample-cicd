@@ -57,7 +57,9 @@ void mainCommon(EnvironmentVariables env) async {
         fallbackLocale: const Locale('en', 'US'),
         startLocale: startLocale,
         assetLoader: SmartAssetLoader(),
-        child: const Klikit(),
+        child: const Klikit(
+
+        ),
       ),
     ),
   );

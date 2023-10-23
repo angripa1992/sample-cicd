@@ -231,4 +231,18 @@ class OrderRepositoryImpl extends OrderRepository {
       return null;
     }
   }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> updatePrepTime(int orderID, Map<String, dynamic> params) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.updatePrepTime(orderID, params);
+        return Right(response);
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
 }

@@ -247,7 +247,10 @@ class _CartScreenState extends State<CartScreen> {
     EasyLoading.show();
     dartz.Either<Failure, CartBill>? response;
     if (CartManager().getUpdateCartInfo()?.isWebShopOrder ?? false) {
-      final payload = await WebShopEntityProvider().calculateBillPayload(cartItems: items);
+      final payload = await WebShopEntityProvider().calculateBillPayload(
+        cartItems: items,
+        deliveryFee: _globalDeliveryFee,
+      );
       response = await getIt.get<AddOrderRepository>().webShopCalculateBill(payload: payload);
     } else {
       final payload = await OrderEntityProvider().billingRequestModel(

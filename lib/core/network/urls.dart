@@ -31,6 +31,7 @@ class Urls {
   static const String zReportSummary = '/v2/analyseit/z-report/summary';
 
   static String findRider(int id) => '/v1/oni/order/fulfillment/dispatch/$id';
+  static String updatePrepTime(int id) => '/v1/oni/order/$id/preparation-time';
 
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
 

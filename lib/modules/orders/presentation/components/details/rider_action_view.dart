@@ -23,7 +23,6 @@ class RiderActionView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
-        vertical: AppSize.s8.rh,
       ),
       child: Column(
         children: [

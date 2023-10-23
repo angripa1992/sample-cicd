@@ -39,6 +39,7 @@ import 'package:klikit/modules/orders/domain/usecases/fetch_ongoing_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_total_orders.dart';
 import 'package:klikit/modules/orders/domain/usecases/fetch_yesterday_total_order.dart';
 import 'package:klikit/modules/orders/domain/usecases/update_order_status.dart';
+import 'package:klikit/modules/orders/presentation/bloc/update_prep_time_cubit.dart';
 import 'package:klikit/modules/orders/utils/update_webshop_order_data_provider.dart';
 import 'package:klikit/modules/user/data/datasource/user_remote_data_source.dart';
 import 'package:klikit/modules/user/data/repositories/user_repository_impl.dart';
@@ -181,6 +182,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => UpdateGrabOrderCubit(getIt()));
   getIt.registerLazySingleton(() => UpdateWebShopOrderDataProvider(getIt()));
   getIt.registerLazySingleton(() => UpdateManualOrderDataProvider(getIt()));
+  getIt.registerFactory(() => UpdatePrepTimeCubit(getIt()));
 
   ///menu mgt
   getIt.registerLazySingleton<MenuRemoteDatasource>(() => MenuRemoteDatasourceImpl(getIt.get()));

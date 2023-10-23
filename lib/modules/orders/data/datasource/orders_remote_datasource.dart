@@ -37,6 +37,8 @@ abstract class OrderRemoteDatasource {
   Future<OrderModel> calculateGrabOrder(OrderModel model);
 
   Future<List<CancellationReasonModel>> fetchCancellationReasons();
+
+  Future<ActionSuccess> updatePrepTime(int orderID,Map<String, dynamic> params);
 }
 
 class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
@@ -179,6 +181,16 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
     try {
       final response = await _restClient.request('${Urls.omsOrder}/$externalID', Method.GET, null);
       return WebShopOrderDetailsModel.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> updatePrepTime(int orderID, Map<String, dynamic> params) async{
+    try {
+      final response = await _restClient.request(Urls.updatePrepTime(orderID), Method.PATCH,params);
+      return ActionSuccess.fromJson(response);
     } on DioException {
       rethrow;
     }

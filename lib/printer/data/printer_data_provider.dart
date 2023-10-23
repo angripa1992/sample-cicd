@@ -78,7 +78,7 @@ class PrinterDataProvider {
                   : null,
             )
           : null,
-      pickupAt: order.pickUpAt.isNotEmpty ? DateTimeProvider.pickupTime(order.pickUpAt) : order.pickUpAt,
+      pickupAt: order.estimatedPickUpAt.isNotEmpty ? DateTimeProvider.pickupTime(order.estimatedPickUpAt) : order.estimatedPickUpAt,
       providerSubTotal: order.providerSubTotal,
       providerGrandTotal: order.providerGrandTotal,
       providerAdditionalFee: order.providerAdditionalFee,

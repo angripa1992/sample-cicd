@@ -36,4 +36,6 @@ abstract class OrderRepository {
   Future<Either<Failure, order.Order>> calculateGrabBill(OrderModel model);
 
   Future<Either<Failure, List<CancellationReason>>> fetchCancellationReason();
+
+  Future<Either<Failure, ActionSuccess>> updatePrepTime(int orderID,Map<String, dynamic> params);
 }

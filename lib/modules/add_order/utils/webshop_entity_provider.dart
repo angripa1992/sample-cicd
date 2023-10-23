@@ -24,7 +24,10 @@ class WebShopEntityProvider {
 
   WebShopEntityProvider._internal();
 
-  Future<WebShopCalculateBillPayload> calculateBillPayload({required List<AddToCartItem> cartItems}) async {
+  Future<WebShopCalculateBillPayload> calculateBillPayload({
+    required List<AddToCartItem> cartItems,
+    required num deliveryFee,
+  }) async {
     final branch = await getIt.get<BusinessInformationProvider>().branchInfo();
     final cartItem = cartItems.first;
     final orderPromoInfo = CartManager().getPromoInfo();
@@ -46,6 +49,7 @@ class WebShopEntityProvider {
         symbol: cartItem.itemPrice.currencySymbol,
       ),
       cart: cart,
+      deliveryLocation: updateCartInfo?.deliveryLocation,
     );
   }
 

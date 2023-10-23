@@ -14,6 +14,7 @@ class WebShopCalculateBillPayload {
   BillingCurrency? currency;
   List<WebShopCartItemPayload>? cart;
   Promo? appliedPromo;
+  OrderDeliveryLocation? deliveryLocation;
 
   WebShopCalculateBillPayload({
     this.branchId,
@@ -22,6 +23,7 @@ class WebShopCalculateBillPayload {
     this.cart,
     this.appliedPromo,
     this.orderType,
+    this.deliveryLocation,
   });
 
   Map<String, dynamic> toJson() {
@@ -39,6 +41,9 @@ class WebShopCalculateBillPayload {
     }
     if (orderHash != null) {
       data['order_hash'] = orderHash;
+    }
+    if (deliveryLocation != null) {
+      data['delivery_location'] = deliveryLocation!.toJson();
     }
     return data;
   }
@@ -179,6 +184,32 @@ class WebShopModifierPayload {
     if (titleV2 != null) {
       data['title_v2'] = titleV2!.toJson();
     }
+    return data;
+  }
+}
+
+class OrderDeliveryLocation {
+  num latitude;
+  num longitude;
+  String address;
+  String? keywords;
+  String? instruction;
+
+  OrderDeliveryLocation({
+    required this.latitude,
+    required this.longitude,
+    required this.address,
+    this.keywords,
+    this.instruction,
+  });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['address'] = address;
+    data['keywords'] = keywords;
+    data['instruction'] = instruction;
     return data;
   }
 }

@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/orders/data/models/webshop_order_details_model.dart';
 
 import '../../../app/di.dart';
+import '../../add_order/data/models/request/webshop_calculate_bill_payload.dart';
 import '../../add_order/domain/entities/add_to_cart_item.dart';
 import '../../add_order/utils/cart_manager.dart';
 import '../../add_order/utils/modifier_manager.dart';
@@ -27,7 +30,7 @@ class UpdateWebShopOrderDataProvider {
       }
       final orderPromo = await AppliedPromoProvider().appliedPromoInfoForWebShopOrder(order);
       CartManager().setPromoInfo(orderPromo);
-      _setEditableInfo(order);
+      await _setEditableInfo(order);
     } catch (error) {
       rethrow;
     }
@@ -78,8 +81,12 @@ class UpdateWebShopOrderDataProvider {
     }
   }
 
-  void _setEditableInfo(Order order) {
+  Future<void> _setEditableInfo(Order order) async {
     try {
+      WebShopOrderDetailsModel? webShopOrderDetailsModel;
+      if (order.type == OrderType.DELIVERY) {
+        webShopOrderDetailsModel = await _orderRepository.fetchOmsOrderById(order.externalId);
+      }
       final editInfo = CartInfo(
         type: order.type,
         source: 0,
@@ -109,6 +116,15 @@ class UpdateWebShopOrderDataProvider {
         isPrePayment: order.paymentStatus == PaymentStatusId.paid,
         totalPrice: order.finalPrice / 100,
         orderHash: order.externalId,
+        deliveryLocation: order.type == OrderType.DELIVERY
+            ? OrderDeliveryLocation(
+                latitude: webShopOrderDetailsModel?.fulfillmentReceiver?.coordinates?.latitude ?? ZERO,
+                longitude: webShopOrderDetailsModel?.fulfillmentReceiver?.coordinates?.longitude ?? ZERO,
+                address: webShopOrderDetailsModel?.fulfillmentReceiver?.address ?? EMPTY,
+                keywords: webShopOrderDetailsModel?.fulfillmentReceiver?.keywords,
+                instruction: webShopOrderDetailsModel?.fulfillmentReceiver?.instruction,
+              )
+            : null,
       );
       CartManager().setCustomerInfo(customerInfo);
       CartManager().setEditInfo(editInfo);

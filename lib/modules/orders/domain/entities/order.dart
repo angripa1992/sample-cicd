@@ -1,11 +1,10 @@
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/orders/domain/entities/promo.dart';
 import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
 
 import '../../../add_order/data/models/applied_promo.dart';
+import '../../../common/entities/brand.dart';
 import '../../../common/entities/source.dart';
 import '../../data/models/orders_model.dart';
-import '../../../common/entities/brand.dart';
 import 'cart.dart';
 import 'delicery_info.dart';
 
@@ -102,7 +101,7 @@ class Order {
   final int cancellationReasonId;
   final String cancellationReason;
   final int restaurantServiceFee;
-  final String pickUpAt;
+  final String estimatedPickUpAt;
   final OrderDeliveryInfo? deliveryInfo;
   final num providerSubTotal;
   final num providerGrandTotal;
@@ -110,6 +109,7 @@ class Order {
   final AppliedPromoInfo? orderAppliedPromo;
   final List<AppliedPromoInfo> itemAppliedPromos;
   final List<AppliedPromoItem> appliedPromos;
+  num preparationTime;
   String klikitComment;
   int paymentMethod;
   int paymentChannel;
@@ -203,11 +203,12 @@ class Order {
     required this.cancellationReason,
     required this.restaurantServiceFee,
     required this.appliedPromos,
-    required this.pickUpAt,
+    required this.estimatedPickUpAt,
     required this.deliveryInfo,
     required this.providerSubTotal,
     required this.providerGrandTotal,
     required this.providerAdditionalFee,
+    required this.preparationTime,
   });
 
   Order copy() => Order(
@@ -297,11 +298,12 @@ class Order {
         cancellationReason: cancellationReason,
         restaurantServiceFee: restaurantServiceFee,
         appliedPromos: appliedPromos,
-        pickUpAt: pickUpAt,
+        estimatedPickUpAt: estimatedPickUpAt,
         deliveryInfo: deliveryInfo,
         providerSubTotal: providerSubTotal,
         providerGrandTotal: providerGrandTotal,
         providerAdditionalFee: providerAdditionalFee,
+        preparationTime: preparationTime,
       );
 
   OrderModel toModel() => OrderModel(
@@ -388,9 +390,10 @@ class Order {
         cancellationReasonId: cancellationReasonId,
         cancellationReason: cancellationReason,
         restaurantServiceFee: restaurantServiceFee,
-        pickUpAt: pickUpAt,
+        pickUpAt: estimatedPickUpAt,
         providerSubTotal: providerSubTotal,
         providerGrandTotal: providerGrandTotal,
         providerAdditionalFee: providerAdditionalFee,
+        preparationTime: preparationTime,
       );
 }

@@ -135,6 +135,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       providerSubTotal: json['provider_sub_total'] as num?,
       providerGrandTotal: json['provider_grand_total'] as num?,
       providerAdditionalFee: json['provider_additional_fee'] as num?,
+      preparationTime: json['preparation_time'] as num?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -231,6 +232,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'order_applied_promo': instance.orderAppliedPromo?.toJson(),
       'item_applied_promos':
           instance.itemAppliedPromos?.map((e) => e.toJson()).toList(),
+      'preparation_time': instance.preparationTime,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

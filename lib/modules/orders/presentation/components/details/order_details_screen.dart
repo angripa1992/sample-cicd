@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/details/pickup_time_view.dart';
+import 'package:klikit/modules/orders/presentation/components/details/preparation_time_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/price_view.dart';
+import 'package:klikit/modules/orders/presentation/components/details/rider_action_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/rider_info_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/scheduled_view.dart';
-import 'package:klikit/modules/orders/presentation/components/details/rider_action_view.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
@@ -117,6 +118,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   onEditManualOrder: widget.onEditManualOrder,
                 ),
                 RiderActionView(order: _currentOrder, onRiderFind: widget.onRiderFind),
+                PrepTimeView(
+                  order: _currentOrder,
+                  onUpdateSuccess: (min) {
+                    setState(() {
+                      _currentOrder.preparationTime = min;
+                    });
+                  },
+                ),
                 CancellationReasonView(order: _currentOrder),
                 OrderItemDetails(order: _currentOrder),
                 CommentView(comment: _currentOrder.orderComment),
@@ -184,7 +193,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               Icons.clear,
               color: AppColors.black,
             ),
-          )
+          ),
         ],
       ),
     );
