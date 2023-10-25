@@ -1,3 +1,4 @@
+import 'package:docket_design_template/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +61,7 @@ class _PrepTimeViewState extends State<PrepTimeView> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: !widget.order.isManualOrder,
+      visible: widget.order.providerId == ProviderID.KLIKIT && widget.order.preparationTime > 0,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s16.rw,
