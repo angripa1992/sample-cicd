@@ -57,53 +57,56 @@ class _PrepTimeViewState extends State<PrepTimeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s16.rw,
-        vertical: AppSize.s8.rh,
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.timer, color: AppColors.black),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-              child: Text(
-                'Average meal preparation time will be',
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s14.rSp,
+    return Visibility(
+      visible: !widget.order.isManualOrder,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s16.rw,
+          vertical: AppSize.s8.rh,
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.timer, color: AppColors.black),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                child: Text(
+                  'Average meal preparation time will be',
+                  style: mediumTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
                 ),
               ),
             ),
-          ),
-          InkWell(
-            onTap: _editPrepTime,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                vertical: AppSize.s4.rh,
-                horizontal: AppSize.s8.rw,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: AppColors.greyDark,
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    '${widget.order.preparationTime} min',
-                    style: mediumTextStyle(
-                      color: AppColors.black,
-                      fontSize: AppFontSize.s14.rSp,
+            InkWell(
+              onTap: _editPrepTime,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.s4.rh,
+                  horizontal: AppSize.s8.rw,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                  color: AppColors.greyDark,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      '${widget.order.preparationTime} min',
+                      style: mediumTextStyle(
+                        color: AppColors.black,
+                        fontSize: AppFontSize.s14.rSp,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: AppSize.s4.rw),
-                  Icon(Icons.edit, size: AppSize.s18.rSp),
-                ],
+                    SizedBox(width: AppSize.s4.rw),
+                    Icon(Icons.edit, size: AppSize.s18.rSp),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -186,7 +189,7 @@ class _PrepTimeInputViewState extends State<PrepTimeInputView> {
               ),
               SizedBox(width: AppSize.s8.rw),
               Text(
-                'Mins',
+                'Min',
                 style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s14.rSp,

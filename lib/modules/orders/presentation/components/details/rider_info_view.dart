@@ -55,7 +55,10 @@ class RiderInfoView extends StatelessWidget {
                 ),
                 if (order.fulfillmentExpectedPickupTime.isNotEmpty)
                   Expanded(
-                    child: _infoItem(AppStrings.estimated_pickup_time.tr(), DateTimeProvider.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime)),
+                    child: _infoItem(
+                      AppStrings.estimated_pickup_time.tr(),
+                      DateTimeProvider.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime),
+                    ),
                   ),
               ],
             ),
