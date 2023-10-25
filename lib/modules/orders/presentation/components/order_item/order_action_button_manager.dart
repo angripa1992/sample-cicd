@@ -70,7 +70,7 @@ class OrderActionButtonManager {
   }
 
   bool canUpdateOrder(Order order) {
-    return order.providerId == ProviderID.KLIKIT && order.isManualOrder && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
+    return order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED) && order.canUpdate;
   }
 
   bool canPrint(Order order) {
