@@ -168,6 +168,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   Future<UpdateWebShopOrderResponse> updateWebShopOrder(int id, WebShopPlaceOrderPayload payload) async {
     try {
       final str = json.encode(payload.toJson());
+      print(str);
       final response = await _restClient.request(
         Urls.updateWebShopOrder(id),
         Method.PATCH,

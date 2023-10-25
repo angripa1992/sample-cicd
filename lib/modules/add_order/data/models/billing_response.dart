@@ -76,9 +76,7 @@ class CartBillModel {
     manualDiscount = json['manual_discount_amount'];
     numberOfSeniorCitizen = json['number_of_senior_citizen'];
     numberOfSeniorCustomer = json['number_of_customer'];
-    appliedPromo = json['applied_promo'] != null
-        ? Promo.fromJson(json['applied_promo'])
-        : null;
+    appliedPromo = json['applied_promo'] != null ? Promo.fromJson(json['applied_promo']) : null;
     if (json['items'] != null) {
       items = <ItemBillModel>[];
       json['items'].forEach((v) {
@@ -111,6 +109,8 @@ class CartBillModel {
         numberOfSeniorCitizen: numberOfSeniorCitizen ?? ZERO,
         numberOfSeniorCustomer: numberOfSeniorCustomer ?? ZERO,
         appliedPromo: appliedPromo,
+        restaurantServiceFee: ZERO,
+        restaurantServiceFeeCent: ZERO,
       );
 }
 
@@ -155,9 +155,7 @@ class ItemBillModel {
     quantity = json['quantity'];
     itemFinalPrice = json['item_final_price'];
     quantityOfPromoItem = json['quantity_of_sc_promo_item'];
-    appliedPromo = json['applied_promo'] != null
-        ? Promo.fromJson(json['applied_promo'])
-        : null;
+    appliedPromo = json['applied_promo'] != null ? Promo.fromJson(json['applied_promo']) : null;
   }
 
   ItemBill toEntity() => ItemBill(

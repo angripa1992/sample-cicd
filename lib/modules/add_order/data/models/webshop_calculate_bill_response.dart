@@ -109,6 +109,8 @@ class WebShopCalculateBillResponse {
       numberOfSeniorCitizen: 0,
       numberOfSeniorCustomer: 0,
       appliedPromo: appliedPromo,
+      restaurantServiceFee: restaurantServiceFee.orZero(),
+      restaurantServiceFeeCent: restaurantServiceFeeCent.orZero(),
     );
   }
 }
