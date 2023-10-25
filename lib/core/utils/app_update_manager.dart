@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/network/public_rest_client.dart';
+import 'package:klikit/env/environment_variables.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/di.dart';
+import '../../app/enums.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../resources/strings.dart';
@@ -23,11 +27,48 @@ class AppUpdateManager {
 
   bool _isDialogAlreadyShowing = false;
 
+  Timer? _timer;
+
   void showAppUpdateDialog() {
     if (!_isDialogAlreadyShowing) {
       _isDialogAlreadyShowing = true;
       _showDialog();
     }
+  }
+
+  void checkForUpdate() async{
+   try{
+     final baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
+     final currentVersionStr = await getIt.get<DeviceInfoProvider>().versionCode();
+     final currentVersion = num.parse(currentVersionStr);
+     _showUpdateSnackbar();
+     _timer = Timer.periodic(const Duration(minutes: 1), (timer) async{
+       final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);
+       final updatedVersionCode = response['appversion_android'];
+       // if(updatedVersionCode > currentVersion){
+       //
+       // }
+       _showUpdateSnackbar();
+      // _timer?.cancel();
+     });
+   }catch (error){
+     //ignore
+   }
+  }
+
+  void _showUpdateSnackbar(){
+    final context = RoutesGenerator.navigatorKey.currentState?.context;
+    if(context == null) return;
+    final snackBar = SnackBar(
+      content: const Text('Update available'),
+      action: SnackBarAction(
+        label: 'UPDATE',
+        onPressed: () {
+          _gotoPlayStore();
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void _gotoPlayStore() async {
