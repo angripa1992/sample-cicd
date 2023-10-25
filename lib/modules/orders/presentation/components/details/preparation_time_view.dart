@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
@@ -9,6 +10,7 @@ import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/di.dart';
@@ -214,7 +216,7 @@ class _PrepTimeInputViewState extends State<PrepTimeInputView> {
                 onTap: () {
                   _update();
                 },
-                text: 'Update',
+                text: AppStrings.update.tr(),
               );
             },
           ),
