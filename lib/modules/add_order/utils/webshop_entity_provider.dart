@@ -63,6 +63,8 @@ class WebShopEntityProvider {
       itemId: cartItem.item.id,
       // subSectionId: cartItem.item.categoryID,
       itemName: cartItem.item.title,
+      title: cartItem.item.title,
+      description: cartItem.item.description,
       //menuVersion: cartItem.item.menuVersion,
       quantity: cartItem.quantity,
       //  itemFinalPrice: cartItem.itemPrice.price,

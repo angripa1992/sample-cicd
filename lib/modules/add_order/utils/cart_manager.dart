@@ -111,7 +111,7 @@ class CartManager {
   }
 
   void _checkCartAndClearIfNeeded() {
-    if (_carts.isEmpty) {
+    if (_carts.isEmpty && !isWebShoOrder()) {
       clear();
     } else {
       _notifyListener();
