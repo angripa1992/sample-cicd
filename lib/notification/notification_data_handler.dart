@@ -10,8 +10,7 @@ import 'package:klikit/notification/notification_data.dart';
 import '../app/constants.dart';
 
 class NotificationDataHandler {
-  static final NotificationDataHandler _instance =
-      NotificationDataHandler._internal();
+  static final NotificationDataHandler _instance = NotificationDataHandler._internal();
 
   factory NotificationDataHandler() {
     return _instance;
@@ -39,8 +38,9 @@ class NotificationDataHandler {
 
   NavigationData getNavData(NotificationData notificationData) {
     if (notificationData.type.toInt() == NotificationOrderType.NEW) {
-      return NavigationData(
-          index: BottomNavItem.ORDER, subTabIndex: OrderTab.NEW, data: null);
+      return NavigationData(index: BottomNavItem.ORDER, subTabIndex: OrderTab.NEW, data: null);
+    } else if (notificationData.type.toInt() == NotificationOrderType.SCHEUDLE) {
+      return NavigationData(index: BottomNavItem.ORDER, subTabIndex: OrderTab.SCHEDULE, data: null);
     } else {
       return NavigationData(
         index: BottomNavItem.ORDER,

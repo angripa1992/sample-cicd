@@ -7,15 +7,15 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/notification/inapp/notification_sound.dart';
 import 'package:klikit/notification/notification_data.dart';
 import 'package:klikit/notification/notification_handler.dart';
+import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/styles.dart';
 
 import '../../app/session_manager.dart';
 import '../../core/route/routes_generator.dart';
 import '../../modules/widgets/app_button.dart';
 import '../../printer/printing_handler.dart';
 import '../../resources/colors.dart';
-import '../../resources/fonts.dart';
-import '../../resources/styles.dart';
 import '../../resources/values.dart';
 import '../notification_data_handler.dart';
 
@@ -26,6 +26,7 @@ class InAppNotificationHandler {
   final _printingHandler = getIt.get<PrintingHandler>();
   late ValueNotifier<int> _newOrderCounter;
   late ValueNotifier<int> _cancelOrderCounter;
+  late ValueNotifier<int> _scheduleCounter;
 
   factory InAppNotificationHandler() => _instance;
 
@@ -36,38 +37,48 @@ class InAppNotificationHandler {
       _handleDocketPrinting(data);
       return;
     }
-    final isNewOrder = data.type.toInt() == NotificationOrderType.NEW;
+    _initCounter();
+    _incrementValue(data.type.toInt());
+    _playSoundAndShowDialog(data);
+    _handleDocketPrinting(data);
+  }
+
+  void _initCounter() {
     if (!_isShowing) {
       _newOrderCounter = ValueNotifier<int>(0);
       _cancelOrderCounter = ValueNotifier<int>(0);
+      _scheduleCounter = ValueNotifier<int>(0);
     }
+  }
+
+  void _incrementValue(int type) {
+    final isNewOrder = type == NotificationOrderType.NEW;
+    final isScheduleOrder = type == NotificationOrderType.SCHEUDLE;
     if (isNewOrder) {
       _newOrderCounter.value += 1;
+    } else if (isScheduleOrder) {
+      _scheduleCounter.value += 1;
     } else {
       _cancelOrderCounter.value += 1;
     }
+  }
+
+  void _playSoundAndShowDialog(NotificationData data) {
+    final isNewOrder = data.type.toInt() == NotificationOrderType.NEW;
+    final isScheduleOrder = data.type.toInt() == NotificationOrderType.SCHEUDLE;
     if (_isShowing) {
-      if (_newOrderCounter.value > 0 || isNewOrder) {
+      if (_newOrderCounter.value > 0 || _scheduleCounter.value > 0 || isNewOrder || isScheduleOrder) {
         _notificationSound.stop();
         _notificationSound.playNewSound();
       }
     } else {
       _showDialog(data);
-      if (isNewOrder) {
+      if (isNewOrder || isScheduleOrder) {
         _notificationSound.playNewSound();
       } else {
         _notificationSound.playCancelSound();
       }
     }
-    _handleDocketPrinting(data);
-  }
-
-  void _navigateToOrderScreen(NotificationData data) {
-    Navigator.pop(RoutesGenerator.navigatorKey.currentState!.context);
-    NotificationHandler().navigateToOrderScreen(
-      data,
-      notificationType: NotificationType.IN_APP,
-    );
   }
 
   void _handleDocketPrinting(NotificationData notificationData) async {
@@ -90,6 +101,7 @@ class InAppNotificationHandler {
     _isShowing = false;
     _newOrderCounter.dispose();
     _cancelOrderCounter.dispose();
+    _scheduleCounter.dispose();
   }
 
   void _showDialog(NotificationData data) {
@@ -101,64 +113,101 @@ class InAppNotificationHandler {
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(AppSize.s16.rSp),
+              Radius.circular(AppSize.s8.rSp),
             ),
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
+          titleTextStyle: semiBoldTextStyle(color: AppColors.black, fontSize: AppFontSize.s18.rSp),
+          title: Column(
             children: [
-              ValueListenableBuilder<int>(
-                valueListenable: _cancelOrderCounter,
-                builder: (_, value, __) {
-                  return Visibility(
-                    visible: value > 0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: AppSize.s24),
-                      child: Text(
-                        '$value ${AppStrings.orders_has_been_canceled.tr()}',
-                        style: regularTextStyle(
-                          color: AppColors.redDark,
-                          fontSize: AppFontSize.s18.rSp,
-                        ),
-                      ),
-                    ),
-                  );
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
                 },
+                icon: Icon(Icons.clear, color: AppColors.black),
               ),
               ValueListenableBuilder<int>(
                 valueListenable: _newOrderCounter,
                 builder: (_, value, __) {
                   return Visibility(
                     visible: value > 0,
+                    child: Row(
+                      children: [
+                        Icon(Icons.notifications_on_sharp, color: AppColors.primaryLight),
+                        SizedBox(width: AppSize.s16.rw),
+                        Expanded(child: Text('${AppStrings.you_have_received.tr()} $value ${AppStrings.new_orders.tr()} !')),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              ValueListenableBuilder<int>(
+                valueListenable: _scheduleCounter,
+                builder: (_, value, __) {
+                  return Visibility(
+                    visible: value > 0,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: AppSize.s24),
-                      child: Text(
-                        '${AppStrings.you_have_received.tr()} $value ${AppStrings.new_orders.tr()}',
-                        style: regularTextStyle(
-                          color: AppColors.black,
-                          fontSize: AppFontSize.s18.rSp,
-                        ),
+                      padding: EdgeInsets.only(top: AppSize.s16.rh),
+                      child: Row(
+                        children: [
+                          Icon(Icons.access_time, color: AppColors.yellowDark),
+                          SizedBox(width: AppSize.s16.rw),
+                          Expanded(child: Text('${AppStrings.you_have_received.tr()} $value scheduled order !')),
+                        ],
                       ),
                     ),
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSize.s32,
-                  vertical: AppSize.s8,
-                ),
-                child: AppButton(
-                  onTap: () {
-                    _navigateToOrderScreen(data);
-                  },
-                  text: AppStrings.view_orders.tr(),
+              ValueListenableBuilder<int>(
+                valueListenable: _cancelOrderCounter,
+                builder: (_, value, __) {
+                  return Visibility(
+                    visible: value > 0,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: AppSize.s16.rh),
+                      child: Row(
+                        children: [
+                          Icon(Icons.notification_important_outlined, color: AppColors.red),
+                          SizedBox(width: AppSize.s16.rw),
+                          Expanded(child: Text('$value ${AppStrings.orders_has_been_canceled.tr()} !')),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Tap to view orders',
+                style: regularTextStyle(
+                  color: AppColors.greyDarker,
+                  fontSize: AppFontSize.s16.rSp,
                 ),
               ),
             ],
           ),
+          actions: [
+            AppButton(
+              onTap: () {
+                _navigateToOrderScreen(data);
+              },
+              text: AppStrings.view_orders.tr(),
+            ),
+          ],
         );
       },
     ).then((value) => _dismissInAppNotification());
+  }
+
+  void _navigateToOrderScreen(NotificationData data) {
+    Navigator.pop(RoutesGenerator.navigatorKey.currentState!.context);
+    NotificationHandler().navigateToOrderScreen(
+      data,
+      notificationType: NotificationType.IN_APP,
+    );
   }
 }

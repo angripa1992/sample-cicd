@@ -121,6 +121,7 @@ class ModifierType {
 class NotificationOrderType {
   static const NEW = 1;
   static const CANCEL = 2;
+  static const SCHEUDLE = 3;
 }
 
 class NotificationType {

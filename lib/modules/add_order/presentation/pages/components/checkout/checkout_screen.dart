@@ -141,7 +141,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             },
             builder: (context, state) {
               return OrderActionButton(
-                buttonText: CartManager().getUpdateCartInfo() == null
+                buttonText: CartManager().isWebShoOrder()
                     ? AppStrings.placed_order.tr()
                     : AppStrings.update_order.tr(),
                 enable: state is Loading ? false : true,

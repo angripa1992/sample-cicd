@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
-import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
 import 'package:klikit/modules/common/order_parameter_provider.dart';
+import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
@@ -31,8 +31,7 @@ class OrderHistoryScreen extends StatefulWidget {
   State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
 }
 
-class _OrderHistoryScreenState extends State<OrderHistoryScreen>
-    with FilterObserver {
+class _OrderHistoryScreenState extends State<OrderHistoryScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
   final _printingHandler = getIt.get<PrintingHandler>();
@@ -70,8 +69,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
       pageSize: _pageSize,
     );
     params['start'] = DateTimeProvider.getDate(_dateRange!.start);
-    params['end'] =
-        DateTimeProvider.getDate(_dateRange!.end.add(const Duration(days: 1)));
+    params['end'] = DateTimeProvider.getDate(_dateRange!.end.add(const Duration(days: 1)));
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
@@ -174,13 +172,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen>
               firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
               newPageProgressIndicatorBuilder: getNewPageProgressIndicator,
               noItemsFoundIndicatorBuilder: noItemsFoundIndicator,
-              newPageErrorIndicatorBuilder: (_) =>
-                  getPageErrorIndicator(() => _refresh()),
-              firstPageErrorIndicatorBuilder: (_) =>
-                  getPageErrorIndicator(() => _refresh()),
+              newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
+              firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
             ),
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
+            separatorBuilder: (BuildContext context, int index) => const Divider(),
           ),
         )
       ],

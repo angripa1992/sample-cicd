@@ -16,20 +16,16 @@ class NotificationHandler {
 
   void handleBackgroundNotification(String? payload) {
     if (payload == null) return;
-    final notificationData = NotificationDataHandler().getNotificationData(
-        NotificationDataHandler().convertStringToMap(payload));
+    final notificationData = NotificationDataHandler().getNotificationData(NotificationDataHandler().convertStringToMap(payload));
     if (SessionManager().isLoggedIn()) {
-      navigateToOrderScreen(notificationData,
-          notificationType: NotificationType.BACKGROUD);
+      navigateToOrderScreen(notificationData, notificationType: NotificationType.BACKGROUD);
     } else {
       _navigateToLoginScreen(notificationData);
     }
   }
 
-  void navigateToOrderScreen(NotificationData notificationData,
-      {bool isNotification = true, required int notificationType}) {
-    Navigator.of(RoutesGenerator.navigatorKey.currentState!.context)
-        .pushNamedAndRemoveUntil(
+  void navigateToOrderScreen(NotificationData notificationData, {bool isNotification = true, required int notificationType}) {
+    Navigator.of(RoutesGenerator.navigatorKey.currentState!.context).pushNamedAndRemoveUntil(
       Routes.base,
       (Route<dynamic> route) => false,
       arguments: {
@@ -41,8 +37,7 @@ class NotificationHandler {
   }
 
   void _navigateToLoginScreen(NotificationData notificationData) {
-    Navigator.of(RoutesGenerator.navigatorKey.currentState!.context)
-        .pushNamedAndRemoveUntil(
+    Navigator.of(RoutesGenerator.navigatorKey.currentState!.context).pushNamedAndRemoveUntil(
       Routes.login,
       (Route<dynamic> route) => false,
       arguments: {
