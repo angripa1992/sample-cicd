@@ -12,6 +12,7 @@ import 'package:wakelock/wakelock.dart';
 
 import 'app/crashlytics_config.dart';
 import 'app/di.dart';
+import 'core/utils/permission_handler.dart';
 import 'env/env_manager.dart';
 import 'language/language_manager.dart';
 import 'modules/widgets/loader.dart';
@@ -44,6 +45,8 @@ void mainCommon(EnvironmentVariables env) async {
 
   configLoading();
 
+  await PermissionHandler().requestPermissions();
+
   SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,
@@ -57,9 +60,7 @@ void mainCommon(EnvironmentVariables env) async {
         fallbackLocale: const Locale('en', 'US'),
         startLocale: startLocale,
         assetLoader: SmartAssetLoader(),
-        child: const Klikit(
-
-        ),
+        child: const Klikit(),
       ),
     ),
   );

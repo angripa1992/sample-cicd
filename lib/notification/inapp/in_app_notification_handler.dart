@@ -105,6 +105,10 @@ class InAppNotificationHandler {
   }
 
   void _showDialog(NotificationData data) {
+    final textStyle = mediumTextStyle(
+      color: AppColors.black,
+      fontSize: AppFontSize.s18.rSp,
+    );
     _isShowing = true;
     showDialog(
       context: RoutesGenerator.navigatorKey.currentState!.context,
@@ -116,26 +120,39 @@ class InAppNotificationHandler {
               Radius.circular(AppSize.s8.rSp),
             ),
           ),
-          titleTextStyle: semiBoldTextStyle(color: AppColors.black, fontSize: AppFontSize.s18.rSp),
-          title: Column(
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.clear, color: AppColors.black),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.clear, color: AppColors.black),
+                ),
               ),
               ValueListenableBuilder<int>(
                 valueListenable: _newOrderCounter,
                 builder: (_, value, __) {
                   return Visibility(
                     visible: value > 0,
-                    child: Row(
-                      children: [
-                        Icon(Icons.notifications_on_sharp, color: AppColors.primaryLight),
-                        SizedBox(width: AppSize.s16.rw),
-                        Expanded(child: Text('${AppStrings.you_have_received.tr()} $value ${AppStrings.new_orders.tr()} !')),
-                      ],
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                      child: Row(
+                        children: [
+                          Icon(Icons.notifications_on_sharp, color: AppColors.primaryLight),
+                          SizedBox(width: AppSize.s16.rw),
+                          Expanded(
+                            child: Text(
+                              '${AppStrings.you_have_received.tr()} $value ${AppStrings.new_orders.tr()} !',
+                              style: textStyle,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -146,12 +163,21 @@ class InAppNotificationHandler {
                   return Visibility(
                     visible: value > 0,
                     child: Padding(
-                      padding: EdgeInsets.only(top: AppSize.s16.rh),
+                      padding: EdgeInsets.only(
+                        top: AppSize.s16.rh,
+                        left: AppSize.s12.rw,
+                        right: AppSize.s12.rw,
+                      ),
                       child: Row(
                         children: [
                           Icon(Icons.access_time, color: AppColors.yellowDark),
                           SizedBox(width: AppSize.s16.rw),
-                          Expanded(child: Text('${AppStrings.you_have_received.tr()} $value scheduled order !')),
+                          Expanded(
+                            child: Text(
+                              '${AppStrings.you_have_received.tr()} $value scheduled order !',
+                              style: textStyle,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -164,28 +190,38 @@ class InAppNotificationHandler {
                   return Visibility(
                     visible: value > 0,
                     child: Padding(
-                      padding: EdgeInsets.only(top: AppSize.s16.rh),
+                      padding: EdgeInsets.only(
+                        top: AppSize.s16.rh,
+                        left: AppSize.s12.rw,
+                        right: AppSize.s12.rw,
+                      ),
                       child: Row(
                         children: [
                           Icon(Icons.notification_important_outlined, color: AppColors.red),
                           SizedBox(width: AppSize.s16.rw),
-                          Expanded(child: Text('$value ${AppStrings.orders_has_been_canceled.tr()} !')),
+                          Expanded(
+                            child: Text(
+                              '$value ${AppStrings.orders_has_been_canceled.tr()} !',
+                              style: textStyle,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   );
                 },
               ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Tap to view orders',
-                style: regularTextStyle(
-                  color: AppColors.greyDarker,
-                  fontSize: AppFontSize.s16.rSp,
+              Padding(
+                padding: EdgeInsets.only(
+                  top: AppSize.s16.rh,
+                  bottom: AppSize.s8.rh,
+                ),
+                child: Text(
+                  'Tap to view orders',
+                  style: regularTextStyle(
+                    color: AppColors.greyDarker,
+                    fontSize: AppFontSize.s16.rSp,
+                  ),
                 ),
               ),
             ],

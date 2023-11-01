@@ -25,7 +25,7 @@ class CartItemsListView extends StatelessWidget {
   final Function(Brand) addMore;
   final Function(AddToCartItem) addDiscount;
   final Function(AddToCartItem) onDelete;
-  final Function(int, int) onQuantityChanged;
+  final Function(AddToCartItem, int) onQuantityChanged;
   final Function(int) removeAll;
 
   const CartItemsListView({
@@ -42,6 +42,16 @@ class CartItemsListView extends StatelessWidget {
     required this.removeAll,
     required this.textController,
   }) : super(key: key);
+
+  ItemBill? _mapCartItemBill(List<ItemBill> itemsBill,AddToCartItem cartItem){
+    for (var element in itemsBill) {
+      final index = itemsBill.indexOf(element);
+      if(element.id == cartItem.item.id && index == cartItem.cartIndex){
+        return element;
+      }
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +96,7 @@ class CartItemsListView extends StatelessWidget {
                             addDiscount: addDiscount,
                             onDelete: onDelete,
                             onQuantityChanged: onQuantityChanged,
-                            itemBill: cartBill.items.firstWhere((element) => element.id == cartItem.item.id),
+                            itemBill: _mapCartItemBill(cartBill.items, cartItem),
                           );
                         },
                       ).toList(),

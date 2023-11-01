@@ -49,7 +49,6 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   void initState() {
-    PermissionHandler().requestNotificationPermissions();
     context.read<PrinterSettingCubit>().getPrinterSetting();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {

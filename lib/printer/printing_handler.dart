@@ -11,8 +11,8 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/route/routes_generator.dart';
-import 'package:klikit/modules/home/data/model/z_report_data_model.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
+import 'package:klikit/modules/home/data/model/z_report_data_model.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
 import 'package:klikit/printer/data/printer_data_provider.dart';
@@ -24,9 +24,9 @@ import 'package:klikit/printer/usb_printer_handler.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../core/utils/permission_handler.dart';
+import '../modules/common/business_information_provider.dart';
 import '../modules/orders/domain/entities/cart.dart';
 import '../modules/orders/domain/entities/order.dart';
-import '../modules/common/business_information_provider.dart';
 import 'data/z_report_data_mapper.dart';
 
 class PrintingHandler {
@@ -36,11 +36,7 @@ class PrintingHandler {
   PrintingHandler(this._preferences, this._infoProvider);
 
   Future<bool> _isPermissionGranted() async {
-    if (await PermissionHandler().isLocationPermissionGranted()) {
-      return true;
-    } else {
-      return await PermissionHandler().requestLocationPermission();
-    }
+    return await PermissionHandler().isLocationPermissionGranted();
   }
 
   void showDevices({Order? order, required int initialIndex}) async {

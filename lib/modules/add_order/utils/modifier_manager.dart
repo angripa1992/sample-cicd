@@ -106,10 +106,10 @@ class ModifierManager {
     return modifiers.join(' , ');
   }
 
-  Future<String> generateCheckingId({
+  String generateCheckingId({
     required List<MenuItemModifierGroup> groups,
     required MenuCategoryItem item,
-  }) async {
+  }) {
     var uniqueId = '${item.id}';
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {

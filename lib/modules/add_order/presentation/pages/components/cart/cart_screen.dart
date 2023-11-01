@@ -111,7 +111,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
           content: DeleteAllDialogView(
             onDelete: () {
-              CartManager().removeAll(brandId);
+              CartManager().removeAllByBrand(brandId);
               _calculateBill();
             },
           ),
@@ -133,8 +133,8 @@ class _CartScreenState extends State<CartScreen> {
           content: DeleteItemDialogView(
             cartItem: item,
             itemBill: _cartBill!.items.firstWhere((element) => element.id == item.item.id),
-            onDelete: () {
-              CartManager().removeFromCart(item);
+            onDelete: () async {
+              await CartManager().removeFromCart(item);
               _calculateBill();
             },
           ),
@@ -143,8 +143,8 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  void _quantityChanged(int itemId, int quantity) {
-    CartManager().changeQuantity(itemId, quantity);
+  void _quantityChanged(AddToCartItem item, int quantity) async {
+    await CartManager().changeQuantity(item, quantity);
     _calculateBill();
   }
 
@@ -219,14 +219,10 @@ class _CartScreenState extends State<CartScreen> {
               itemQuantity: isItemDiscount ? cartItem!.quantity : CartManager().totalItemQuantity(),
               willShowPromo: isItemDiscount ? _cartBill!.orderPromoDiscount <= 0 : _cartBill!.itemPromoDiscount <= 0,
               orderType: _currentOrderType,
-              onApply: (discountType, discountValue, promoInfo) {
+              onApply: (discountType, discountValue, promoInfo) async {
                 if (isItemDiscount) {
-                  CartManager().addDiscount(
-                    itemId: cartItem!.item.id,
-                    type: discountType,
-                    value: discountValue,
-                  );
-                  CartManager().addPromoToItem(cartItem.item.id, promoInfo);
+                  await CartManager().addDiscount(cartItem: cartItem!, type: discountType, value: discountValue);
+                  await CartManager().addPromoToItem(cartItem, promoInfo);
                 } else {
                   _currentDiscountType = discountType;
                   _globalDiscount = discountValue;

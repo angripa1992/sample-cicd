@@ -12,7 +12,9 @@ class Urls {
   static const String order = '/v1/oni/order';
   static const String omsOrder = '/v1/oni/oms/raw-order';
   static const String brand = '/v1/brand';
+
   static String branch(int id) => '/v1/branch/$id';
+
   static String updateWebShopOrder(int id) => '/v1/oni/oms/order/$id';
   static const String provider = '/v1/provider';
   static const String printerSettings = '/v1/printer/settings';
@@ -31,6 +33,7 @@ class Urls {
   static const String zReportSummary = '/v2/analyseit/z-report/summary';
 
   static String findRider(int id) => '/v1/oni/order/fulfillment/dispatch/$id';
+
   static String updatePrepTime(int id) => '/v1/oni/order/$id/preparation-time';
 
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
@@ -45,9 +48,11 @@ class Urls {
   static const String paymentStatus = '/v1/oni/payment-statuses';
 
   static String updateV1ItemSnooze(int id) => '/v2/menu/item/$id/stock/status';
+
   static String updateV2temSnooze(int id) => '/v1/menu-v2/items/$id/snooze';
 
   static String updateMenu(int id, int type) => '/v1/menu/${type == MenuType.SECTION ? 'section' : 'sub_section'}/$id/enabled';
+
   static String updateV2Menu(String type) => '/v1/menu-v2/$type/enable';
   static const String v1ModifiersGroup = '/v1/menu/groups/modifiers';
   static const String v2ModifiersGroup = '/v1/menu-v2/nma/store/modifier-groups';
@@ -58,5 +63,6 @@ class Urls {
   static String checkAffectV2 = '/v1/menu-v2/nma/store/groups/verify/disabled';
 
   static String updateModifierEnabled(int id, int type) => '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/enabled';
+
   static String updateModifierEnabledV2(int type) => '/v1/menu-v2/modifier-groups${type == ModifierType.MODIFIER ? '/modifiers' : ''}/enable';
 }

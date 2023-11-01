@@ -18,6 +18,7 @@ class AddToCartItem {
   int discountType;
   num discountValue;
   AppliedPromoInfo? promoInfo;
+  int? cartIndex;
 
   AddToCartItem({
     required this.modifiers,
@@ -30,6 +31,7 @@ class AddToCartItem {
     required this.discountType,
     required this.discountValue,
     this.promoInfo,
+    this.cartIndex,
   });
 
   AddToCartItem copy() => AddToCartItem(

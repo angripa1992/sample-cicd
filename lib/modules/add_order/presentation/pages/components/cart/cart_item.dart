@@ -19,12 +19,12 @@ import '../../../../domain/entities/cart_bill.dart';
 import 'cart_item_note_view.dart';
 
 class CartItemView extends StatelessWidget {
-  final ItemBill itemBill;
+  final ItemBill? itemBill;
   final VoidCallback onEdit;
   final AddToCartItem cartItem;
   final Function(AddToCartItem) addDiscount;
   final Function(AddToCartItem) onDelete;
-  final Function(int, int) onQuantityChanged;
+  final Function(AddToCartItem, int) onQuantityChanged;
 
   const CartItemView({
     Key? key,
@@ -38,7 +38,8 @@ class CartItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final haveDiscount = itemBill.discountedItemPrice != itemBill.itemPrice;
+    if(itemBill == null) return const SizedBox();
+    final haveDiscount = itemBill!.discountedItemPrice != itemBill!.itemPrice;
     return Column(
       children: [
         InkWell(
@@ -57,7 +58,7 @@ class CartItemView extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              '${cartItem.quantity}x ${cartItem.item.title}',
+                              '${itemBill!.quantity}x ${cartItem.item.title}',
                               style: mediumTextStyle(
                                 color: AppColors.black,
                                 fontSize: AppFontSize.s16.rSp,
@@ -83,7 +84,7 @@ class CartItemView extends StatelessWidget {
                           if (haveDiscount)
                             Text(
                               PriceCalculator.formatPrice(
-                                price: itemBill.discountedItemPrice * cartItem.quantity,
+                                price: itemBill!.discountedItemPrice * itemBill!.quantity,
                                 code: cartItem.itemPrice.currencyCode,
                                 symbol: cartItem.itemPrice.currencySymbol,
                               ),
@@ -96,7 +97,7 @@ class CartItemView extends StatelessWidget {
                           if (haveDiscount) SizedBox(width: AppSize.s8.rw),
                           Text(
                             PriceCalculator.formatPrice(
-                              price: itemBill.itemPrice * cartItem.quantity,
+                              price: itemBill!.itemPrice * itemBill!.quantity,
                               code: cartItem.itemPrice.currencyCode,
                               symbol: cartItem.itemPrice.currencySymbol,
                             ),
@@ -193,7 +194,7 @@ class CartItemView extends StatelessWidget {
           visible: !CartManager().isWebShoOrder(),
           child: _outlineButton(
             text: AppStrings.discount.tr(),
-            icon: itemBill.discount > 0 ? Icons.edit : Icons.add,
+            icon: itemBill!.discount > 0 ? Icons.edit : Icons.add,
             enabled: true,
             onPressed: () {
               addDiscount(cartItem);
@@ -205,7 +206,7 @@ class CartItemView extends StatelessWidget {
           count: cartItem.quantity,
           minCount: 1,
           onChanged: (quantity) {
-            onQuantityChanged(cartItem.item.id, quantity);
+            onQuantityChanged(cartItem, quantity);
           },
           enabled: true,
         ),

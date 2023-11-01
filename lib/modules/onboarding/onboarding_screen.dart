@@ -37,7 +37,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
 
   @override
   void initState() {
-    PermissionHandler().requestLocationPermission();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (mounted) {

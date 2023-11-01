@@ -65,49 +65,91 @@ class CartManager {
     _promoInfo = data;
   }
 
-  void addPromoToItem(int itemId, AppliedPromoInfo? promoInfo) {
-    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
-    if (item != null) {
-      item.promoInfo = promoInfo;
-    }
-  }
-
   Future<void> addToCart(AddToCartItem cartItem) async {
-    final duplicateItem = await _findDuplicate(cartItem);
+    final duplicateItem = await _findCartItemByUniqueID(cartItem);
     if (duplicateItem != null) {
-      _carts.removeWhere((element) => element.item.id == duplicateItem.item.id);
+      _deleteItemFromCartByUUID(duplicateItem);
       cartItem.quantity += duplicateItem.quantity;
     }
     _carts.add(cartItem);
     _notifyListener();
   }
 
-  Future<void> editItem({
-    required AddToCartItem newItem,
-    required AddToCartItem oldItem,
-  }) async {
-    _carts.removeWhere((element) => element.item.id == oldItem.item.id && element.quantity == oldItem.quantity);
-    await addToCart(newItem);
-  }
-
-  AddToCartItem? findCartItem(int itemId) {
-    try {
-      return _carts.firstWhere((element) => element.item.id == itemId);
-    } catch (e) {
-      return null;
+  Future<void> addDiscount({required AddToCartItem cartItem, required int type, required num value}) async{
+    final item = await _findCartItemByUniqueIDAndQuantity(cartItem);
+    if (item != null) {
+      item.discountValue = value;
+      item.discountType = type;
     }
   }
 
-  void removeFromCart(AddToCartItem item) {
-    _carts.removeWhere(
-      (element) => element.item.id == item.item.id && element.quantity == item.quantity,
-    );
+  Future<void> addPromoToItem(AddToCartItem cartItem, AppliedPromoInfo? promoInfo) async {
+    final item = await _findCartItemByUniqueIDAndQuantity(cartItem);
+    if (item != null) {
+      item.promoInfo = promoInfo;
+    }
+  }
+
+  Future<void> editItem({required AddToCartItem newItem, required AddToCartItem oldItem}) async {
+    _deleteItemFromCartByUUIDandQuantity(oldItem);
+    addToCart(newItem);
+  }
+
+  Future<void> removeFromCart(AddToCartItem item) async {
+    _deleteItemFromCartByUUIDandQuantity(item);
     _checkCartAndClearIfNeeded();
   }
 
-  void removeAll(int brandId) {
+  void removeAllByBrand(int brandId) {
     _carts.removeWhere((element) => element.brand.id == brandId);
     _checkCartAndClearIfNeeded();
+  }
+
+  Future<void> changeQuantity(AddToCartItem item, int quantity) async {
+    final cartItem = await _findCartItemByUniqueIDAndQuantity(item);
+    if (cartItem != null) {
+      cartItem.quantity = quantity;
+      _notifyListener();
+    }
+  }
+
+  void _deleteItemFromCartByUUIDandQuantity(AddToCartItem item) {
+    final removeUniqueID = ModifierManager().generateCheckingId(groups: item.modifiers, item: item.item);
+    _carts.removeWhere((element) {
+      final uniqueId = ModifierManager().generateCheckingId(groups: element.modifiers, item: element.item);
+      return (uniqueId == removeUniqueID) && (item.quantity == element.quantity);
+    });
+  }
+
+  void _deleteItemFromCartByUUID(AddToCartItem item) {
+    final removeUniqueID = ModifierManager().generateCheckingId(groups: item.modifiers, item: item.item);
+    _carts.removeWhere((element) {
+      final uniqueId = ModifierManager().generateCheckingId(groups: element.modifiers, item: element.item);
+      return uniqueId == removeUniqueID;
+    });
+  }
+
+  Future<AddToCartItem?> _findCartItemByUniqueID(AddToCartItem cartItem) async {
+    final itemUniqueId = ModifierManager().generateCheckingId(groups: cartItem.modifiers, item: cartItem.item);
+    for (var item in _carts) {
+      final uniqueId = ModifierManager().generateCheckingId(groups: item.modifiers, item: item.item);
+      if (uniqueId == itemUniqueId) return item;
+    }
+    return null;
+  }
+
+  Future<AddToCartItem?> _findCartItemByUniqueIDAndQuantity(AddToCartItem cartItem) async {
+    final itemUniqueId = ModifierManager().generateCheckingId(groups: cartItem.modifiers, item: cartItem.item);
+    for (var item in _carts) {
+      final uniqueId = ModifierManager().generateCheckingId(groups: item.modifiers, item: item.item);
+      if (uniqueId == itemUniqueId && item.quantity == cartItem.quantity) return item;
+    }
+    return null;
+  }
+
+  Future<AddToCartItem?> _findCartItemByIDAndQuantity(int itemID, int quantity) async {
+    final item = _carts.firstWhereOrNull((element) => element.item.id == itemID && element.quantity == quantity);
+    return item;
   }
 
   void _checkCartAndClearIfNeeded() {
@@ -128,26 +170,6 @@ class CartManager {
       nofOfItem += item.quantity;
     }
     return nofOfItem;
-  }
-
-  void addDiscount({
-    required int itemId,
-    required int type,
-    required num value,
-  }) {
-    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
-    if (item != null) {
-      item.discountValue = value;
-      item.discountType = type;
-    }
-  }
-
-  void changeQuantity(int itemId, int quantity) {
-    final item = _carts.firstWhereOrNull((element) => element.item.id == itemId);
-    if (item != null) {
-      item.quantity = quantity;
-    }
-    _notifyListener();
   }
 
   BillingCurrency currency() {
@@ -196,7 +218,9 @@ class CartManager {
   List<List<AddToCartItem>> cartItemsMapWithBrands() {
     Map<int, List<AddToCartItem>> cartsByBrand = {};
     for (var item in _carts) {
+      final index = _carts.indexOf(item);
       final brandId = item.brand.id;
+      item.cartIndex = index;
       if (cartsByBrand.containsKey(brandId)) {
         cartsByBrand[brandId]!.add(item);
       } else {
@@ -210,24 +234,6 @@ class CartManager {
       listOfItemByBrands.add(value);
     });
     return listOfItemByBrands;
-  }
-
-  Future<AddToCartItem?> _findDuplicate(AddToCartItem cartItem) async {
-    final searchedItem = _carts.firstWhereOrNull((element) => element.item.id == cartItem.item.id);
-    if (searchedItem != null) {
-      final newtUniqueId = await ModifierManager().generateCheckingId(
-        groups: cartItem.modifiers,
-        item: cartItem.item,
-      );
-      final existingUniqueId = await ModifierManager().generateCheckingId(
-        groups: searchedItem.modifiers,
-        item: searchedItem.item,
-      );
-      if (newtUniqueId == existingUniqueId) {
-        return searchedItem;
-      }
-    }
-    return null;
   }
 
   int totalItemQuantity() {
@@ -260,20 +266,25 @@ class CartManager {
     }
   }
 
-  void syncPromoWithCalculateBill(CartBill cartBill) {
-    for (var element in cartBill.items) {
-      final cartItem = findCartItem(element.id.toInt());
-      if (cartItem != null) {
-        if (element.appliedPromo != null) {
-          final promoInfo = AppliedPromoInfo(
-            promo: element.appliedPromo!,
-            numberOfSeniorCitizen: element.quantityOfPromoItem > 0 ? element.quantityOfPromoItem : null,
-          );
-          cartItem.promoInfo = promoInfo;
-        } else {
-          cartItem.promoInfo = null;
+  void syncPromoWithCalculateBill(CartBill cartBill) async {
+    try{
+      for (var element in cartBill.items) {
+        final index = cartBill.items.indexOf(element);
+        final cartItem = _carts.elementAt(index);
+        if (cartItem.item.id == element.id) {
+          if (element.appliedPromo != null) {
+            final promoInfo = AppliedPromoInfo(
+              promo: element.appliedPromo!,
+              numberOfSeniorCitizen: element.quantityOfPromoItem > 0 ? element.quantityOfPromoItem : null,
+            );
+            cartItem.promoInfo = promoInfo;
+          } else {
+            cartItem.promoInfo = null;
+          }
         }
       }
+    }catch(e){
+      //ignore
     }
     if (cartBill.appliedPromo != null) {
       final promoInfo = AppliedPromoInfo(

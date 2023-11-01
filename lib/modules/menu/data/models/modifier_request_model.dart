@@ -42,9 +42,9 @@ class ModifierRequestModel {
     data['businessID'] = businessId;
     data['brandID'] = brandId;
     data['branchID'] = branchId;
-    if(type == ModifierType.GROUP){
+    if (type == ModifierType.GROUP) {
       data['ids'] = [groupId];
-    }else{
+    } else {
       data['modifierGroupID'] = groupId;
       data['modifiers'] = [modifierId];
     }
@@ -57,7 +57,7 @@ class ModifierRequestModel {
     data['brandID'] = brandId;
     data['branchID'] = branchId;
     data['groupID'] = groupId;
-    if(type == ModifierType.MODIFIER){
+    if (type == ModifierType.MODIFIER) {
       data['modifierID'] = modifierId;
     }
     return data;

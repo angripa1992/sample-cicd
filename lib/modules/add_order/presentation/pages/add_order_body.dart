@@ -154,10 +154,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
 
   void _editCart(AddToCartItem? newItem, AddToCartItem oldItem) async {
     if (newItem != null) {
-      await CartManager().editItem(
-        newItem: newItem,
-        oldItem: oldItem,
-      );
+      await CartManager().editItem(newItem: newItem, oldItem: oldItem);
     }
     _gotoCart();
   }
