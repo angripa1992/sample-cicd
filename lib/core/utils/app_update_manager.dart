@@ -27,8 +27,6 @@ class AppUpdateManager {
 
   bool _isDialogAlreadyShowing = false;
 
-  Timer? _timer;
-
   void showAppUpdateDialog() {
     if (!_isDialogAlreadyShowing) {
       _isDialogAlreadyShowing = true;
@@ -36,17 +34,17 @@ class AppUpdateManager {
     }
   }
 
-  Future<bool> checkForUpdate() async{
-   try{
-     final baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
-     final currentVersionStr = await getIt.get<DeviceInfoProvider>().versionCode();
-     final currentVersion = num.parse(currentVersionStr);
-     final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);
-     final updatedVersionCode = response['appversion_android'];
-     return updatedVersionCode > currentVersion;
-   }catch (error){
-     return false;
-   }
+  Future<bool> checkForUpdate() async {
+    try {
+      final baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
+      final currentVersionStr = await getIt.get<DeviceInfoProvider>().versionCode();
+      final currentVersion = num.parse(currentVersionStr);
+      final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);
+      final updatedVersionCode = response['appversion_android'];
+      return updatedVersionCode > currentVersion;
+    } catch (error) {
+      return false;
+    }
   }
 
   Future<void> gotoPlayStore() async {
@@ -55,9 +53,7 @@ class AppUpdateManager {
     if (Platform.isAndroid || Platform.isIOS) {
       final appId = Platform.isAndroid ? packageName : 'YOUR_IOS_APP_ID';
       final url = Uri.parse(
-        Platform.isAndroid
-            ? "market://details?id=$appId"
-            : "https://apps.apple.com/app/id$appId",
+        Platform.isAndroid ? "market://details?id=$appId" : "https://apps.apple.com/app/id$appId",
       );
       launchUrl(
         url,
@@ -72,8 +68,7 @@ class AppUpdateManager {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

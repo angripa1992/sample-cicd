@@ -17,6 +17,18 @@ class UpdateAvailableView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: AppUpdateManager().checkForUpdate(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && (snapshot.data ?? false)) {
+          return _body();
+        }
+        return const SizedBox();
+      },
+    );
+  }
+
+  Widget _body() {
     return Container(
       padding: EdgeInsets.only(
         top: AppSize.s6.rh,
