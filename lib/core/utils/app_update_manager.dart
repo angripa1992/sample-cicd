@@ -36,42 +36,20 @@ class AppUpdateManager {
     }
   }
 
-  void checkForUpdate() async{
+  Future<bool> checkForUpdate() async{
    try{
      final baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
      final currentVersionStr = await getIt.get<DeviceInfoProvider>().versionCode();
      final currentVersion = num.parse(currentVersionStr);
-     _showUpdateSnackbar();
-     _timer = Timer.periodic(const Duration(minutes: 1), (timer) async{
-       final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);
-       final updatedVersionCode = response['appversion_android'];
-       // if(updatedVersionCode > currentVersion){
-       //
-       // }
-       _showUpdateSnackbar();
-      // _timer?.cancel();
-     });
+     final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);
+     final updatedVersionCode = response['appversion_android'];
+     return updatedVersionCode > currentVersion;
    }catch (error){
-     //ignore
+     return false;
    }
   }
 
-  void _showUpdateSnackbar(){
-    final context = RoutesGenerator.navigatorKey.currentState?.context;
-    if(context == null) return;
-    final snackBar = SnackBar(
-      content: const Text('Update available'),
-      action: SnackBarAction(
-        label: 'UPDATE',
-        onPressed: () {
-          _gotoPlayStore();
-        },
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void _gotoPlayStore() async {
+  Future<void> gotoPlayStore() async {
     final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
     final packageName = await deviceInfoProvider.packageName();
     if (Platform.isAndroid || Platform.isIOS) {
@@ -125,7 +103,7 @@ class AppUpdateManager {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  _gotoPlayStore();
+                  gotoPlayStore();
                 },
                 child: Center(
                   child: Text(

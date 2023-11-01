@@ -36,6 +36,7 @@ class AppIcons {
   static const String tablerEdit = "$ICON_PATH/ic_tabler_edit.svg";
   static const String discount = "$ICON_PATH/ic_discount.svg";
   static const String delete = "$ICON_PATH/ic_delete.svg";
+  static const String updateStar = "$ICON_PATH/ic_update_star.svg";
   static const String notificationIcon = '@mipmap/ic_launcher';
 }
 

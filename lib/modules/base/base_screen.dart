@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/core/utils/permission_handler.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
+import 'package:klikit/modules/base/update_available_view.dart';
 import 'package:klikit/modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/new_order_cubit.dart';
@@ -20,6 +21,7 @@ import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../app/constants.dart';
 import '../../core/utils/response_state.dart';
@@ -119,7 +121,6 @@ class _BaseScreenState extends State<BaseScreen> {
         );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -169,7 +170,15 @@ class _BaseScreenState extends State<BaseScreen> {
           child: BlocBuilder<BaseScreenCubit, NavigationData>(
             builder: (context, data) {
               return Scaffold(
-                body: Center(child: _getWidget(data)),
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: _getWidget(data),
+                    ),
+                    const UpdateAvailableView(),
+                  ],
+                ),
                 bottomNavigationBar: FABBottomAppBar(
                   initialIndex: data.index,
                   centerItemText: AppStrings.add_order.tr(),
