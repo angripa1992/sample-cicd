@@ -15,6 +15,7 @@ import 'package:klikit/modules/orders/presentation/bloc/order_action_cubit.dart'
 import 'package:klikit/modules/orders/presentation/bloc/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/orders_screen.dart';
+import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/notification/notification_data.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
@@ -87,6 +88,7 @@ class _BaseScreenState extends State<BaseScreen> {
     if (navigationData.index == BottomNavItem.HOME) {
       return const HomeScreen();
     } else if (navigationData.index == BottomNavItem.ORDER) {
+      InAppNotificationHandler().clearOrderBadgeListener();
       return OrdersScreen(
         tabIndex: (navigationData.subTabIndex ?? OrderTab.NEW),
         data: navigationData.data,

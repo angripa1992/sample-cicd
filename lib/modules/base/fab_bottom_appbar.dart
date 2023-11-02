@@ -1,4 +1,11 @@
+import 'package:badges/badges.dart' as bg;
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/size_config.dart';
+import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
+
+import '../../resources/colors.dart';
+import '../../resources/values.dart';
 
 class FABBottomAppBarItem {
   FABBottomAppBarItem({
@@ -46,7 +53,6 @@ class FABBottomAppBar extends StatefulWidget {
 
 class FABBottomAppBarState extends State<FABBottomAppBar> {
   late int _selectedIndex;
-
 
   @override
   void initState() {
@@ -112,6 +118,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     required ValueChanged<int> onPressed,
   }) {
     Color color = _selectedIndex == item.index ? widget.selectedColor : widget.color;
+    final icon = Icon(item.iconData, color: color, size: widget.iconSize);
     return Expanded(
       child: SizedBox(
         height: widget.height,
@@ -123,7 +130,25 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(item.iconData, color: color, size: widget.iconSize),
+                item.index == BottomNavItem.ORDER
+                    ? ValueListenableBuilder<bool>(
+                        valueListenable: InAppNotificationHandler().orderBadgeNotifier(),
+                        builder: (context, willShowBadge, child) {
+                          return willShowBadge
+                              ? bg.Badge(
+                                  position: bg.BadgePosition.topEnd(end: -1, top: -1),
+                                  badgeStyle: bg.BadgeStyle(
+                                    shape: bg.BadgeShape.circle,
+                                    badgeColor: AppColors.red,
+                                    padding: const EdgeInsets.all(5),
+                                    borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                                  ),
+                                  child: icon,
+                                )
+                              : icon;
+                        },
+                      )
+                    : icon,
                 Text(
                   item.text,
                   style: TextStyle(color: color),
