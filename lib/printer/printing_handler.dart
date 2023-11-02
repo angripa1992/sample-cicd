@@ -106,9 +106,18 @@ class PrintingHandler {
         if (SessionManager().isSunmiDevice()) {
           final rollSize = _preferences.printerSetting().paperSize.toRollSize();
           final templateOrder = await _generateTemplateOrder(order);
-          await SunmiDesignTemplate().printSunmi(templateOrder, type == DocketType.customer, rollSize);
+          await SunmiDesignTemplate().printSunmi(
+            order: templateOrder,
+            isCustomerCopy: type == DocketType.customer,
+            roll: rollSize,
+            printingType: PrintingType.manual,
+          );
         } else {
-          final printingData = await _generateDocketTicket(order: order, docketType: type);
+          final printingData = await _generateDocketTicket(
+            order: order,
+            docketType: type,
+            printingType: PrintingType.manual,
+          );
           if (printingData != null) {
             if (_preferences.printerSetting().type == CType.BLE) {
               await BluetoothPrinterHandler().printDocket(printingData);
@@ -123,8 +132,16 @@ class PrintingHandler {
 
   void _bluetoothAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
-    final customerCopy = await _generateDocketTicket(order: order, docketType: DocketType.customer);
-    final kitchenCopy = await _generateDocketTicket(order: order, docketType: DocketType.kitchen);
+    final customerCopy = await _generateDocketTicket(
+      order: order,
+      docketType: DocketType.customer,
+      printingType: PrintingType.auto,
+    );
+    final kitchenCopy = await _generateDocketTicket(
+      order: order,
+      docketType: DocketType.kitchen,
+      printingType: PrintingType.auto,
+    );
     if (printerSetting.customerCopyEnabled) {
       if (customerCopy != null) {
         for (int i = 0; i < printerSetting.customerCopyCount; i++) {
@@ -143,8 +160,16 @@ class PrintingHandler {
 
   void _usbAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
-    final customerCopy = await _generateDocketTicket(order: order, docketType: DocketType.customer);
-    final kitchenCopy = await _generateDocketTicket(order: order, docketType: DocketType.kitchen);
+    final customerCopy = await _generateDocketTicket(
+      order: order,
+      docketType: DocketType.customer,
+      printingType: PrintingType.auto,
+    );
+    final kitchenCopy = await _generateDocketTicket(
+      order: order,
+      docketType: DocketType.kitchen,
+      printingType: PrintingType.auto,
+    );
     if (printerSetting.customerCopyEnabled) {
       if (customerCopy != null) {
         for (int i = 0; i < printerSetting.customerCopyCount; i++) {
@@ -167,11 +192,21 @@ class PrintingHandler {
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     if (printerSetting.customerCopyEnabled) {
       for (int i = 0; i < printerSetting.customerCopyCount; i++) {
-        await SunmiDesignTemplate().printSunmi(templateOrder, true, rollSize);
+        await SunmiDesignTemplate().printSunmi(
+          order: templateOrder,
+          isCustomerCopy: true,
+          roll: rollSize,
+          printingType: PrintingType.auto,
+        );
       }
     }
     if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
-      await SunmiDesignTemplate().printSunmi(templateOrder, false, rollSize);
+      await SunmiDesignTemplate().printSunmi(
+        order: templateOrder,
+        isCustomerCopy: false,
+        roll: rollSize,
+        printingType: PrintingType.auto,
+      );
     }
   }
 
@@ -226,12 +261,18 @@ class PrintingHandler {
   Future<List<int>?> _generateDocketTicket({
     required Order order,
     required int docketType,
+    required PrintingType printingType,
   }) async {
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     final templateOrder = await _generateTemplateOrder(order);
     List<int>? rawBytes = await DocketDesignTemplate().generateTicket(
       templateOrder,
-      PrinterConfiguration(docket: docketType == DocketType.customer ? Docket.customer : Docket.kitchen, roll: rollSize, fontSize: _printerFonts()),
+      PrinterConfiguration(
+        docket: docketType == DocketType.customer ? Docket.customer : Docket.kitchen,
+        roll: rollSize,
+        fontSize: _printerFonts(),
+        printingType: printingType,
+      ),
     );
     return rawBytes;
   }
@@ -244,7 +285,12 @@ class PrintingHandler {
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     final printingData = await ZReportDesignTemplate().generateTicket(
       data,
-      PrinterConfiguration(docket: Docket.customer, roll: rollSize, fontSize: _printerFonts()),
+      PrinterConfiguration(
+        docket: Docket.customer,
+        roll: rollSize,
+        fontSize: _printerFonts(),
+        printingType: PrintingType.manual,
+      ),
     );
     return printingData;
   }

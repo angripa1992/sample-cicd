@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
@@ -9,8 +10,7 @@ import '../../../../../resources/styles.dart';
 class ThreePlStatus extends StatelessWidget {
   final int threePlStatus;
 
-  const ThreePlStatus({Key? key, required this.threePlStatus})
-      : super(key: key);
+  const ThreePlStatus({Key? key, required this.threePlStatus}) : super(key: key);
 
   String _status() {
     switch (threePlStatus) {
@@ -47,12 +47,15 @@ class ThreePlStatus extends StatelessWidget {
         horizontal: AppSize.s8.rw,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.greyLight,
+        borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+        color: AppColors.greyDark,
       ),
       child: Text(
         _status(),
-        style: regularTextStyle(color: AppColors.black),
+        style: mediumTextStyle(
+          color: AppColors.black,
+          fontSize: AppFontSize.s14.rSp,
+        ),
       ),
     );
   }

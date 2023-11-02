@@ -356,7 +356,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "2386b477811fae272f79ad8503e025b1ebe69584"
+      resolved-ref: "009decd68acb034806b5144d7ba85323b1a29426"
       url: "https://github.com/klikit/docket_design_template.git"
     source: git
     version: "0.0.1"
