@@ -74,8 +74,14 @@ class OrderActionButtonManager {
   }
 
   bool canUpdateOrder(Order order) {
-    // return order.providerId == ProviderID.KLIKIT && order.isManualOrder && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
-    return order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED) && order.canUpdate;
+    final preConditionMatch = order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
+    if (preConditionMatch && order.isManualOrder) {
+      return true;
+    } else if (preConditionMatch && !order.isManualOrder && order.canUpdate) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool canPrint(Order order) {

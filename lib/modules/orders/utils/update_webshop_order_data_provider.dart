@@ -113,6 +113,7 @@ class UpdateWebShopOrderDataProvider {
         externalId: order.externalId,
         identity: order.identity,
         isWebShopOrder: true,
+        willUpdateOrder: true,
         isPrePayment: order.paymentStatus == PaymentStatusId.paid,
         totalPrice: order.finalPrice / 100,
         orderHash: order.externalId,

@@ -44,6 +44,8 @@ class CartManager {
 
   bool isWebShopOrder() => _updateCartInfo?.isWebShopOrder ?? false;
 
+  bool willUpdateOrder() => _updateCartInfo?.willUpdateOrder ?? false;
+
   void setEditInfo(CartInfo info) {
     _cartInfo = info;
   }
@@ -147,10 +149,10 @@ class CartManager {
   }
 
   void _checkCartAndClearIfNeeded() {
-    if (_carts.isEmpty && !isWebShopOrder()) {
-      clear();
-    } else {
+    if(willUpdateOrder()){
       _notifyListener();
+    }else{
+      clear();
     }
   }
 

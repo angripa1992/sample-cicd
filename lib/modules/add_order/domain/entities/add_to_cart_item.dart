@@ -115,6 +115,7 @@ class UpdateCartInfo {
   final String identity;
   final bool isPrePayment;
   final bool isWebShopOrder;
+  final bool willUpdateOrder;
   final num totalPrice;
   final String orderHash;
   final OrderDeliveryLocation? deliveryLocation;
@@ -125,6 +126,7 @@ class UpdateCartInfo {
     required this.identity,
     required this.isPrePayment,
     required this.isWebShopOrder,
+    required this.willUpdateOrder,
     required this.totalPrice,
     required this.orderHash,
     this.deliveryLocation,
