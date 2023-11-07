@@ -65,9 +65,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void _placeOrder() {
     context.read<PlaceOrderCubit>().placeOrder(
           checkoutData: widget.checkoutData,
-          paymentStatus: _paymentMethod == null
-              ? PaymentStatusId.pending
-              : (_paymentStatus ?? PaymentStatusId.pending),
+          paymentStatus: _paymentMethod == null ? PaymentStatusId.pending : (_paymentStatus ?? PaymentStatusId.pending),
           paymentMethod: _paymentMethod,
           paymentChannel: _paymentChannel,
           info: _customerInfo,
@@ -141,9 +139,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             },
             builder: (context, state) {
               return OrderActionButton(
-                buttonText: CartManager().isWebShopOrder()
-                    ? AppStrings.placed_order.tr()
-                    : AppStrings.update_order.tr(),
+                buttonText: CartManager().willUpdateOrder() ? AppStrings.update_order.tr() : AppStrings.placed_order.tr(),
                 enable: state is Loading ? false : true,
                 totalPrice: widget.checkoutData.cartBill.totalPrice,
                 onProceed: _placeOrder,

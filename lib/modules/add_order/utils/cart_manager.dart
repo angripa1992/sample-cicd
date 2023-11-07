@@ -45,6 +45,8 @@ class CartManager {
 
   bool isWebShopOrder() => _updateCartInfo?.isWebShopOrder ?? false;
 
+  bool willUpdateOrder() => _updateCartInfo?.willUpdateOrder ?? false;
+
   void setEditInfo(CartInfo info) {
     _cartInfo = info;
   }
@@ -147,16 +149,11 @@ class CartManager {
     return null;
   }
 
-  Future<AddToCartItem?> _findCartItemByIDAndQuantity(int itemID, int quantity) async {
-    final item = _carts.firstWhereOrNull((element) => element.item.id == itemID && element.quantity == quantity);
-    return item;
-  }
-
   void _checkCartAndClearIfNeeded() {
-    if (_carts.isEmpty && !isWebShopOrder()) {
-      clear();
-    } else {
+    if(willUpdateOrder()){
       _notifyListener();
+    }else{
+      clear();
     }
   }
 

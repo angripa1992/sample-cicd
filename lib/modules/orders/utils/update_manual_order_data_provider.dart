@@ -134,6 +134,7 @@ class UpdateManualOrderDataProvider {
       isPrePayment: order.paymentStatus == PaymentStatusId.paid,
       totalPrice: order.finalPrice / 100,
       orderHash: order.externalId,
+      willUpdateOrder: true,
     );
     CartManager().setCustomerInfo(customerInfo);
     CartManager().setEditInfo(editInfo);
