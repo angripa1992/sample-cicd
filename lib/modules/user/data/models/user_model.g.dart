@@ -36,6 +36,8 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       menu_version: json['menu_version'] as int?,
       menuv2_enabled_for_klikit_order:
           json['menuv2_enabled_for_klikit_order'] as bool?,
+      menu_version_for_klikit_order:
+          json['menu_version_for_klikit_order'] as int?,
       branch_ids:
           (json['branch_ids'] as List<dynamic>?)?.map((e) => e as int).toList(),
       branch_titles: (json['branch_titles'] as List<dynamic>?)
@@ -81,6 +83,7 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'menu_version': instance.menu_version,
       'menuv2_enabled_for_klikit_order':
           instance.menuv2_enabled_for_klikit_order,
+      'menu_version_for_klikit_order': instance.menu_version_for_klikit_order,
       'branch_ids': instance.branch_ids,
       'branch_titles': instance.branch_titles,
       'roles': instance.roles,

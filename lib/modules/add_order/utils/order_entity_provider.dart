@@ -256,7 +256,7 @@ class OrderEntityProvider {
       identity: updateInfo?.identity,
       branchId: SessionManager().branchId(),
       businessId: SessionManager().businessID(),
-      menuVersion: SessionManager().isMenuV2() ? 2 : 1,
+      menuVersion: SessionManager().menuV2Enabled() ? MenuVersion.v2 : MenuVersion.v1,
       currency: currency.code,
       currencySymbol: currency.symbol,
       currencyId: currency.id,

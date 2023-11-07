@@ -1,4 +1,3 @@
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/session_manager.dart';
 
 class MenuItemModifierRuleModel {
@@ -50,7 +49,7 @@ class MenuItemModifierRuleModel {
   }
 
   Map<String, dynamic> toWebShopJson() {
-    final isV2 = SessionManager().isMenuV2();
+    final isV2 = SessionManager().menuV2Enabled();
     if (isV2) {
       final Map<String, dynamic> data = {};
       data['min'] = min;

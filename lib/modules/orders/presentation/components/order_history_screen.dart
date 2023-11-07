@@ -70,6 +70,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> with FilterObse
     );
     params['start'] = DateTimeProvider.getDate(_dateRange!.start);
     params['end'] = DateTimeProvider.getDate(_dateRange!.end.add(const Duration(days: 1)));
+    params['timezone'] = await DateTimeProvider.timeZone();
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {

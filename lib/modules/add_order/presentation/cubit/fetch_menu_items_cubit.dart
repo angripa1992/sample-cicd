@@ -30,7 +30,7 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
       (failure) => emit(Failed(failure)),
       (successResponse) {
         final categories = _filterMenuCategory(successResponse.sections);
-        categories.sort((a,b) => a.sequence.compareTo(b.sequence));
+        categories.sort((a, b) => a.sequence.compareTo(b.sequence));
         emit(Success<List<MenuCategory>>(categories));
       },
     );

@@ -242,7 +242,7 @@ class _CartScreenState extends State<CartScreen> {
     if (items.isEmpty) return null;
     EasyLoading.show();
     dartz.Either<Failure, CartBill>? response;
-    if (CartManager().isWebShoOrder()) {
+    if (CartManager().isWebShopOrder()) {
       final payload = await WebShopEntityProvider().calculateBillPayload(
         cartItems: items,
         deliveryFee: _globalDeliveryFee,
@@ -334,7 +334,7 @@ class _CartScreenState extends State<CartScreen> {
             vertical: AppSize.s8.rh,
           ),
           child: Visibility(
-            visible: !CartManager().isWebShoOrder(),
+            visible: !CartManager().isWebShopOrder(),
             child: const StepView(stepPosition: StepPosition.cart),
           ),
         ),
@@ -343,7 +343,7 @@ class _CartScreenState extends State<CartScreen> {
             child: Column(
               children: [
                 Visibility(
-                  visible: !CartManager().isWebShoOrder(),
+                  visible: !CartManager().isWebShopOrder(),
                   child: FutureBuilder<List<AddOrderSourceType>>(
                     future: getIt.get<AddOrderRepository>().fetchSources(),
                     builder: (_, snap) {
@@ -362,7 +362,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: !CartManager().isWebShoOrder(),
+                  visible: !CartManager().isWebShopOrder(),
                   child: TypeSelector(
                     initialType: _currentOrderType,
                     onTypeChange: (type) {
@@ -411,7 +411,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ),
-        CartManager().isWebShoOrder()
+        CartManager().isWebShopOrder()
             ? BlocConsumer<UpdateWebShopOrderCubit, ResponseState>(
                 listener: (context, state) {
                   if (state is Success<UpdateWebShopOrderResponse>) {

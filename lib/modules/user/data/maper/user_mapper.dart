@@ -1,3 +1,4 @@
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/user/data/models/success_response.dart';
 import 'package:klikit/modules/user/data/models/user_model.dart';
@@ -31,8 +32,9 @@ User mapUserModelToUser(UserModel userModel) {
       brandIDs: userModel.user?.brand_ids ?? [],
       brandTitles: userModel.user?.brand_titles ?? [],
       menuV2Enabled: userModel.user?.menuv2_enabled ?? false,
-      menuVersion: userModel.user?.menu_version ?? 1,
+      menuVersion: userModel.user?.menu_version ?? MenuVersion.v1,
       menuV2EnabledForKlikitOrder: userModel.user?.menuv2_enabled_for_klikit_order ?? false,
+      menuVersionForKlikitOrder: userModel.user?.menu_version_for_klikit_order ?? MenuVersion.v1,
     ),
   );
 }

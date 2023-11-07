@@ -109,12 +109,13 @@ class Order {
   final AppliedPromoInfo? orderAppliedPromo;
   final List<AppliedPromoInfo> itemAppliedPromos;
   final List<AppliedPromoItem> appliedPromos;
+  final String queueNo;
+  bool canUpdate;
   num preparationTime;
   String klikitComment;
   int paymentMethod;
   int paymentChannel;
   int paymentStatus;
-  bool canUpdate;
 
   Order({
     required this.id,
@@ -209,6 +210,7 @@ class Order {
     required this.providerGrandTotal,
     required this.providerAdditionalFee,
     required this.preparationTime,
+    required this.queueNo,
   });
 
   Order copy() => Order(
@@ -304,6 +306,7 @@ class Order {
         providerGrandTotal: providerGrandTotal,
         providerAdditionalFee: providerAdditionalFee,
         preparationTime: preparationTime,
+        queueNo: queueNo,
       );
 
   OrderModel toModel() => OrderModel(
@@ -395,5 +398,6 @@ class Order {
         providerGrandTotal: providerGrandTotal,
         providerAdditionalFee: providerAdditionalFee,
         preparationTime: preparationTime,
+        queueNo: queueNo,
       );
 }

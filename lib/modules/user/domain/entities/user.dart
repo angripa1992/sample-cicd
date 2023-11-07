@@ -35,6 +35,7 @@ class UserInfo {
   final bool menuV2Enabled;
   final int menuVersion;
   final bool menuV2EnabledForKlikitOrder;
+  final int menuVersionForKlikitOrder;
   final List<int> branchIDs;
   final List<String> branchTitles;
   final List<String> roles;
@@ -57,6 +58,7 @@ class UserInfo {
     required this.businessName,
     required this.firstLogin,
     required this.orderNotificationEnabled,
+    required this.menuVersionForKlikitOrder,
     required this.sunmiDevice,
     required this.branchIDs,
     required this.branchTitles,
@@ -103,6 +105,7 @@ class UserInfo {
       menuV2Enabled: menuV2Enabled,
       menuVersion: menuVersion,
       menuV2EnabledForKlikitOrder: menuV2EnabledForKlikitOrder,
+      menuVersionForKlikitOrder: menuVersionForKlikitOrder,
     );
   }
 }

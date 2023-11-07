@@ -219,6 +219,8 @@ class OrderModel {
   List<AppliedPromoInfo>? itemAppliedPromos;
   @JsonKey(name: 'preparation_time')
   num? preparationTime;
+  @JsonKey(name: 'queue_no')
+  String? queueNo;
 
   OrderModel({
     this.id,
@@ -312,6 +314,7 @@ class OrderModel {
     this.providerGrandTotal,
     this.providerAdditionalFee,
     this.preparationTime,
+    this.queueNo,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -412,6 +415,7 @@ class OrderModel {
       providerGrandTotal: providerGrandTotal.orZero(),
       providerAdditionalFee: providerAdditionalFee.orZero(),
       preparationTime: preparationTime.orZero(),
+      queueNo: queueNo.orEmpty(),
     );
   }
 }

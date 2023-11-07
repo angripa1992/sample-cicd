@@ -29,6 +29,7 @@ class UserInfoModel {
   bool? menuv2_enabled;
   int? menu_version;
   bool? menuv2_enabled_for_klikit_order;
+  int? menu_version_for_klikit_order;
   List<int>? branch_ids;
   List<String>? branch_titles;
   List<String>? roles;
@@ -54,6 +55,7 @@ class UserInfoModel {
     this.menuv2_enabled,
     this.menu_version,
     this.menuv2_enabled_for_klikit_order,
+    this.menu_version_for_klikit_order,
     this.branch_ids,
     this.branch_titles,
     this.roles,

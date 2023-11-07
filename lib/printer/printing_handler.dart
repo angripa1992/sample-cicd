@@ -72,7 +72,7 @@ class PrintingHandler {
     if (await _isPermissionGranted()) {
       if (SessionManager().isSunmiDevice()) {
         if (isAutoPrint) {
-          _sunmiAutoPrint(order);
+          await _sunmiAutoPrint(order);
         } else {
           _doManualPrint(order);
         }
@@ -186,7 +186,7 @@ class PrintingHandler {
     }
   }
 
-  void _sunmiAutoPrint(Order order) async {
+  Future<void> _sunmiAutoPrint(Order order) async {
     final printerSetting = _preferences.printerSetting();
     final templateOrder = await _generateTemplateOrder(order);
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
