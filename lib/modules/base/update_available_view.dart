@@ -20,7 +20,6 @@ class UpdateAvailableView extends StatelessWidget {
     return FutureBuilder<bool>(
       future: AppUpdateManager().checkForUpdate(),
       builder: (context, snapshot) {
-        return _body();
         if (snapshot.hasData && (snapshot.data ?? false)) {
           return _body();
         }

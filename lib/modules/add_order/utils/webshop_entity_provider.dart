@@ -164,6 +164,7 @@ class WebShopEntityProvider {
       ],
       groups: groups,
       brand: ItemBrandRequestModel(id: cartItem.brand.id, logo: cartItem.brand.logo, title: cartItem.brand.title),
+      branch: branchInfo,
     );
   }
 }

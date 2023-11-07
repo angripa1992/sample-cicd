@@ -21,6 +21,7 @@ import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
+import 'package:klikit/resources/colors.dart';
 
 import '../../app/constants.dart';
 import '../../core/utils/response_state.dart';
@@ -180,7 +181,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 bottomNavigationBar: FABBottomAppBar(
                   initialIndex: data.index,
                   centerItemText: AppStrings.add_order.tr(),
-                  color: Colors.grey,
+                  color: AppColors.greyDarker,
                   selectedColor: Colors.deepPurpleAccent,
                   notchedShape: const CircularNotchedRectangle(),
                   onTabSelected: _selectedTab,
@@ -196,7 +197,7 @@ class _BaseScreenState extends State<BaseScreen> {
                       index: BottomNavItem.ORDER,
                     ),
                     FABBottomAppBarItem(
-                      iconData: Icons.add_circle_rounded,
+                      iconData: Icons.add_circle_outline_sharp,
                       text: AppStrings.add_order.tr(),
                       index: BottomNavItem.ADD_ORDER,
                     ),
