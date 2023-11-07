@@ -2,10 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/widgets/app_button.dart';
+import 'package:klikit/modules/orders/presentation/components/order_item/order_action_button_manager.dart';
 import 'package:klikit/resources/colors.dart';
 
-import '../../../../../app/constants.dart';
 import '../../../../../core/route/routes.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
@@ -27,7 +26,7 @@ class RiderActionView extends StatelessWidget {
       child: Column(
         children: [
           Visibility(
-            visible: order.isThreePlOrder && order.canFindFulfillmentRider,
+            visible: OrderActionButtonManager().canFindRider(order),
             child: InkWell(
               onTap: onRiderFind,
               child: Container(
@@ -64,7 +63,7 @@ class RiderActionView extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: (order.status != OrderStatus.CANCELLED && order.status != OrderStatus.DELIVERED && order.status != OrderStatus.PICKED_UP) && order.fulfillmentTrackingUrl.isNotEmpty,
+            visible: OrderActionButtonManager().canTrackRider(order),
             child: InkWell(
               onTap: () {
                 Navigator.of(context).pushNamed(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
@@ -64,7 +65,9 @@ class SessionManager {
 
   String userName() => '${_user?.firstName} ${_user?.lastName}';
 
-  bool menuV2EnabledForKlikitOrder() => _user?.menuV2EnabledForKlikitOrder ?? false;
+  bool menuV2EnabledForKlikitOrder() => (_user?.menuV2EnabledForKlikitOrder ?? false) && (_user?.menuVersionForKlikitOrder ?? MenuVersion.v1) == MenuVersion.v2;
+
+  bool menuV2Enabled() => (_user?.menuV2Enabled ?? false) && (_user?.menuVersion ?? MenuVersion.v1) == MenuVersion.v2;
 
   int branchId() => _user?.branchIDs.first ?? 0;
 
@@ -91,8 +94,6 @@ class SessionManager {
   bool notificationEnable() => _appPreferences.notificationEnable();
 
   bool isSunmiDevice() => _appPreferences.sunmiDevice();
-
-  bool isMenuV2() => _user?.menuV2Enabled ?? false;
 
   int country() => _user?.countryIds.first ?? 0;
 

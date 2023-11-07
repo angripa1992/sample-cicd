@@ -27,10 +27,13 @@ class InAppNotificationHandler {
   late ValueNotifier<int> _newOrderCounter;
   late ValueNotifier<int> _cancelOrderCounter;
   late ValueNotifier<int> _scheduleCounter;
+  final _orderBadgeNotifier = ValueNotifier<bool>(false);
 
   factory InAppNotificationHandler() => _instance;
 
   InAppNotificationHandler._internal();
+
+  ValueNotifier<bool> orderBadgeNotifier() => _orderBadgeNotifier;
 
   void handleNotification(NotificationData data) {
     if (!SessionManager().notificationEnable()) {
@@ -104,6 +107,18 @@ class InAppNotificationHandler {
     _scheduleCounter.dispose();
   }
 
+  void _notifyOrderBadgeListener() {
+    if (_newOrderCounter.value > 0 || _scheduleCounter.value > 0) {
+      _orderBadgeNotifier.value = true;
+    } else {
+      clearOrderBadgeListener();
+    }
+  }
+
+  void clearOrderBadgeListener() {
+    _orderBadgeNotifier.value = false;
+  }
+
   void _showDialog(NotificationData data) {
     final textStyle = mediumTextStyle(
       color: AppColors.black,
@@ -129,6 +144,7 @@ class InAppNotificationHandler {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {
+                    _notifyOrderBadgeListener();
                     Navigator.pop(context);
                   },
                   icon: Icon(Icons.clear, color: AppColors.black),

@@ -54,7 +54,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     required MenuBranchInfo branchInfo,
   }) async {
     try {
-      if (SessionManager().user()!.menuV2EnabledForKlikitOrder) {
+      if (SessionManager().menuV2EnabledForKlikitOrder()) {
         List<dynamic>? response = await _restClient.request(
           Urls.itmModifiersV2,
           Method.GET,

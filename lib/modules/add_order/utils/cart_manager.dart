@@ -43,7 +43,7 @@ class CartManager {
 
   AppliedPromoInfo? getPromoInfo() => _promoInfo;
 
-  bool isWebShoOrder() => _updateCartInfo?.isWebShopOrder ?? false;
+  bool isWebShopOrder() => _updateCartInfo?.isWebShopOrder ?? false;
 
   void setEditInfo(CartInfo info) {
     _cartInfo = info;
@@ -153,15 +153,11 @@ class CartManager {
   }
 
   void _checkCartAndClearIfNeeded() {
-    if (_carts.isEmpty) {
+    if (_carts.isEmpty && !isWebShopOrder()) {
       clear();
     } else {
       _notifyListener();
     }
-  }
-
-  void notifyPriceChanged() {
-    _notifyListener();
   }
 
   int _noOfCartItem() {

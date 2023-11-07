@@ -59,23 +59,11 @@ class WebShopEntityProvider {
       branch: branchInfo,
       brand: ItemBrandRequestModel(id: cartItem.brand.id, logo: cartItem.brand.logo, title: cartItem.brand.title),
       comment: cartItem.itemInstruction,
-      // discountValue: null,
       itemId: cartItem.item.id,
-      // subSectionId: cartItem.item.categoryID,
       itemName: cartItem.item.title,
-      //menuVersion: cartItem.item.menuVersion,
       quantity: cartItem.quantity,
-      //  itemFinalPrice: cartItem.itemPrice.price,
       unitPrice: cartItem.itemPrice.price,
-      // price: cartItem.itemPrice.price * cartItem.quantity,
       vat: cartItem.item.vat,
-      // prices: [
-      //   MenuItemPriceModel(
-      //       providerId: cartItem.item.klikitPrice().providerId,
-      //       currencyId: cartItem.item.klikitPrice().currencyId,
-      //       code: cartItem.item.klikitPrice().currencyCode,
-      //       price: cartItem.item.klikitPrice().price),
-      // ],
       groups: groups,
     );
   }
@@ -93,6 +81,7 @@ class WebShopEntityProvider {
         max: group.rule.max,
       ),
       modifiers: modifiers,
+      title: group.title
     );
   }
 
@@ -104,6 +93,7 @@ class WebShopEntityProvider {
       extraPrice: modifier.klikitPrice().price,
       groups: groups,
       isSelected: modifier.isSelected,
+      title: modifier.title,
     );
   }
 

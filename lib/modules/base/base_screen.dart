@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/core/utils/permission_handler.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
+import 'package:klikit/modules/base/update_available_view.dart';
 import 'package:klikit/modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/new_order_cubit.dart';
@@ -15,6 +15,7 @@ import 'package:klikit/modules/orders/presentation/bloc/order_action_cubit.dart'
 import 'package:klikit/modules/orders/presentation/bloc/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/orders_screen.dart';
+import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/notification/notification_data.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
@@ -87,6 +88,7 @@ class _BaseScreenState extends State<BaseScreen> {
     if (navigationData.index == BottomNavItem.HOME) {
       return const HomeScreen();
     } else if (navigationData.index == BottomNavItem.ORDER) {
+      InAppNotificationHandler().clearOrderBadgeListener();
       return OrdersScreen(
         tabIndex: (navigationData.subTabIndex ?? OrderTab.NEW),
         data: navigationData.data,
@@ -118,7 +120,6 @@ class _BaseScreenState extends State<BaseScreen> {
           ),
         );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +170,15 @@ class _BaseScreenState extends State<BaseScreen> {
           child: BlocBuilder<BaseScreenCubit, NavigationData>(
             builder: (context, data) {
               return Scaffold(
-                body: Center(child: _getWidget(data)),
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: _getWidget(data),
+                    ),
+                    const UpdateAvailableView(),
+                  ],
+                ),
                 bottomNavigationBar: FABBottomAppBar(
                   initialIndex: data.index,
                   centerItemText: AppStrings.add_order.tr(),

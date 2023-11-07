@@ -40,7 +40,7 @@ class OrderActionButtonManager {
   }
 
   bool canDelivery(Order order) {
-    if (order.isInterceptorOrder || order.providerId == ProviderID.GO_FOOD) {
+    if (order.isInterceptorOrder || order.providerId == ProviderID.GO_FOOD || order.isThreePlOrder) {
       return false;
     } else if (order.providerId == ProviderID.KLIKIT && order.status == OrderStatus.READY) {
       return true;
@@ -62,16 +62,20 @@ class OrderActionButtonManager {
   bool canFindRider(Order order) {
     if (order.isInterceptorOrder) {
       return false;
-    } else if (order.status == OrderStatus.ACCEPTED && order.isThreePlOrder && order.canFindFulfillmentRider) {
+    } else if ((order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.READY) && order.isThreePlOrder && order.canFindFulfillmentRider) {
       return true;
     } else {
       return false;
     }
   }
 
+  bool canTrackRider(Order order) {
+    return (order.status != OrderStatus.CANCELLED && order.status != OrderStatus.DELIVERED && order.status != OrderStatus.PICKED_UP) && order.fulfillmentTrackingUrl.isNotEmpty;
+  }
+
   bool canUpdateOrder(Order order) {
-    return order.providerId == ProviderID.KLIKIT && order.isManualOrder && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
-   // return order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED) || order.canUpdate;
+    // return order.providerId == ProviderID.KLIKIT && order.isManualOrder && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
+    return order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED) && order.canUpdate;
   }
 
   bool canPrint(Order order) {

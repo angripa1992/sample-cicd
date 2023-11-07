@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/core/utils/app_update_manager.dart';
 import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
 

@@ -23,7 +23,7 @@ class FetchMenuParams {
   final int brandId;
   final int? providerID;
 
-  FetchMenuParams( {
+  FetchMenuParams({
     required this.menuV2Enabled,
     required this.businessId,
     required this.branchId,

@@ -69,12 +69,12 @@ Widget getActionButtons({
           },
         ),
       ),
-      Visibility(
-        visible: OrderActionButtonManager().canFindRider(order),
-        child: FindRiderButton(
-          onFound: onRiderFind,
-        ),
-      ),
+      // Visibility(
+      //   visible: OrderActionButtonManager().canFindRider(order),
+      //   child: FindRiderButton(
+      //     onFound: onRiderFind,
+      //   ),
+      // ),
       Visibility(
         visible: OrderActionButtonManager().canPrint(order),
         child: PrintButton(

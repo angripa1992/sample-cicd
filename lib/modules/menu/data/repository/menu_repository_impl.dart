@@ -77,7 +77,7 @@ class MenuRepositoryImpl extends MenuRepository {
   ) async {
     if (await _connectivity.hasConnection()) {
       try {
-        if (SessionManager().isMenuV2()) {
+        if (SessionManager().menuV2Enabled()) {
           final response = await _datasource.fetchV2ModifiersGroup(params);
           return Right(mapModifierV2ToModifier(response));
         } else {

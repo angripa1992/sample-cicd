@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/network/public_rest_client.dart';
+import 'package:klikit/env/environment_variables.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/di.dart';
+import '../../app/enums.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../resources/strings.dart';
@@ -30,15 +34,26 @@ class AppUpdateManager {
     }
   }
 
-  void _gotoPlayStore() async {
+  Future<bool> checkForUpdate() async {
+    try {
+      final baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
+      final currentVersionStr = await getIt.get<DeviceInfoProvider>().versionCode();
+      final currentVersion = num.parse(currentVersionStr);
+      final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);
+      final updatedVersionCode = response['appversion_android'];
+      return updatedVersionCode > currentVersion;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  Future<void> gotoPlayStore() async {
     final deviceInfoProvider = getIt.get<DeviceInfoProvider>();
     final packageName = await deviceInfoProvider.packageName();
     if (Platform.isAndroid || Platform.isIOS) {
       final appId = Platform.isAndroid ? packageName : 'YOUR_IOS_APP_ID';
       final url = Uri.parse(
-        Platform.isAndroid
-            ? "market://details?id=$appId"
-            : "https://apps.apple.com/app/id$appId",
+        Platform.isAndroid ? "market://details?id=$appId" : "https://apps.apple.com/app/id$appId",
       );
       launchUrl(
         url,
@@ -53,8 +68,7 @@ class AppUpdateManager {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -84,7 +98,7 @@ class AppUpdateManager {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  _gotoPlayStore();
+                  gotoPlayStore();
                 },
                 child: Center(
                   child: Text(

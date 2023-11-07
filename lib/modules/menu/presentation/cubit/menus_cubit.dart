@@ -19,7 +19,7 @@ class MenusCubit extends Cubit<ResponseState> {
     emit(Loading());
     final response = await _fetchMenus(
       FetchMenuParams(
-        menuV2Enabled: SessionManager().isMenuV2(),
+        menuV2Enabled: SessionManager().menuV2Enabled(),
         branchId: SessionManager().branchId(),
         brandId: brandId,
         providerID: providerId == ZERO ? null : providerId,

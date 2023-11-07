@@ -24,6 +24,8 @@ class CartBill {
   final int numberOfSeniorCitizen;
   final int numberOfSeniorCustomer;
   final Promo? appliedPromo;
+  final num restaurantServiceFee;
+  final num restaurantServiceFeeCent;
 
   CartBill({
     required this.subTotal,
@@ -49,6 +51,8 @@ class CartBill {
     required this.numberOfSeniorCitizen,
     required this.numberOfSeniorCustomer,
     required this.appliedPromo,
+    required this.restaurantServiceFee,
+    required this.restaurantServiceFeeCent,
   });
 }
 

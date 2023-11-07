@@ -61,7 +61,7 @@ class CartPriceView extends StatelessWidget {
               price: cartBill.serviceFee,
             ),
             SizedBox(height: AppSize.s12.rh),
-            CartManager().isWebShoOrder()
+            CartManager().isWebShopOrder()
                 ? _item(
                     title: AppStrings.delivery_fee.tr(),
                     price: cartBill.deliveryFee,
@@ -78,16 +78,23 @@ class CartPriceView extends StatelessWidget {
               onTap: onDiscount,
             ),
             SizedBox(height: AppSize.s12.rh),
-            CartManager().isWebShoOrder()
+            CartManager().isWebShopOrder()
                 ? _item(
-                    title: AppStrings.additional_fee.tr(),
-                    price: cartBill.additionalFee,
+                    title: AppStrings.restaurant_service_fee.tr(),
+                    price: cartBill.restaurantServiceFee,
                   )
                 : _editableItem(
                     title: AppStrings.additional_fee.tr(),
                     price: cartBill.additionalFee,
                     onTap: onAdditionalFee,
                   ),
+            if (CartManager().isWebShopOrder()) SizedBox(height: AppSize.s12.rh),
+            if (CartManager().isWebShopOrder())
+              _item(
+                title: AppStrings.processing_fee.tr(),
+                price: 0,
+                willCalculateAtNextStep: true,
+              )
           ],
         ),
       ),
@@ -98,6 +105,7 @@ class CartPriceView extends StatelessWidget {
     required String title,
     required num price,
     subtotal = false,
+    willCalculateAtNextStep = false,
   }) {
     final textStyle = TextStyle(
       color: AppColors.black,
@@ -113,11 +121,13 @@ class CartPriceView extends StatelessWidget {
           style: textStyle,
         ),
         Text(
-          PriceCalculator.formatPrice(
-            price: price,
-            code: currency.code ?? EMPTY,
-            symbol: currency.symbol ?? EMPTY,
-          ),
+          willCalculateAtNextStep
+              ? AppStrings.calculated_at_next_step.tr()
+              : PriceCalculator.formatPrice(
+                  price: price,
+                  code: currency.code ?? EMPTY,
+                  symbol: currency.symbol ?? EMPTY,
+                ),
           style: textStyle,
         ),
       ],
