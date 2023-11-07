@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 
@@ -75,7 +74,7 @@ class CartManager {
     _notifyListener();
   }
 
-  Future<void> addDiscount({required AddToCartItem cartItem, required int type, required num value}) async{
+  Future<void> addDiscount({required AddToCartItem cartItem, required int type, required num value}) async {
     final item = await _findCartItemByUniqueIDAndQuantity(cartItem);
     if (item != null) {
       item.discountValue = value;
@@ -145,11 +144,6 @@ class CartManager {
       if (uniqueId == itemUniqueId && item.quantity == cartItem.quantity) return item;
     }
     return null;
-  }
-
-  Future<AddToCartItem?> _findCartItemByIDAndQuantity(int itemID, int quantity) async {
-    final item = _carts.firstWhereOrNull((element) => element.item.id == itemID && element.quantity == quantity);
-    return item;
   }
 
   void _checkCartAndClearIfNeeded() {
@@ -263,7 +257,7 @@ class CartManager {
   }
 
   void syncPromoWithCalculateBill(CartBill cartBill) async {
-    try{
+    try {
       for (var element in cartBill.items) {
         final index = cartBill.items.indexOf(element);
         final cartItem = _carts.elementAt(index);
@@ -279,7 +273,7 @@ class CartManager {
           }
         }
       }
-    }catch(e){
+    } catch (e) {
       //ignore
     }
     if (cartBill.appliedPromo != null) {
