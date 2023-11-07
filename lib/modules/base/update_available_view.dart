@@ -20,6 +20,7 @@ class UpdateAvailableView extends StatelessWidget {
     return FutureBuilder<bool>(
       future: AppUpdateManager().checkForUpdate(),
       builder: (context, snapshot) {
+        return _body();
         if (snapshot.hasData && (snapshot.data ?? false)) {
           return _body();
         }
@@ -30,12 +31,7 @@ class UpdateAvailableView extends StatelessWidget {
 
   Widget _body() {
     return Container(
-      padding: EdgeInsets.only(
-        top: AppSize.s6.rh,
-        bottom: AppSize.s24.rh,
-        left: AppSize.s16.rw,
-        right: AppSize.s16.rw,
-      ),
+      padding: EdgeInsets.symmetric(vertical: AppSize.s6.rh, horizontal: AppSize.s16.rw),
       color: AppColors.white,
       child: Row(
         children: [

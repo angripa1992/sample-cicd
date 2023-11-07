@@ -33,7 +33,7 @@ class FABBottomAppBar extends StatefulWidget {
     required this.notchedShape,
     required this.onTabSelected,
   }) {
-    assert(items.length == 2 || items.length == 4);
+    assert(items.length == 2 || items.length == 5);
   }
 
   final int initialIndex;
@@ -81,10 +81,10 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
         onPressed: _updateIndex,
       );
     });
-    items.insert(items.length >> 1, _buildMiddleTabItem());
+   // items.insert(items.length >> 1, _buildMiddleTabItem());
 
     return BottomAppBar(
-      shape: widget.notchedShape,
+   //   shape: widget.notchedShape,
       color: widget.backgroundColor,
       child: Row(
         mainAxisSize: MainAxisSize.max,

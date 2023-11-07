@@ -18,14 +18,11 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
   dismissCurrentSnackBar(context);
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      behavior: SnackBarBehavior.floating,
       content: Row(
         children: [
           Expanded(
             child: Text(
-              isOnline
-                  ? AppStrings.internet_connection_reestablished.tr()
-                  : AppStrings.noInternetError.tr(),
+              isOnline ? AppStrings.internet_connection_reestablished.tr() : AppStrings.noInternetError.tr(),
               style: regularTextStyle(
                 color: AppColors.white,
                 fontSize: AppFontSize.s15.rSp,
@@ -38,8 +35,7 @@ void showConnectivitySnackBar(BuildContext context, bool isOnline) {
           ),
         ],
       ),
-      duration:
-          isOnline ? const Duration(seconds: 1) : const Duration(hours: 1),
+      duration: isOnline ? const Duration(seconds: 1) : const Duration(hours: 1),
       backgroundColor: isOnline ? AppColors.green : AppColors.red,
     ),
   );
@@ -49,7 +45,6 @@ void showErrorSnackBar(BuildContext context, String message) {
   dismissCurrentSnackBar(context);
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      behavior: SnackBarBehavior.floating,
       content: Text(
         message,
         style: regularTextStyle(
@@ -70,7 +65,6 @@ void showApiErrorSnackBar(BuildContext context, Failure failure) {
   dismissCurrentSnackBar(context);
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      behavior: SnackBarBehavior.floating,
       content: Text(
         failure.message,
         style: regularTextStyle(
@@ -85,11 +79,8 @@ void showApiErrorSnackBar(BuildContext context, Failure failure) {
 }
 
 void showSuccessSnackBar(BuildContext? context, String message) {
-  ScaffoldMessenger.of(
-          context ?? RoutesGenerator.navigatorKey.currentState!.context)
-      .showSnackBar(
+  ScaffoldMessenger.of(context ?? RoutesGenerator.navigatorKey.currentState!.context).showSnackBar(
     SnackBar(
-      behavior: SnackBarBehavior.floating,
       content: Text(
         message,
         style: regularTextStyle(
@@ -98,7 +89,7 @@ void showSuccessSnackBar(BuildContext? context, String message) {
         ),
       ),
       duration: const Duration(seconds: 1),
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.green,
     ),
   );
 }
@@ -106,7 +97,6 @@ void showSuccessSnackBar(BuildContext? context, String message) {
 void showLoadingSnackBar(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      behavior: SnackBarBehavior.floating,
       content: Row(
         children: [
           SizedBox(

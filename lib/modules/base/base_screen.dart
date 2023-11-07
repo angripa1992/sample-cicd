@@ -112,13 +112,11 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void _selectedTab(int index) {
-    context.read<BaseScreenCubit>().changeIndex(
-          NavigationData(
-            index: index,
-            subTabIndex: null,
-            data: null,
-          ),
-        );
+    if (index == BottomNavItem.ADD_ORDER) {
+      _goToAddOrderScreen();
+    } else {
+      context.read<BaseScreenCubit>().changeIndex(NavigationData(index: index, subTabIndex: null, data: null));
+    }
   }
 
   @override
@@ -198,6 +196,11 @@ class _BaseScreenState extends State<BaseScreen> {
                       index: BottomNavItem.ORDER,
                     ),
                     FABBottomAppBarItem(
+                      iconData: Icons.add_circle_rounded,
+                      text: AppStrings.add_order.tr(),
+                      index: BottomNavItem.ADD_ORDER,
+                    ),
+                    FABBottomAppBarItem(
                       iconData: Icons.dashboard,
                       text: AppStrings.menu.tr(),
                       index: BottomNavItem.MENU,
@@ -210,15 +213,15 @@ class _BaseScreenState extends State<BaseScreen> {
                   ],
                   backgroundColor: Colors.white,
                 ),
-                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                floatingActionButton: FloatingActionButton(
-                  onPressed: _goToAddOrderScreen,
-                  tooltip: AppStrings.add_order.tr(),
-                  elevation: 2.0,
-                  foregroundColor: Colors.grey,
-                  backgroundColor: Colors.white,
-                  child: const Icon(Icons.add),
-                ),
+                // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+                // floatingActionButton: FloatingActionButton(
+                //   onPressed: _goToAddOrderScreen,
+                //   tooltip: AppStrings.add_order.tr(),
+                //   elevation: 2.0,
+                //   foregroundColor: Colors.grey,
+                //   backgroundColor: Colors.white,
+                //   child: const Icon(Icons.add),
+                // ),
               );
             },
           ),
