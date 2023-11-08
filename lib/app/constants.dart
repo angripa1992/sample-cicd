@@ -64,6 +64,11 @@ class OrderType {
   static const int DINE_IN = 3;
 }
 
+class PickupType {
+  static const int DEFAULT = 1;
+  static const int DRIVE_THRU = 2;
+}
+
 class OrderSource {
   static const int IN_STORE = 9;
 }
