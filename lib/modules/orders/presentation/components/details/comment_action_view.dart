@@ -61,7 +61,7 @@ class _CommentActionViewState extends State<CommentActionView> {
             Icon(
               _currentOrder!.klikitComment.isEmpty
                   ? Icons.add_comment_outlined
-                  : Icons.chat,
+                  : Icons.comment,
               size: AppSize.s16.rSp,
               color: AppColors.black,
             ),

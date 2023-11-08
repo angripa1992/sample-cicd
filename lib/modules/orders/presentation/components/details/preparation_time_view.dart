@@ -103,7 +103,7 @@ class _PrepTimeViewState extends State<PrepTimeView> {
                       ),
                     ),
                     SizedBox(width: AppSize.s4.rw),
-                    Icon(Icons.edit, size: AppSize.s18.rSp),
+                    Icon(Icons.edit_outlined, size: AppSize.s18.rSp),
                   ],
                 ),
               ),

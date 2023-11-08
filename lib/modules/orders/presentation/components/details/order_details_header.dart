@@ -91,7 +91,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.edit,
+              Icons.edit_outlined,
               color: AppColors.black,
               size: AppSize.s16.rSp,
             ),

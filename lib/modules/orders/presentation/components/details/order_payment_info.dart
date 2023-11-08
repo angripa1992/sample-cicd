@@ -170,7 +170,7 @@ class PaymentInfoTagView extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: AppSize.s8.rw),
                 child: Icon(
-                  Icons.edit,
+                  Icons.edit_outlined,
                   size: AppSize.s16.rSp,
                   color: AppColors.black,
                 ),
