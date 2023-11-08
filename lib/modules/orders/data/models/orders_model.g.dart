@@ -137,6 +137,11 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       providerAdditionalFee: json['provider_additional_fee'] as num?,
       preparationTime: json['preparation_time'] as num?,
       queueNo: json['queue_no'] as String?,
+      pickupType: json['pickup_type'] as int?,
+      additionalInfo: json['additional_info'] == null
+          ? null
+          : AdditionalInfoModel.fromJson(
+              json['additional_info'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -235,6 +240,8 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
           instance.itemAppliedPromos?.map((e) => e.toJson()).toList(),
       'preparation_time': instance.preparationTime,
       'queue_no': instance.queueNo,
+      'pickup_type': instance.pickupType,
+      'additional_info': instance.additionalInfo?.toJson(),
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(
@@ -354,4 +361,28 @@ Map<String, dynamic> _$DeliveryInfoModelToJson(DeliveryInfoModel instance) =>
       'last_name': instance.lastName,
       'first_name': instance.firstName,
       'instruction': instance.instruction,
+    };
+
+AdditionalInfoModel _$AdditionalInfoModelFromJson(Map<String, dynamic> json) =>
+    AdditionalInfoModel(
+      vehicleInfo: json['vehicle_info'] == null
+          ? null
+          : VehicleInfoModel.fromJson(
+              json['vehicle_info'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$AdditionalInfoModelToJson(
+        AdditionalInfoModel instance) =>
+    <String, dynamic>{
+      'vehicle_info': instance.vehicleInfo?.toJson(),
+    };
+
+VehicleInfoModel _$VehicleInfoModelFromJson(Map<String, dynamic> json) =>
+    VehicleInfoModel(
+      regNo: json['reg_no'] as String?,
+    );
+
+Map<String, dynamic> _$VehicleInfoModelToJson(VehicleInfoModel instance) =>
+    <String, dynamic>{
+      'reg_no': instance.regNo,
     };

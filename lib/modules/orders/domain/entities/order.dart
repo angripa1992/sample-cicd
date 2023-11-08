@@ -5,6 +5,7 @@ import '../../../add_order/data/models/applied_promo.dart';
 import '../../../common/entities/brand.dart';
 import '../../../common/entities/source.dart';
 import '../../data/models/orders_model.dart';
+import 'additional_info.dart';
 import 'cart.dart';
 import 'delicery_info.dart';
 
@@ -110,6 +111,8 @@ class Order {
   final List<AppliedPromoInfo> itemAppliedPromos;
   final List<AppliedPromoItem> appliedPromos;
   final String queueNo;
+  final int pickupType;
+  final AdditionalInfo? additionalInfo;
   bool canUpdate;
   num preparationTime;
   String klikitComment;
@@ -211,6 +214,8 @@ class Order {
     required this.providerAdditionalFee,
     required this.preparationTime,
     required this.queueNo,
+    required this.pickupType,
+    required this.additionalInfo,
   });
 
   Order copy() => Order(
@@ -307,6 +312,8 @@ class Order {
         providerAdditionalFee: providerAdditionalFee,
         preparationTime: preparationTime,
         queueNo: queueNo,
+        pickupType: pickupType,
+        additionalInfo: additionalInfo,
       );
 
   OrderModel toModel() => OrderModel(
@@ -399,5 +406,7 @@ class Order {
         providerAdditionalFee: providerAdditionalFee,
         preparationTime: preparationTime,
         queueNo: queueNo,
+        pickupType: pickupType,
+        additionalInfo: additionalInfo?.toModel(),
       );
 }

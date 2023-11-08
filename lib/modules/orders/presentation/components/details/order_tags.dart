@@ -44,22 +44,28 @@ class OrderTagsView extends StatelessWidget {
   }
 
   Map<String, dynamic> _getType() {
-    switch (order.type) {
-      case OrderType.PICKUP:
-        return {
-          _type: AppStrings.pickup.tr(),
-          _typeColor: 0xFF0468E4,
-        };
-      case OrderType.DELIVERY:
-        return {
-          _type: AppStrings.deliver.tr(),
-          _typeColor: 0xFFFFA133,
-        };
-      default:
-        return {
-          _type: AppStrings.dine_in.tr(),
-          _typeColor: 0xFF27AE60,
-        };
+    final type = order.type;
+    final pickupType = order.pickupType;
+    if (type == OrderType.PICKUP && pickupType == PickupType.DRIVE_THRU) {
+      return {
+        _type: 'Drive Thru',
+        _typeColor: 0xFF0468E4,
+      };
+    } else if (type == OrderType.PICKUP && pickupType == PickupType.DEFAULT) {
+      return {
+        _type: AppStrings.pickup.tr(),
+        _typeColor: 0xFF0468E4,
+      };
+    } else if (type == OrderType.DELIVERY) {
+      return {
+        _type: AppStrings.deliver.tr(),
+        _typeColor: 0xFFFFA133,
+      };
+    } else {
+      return {
+        _type: AppStrings.dine_in.tr(),
+        _typeColor: 0xFF27AE60,
+      };
     }
   }
 

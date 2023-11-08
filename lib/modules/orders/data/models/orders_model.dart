@@ -6,6 +6,7 @@ import '../../../add_order/data/models/applied_promo.dart';
 import '../../../common/entities/brand.dart';
 import '../../../common/entities/source.dart';
 import '../../../common/model/brand_model.dart';
+import '../../domain/entities/additional_info.dart';
 import '../../domain/entities/delicery_info.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/entities/rider_info.dart';
@@ -221,6 +222,10 @@ class OrderModel {
   num? preparationTime;
   @JsonKey(name: 'queue_no')
   String? queueNo;
+  @JsonKey(name: 'pickup_type')
+  int? pickupType;
+  @JsonKey(name: 'additional_info')
+  AdditionalInfoModel? additionalInfo;
 
   OrderModel({
     this.id,
@@ -315,6 +320,8 @@ class OrderModel {
     this.providerAdditionalFee,
     this.preparationTime,
     this.queueNo,
+    this.pickupType,
+    this.additionalInfo,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -416,6 +423,8 @@ class OrderModel {
       providerAdditionalFee: providerAdditionalFee.orZero(),
       preparationTime: preparationTime.orZero(),
       queueNo: queueNo.orEmpty(),
+      pickupType: pickupType.orZero(),
+      additionalInfo: additionalInfo?.toEntity(),
     );
   }
 }
@@ -623,4 +632,37 @@ class DeliveryInfoModel {
         firstName: firstName.orEmpty(),
         instruction: instruction.orEmpty(),
       );
+}
+
+@JsonSerializable(explicitToJson: true)
+class AdditionalInfoModel {
+  @JsonKey(name: 'vehicle_info')
+  VehicleInfoModel? vehicleInfo;
+
+  AdditionalInfoModel({this.vehicleInfo});
+
+  factory AdditionalInfoModel.fromJson(Map<String, dynamic> json) => _$AdditionalInfoModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdditionalInfoModelToJson(this);
+
+
+  AdditionalInfo toEntity() {
+    return AdditionalInfo(vehicleInfo: vehicleInfo?.toEntity());
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class VehicleInfoModel {
+  @JsonKey(name: 'reg_no')
+  String? regNo;
+
+  VehicleInfoModel({this.regNo});
+
+  factory VehicleInfoModel.fromJson(Map<String, dynamic> json) => _$VehicleInfoModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VehicleInfoModelToJson(this);
+
+  VehicleInfo toEntity() {
+    return VehicleInfo(regNo: regNo.orEmpty());
+  }
 }

@@ -52,6 +52,17 @@ class OrderCustomerInfoView extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: AppSize.s4.rh),
+            Row(
+              children: [
+                Expanded(
+                  child: Visibility(
+                    visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null,
+                    child: _infoItem(AppStrings.vehicle_registration.tr(), '${order.additionalInfo?.vehicleInfo?.regNo}'),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
