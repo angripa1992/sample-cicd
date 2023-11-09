@@ -226,6 +226,8 @@ class OrderModel {
   int? pickupType;
   @JsonKey(name: 'additional_info')
   AdditionalInfoModel? additionalInfo;
+  @JsonKey(name: 'can_cancel_rider')
+  bool? canCancelRider;
 
   OrderModel({
     this.id,
@@ -322,6 +324,7 @@ class OrderModel {
     this.queueNo,
     this.pickupType,
     this.additionalInfo,
+    this.canCancelRider,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -425,6 +428,7 @@ class OrderModel {
       queueNo: queueNo.orEmpty(),
       pickupType: pickupType.orZero(),
       additionalInfo: additionalInfo?.toEntity(),
+      canCancelRider: canCancelRider.orFalse(),
     );
   }
 }

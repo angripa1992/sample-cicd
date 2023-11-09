@@ -142,6 +142,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
           ? null
           : AdditionalInfoModel.fromJson(
               json['additional_info'] as Map<String, dynamic>),
+      canCancelRider: json['can_cancel_rider'] as bool?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -242,6 +243,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'queue_no': instance.queueNo,
       'pickup_type': instance.pickupType,
       'additional_info': instance.additionalInfo?.toJson(),
+      'can_cancel_rider': instance.canCancelRider,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

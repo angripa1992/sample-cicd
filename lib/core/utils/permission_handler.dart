@@ -8,11 +8,15 @@ class PermissionHandler {
   PermissionHandler._internal();
 
   Future<void> requestPermissions() async {
-    final Map<Permission, PermissionStatus> statues = await [Permission.location, Permission.notification].request();
-    final notificationStatus = statues[Permission.notification];
-    final locationStatus = statues[Permission.location];
-    if (notificationStatus!.isPermanentlyDenied || locationStatus!.isPermanentlyDenied) {
-      await openAppSettings();
+    try {
+      final Map<Permission, PermissionStatus> statues = await [Permission.location, Permission.notification].request();
+      final notificationStatus = statues[Permission.notification];
+      final locationStatus = statues[Permission.location];
+      if (notificationStatus!.isPermanentlyDenied || locationStatus!.isPermanentlyDenied) {
+        await openAppSettings();
+      }
+    } catch (e) {
+      //ignore
     }
   }
 

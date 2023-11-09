@@ -36,7 +36,9 @@ class AppUpdateManager {
 
   Future<bool> checkForUpdate() async {
     try {
-      final baseUrl = getIt.get<EnvironmentVariables>().baseUrl;
+      final baseUrl = getIt
+          .get<EnvironmentVariables>()
+          .baseUrl;
       final currentVersionStr = await getIt.get<DeviceInfoProvider>().versionCode();
       final currentVersion = num.parse(currentVersionStr);
       final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);

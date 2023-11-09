@@ -48,11 +48,7 @@ class EnvManager {
 
   Future<EnvRemoteUrls?> _fetchRemoteUrls(String url) async {
     try {
-      final response = await PublicRestClient().request(
-        url,
-        Method.GET,
-        null,
-      );
+      final response = await PublicRestClient().request(url, Method.GET, null);
       return EnvRemoteUrls.fromJson(response);
     } on DioException {
       return null;

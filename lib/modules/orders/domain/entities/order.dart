@@ -113,6 +113,7 @@ class Order {
   final String queueNo;
   final int pickupType;
   final AdditionalInfo? additionalInfo;
+  final bool canCancelRider;
   bool canUpdate;
   num preparationTime;
   String klikitComment;
@@ -216,6 +217,7 @@ class Order {
     required this.queueNo,
     required this.pickupType,
     required this.additionalInfo,
+    required this.canCancelRider,
   });
 
   Order copy() => Order(
@@ -314,6 +316,7 @@ class Order {
         queueNo: queueNo,
         pickupType: pickupType,
         additionalInfo: additionalInfo,
+        canCancelRider: canCancelRider,
       );
 
   OrderModel toModel() => OrderModel(
@@ -408,5 +411,6 @@ class Order {
         queueNo: queueNo,
         pickupType: pickupType,
         additionalInfo: additionalInfo?.toModel(),
+        canCancelRider: canCancelRider,
       );
 }
