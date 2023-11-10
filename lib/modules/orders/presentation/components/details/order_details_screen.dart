@@ -86,7 +86,6 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   onCommentActionSuccess: widget.onRefresh,
                   onEditGrabOrder: _editGrabOrder,
                   onEditManualOrder: widget.onEditManualOrder,
-                  //TODO switch rider
                   onSwitchRider: () {
                     KlikitOrderResolver().cancelRider(
                       context: context,
