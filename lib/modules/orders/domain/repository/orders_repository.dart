@@ -38,4 +38,6 @@ abstract class OrderRepository {
   Future<Either<Failure, List<CancellationReason>>> fetchCancellationReason();
 
   Future<Either<Failure, ActionSuccess>> updatePrepTime(int orderID,Map<String, dynamic> params);
+
+  Future<Either<Failure, ActionSuccess>> cancelRider(int orderID);
 }

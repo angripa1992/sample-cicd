@@ -18,7 +18,6 @@ import '../../../../../app/extensions.dart';
 import '../../../../common/business_information_provider.dart';
 import '../../../../common/entities/provider.dart';
 import '../../../../widgets/snackbars.dart';
-import '../order_item/three_pl_status.dart';
 import 'comment_action_view.dart';
 import 'order_tags.dart';
 
@@ -27,6 +26,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
   final VoidCallback onCommentActionSuccess;
   final VoidCallback onEditGrabOrder;
   final VoidCallback onEditManualOrder;
+  final VoidCallback onSwitchRider;
 
   const OrderDetailsHeaderView({
     Key? key,
@@ -34,6 +34,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
     required this.onCommentActionSuccess,
     required this.onEditGrabOrder,
     required this.onEditManualOrder,
+    required this.onSwitchRider,
   }) : super(key: key);
 
   @override
@@ -50,7 +51,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         children: [
           _idView(),
           SizedBox(height: AppSize.s12.rh),
-          OrderTagsView(order: order),
+          OrderTagsView(order: order, onSwitchRider: onSwitchRider),
           SizedBox(height: AppSize.s8.rh),
           _externalIdView(),
           SizedBox(height: AppSize.s8.rh),
@@ -225,11 +226,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
             ),
           ),
         ),
-        if (order.isThreePlOrder && order.fulfillmentStatusId > 0)
-          Padding(
-            padding: EdgeInsets.only(top: AppSize.s6.rh),
-            child: ThreePlStatus(threePlStatus: order.fulfillmentStatusId),
-          ),
       ],
     );
   }

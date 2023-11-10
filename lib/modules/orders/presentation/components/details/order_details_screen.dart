@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/details/pickup_time_view.dart';
@@ -9,17 +8,15 @@ import 'package:klikit/modules/orders/presentation/components/details/price_view
 import 'package:klikit/modules/orders/presentation/components/details/rider_action_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/rider_info_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/scheduled_view.dart';
+import 'package:klikit/modules/orders/utils/grab_order_resolver.dart';
+import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
 
 import '../../../../../app/constants.dart';
-import '../../../../../app/di.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../edit_order/calculate_grab_order_cubit.dart';
-import '../../../edit_order/edit_grab_order.dart';
-import '../../../edit_order/update_grab_order_cubit.dart';
 import 'cancellation_reason.dart';
 import 'comment_view.dart';
 import 'customer_info_view.dart';
@@ -29,20 +26,18 @@ import 'order_item_details.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   final Order order;
-  final VoidCallback onCommentActionSuccess;
-  final VoidCallback onGrabEditSuccess;
   final Widget actionView;
   final VoidCallback onEditManualOrder;
   final VoidCallback onRiderFind;
+  final VoidCallback onRefresh;
 
   const OrderDetailsScreen({
     Key? key,
     required this.order,
-    required this.onCommentActionSuccess,
-    required this.onGrabEditSuccess,
     required this.actionView,
     required this.onEditManualOrder,
     required this.onRiderFind,
+    required this.onRefresh,
   }) : super(key: key);
 
   @override
@@ -58,38 +53,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     super.initState();
   }
 
-  void _editGrabOrderOrder(Order order) {
-    showModalBottomSheet<void>(
+  void _editGrabOrder() {
+    GrabOrderResolver().editGrabOrderOrder(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider<CalculateGrabBillCubit>(create: (_) => getIt.get()),
-            BlocProvider<UpdateGrabOrderCubit>(create: (_) => getIt.get()),
-          ],
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            resizeToAvoidBottomInset: false,
-            extendBody: false,
-            body: Container(
-              margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-              child: EditGrabOrderView(
-                order: order,
-                onClose: () {
-                  Navigator.pop(context);
-                },
-                onEditSuccess: (Order order) {
-                  widget.onGrabEditSuccess();
-                  setState(() {
-                    _currentOrder = order;
-                  });
-                },
-              ),
-            ),
-          ),
-        );
+      order: _currentOrder,
+      onGrabEditSuccess: (order) {
+        widget.onRefresh();
+        setState(() {
+          _currentOrder = order;
+        });
       },
     );
   }
@@ -111,11 +83,20 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ),
                 OrderDetailsHeaderView(
                   order: _currentOrder,
-                  onCommentActionSuccess: widget.onCommentActionSuccess,
-                  onEditGrabOrder: () {
-                    _editGrabOrderOrder(_currentOrder);
-                  },
+                  onCommentActionSuccess: widget.onRefresh,
+                  onEditGrabOrder: _editGrabOrder,
                   onEditManualOrder: widget.onEditManualOrder,
+                  //TODO switch rider
+                  onSwitchRider: () {
+                    KlikitOrderResolver().cancelRider(
+                      context: context,
+                      order: _currentOrder,
+                      onSuccess: () {
+                        Navigator.pop(context);
+                        widget.onRefresh();
+                      },
+                    );
+                  },
                 ),
                 RiderActionView(order: _currentOrder, onRiderFind: widget.onRiderFind),
                 PrepTimeView(

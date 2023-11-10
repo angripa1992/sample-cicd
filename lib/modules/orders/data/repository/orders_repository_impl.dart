@@ -245,4 +245,18 @@ class OrderRepositoryImpl extends OrderRepository {
       return Left(ErrorHandler.handleInternetConnection().failure);
     }
   }
+
+  @override
+  Future<Either<Failure, ActionSuccess>> cancelRider(int orderID) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.cancelRider(orderID);
+        return Right(response);
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
 }

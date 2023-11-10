@@ -163,7 +163,7 @@ class PaymentInfoTagView extends StatelessWidget {
               tagName,
               style: regularTextStyle(
                 color: AppColors.black,
-                fontSize: AppFontSize.s12.rSp,
+                fontSize: AppFontSize.s14.rSp,
               ),
             ),
             if (_isWebshopPostPayment())

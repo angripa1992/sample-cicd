@@ -2,22 +2,17 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:klikit/modules/common/order_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
-import 'package:klikit/modules/common/order_parameter_provider.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../../../../../printer/printing_handler.dart';
 import '../../../../../segments/event_manager.dart';
-import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../../resources/strings.dart';
-import '../../../widgets/snackbars.dart';
-import '../bloc/ongoing_order_cubit.dart';
+import '../../utils/klikit_order_resolver.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
@@ -37,7 +32,7 @@ class OngoingOrderScreen extends StatefulWidget {
 class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
-  final _printingHandler = getIt.get<PrintingHandler>();
+  final _sourceTab = 'Ready';
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
@@ -89,22 +84,13 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
     _timer = Timer.periodic(
       const Duration(seconds: AppConstant.refreshTime),
       (timer) {
-        _refreshOngoingOrderCount();
         _refresh(willBackground: true);
       },
     );
   }
 
-  void _refreshOngoingOrderCount() {
-    context.read<OngoingOrderCubit>().fetchOngoingOrder(
-          willShowLoading: false,
-          providersID: _providers,
-          brandsID: _brands,
-        );
-  }
-
   void _refresh({bool willBackground = false}) {
-    _refreshOngoingOrderCount();
+    KlikitOrderResolver().refreshOrderCounts(context, providers: _providers, brands: _brands);
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);
@@ -154,40 +140,38 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
     }
   }
 
-  void _onPrint({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(
-      order: order,
-      isAutoPrint: order.status == OrderStatus.PLACED,
+  void _showDetails(Order item) {
+    showOrderDetails(
+      key: _modelScaffoldKey,
+      context: context,
+      order: item,
+      onAction: (title, status) => _onAction(
+        title: title,
+        order: item,
+        status: status,
+        isFromDetails: true,
+      ),
+      onPrint: () => KlikitOrderResolver().printDocket(
+        order: item,
+        isFromDetails: true,
+        sourceTab: _sourceTab,
+      ),
+      onCancel: (title) => _onAction(
+        title: title,
+        order: item,
+        status: OrderStatus.CANCELLED,
+        isFromDetails: true,
+        willCancel: true,
+      ),
+      onRiderFind: () => KlikitOrderResolver().findRider(
+        context: context,
+        orderID: item.id,
+        onRefresh: () => _refresh(willBackground: true),
+      ),
+      onRefresh: () => _refresh(willBackground: true),
+      onEditManualOrder: () {},
     );
-    SegmentManager().trackOrderSegment(
-      sourceTab: 'Ready Order',
-      isFromDetails: isFromDetails,
-      willPrint: true,
-    );
-  }
-
-  void _sendEvent() {
-    SegmentManager().screen(
-      event: SegmentEvents.SEE_DETAILS,
-      name: 'See Details',
-      properties: {'source_tab': 'Ready Order'},
-    );
-  }
-
-  void _findRider(int id) async {
-    EasyLoading.show();
-    final response = await _orderRepository.findRider(id);
-    response.fold(
-      (error) {
-        EasyLoading.dismiss();
-        showApiErrorSnackBar(context, error);
-      },
-      (success) {
-        EasyLoading.dismiss();
-        showSuccessSnackBar(context, success.message ?? '');
-        _refresh(willBackground: true);
-      },
-    );
+    KlikitOrderResolver().sendOrderDetailsScreenEvent(_sourceTab);
   }
 
   @override
@@ -198,65 +182,31 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
         itemBuilder: (context, item, index) {
           return OrderItemView(
             order: item,
-            seeDetails: () {
-              showOrderDetails(
-                key: _modelScaffoldKey,
-                context: context,
-                order: item,
-                onAction: (title, status) {
-                  _onAction(
-                    title: title,
-                    order: item,
-                    status: status,
-                    isFromDetails: true,
-                  );
-                },
-                onPrint: () {
-                  _onPrint(order: item, isFromDetails: true);
-                },
-                onCancel: (title) {
-                  _onAction(
-                    title: title,
-                    order: item,
-                    status: OrderStatus.CANCELLED,
-                    isFromDetails: true,
-                    willCancel: true,
-                  );
-                },
-                onCommentActionSuccess: () {
-                  _refresh(willBackground: true);
-                },
-                onGrabEditSuccess: () {},
-                onEditManualOrder: () {},
-                onRiderFind: () {
-                  _findRider(item.id);
-                },
-              );
-              _sendEvent();
-            },
-            onAction: (title, status) {
-              _onAction(
-                title: title,
-                status: status,
-                order: item,
-              );
-            },
-            onPrint: () {
-              _onPrint(order: item, isFromDetails: false);
-            },
-            onCancel: (title) {
-              _onAction(
-                title: title,
-                order: item,
-                willCancel: true,
-                status: OrderStatus.CANCELLED,
-              );
-            },
+            seeDetails: () => _showDetails(item),
+            onAction: (title, status) => _onAction(
+              title: title,
+              status: status,
+              order: item,
+            ),
+            onPrint: () => KlikitOrderResolver().printDocket(
+              order: item,
+              isFromDetails: false,
+              sourceTab: _sourceTab,
+            ),
+            onCancel: (title) => _onAction(
+              title: title,
+              order: item,
+              willCancel: true,
+              status: OrderStatus.CANCELLED,
+            ),
+            onRiderFind: () => KlikitOrderResolver().findRider(
+              context: context,
+              orderID: item.id,
+              onRefresh: () => _refresh(willBackground: true),
+            ),
+            onSwitchRider: () {},
             onEditGrabOrder: () {},
             onEditManualOrder: () {},
-            onRiderFind: () {
-              _findRider(item.id);
-            },
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,

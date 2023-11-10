@@ -36,6 +36,8 @@ class Urls {
 
   static String updatePrepTime(int id) => '/v1/oni/order/$id/preparation-time';
 
+  static String cancelRider(int id) => '/v1/oni/order/$id/cancel-fulfillment';
+
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
 
   static String menuV1(int branchId) => '/v2/menu/branch/$branchId/menus';

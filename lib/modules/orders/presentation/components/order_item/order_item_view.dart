@@ -19,6 +19,7 @@ import 'order_action_buttons.dart';
 
 class OrderItemView extends StatelessWidget {
   final VoidCallback seeDetails;
+  final VoidCallback onSwitchRider;
   final Function(String, int) onAction;
   final Function(String) onCancel;
   final VoidCallback onPrint;
@@ -31,6 +32,7 @@ class OrderItemView extends StatelessWidget {
     Key? key,
     required this.order,
     required this.seeDetails,
+    required this.onSwitchRider,
     required this.onAction,
     required this.onCancel,
     required this.onPrint,
@@ -117,11 +119,7 @@ class OrderItemView extends StatelessWidget {
                         fontSize: AppFontSize.s12.rSp,
                       ),
                     ),
-                    if (order.isThreePlOrder && order.fulfillmentStatusId > 0)
-                      Padding(
-                        padding: EdgeInsets.only(top: AppSize.s6.rh),
-                        child: ThreePlStatus(threePlStatus: order.fulfillmentStatusId),
-                      ),
+                    ThreePlStatus(order: order, showTag: false, onSwitchRider: onSwitchRider),
                   ],
                 ),
               ),

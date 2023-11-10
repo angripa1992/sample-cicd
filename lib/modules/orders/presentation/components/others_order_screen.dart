@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:klikit/modules/common/order_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
-import 'package:klikit/modules/common/order_parameter_provider.dart';
+import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../../../../../printer/printing_handler.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
@@ -24,11 +24,10 @@ class OthersOrderScreen extends StatefulWidget {
   State<OthersOrderScreen> createState() => _OthersOrderScreenState();
 }
 
-class _OthersOrderScreenState extends State<OthersOrderScreen>
-    with FilterObserver {
+class _OthersOrderScreenState extends State<OthersOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
-  final _printingHandler = getIt.get<PrintingHandler>();
+  final _sourceTab = 'Other';
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
@@ -94,11 +93,23 @@ class _OthersOrderScreenState extends State<OthersOrderScreen>
     }
   }
 
-  void _onPrint({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(
-      order: order,
-      isAutoPrint: order.status == OrderStatus.PLACED,
+  void _showDetails(Order item) {
+    showOrderDetails(
+      key: _modelScaffoldKey,
+      context: context,
+      order: item,
+      onAction: (title, status) {},
+      onPrint: () => KlikitOrderResolver().printDocket(
+        order: item,
+        isFromDetails: true,
+        sourceTab: _sourceTab,
+      ),
+      onRefresh: () => _refresh(willBackground: true),
+      onCancel: (title) {},
+      onEditManualOrder: () {},
+      onRiderFind: () {},
     );
+    KlikitOrderResolver().sendOrderDetailsScreenEvent(_sourceTab);
   }
 
   @override
@@ -109,41 +120,25 @@ class _OthersOrderScreenState extends State<OthersOrderScreen>
         itemBuilder: (context, item, index) {
           return OrderItemView(
             order: item,
-            seeDetails: () {
-              showOrderDetails(
-                key: _modelScaffoldKey,
-                context: context,
-                order: item,
-                onAction: (title, status) {},
-                onPrint: () {
-                  _onPrint(order: item, isFromDetails: true);
-                },
-                onCancel: (title) {},
-                onCommentActionSuccess: () {
-                  _refresh(willBackground: true);
-                },
-                onGrabEditSuccess: () {},
-                onEditManualOrder: () {},
-                onRiderFind: () {},
-              );
-            },
-            onPrint: () {
-              _onPrint(order: item, isFromDetails: false);
-            },
+            seeDetails: () => _showDetails(item),
+            onPrint: () => KlikitOrderResolver().printDocket(
+              order: item,
+              isFromDetails: false,
+              sourceTab: _sourceTab,
+            ),
             onAction: (_, __) {},
             onCancel: (_) {},
             onEditGrabOrder: () {},
             onEditManualOrder: () {},
             onRiderFind: () {},
+            onSwitchRider: () {},
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
         newPageProgressIndicatorBuilder: getNewPageProgressIndicator,
         noItemsFoundIndicatorBuilder: noItemsFoundIndicator,
-        newPageErrorIndicatorBuilder: (_) =>
-            getPageErrorIndicator(() => _refresh()),
-        firstPageErrorIndicatorBuilder: (_) =>
-            getPageErrorIndicator(() => _refresh()),
+        newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
+        firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
       ),
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );

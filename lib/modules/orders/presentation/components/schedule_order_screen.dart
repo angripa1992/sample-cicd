@@ -1,19 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:klikit/modules/common/order_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
-import 'package:klikit/modules/orders/presentation/bloc/schedule_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
-import 'package:klikit/modules/common/order_parameter_provider.dart';
+import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../../../../../printer/printing_handler.dart';
-import '../../../../../segments/event_manager.dart';
-import '../../../../../segments/segemnt_data_provider.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
@@ -22,19 +18,17 @@ import 'order_item/order_item_view.dart';
 class ScheduleOrderScreen extends StatefulWidget {
   final FilterSubject subject;
 
-  const ScheduleOrderScreen({Key? key, required this.subject})
-      : super(key: key);
+  const ScheduleOrderScreen({Key? key, required this.subject}) : super(key: key);
 
   @override
   State<ScheduleOrderScreen> createState() => _ScheduleOrderScreenState();
 }
 
-class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
-    with FilterObserver {
+class _ScheduleOrderScreenState extends State<ScheduleOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
-  final _printingHandler = getIt.get<PrintingHandler>();
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
+  final _sourceTab = 'Schedule Order';
   static const _pageSize = 10;
   static const _firstPageKey = 1;
   Timer? _timer;
@@ -85,22 +79,13 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
     _timer = Timer.periodic(
       const Duration(seconds: AppConstant.refreshTime),
       (timer) {
-        _refreshScheduleOrderCount();
         _refresh(willBackground: true);
       },
     );
   }
 
-  void _refreshScheduleOrderCount() {
-    context.read<ScheduleOrderCubit>().fetchScheduleOrder(
-          willShowLoading: false,
-          providersID: _providers,
-          brandsID: _brands,
-        );
-  }
-
   void _refresh({bool willBackground = false}) {
-    _refreshScheduleOrderCount();
+    KlikitOrderResolver().refreshOrderCounts(context, providers: _providers, brands: _brands);
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);
@@ -109,24 +94,23 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
     }
   }
 
-  void _onPrint({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(
-      order: order,
-      isAutoPrint: order.status == OrderStatus.PLACED,
+  void _showDetails(Order item) {
+    showOrderDetails(
+      key: _modelScaffoldKey,
+      context: context,
+      order: item,
+      onAction: (title, status) {},
+      onPrint: () => KlikitOrderResolver().printDocket(
+        order: item,
+        isFromDetails: true,
+        sourceTab: _sourceTab,
+      ),
+      onRefresh: () => _refresh(willBackground: true),
+      onCancel: (title) {},
+      onEditManualOrder: () {},
+      onRiderFind: () {},
     );
-    SegmentManager().trackOrderSegment(
-      sourceTab: 'Schedule Order',
-      isFromDetails: isFromDetails,
-      willPrint: true,
-    );
-  }
-
-  void _sendEvent() {
-    SegmentManager().screen(
-      event: SegmentEvents.SEE_DETAILS,
-      name: 'See Details',
-      properties: {'source_tab': 'Schedule Order'},
-    );
+    KlikitOrderResolver().sendOrderDetailsScreenEvent(_sourceTab);
   }
 
   @override
@@ -137,42 +121,25 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen>
         itemBuilder: (context, item, index) {
           return OrderItemView(
             order: item,
-            seeDetails: () {
-              showOrderDetails(
-                key: _modelScaffoldKey,
-                context: context,
-                order: item,
-                onAction: (title, status) {},
-                onPrint: () {
-                  _onPrint(order: item, isFromDetails: true);
-                },
-                onCancel: (title) {},
-                onCommentActionSuccess: () {
-                  _refresh(willBackground: true);
-                },
-                onGrabEditSuccess: () {},
-                onEditManualOrder: () {},
-                onRiderFind: () {},
-              );
-              _sendEvent();
-            },
-            onPrint: () {
-              _onPrint(order: item, isFromDetails: false);
-            },
+            seeDetails: () => _showDetails(item),
+            onPrint: () => KlikitOrderResolver().printDocket(
+              order: item,
+              isFromDetails: true,
+              sourceTab: _sourceTab,
+            ),
             onAction: (_, __) {},
             onCancel: (_) {},
             onEditGrabOrder: () {},
             onEditManualOrder: () {},
             onRiderFind: () {},
+            onSwitchRider: () {},
           );
         },
         firstPageProgressIndicatorBuilder: getFirstPageProgressIndicator,
         newPageProgressIndicatorBuilder: getNewPageProgressIndicator,
         noItemsFoundIndicatorBuilder: noItemsFoundIndicator,
-        newPageErrorIndicatorBuilder: (_) =>
-            getPageErrorIndicator(() => _refresh()),
-        firstPageErrorIndicatorBuilder: (_) =>
-            getPageErrorIndicator(() => _refresh()),
+        newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
+        firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
       ),
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
