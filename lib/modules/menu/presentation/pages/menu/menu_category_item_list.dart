@@ -36,8 +36,7 @@ class MenuCategoryItemListView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MenuCategoryItemListView> createState() =>
-      _MenuCategoryItemListViewState();
+  State<MenuCategoryItemListView> createState() => _MenuCategoryItemListViewState();
 }
 
 class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
@@ -122,46 +121,39 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                         onTap: () {
                           _showItemDetails(index);
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
-                            Flexible(
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(right: AppSize.s10.rw),
-                                    child: ImageView(
-                                      path: _menuCategoryItems[index].image,
-                                      width: AppSize.s36.rw,
-                                      height: AppSize.s36.rh,
-                                    ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: AppSize.s10.rw),
+                                  child: ImageView(
+                                    path: _menuCategoryItems[index].image,
+                                    width: AppSize.s36.rw,
+                                    height: AppSize.s36.rh,
                                   ),
-                                  Flexible(
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          '${index + 1}.',
-                                          style: regularTextStyle(
-                                            color: AppColors.black,
-                                            fontSize: AppFontSize.s14.rSp,
-                                          ),
-                                        ),
-                                        SizedBox(width: AppSize.s4.rw),
-                                        Expanded(
-                                          child: Text(
-                                            _menuCategoryItems[index].title,
-                                            style: regularTextStyle(
-                                              color: AppColors.black,
-                                              fontSize: AppFontSize.s14.rSp,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                ),
+                                Text(
+                                  _menuCategoryItems[index].title,
+                                  style: regularTextStyle(
+                                    color: AppColors.black,
+                                    fontSize: AppFontSize.s14.rSp,
                                   ),
-                                ],
-                              ),
+                                ),
+                                MenuSwitchView(
+                                  menuVersion: widget.menuCategory.menuVersion,
+                                  id: _menuCategoryItems[index].id,
+                                  brandId: widget.brandID,
+                                  providerId: widget.providerID,
+                                  type: MenuType.ITEM,
+                                  enabled: _menuCategoryItems[index].enabled,
+                                  parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+                                  onMenuEnableChanged: (enabled) {
+                                    _onMenuEnabledChanged(index, enabled);
+                                  },
+                                ),
+                              ],
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -176,8 +168,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                     borderRadius: AppSize.s8.rSp,
                                     width: AppSize.s80.rw,
                                     bgColor: AppColors.grey,
-                                    parentEnabled: widget.parentEnabled &&
-                                        widget.menuCategory.enabled,
+                                    parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
                                     brandId: widget.brandID,
                                     iconPath: AppIcons.editRound,
                                     onMenuItemSnoozeChanged: (oos) {
@@ -187,19 +178,6 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                       _onMenuEnabledChanged(index, enabled);
                                     },
                                   ),
-                                ),
-                                MenuSwitchView(
-                                  menuVersion: widget.menuCategory.menuVersion,
-                                  id: _menuCategoryItems[index].id,
-                                  brandId: widget.brandID,
-                                  providerId: widget.providerID,
-                                  type: MenuType.ITEM,
-                                  enabled: _menuCategoryItems[index].enabled,
-                                  parentEnabled: widget.parentEnabled &&
-                                      widget.menuCategory.enabled,
-                                  onMenuEnableChanged: (enabled) {
-                                    _onMenuEnabledChanged(index, enabled);
-                                  },
                                 ),
                               ],
                             ),

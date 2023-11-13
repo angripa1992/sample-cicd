@@ -1,5 +1,3 @@
-import '../../../../../app/extensions.dart';
-
 class MenuItemPrice {
   final int providerId;
   final int currencyId;
