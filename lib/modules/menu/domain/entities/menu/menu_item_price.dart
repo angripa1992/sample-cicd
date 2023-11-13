@@ -7,6 +7,7 @@ class MenuItemPrice {
   final String currencySymbol;
   final num price;
   final num takeAwayPrice;
+  final MenuItemAdvancedPrice advancedPrice;
 
   MenuItemPrice({
     required this.providerId,
@@ -15,5 +16,18 @@ class MenuItemPrice {
     required this.currencySymbol,
     required this.price,
     required this.takeAwayPrice,
+    required this.advancedPrice,
+  });
+}
+
+class MenuItemAdvancedPrice {
+  final num delivery;
+  final num dineIn;
+  final num pickup;
+
+  MenuItemAdvancedPrice({
+    required this.delivery,
+    required this.dineIn,
+    required this.pickup,
   });
 }

@@ -148,7 +148,7 @@ class _OthersOrderScreenState extends State<OthersOrderScreen> with FilterObserv
   void dispose() {
     _timer?.cancel();
     _pagingController?.dispose();
-    filterSubject?.removeObserver(ObserverTag.ONGOING_ORDER);
+    filterSubject?.removeObserver(ObserverTag.OTHERS_ORDER);
     super.dispose();
   }
 

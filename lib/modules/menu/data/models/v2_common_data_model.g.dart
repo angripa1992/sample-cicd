@@ -47,6 +47,10 @@ V2PriceDetailsModel _$V2PriceDetailsModelFromJson(Map<String, dynamic> json) =>
       currencyCode: json['currencyCode'] as String?,
       price: json['price'] as num?,
       takeAwayPrice: json['takeAwayPrice'] as num?,
+      advancedPricing: json['advancedPricing'] == null
+          ? null
+          : V2AdvancedPricingModel.fromJson(
+              json['advancedPricing'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$V2PriceDetailsModelToJson(
@@ -55,6 +59,23 @@ Map<String, dynamic> _$V2PriceDetailsModelToJson(
       'currencyCode': instance.currencyCode,
       'price': instance.price,
       'takeAwayPrice': instance.takeAwayPrice,
+      'advancedPricing': instance.advancedPricing,
+    };
+
+V2AdvancedPricingModel _$V2AdvancedPricingModelFromJson(
+        Map<String, dynamic> json) =>
+    V2AdvancedPricingModel(
+      delivery: json['delivery'] as num?,
+      dineIn: json['dineIn'] as num?,
+      pickup: json['pickup'] as num?,
+    );
+
+Map<String, dynamic> _$V2AdvancedPricingModelToJson(
+        V2AdvancedPricingModel instance) =>
+    <String, dynamic>{
+      'delivery': instance.delivery,
+      'dineIn': instance.dineIn,
+      'pickup': instance.pickup,
     };
 
 V2ResourcesModel _$V2ResourcesModelFromJson(Map<String, dynamic> json) =>

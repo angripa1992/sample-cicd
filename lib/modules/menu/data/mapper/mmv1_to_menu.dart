@@ -12,6 +12,7 @@ import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/entities/menu/menu_sections.dart';
 import '../../domain/entities/menu/menu_visibility.dart';
 import '../models/menu/menu_v1_data.dart';
+import '../models/v2_common_data_model.dart';
 
 MenuData mapMMV1toMenu(MenuV1MenusDataModel menusData) {
   final branchInfo = _menuV1dataToMenuBranchInfo(menusData.branchInfo!);
@@ -188,5 +189,14 @@ MenuItemPrice _mmV1PriceToMenuItemPrice(MenuV1PricesModel data) {
     price: data.price.orZero(),
     takeAwayPrice: data.price.orZero(),
     currencySymbol: data.symbol.orEmpty(),
+    advancedPrice: _toAdvancedPrice(null),
+  );
+}
+
+MenuItemAdvancedPrice _toAdvancedPrice(V2AdvancedPricingModel? advancePriceModel) {
+  return MenuItemAdvancedPrice(
+    delivery: advancePriceModel?.delivery ?? ZERO,
+    dineIn: advancePriceModel?.dineIn ?? ZERO,
+    pickup: advancePriceModel?.pickup ?? ZERO,
   );
 }
