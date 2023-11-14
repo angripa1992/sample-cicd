@@ -82,6 +82,7 @@ class _ZReportViewState extends State<ZReportView> {
                       textColor: AppColors.white,
                       onTap: () {
                         context.read<FetchZReportCubit>().fetchZReportData(_selectedDate);
+
                       },
                     );
                   },

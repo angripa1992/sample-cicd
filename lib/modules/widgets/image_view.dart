@@ -12,8 +12,12 @@ class ImageView extends StatelessWidget {
   final double? height;
   final double? width;
 
-  const ImageView({Key? key, required this.path, this.height, this.width})
-      : super(key: key);
+  const ImageView({
+    Key? key,
+    required this.path,
+    this.height,
+    this.width,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,6 @@ class ImageView extends StatelessWidget {
         height: height ?? AppSize.s40.rh,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(AppSize.s8.rSp)),
-          //shape: BoxShape.rectangle,
           image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
         ),
       ),

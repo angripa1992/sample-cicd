@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_switch_view.dart';
 import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
-import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
@@ -79,24 +79,28 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
   void _showItemDetails(int index) {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(AppSize.s14.rSp),
         ),
       ),
       builder: (BuildContext context) {
-        return MenuItemDetails(
-          menuCategoryItem: _menuCategoryItems[index],
-          parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
-          brandID: widget.brandID,
-          providerID: widget.providerID,
-          brandId: widget.brandID,
-          onMenuItemSnoozeChanged: (oos) {
-            _onItemSnoozeChanged(index, oos);
-          },
-          onMenuEnabledChanged: (enabled) {
-            _onMenuEnabledChanged(index, enabled);
-          },
+        return SizedBox(
+          height: ScreenSizes.screenHeight / 1.2,
+          child: MenuItemDetails(
+            menuCategoryItem: _menuCategoryItems[index],
+            parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+            brandID: widget.brandID,
+            providerID: widget.providerID,
+            brandId: widget.brandID,
+            onMenuItemSnoozeChanged: (oos) {
+              _onItemSnoozeChanged(index, oos);
+            },
+            onMenuEnabledChanged: (enabled) {
+              _onMenuEnabledChanged(index, enabled);
+            },
+          ),
         );
       },
     );
@@ -113,76 +117,98 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                 return Card(
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      vertical: AppSize.s8.rh,
+                      vertical: AppSize.s12.rh,
                       horizontal: AppSize.s10.rw,
                     ),
-                    child: IntrinsicHeight(
-                      child: InkWell(
-                        onTap: () {
-                          _showItemDetails(index);
-                        },
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: AppSize.s10.rw),
-                                  child: ImageView(
-                                    path: _menuCategoryItems[index].image,
-                                    width: AppSize.s36.rw,
-                                    height: AppSize.s36.rh,
-                                  ),
+                    child: InkWell(
+                      onTap: () {
+                        _showItemDetails(index);
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              ImageView(
+                                path: _menuCategoryItems[index].image,
+                                width: AppSize.s48.rw,
+                                height: AppSize.s40.rh,
+                              ),
+                              SizedBox(width: AppSize.s16.rw),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            _menuCategoryItems[index].title.trim(),
+                                            style: mediumTextStyle(
+                                              color: AppColors.black,
+                                              fontSize: AppFontSize.s16.rSp,
+                                            ),
+                                          ),
+                                        ),
+                                        MenuSwitchView(
+                                          menuVersion: widget.menuCategory.menuVersion,
+                                          id: _menuCategoryItems[index].id,
+                                          brandId: widget.brandID,
+                                          providerId: widget.providerID,
+                                          type: MenuType.ITEM,
+                                          enabled: _menuCategoryItems[index].enabled,
+                                          parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+                                          onMenuEnableChanged: (enabled) {
+                                            _onMenuEnabledChanged(index, enabled);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+                                              border: Border.all(color: AppColors.greyDarker),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: AppSize.s4.rh,
+                                              horizontal: AppSize.s8.rw,
+                                            ),
+                                            child: Text(
+                                              PriceCalculator.formatPrice(
+                                                price: _menuCategoryItems[index].klikitPrice().price,
+                                                code: _menuCategoryItems[index].klikitPrice().currencyCode,
+                                                symbol: _menuCategoryItems[index].klikitPrice().currencySymbol,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: AppSize.s12.rw),
+                                        Flexible(
+                                          child: MenuSnoozeView(
+                                            menuCategoryItem: _menuCategoryItems[index],
+                                            providerId: widget.providerID,
+                                            parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+                                            brandId: widget.brandID,
+                                            onMenuItemSnoozeChanged: (oos) {
+                                              _onItemSnoozeChanged(index, oos);
+                                            },
+                                            onMenuEnabledChanged: (enabled) {
+                                              _onMenuEnabledChanged(index, enabled);
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  _menuCategoryItems[index].title,
-                                  style: regularTextStyle(
-                                    color: AppColors.black,
-                                    fontSize: AppFontSize.s14.rSp,
-                                  ),
-                                ),
-                                MenuSwitchView(
-                                  menuVersion: widget.menuCategory.menuVersion,
-                                  id: _menuCategoryItems[index].id,
-                                  brandId: widget.brandID,
-                                  providerId: widget.providerID,
-                                  type: MenuType.ITEM,
-                                  enabled: _menuCategoryItems[index].enabled,
-                                  parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
-                                  onMenuEnableChanged: (enabled) {
-                                    _onMenuEnabledChanged(index, enabled);
-                                  },
-                                ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: AppSize.s8.rw,
-                                  ),
-                                  child: MenuSnoozeView(
-                                    menuCategoryItem: _menuCategoryItems[index],
-                                    providerId: widget.providerID,
-                                    borderRadius: AppSize.s8.rSp,
-                                    width: AppSize.s80.rw,
-                                    bgColor: AppColors.grey,
-                                    parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
-                                    brandId: widget.brandID,
-                                    iconPath: AppIcons.editRound,
-                                    onMenuItemSnoozeChanged: (oos) {
-                                      _onItemSnoozeChanged(index, oos);
-                                    },
-                                    onMenuEnabledChanged: (enabled) {
-                                      _onMenuEnabledChanged(index, enabled);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),

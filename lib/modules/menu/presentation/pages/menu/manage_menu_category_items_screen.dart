@@ -44,7 +44,7 @@ class ManageItemsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              MenuCategoryTitle(menuCategory: menuCategory),
+              //MenuCategoryTitle(menuCategory: menuCategory),
               MenuCategoryItemListView(
                 menuCategory: menuCategory,
                 onChanged: (modifiedItems) {
