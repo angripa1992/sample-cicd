@@ -156,4 +156,5 @@ class SegmentEvents {
   static const String CATEGORY_TOGGLE = 'category_toggle_NMA_menu';
   static const String ITEM_TOGGLE = 'item_toggle_NMA_menu';
   static const String MODIFIER_CLICK = 'modifier_click_NMA_menu';
+  static const String GENERATE_ZREPORT = 'Zreport_Generated';
 }
