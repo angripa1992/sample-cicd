@@ -7,6 +7,8 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/strings.dart';
+import 'package:klikit/segments/event_manager.dart';
+import 'package:klikit/segments/segemnt_data_provider.dart';
 
 import '../../../../app/di.dart';
 import '../../../../printer/printing_handler.dart';
@@ -26,6 +28,7 @@ class ZReportView extends StatefulWidget {
 }
 
 class _ZReportViewState extends State<ZReportView> {
+  DateType _selectedValue = DateType.today;
   DateTime _selectedDate = DateTime.now();
 
   @override
@@ -58,7 +61,8 @@ class _ZReportViewState extends State<ZReportView> {
             child: Column(
               children: [
                 ZReportSelector(
-                  onDateChange: (dateTime) {
+                  onDateChange: (dateTime, dateType) {
+                    _selectedValue = dateType;
                     _selectedDate = dateTime;
                   },
                 ),
@@ -83,6 +87,12 @@ class _ZReportViewState extends State<ZReportView> {
                       onTap: () {
                         context.read<FetchZReportCubit>().fetchZReportData(_selectedDate);
 
+                        SegmentManager().track(
+                          event: SegmentEvents.GENERATE_ZREPORT,
+                          properties: {
+                            'date_type': prepareDateType(_selectedValue),
+                          },
+                        );
                       },
                     );
                   },
@@ -94,10 +104,21 @@ class _ZReportViewState extends State<ZReportView> {
       ),
     );
   }
+
+  String prepareDateType(DateType dateType) {
+    switch (dateType) {
+      case DateType.today:
+        return 'Today';
+      case DateType.yesterday:
+        return 'Yesterday';
+      case DateType.range:
+        return 'Custom';
+    }
+  }
 }
 
 class ZReportSelector extends StatefulWidget {
-  final Function(DateTime) onDateChange;
+  final Function(DateTime, DateType) onDateChange;
 
   const ZReportSelector({
     Key? key,
@@ -148,7 +169,7 @@ class _ZReportSelectorState extends State<ZReportSelector> {
       _selectedValue = type;
       _selectedDate = dateTime;
     });
-    widget.onDateChange(_selectedDate);
+    widget.onDateChange(_selectedDate, _selectedValue);
   }
 
   @override
