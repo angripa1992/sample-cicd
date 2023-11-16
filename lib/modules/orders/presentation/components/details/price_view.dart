@@ -71,42 +71,38 @@ class _PriceViewState extends State<PriceView> {
               ),
               child: Column(
                 children: [
-                  // if (widget.order.vat > 0)
-                  _getSubtotalItem(
-                    _vatTitle(widget.order),
-                    widget.order.vat,
-                  ),
-                  _getSubtotalItem(
-                    AppStrings.delivery_fee.tr(),
-                    widget.order.deliveryFee,
-                  ),
-                  //if (widget.order.additionalFee > 0)
-                  _getSubtotalItem(
-                    AppStrings.additional_fee.tr(),
-                    widget.order.additionalFee,
-                  ),
-                  //  if (widget.order.providerId != ProviderID.KLIKIT)
-                  _getSubtotalItem(
-                    AppStrings.service_fee.tr(),
-                    widget.order.serviceFee,
-                  ),
-                  // if (widget.order.providerId != ProviderID.KLIKIT)
-                  _getSubtotalItem(
-                    AppStrings.processing_fee.tr(),
-                    widget.order.gatewayFee,
-                  ),
-                  //  if (widget.order.restaurantServiceFee > 0)
-                  _getSubtotalItem(
-                    AppStrings.restaurant_service_fee.tr(),
-                    widget.order.restaurantServiceFee,
-                  ),
-                  // if (widget.order.discount > 0)
-                  _getSubtotalItem(
-                    '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
-                    widget.order.discount,
-                    color: AppColors.red,
-                    isDiscount: true,
-                  ),
+                  if (widget.order.vat > 0)
+                    _priceBreakdownItem(
+                      _vatTitle(widget.order),
+                      widget.order.vat,
+                    ),
+                  if (widget.order.additionalFee > 0)
+                    _priceBreakdownItem(
+                      AppStrings.additional_fee.tr(),
+                      widget.order.additionalFee,
+                    ),
+                  if (widget.order.serviceFee > 0)
+                    _priceBreakdownItem(
+                      AppStrings.service_fee.tr(),
+                      widget.order.serviceFee,
+                    ),
+                  if (widget.order.gatewayFee > 0)
+                    _priceBreakdownItem(
+                      AppStrings.processing_fee.tr(),
+                      widget.order.gatewayFee,
+                    ),
+                  if (widget.order.restaurantServiceFee > 0)
+                    _priceBreakdownItem(
+                      AppStrings.restaurant_service_fee.tr(),
+                      widget.order.restaurantServiceFee,
+                    ),
+                  if (widget.order.discount > 0)
+                    _priceBreakdownItem(
+                      '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
+                      widget.order.discount,
+                      color: AppColors.red,
+                      isDiscount: true,
+                    ),
                 ],
               ),
             ),
@@ -158,7 +154,7 @@ class _PriceViewState extends State<PriceView> {
     return AppStrings.inc_vat.tr();
   }
 
-  Widget _getSubtotalItem(
+  Widget _priceBreakdownItem(
     String name,
     num price, {
     Color? color,
