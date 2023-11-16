@@ -33,8 +33,8 @@ class BillingItemModifierGroupRequestModel {
   Map<String, dynamic> toJsonV1() {
     final Map<String, dynamic> data = {};
     data['group_id'] = groupId;
-    // data['klikit_group_id'] = groupId;
-    // data['klikit_group_name'] = title;
+    data['klikit_group_id'] = groupId;
+    data['klikit_group_name'] = title;
     data['title'] = title;
     data['label'] = label;
     data['brand_id'] = brandId;
@@ -57,8 +57,8 @@ class BillingItemModifierGroupRequestModel {
   Map<String, dynamic> toJsonV2() {
     final Map<String, dynamic> data = {};
     data['group_id'] = groupId;
-    // data['klikit_group_id'] = groupId;
-    // data['klikit_group_name'] = title;
+    data['klikit_group_id'] = groupId;
+    data['klikit_group_name'] = title;
     if (rule != null) {
       data['rule'] = rule!.toJsonV2();
     }
