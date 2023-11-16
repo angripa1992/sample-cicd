@@ -137,7 +137,7 @@ class UpdateManualOrderDataProvider {
       willUpdateOrder: true,
     );
     CartManager().setCustomerInfo(customerInfo);
-    CartManager().setEditInfo(editInfo);
+    CartManager().setCartInfo(editInfo);
     CartManager().setPaymentInfo(paymentInfo);
     CartManager().setUpdateCartInfo(updateCartInfo);
   }

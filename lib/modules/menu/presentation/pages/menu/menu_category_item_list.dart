@@ -178,7 +178,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                             ),
                                             child: Text(
                                               PriceCalculator.formatPrice(
-                                                price: _menuCategoryItems[index].klikitPrice().price,
+                                                price: _menuCategoryItems[index].klikitPrice().price(),
                                                 code: _menuCategoryItems[index].klikitPrice().currencyCode,
                                                 symbol: _menuCategoryItems[index].klikitPrice().currencySymbol,
                                               ),

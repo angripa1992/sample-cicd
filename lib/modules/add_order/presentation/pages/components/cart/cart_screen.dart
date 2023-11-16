@@ -87,7 +87,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _saveCurrentEditInfo() {
-    final editInfo = CartInfo(
+    final cartInfo = CartInfo(
       type: _currentOrderType,
       source: _currentSource,
       discountType: _currentDiscountType,
@@ -96,7 +96,7 @@ class _CartScreenState extends State<CartScreen> {
       deliveryFee: _globalDeliveryFee,
       comment: _textController.text,
     );
-    CartManager().setEditInfo(editInfo);
+    CartManager().setCartInfo(cartInfo);
   }
 
   void _removeAll(int brandId) {

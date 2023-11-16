@@ -128,7 +128,7 @@ class UpdateWebShopOrderDataProvider {
             : null,
       );
       CartManager().setCustomerInfo(customerInfo);
-      CartManager().setEditInfo(editInfo);
+      CartManager().setCartInfo(editInfo);
       CartManager().setPaymentInfo(paymentInfo);
       CartManager().setUpdateCartInfo(updateCartInfo);
     } catch (error) {

@@ -23,7 +23,7 @@ class ProviderAdvancePrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final price = menuCategoryItem.prices.firstWhereOrNull((element) => element.providerId == provider.id);
-    return price == null || price.price <= 0
+    return price == null || price.price() <= 0
         ? const SizedBox()
         : ListTileTheme(
             contentPadding: const EdgeInsets.all(0),
@@ -44,7 +44,7 @@ class ProviderAdvancePrice extends StatelessWidget {
               ),
               title: Text(
                 '${provider.title}  ${PriceCalculator.formatPrice(
-                  price: price.price,
+                  price: price.price(),
                   symbol: price.currencySymbol,
                   code: price.currencyCode,
                 )}',

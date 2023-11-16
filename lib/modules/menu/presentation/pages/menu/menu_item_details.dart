@@ -148,7 +148,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
             ),
             Text(
               'Price ${PriceCalculator.formatPrice(
-                price: widget.menuCategoryItem.klikitPrice().price,
+                price: widget.menuCategoryItem.klikitPrice().price(),
                 symbol: widget.menuCategoryItem.klikitPrice().currencySymbol,
                 code: widget.menuCategoryItem.klikitPrice().currencyCode,
               )}',

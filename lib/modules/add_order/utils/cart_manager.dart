@@ -1,3 +1,4 @@
+import 'package:docket_design_template/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 
@@ -46,7 +47,9 @@ class CartManager {
 
   bool willUpdateOrder() => _updateCartInfo?.willUpdateOrder ?? false;
 
-  void setEditInfo(CartInfo info) {
+  int get type => _cartInfo?.type ?? OrderType.DINE_IN;
+
+  void setCartInfo(CartInfo info) {
     _cartInfo = info;
   }
 
@@ -149,9 +152,9 @@ class CartManager {
   }
 
   void _checkCartAndClearIfNeeded() {
-    if(willUpdateOrder()){
+    if (willUpdateOrder()) {
       _notifyListener();
-    }else{
+    } else {
       clear();
     }
   }
