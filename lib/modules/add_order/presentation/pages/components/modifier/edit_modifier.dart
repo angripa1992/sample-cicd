@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
@@ -88,7 +89,7 @@ class _EditModifierViewState extends State<EditModifierView> {
   }
 
   void _changePrice() {
-    final totalPrice = (_modifierPrice + _itemPrice.price) * _quantity;
+    final totalPrice = (_modifierPrice + _itemPrice.advancePrice(CartManager().type)) * _quantity;
     if (_price.value != totalPrice) {
       _price.value = totalPrice;
     }

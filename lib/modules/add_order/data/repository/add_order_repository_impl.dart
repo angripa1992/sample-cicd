@@ -27,12 +27,14 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   Future<Either<Failure, List<MenuItemModifierGroup>>> fetchModifiers({
     required int itemId,
     required MenuBranchInfo branchInfo,
+    required int type,
   }) async {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.fetchModifiers(
           itemID: itemId,
           branchInfo: branchInfo,
+          type: type,
         );
         return Right(response);
       } on DioException catch (error) {

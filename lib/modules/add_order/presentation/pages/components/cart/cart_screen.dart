@@ -368,7 +368,8 @@ class _CartScreenState extends State<CartScreen> {
                     onTypeChange: (type) {
                       _currentOrderType = type;
                       CartManager().removePromoForOrderType(_currentOrderType);
-                      _calculateBill();
+                      CartManager().clear();
+                      // _calculateBill();
                     },
                   ),
                 ),

@@ -195,7 +195,7 @@ class CartManager {
       String symbol = EMPTY;
       String code = EMPTY;
       for (var item in _carts) {
-        final price = (item.modifiersPrice + item.itemPrice.price) * item.quantity;
+        final price = (item.modifiersPrice + item.itemPrice.advancePrice(type)) * item.quantity;
         totalPrice += price;
         symbol = item.itemPrice.currencySymbol;
         code = item.itemPrice.currencySymbol;

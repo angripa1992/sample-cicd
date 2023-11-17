@@ -8,6 +8,7 @@ import 'package:klikit/modules/add_order/presentation/pages/components/search/me
 import 'package:klikit/modules/add_order/presentation/pages/components/search/search_button.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/tab_item_view.dart';
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:scrollable_list_tab_scroller/scrollable_list_tab_scroller.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -62,6 +63,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
     final response = await _addOrderRepository.fetchModifiers(
       itemId: item.id,
       branchInfo: item.branchInfo,
+      type: CartManager().type,
     );
     response.fold(
       (failure) {

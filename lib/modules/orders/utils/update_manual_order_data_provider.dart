@@ -62,7 +62,7 @@ class UpdateManualOrderDataProvider {
           providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
-          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cartv2, menuItemOrNull.branchInfo);
+          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cartv2, menuItemOrNull.branchInfo,order.type);
           final brand = await _fetchMenuBrand(brandId: cartv2.cartBrand.id);
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();

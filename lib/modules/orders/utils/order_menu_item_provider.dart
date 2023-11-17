@@ -49,9 +49,17 @@ class OrderMenuItemProvider {
     }
   }
 
-  Future<List<MenuItemModifierGroup>> fetchModifiers(CartV2 cartV2, MenuBranchInfo branchInfo) async {
+  Future<List<MenuItemModifierGroup>> fetchModifiers(
+    CartV2 cartV2,
+    MenuBranchInfo branchInfo,
+    int type,
+  ) async {
     try {
-      final groups = await getIt.get<AddOrderDatasource>().fetchModifiers(itemID: int.parse(cartV2.id), branchInfo: branchInfo);
+      final groups = await getIt.get<AddOrderDatasource>().fetchModifiers(
+            itemID: int.parse(cartV2.id),
+            branchInfo: branchInfo,
+            type: type,
+          );
       for (var modifierGroupOne in cartV2.modifierGroups) {
         final groupLevelOne = groups.firstWhereOrNull((element) => element.groupId.toString() == modifierGroupOne.id);
         for (var modifierOne in modifierGroupOne.modifiers) {

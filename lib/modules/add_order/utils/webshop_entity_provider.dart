@@ -62,7 +62,7 @@ class WebShopEntityProvider {
       itemId: cartItem.item.id,
       itemName: cartItem.item.title,
       quantity: cartItem.quantity,
-      unitPrice: cartItem.itemPrice.price,
+      unitPrice: cartItem.itemPrice.advancePrice(CartManager().type),
       vat: cartItem.item.vat,
       groups: groups,
     );
@@ -159,7 +159,7 @@ class WebShopEntityProvider {
           providerId: cartItem.item.klikitPrice().providerId,
           currencyId: cartItem.item.klikitPrice().currencyId,
           code: cartItem.item.klikitPrice().currencyCode,
-          price: cartItem.item.klikitPrice().price,
+          price: cartItem.item.klikitPrice().advancePrice(CartManager().type),
         ),
       ],
       groups: groups,

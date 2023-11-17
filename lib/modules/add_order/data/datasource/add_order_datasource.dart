@@ -25,7 +25,11 @@ import '../models/request/webshop_calculate_bill_payload.dart';
 import '../models/request/webshop_pace_order_payload.dart';
 
 abstract class AddOrderDatasource {
-  Future<List<MenuItemModifierGroup>> fetchModifiers({required int itemID, required MenuBranchInfo branchInfo});
+  Future<List<MenuItemModifierGroup>> fetchModifiers({
+    required int itemID,
+    required MenuBranchInfo branchInfo,
+    required int type,
+  });
 
   Future<CartBillModel> calculateBill({required BillingRequestModel model});
 
@@ -49,6 +53,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   Future<List<MenuItemModifierGroup>> fetchModifiers({
     required int itemID,
     required MenuBranchInfo branchInfo,
+    required int type,
   }) async {
     try {
       if (SessionManager().menuV2EnabledForKlikitOrder()) {
@@ -65,7 +70,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         if (response != null && response.isNotEmpty) {
           final modifierGroupsResponse = response.first as List<dynamic>;
           final v2Modifiers = modifierGroupsResponse.map((e) => V2ItemModifierGroupModel.fromJson(e)).toList();
-          return mapAddOrderV2ModifierToModifier(v2Modifiers, branchInfo);
+          return mapAddOrderV2ModifierToModifier(v2Modifiers, branchInfo, type);
         } else {
           return [];
         }
@@ -87,18 +92,11 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   Future<CartBillModel> calculateBill({required BillingRequestModel model}) async {
     try {
       if (SessionManager().menuV2EnabledForKlikitOrder()) {
-        final response = await _restClient.request(
-          Urls.calculateBillV2,
-          Method.POST,
-          model.toJsonV2(),
-        );
+        final str = json.encode(model.toJsonV2());
+        final response = await _restClient.request(Urls.calculateBillV2, Method.POST, model.toJsonV2());
         return CartBillModel.fromJson(response);
       } else {
-        final response = await _restClient.request(
-          Urls.calculateBill,
-          Method.POST,
-          model.toJsonV1(),
-        );
+        final response = await _restClient.request(Urls.calculateBill, Method.POST, model.toJsonV1());
         return CartBillModel.fromJson(response);
       }
     } on DioException {
@@ -119,11 +117,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataRequestModel body) async {
     try {
-      final response = await _restClient.request(
-        Urls.manualOrder,
-        Method.POST,
-        body.toJson(),
-      );
+      final response = await _restClient.request(Urls.manualOrder, Method.POST, body.toJson());
       return PlacedOrderResponse.fromJson(response);
     } on DioException {
       rethrow;
@@ -135,11 +129,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     try {
       final timezone = await DateTimeProvider.timeZone();
       params['timezone'] = timezone;
-      final List<dynamic>? response = await _restClient.request(
-        Urls.promos,
-        Method.GET,
-        params,
-      );
+      final List<dynamic>? response = await _restClient.request(Urls.promos, Method.GET, params);
       return response?.map((e) => Promo.fromJson(e)).toList() ?? [];
     } on DioException {
       rethrow;
@@ -161,7 +151,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   Future<UpdateWebShopOrderResponse> updateWebShopOrder(int id, WebShopPlaceOrderPayload payload) async {
     try {
       final str = json.encode(payload.toJson());
-      final response = await _restClient.request(Urls.updateWebShopOrder(id), Method.PATCH, payload.toJson());
+      await _restClient.request(Urls.updateWebShopOrder(id), Method.PATCH, payload.toJson());
       return UpdateWebShopOrderResponse(message: 'Order Successfully Updated');
     } on DioException {
       rethrow;

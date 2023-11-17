@@ -14,7 +14,11 @@ import '../entities/modifier/item_modifier_group.dart';
 import '../entities/order_source.dart';
 
 abstract class AddOrderRepository {
-  Future<Either<Failure, List<MenuItemModifierGroup>>> fetchModifiers({required int itemId, required MenuBranchInfo branchInfo});
+  Future<Either<Failure, List<MenuItemModifierGroup>>> fetchModifiers({
+    required int itemId,
+    required MenuBranchInfo branchInfo,
+    required int type,
+  });
 
   Future<Either<Failure, CartBill>> calculateBill({required BillingRequestModel model});
 

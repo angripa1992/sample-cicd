@@ -128,7 +128,7 @@ class OrderEntityProvider {
       statuses: item.visibilities.map((visibility) => _statusModel(item.enabled, visibility)).toList(),
       prices: item.prices.map((e) => _priceModel(e)).toList(),
       groups: groups,
-      unitPrice: cartItem.itemPrice.price,
+      unitPrice: cartItem.itemPrice.advancePrice(CartManager().type),
       discountValue: cartItem.discountValue,
       discountType: cartItem.discountType,
       comment: cartItem.itemInstruction,
@@ -137,7 +137,7 @@ class OrderEntityProvider {
       promoDiscount: promoDiscount,
       klkitID: item.id,
       klkitName: item.title,
-      klikitPrice: cartItem.itemPrice.price,
+      klikitPrice: cartItem.itemPrice.advancePrice(CartManager().type),
       klikitSkuID: item.skuID,
       klikitImage: item.image,
       klikitSectionID: item.sectionID,
@@ -214,7 +214,7 @@ class OrderEntityProvider {
         providerId: price.providerId,
         currencyId: price.currencyId,
         code: price.currencyCode,
-        price: price.price,
+        price: price.advancePrice(CartManager().type),
       );
 
   ItemBrandRequestModel _toBrandModel(Brand brand) => ItemBrandRequestModel(

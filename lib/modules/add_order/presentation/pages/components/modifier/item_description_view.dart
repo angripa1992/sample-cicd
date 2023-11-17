@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../../core/provider/image_url_provider.dart';
 import '../../../../../../core/utils/price_calculator.dart';
@@ -104,7 +105,7 @@ class ItemDescriptionView extends StatelessWidget {
                           ),
                           child: Text(
                             PriceCalculator.formatPrice(
-                              price: item.klikitPrice().price,
+                              price: item.klikitPrice().advancePrice(CartManager().type),
                               code: item.klikitPrice().currencyCode,
                               symbol: item.klikitPrice().currencySymbol,
                             ),
