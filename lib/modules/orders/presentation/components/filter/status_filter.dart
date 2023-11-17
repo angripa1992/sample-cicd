@@ -77,9 +77,9 @@ class _StatusFilterState extends State<StatusFilter> {
             padding: EdgeInsets.symmetric(
                 horizontal: AppSize.s14.rw, vertical: AppSize.s12.rh),
             child: Text(
-              AppStrings.filter_by_aggregator.tr(),
+              AppStrings.filter_by_status.tr(),
               style: regularTextStyle(
-                color: AppColors.primary,
+                color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
               ),
             ),
