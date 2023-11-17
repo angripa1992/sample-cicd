@@ -25,6 +25,9 @@ class WebShopCalculateBillResponse {
   num? reservedKlikitFeeCent;
   num? totalPromoDiscount;
   num? totalPromoDiscountCent;
+  num? merchantTotalPriceCent;
+  num? merchantTotalPrice;
+  bool? feePaidByCustomer;
   Promo? appliedPromo;
 
   WebShopCalculateBillResponse({
@@ -50,6 +53,9 @@ class WebShopCalculateBillResponse {
     this.reservedKlikitFeeCent,
     this.totalPromoDiscount,
     this.totalPromoDiscountCent,
+    this.merchantTotalPriceCent,
+    this.merchantTotalPrice,
+    this.feePaidByCustomer,
     this.appliedPromo,
   });
 
@@ -81,6 +87,9 @@ class WebShopCalculateBillResponse {
     reservedKlikitFeeCent = json['reserved_klikit_fee_cent'];
     totalPromoDiscount = json['total_promo_discount'];
     totalPromoDiscountCent = json['total_promo_discount_cent'];
+    merchantTotalPriceCent = json['merchant_total_price_cent'];
+    merchantTotalPrice = json['merchant_total_price'];
+    feePaidByCustomer = json['fee_paid_by_customer'];
     appliedPromo = json['applied_promo'] != null ? Promo.fromJson(json['applied_promo']) : null;
   }
 
@@ -111,6 +120,9 @@ class WebShopCalculateBillResponse {
       appliedPromo: appliedPromo,
       restaurantServiceFee: restaurantServiceFee.orZero(),
       restaurantServiceFeeCent: restaurantServiceFeeCent.orZero(),
+      merchantTotalPriceCent: merchantTotalPriceCent.orZero(),
+      merchantTotalPrice: merchantTotalPrice.orZero(),
+      feePaidByCustomer: feePaidByCustomer.orFalse(),
     );
   }
 }

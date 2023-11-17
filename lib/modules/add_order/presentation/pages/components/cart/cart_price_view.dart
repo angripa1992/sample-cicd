@@ -50,17 +50,16 @@ class CartPriceView extends StatelessWidget {
               price: cartBill.subTotal,
               subtotal: true,
             ),
-            SizedBox(height: AppSize.s12.rh),
             _item(
               title: AppStrings.vat.tr(),
               price: cartBill.vatPrice,
             ),
-            SizedBox(height: AppSize.s12.rh),
+            // in web shop update cart service fee will show only if fee paid by customer is false
+            if(!cartBill.feePaidByCustomer)
             _item(
               title: AppStrings.service_fee.tr(),
-              price: cartBill.serviceFee,
+              price: cartBill.serviceFee
             ),
-            SizedBox(height: AppSize.s12.rh),
             CartManager().isWebShopOrder()
                 ? _item(
                     title: AppStrings.delivery_fee.tr(),
@@ -71,13 +70,11 @@ class CartPriceView extends StatelessWidget {
                     price: cartBill.deliveryFee,
                     onTap: onDeliveryFee,
                   ),
-            SizedBox(height: AppSize.s12.rh),
             _editableItem(
               title: AppStrings.discount.tr(),
               price: cartBill.discountAmount,
               onTap: onDiscount,
             ),
-            SizedBox(height: AppSize.s12.rh),
             CartManager().isWebShopOrder()
                 ? _item(
                     title: AppStrings.restaurant_service_fee.tr(),
@@ -88,7 +85,6 @@ class CartPriceView extends StatelessWidget {
                     price: cartBill.additionalFee,
                     onTap: onAdditionalFee,
                   ),
-            if (CartManager().isWebShopOrder()) SizedBox(height: AppSize.s12.rh),
             if (CartManager().isWebShopOrder())
               _item(
                 title: AppStrings.processing_fee.tr(),
@@ -113,24 +109,27 @@ class CartPriceView extends StatelessWidget {
       fontWeight: subtotal ? FontWeight.w500 : FontWeight.w400,
     );
     final currency = CartManager().currency();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: textStyle,
-        ),
-        Text(
-          willCalculateAtNextStep
-              ? AppStrings.calculated_at_next_step.tr()
-              : PriceCalculator.formatPrice(
-                  price: price,
-                  code: currency.code ?? EMPTY,
-                  symbol: currency.symbol ?? EMPTY,
-                ),
-          style: textStyle,
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppSize.s16.rh),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: textStyle,
+          ),
+          Text(
+            willCalculateAtNextStep
+                ? AppStrings.calculated_at_next_step.tr()
+                : PriceCalculator.formatPrice(
+                    price: price,
+                    code: currency.code ?? EMPTY,
+                    symbol: currency.symbol ?? EMPTY,
+                  ),
+            style: textStyle,
+          ),
+        ],
+      ),
     );
   }
 
