@@ -202,6 +202,15 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: AppStrings.printer_settings.tr(),
                   iconData: Icons.print,
                   onTap: () {
+                    SegmentManager().track(
+                      event: SegmentEvents.MODULE_CLICK_PRINTER_SETTINGS,
+                      properties: {
+                        'brand_ids': SessionManager().brandIDs().toString(),
+                        'branch_ids': SessionManager().branchIDs().toString(),
+                        'business_id': SessionManager().businessID(),
+                      },
+                    );
+
                     Navigator.of(context).pushNamed(Routes.printerSettings);
                   },
                 ),

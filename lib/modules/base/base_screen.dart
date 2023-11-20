@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/base/update_available_view.dart';
@@ -22,6 +23,8 @@ import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/segments/event_manager.dart';
+import 'package:klikit/segments/segemnt_data_provider.dart';
 
 import '../../app/constants.dart';
 import '../../core/utils/response_state.dart';
@@ -112,7 +115,37 @@ class _BaseScreenState extends State<BaseScreen> {
     );
   }
 
+  void trackEvents(int index) {
+    String eventName = '';
+    switch (index) {
+      case 1:
+        eventName = SegmentEvents.MODULE_CLICK_ORDER_DASHBOARD;
+        break;
+      case 2:
+        eventName = SegmentEvents.MODULE_CLICK_ADD_ORDER;
+        break;
+      case 3:
+        eventName = SessionManager().menuV2Enabled() ? SegmentEvents.MODULE_CLICK_MENU_V2 : SegmentEvents.MODULE_CLICK_MENU_V1;
+        break;
+      default:
+        break;
+    }
+
+    if (eventName.isNotEmpty) {
+      SegmentManager().track(
+        event: eventName,
+        properties: {
+          'brand_ids': SessionManager().brandIDs().toString(),
+          'branch_ids': SessionManager().branchIDs().toString(),
+          'business_id': SessionManager().businessID(),
+        },
+      );
+    }
+  }
+
   void _selectedTab(int index) {
+    trackEvents(index);
+
     if (index == BottomNavItem.ADD_ORDER) {
       _goToAddOrderScreen();
     } else {

@@ -79,6 +79,8 @@ class SessionManager {
 
   List<int> brandIDs() => _user?.brandIDs ?? [];
 
+  List<int> branchIDs() => _user?.branchIDs ?? [];
+
   List<String> brandTitles() => _user?.brandTitles ?? [];
 
   bool firstLogin() => _user?.firstLogin ?? false;
