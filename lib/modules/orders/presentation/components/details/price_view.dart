@@ -81,6 +81,13 @@ class _PriceViewState extends State<PriceView> {
                       AppStrings.additional_fee.tr(),
                       widget.order.additionalFee,
                     ),
+                  if (widget.order.restaurantServiceFee > 0)
+                    _priceBreakdownItem(
+                      AppStrings.restaurant_service_fee.tr(),
+                      widget.order.restaurantServiceFee,
+                    ),
+                  //TODO if feePaidByCustomer is true then processing fee and service fee will not show otherwise, show in negative value
+                  // TODO if provider will be klikit and not 3pl order then delivery fee will show else not show
                   if (widget.order.serviceFee > 0)
                     _priceBreakdownItem(
                       AppStrings.service_fee.tr(),
@@ -91,17 +98,11 @@ class _PriceViewState extends State<PriceView> {
                       AppStrings.processing_fee.tr(),
                       widget.order.gatewayFee,
                     ),
-                  if (widget.order.restaurantServiceFee > 0)
-                    _priceBreakdownItem(
-                      AppStrings.restaurant_service_fee.tr(),
-                      widget.order.restaurantServiceFee,
-                    ),
                   if (widget.order.discount > 0)
                     _priceBreakdownItem(
                       '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
                       widget.order.discount,
-                      color: AppColors.red,
-                      isDiscount: true,
+                      showNegative: true,
                     ),
                 ],
               ),
@@ -157,11 +158,10 @@ class _PriceViewState extends State<PriceView> {
   Widget _priceBreakdownItem(
     String name,
     num price, {
-    Color? color,
-    bool isDiscount = false,
+    bool showNegative = false,
   }) {
     final textStyle = TextStyle(
-      color: color ?? AppColors.black,
+      color: showNegative ? AppColors.red : AppColors.black,
       fontSize: AppFontSize.s14.rSp,
       fontWeight: AppFontWeight.regular,
     );
@@ -172,7 +172,7 @@ class _PriceViewState extends State<PriceView> {
         children: [
           Text(name, style: textStyle),
           Text(
-            '${isDiscount ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
+            '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
             style: textStyle,
           ),
         ],
