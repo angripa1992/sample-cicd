@@ -5,6 +5,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
@@ -38,6 +39,7 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final _languageManager = getIt.get<LanguageManager>();
+  final _businessInfoProvider = getIt.get<BusinessInformationProvider>();
 
   @override
   void initState() {
@@ -111,6 +113,18 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
           ),
         );
+      },
+    );
+  }
+
+  void trackPrinterSettingsClickEvent() async {
+    final brandIds = await _businessInfoProvider.findBrandsIds();
+    SegmentManager().track(
+      event: SegmentEvents.MODULE_CLICK_PRINTER_SETTINGS,
+      properties: {
+        'brand_ids': brandIds.toString(),
+        'branch_ids': SessionManager().branchIDs().toString(),
+        'business_id': SessionManager().businessID(),
       },
     );
   }
@@ -202,14 +216,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: AppStrings.printer_settings.tr(),
                   iconData: Icons.print,
                   onTap: () {
-                    SegmentManager().track(
-                      event: SegmentEvents.MODULE_CLICK_PRINTER_SETTINGS,
-                      properties: {
-                        'brand_ids': SessionManager().brandIDs().toString(),
-                        'branch_ids': SessionManager().branchIDs().toString(),
-                        'business_id': SessionManager().businessID(),
-                      },
-                    );
+                    trackPrinterSettingsClickEvent();
 
                     Navigator.of(context).pushNamed(Routes.printerSettings);
                   },

@@ -8,6 +8,7 @@ import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/base/update_available_view.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/new_order_cubit.dart';
@@ -51,6 +52,7 @@ class _BaseScreenState extends State<BaseScreen> {
   final _appPreferences = getIt.get<AppPreferences>();
   final _printingHandler = getIt.get<PrintingHandler>();
   final _languageManager = getIt.get<LanguageManager>();
+  final _businessInfoProvider = getIt.get<BusinessInformationProvider>();
 
   @override
   void initState() {
@@ -115,7 +117,7 @@ class _BaseScreenState extends State<BaseScreen> {
     );
   }
 
-  void trackEvents(int index) {
+  void trackEvents(int index) async {
     String eventName = '';
     switch (index) {
       case 1:
@@ -132,10 +134,11 @@ class _BaseScreenState extends State<BaseScreen> {
     }
 
     if (eventName.isNotEmpty) {
+      final brandIds = await _businessInfoProvider.findBrandsIds();
       SegmentManager().track(
         event: eventName,
         properties: {
-          'brand_ids': SessionManager().brandIDs().toString(),
+          'brand_ids': brandIds.toString(),
           'branch_ids': SessionManager().branchIDs().toString(),
           'business_id': SessionManager().businessID(),
         },
