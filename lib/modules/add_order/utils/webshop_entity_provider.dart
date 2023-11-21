@@ -30,9 +30,8 @@ class WebShopEntityProvider {
   }) async {
     final branch = await getIt.get<BusinessInformationProvider>().branchInfo();
     final cartItem = cartItems.first;
-    final orderPromoInfo = CartManager().getPromoInfo();
-    final updateCartInfo = CartManager().getUpdateCartInfo();
-    final editInfo = CartManager().getEditInfo();
+    final orderPromoInfo = CartManager().promoInfo;
+    final updateCartInfo = CartManager().updateCartInfo;
     final cart = <WebShopCartItemPayload>[];
     for (var element in cartItems) {
       final item = await _cartItem(element, branch!);
@@ -42,7 +41,7 @@ class WebShopEntityProvider {
       branchId: branch!.id,
       orderHash: updateCartInfo?.orderHash,
       appliedPromo: orderPromoInfo?.promo,
-      orderType: editInfo?.type,
+      orderType: CartManager().orderType,
       currency: BillingCurrency(
         id: cartItem.itemPrice.currencyId,
         code: cartItem.itemPrice.currencyCode,
@@ -62,7 +61,7 @@ class WebShopEntityProvider {
       itemId: cartItem.item.id,
       itemName: cartItem.item.title,
       quantity: cartItem.quantity,
-      unitPrice: cartItem.itemPrice.advancePrice(CartManager().type),
+      unitPrice: cartItem.itemPrice.advancePrice(CartManager().orderType),
       vat: cartItem.item.vat,
       groups: groups,
     );
@@ -70,19 +69,18 @@ class WebShopEntityProvider {
 
   WebShopModifierGroupPayload webShopModifierGroup(MenuItemModifierGroup group, List<WebShopModifierPayload> modifiers) {
     return WebShopModifierGroupPayload(
-      groupId: group.groupId,
-      rule: MenuItemModifierRuleModel(
-        id: group.rule.id,
-        title: group.rule.title,
-        typeTitle: group.rule.typeTitle,
-        value: group.rule.value,
-        brandId: group.rule.brandId,
-        min: group.rule.min,
-        max: group.rule.max,
-      ),
-      modifiers: modifiers,
-      title: group.title
-    );
+        groupId: group.groupId,
+        rule: MenuItemModifierRuleModel(
+          id: group.rule.id,
+          title: group.rule.title,
+          typeTitle: group.rule.typeTitle,
+          value: group.rule.value,
+          brandId: group.rule.brandId,
+          min: group.rule.min,
+          max: group.rule.max,
+        ),
+        modifiers: modifiers,
+        title: group.title);
   }
 
   WebShopModifierPayload webShopModifier(MenuItemModifier modifier, List<WebShopModifierGroupPayload> groups) {
@@ -98,10 +96,9 @@ class WebShopEntityProvider {
   }
 
   Future<WebShopPlaceOrderPayload> placeOrderPayload(CartBill bill) async {
-    final customerInfo = CartManager().getCustomerInfo();
-    final editInfo = CartManager().getEditInfo();
-    final currency = CartManager().currency();
-    final items = CartManager().items();
+    final customerInfo = CartManager().customerInfo;
+    final currency = CartManager().currency;
+    final items = CartManager().items;
     final tz = await DateTimeProvider.timeZone();
     final branch = await getIt.get<BusinessInformationProvider>().branchInfo();
     int totalItems = 0;
@@ -126,8 +123,8 @@ class WebShopEntityProvider {
       totalItems: totalItems,
       tz: tz,
       updateCartNote: 'something changed',
-      orderComment: editInfo?.comment,
-      orderType: editInfo?.type,
+      orderComment: CartManager().orderComment,
+      orderType: CartManager().orderType,
       branchId: branch?.id,
       tableNo: customerInfo?.tableNo,
       currency: currency,
@@ -159,7 +156,7 @@ class WebShopEntityProvider {
           providerId: cartItem.item.klikitPrice().providerId,
           currencyId: cartItem.item.klikitPrice().currencyId,
           code: cartItem.item.klikitPrice().currencyCode,
-          price: cartItem.item.klikitPrice().advancePrice(CartManager().type),
+          price: cartItem.item.klikitPrice().advancePrice(CartManager().orderType),
         ),
       ],
       groups: groups,

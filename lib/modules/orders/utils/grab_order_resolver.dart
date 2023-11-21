@@ -142,7 +142,7 @@ class GrabOrderResolver {
         providerGrandTotal: order.providerGrandTotal,
         providerAdditionalFee: order.providerAdditionalFee,
         preparationTime: order.preparationTime,
-        queueNo: order.queueNo,
+        queueNo: 0,
         pickupType: order.pickupType,
         additionalInfo: order.additionalInfo?.toModel(),
         canCancelRider: order.canCancelRider,

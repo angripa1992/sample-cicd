@@ -22,6 +22,7 @@ import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/add_to_cart_item.dart';
 import '../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../utils/modifier_manager.dart';
+import 'cart/type_selector.dart';
 import 'dropdown/select_categories_dropdown.dart';
 import 'menu_category_item_view.dart';
 import 'menu_item_description.dart';
@@ -30,6 +31,7 @@ class MenuCategoryItemsListView extends StatefulWidget {
   final Brand? brand;
   final List<MenuCategory> categories;
   final VoidCallback onCartTap;
+  final VoidCallback refreshMenu;
   final Function(AddToCartItem?) onAddToCart;
   final Function(List<MenuItemModifierGroup>, MenuCategoryItem, Brand) onAddModifier;
 
@@ -37,9 +39,10 @@ class MenuCategoryItemsListView extends StatefulWidget {
     Key? key,
     required this.categories,
     required this.onCartTap,
-    this.brand,
     required this.onAddToCart,
     required this.onAddModifier,
+    required this.refreshMenu,
+    this.brand,
   }) : super(key: key);
 
   @override
@@ -63,7 +66,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
     final response = await _addOrderRepository.fetchModifiers(
       itemId: item.id,
       branchInfo: item.branchInfo,
-      type: CartManager().type,
+      type: CartManager().orderType,
     );
     response.fold(
       (failure) {
@@ -175,6 +178,23 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        SizedBox(height: AppSize.s16.rh),
+        ValueListenableBuilder<int?>(
+          valueListenable: CartManager().orderTypeNotifier,
+          builder: (context, type, child) => Visibility(
+            visible: !CartManager().willUpdateOrder,
+            child: TypeSelector(
+              initialType: type ?? OrderType.DINE_IN,
+              onTypeChange: (type) {
+                if (CartManager().items.isNotEmpty) {
+                  CartManager().clearCart();
+                }
+                CartManager().orderType = type;
+                widget.refreshMenu();
+              },
+            ),
+          ),
+        ),
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: AppSize.s10.rw,

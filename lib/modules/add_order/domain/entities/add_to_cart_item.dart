@@ -67,23 +67,17 @@ class CheckoutData {
   });
 }
 
-class CartInfo {
-  final int type;
-  final int source;
+class CartFee {
   final int discountType;
   final num discountValue;
   final num additionalFee;
   final num deliveryFee;
-  final String comment;
 
-  CartInfo({
-    required this.type,
-    required this.source,
+  CartFee({
     required this.discountType,
     required this.discountValue,
     required this.additionalFee,
     required this.deliveryFee,
-    required this.comment,
   });
 }
 

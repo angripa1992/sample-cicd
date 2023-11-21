@@ -136,7 +136,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       providerGrandTotal: json['provider_grand_total'] as num?,
       providerAdditionalFee: json['provider_additional_fee'] as num?,
       preparationTime: json['preparation_time'] as num?,
-      queueNo: json['queue_no'] as String?,
+      queueNo: json['order_queue'] as int?,
       pickupType: json['pickup_type'] as int?,
       additionalInfo: json['additional_info'] == null
           ? null
@@ -241,7 +241,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'item_applied_promos':
           instance.itemAppliedPromos?.map((e) => e.toJson()).toList(),
       'preparation_time': instance.preparationTime,
-      'queue_no': instance.queueNo,
+      'order_queue': instance.queueNo,
       'pickup_type': instance.pickupType,
       'additional_info': instance.additionalInfo?.toJson(),
       'can_cancel_rider': instance.canCancelRider,

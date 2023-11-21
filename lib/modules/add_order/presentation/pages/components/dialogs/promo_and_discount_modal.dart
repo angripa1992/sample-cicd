@@ -105,7 +105,7 @@ class _OrderDiscountModalViewState extends State<OrderDiscountModalView> {
       children: [
         _appBar(),
         Visibility(
-          visible: !CartManager().isWebShopOrder(),
+          visible: !CartManager().isWebShopOrder,
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,

@@ -27,21 +27,11 @@ class OrdersModel {
   Map<String, dynamic> toJson() => _$OrdersModelToJson(this);
 
   Orders emptyObject() {
-    return Orders(
-      data: [],
-      total: 0,
-      page: 0,
-      size: 0,
-    );
+    return Orders(data: [], total: 0, page: 0, size: 0);
   }
 
   Orders toEntity(List<Order> ordersWithSource) {
-    return Orders(
-      data: ordersWithSource,
-      total: total.orZero(),
-      page: page.orZero(),
-      size: size.orZero(),
-    );
+    return Orders(data: ordersWithSource, total: total.orZero(), page: page.orZero(), size: size.orZero());
   }
 }
 
@@ -220,8 +210,8 @@ class OrderModel {
   List<AppliedPromoInfo>? itemAppliedPromos;
   @JsonKey(name: 'preparation_time')
   num? preparationTime;
-  @JsonKey(name: 'queue_no')
-  String? queueNo;
+  @JsonKey(name: 'order_queue')
+  int? queueNo;
   @JsonKey(name: 'pickup_type')
   int? pickupType;
   @JsonKey(name: 'additional_info')
@@ -428,7 +418,7 @@ class OrderModel {
       providerGrandTotal: providerGrandTotal.orZero(),
       providerAdditionalFee: providerAdditionalFee.orZero(),
       preparationTime: preparationTime.orZero(),
-      queueNo: queueNo.orEmpty(),
+      queueNo: queueNo?.toString() ?? EMPTY,
       pickupType: pickupType.orZero(),
       additionalInfo: additionalInfo?.toEntity(),
       canCancelRider: canCancelRider.orFalse(),

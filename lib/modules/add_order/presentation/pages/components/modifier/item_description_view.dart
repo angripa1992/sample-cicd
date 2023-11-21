@@ -54,8 +54,7 @@ class ItemDescriptionView extends StatelessWidget {
                 placeholder: (context, url) => Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
-                    child:
-                        CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
+                    child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
                   ),
                 ),
                 errorWidget: (context, url, error) => Padding(
@@ -105,7 +104,7 @@ class ItemDescriptionView extends StatelessWidget {
                           ),
                           child: Text(
                             PriceCalculator.formatPrice(
-                              price: item.klikitPrice().advancePrice(CartManager().type),
+                              price: item.klikitPrice().advancePrice(CartManager().orderType),
                               code: item.klikitPrice().currencyCode,
                               symbol: item.klikitPrice().currencySymbol,
                             ),

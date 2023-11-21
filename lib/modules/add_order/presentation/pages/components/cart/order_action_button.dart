@@ -29,7 +29,7 @@ class OrderActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currency = CartManager().currency();
+    final currency = CartManager().currency;
     return Container(
       color: AppColors.white,
       padding: EdgeInsets.symmetric(

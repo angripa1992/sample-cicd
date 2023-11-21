@@ -50,7 +50,7 @@ class _AddModifierViewState extends State<AddModifierView> {
   @override
   void initState() {
     _itemPrice = widget.item.klikitPrice();
-    _priceNotifier.value = _itemPrice.advancePrice(CartManager().type);
+    _priceNotifier.value = _itemPrice.advancePrice(CartManager().orderType);
     ModifierManager().verifyRules(widget.groups).then((value) => _enabledNotifier.value = value);
     super.initState();
   }
@@ -78,7 +78,7 @@ class _AddModifierViewState extends State<AddModifierView> {
   }
 
   void _changePrice() {
-    final totalPrice = (_modifierPrice + _itemPrice.advancePrice(CartManager().type)) * _quantity;
+    final totalPrice = (_modifierPrice + _itemPrice.advancePrice(CartManager().orderType)) * _quantity;
     if (_priceNotifier.value != totalPrice) {
       _priceNotifier.value = totalPrice;
     }

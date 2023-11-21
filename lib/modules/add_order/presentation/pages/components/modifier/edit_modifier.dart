@@ -89,7 +89,7 @@ class _EditModifierViewState extends State<EditModifierView> {
   }
 
   void _changePrice() {
-    final totalPrice = (_modifierPrice + _itemPrice.advancePrice(CartManager().type)) * _quantity;
+    final totalPrice = (_modifierPrice + _itemPrice.advancePrice(CartManager().orderType)) * _quantity;
     if (_price.value != totalPrice) {
       _price.value = totalPrice;
     }

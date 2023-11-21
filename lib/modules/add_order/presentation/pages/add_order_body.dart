@@ -75,6 +75,65 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     );
   }
 
+  Widget _body(List<Brand> brands) {
+    return Column(
+      children: [
+        ValueListenableBuilder<Brand?>(
+          valueListenable: _changeBrandNotifier,
+          builder: (_, initialBrand, __) {
+            return BrandSelectorAppBar(
+              brands: brands,
+              onChanged: (brand) {
+                _selectedBrand = brand;
+                _fetchMenus(brand);
+              },
+              onBack: widget.onBack,
+              onCartTap: _gotoCart,
+              initialBrand: initialBrand,
+            );
+          },
+        ),
+        Expanded(
+          child: BlocBuilder<FetchAddOrderMenuItemsCubit, ResponseState>(
+            builder: (context, state) {
+              if (state is Loading) {
+                EasyLoading.show();
+                return const SizedBox();
+              } else if (state is Success<List<MenuCategory>>) {
+                EasyLoading.dismiss();
+                if (state.data.isEmpty) {
+                  return Center(
+                    child: Text(AppStrings.no_item_found.tr()),
+                  );
+                }
+                return MenuCategoryItemsListView(
+                  categories: state.data,
+                  brand: _selectedBrand,
+                  onCartTap: _gotoCart,
+                  onAddToCart: _addToCart,
+                  onAddModifier: (groups, item, brand) {
+                    _addModifier(groups: groups, item: item, brand: brand);
+                  },
+                  refreshMenu: () {
+                    _fetchMenus(_selectedBrand);
+                  },
+                );
+              }
+              EasyLoading.dismiss();
+              return const EmptyBrandView();
+            },
+          ),
+        ),
+        Container(
+          color: AppColors.greyLight,
+          child: GoToCartButton(
+            onGotoCart: _gotoCart,
+          ),
+        ),
+      ],
+    );
+  }
+
   void _gotoCart() {
     showModalBottomSheet<void>(
       context: context,
@@ -233,63 +292,8 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     );
   }
 
-  Widget _body(List<Brand> brands) {
-    return Column(
-      children: [
-        ValueListenableBuilder<Brand?>(
-          valueListenable: _changeBrandNotifier,
-          builder: (_, initialBrand, __) {
-            return BrandSelectorAppBar(
-              brands: brands,
-              onChanged: (brand) {
-                _selectedBrand = brand;
-                context.read<FetchAddOrderMenuItemsCubit>().fetchSubsection(brand);
-              },
-              onBack: widget.onBack,
-              onCartTap: _gotoCart,
-              initialBrand: initialBrand,
-            );
-          },
-        ),
-        Expanded(
-          child: BlocBuilder<FetchAddOrderMenuItemsCubit, ResponseState>(
-            builder: (context, state) {
-              if (state is Loading) {
-                EasyLoading.show();
-                return const SizedBox();
-              } else if (state is Success<List<MenuCategory>>) {
-                EasyLoading.dismiss();
-                if (state.data.isEmpty) {
-                  return Center(
-                    child: Text(AppStrings.no_item_found.tr()),
-                  );
-                }
-                return MenuCategoryItemsListView(
-                  categories: state.data,
-                  brand: _selectedBrand,
-                  onCartTap: _gotoCart,
-                  onAddToCart: _addToCart,
-                  onAddModifier: (groups, item, brand) {
-                    _addModifier(
-                      groups: groups,
-                      item: item,
-                      brand: brand,
-                    );
-                  },
-                );
-              }
-              EasyLoading.dismiss();
-              return const EmptyBrandView();
-            },
-          ),
-        ),
-        Container(
-          color: AppColors.greyLight,
-          child: GoToCartButton(
-            onGotoCart: _gotoCart,
-          ),
-        ),
-      ],
-    );
+  void _fetchMenus(Brand? brand) {
+    if (brand == null) return;
+    context.read<FetchAddOrderMenuItemsCubit>().fetchSubsection(brand);
   }
 }

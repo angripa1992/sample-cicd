@@ -30,7 +30,6 @@ class MenuAdvancedPriceTags extends StatelessWidget {
               runSpacing: AppSize.s8.rh,
               spacing: AppSize.s8.rw,
               children: [
-                if (price.takeAwayPrice > 0) _priceTag('Takeaway', price.takeAwayPrice, price.currencyCode, price.currencySymbol),
                 if (price.advancedPrice.dineIn > 0) _priceTag('Dine In', price.advancedPrice.dineIn, price.currencyCode, price.currencySymbol),
                 if (price.advancedPrice.pickup > 0) _priceTag('Pick Up', price.advancedPrice.pickup, price.currencyCode, price.currencySymbol),
                 if (price.advancedPrice.delivery > 0) _priceTag('Delivery', price.advancedPrice.delivery, price.currencyCode, price.currencySymbol),

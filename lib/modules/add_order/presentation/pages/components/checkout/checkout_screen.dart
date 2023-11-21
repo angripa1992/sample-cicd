@@ -45,14 +45,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   void initState() {
-    final paymentInfo = CartManager().getPaymentInfo();
+    final paymentInfo = CartManager().paymentInfo;
     if (paymentInfo != null) {
       _paymentMethod = paymentInfo.paymentMethod;
       _paymentChannel = paymentInfo.paymentChannel;
       _paymentMethodNotifier.value = paymentInfo.paymentMethod;
       _paymentStatus = paymentInfo.paymentStatus;
     }
-    _customerInfo = CartManager().getCustomerInfo();
+    _customerInfo = CartManager().customerInfo;
     super.initState();
   }
 
@@ -139,7 +139,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             },
             builder: (context, state) {
               return OrderActionButton(
-                buttonText: CartManager().willUpdateOrder() ? AppStrings.update_order.tr() : AppStrings.placed_order.tr(),
+                buttonText: CartManager().willUpdateOrder ? AppStrings.update_order.tr() : AppStrings.placed_order.tr(),
                 enable: state is Loading ? false : true,
                 totalPrice: widget.checkoutData.cartBill.totalPrice,
                 onProceed: _placeOrder,

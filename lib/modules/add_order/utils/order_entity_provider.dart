@@ -42,7 +42,7 @@ class OrderEntityProvider {
     required num deliveryFee,
   }) async {
     final cartItem = cartItems.first;
-    final orderPromoInfo = CartManager().getPromoInfo();
+    final orderPromoInfo = CartManager().promoInfo;
     return BillingRequestModel(
       businessId: cartItem.item.branchInfo.businessID,
       orderType: orderType,
@@ -128,7 +128,7 @@ class OrderEntityProvider {
       statuses: item.visibilities.map((visibility) => _statusModel(item.enabled, visibility)).toList(),
       prices: item.prices.map((e) => _priceModel(e)).toList(),
       groups: groups,
-      unitPrice: cartItem.itemPrice.advancePrice(CartManager().type),
+      unitPrice: cartItem.itemPrice.advancePrice(CartManager().orderType),
       discountValue: cartItem.discountValue,
       discountType: cartItem.discountType,
       comment: cartItem.itemInstruction,
@@ -137,7 +137,7 @@ class OrderEntityProvider {
       promoDiscount: promoDiscount,
       klkitID: item.id,
       klkitName: item.title,
-      klikitPrice: cartItem.itemPrice.advancePrice(CartManager().type),
+      klikitPrice: cartItem.itemPrice.advancePrice(CartManager().orderType),
       klikitSkuID: item.skuID,
       klikitImage: item.image,
       klikitSectionID: item.sectionID,
@@ -214,7 +214,7 @@ class OrderEntityProvider {
         providerId: price.providerId,
         currencyId: price.currencyId,
         code: price.currencyCode,
-        price: price.advancePrice(CartManager().type),
+        price: price.advancePrice(CartManager().orderType),
       );
 
   ItemBrandRequestModel _toBrandModel(Brand brand) => ItemBrandRequestModel(
@@ -240,7 +240,7 @@ class OrderEntityProvider {
       totalItems += element.quantity ?? 0;
     }
     final uniqueItems = cartItems.length;
-    final currency = CartManager().currency();
+    final currency = CartManager().currency;
     CustomerInfoModel user = CustomerInfoModel();
     if (info != null) {
       user.firstName = info.firstName.notEmptyOrNull();
@@ -248,7 +248,7 @@ class OrderEntityProvider {
       user.email = info.email.notEmptyOrNull();
       user.phone = info.phone.notEmptyOrNull();
     }
-    final updateInfo = CartManager().getUpdateCartInfo();
+    final updateInfo = CartManager().updateCartInfo;
     final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
     return PlaceOrderDataRequestModel(
       id: updateInfo?.orderID,

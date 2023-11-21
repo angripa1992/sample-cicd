@@ -144,7 +144,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                       ),
                       child: Text(
                         PriceCalculator.formatPrice(
-                          price: itemPrice.advancePrice(CartManager().type),
+                          price: itemPrice.advancePrice(CartManager().orderType),
                           code: itemPrice.currencyCode,
                           symbol: itemPrice.currencySymbol,
                         ),

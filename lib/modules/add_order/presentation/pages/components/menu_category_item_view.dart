@@ -17,7 +17,12 @@ class MenuCategoryItemView extends StatelessWidget {
   final MenuDay dayInfo;
   final VoidCallback onAddItem;
 
-  const MenuCategoryItemView({Key? key, required this.menuItem, required this.dayInfo, required this.onAddItem}) : super(key: key);
+  const MenuCategoryItemView({
+    Key? key,
+    required this.menuItem,
+    required this.dayInfo,
+    required this.onAddItem,
+  }) : super(key: key);
 
   Availability _checkAvailability() {
     if (!menuItem.outOfStock.available) {
@@ -65,7 +70,7 @@ class MenuCategoryItemView extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
                           child: Text(
                             PriceCalculator.formatPrice(
-                              price: menuItemPrice.advancePrice(CartManager().type),
+                              price: menuItemPrice.advancePrice(CartManager().orderType),
                               code: menuItemPrice.currencyCode,
                               symbol: menuItemPrice.currencySymbol,
                             ),
