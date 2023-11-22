@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/resources/styles.dart';
 
 class KTButton extends StatelessWidget {
@@ -33,7 +34,12 @@ class KTButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Visibility(visible: controller.loaded == false, child: const CircularProgressIndicator()),
+                Visibility(
+                    visible: controller.loaded == false,
+                    child: CircularProgress(
+                      size: 16.rSp,
+                      strokeWidth: 2.rSp,
+                    )),
                 SizedBox(width: 5.rw),
                 Text(
                   controller.label,
