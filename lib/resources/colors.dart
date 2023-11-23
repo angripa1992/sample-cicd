@@ -28,6 +28,8 @@ class AppColors {
   static Color greyDark = const Color(0xFFCFD8DC);
   static Color greyLight = const Color(0xFFf4f5f7);
   static Color greyLighter = const Color(0xFFfafafa);
+  static Color greyBright = const Color(0xFFEBEBEB);
+  static Color errorR300 = const Color(0xFFF43F5E);
 
   static Color white = const Color(0xFFFFFFFF);
 
