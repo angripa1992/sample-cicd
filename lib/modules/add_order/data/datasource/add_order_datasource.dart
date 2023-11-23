@@ -4,13 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:klikit/modules/add_order/data/models/update_webshop_order_response.dart';
 import 'package:klikit/modules/add_order/data/models/webshop_calculate_bill_response.dart';
 
-import '../../../../app/di.dart';
 import '../../../../app/enums.dart';
 import '../../../../app/session_manager.dart';
 import '../../../../core/network/rest_client.dart';
 import '../../../../core/network/urls.dart';
 import '../../../../core/provider/date_time_provider.dart';
-import '../../../../env/environment_variables.dart';
 import '../../../menu/domain/entities/menu/menu_branch_info.dart';
 import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../mapper/v1_modifier_to_modifier.dart';
@@ -69,6 +67,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
             'branchID': branchInfo.branchID,
           },
         );
+        final str = jsonEncode(response);
         if (response != null && response.isNotEmpty) {
           final modifierGroupsResponse = response.first as List<dynamic>;
           final v2Modifiers = modifierGroupsResponse.map((e) => V2ItemModifierGroupModel.fromJson(e)).toList();
@@ -143,7 +142,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     try {
       final str = json.encode(model.toJson());
       final response = await _restClient.request(
-        '${getIt.get<EnvironmentVariables>().consumerUrl}${Urls.webShopCalculateBill}',
+        Urls.webShopCalculateBill,
         Method.POST,
         model.toJson(),
       );

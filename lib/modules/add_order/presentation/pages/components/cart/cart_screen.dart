@@ -215,10 +215,11 @@ class _CartScreenState extends State<CartScreen> {
                   }
                 },
                 builder: (context, state) {
+                  //if webshop update order and fee paid by customer is true then merchant total price will show else totalPrice will show
                   return OrderActionButton(
                     buttonText: AppStrings.update_order.tr(),
                     enable: state is Loading ? false : true,
-                    totalPrice: _cartBill!.totalPrice,
+                    totalPrice: _cartBill!.feePaidByCustomer ? _cartBill!.merchantTotalPrice : _cartBill!.totalPrice,
                     onProceed: _updateWebShopOrder,
                     loading: state is Loading,
                   );
