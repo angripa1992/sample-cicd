@@ -71,32 +71,33 @@ class _PriceViewState extends State<PriceView> {
               ),
               child: Column(
                 children: [
-                  if (widget.order.vat > 0)
-                    _priceBreakdownItem(
-                      _vatTitle(widget.order),
-                      widget.order.vat,
-                    ),
-                  if (widget.order.additionalFee > 0)
-                    _priceBreakdownItem(
-                      AppStrings.additional_fee.tr(),
-                      widget.order.additionalFee,
-                    ),
+                  if (widget.order.vat > 0) _priceBreakdownItem(_vatTitle(widget.order), widget.order.vat),
+                  if (widget.order.additionalFee > 0) _priceBreakdownItem(AppStrings.additional_fee.tr(), widget.order.additionalFee),
                   if (widget.order.restaurantServiceFee > 0)
                     _priceBreakdownItem(
                       AppStrings.restaurant_service_fee.tr(),
                       widget.order.restaurantServiceFee,
                     ),
-                  //TODO if feePaidByCustomer is true then processing fee and service fee will not show otherwise, show in negative value
-                  // TODO if provider will be klikit and not 3pl order then delivery fee will show else not show
-                  if (widget.order.serviceFee > 0)
+                  //  only if klikit order + not 0 + (manual order or (delivery order + not 3PL order))
+                  if (widget.order.providerId == ProviderID.KLIKIT &&
+                      widget.order.deliveryFee > 0 &&
+                      (widget.order.isManualOrder || (widget.order.type == OrderType.DELIVERY && !widget.order.isThreePlOrder)))
+                    _priceBreakdownItem(
+                      AppStrings.delivery_fee.tr(),
+                      widget.order.deliveryFee,
+                    ),
+                  //  only if klikit order + not 0 + not paid by customer. (displayed with (-) sign in front)
+                  if (widget.order.providerId == ProviderID.KLIKIT && widget.order.serviceFee > 0 && !widget.order.feePaidByCustomer)
                     _priceBreakdownItem(
                       AppStrings.service_fee.tr(),
                       widget.order.serviceFee,
+                      showNegative: true,
                     ),
-                  if (widget.order.gatewayFee > 0)
+                  if (widget.order.providerId == ProviderID.KLIKIT && widget.order.serviceFee > 0 && !widget.order.feePaidByCustomer)
                     _priceBreakdownItem(
                       AppStrings.processing_fee.tr(),
                       widget.order.gatewayFee,
+                      showNegative: true,
                     ),
                   if (widget.order.discount > 0)
                     _priceBreakdownItem(

@@ -143,6 +143,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
           : AdditionalInfoModel.fromJson(
               json['additional_info'] as Map<String, dynamic>),
       canCancelRider: json['can_cancel_rider'] as bool?,
+      feePaidByCustomer: json['fee_paid_by_customer'] as bool?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -244,6 +245,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'pickup_type': instance.pickupType,
       'additional_info': instance.additionalInfo?.toJson(),
       'can_cancel_rider': instance.canCancelRider,
+      'fee_paid_by_customer': instance.feePaidByCustomer,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

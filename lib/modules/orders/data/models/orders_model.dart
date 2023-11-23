@@ -228,6 +228,8 @@ class OrderModel {
   AdditionalInfoModel? additionalInfo;
   @JsonKey(name: 'can_cancel_rider')
   bool? canCancelRider;
+  @JsonKey(name: 'fee_paid_by_customer')
+  bool? feePaidByCustomer;
 
   OrderModel({
     this.id,
@@ -325,6 +327,7 @@ class OrderModel {
     this.pickupType,
     this.additionalInfo,
     this.canCancelRider,
+    this.feePaidByCustomer,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -429,6 +432,7 @@ class OrderModel {
       pickupType: pickupType.orZero(),
       additionalInfo: additionalInfo?.toEntity(),
       canCancelRider: canCancelRider.orFalse(),
+      feePaidByCustomer: feePaidByCustomer.orFalse(),
     );
   }
 }
@@ -648,7 +652,6 @@ class AdditionalInfoModel {
   factory AdditionalInfoModel.fromJson(Map<String, dynamic> json) => _$AdditionalInfoModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$AdditionalInfoModelToJson(this);
-
 
   AdditionalInfo toEntity() {
     return AdditionalInfo(vehicleInfo: vehicleInfo?.toEntity());
