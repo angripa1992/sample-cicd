@@ -6,6 +6,6 @@ All notable changes to this project will be documented in this file from now on.
 
 ### Added
 
-- Introduce asset resolver [#MOB-81]
+- Asset resolver introduced [#MOB-81]
 
 ### Fixed
