@@ -138,10 +138,7 @@ class OrderItemView extends StatelessWidget {
               TextButton(
                 style: TextButton.styleFrom(
                   minimumSize: Size.zero,
-                  padding: EdgeInsets.only(
-                    top: AppSize.s10.rh,
-                    bottom: AppSize.s4.rh,
-                  ),
+                  padding: EdgeInsets.only(top: AppSize.s10.rh, bottom: AppSize.s4.rh),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: seeDetails,
