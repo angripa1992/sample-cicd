@@ -54,7 +54,7 @@ class CartPriceView extends StatelessWidget {
                 title: AppStrings.service_fee.tr(),
                 price: cartBill.serviceFee,
               ),
-            CartManager().isWebShopOrder()
+            CartManager().isWebShopOrder
                 ? _item(
                     title: AppStrings.delivery_fee.tr(),
                     price: cartBill.deliveryFee,

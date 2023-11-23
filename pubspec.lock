@@ -355,7 +355,7 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "220_changes"
+      ref: master
       resolved-ref: "5e6b345f255e7fb44d1534590de5b5f4fd6ab7fd"
       url: "https://github.com/klikit/docket_design_template.git"
     source: git
