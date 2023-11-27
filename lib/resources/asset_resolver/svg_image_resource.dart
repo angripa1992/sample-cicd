@@ -12,7 +12,7 @@ class SVGImageResource implements ImageResource {
   Widget getImageWidget({double? width, double? height, Color? color, BoxFit? boxFit}) {
     return SvgPicture.asset(
       name,
-      fit: boxFit ?? BoxFit.scaleDown,
+      fit: boxFit ?? BoxFit.contain,
       height: height,
       width: width,
       color: color,
