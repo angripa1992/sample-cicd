@@ -47,13 +47,6 @@ class CartPriceView extends StatelessWidget {
               title: AppStrings.vat.tr(),
               price: cartBill.vatPrice,
             ),
-            // in web shop update cart service fee will show only if fee paid by customer is false,
-            // NOTE: for manual order always false
-            if (!cartBill.feePaidByCustomer)
-              _item(
-                title: AppStrings.service_fee.tr(),
-                price: cartBill.serviceFee,
-              ),
             CartManager().isWebShopOrder
                 ? _item(
                     title: AppStrings.delivery_fee.tr(),
@@ -79,6 +72,14 @@ class CartPriceView extends StatelessWidget {
                     price: cartBill.additionalFee,
                     onTap: onAdditionalFee,
                   ),
+            // in web shop update cart service fee will show only if fee paid by customer is false,
+            // NOTE: for manual order always false
+            //if (!cartBill.feePaidByCustomer)
+            _item(
+              title: AppStrings.service_fee.tr(),
+              price: cartBill.serviceFee,
+              willCalculateAtNextStep: CartManager().isWebShopOrder,
+            ),
             if (CartManager().isWebShopOrder)
               _item(
                 title: AppStrings.processing_fee.tr(),

@@ -146,6 +146,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
         Method.POST,
         model.toJson(),
       );
+      final str2 = json.encode(response);
       return WebShopCalculateBillResponse.fromJson(response);
     } on DioException {
       rethrow;

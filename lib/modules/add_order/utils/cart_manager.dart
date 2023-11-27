@@ -294,6 +294,16 @@ class CartManager {
     }
   }
 
+  ItemBill? findItemBill(List<ItemBill> itemsBill, AddToCartItem cartItem) {
+    for (var element in itemsBill) {
+      final index = itemsBill.indexOf(element);
+      if (element.id == cartItem.item.id && index == cartItem.cartIndex) {
+        return element;
+      }
+    }
+    return null;
+  }
+
   void clearCart() {
     _carts.clear();
     _notifyListener();

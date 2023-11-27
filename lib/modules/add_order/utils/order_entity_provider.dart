@@ -89,15 +89,12 @@ class OrderEntityProvider {
     final items = <BillingItemRequestModel>[];
     for (var item in cartsItems) {
       final groups = await ModifierManager().billingItemModifiers(item.modifiers);
-      final itemBill = itemBills.firstWhere((element) => element.id == item.item.id);
-      items.add(
-        _cartItemToBillingItem(
-          cartItem: item,
-          groups: groups,
-          promoDiscount: itemBill.promoDiscountCent,
-          promoInfo: item.promoInfo,
-        ),
-      );
+      final itemBill = CartManager().findItemBill(itemBills, item);
+      if (itemBill != null) {
+        items.add(
+          _cartItemToBillingItem(cartItem: item, groups: groups, promoDiscount: itemBill.promoDiscountCent, promoInfo: item.promoInfo),
+        );
+      }
     }
     return items;
   }

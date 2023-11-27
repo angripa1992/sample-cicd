@@ -215,11 +215,11 @@ class _CartScreenState extends State<CartScreen> {
                   }
                 },
                 builder: (context, state) {
-                  //if webshop update order and fee paid by customer is true then merchant total price will show else totalPrice will show
+                  //if webshop update order and fee paid by customer is false then merchant total price will show else totalPrice will show
                   return OrderActionButton(
                     buttonText: AppStrings.update_order.tr(),
                     enable: state is Loading ? false : true,
-                    totalPrice: _cartBill!.feePaidByCustomer ? _cartBill!.merchantTotalPrice : _cartBill!.totalPrice,
+                    totalPrice: _cartBill!.feePaidByCustomer ? _cartBill!.totalPrice : _cartBill!.merchantTotalPrice,
                     onProceed: _updateWebShopOrder,
                     loading: state is Loading,
                   );
@@ -438,10 +438,12 @@ class _CartScreenState extends State<CartScreen> {
     final cartInfo = CartManager().updateCartInfo;
     if (_cartBill == null || cartInfo == null) return;
     final orderID = cartInfo.orderID;
-    if (cartInfo.isPrePayment && cartInfo.totalPrice < _cartBill!.totalPrice) {
-      showErrorSnackBar(context, 'Total price can not be more than paid amount');
-      return;
-    }
+    /// will check in backend
+    // final calculatePrice = _cartBill!.feePaidByCustomer ? _cartBill!.merchantTotalPrice : _cartBill!.totalPrice;
+    // if (cartInfo.isPrePayment && cartInfo.totalPrice < calculatePrice) {
+    //   showErrorSnackBar(context, 'Total price can not be more than paid amount');
+    //   return;
+    // }
     context.read<UpdateWebShopOrderCubit>().updateWebShopOrder(orderID, _cartBill!);
   }
 }

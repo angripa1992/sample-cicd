@@ -109,8 +109,10 @@ class WebShopEntityProvider {
     final cartItems = <WebShopPlaceOrderCartItem>[];
     for (var item in items) {
       final groups = await ModifierManager().billingWebShopItemModifiers(item.modifiers);
-      final itemBill = bill.items.firstWhere((element) => element.id == item.item.id);
-      cartItems.add(_cartItemPayload(branchInfo: branch!, cartItem: item, itemBill: itemBill, groups: groups));
+      final itemBill = CartManager().findItemBill(bill.items, item);
+      if (itemBill != null) {
+        cartItems.add(_cartItemPayload(branchInfo: branch!, cartItem: item, itemBill: itemBill, groups: groups));
+      }
     }
     return WebShopPlaceOrderPayload(
       itemPrice: bill.subTotalCent,
