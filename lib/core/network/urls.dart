@@ -22,7 +22,8 @@ class Urls {
   static const String updateStatus = '/v1/oni/order/status';
   static const String updatePaymentInfo = '/v1/oni/manualorder/payment';
   static const String tokenRegistration = '/v1/notify-token';
-  static const String webShopCalculateBill = '/v1/oms/calculate/bill';
+  static const String webShopCalculateBill = '/v1/oni/oms/order/calculate-bill';
+ // static const String webShopCalculateBill = '/v1/oms/calculate/bill';
   static const String calculateBill = '/v1/menu/manual-order/calculate-bill';
   static const String calculateBillV2 = '/v1/menu-v2/manual-order/calculate-bill';
   static const String calculateGrabOrderBill = '/v1/oni/grabfoodorder/calculate-bill';
@@ -35,6 +36,8 @@ class Urls {
   static String findRider(int id) => '/v1/oni/order/fulfillment/dispatch/$id';
 
   static String updatePrepTime(int id) => '/v1/oni/order/$id/preparation-time';
+
+  static String cancelRider(int id) => '/v1/oni/order/$id/cancel-fulfillment';
 
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
 

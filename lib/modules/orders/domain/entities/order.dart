@@ -1,10 +1,8 @@
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
 
 import '../../../add_order/data/models/applied_promo.dart';
 import '../../../common/entities/brand.dart';
 import '../../../common/entities/source.dart';
-import '../../data/models/orders_model.dart';
 import 'additional_info.dart';
 import 'cart.dart';
 import 'delicery_info.dart';
@@ -114,6 +112,7 @@ class Order {
   final int pickupType;
   final AdditionalInfo? additionalInfo;
   final bool canCancelRider;
+  final bool feePaidByCustomer;
   bool canUpdate;
   num preparationTime;
   String klikitComment;
@@ -218,6 +217,7 @@ class Order {
     required this.pickupType,
     required this.additionalInfo,
     required this.canCancelRider,
+    required this.feePaidByCustomer,
   });
 
   Order copy() => Order(
@@ -317,100 +317,6 @@ class Order {
         pickupType: pickupType,
         additionalInfo: additionalInfo,
         canCancelRider: canCancelRider,
-      );
-
-  OrderModel toModel() => OrderModel(
-        id: id,
-        source: source,
-        status: status,
-        vat: vat,
-        type: type,
-        discount: discount,
-        currency: currency,
-        externalId: externalId,
-        shortId: shortId,
-        providerId: providerId,
-        brandName: brandName,
-        branchId: branchId,
-        itemPrice: itemPrice,
-        finalPrice: finalPrice,
-        merchantDiscount: merchantDiscount,
-        providerDiscount: providerDiscount,
-        deliveryFee: deliveryFee,
-        additionalFee: additionalFee,
-        gatewayFee: gatewayFee,
-        serviceFee: serviceFee,
-        currencySymbol: currencySymbol,
-        itemCount: itemCount,
-        uniqueItemCount: uniqueItemCount,
-        scheduledStatus: scheduledStatus,
-        scheduledTime: scheduledTime.notEmptyOrNull(),
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        userId: userId,
-        userFirstName: userFirstName,
-        userLastName: userLastName,
-        userProfilePic: userProfilePic,
-        userPhone: userPhone,
-        userEmail: userEmail,
-        brands: brands.map((e) => e.toModel()).toList(),
-        cartV2: cartV2.map((e) => e.toModel()).toList(),
-        klikitStoreId: klikitStoreId,
-        isFake: isFake,
-        isFoodpandaApiOrder: isFoodpandaApiOrder,
-        isInterceptorOrder: isInterceptorOrder,
-        orderComment: orderComment,
-        deliveryComment: deliveryComment,
-        foodpandaToken: foodpandaToken,
-        klikitComment: klikitComment.notEmptyOrNull(),
-        isManualOrder: isManualOrder,
-        paymentMethod: paymentMethod.notZeroOrNull(),
-        paymentChannel: paymentChannel.notZeroOrNull(),
-        paymentStatus: paymentStatus.notZeroOrNull(),
-        autoAccept: autoAccept,
-        autoPilot: autoPilot,
-        autoPilotTime: autoPilotTime,
-        tableNo: tableNo.notEmptyOrNull(),
-        canUpdate: canUpdate,
-        canMarkReady: canMarkReady,
-        discountDisplay: discountDisplay,
-        additionalFeeDisplay: additionalFeeDisplay,
-        deliveryFeeDisplay: deliveryFeeDisplay,
-        finalPriceDisplay: finalPriceDisplay,
-        itemPriceDisplay: itemPriceDisplay,
-        merchantDiscountDisplay: merchantDiscountDisplay,
-        providerDiscountDisplay: providerDiscountDisplay,
-        vatDisplay: vatDisplay,
-        discountTYpe: discountTYpe.notZeroOrNull(),
-        discountValue: discountValue.notZeroOrNull(),
-        identity: identity,
-        isMixAndMatchOrder: isMixAndMatchOrder,
-        triggeredTime: triggeredTime.notEmptyOrNull(),
-        isVatIncluded: isVatIncluded,
-        isThreePlOrder: isThreePlOrder,
-        fulfillmentDeliveredTime: fulfillmentDeliveredTime,
-        fulfillmentExpectedPickupTime: fulfillmentExpectedPickupTime,
-        fulfillmentPickupPin: fulfillmentPickupPin,
-        fulfillmentRider: fulfillmentRider,
-        fulfillmentStatusId: fulfillmentStatusId,
-        fulfillmentTrackingUrl: fulfillmentTrackingUrl,
-        canFindFulfillmentRider: canFindFulfillmentRider,
-        canMarkCancel: canMarkCancel,
-        canMarkAccept: canMarkAccept,
-        threePlDispatchType: threePlDispatchType,
-        orderAppliedPromo: orderAppliedPromo,
-        itemAppliedPromos: itemAppliedPromos,
-        cancellationReasonId: cancellationReasonId,
-        cancellationReason: cancellationReason,
-        restaurantServiceFee: restaurantServiceFee,
-        pickUpAt: estimatedPickUpAt,
-        providerSubTotal: providerSubTotal,
-        providerGrandTotal: providerGrandTotal,
-        providerAdditionalFee: providerAdditionalFee,
-        preparationTime: preparationTime,
-        queueNo: queueNo,
-        pickupType: pickupType,
-        additionalInfo: additionalInfo?.toModel(),
-        canCancelRider: canCancelRider,
+        feePaidByCustomer: feePaidByCustomer,
       );
 }

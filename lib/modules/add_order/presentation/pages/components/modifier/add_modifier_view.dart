@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item_price.dart';
 
 import '../../../../../../resources/colors.dart';
@@ -49,7 +50,7 @@ class _AddModifierViewState extends State<AddModifierView> {
   @override
   void initState() {
     _itemPrice = widget.item.klikitPrice();
-    _priceNotifier.value = _itemPrice.price;
+    _priceNotifier.value = _itemPrice.advancePrice(CartManager().orderType);
     ModifierManager().verifyRules(widget.groups).then((value) => _enabledNotifier.value = value);
     super.initState();
   }
@@ -77,7 +78,7 @@ class _AddModifierViewState extends State<AddModifierView> {
   }
 
   void _changePrice() {
-    final totalPrice = (_modifierPrice + _itemPrice.price) * _quantity;
+    final totalPrice = (_modifierPrice + _itemPrice.advancePrice(CartManager().orderType)) * _quantity;
     if (_priceNotifier.value != totalPrice) {
       _priceNotifier.value = totalPrice;
     }

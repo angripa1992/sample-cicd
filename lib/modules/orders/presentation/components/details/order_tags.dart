@@ -9,14 +9,20 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../order_item/three_pl_status.dart';
 import 'order_payment_info.dart';
 
 class OrderTagsView extends StatelessWidget {
   final Order order;
+  final VoidCallback onSwitchRider;
   static const _type = 'type';
   static const _typeColor = 'type_color';
 
-  const OrderTagsView({Key? key, required this.order}) : super(key: key);
+  const OrderTagsView({
+    Key? key,
+    required this.order,
+    required this.onSwitchRider,
+  }) : super(key: key);
 
   String _getStatus() {
     switch (order.status) {
@@ -71,19 +77,29 @@ class OrderTagsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Wrap(
-        runSpacing: AppSize.s8.rh,
-        spacing: AppSize.s8.rw,
-        children: [
-          _orderTypeTagView(_getType()),
-          if (order.providerId == ProviderID.KLIKIT) _tagView(order.isManualOrder ? AppStrings.manual.tr() : AppStrings.webshop.tr()),
-          if (order.providerId == ProviderID.KLIKIT && order.tableNo.isNotEmpty) _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
-          _tagView(_getStatus()),
-          OrderPaymentInfoView(order: order),
-        ],
-      ),
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Wrap(
+            runSpacing: AppSize.s8.rh,
+            spacing: AppSize.s8.rw,
+            children: [
+              _orderTypeTagView(_getType()),
+              if (order.providerId == ProviderID.KLIKIT) _tagView(order.isManualOrder ? AppStrings.manual.tr() : AppStrings.webshop.tr()),
+              if (order.providerId == ProviderID.KLIKIT && order.tableNo.isNotEmpty) _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
+              _tagView(_getStatus()),
+            ],
+          ),
+        ),
+        SizedBox(height: AppSize.s8.rh),
+        Row(
+          children: [
+            OrderPaymentInfoView(order: order),
+            ThreePlStatus(order: order, showTag: true, onSwitchRider: onSwitchRider),
+          ],
+        ),
+      ],
     );
   }
 

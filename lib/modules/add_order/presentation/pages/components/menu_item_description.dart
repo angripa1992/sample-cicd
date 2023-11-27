@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../core/provider/image_url_provider.dart';
 import '../../../../../core/utils/price_calculator.dart';
@@ -94,12 +95,10 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                         height: AppSize.s120.rh,
                         width: AppSize.s150.rw,
                         child: CachedNetworkImage(
-                          imageUrl: ImageUrlProvider.getUrl(
-                              widget.menuCategoryItem.image),
+                          imageUrl: ImageUrlProvider.getUrl(widget.menuCategoryItem.image),
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(AppSize.s16.rSp),
+                              borderRadius: BorderRadius.circular(AppSize.s16.rSp),
                               shape: BoxShape.rectangle,
                               image: DecorationImage(
                                 image: imageProvider,
@@ -109,15 +108,12 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                           ),
                           placeholder: (context, url) => Center(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: AppSize.s24.rh),
-                              child: CircularProgressIndicator(
-                                  strokeWidth: AppSize.s2.rSp),
+                              padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
+                              child: CircularProgressIndicator(strokeWidth: AppSize.s2.rSp),
                             ),
                           ),
                           errorWidget: (context, url, error) => Padding(
-                            padding:
-                                EdgeInsets.symmetric(vertical: AppSize.s24.rh),
+                            padding: EdgeInsets.symmetric(vertical: AppSize.s24.rh),
                             child: Center(
                               child: SvgPicture.asset(
                                 AppImages.placeholder,
@@ -148,7 +144,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
                       ),
                       child: Text(
                         PriceCalculator.formatPrice(
-                          price: itemPrice.price,
+                          price: itemPrice.advancePrice(CartManager().orderType),
                           code: itemPrice.currencyCode,
                           symbol: itemPrice.currencySymbol,
                         ),
@@ -176,8 +172,7 @@ class _MenuItemDescriptionState extends State<MenuItemDescription> {
         SpecialInstructionField(controller: _textController),
         Container(
           margin: EdgeInsets.only(top: AppSize.s8.rh),
-          padding: EdgeInsets.symmetric(
-              horizontal: AppSize.s12.rw, vertical: AppSize.s8.rh),
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw, vertical: AppSize.s8.rh),
           decoration: BoxDecoration(
             color: AppColors.white,
           ),

@@ -125,7 +125,7 @@ MenuCategoryItem _v2ToMenuCategoryItem(
     visibilities: data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ?? [],
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
-    prices: data.prices?.map((e) => _v2ToMenuItemPrice(e, branchInfo,data.id.orZero())).toList() ?? [],
+    prices: data.prices?.map((e) => _v2ToMenuItemPrice(e, branchInfo, data.id.orZero())).toList() ?? [],
     vat: data.vat.orZero(),
     skuID: data.skuID.orEmpty(),
     image: _defaultImage(data.resources),
@@ -202,9 +202,9 @@ MenuOutOfStock _v2ToMenuOutOfStock(V2OosModel data) {
 MenuItemPrice _v2ToMenuItemPrice(
   V2PriceModel data,
   MenuBranchInfo branchInfo,
-    int id,
+  int id,
 ) {
-  try{
+  try {
     final v2PriceDetails = data.details!.firstWhere((element) => element.currencyCode!.toUpperCase() == branchInfo.currencyCode.toUpperCase());
     return MenuItemPrice(
       providerId: data.providerID.orZero(),
@@ -213,17 +213,27 @@ MenuItemPrice _v2ToMenuItemPrice(
       currencySymbol: branchInfo.currencySymbol,
       price: v2PriceDetails.price ?? ZERO,
       takeAwayPrice: v2PriceDetails.takeAwayPrice ?? ZERO,
+      advancedPrice: _toAdvancedPrice(v2PriceDetails.advancedPricing),
     );
-  }catch(e){
+  } catch (e) {
     return MenuItemPrice(
       providerId: data.providerID.orZero(),
       currencyId: branchInfo.currencyID.orZero(),
       currencyCode: branchInfo.currencyCode,
       currencySymbol: branchInfo.currencySymbol,
       price: ZERO,
-      takeAwayPrice:ZERO,
+      takeAwayPrice: ZERO,
+      advancedPrice: _toAdvancedPrice(null),
     );
   }
+}
+
+MenuItemAdvancedPrice _toAdvancedPrice(V2AdvancedPricingModel? advancePriceModel) {
+  return MenuItemAdvancedPrice(
+    delivery: advancePriceModel?.delivery ?? ZERO,
+    dineIn: advancePriceModel?.dineIn ?? ZERO,
+    pickup: advancePriceModel?.pickup ?? ZERO,
+  );
 }
 
 String _defaultImage(List<V2ResourcesModel>? data) {

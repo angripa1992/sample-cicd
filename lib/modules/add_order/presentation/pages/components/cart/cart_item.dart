@@ -191,7 +191,7 @@ class CartItemView extends StatelessWidget {
         ),
         SizedBox(width: AppSize.s8.rw),
         Visibility(
-          visible: !CartManager().isWebShopOrder(),
+          visible: !CartManager().isWebShopOrder,
           child: _outlineButton(
             text: AppStrings.discount.tr(),
             icon: itemBill!.discount > 0 ? Icons.edit : Icons.add,

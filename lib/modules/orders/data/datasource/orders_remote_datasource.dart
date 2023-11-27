@@ -39,6 +39,8 @@ abstract class OrderRemoteDatasource {
   Future<List<CancellationReasonModel>> fetchCancellationReasons();
 
   Future<ActionSuccess> updatePrepTime(int orderID,Map<String, dynamic> params);
+
+  Future<ActionSuccess> cancelRider(int orderID);
 }
 
 class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
@@ -191,6 +193,16 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
     try {
       final response = await _restClient.request(Urls.updatePrepTime(orderID), Method.PATCH,params);
       return ActionSuccess.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ActionSuccess> cancelRider(int orderID) async{
+    try {
+      await _restClient.request(Urls.cancelRider(orderID), Method.DELETE,null);
+      return ActionSuccess('Successfully canceled rider');
     } on DioException {
       rethrow;
     }

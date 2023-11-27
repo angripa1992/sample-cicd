@@ -83,6 +83,7 @@ class PrinterDataProvider {
       providerGrandTotal: order.providerGrandTotal,
       providerAdditionalFee: order.providerAdditionalFee,
       queueNo: order.queueNo,
+      paidByCustomer: order.feePaidByCustomer,
     );
   }
 

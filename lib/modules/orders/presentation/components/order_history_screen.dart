@@ -6,13 +6,11 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/common/order_parameter_provider.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
+import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../../../../../printer/printing_handler.dart';
-import '../../../../../segments/event_manager.dart';
-import '../../../../../segments/segemnt_data_provider.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/repository/orders_repository.dart';
 import '../filter_observer.dart';
@@ -34,7 +32,7 @@ class OrderHistoryScreen extends StatefulWidget {
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
   final _orderParamProvider = getIt.get<OrderParameterProvider>();
-  final _printingHandler = getIt.get<PrintingHandler>();
+  final _sourceTab = 'Order History';
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
@@ -92,18 +90,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> with FilterObse
     _pagingController?.refresh();
   }
 
-  void _onPrint({required Order order, required bool isFromDetails}) {
-    _printingHandler.printDocket(
-      order: order,
-      isAutoPrint: order.status == OrderStatus.PLACED,
-    );
-    SegmentManager().trackOrderSegment(
-      sourceTab: 'Order History',
-      isFromDetails: isFromDetails,
-      willPrint: true,
-    );
-  }
-
   void _initDatRange() {
     final navData = OrderScreenNavigateDataHandler().getData();
     if (navData == null) {
@@ -114,12 +100,21 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> with FilterObse
     }
   }
 
-  void _sendEvent() {
-    SegmentManager().screen(
-      event: SegmentEvents.SEE_DETAILS,
-      name: 'See Details',
-      properties: {'source_tab': 'Order History'},
+  void _showDetails(Order item) {
+    showHistoryOrderDetails(
+      key: _modelScaffoldKey,
+      context: context,
+      order: item,
+      onPrint: () => KlikitOrderResolver().printDocket(
+        order: item,
+        isFromDetails: true,
+        sourceTab: _sourceTab,
+      ),
+      onRefresh: () => _refresh(),
+      onEditManualOrder: () {},
+      onRiderFind: () {},
     );
+    KlikitOrderResolver().sendOrderDetailsScreenEvent(_sourceTab);
   }
 
   @override
@@ -143,26 +138,13 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> with FilterObse
               itemBuilder: (context, item, index) {
                 return OrderItemView(
                   order: item,
-                  seeDetails: () {
-                    showHistoryOrderDetails(
-                      key: _modelScaffoldKey,
-                      context: context,
-                      order: item,
-                      onCommentActionSuccess: () {
-                        _refresh();
-                      },
-                      onPrint: () {
-                        _onPrint(order: item, isFromDetails: true);
-                      },
-                      onGrabEditSuccess: () {},
-                      onEditManualOrder: () {},
-                      onRiderFind: () {},
-                    );
-                    _sendEvent();
-                  },
-                  onPrint: () {
-                    _onPrint(order: item, isFromDetails: false);
-                  },
+                  seeDetails: () => _showDetails(item),
+                  onPrint: () => KlikitOrderResolver().printDocket(
+                    order: item,
+                    isFromDetails: false,
+                    sourceTab: _sourceTab,
+                  ),
+                  onSwitchRider: () {},
                   onAction: (_, __) {},
                   onCancel: (_) {},
                   onEditGrabOrder: () {},

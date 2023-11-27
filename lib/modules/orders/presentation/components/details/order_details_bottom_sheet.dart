@@ -12,10 +12,9 @@ void _openBottomSheet({
   required Order order,
   required Widget actionView,
   required GlobalKey<ScaffoldState> key,
-  required VoidCallback onCommentActionSuccess,
-  required VoidCallback onGrabEditSuccess,
   required VoidCallback onEditManualOrder,
   required VoidCallback onRiderFind,
+  required VoidCallback onRefresh,
 }) {
   showModalBottomSheet(
     context: context,
@@ -33,11 +32,10 @@ void _openBottomSheet({
         child: Scaffold(
           body: OrderDetailsScreen(
             order: order,
-            onCommentActionSuccess: onCommentActionSuccess,
-            onGrabEditSuccess: onGrabEditSuccess,
             actionView: actionView,
             onEditManualOrder: onEditManualOrder,
             onRiderFind: onRiderFind,
+            onRefresh: onRefresh,
           ),
         ),
       ),
@@ -49,24 +47,19 @@ void showHistoryOrderDetails({
   required BuildContext context,
   required Order order,
   required GlobalKey<ScaffoldState> key,
-  required VoidCallback onCommentActionSuccess,
   required VoidCallback onPrint,
-  required VoidCallback onGrabEditSuccess,
   required VoidCallback onEditManualOrder,
   required VoidCallback onRiderFind,
+  required VoidCallback onRefresh,
 }) {
   _openBottomSheet(
     key: key,
     context: context,
     order: order,
-    onCommentActionSuccess: onCommentActionSuccess,
-    onGrabEditSuccess: onGrabEditSuccess,
-    actionView: PrintButton(
-      onPrint: onPrint,
-      expanded: true,
-    ),
+    actionView: PrintButton(onPrint: onPrint, expanded: true),
     onEditManualOrder: onEditManualOrder,
     onRiderFind: onRiderFind,
+    onRefresh: onRefresh,
   );
 }
 
@@ -77,24 +70,22 @@ void showOrderDetails({
   required Function(String) onCancel,
   required VoidCallback onPrint,
   required GlobalKey<ScaffoldState> key,
-  required VoidCallback onCommentActionSuccess,
-  required VoidCallback onGrabEditSuccess,
   required VoidCallback onEditManualOrder,
   required VoidCallback onRiderFind,
+  required VoidCallback onRefresh,
 }) {
   _openBottomSheet(
     key: key,
     context: context,
-    onCommentActionSuccess: onCommentActionSuccess,
-    onGrabEditSuccess: onGrabEditSuccess,
     order: order,
+    onEditManualOrder: onEditManualOrder,
+    onRiderFind: onRiderFind,
+    onRefresh: onRefresh,
     actionView: getExpandActionButtons(
       order: order,
       onAction: onAction,
       onCancel: onCancel,
       onPrint: onPrint,
     ),
-    onEditManualOrder: onEditManualOrder,
-    onRiderFind: onRiderFind,
   );
 }

@@ -34,7 +34,7 @@ class PromoInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currencySymbol = CartManager().currency().symbol;
+    final currencySymbol = CartManager().currency.symbol;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

@@ -12,8 +12,7 @@ class V2TitleModel {
     this.tl,
   });
 
-  factory V2TitleModel.fromJson(Map<String, dynamic> json) =>
-      _$V2TitleModelFromJson(json);
+  factory V2TitleModel.fromJson(Map<String, dynamic> json) => _$V2TitleModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -26,8 +25,7 @@ class V2VisibilityModel {
     this.status,
   });
 
-  factory V2VisibilityModel.fromJson(Map<String, dynamic> json) =>
-      _$V2VisibilityModelFromJson(json);
+  factory V2VisibilityModel.fromJson(Map<String, dynamic> json) => _$V2VisibilityModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -40,8 +38,7 @@ class V2PriceModel {
     this.details,
   });
 
-  factory V2PriceModel.fromJson(Map<String, dynamic> json) =>
-      _$V2PriceModelFromJson(json);
+  factory V2PriceModel.fromJson(Map<String, dynamic> json) => _$V2PriceModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -49,15 +46,31 @@ class V2PriceDetailsModel {
   String? currencyCode;
   num? price;
   num? takeAwayPrice;
+  V2AdvancedPricingModel? advancedPricing;
 
   V2PriceDetailsModel({
     this.currencyCode,
     this.price,
     this.takeAwayPrice,
+    this.advancedPricing,
   });
 
-  factory V2PriceDetailsModel.fromJson(Map<String, dynamic> json) =>
-      _$V2PriceDetailsModelFromJson(json);
+  factory V2PriceDetailsModel.fromJson(Map<String, dynamic> json) => _$V2PriceDetailsModelFromJson(json);
+}
+
+@JsonSerializable()
+class V2AdvancedPricingModel {
+  num? delivery;
+  num? dineIn;
+  num? pickup;
+
+  V2AdvancedPricingModel({
+    this.delivery,
+    this.dineIn,
+    this.pickup,
+  });
+
+  factory V2AdvancedPricingModel.fromJson(Map<String, dynamic> json) => _$V2AdvancedPricingModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -72,8 +85,7 @@ class V2ResourcesModel {
     this.paths,
   });
 
-  factory V2ResourcesModel.fromJson(Map<String, dynamic> json) =>
-      _$V2ResourcesModelFromJson(json);
+  factory V2ResourcesModel.fromJson(Map<String, dynamic> json) => _$V2ResourcesModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -89,8 +101,7 @@ class V2ResourcePathsModel {
     this.byDefault,
   });
 
-  factory V2ResourcePathsModel.fromJson(Map<String, dynamic> json) =>
-      _$V2ResourcePathsModelFromJson(json);
+  factory V2ResourcePathsModel.fromJson(Map<String, dynamic> json) => _$V2ResourcePathsModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -103,8 +114,7 @@ class V2OosModel {
     this.snooze,
   });
 
-  factory V2OosModel.fromJson(Map<String, dynamic> json) =>
-      _$V2OosModelFromJson(json);
+  factory V2OosModel.fromJson(Map<String, dynamic> json) => _$V2OosModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -123,6 +133,5 @@ class V2SnoozeModel {
     this.unit,
   });
 
-  factory V2SnoozeModel.fromJson(Map<String, dynamic> json) =>
-      _$V2SnoozeModelFromJson(json);
+  factory V2SnoozeModel.fromJson(Map<String, dynamic> json) => _$V2SnoozeModelFromJson(json);
 }

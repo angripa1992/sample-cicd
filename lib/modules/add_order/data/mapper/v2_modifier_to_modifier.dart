@@ -1,3 +1,4 @@
+import 'package:docket_design_template/utils/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
 
@@ -12,13 +13,15 @@ import '../models/modifier/item_modifier_v2_data_model.dart';
 List<MenuItemModifierGroup> mapAddOrderV2ModifierToModifier(
   List<V2ItemModifierGroupModel>? data,
   MenuBranchInfo branchInfo,
+  int orderType,
 ) {
-  return data?.map((e) => _v2ToModifierGroup(e, branchInfo)).toList() ?? [];
+  return data?.map((e) => _v2ToModifierGroup(e, branchInfo, orderType)).toList() ?? [];
 }
 
 MenuItemModifierGroup _v2ToModifierGroup(
   V2ItemModifierGroupModel data,
   MenuBranchInfo branchInfo,
+  int type,
 ) {
   return MenuItemModifierGroup(
     groupId: data.id.orZero(),
@@ -32,6 +35,7 @@ MenuItemModifierGroup _v2ToModifierGroup(
     modifiers: data.modifiers
             ?.map((modifier) => _v1ToModifierItem(
                   data.id.orZero(),
+                  type,
                   data.title?.en ?? EMPTY,
                   modifier,
                   branchInfo,
@@ -43,6 +47,7 @@ MenuItemModifierGroup _v2ToModifierGroup(
 
 MenuItemModifier _v1ToModifierItem(
   int groupID,
+  int type,
   String groupName,
   V2ItemModifierModel data,
   MenuBranchInfo branchInfo,
@@ -58,8 +63,8 @@ MenuItemModifier _v1ToModifierItem(
     sequence: ZERO,
     enabled: data.enabled ?? true,
     visibilities: data.visibilities?.map((e) => _v2ToModifierVisibility(e)).toList() ?? [],
-    prices: data.prices?.map((e) => _v2ToItemPrice(e, branchInfo)).toList() ?? [],
-    groups: data.groups?.map((e) => _v2ToModifierGroup(e, branchInfo)).toList() ?? [],
+    prices: data.prices?.map((e) => _v2ToItemPrice(e, branchInfo, type)).toList() ?? [],
+    groups: data.groups?.map((e) => _v2ToModifierGroup(e, branchInfo, type)).toList() ?? [],
   );
 }
 
@@ -88,13 +93,22 @@ MenuItemModifierVisibility _v2ToModifierVisibility(V2VisibilityModel data) {
 MenuItemModifierPrice _v2ToItemPrice(
   V2PriceModel data,
   MenuBranchInfo branchInfo,
+  int type,
 ) {
   final priceDetails = data.details!.firstWhere((element) => element.currencyCode!.toUpperCase() == branchInfo.currencyCode.toUpperCase());
+  num price = ZERO;
+  if (type == OrderType.DELIVERY) {
+    price = priceDetails.advancedPricing?.delivery ?? ZERO;
+  } else if (type == OrderType.PICKUP) {
+    price = priceDetails.advancedPricing?.pickup ?? ZERO;
+  } else {
+    price = price = priceDetails.advancedPricing?.dineIn ?? ZERO;
+  }
   return MenuItemModifierPrice(
     providerId: data.providerID.orZero(),
     currencyId: branchInfo.currencyID,
     code: branchInfo.currencyCode,
     symbol: branchInfo.currencySymbol,
-    price: priceDetails.price ?? 0,
+    price: price,
   );
 }

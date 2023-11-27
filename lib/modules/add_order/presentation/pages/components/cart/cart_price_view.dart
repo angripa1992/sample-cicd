@@ -29,20 +29,13 @@ class CartPriceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        left: AppSize.s16.rw,
-        right: AppSize.s16.rw,
-        bottom: AppSize.s8.rw,
-      ),
+      margin: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, bottom: AppSize.s8.rw),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
         color: AppColors.white,
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s12.rw,
-          vertical: AppSize.s8.rh,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw, vertical: AppSize.s8.rh),
         child: Column(
           children: [
             _item(
@@ -50,18 +43,11 @@ class CartPriceView extends StatelessWidget {
               price: cartBill.subTotal,
               subtotal: true,
             ),
-            SizedBox(height: AppSize.s12.rh),
             _item(
               title: AppStrings.vat.tr(),
               price: cartBill.vatPrice,
             ),
-            SizedBox(height: AppSize.s12.rh),
-            _item(
-              title: AppStrings.service_fee.tr(),
-              price: cartBill.serviceFee,
-            ),
-            SizedBox(height: AppSize.s12.rh),
-            CartManager().isWebShopOrder()
+            CartManager().isWebShopOrder
                 ? _item(
                     title: AppStrings.delivery_fee.tr(),
                     price: cartBill.deliveryFee,
@@ -71,14 +57,12 @@ class CartPriceView extends StatelessWidget {
                     price: cartBill.deliveryFee,
                     onTap: onDeliveryFee,
                   ),
-            SizedBox(height: AppSize.s12.rh),
             _editableItem(
               title: AppStrings.discount.tr(),
               price: cartBill.discountAmount,
               onTap: onDiscount,
             ),
-            SizedBox(height: AppSize.s12.rh),
-            CartManager().isWebShopOrder()
+            CartManager().isWebShopOrder
                 ? _item(
                     title: AppStrings.restaurant_service_fee.tr(),
                     price: cartBill.restaurantServiceFee,
@@ -88,8 +72,15 @@ class CartPriceView extends StatelessWidget {
                     price: cartBill.additionalFee,
                     onTap: onAdditionalFee,
                   ),
-            if (CartManager().isWebShopOrder()) SizedBox(height: AppSize.s12.rh),
-            if (CartManager().isWebShopOrder())
+            // in web shop update cart service fee will show only if fee paid by customer is false,
+            // NOTE: for manual order always false
+            //if (!cartBill.feePaidByCustomer)
+            _item(
+              title: AppStrings.service_fee.tr(),
+              price: cartBill.serviceFee,
+              willCalculateAtNextStep: CartManager().isWebShopOrder,
+            ),
+            if (CartManager().isWebShopOrder)
               _item(
                 title: AppStrings.processing_fee.tr(),
                 price: 0,
@@ -112,25 +103,28 @@ class CartPriceView extends StatelessWidget {
       fontSize: subtotal ? AppFontSize.s16.rSp : AppFontSize.s14.rSp,
       fontWeight: subtotal ? FontWeight.w500 : FontWeight.w400,
     );
-    final currency = CartManager().currency();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: textStyle,
-        ),
-        Text(
-          willCalculateAtNextStep
-              ? AppStrings.calculated_at_next_step.tr()
-              : PriceCalculator.formatPrice(
-                  price: price,
-                  code: currency.code ?? EMPTY,
-                  symbol: currency.symbol ?? EMPTY,
-                ),
-          style: textStyle,
-        ),
-      ],
+    final currency = CartManager().currency;
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppSize.s8.rh),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: textStyle,
+          ),
+          Text(
+            willCalculateAtNextStep
+                ? AppStrings.calculated_at_next_step.tr()
+                : PriceCalculator.formatPrice(
+                    price: price,
+                    code: currency.code ?? EMPTY,
+                    symbol: currency.symbol ?? EMPTY,
+                  ),
+            style: textStyle,
+          ),
+        ],
+      ),
     );
   }
 
@@ -139,57 +133,60 @@ class CartPriceView extends StatelessWidget {
     required num price,
     required VoidCallback onTap,
   }) {
-    final currency = CartManager().currency();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: regularTextStyle(
-            color: AppColors.black,
-            fontSize: AppFontSize.s14.rSp,
+    final currency = CartManager().currency;
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppSize.s8.rh),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: regularTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s14.rSp,
+            ),
           ),
-        ),
-        InkWell(
-          onTap: onTap,
-          child: price > 0
-              ? Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                    color: AppColors.grey,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppSize.s8.rw,
-                      vertical: AppSize.s2.rh,
+          InkWell(
+            onTap: onTap,
+            child: price > 0
+                ? Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                      color: AppColors.grey,
                     ),
-                    child: Row(
-                      children: [
-                        Text(
-                          PriceCalculator.formatPrice(
-                            price: price,
-                            code: currency.code ?? EMPTY,
-                            symbol: currency.symbol ?? EMPTY,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: AppSize.s8.rw,
+                        vertical: AppSize.s2.rh,
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            PriceCalculator.formatPrice(
+                              price: price,
+                              code: currency.code ?? EMPTY,
+                              symbol: currency.symbol ?? EMPTY,
+                            ),
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: AppFontSize.s14.rSp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                          style: TextStyle(
+                          SizedBox(width: AppSize.s8.rw),
+                          Icon(
+                            Icons.mode_edit_outlined,
+                            size: AppSize.s16.rSp,
                             color: AppColors.black,
-                            fontSize: AppFontSize.s14.rSp,
-                            fontWeight: FontWeight.w400,
                           ),
-                        ),
-                        SizedBox(width: AppSize.s8.rw),
-                        Icon(
-                          Icons.mode_edit_outlined,
-                          size: AppSize.s16.rSp,
-                          color: AppColors.black,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              : _addView(),
-        ),
-      ],
+                  )
+                : _addView(),
+          ),
+        ],
+      ),
     );
   }
 

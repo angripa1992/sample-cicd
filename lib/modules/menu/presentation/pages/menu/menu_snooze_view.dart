@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/resources/fonts.dart';
 
 import '../../../../../app/extensions.dart';
 import '../../../../../resources/colors.dart';
@@ -16,11 +16,7 @@ class MenuSnoozeView extends StatelessWidget {
   final MenuCategoryItem menuCategoryItem;
   final int brandId;
   final int providerId;
-  final double borderRadius;
-  final double width;
-  final Color bgColor;
   final bool parentEnabled;
-  final String iconPath;
   final Function(MenuOutOfStock) onMenuItemSnoozeChanged;
   final Function(bool) onMenuEnabledChanged;
 
@@ -28,14 +24,10 @@ class MenuSnoozeView extends StatelessWidget {
     Key? key,
     required this.menuCategoryItem,
     required this.providerId,
-    required this.borderRadius,
-    required this.width,
-    required this.bgColor,
     required this.parentEnabled,
     required this.brandId,
     required this.onMenuItemSnoozeChanged,
     required this.onMenuEnabledChanged,
-    required this.iconPath,
   }) : super(key: key);
 
   String _duration() {
@@ -55,46 +47,52 @@ class MenuSnoozeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !menuCategoryItem.enabled && providerId == ZERO
-        ? SizedBox(
-            width: width,
-            child: InkWell(
-              onTap: () => !parentEnabled
-                  ? null
-                  : showOosDialog(
-                      menuCategoryItem: menuCategoryItem,
-                      brandId: brandId,
-                      providerId: providerId,
-                      parentEnabled: parentEnabled,
-                      onMenuEnableChanged: onMenuEnabledChanged,
-                      onItemSnoozeChanged: onMenuItemSnoozeChanged,
-                    ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  color: bgColor,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: AppSize.s4.rh,
-                    horizontal: AppSize.s6.rw,
+    if (!menuCategoryItem.enabled && providerId == ZERO) {
+      return InkWell(
+            onTap: () => !parentEnabled
+                ? null
+                : showOosDialog(
+                    menuCategoryItem: menuCategoryItem,
+                    brandId: brandId,
+                    providerId: providerId,
+                    parentEnabled: parentEnabled,
+                    onMenuEnableChanged: onMenuEnabledChanged,
+                    onItemSnoozeChanged: onMenuItemSnoozeChanged,
                   ),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(iconPath),
-                      SizedBox(width: AppSize.s8.rw),
-                      Expanded(
-                        child: Text(
-                          _duration(),
-                          style: mediumTextStyle(color: AppColors.greyDarker),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppSize.s24.rSp),
+                border: Border.all(color: AppColors.greyDarker),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.s4.rh,
+                  horizontal: AppSize.s8.rw,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        _duration(),
+                        style: mediumTextStyle(
+                          color: AppColors.yellowDark,
+                          fontSize: AppFontSize.s12.rSp,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Icon(
+                      Icons.arrow_drop_down,
+                      color: AppColors.yellowDark,
+                      size: AppSize.s16.rSp,
+                    )
+                  ],
                 ),
               ),
             ),
-          )
-        : const SizedBox();
+          );
+    } else {
+      return const SizedBox();
+    }
   }
 }

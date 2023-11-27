@@ -8,6 +8,7 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/edit_order/update_grab_order_cubit.dart';
+import 'package:klikit/modules/orders/utils/grab_order_resolver.dart';
 
 import '../../../resources/assets.dart';
 import '../../../resources/colors.dart';
@@ -52,17 +53,14 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
   }
 
   void _calculateBill() {
-    context
-        .read<CalculateGrabBillCubit>()
-        .calculateBill(_currentOrder.toModel());
+    context.read<CalculateGrabBillCubit>().calculateBill(GrabOrderResolver().toModel(_currentOrder));
   }
 
   void _onQuantityChange(String id, String externalId, int quantity) {
     if (quantity == 0) {
       _deleteItem(id, externalId);
     } else {
-      final cartItem = _currentOrder.cartV2.firstWhere(
-          (element) => (element.id == id && element.externalId == externalId));
+      final cartItem = _currentOrder.cartV2.firstWhere((element) => (element.id == id && element.externalId == externalId));
       cartItem.quantity = quantity;
     }
     _updateStateAndCalculate();
@@ -72,8 +70,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
     if (_currentOrder.cartV2.isEmpty) {
       _showPrice = false;
     } else {
-      final status =
-          EditingManager().enabledButton(widget.order, _currentOrder);
+      final status = EditingManager().enabledButton(widget.order, _currentOrder);
       _enableButtonNotifier.value = status;
       _showPrice = !status;
     }
@@ -81,15 +78,13 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
   }
 
   void _deleteItem(String id, String externalId) {
-    _currentOrder.cartV2.removeWhere(
-        (element) => (element.id == id && element.externalId == externalId));
+    _currentOrder.cartV2.removeWhere((element) => (element.id == id && element.externalId == externalId));
     _updateStateAndCalculate();
   }
 
   void _removeAll() {
     _currentOrder.cartV2.clear();
-    _enableButtonNotifier.value =
-        EditingManager().enabledButton(widget.order, _currentOrder);
+    _enableButtonNotifier.value = EditingManager().enabledButton(widget.order, _currentOrder);
     _showPrice = false;
     _calculateBill();
   }
@@ -97,15 +92,13 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
   void _discard() {
     setState(() {
       _currentOrder = widget.order.copy();
-      _enableButtonNotifier.value =
-          EditingManager().enabledButton(widget.order, _currentOrder);
+      _enableButtonNotifier.value = EditingManager().enabledButton(widget.order, _currentOrder);
       _showPrice = true;
     });
   }
 
   void _updateOrder() {
-    final requestModel =
-        EditingManager().createRequestModel(widget.order, _currentOrder);
+    final requestModel = EditingManager().createRequestModel(widget.order, _currentOrder);
     context.read<UpdateGrabOrderCubit>().updateGrabOrder(requestModel);
   }
 
@@ -160,8 +153,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
         padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
         child: Row(
           children: [
-            IconButton(
-                onPressed: widget.onClose, icon: const Icon(Icons.clear)),
+            IconButton(onPressed: widget.onClose, icon: const Icon(Icons.clear)),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -208,21 +200,18 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
   }
 
   Widget _brandSpecificCartItemsListView() {
-    final brandSpecificCartItems =
-        EditingManager().extractCartItems(_currentOrder);
+    final brandSpecificCartItems = EditingManager().extractCartItems(_currentOrder);
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-        child: brandSpecificCartItems.isEmpty ||
-                brandSpecificCartItems.first.isEmpty
+        child: brandSpecificCartItems.isEmpty || brandSpecificCartItems.first.isEmpty
             ? _emptyCartView()
             : ListView.builder(
                 itemCount: brandSpecificCartItems.length,
                 shrinkWrap: true,
                 //  physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  final menuBrand =
-                      brandSpecificCartItems[index].first.cartBrand;
+                  final menuBrand = brandSpecificCartItems[index].first.cartBrand;
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                     margin: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
@@ -341,40 +330,31 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
         children: [
           _item(
             title: AppStrings.sub_total.tr(),
-            price:
-                '${_currentOrder.currencySymbol} ${_currentOrder.itemPriceDisplay}',
+            price: '${_currentOrder.currencySymbol} ${_currentOrder.itemPriceDisplay}',
             subtotal: true,
           ),
           SizedBox(height: AppSize.s8.rh),
           _item(
             title: AppStrings.vat.tr(),
-            price: _showPrice
-                ? '${_currentOrder.currencySymbol} ${_currentOrder.vatDisplay}'
-                : _calculatedText,
+            price: _showPrice ? '${_currentOrder.currencySymbol} ${_currentOrder.vatDisplay}' : _calculatedText,
             subtotal: false,
           ),
           SizedBox(height: AppSize.s8.rh),
           _item(
             title: AppStrings.delivery_fee.tr(),
-            price: _showPrice
-                ? '${_currentOrder.currencySymbol} ${_currentOrder.deliveryFeeDisplay}'
-                : _calculatedText,
+            price: _showPrice ? '${_currentOrder.currencySymbol} ${_currentOrder.deliveryFeeDisplay}' : _calculatedText,
             subtotal: false,
           ),
           SizedBox(height: AppSize.s8.rh),
           _item(
             title: AppStrings.discount.tr(),
-            price: _showPrice
-                ? '${_currentOrder.currencySymbol} ${_currentOrder.discountDisplay}'
-                : _calculatedText,
+            price: _showPrice ? '${_currentOrder.currencySymbol} ${_currentOrder.discountDisplay}' : _calculatedText,
             subtotal: false,
           ),
           SizedBox(height: AppSize.s8.rh),
           _item(
             title: AppStrings.additional_fee.tr(),
-            price: _showPrice
-                ? '${_currentOrder.currencySymbol} ${_currentOrder.additionalFeeDisplay}'
-                : _calculatedText,
+            price: _showPrice ? '${_currentOrder.currencySymbol} ${_currentOrder.additionalFeeDisplay}' : _calculatedText,
             subtotal: false,
           ),
         ],
@@ -446,9 +426,7 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
                 ),
               ),
               Text(
-                _showPrice
-                    ? '${_currentOrder.currencySymbol} ${_currentOrder.finalPriceDisplay}'
-                    : _calculatedText,
+                _showPrice ? '${_currentOrder.currencySymbol} ${_currentOrder.finalPriceDisplay}' : _calculatedText,
                 style: TextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,

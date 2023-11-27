@@ -44,7 +44,7 @@ class UpdateManualOrderDataProvider {
         orderPromo: order.orderAppliedPromo,
         itemPromos: [],
       );
-      CartManager().setPromoInfo(promoInfo);
+      CartManager().setPromoInfo = promoInfo;
       _setEditableInfo(order);
     } catch (error) {
       rethrow;
@@ -62,7 +62,7 @@ class UpdateManualOrderDataProvider {
           providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
-          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cartv2, menuItemOrNull.branchInfo);
+          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cartv2, menuItemOrNull.branchInfo, order.type);
           final brand = await _fetchMenuBrand(brandId: cartv2.cartBrand.id);
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
@@ -105,14 +105,11 @@ class UpdateManualOrderDataProvider {
   }
 
   void _setEditableInfo(Order order) {
-    final editInfo = CartInfo(
-      type: order.type == ZERO ? OrderType.DINE_IN : order.type,
-      source: order.source,
+    final editInfo = CartFee(
       discountType: order.discountTYpe,
       discountValue: order.discountValue,
       additionalFee: order.additionalFee / 100,
       deliveryFee: order.deliveryFee / 100,
-      comment: order.orderComment,
     );
     final customerInfo = CustomerInfo(
       firstName: order.userFirstName,
@@ -136,9 +133,12 @@ class UpdateManualOrderDataProvider {
       orderHash: order.externalId,
       willUpdateOrder: true,
     );
-    CartManager().setCustomerInfo(customerInfo);
-    CartManager().setEditInfo(editInfo);
-    CartManager().setPaymentInfo(paymentInfo);
-    CartManager().setUpdateCartInfo(updateCartInfo);
+    CartManager().orderType = order.type == ZERO ? OrderType.DINE_IN : order.type;
+    CartManager().orderSource = order.source;
+    CartManager().orderComment = order.orderComment;
+    CartManager().setCustomerInfo = customerInfo;
+    CartManager().setCartFee = editInfo;
+    CartManager().setPaymentInfo = paymentInfo;
+    CartManager().setUpdateCartInfo = updateCartInfo;
   }
 }

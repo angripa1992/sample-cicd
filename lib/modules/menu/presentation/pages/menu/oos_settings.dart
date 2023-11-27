@@ -44,12 +44,7 @@ void showOosDialog({
       return BlocProvider<UpdateItemSnoozeCubit>(
         create: (_) => getIt.get<UpdateItemSnoozeCubit>(),
         child: AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(AppSize.s16.rSp),
-            ),
-          ),
-          contentPadding: EdgeInsets.zero,
+          title: Text(AppStrings.out_of_stock_settings.tr()),
           content: OutOfStockSettingScreen(
             menuCategoryItem: menuCategoryItem,
             brandId: brandId,
@@ -83,8 +78,7 @@ class OutOfStockSettingScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<OutOfStockSettingScreen> createState() =>
-      _OutOfStockSettingScreenState();
+  State<OutOfStockSettingScreen> createState() => _OutOfStockSettingScreenState();
 }
 
 class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
@@ -98,139 +92,107 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s12.rw,
-        vertical: AppSize.s8.rh,
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppStrings.out_of_stock_settings.tr(),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  AppStrings.out_of_stock.tr(),
                   style: mediumTextStyle(
-                    color: AppColors.greyDarker,
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s14.rSp,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+                child: MenuSwitchView(
+                  menuVersion: widget.menuCategoryItem.menuVersion,
+                  id: widget.menuCategoryItem.id,
+                  brandId: widget.brandId,
+                  providerId: widget.providerId,
+                  type: MenuType.ITEM,
+                  enabled: widget.menuCategoryItem.enabled,
+                  parentEnabled: widget.parentEnabled,
+                  willShowBg: false,
+                  onMenuEnableChanged: (enabled) {
+                    widget.onMenuEnableChanged(enabled);
                     Navigator.pop(context);
                   },
-                  icon: Icon(
-                    Icons.cancel,
-                    color: AppColors.greyDarker,
-                    size: AppSize.s16.rSp,
-                  ),
                 ),
-              ],
-            ),
-            Row(
-              children: [
+              ),
+              if (widget.menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
                 Flexible(
                   child: Text(
-                    AppStrings.out_of_stock.tr(),
+                    '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
                     style: mediumTextStyle(
-                      color: AppColors.black,
-                      fontSize: AppFontSize.s14.rSp,
+                      color: AppColors.redDark,
+                      fontSize: AppFontSize.s12.rSp,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-                  child: MenuSwitchView(
-                    menuVersion: widget.menuCategoryItem.menuVersion,
-                    id: widget.menuCategoryItem.id,
-                    brandId: widget.brandId,
-                    providerId: widget.providerId,
-                    type: MenuType.ITEM,
-                    enabled: widget.menuCategoryItem.enabled,
-                    parentEnabled: widget.parentEnabled,
-                    willShowBg: false,
-                    onMenuEnableChanged: (enabled) {
-                      widget.onMenuEnableChanged(enabled);
-                      Navigator.pop(context);
-                    },
-                  ),
+            ],
+          ),
+          Divider(color: AppColors.primaryLight),
+          OutOfStockRadioGroup(
+            oos: widget.menuCategoryItem.outOfStock,
+            onDurationChanged: (duration) {
+              _currentDuration = duration;
+            },
+          ),
+          SizedBox(height: AppSize.s8.rh),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: AppButton(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  text: AppStrings.cancel.tr(),
+                  textColor: AppColors.black,
+                  color: AppColors.white,
+                  borderColor: AppColors.black,
                 ),
-                if (widget
-                    .menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
-                  Flexible(
-                    child: Text(
-                      '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
-                      style: mediumTextStyle(
-                        color: AppColors.redDark,
-                        fontSize: AppFontSize.s12.rSp,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            Divider(color: AppColors.primaryLight),
-            OutOfStockRadioGroup(
-              oos: widget.menuCategoryItem.outOfStock,
-              onDurationChanged: (duration) {
-                _currentDuration = duration;
-              },
-            ),
-            Divider(color: AppColors.primaryLight),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: AppButton(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      text: AppStrings.cancel.tr(),
-                      textColor: AppColors.black,
-                      color: AppColors.white,
-                      borderColor: AppColors.black,
-                    ),
-                  ),
-                  SizedBox(width: AppSize.s8.rw),
-                  Expanded(
-                    child: BlocConsumer<UpdateItemSnoozeCubit, ResponseState>(
-                      listener: (BuildContext context, state) {
-                        if (state is Failed) {
-                          showApiErrorSnackBar(context, state.failure);
-                        } else if (state is Success<MenuOutOfStock>) {
-                          showSuccessSnackBar(
-                            context,
-                            AppStrings.stock_disabled_successful.tr(),
-                          );
-                          widget.onItemSnoozeChanged(state.data);
-                          Navigator.pop(context);
-                        }
-                      },
-                      builder: (BuildContext context, state) {
-                        return LoadingButton(
-                          onTap: () {
-                            context.read<UpdateItemSnoozeCubit>().updateItem(
-                                  menuVersion:
-                                      widget.menuCategoryItem.menuVersion,
-                                  brandId: widget.brandId,
-                                  itemId: widget.menuCategoryItem.id,
-                                  enabled: widget.menuCategoryItem.enabled,
-                                  duration: _currentDuration,
-                                );
-                          },
-                          text: AppStrings.update.tr(),
-                          isLoading: state is Loading,
-                        );
-                      },
-                    ),
-                  ),
-                ],
               ),
-            ),
-          ],
-        ),
+              SizedBox(width: AppSize.s8.rw),
+              Expanded(
+                child: BlocConsumer<UpdateItemSnoozeCubit, ResponseState>(
+                  listener: (BuildContext context, state) {
+                    if (state is Failed) {
+                      showApiErrorSnackBar(context, state.failure);
+                    } else if (state is Success<MenuOutOfStock>) {
+                      showSuccessSnackBar(
+                        context,
+                        AppStrings.stock_disabled_successful.tr(),
+                      );
+                      widget.onItemSnoozeChanged(state.data);
+                      Navigator.pop(context);
+                    }
+                  },
+                  builder: (BuildContext context, state) {
+                    return LoadingButton(
+                      onTap: () {
+                        context.read<UpdateItemSnoozeCubit>().updateItem(
+                              menuVersion: widget.menuCategoryItem.menuVersion,
+                              brandId: widget.brandId,
+                              itemId: widget.menuCategoryItem.id,
+                              enabled: widget.menuCategoryItem.enabled,
+                              duration: _currentDuration,
+                            );
+                      },
+                      text: AppStrings.update.tr(),
+                      isLoading: state is Loading,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -275,8 +237,7 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
       final duration = text.toInt();
       if (duration > maxDuration) {
         _textEditingController.text = maxDuration.toString();
-        _textEditingController.selection =
-            TextSelection.collapsed(offset: _textEditingController.text.length);
+        _textEditingController.selection = TextSelection.collapsed(offset: _textEditingController.text.length);
         widget.onDurationChanged(maxDuration);
       } else {
         widget.onDurationChanged(text.toInt());
@@ -354,34 +315,22 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           },
         ),
         RadioListTile<OOS>(
-          title: Row(
-            children: [
-              Container(
-                width: AppSize.s65.rw,
-                // height: AppSize.s32.rh,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                  color: AppColors.grey,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSize.s8.rw,
-                    vertical: AppSize.s8.rh,
-                  ),
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    style: const TextStyle(color: Colors.black),
-                    controller: _textEditingController,
-                    cursorColor: AppColors.primary,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
+          title: TextField(
+            keyboardType: TextInputType.number,
+            style: const TextStyle(color: Colors.black),
+            controller: _textEditingController,
+            cursorColor: AppColors.primary,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderSide:  BorderSide(color: AppColors.greyDarker),
               ),
-              SizedBox(width: AppSize.s12.rw),
-              Text(AppStrings.hours.tr(), style: _textStyle),
-            ],
+              focusedBorder: OutlineInputBorder(
+                borderSide:  BorderSide(color: AppColors.greyDarker),
+              ),
+              labelText: AppStrings.hours.tr(),
+              labelStyle: _textStyle,
+              floatingLabelStyle: _textStyle,
+            ),
           ),
           groupValue: _groupValue,
           value: OOS.hour,
