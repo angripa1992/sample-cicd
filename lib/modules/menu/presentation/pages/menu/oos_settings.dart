@@ -315,23 +315,21 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
           },
         ),
         RadioListTile<OOS>(
-          title: Flexible(
-            child: TextField(
-              keyboardType: TextInputType.number,
-              style: const TextStyle(color: Colors.black),
-              controller: _textEditingController,
-              cursorColor: AppColors.primary,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide:  BorderSide(color: AppColors.greyDarker),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:  BorderSide(color: AppColors.greyDarker),
-                ),
-                labelText: AppStrings.hours.tr(),
-                labelStyle: _textStyle,
-                floatingLabelStyle: _textStyle,
+          title: TextField(
+            keyboardType: TextInputType.number,
+            style: const TextStyle(color: Colors.black),
+            controller: _textEditingController,
+            cursorColor: AppColors.primary,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderSide:  BorderSide(color: AppColors.greyDarker),
               ),
+              focusedBorder: OutlineInputBorder(
+                borderSide:  BorderSide(color: AppColors.greyDarker),
+              ),
+              labelText: AppStrings.hours.tr(),
+              labelStyle: _textStyle,
+              floatingLabelStyle: _textStyle,
             ),
           ),
           groupValue: _groupValue,

@@ -29,7 +29,7 @@ class UpdateWebShopOrderDataProvider {
         await CartManager().addToCart(cartItem);
       }
       final orderPromo = await AppliedPromoProvider().appliedPromoInfoForWebShopOrder(order);
-      CartManager().setPromoInfo(orderPromo);
+      CartManager().setPromoInfo = orderPromo;
       await _setEditableInfo(order);
     } catch (error) {
       rethrow;
@@ -47,7 +47,7 @@ class UpdateWebShopOrderDataProvider {
           providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
-          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cart, menuItemOrNull.branchInfo);
+          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cart, menuItemOrNull.branchInfo, order.type);
           final brand = await _fetchMenuBrand(brandId: cart.cartBrand.id);
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
@@ -87,14 +87,11 @@ class UpdateWebShopOrderDataProvider {
       if (order.type == OrderType.DELIVERY) {
         webShopOrderDetailsModel = await _orderRepository.fetchOmsOrderById(order.externalId);
       }
-      final editInfo = CartInfo(
-        type: order.type,
-        source: 0,
+      final editInfo = CartFee(
         discountType: DiscountType.flat,
         discountValue: 0,
         additionalFee: order.additionalFee / 100,
         deliveryFee: order.deliveryFee / 100,
-        comment: order.orderComment,
       );
       final customerInfo = CustomerInfo(
         firstName: order.userFirstName,
@@ -127,10 +124,13 @@ class UpdateWebShopOrderDataProvider {
               )
             : null,
       );
-      CartManager().setCustomerInfo(customerInfo);
-      CartManager().setEditInfo(editInfo);
-      CartManager().setPaymentInfo(paymentInfo);
-      CartManager().setUpdateCartInfo(updateCartInfo);
+      CartManager().orderType = order.type;
+      CartManager().orderSource = order.source;
+      CartManager().orderComment = order.orderComment;
+      CartManager().setCustomerInfo = customerInfo;
+      CartManager().setCartFee = editInfo;
+      CartManager().setPaymentInfo = paymentInfo;
+      CartManager().setUpdateCartInfo = updateCartInfo;
     } catch (error) {
       rethrow;
     }

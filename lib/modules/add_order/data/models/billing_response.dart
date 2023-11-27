@@ -111,6 +111,9 @@ class CartBillModel {
         appliedPromo: appliedPromo,
         restaurantServiceFee: ZERO,
         restaurantServiceFeeCent: ZERO,
+        merchantTotalPriceCent: ZERO,
+        merchantTotalPrice: ZERO,
+        feePaidByCustomer: false,
       );
 }
 

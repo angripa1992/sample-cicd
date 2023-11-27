@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
 import '../../../../../app/enums.dart';
 import '../../../../../core/utils/price_calculator.dart';
@@ -16,12 +17,12 @@ class MenuCategoryItemView extends StatelessWidget {
   final MenuDay dayInfo;
   final VoidCallback onAddItem;
 
-  const MenuCategoryItemView(
-      {Key? key,
-      required this.menuItem,
-      required this.dayInfo,
-      required this.onAddItem})
-      : super(key: key);
+  const MenuCategoryItemView({
+    Key? key,
+    required this.menuItem,
+    required this.dayInfo,
+    required this.onAddItem,
+  }) : super(key: key);
 
   Availability _checkAvailability() {
     if (!menuItem.outOfStock.available) {
@@ -66,12 +67,10 @@ class MenuCategoryItemView extends StatelessWidget {
                           color: AppColors.primary,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: AppSize.s8.rw,
-                              vertical: AppSize.s2.rh),
+                          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
                           child: Text(
                             PriceCalculator.formatPrice(
-                              price: menuItemPrice.price,
+                              price: menuItemPrice.advancePrice(CartManager().orderType),
                               code: menuItemPrice.currencyCode,
                               symbol: menuItemPrice.currencySymbol,
                             ),
@@ -96,9 +95,7 @@ class MenuCategoryItemView extends StatelessWidget {
                         child: Icon(
                           Icons.add_circle,
                           size: AppSize.s28.rSp,
-                          color: availability == Availability.OUT_OF_STOCK
-                              ? AppColors.greyLight
-                              : AppColors.primary,
+                          color: availability == Availability.OUT_OF_STOCK ? AppColors.greyLight : AppColors.primary,
                         ),
                       ),
                     )
@@ -107,8 +104,7 @@ class MenuCategoryItemView extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap:
-                  availability == Availability.OUT_OF_STOCK ? null : onAddItem,
+              onTap: availability == Availability.OUT_OF_STOCK ? null : onAddItem,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.s4.rw,

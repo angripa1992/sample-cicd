@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 
+import '../../../app/constants.dart';
 import '../data/models/applied_promo.dart';
 import '../data/models/request/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
@@ -11,60 +12,71 @@ import 'modifier_manager.dart';
 class CartManager {
   static final _instance = CartManager._internal();
   static final _carts = <AddToCartItem>[];
-  static CartInfo? _cartInfo;
+  static CartFee? _cartInfo;
   static CustomerInfo? _customerInfo;
   static PaymentInfo? _paymentInfo;
   static UpdateCartInfo? _updateCartInfo;
   static AppliedPromoInfo? _promoInfo;
+  static int? _orderType;
+  static int? _orderSource;
+  static String? _orderComment;
   static final _cartItemNotifier = ValueNotifier<int>(0);
   static final _noOfCartItemNotifier = ValueNotifier<int>(0);
+  static final _orderTypeNotifier = ValueNotifier<int?>(_orderType);
   static final _priceNotifier = ValueNotifier<SelectedItemPrice?>(null);
 
   factory CartManager() => _instance;
 
   CartManager._internal();
 
-  ValueNotifier<int> getNotifyListener() => _cartItemNotifier;
+  ValueNotifier<int> get cartItemNotifier => _cartItemNotifier;
 
-  ValueNotifier<SelectedItemPrice?> getPriceNotifyListener() => _priceNotifier;
+  ValueNotifier<SelectedItemPrice?> get cartItemPriceNotifier => _priceNotifier;
 
-  ValueNotifier<int> cartItemNotifier() => _noOfCartItemNotifier;
+  ValueNotifier<int> get cartItemCountNotifier => _noOfCartItemNotifier;
 
-  List<AddToCartItem> items() => _carts;
+  ValueNotifier<int?> get orderTypeNotifier => _orderTypeNotifier;
 
-  CustomerInfo? getCustomerInfo() => _customerInfo;
+  List<AddToCartItem> get items => _carts;
 
-  CartInfo? getEditInfo() => _cartInfo;
+  CustomerInfo? get customerInfo => _customerInfo;
 
-  PaymentInfo? getPaymentInfo() => _paymentInfo;
+  CartFee? get cartFee => _cartInfo;
 
-  UpdateCartInfo? getUpdateCartInfo() => _updateCartInfo;
+  PaymentInfo? get paymentInfo => _paymentInfo;
 
-  AppliedPromoInfo? getPromoInfo() => _promoInfo;
+  UpdateCartInfo? get updateCartInfo => _updateCartInfo;
 
-  bool isWebShopOrder() => _updateCartInfo?.isWebShopOrder ?? false;
+  AppliedPromoInfo? get promoInfo => _promoInfo;
 
-  bool willUpdateOrder() => _updateCartInfo?.willUpdateOrder ?? false;
+  bool get isWebShopOrder => _updateCartInfo?.isWebShopOrder ?? false;
 
-  void setEditInfo(CartInfo info) {
-    _cartInfo = info;
+  bool get willUpdateOrder => _updateCartInfo?.willUpdateOrder ?? false;
+
+  int get orderType => _orderType ?? OrderType.DINE_IN;
+
+  int get orderSource => _orderSource ?? OrderSource.IN_STORE;
+
+  String get orderComment => _orderComment ?? EMPTY;
+
+  set orderType(int type) {
+    _orderType = type;
+    _orderTypeNotifier.value = _orderType;
   }
 
-  void setCustomerInfo(CustomerInfo data) {
-    _customerInfo = data;
-  }
+  set orderSource(int source) => _orderSource = source;
 
-  void setPaymentInfo(PaymentInfo data) {
-    _paymentInfo = data;
-  }
+  set orderComment(String comment) => _orderComment = comment;
 
-  void setUpdateCartInfo(UpdateCartInfo data) {
-    _updateCartInfo = data;
-  }
+  set setCartFee(CartFee info) => _cartInfo = info;
 
-  void setPromoInfo(AppliedPromoInfo? data) {
-    _promoInfo = data;
-  }
+  set setCustomerInfo(CustomerInfo data) => _customerInfo = data;
+
+  set setPaymentInfo(PaymentInfo data) => _paymentInfo = data;
+
+  set setUpdateCartInfo(UpdateCartInfo data) => _updateCartInfo = data;
+
+  set setPromoInfo(AppliedPromoInfo? data) => _promoInfo = data;
 
   Future<void> addToCart(AddToCartItem cartItem) async {
     final duplicateItem = await _findCartItemByUniqueID(cartItem);
@@ -148,14 +160,6 @@ class CartManager {
     return null;
   }
 
-  void _checkCartAndClearIfNeeded() {
-    if(willUpdateOrder()){
-      _notifyListener();
-    }else{
-      clear();
-    }
-  }
-
   int _noOfCartItem() {
     int nofOfItem = 0;
     for (var item in _carts) {
@@ -164,7 +168,7 @@ class CartManager {
     return nofOfItem;
   }
 
-  BillingCurrency currency() {
+  BillingCurrency get currency {
     int id = ZERO;
     String symbol = EMPTY;
     String code = EMPTY;
@@ -192,7 +196,7 @@ class CartManager {
       String symbol = EMPTY;
       String code = EMPTY;
       for (var item in _carts) {
-        final price = (item.modifiersPrice + item.itemPrice.price) * item.quantity;
+        final price = (item.modifiersPrice + item.itemPrice.advancePrice(orderType)) * item.quantity;
         totalPrice += price;
         symbol = item.itemPrice.currencySymbol;
         code = item.itemPrice.currencySymbol;
@@ -284,9 +288,32 @@ class CartManager {
         numberOfSeniorCitizen: cartBill.numberOfSeniorCitizen > 0 ? cartBill.numberOfSeniorCitizen : null,
         numberOfCustomer: cartBill.numberOfSeniorCustomer > 0 ? cartBill.numberOfSeniorCustomer : null,
       );
-      setPromoInfo(promoInfo);
+      setPromoInfo = promoInfo;
     } else {
-      setPromoInfo(null);
+      setPromoInfo = null;
+    }
+  }
+
+  ItemBill? findItemBill(List<ItemBill> itemsBill, AddToCartItem cartItem) {
+    for (var element in itemsBill) {
+      final index = itemsBill.indexOf(element);
+      if (element.id == cartItem.item.id && index == cartItem.cartIndex) {
+        return element;
+      }
+    }
+    return null;
+  }
+
+  void clearCart() {
+    _carts.clear();
+    _notifyListener();
+  }
+
+  void _checkCartAndClearIfNeeded() {
+    if (willUpdateOrder) {
+      _notifyListener();
+    } else {
+      clear();
     }
   }
 
@@ -297,6 +324,10 @@ class CartManager {
     _paymentInfo = null;
     _updateCartInfo = null;
     _promoInfo = null;
+    _orderType = null;
+    _orderSource = null;
+    _orderComment = null;
+    _orderTypeNotifier.value = null;
     _notifyListener();
   }
 }

@@ -26,6 +26,9 @@ class CartBill {
   final Promo? appliedPromo;
   final num restaurantServiceFee;
   final num restaurantServiceFeeCent;
+  final num merchantTotalPriceCent;
+  final num merchantTotalPrice;
+  final bool feePaidByCustomer;
 
   CartBill({
     required this.subTotal,
@@ -53,6 +56,9 @@ class CartBill {
     required this.appliedPromo,
     required this.restaurantServiceFee,
     required this.restaurantServiceFeeCent,
+    required this.merchantTotalPriceCent,
+    required this.merchantTotalPrice,
+    required this.feePaidByCustomer,
   });
 }
 

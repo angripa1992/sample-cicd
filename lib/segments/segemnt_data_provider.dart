@@ -157,4 +157,9 @@ class SegmentEvents {
   static const String ITEM_TOGGLE = 'item_toggle_NMA_menu';
   static const String MODIFIER_CLICK = 'modifier_click_NMA_menu';
   static const String GENERATE_ZREPORT = 'Zreport_Generated';
+  static const String MODULE_CLICK_ORDER_DASHBOARD = 'Order_dashboard_NMA_Module_Click';
+  static const String MODULE_CLICK_ADD_ORDER = 'Add_order_NMA_Module_Click';
+  static const String MODULE_CLICK_MENU_V1 = 'MenuV1_NMA_Module_Click';
+  static const String MODULE_CLICK_MENU_V2 = 'MenuV2_NMA_Module_Click';
+  static const String MODULE_CLICK_PRINTER_SETTINGS = 'Printer_setting_NMA_Module_Click';
 }

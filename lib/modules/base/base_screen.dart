@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/base/update_available_view.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/new_order_cubit.dart';
@@ -22,6 +24,8 @@ import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/segments/event_manager.dart';
+import 'package:klikit/segments/segemnt_data_provider.dart';
 
 import '../../app/constants.dart';
 import '../../core/utils/response_state.dart';
@@ -48,6 +52,7 @@ class _BaseScreenState extends State<BaseScreen> {
   final _appPreferences = getIt.get<AppPreferences>();
   final _printingHandler = getIt.get<PrintingHandler>();
   final _languageManager = getIt.get<LanguageManager>();
+  final _businessInfoProvider = getIt.get<BusinessInformationProvider>();
 
   @override
   void initState() {
@@ -112,7 +117,38 @@ class _BaseScreenState extends State<BaseScreen> {
     );
   }
 
+  void trackEvents(int index) async {
+    String eventName = '';
+    switch (index) {
+      case 1:
+        eventName = SegmentEvents.MODULE_CLICK_ORDER_DASHBOARD;
+        break;
+      case 2:
+        eventName = SegmentEvents.MODULE_CLICK_ADD_ORDER;
+        break;
+      case 3:
+        eventName = SessionManager().menuV2Enabled() ? SegmentEvents.MODULE_CLICK_MENU_V2 : SegmentEvents.MODULE_CLICK_MENU_V1;
+        break;
+      default:
+        break;
+    }
+
+    if (eventName.isNotEmpty) {
+      final brandIds = await _businessInfoProvider.findBrandsIds();
+      SegmentManager().track(
+        event: eventName,
+        properties: {
+          'brand_ids': brandIds.toString(),
+          'branch_ids': SessionManager().branchIDs().toString(),
+          'business_id': SessionManager().businessID(),
+        },
+      );
+    }
+  }
+
   void _selectedTab(int index) {
+    trackEvents(index);
+
     if (index == BottomNavItem.ADD_ORDER) {
       _goToAddOrderScreen();
     } else {

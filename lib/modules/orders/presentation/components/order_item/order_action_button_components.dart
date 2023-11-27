@@ -320,7 +320,10 @@ class EditButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSize.s8.rSp), side: BorderSide(color: AppColors.primary)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+            side: BorderSide(color: AppColors.primary),
+          ),
         ),
         child: SvgPicture.asset(
           AppIcons.tablerEdit,

@@ -19,7 +19,7 @@ class GoToCartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<SelectedItemPrice?>(
-        valueListenable: CartManager().getPriceNotifyListener(),
+        valueListenable: CartManager().cartItemPriceNotifier,
         builder: (_, value, __) {
           if (value == null) {
             return const SizedBox();

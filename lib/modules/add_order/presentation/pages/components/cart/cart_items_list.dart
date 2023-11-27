@@ -43,16 +43,6 @@ class CartItemsListView extends StatelessWidget {
     required this.textController,
   }) : super(key: key);
 
-  ItemBill? _mapCartItemBill(List<ItemBill> itemsBill,AddToCartItem cartItem){
-    for (var element in itemsBill) {
-      final index = itemsBill.indexOf(element);
-      if(element.id == cartItem.item.id && index == cartItem.cartIndex){
-        return element;
-      }
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final cartsItemByBrands = CartManager().cartItemsMapWithBrands();
@@ -96,7 +86,7 @@ class CartItemsListView extends StatelessWidget {
                             addDiscount: addDiscount,
                             onDelete: onDelete,
                             onQuantityChanged: onQuantityChanged,
-                            itemBill: _mapCartItemBill(cartBill.items, cartItem),
+                            itemBill: CartManager().findItemBill(cartBill.items, cartItem),
                           );
                         },
                       ).toList(),

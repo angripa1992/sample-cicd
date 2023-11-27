@@ -12,13 +12,12 @@ class CartBadge extends StatelessWidget {
   final Color? iconColor;
   final VoidCallback onCartTap;
 
-  const CartBadge({Key? key, required this.onCartTap, this.iconColor})
-      : super(key: key);
+  const CartBadge({Key? key, required this.onCartTap, this.iconColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
-      valueListenable: CartManager().cartItemNotifier(),
+      valueListenable: CartManager().cartItemCountNotifier,
       builder: (_, count, __) {
         return InkWell(
           onTap: onCartTap,

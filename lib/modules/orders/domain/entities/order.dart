@@ -1,10 +1,8 @@
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
 
 import '../../../add_order/data/models/applied_promo.dart';
 import '../../../common/entities/brand.dart';
 import '../../../common/entities/source.dart';
-import '../../data/models/orders_model.dart';
 import 'additional_info.dart';
 import 'cart.dart';
 import 'delicery_info.dart';
@@ -114,6 +112,7 @@ class Order {
   final int pickupType;
   final AdditionalInfo? additionalInfo;
   final bool canCancelRider;
+  final bool feePaidByCustomer;
   bool canUpdate;
   num preparationTime;
   String klikitComment;
@@ -218,6 +217,7 @@ class Order {
     required this.pickupType,
     required this.additionalInfo,
     required this.canCancelRider,
+    required this.feePaidByCustomer,
   });
 
   Order copy() => Order(
@@ -317,5 +317,6 @@ class Order {
         pickupType: pickupType,
         additionalInfo: additionalInfo,
         canCancelRider: canCancelRider,
+        feePaidByCustomer: feePaidByCustomer,
       );
 }

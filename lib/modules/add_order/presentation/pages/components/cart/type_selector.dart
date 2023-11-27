@@ -1,14 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/tag_title.dart';
+import 'package:klikit/modules/widgets/app_button.dart';
+import 'package:klikit/resources/assets.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../utils/cart_manager.dart';
 
 class TypeSelector extends StatefulWidget {
   final int initialType;
@@ -34,6 +38,14 @@ class _TypeSelectorState extends State<TypeSelector> {
     super.initState();
   }
 
+  @override
+  void didUpdateWidget(covariant TypeSelector oldWidget) {
+    setState(() {
+      _currentType = widget.initialType;
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+
   String _typeName(int type) {
     switch (type) {
       case OrderType.DINE_IN:
@@ -54,6 +66,51 @@ class _TypeSelectorState extends State<TypeSelector> {
       default:
         return Icons.location_on_outlined;
     }
+  }
+
+  void _showConfirmDialog(bool selected, int orderType) {
+    showDialog(
+      context: context,
+      builder: (dContext) => AlertDialog(
+        icon: SvgPicture.asset(AppIcons.alert),
+        title: const Text('Price Update Alert!'),
+        content: const Text('The price of the item may vary based on the selected order type. Confirm to apply changes.'),
+        actions: [
+          Row(
+            children: [
+              Expanded(
+                child: AppButton(
+                  onTap: () {
+                    Navigator.pop(dContext);
+                  },
+                  text: AppStrings.cancel.tr(),
+                  color: AppColors.white,
+                  borderColor: AppColors.black,
+                  textColor: AppColors.black,
+                ),
+              ),
+              SizedBox(width: AppSize.s16.rw),
+              Expanded(
+                child: AppButton(
+                  onTap: () {
+                    Navigator.pop(dContext);
+                    _changeOrderType(selected, orderType);
+                  },
+                  text: 'Confirm',
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _changeOrderType(bool selected, int orderType) {
+    setState(() {
+      _currentType = (selected ? orderType : OrderType.DINE_IN);
+    });
+    widget.onTypeChange(_currentType!);
   }
 
   @override
@@ -86,24 +143,21 @@ class _TypeSelectorState extends State<TypeSelector> {
                 avatar: Icon(
                   _typeIcon(type),
                   size: AppSize.s16.rSp,
-                  color: _currentType == type
-                      ? AppColors.white
-                      : AppColors.greyDarker,
+                  color: _currentType == type ? AppColors.white : AppColors.greyDarker,
                 ),
                 selected: _currentType == type,
                 selectedColor: AppColors.primary,
                 backgroundColor: AppColors.grey,
                 labelStyle: mediumTextStyle(
-                  color: _currentType == type
-                      ? AppColors.white
-                      : AppColors.greyDarker,
+                  color: _currentType == type ? AppColors.white : AppColors.greyDarker,
                   fontSize: AppFontSize.s12.rSp,
                 ),
                 onSelected: (bool selected) {
-                  setState(() {
-                    _currentType = (selected ? type : OrderType.DINE_IN);
-                  });
-                  widget.onTypeChange(_currentType!);
+                  if (CartManager().items.isNotEmpty) {
+                    _showConfirmDialog(selected, type);
+                  } else {
+                    _changeOrderType(selected, type);
+                  }
                 },
               );
             }).toList(),
