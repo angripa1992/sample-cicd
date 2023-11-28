@@ -1,41 +1,35 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
 
 import '../../../../../core/utils/price_calculator.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
+import '../../../domain/entities/menu/menu_item_price.dart';
 
 class MenuAdvancedPriceTags extends StatelessWidget {
-  final int providerID;
-  final MenuCategoryItem menuCategoryItem;
+  final MenuItemPrice price;
 
   const MenuAdvancedPriceTags({
     super.key,
-    required this.menuCategoryItem,
-    required this.providerID,
+    required this.price,
   });
 
   @override
   Widget build(BuildContext context) {
-    final price = menuCategoryItem.prices.firstWhereOrNull((element) => element.providerId == providerID);
-    return price == null
-        ? const SizedBox()
-        : Align(
-            alignment: Alignment.topLeft,
-            child: Wrap(
-              runSpacing: AppSize.s8.rh,
-              spacing: AppSize.s8.rw,
-              children: [
-                if (price.advancedPrice.dineIn > 0) _priceTag('Dine In', price.advancedPrice.dineIn, price.currencyCode, price.currencySymbol),
-                if (price.advancedPrice.pickup > 0) _priceTag('Pick Up', price.advancedPrice.pickup, price.currencyCode, price.currencySymbol),
-                if (price.advancedPrice.delivery > 0) _priceTag('Delivery', price.advancedPrice.delivery, price.currencyCode, price.currencySymbol),
-              ],
-            ),
-          );
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Wrap(
+        runSpacing: AppSize.s8.rh,
+        spacing: AppSize.s8.rw,
+        children: [
+          if (price.advancedPrice.dineIn > 0) _priceTag('Dine In', price.advancedPrice.dineIn, price.currencyCode, price.currencySymbol),
+          if (price.advancedPrice.pickup > 0) _priceTag('Pick Up', price.advancedPrice.pickup, price.currencyCode, price.currencySymbol),
+          if (price.advancedPrice.delivery > 0) _priceTag('Delivery', price.advancedPrice.delivery, price.currencyCode, price.currencySymbol),
+        ],
+      ),
+    );
   }
 
   Widget _priceTag(String tagName, num price, String cCode, String cSymbol) {

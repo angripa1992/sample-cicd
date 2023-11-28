@@ -2,16 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/common/business_information_provider.dart';
-import 'package:klikit/modules/common/entities/provider.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/provider_advanced_price.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../core/provider/image_url_provider.dart';
-import '../../../../../core/utils/price_calculator.dart';
 import '../../../../../resources/assets.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -20,7 +16,6 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/menu/menu_item.dart';
 import '../../../domain/entities/menu/menu_out_of_stock.dart';
-import 'advanced_pricing_tags.dart';
 import 'menu_snooze_view.dart';
 import 'menu_switch_view.dart';
 
@@ -91,38 +86,41 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             buildCachedNetworkImage(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    widget.menuCategoryItem.title.trim(),
-                    style: mediumTextStyle(
-                      fontSize: AppFontSize.s16.rSp,
-                      color: AppColors.black,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.menuCategoryItem.title.trim(),
+                      style: mediumTextStyle(
+                        fontSize: AppFontSize.s16.rSp,
+                        color: AppColors.black,
+                      ),
                     ),
                   ),
-                ),
-                MenuSnoozeView(
-                  menuCategoryItem: widget.menuCategoryItem,
-                  brandId: widget.brandId,
-                  providerId: widget.providerID,
-                  parentEnabled: widget.parentEnabled,
-                  onMenuItemSnoozeChanged: _onItemSnoozeChanged,
-                  onMenuEnabledChanged: _onEnabledChanged,
-                ),
-                MenuSwitchView(
-                  menuVersion: widget.menuCategoryItem.menuVersion,
-                  id: widget.menuCategoryItem.id,
-                  brandId: widget.brandID,
-                  providerId: widget.providerID,
-                  type: MenuType.ITEM,
-                  enabled: widget.menuCategoryItem.enabled,
-                  parentEnabled: widget.parentEnabled,
-                  willShowBg: false,
-                  onMenuEnableChanged: _onEnabledChanged,
-                ),
-              ],
+                  MenuSnoozeView(
+                    menuCategoryItem: widget.menuCategoryItem,
+                    brandId: widget.brandId,
+                    providerId: widget.providerID,
+                    parentEnabled: widget.parentEnabled,
+                    onMenuItemSnoozeChanged: _onItemSnoozeChanged,
+                    onMenuEnabledChanged: _onEnabledChanged,
+                  ),
+                  MenuSwitchView(
+                    menuVersion: widget.menuCategoryItem.menuVersion,
+                    id: widget.menuCategoryItem.id,
+                    brandId: widget.brandID,
+                    providerId: widget.providerID,
+                    type: MenuType.ITEM,
+                    enabled: widget.menuCategoryItem.enabled,
+                    parentEnabled: widget.parentEnabled,
+                    willShowBg: false,
+                    onMenuEnableChanged: _onEnabledChanged,
+                  ),
+                ],
+              ),
             ),
             if (widget.menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
               Text(
@@ -146,35 +144,8 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                 ),
               ),
             ),
-            Text(
-              'Price ${PriceCalculator.formatPrice(
-                price: widget.menuCategoryItem.klikitPrice().price(),
-                symbol: widget.menuCategoryItem.klikitPrice().currencySymbol,
-                code: widget.menuCategoryItem.klikitPrice().currencyCode,
-              )}',
-              style: mediumTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s16.rSp,
-              ),
-            ),
             SizedBox(height: AppSize.s8.rh),
-            MenuAdvancedPriceTags(
-              menuCategoryItem: widget.menuCategoryItem,
-              providerID: ProviderID.KLIKIT,
-            ),
-            SizedBox(height: AppSize.s8.rh),
-            FutureBuilder<Provider>(
-              future: getIt.get<BusinessInformationProvider>().findProviderById(ProviderID.GRAB_FOOD),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  return ProviderAdvancePrice(
-                    provider: snapshot.data!,
-                    menuCategoryItem: widget.menuCategoryItem,
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
+            ProviderAdvancePrice(menuCategoryItem: widget.menuCategoryItem),
           ],
         ),
       ),
