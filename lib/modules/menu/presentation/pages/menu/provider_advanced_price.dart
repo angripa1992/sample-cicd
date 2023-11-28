@@ -38,7 +38,7 @@ class ProviderAdvancePrice extends StatelessWidget {
             if (providerPrice.providerId == ProviderID.KLIKIT || providerPrice.providerId == ProviderID.GRAB_FOOD) {
               return const SizedBox();
             }
-            return _providerPriceTitle(providerPrice,true);
+            return _providerPriceTitle(providerPrice, true);
           }).toList(),
         ),
       ],
@@ -57,7 +57,7 @@ class ProviderAdvancePrice extends StatelessWidget {
         collapsedIconColor: AppColors.black,
         childrenPadding: EdgeInsets.only(bottom: AppSize.s8.rh),
         initiallyExpanded: true,
-        title: _providerPriceTitle(price,false),
+        title: _providerPriceTitle(price, false),
         children: [
           MenuAdvancedPriceTags(price: price),
         ],
@@ -65,7 +65,7 @@ class ProviderAdvancePrice extends StatelessWidget {
     );
   }
 
-  Widget _providerPriceTitle(MenuItemPrice price,bool showPadding) {
+  Widget _providerPriceTitle(MenuItemPrice price, bool showPadding) {
     return FutureBuilder<Provider>(
       future: getIt.get<BusinessInformationProvider>().findProviderById(price.providerId),
       builder: (context, snapshot) {
@@ -74,8 +74,8 @@ class ProviderAdvancePrice extends StatelessWidget {
           return provider.id == ZERO
               ? const SizedBox()
               : Padding(
-                padding: showPadding ? EdgeInsets.symmetric(vertical: AppSize.s8.rh) : EdgeInsets.zero,
-                child: Row(
+                  padding: showPadding ? EdgeInsets.symmetric(vertical: AppSize.s8.rh) : EdgeInsets.zero,
+                  child: Row(
                     children: [
                       ClipOval(
                         child: ImageView(
@@ -98,7 +98,7 @@ class ProviderAdvancePrice extends StatelessWidget {
                       ),
                     ],
                   ),
-              );
+                );
         }
         return const SizedBox();
       },
