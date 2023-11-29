@@ -25,6 +25,14 @@ extension EmptyToNUll on String? {
       return null;
     }
   }
+
+  bool isNullOrEmpty() {
+    return this == null || this!.isEmpty;
+  }
+
+  bool isNotNullOrEmpty() {
+    return !(this == null || this!.isEmpty);
+  }
 }
 
 extension ZeroToNUll on int? {
