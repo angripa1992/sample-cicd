@@ -133,7 +133,7 @@ extension SpaceDivider on double {
 
 extension WidgetVisibility on Widget? {
   Visibility setVisibility() {
-    return Visibility(visible: this != null, child: this!);
+    return Visibility(visible: this != null, child: this ?? Container());
   }
 
   Widget setVisibilityWithSpace({double? startSpace, double? endSpace, required Axis direction}) {
