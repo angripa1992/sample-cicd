@@ -47,6 +47,10 @@ class CartPriceView extends StatelessWidget {
               title: AppStrings.vat.tr(),
               price: cartBill.vatPrice,
             ),
+            _item(
+              title: AppStrings.restaurant_service_fee.tr(),
+              price: cartBill.restaurantServiceFee,
+            ),
             CartManager().isWebShopOrder
                 ? _item(
                     title: AppStrings.delivery_fee.tr(),
@@ -62,30 +66,22 @@ class CartPriceView extends StatelessWidget {
               price: cartBill.discountAmount,
               onTap: onDiscount,
             ),
-            CartManager().isWebShopOrder
-                ? _item(
-                    title: AppStrings.restaurant_service_fee.tr(),
-                    price: cartBill.restaurantServiceFee,
-                  )
-                : _editableItem(
-                    title: AppStrings.additional_fee.tr(),
-                    price: cartBill.additionalFee,
-                    onTap: onAdditionalFee,
-                  ),
-            // in web shop update cart service fee will show only if fee paid by customer is false,
-            // NOTE: for manual order always false
-            //if (!cartBill.feePaidByCustomer)
+            if (!CartManager().isWebShopOrder)
+              _editableItem(
+                title: AppStrings.additional_fee.tr(),
+                price: cartBill.additionalFee,
+                onTap: onAdditionalFee,
+              ),
             _item(
               title: AppStrings.service_fee.tr(),
               price: cartBill.serviceFee,
-              willCalculateAtNextStep: CartManager().isWebShopOrder,
+              willCalculateAtNextStep: true,
             ),
-            if (CartManager().isWebShopOrder)
-              _item(
-                title: AppStrings.processing_fee.tr(),
-                price: 0,
-                willCalculateAtNextStep: true,
-              )
+            _item(
+              title: AppStrings.processing_fee.tr(),
+              price: 0,
+              willCalculateAtNextStep: true,
+            ),
           ],
         ),
       ),

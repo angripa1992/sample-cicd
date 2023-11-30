@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user.userInfo.firstLogin) {
       Navigator.of(context).pushReplacementNamed(Routes.changePassword);
     } else if (args == null) {
-      Navigator.of(context).pushReplacementNamed(Routes.base);
+      Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
       SegmentManager().identify(event: SegmentEvents.USER_LOGGED_IN);
     } else {
       NotificationHandler().navigateToOrderScreen(

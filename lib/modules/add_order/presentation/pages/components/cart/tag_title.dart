@@ -46,7 +46,7 @@ class TagTitleView extends StatelessWidget {
             child: Text(
               required ? AppStrings.required.tr() : AppStrings.optional.tr(),
               style: mediumTextStyle(
-                color: required ? AppColors.primary : AppColors.greenDark,
+                color: required ? AppColors.primary : AppColors.greyDarker,
                 fontSize: AppFontSize.s10.rSp,
               ),
             ),

@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
@@ -10,42 +9,34 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
-import 'package:klikit/modules/add_order/presentation/cubit/update_webshop_order_cubit.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/cart/step_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/type_selector.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 
-import '../../../../../../core/utils/response_state.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/snackbars.dart';
-import '../../../../data/models/update_webshop_order_response.dart';
 import '../../../../domain/entities/order_source.dart';
 import '../../../../utils/order_entity_provider.dart';
+import '../checkout/checkout_screen.dart';
 import '../dialogs/delete_item_dialog.dart';
 import '../dialogs/fee_dialogs.dart';
 import '../dialogs/promo_and_discount_modal.dart';
-import 'cart_app_bar.dart';
 import 'cart_items_list.dart';
 import 'empty_cart_view.dart';
 import 'order_action_button.dart';
 
 class CartScreen extends StatefulWidget {
-  final VoidCallback onClose;
   final Function(AddToCartItem) onEdit;
   final Function(Brand) addMore;
-  final Function(CheckoutData) onCheckout;
 
   const CartScreen({
     Key? key,
-    required this.onClose,
     required this.onEdit,
     required this.addMore,
-    required this.onCheckout,
   }) : super(key: key);
 
   @override
@@ -81,37 +72,26 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.grey,
-      child: Column(
-        children: [
-          CartAppBar(
-            onClose: () {
-              widget.onClose();
-            },
-          ),
-          Expanded(
-            child: ValueListenableBuilder<int>(
-              valueListenable: CartManager().cartItemNotifier,
-              builder: (_, value, __) {
-                if (value > 0) {
-                  return ValueListenableBuilder<CartBill?>(
-                    valueListenable: _calculateBillNotifier,
-                    builder: (_, cartBill, __) {
-                      if (cartBill != null) {
-                        return _body();
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  );
+    return Scaffold(
+      appBar: AppBar(title: Text(AppStrings.cart.tr())),
+      body: ValueListenableBuilder<int>(
+        valueListenable: CartManager().cartItemNotifier,
+        builder: (_, value, __) {
+          if (value > 0) {
+            return ValueListenableBuilder<CartBill?>(
+              valueListenable: _calculateBillNotifier,
+              builder: (_, cartBill, __) {
+                if (cartBill != null) {
+                  return _body();
                 } else {
-                  return const EmptyCartView();
+                  return const SizedBox();
                 }
               },
-            ),
-          ),
-        ],
+            );
+          } else {
+            return const EmptyCartView();
+          }
+        },
       ),
     );
   }
@@ -119,16 +99,6 @@ class _CartScreenState extends State<CartScreen> {
   Widget _body() {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppSize.s10.rw,
-            vertical: AppSize.s8.rh,
-          ),
-          child: Visibility(
-            visible: !CartManager().isWebShopOrder,
-            child: const StepView(stepPosition: StepPosition.cart),
-          ),
-        ),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -167,9 +137,11 @@ class _CartScreenState extends State<CartScreen> {
                 CartItemsListView(
                   cartBill: _cartBill!,
                   onEdit: (item) {
+                    Navigator.pop(context);
                     widget.onEdit(item);
                   },
                   addMore: (brand) {
+                    Navigator.pop(context);
                     widget.addMore(brand);
                   },
                   addDiscount: (item) {
@@ -204,26 +176,13 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
         CartManager().isWebShopOrder
-            ? BlocConsumer<UpdateWebShopOrderCubit, ResponseState>(
-                listener: (context, state) {
-                  if (state is Success<UpdateWebShopOrderResponse>) {
-                    showSuccessSnackBar(context, state.data.message ?? '');
-                    CartManager().clear();
-                    widget.onClose();
-                  } else if (state is Failed) {
-                    showApiErrorSnackBar(context, state.failure);
-                  }
-                },
-                builder: (context, state) {
-                  //if webshop update order and fee paid by customer is false then merchant total price will show else totalPrice will show
-                  return OrderActionButton(
-                    buttonText: AppStrings.update_order.tr(),
-                    enable: state is Loading ? false : true,
-                    totalPrice: _cartBill!.feePaidByCustomer ? _cartBill!.totalPrice : _cartBill!.merchantTotalPrice,
-                    onProceed: _updateWebShopOrder,
-                    loading: state is Loading,
-                  );
-                },
+            ? //if webshop update order and fee paid by customer is false then merchant total price will show else totalPrice will show
+            OrderActionButton(
+                buttonText: AppStrings.update_order.tr(),
+                enable: true,
+                loading: false,
+                totalPrice: _cartBill!.feePaidByCustomer ? _cartBill!.totalPrice : _cartBill!.merchantTotalPrice,
+                onProceed: _updateWebShopOrder,
               )
             : OrderActionButton(
                 buttonText: AppStrings.procees_to_checkout.tr(),
@@ -347,7 +306,18 @@ class _CartScreenState extends State<CartScreen> {
       instruction: _textController.text,
     );
     _saveCurrentEditInfo();
-    widget.onCheckout(checkoutData);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return CheckoutScreen(
+            checkoutData: checkoutData,
+            onSuccess: () {
+              Navigator.pop(context);
+            },
+          );
+        },
+      ),
+    );
   }
 
   void _addDiscount({
@@ -433,17 +403,22 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  void _updateWebShopOrder() {
+  void _updateWebShopOrder() async {
     _saveCurrentEditInfo();
     final cartInfo = CartManager().updateCartInfo;
     if (_cartBill == null || cartInfo == null) return;
-    final orderID = cartInfo.orderID;
-    /// will check in backend
-    // final calculatePrice = _cartBill!.feePaidByCustomer ? _cartBill!.merchantTotalPrice : _cartBill!.totalPrice;
-    // if (cartInfo.isPrePayment && cartInfo.totalPrice < calculatePrice) {
-    //   showErrorSnackBar(context, 'Total price can not be more than paid amount');
-    //   return;
-    // }
-    context.read<UpdateWebShopOrderCubit>().updateWebShopOrder(orderID, _cartBill!);
+    EasyLoading.show();
+    final payload = await WebShopEntityProvider().placeOrderPayload(_cartBill!);
+    final response = await getIt.get<AddOrderRepository>().updateWebShopOrder(cartInfo.orderID, payload);
+    EasyLoading.dismiss();
+    response.fold(
+      (failure) {
+        showApiErrorSnackBar(context, failure);
+      },
+      (response) {
+        showSuccessSnackBar(context, response.message ?? '');
+        CartManager().clearAndNavigateToOrderScreen(context);
+      },
+    );
   }
 }

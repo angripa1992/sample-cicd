@@ -11,4 +11,5 @@ class Routes {
   static const String printerSettings = '/printer_settings';
   static const String editProfile = '/edit_profile';
   static const String deviceSetting = '/device_setting';
+  static const String qrisPayment = '/qris_payment';
 }
