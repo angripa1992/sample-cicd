@@ -11,14 +11,14 @@ class ActionableTile extends StatelessWidget {
   final BoxDecoration? decoration;
   final Widget? prefixWidget;
   final Widget? suffixWidget;
-  final Function() onTap;
+  final Function()? onTap;
 
   const ActionableTile({
     Key? key,
     required this.title,
     this.decoration,
     this.prefixWidget,
-    required this.onTap,
+    this.onTap,
     this.suffixWidget,
   }) : super(key: key);
 
@@ -37,22 +37,17 @@ class ActionableTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            prefixWidget.setVisibility(),
+            prefixWidget.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 12.rw),
             Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s16.rw,
-                ),
-                child: Text(
-                  title,
-                  style: mediumTextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s16.rSp,
-                  ),
+              child: Text(
+                title,
+                style: mediumTextStyle(
+                  color: AppColors.black,
+                  fontSize: AppFontSize.s16.rSp,
                 ),
               ),
             ),
-            suffixWidget.setVisibility(),
+            suffixWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 12.rw),
           ],
         ),
       ),

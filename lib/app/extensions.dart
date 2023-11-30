@@ -155,6 +155,7 @@ extension WidgetVisibility on Widget? {
         );
       } else {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: children,
         );
       }
