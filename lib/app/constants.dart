@@ -206,7 +206,9 @@ class FulfillmentStatusId {
 
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
+  static const String kIS_NAVIGATE = 'is_navigate';
   static const String kNOTIFICATION_DATA = 'notification_data';
+  static const String kNAVIGATE_DATA = 'navigate_data';
   static const String kNOTIFICATION_TYPE = 'notification_type';
   static const String kPROVIDER_ID = 'provider_id';
   static const String kGROUP = 'group';

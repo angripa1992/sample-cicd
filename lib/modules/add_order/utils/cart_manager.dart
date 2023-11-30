@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/add_order/presentation/pages/add_order_screen.dart';
 
 import '../../../app/constants.dart';
+import '../../../core/route/routes.dart';
+import '../../base/base_screen_cubit.dart';
 import '../data/models/applied_promo.dart';
 import '../data/models/request/billing_request.dart';
 import '../domain/entities/add_to_cart_item.dart';
@@ -315,6 +318,35 @@ class CartManager {
     } else {
       clear();
     }
+  }
+
+  void clearAndNavigateToOrderScreen(BuildContext context) {
+    clear();
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      Routes.base,
+      (Route<dynamic> route) => false,
+      arguments: {
+        ArgumentKey.kIS_NAVIGATE: true,
+        ArgumentKey.kNAVIGATE_DATA: NavigationData(
+          index: BottomNavItem.ORDER,
+          subTabIndex: OrderTab.NEW,
+          data: null,
+        ),
+      },
+    );
+  }
+
+  void clearAndNavigateToAddOrderScreen(BuildContext context) {
+    clear();
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const AddOrderScreen(
+          willOpenCart: false,
+          willUpdateCart: false,
+        ),
+      ),
+      (Route<dynamic> route) => false,
+    );
   }
 
   void clear() {
