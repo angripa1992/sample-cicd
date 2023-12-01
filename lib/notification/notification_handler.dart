@@ -24,7 +24,11 @@ class NotificationHandler {
     }
   }
 
-  void navigateToOrderScreen(NotificationData notificationData, {bool isNotification = true, required int notificationType}) {
+  void navigateToOrderScreen(
+    NotificationData notificationData, {
+    bool isNotification = true,
+    required int notificationType,
+  }) {
     Navigator.of(RoutesGenerator.navigatorKey.currentState!.context).pushNamedAndRemoveUntil(
       Routes.base,
       (Route<dynamic> route) => false,

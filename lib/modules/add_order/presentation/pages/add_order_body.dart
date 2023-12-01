@@ -5,12 +5,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
-import 'package:klikit/modules/add_order/presentation/cubit/update_webshop_order_cubit.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
 
-import '../../../../app/di.dart';
 import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
 import '../../../../resources/strings.dart';
@@ -19,8 +17,6 @@ import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../../widgets/snackbars.dart';
 import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
-import '../cubit/calculate_bill_cubit.dart';
-import '../cubit/place_order_cubit.dart';
 import 'components/brand_selector_app_bar.dart';
 import 'components/cart/cart_screen.dart';
 import 'components/checkout/checkout_screen.dart';
@@ -135,72 +131,17 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   }
 
   void _gotoCart() {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider<CalculateBillCubit>(create: (_) => getIt.get()),
-            BlocProvider<UpdateWebShopOrderCubit>(create: (_) => getIt.get()),
-          ],
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            resizeToAvoidBottomInset: false,
-            extendBody: false,
-            body: Container(
-              margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-              child: CartScreen(
-                onClose: () {
-                  Navigator.pop(context);
-                },
-                onEdit: (cartItem) {
-                  Navigator.pop(context);
-                  _editModifier(cartItem);
-                },
-                addMore: (brand) {
-                  Navigator.pop(context);
-                  _changeBrandNotifier.value = brand;
-                },
-                onCheckout: (checkoutData) {
-                  Navigator.pop(context);
-                  _checkout(checkoutData);
-                },
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _checkout(CheckoutData checkoutData) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return BlocProvider<PlaceOrderCubit>(
-          create: (_) => getIt.get(),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Container(
-              margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-              child: CheckoutScreen(
-                checkoutData: checkoutData,
-                onBack: () {
-                  Navigator.pop(context);
-                  _gotoCart();
-                },
-                onSuccess: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
-        );
-      },
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return CartScreen(
+            onEdit: _editModifier,
+            addMore: (brand) {
+              _changeBrandNotifier.value = brand;
+            },
+          );
+        },
+      ),
     );
   }
 
