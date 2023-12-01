@@ -29,15 +29,23 @@ class KTNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      width: width,
-      height: height,
       imageUrl: imageUrl,
-      imageBuilder: (context, imageProvider) => Container(decoration: BoxDecoration(shape: boxShape, image: DecorationImage(image: imageProvider, fit: boxFit))),
+      imageBuilder: (context, imageProvider) => Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+              border: Border.all(width: 2.rSp, color: AppColors.greyBright),
+              shape: boxShape,
+              image: DecorationImage(image: imageProvider, fit: boxFit))),
       progressIndicatorBuilder: (context, url, progress) {
-        final circleSize = ((width ?? 34.rw) + (height ?? 34.rh)) / 2;
-        return buildPlaceholder(boxShape, CircularProgress(size: circleSize, strokeWidth: 2.rSp), widgetPadding);
+        final circleSize = (((width ?? 34.rw) + (height ?? 34.rh)) / 2);
+        return buildPlaceholder(boxShape,
+            CircularProgress(size: circleSize, strokeWidth: 2.rSp), 0);
       },
-      errorWidget: (context, url, error) => errorWidget ?? buildPlaceholder(boxShape, ImageResourceResolver.userSVG.getImageWidget(), widgetPadding),
+      errorWidget: (context, url, error) =>
+          errorWidget ??
+          buildPlaceholder(boxShape,
+              ImageResourceResolver.userSVG.getImageWidget(), widgetPadding),
     );
   }
 }
