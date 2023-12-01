@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
-import 'package:klikit/resources/colors.dart';
 
 import '../../../../app/di.dart';
 import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import 'add_order_body.dart';
 
 class AddOrderScreen extends StatelessWidget {
-  final bool willOpenCart;
-  final bool willUpdateCart;
-
-  const AddOrderScreen({Key? key, required this.willOpenCart, required this.willUpdateCart}) : super(key: key);
+  const AddOrderScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +23,11 @@ class AddOrderScreen extends StatelessWidget {
         child: Scaffold(
           body: AddOrderBody(
             onBack: () {
-              if (willUpdateCart) {
+              if (CartManager().willUpdateOrder) {
                 CartManager().clear();
               }
               Navigator.pop(context);
             },
-            willOpenCart: willOpenCart,
           ),
         ),
       ),

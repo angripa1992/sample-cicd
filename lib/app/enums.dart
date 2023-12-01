@@ -8,4 +8,6 @@ enum Env { DEV, STAGE, LIVE }
 
 enum DateType { today, yesterday, range }
 
-enum CheckoutState { ADD, UPDATE, POST_PAYMENT }
+enum CheckoutState { PAY_NOW, PLACE_ORDER }
+
+enum PaymentState { PRE_PAYMENT, POST_PAYMENT }

@@ -311,9 +311,7 @@ class _CartScreenState extends State<CartScreen> {
         builder: (context) {
           return CheckoutScreen(
             checkoutData: checkoutData,
-            onSuccess: () {
-              Navigator.pop(context);
-            },
+            willUpdateOrder: CartManager().willUpdateOrder,
           );
         },
       ),
