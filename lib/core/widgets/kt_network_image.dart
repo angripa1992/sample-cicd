@@ -12,7 +12,6 @@ class KTNetworkImage extends StatelessWidget {
   final String imageUrl;
   final BoxFit boxFit;
   final BoxShape boxShape;
-  final Decoration? imageDecoration;
   final Widget? errorWidget;
   final double? widgetPadding;
 
@@ -23,7 +22,6 @@ class KTNetworkImage extends StatelessWidget {
     required this.imageUrl,
     this.boxFit = BoxFit.contain,
     this.boxShape = BoxShape.circle,
-    this.imageDecoration,
     this.errorWidget,
     this.widgetPadding,
   }) : super(key: key);
@@ -32,12 +30,22 @@ class KTNetworkImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      imageBuilder: (context, imageProvider) =>
-          Container(width: width, height: height, decoration: imageDecoration ?? BoxDecoration(shape: boxShape, image: DecorationImage(image: imageProvider, fit: boxFit))),
+      imageBuilder: (context, imageProvider) => Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+              border: Border.all(width: 2.rSp, color: AppColors.greyBright),
+              shape: boxShape,
+              image: DecorationImage(image: imageProvider, fit: boxFit))),
       progressIndicatorBuilder: (context, url, progress) {
-        return buildPlaceholder(boxShape, CircularProgress(size: 34.rSp, strokeWidth: 2.rSp), widgetPadding);
+        final circleSize = (((width ?? 34.rw) + (height ?? 34.rh)) / 2);
+        return buildPlaceholder(boxShape,
+            CircularProgress(size: circleSize, strokeWidth: 2.rSp), 0);
       },
-      errorWidget: (context, url, error) => errorWidget ?? buildPlaceholder(boxShape, ImageResourceResolver.userSVG.getImageWidget(width: 32.rw, height: 32.rh), widgetPadding),
+      errorWidget: (context, url, error) =>
+          errorWidget ??
+          buildPlaceholder(boxShape,
+              ImageResourceResolver.userSVG.getImageWidget(), widgetPadding),
     );
   }
 }
