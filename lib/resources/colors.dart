@@ -36,6 +36,7 @@ class AppColors {
 
   static Color black = const Color(0xFF262626);
   static Color neutralB500 = const Color(0xFF3B3B3B);
+  static Color primaryP300 = const Color(0xFF6A13F4);
 }
 
 Color getCheckboxColor(Set<MaterialState> states) {
