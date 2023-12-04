@@ -33,8 +33,7 @@ void showAddPaymentStatusMethodDialog({
       return BlocProvider<UpdatePaymentInfoCubit>(
         create: (_) => getIt.get<UpdatePaymentInfoCubit>(),
         child: AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
           content: AddPaymentMethodAndStatusView(
             order: order,
             willOnlyUpdatePaymentInfo: willOnlyUpdatePaymentInfo,
@@ -62,12 +61,10 @@ class AddPaymentMethodAndStatusView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AddPaymentMethodAndStatusView> createState() =>
-      _AddPaymentMethodAndStatusViewState();
+  State<AddPaymentMethodAndStatusView> createState() => _AddPaymentMethodAndStatusViewState();
 }
 
-class _AddPaymentMethodAndStatusViewState
-    extends State<AddPaymentMethodAndStatusView> {
+class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatusView> {
   static const _status = 'status';
   static const _method = 'method';
   static const _channel = 'channel';
@@ -80,13 +77,9 @@ class _AddPaymentMethodAndStatusViewState
   @override
   void initState() {
     _paymentNotifier.value = {
-      _status: widget.willOnlyUpdatePaymentInfo
-          ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null)
-          : PaymentStatusId.paid,
-      _method:
-          widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
-      _channel:
-          widget.order.paymentChannel > 0 ? widget.order.paymentChannel : null,
+      _status: widget.willOnlyUpdatePaymentInfo ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null) : PaymentStatusId.paid,
+      _method: widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
+      _channel: widget.order.paymentChannel > 0 ? widget.order.paymentChannel : null,
     };
     super.initState();
   }
@@ -149,12 +142,8 @@ class _AddPaymentMethodAndStatusViewState
           ],
         ),
         PaymentMethodView(
-          initMethod: widget.order.paymentMethod > 0
-              ? widget.order.paymentMethod
-              : null,
-          initChannel: widget.order.paymentChannel > 0
-              ? widget.order.paymentChannel
-              : null,
+          initMethod: widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
+          initChannel: widget.order.paymentChannel > 0 ? widget.order.paymentChannel : null,
           willShowReqTag: true,
           required: true,
           onChanged: (method, channel) {
@@ -167,11 +156,7 @@ class _AddPaymentMethodAndStatusViewState
           },
         ),
         PaymentStatusView(
-          initStatus: widget.willOnlyUpdatePaymentInfo
-              ? (widget.order.paymentStatus > 0
-                  ? widget.order.paymentStatus
-                  : null)
-              : PaymentStatusId.paid,
+          initStatus: widget.willOnlyUpdatePaymentInfo ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null) : PaymentStatusId.paid,
           willShowReqTag: true,
           onChanged: (status) {
             final previousValue = _paymentNotifier.value;

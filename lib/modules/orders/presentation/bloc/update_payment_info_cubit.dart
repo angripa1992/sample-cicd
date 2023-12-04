@@ -16,15 +16,13 @@ class UpdatePaymentInfoCubit extends Cubit<ResponseState> {
       "payment_channel_id": updateStatusParam["payment_channel_id"],
       "payment_status": updateStatusParam["payment_status"],
     };
-    final response =
-        await _repository.updatePaymentInfo(updatePaymentInfoParams);
+    final response = await _repository.updatePaymentInfo(updatePaymentInfoParams);
     response.fold(
       (failure) {
         emit(Failed(failure));
       },
       (paymentInfoSuccess) async {
-        final updateStatusResponse =
-            await _repository.updateStatus(updateStatusParam);
+        final updateStatusResponse = await _repository.updateStatus(updateStatusParam);
         updateStatusResponse.fold(
           (failure) {
             emit(Failed(failure));
