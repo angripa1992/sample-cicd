@@ -6,4 +6,6 @@ enum Availability { STOCK, UNAVAILABLE, OUT_OF_STOCK }
 
 enum Env { DEV, STAGE, LIVE }
 
-enum DateType{ today, yesterday, range}
+enum DateType { today, yesterday, range }
+
+enum CheckoutState { ADD, UPDATE, POST_PAYMENT }

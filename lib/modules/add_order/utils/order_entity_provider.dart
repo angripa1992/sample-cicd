@@ -268,7 +268,7 @@ class OrderEntityProvider {
       discountValue: checkoutData.discountValue.toInt(),
       discountType: checkoutData.discountType,
       additionalFee: bill.additionalFeeCent.toInt(),
-      serviceFee: bill.serviceFeeCent.toInt(),
+      restaurantServiceFee: bill.restaurantServiceFeeCent.toInt(),
       uniqueItems: uniqueItems,
       totalItems: totalItems,
       tableNo: info?.tableNo.notEmptyOrNull(),

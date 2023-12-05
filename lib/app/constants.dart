@@ -6,7 +6,7 @@ class AppConstant {
   static const String roleAdmin = "admin";
   static const String roleBrandManager = "brand_manager";
   static const String roleBusinessOwner = "business_owner";
-  static const String whatappSupportNumber = "+639762884283";
+  static const String whatsappSupportNumber = "+6281936119055";
   static const String supportMail = "help@klikit.io";
   static const int refreshTime = 30;
   static const int busyTimeInMin = 60;
@@ -206,7 +206,9 @@ class FulfillmentStatusId {
 
 class ArgumentKey {
   static const String kIS_NOTIFICATION = 'is_notification';
+  static const String kIS_NAVIGATE = 'is_navigate';
   static const String kNOTIFICATION_DATA = 'notification_data';
+  static const String kNAVIGATE_DATA = 'navigate_data';
   static const String kNOTIFICATION_TYPE = 'notification_type';
   static const String kPROVIDER_ID = 'provider_id';
   static const String kGROUP = 'group';

@@ -35,7 +35,7 @@ class OrderCustomerInfoView extends StatelessWidget {
                 fontSize: AppFontSize.s15.rSp,
               ),
             ),
-            SizedBox(height: AppSize.s4.rh),
+            SizedBox(height: AppSize.s8.rh),
             Row(
               children: [
                 Expanded(
@@ -52,13 +52,23 @@ class OrderCustomerInfoView extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: AppSize.s4.rh),
+            SizedBox(height: AppSize.s8.rh),
             Row(
               children: [
                 Expanded(
                   child: Visibility(
                     visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null,
                     child: _infoItem(AppStrings.vehicle_registration.tr(), '${order.additionalInfo?.vehicleInfo?.regNo}'),
+                  ),
+                ),
+                Expanded(
+                  child: Visibility(
+                    visible:
+                        order.type == OrderType.PICKUP
+                            && order.pickupType == PickupType.DRIVE_THRU
+                            && order.additionalInfo != null
+                            && order.additionalInfo!.vehicleInfo!.additionalDetails.isNotEmpty,
+                    child: _infoItem('Additional Information', '${order.additionalInfo?.vehicleInfo?.additionalDetails}'),
                   ),
                 ),
               ],

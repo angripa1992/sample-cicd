@@ -1,34 +1,30 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/constants.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
+import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/checkout/pament_method.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/checkout/payment_status.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
-import '../../../../../../resources/colors.dart';
+import '../../../../../../app/constants.dart';
+import '../../../../../../app/di.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../widgets/snackbars.dart';
-import '../../../cubit/place_order_cubit.dart';
+import '../../../../utils/order_entity_provider.dart';
 import '../cart/order_action_button.dart';
 import '../cart/step_view.dart';
-import 'checkout_appbar.dart';
 import 'customer_info.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final CheckoutData checkoutData;
-  final VoidCallback onBack;
   final VoidCallback onSuccess;
 
   const CheckoutScreen({
     Key? key,
     required this.checkoutData,
-    required this.onBack,
     required this.onSuccess,
   }) : super(key: key);
 
@@ -62,37 +58,42 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     super.dispose();
   }
 
-  void _placeOrder() {
-    context.read<PlaceOrderCubit>().placeOrder(
-          checkoutData: widget.checkoutData,
-          paymentStatus: _paymentMethod == null ? PaymentStatusId.pending : (_paymentStatus ?? PaymentStatusId.pending),
-          paymentMethod: _paymentMethod,
-          paymentChannel: _paymentChannel,
-          info: _customerInfo,
-        );
+  void _placeOrder() async {
+    EasyLoading.show();
+    final body = await OrderEntityProvider().placeOrderRequestData(
+      checkoutData: widget.checkoutData,
+      paymentStatus: _paymentMethod == null ? PaymentStatusId.pending : (_paymentStatus ?? PaymentStatusId.pending),
+      paymentMethod: _paymentMethod,
+      paymentChannel: _paymentChannel,
+      info: _customerInfo,
+    );
+    final response = await getIt.get<AddOrderRepository>().placeOrder(body: body);
+    EasyLoading.dismiss();
+    response.fold(
+      (failure) {
+        showApiErrorSnackBar(context, failure);
+      },
+      (successResponse) {
+        showSuccessSnackBar(context, successResponse.message ?? '');
+        if (CartManager().willUpdateOrder) {
+          CartManager().clearAndNavigateToOrderScreen(context);
+        } else {
+          CartManager().clearAndNavigateToAddOrderScreen(context);
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.grey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
+    return Scaffold(
+      appBar: AppBar(title: Text(AppStrings.checkout.tr())),
+      body: Column(
         children: [
-          CheckoutAppBar(onBack: widget.onBack),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppSize.s10.rw,
-                      vertical: AppSize.s8.rh,
-                    ),
-                    child: const StepView(
-                      stepPosition: StepPosition.checkout,
-                    ),
-                  ),
                   CustomerInfoView(
                     initInfo: _customerInfo,
                     onCustomerInfoSave: (customerInfoData) {
@@ -127,25 +128,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
             ),
           ),
-          BlocConsumer<PlaceOrderCubit, ResponseState>(
-            listener: (context, state) {
-              if (state is Success<PlacedOrderResponse>) {
-                showSuccessSnackBar(context, state.data.message ?? '');
-                CartManager().clear();
-                widget.onSuccess();
-              } else if (state is Failed) {
-                showApiErrorSnackBar(context, state.failure);
-              }
-            },
-            builder: (context, state) {
-              return OrderActionButton(
-                buttonText: CartManager().willUpdateOrder ? AppStrings.update_order.tr() : AppStrings.placed_order.tr(),
-                enable: state is Loading ? false : true,
-                totalPrice: widget.checkoutData.cartBill.totalPrice,
-                onProceed: _placeOrder,
-                loading: state is Loading,
-              );
-            },
+          OrderActionButton(
+            buttonText: CartManager().willUpdateOrder ? AppStrings.update_order.tr() : AppStrings.placed_order.tr(),
+            enable: true,
+            totalPrice: widget.checkoutData.cartBill.totalPrice,
+            onProceed: _placeOrder,
+            loading: false,
           ),
         ],
       ),

@@ -60,33 +60,46 @@ class _BaseScreenState extends State<BaseScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         if (mounted) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-          if (args != null) {
-            if (args[ArgumentKey.kIS_NOTIFICATION]) {
-              final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
-              context.read<BaseScreenCubit>().changeIndex(navData);
-            }
-          }
+          _handleArgumentData();
         }
       },
     );
     super.initState();
   }
 
+  void _handleArgumentData() {
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    if (args != null) {
+      if (args.containsKey(ArgumentKey.kIS_NOTIFICATION)) {
+        if (args[ArgumentKey.kIS_NOTIFICATION]) {
+          final navData = NotificationDataHandler().getNavData(args[ArgumentKey.kNOTIFICATION_DATA]);
+          context.read<BaseScreenCubit>().changeIndex(navData);
+        }
+      } else if (args.containsKey(ArgumentKey.kIS_NAVIGATE)) {
+        if (args[ArgumentKey.kIS_NAVIGATE]) {
+          NavigationData navigationData = args[ArgumentKey.kNAVIGATE_DATA];
+          context.read<BaseScreenCubit>().changeIndex(navigationData);
+        }
+      }
+    }
+  }
+
   void _handlePrinterSetting(PrinterSetting setting) async {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     await _appPreferences.savePrinterSettings(printerSetting: setting);
-    if (args != null && args[ArgumentKey.kIS_NOTIFICATION]) {
-      if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
-        return;
-      }
-      final NotificationData notificationData = args[ArgumentKey.kNOTIFICATION_DATA];
-      final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
-      if (order != null && order.status == OrderStatus.ACCEPTED) {
-        _printingHandler.printDocket(order: order, isAutoPrint: true);
-      }
-    } else {
+    if (args == null) {
       _printingHandler.showDevices(initialIndex: PrinterSelectIndex.docket);
+    } else if (args.containsKey(ArgumentKey.kIS_NOTIFICATION)) {
+      if (args[ArgumentKey.kIS_NOTIFICATION]) {
+        if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
+          return;
+        }
+        final NotificationData notificationData = args[ArgumentKey.kNOTIFICATION_DATA];
+        final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
+        if (order != null && order.status == OrderStatus.ACCEPTED) {
+          _printingHandler.printDocket(order: order, isAutoPrint: true);
+        }
+      }
     }
   }
 
@@ -109,10 +122,7 @@ class _BaseScreenState extends State<BaseScreen> {
   void _goToAddOrderScreen() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const AddOrderScreen(
-          willOpenCart: false,
-          willUpdateCart: false,
-        ),
+        builder: (context) => const AddOrderScreen(willOpenCart: false, willUpdateCart: false),
       ),
     );
   }
@@ -148,7 +158,6 @@ class _BaseScreenState extends State<BaseScreen> {
 
   void _selectedTab(int index) {
     trackEvents(index);
-
     if (index == BottomNavItem.ADD_ORDER) {
       _goToAddOrderScreen();
     } else {
