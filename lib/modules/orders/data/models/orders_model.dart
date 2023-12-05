@@ -70,6 +70,8 @@ class OrderModel {
   int? gatewayFee;
   @JsonKey(name: 'service_fee')
   int? serviceFee;
+  @JsonKey(name: 'custom_fee')
+  double? customFee;
   @JsonKey(name: 'currency_symbol')
   String? currencySymbol;
   @JsonKey(name: 'item_count')
@@ -238,6 +240,7 @@ class OrderModel {
     this.additionalFee,
     this.gatewayFee,
     this.serviceFee,
+    this.customFee,
     this.vat,
     this.currency,
     this.currencySymbol,
@@ -378,6 +381,7 @@ class OrderModel {
       scheduledTime: scheduledTime.orEmpty(),
       gatewayFee: gatewayFee.orZero(),
       serviceFee: serviceFee.orZero(),
+      customFee: customFee.orZero(),
       tableNo: tableNo.orEmpty(),
       canMarkReady: canMarkReady.orFalse(),
       canUpdate: canUpdate.orFalse(),
@@ -652,14 +656,19 @@ class AdditionalInfoModel {
 class VehicleInfoModel {
   @JsonKey(name: 'reg_no')
   String? regNo;
+  @JsonKey(name: 'additional_details')
+  String? additionalDetails;
 
-  VehicleInfoModel({this.regNo});
+  VehicleInfoModel({this.regNo, this.additionalDetails});
 
   factory VehicleInfoModel.fromJson(Map<String, dynamic> json) => _$VehicleInfoModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$VehicleInfoModelToJson(this);
 
   VehicleInfo toEntity() {
-    return VehicleInfo(regNo: regNo.orEmpty());
+    return VehicleInfo(
+      regNo: regNo.orEmpty(),
+      additionalDetails: additionalDetails.orEmpty(),
+    );
   }
 }

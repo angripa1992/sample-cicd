@@ -5,11 +5,14 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 
+import '../../../../../../app/di.dart';
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
+import '../../../../../common/business_information_provider.dart';
+import '../../../../../common/entities/branch_info.dart';
 import '../../../../utils/cart_manager.dart';
 
 class CartPriceView extends StatelessWidget {
@@ -72,16 +75,25 @@ class CartPriceView extends StatelessWidget {
                 price: cartBill.additionalFee,
                 onTap: onAdditionalFee,
               ),
-            _item(
-              title: AppStrings.service_fee.tr(),
-              price: cartBill.serviceFee,
-              willCalculateAtNextStep: true,
-            ),
-            _item(
-              title: AppStrings.processing_fee.tr(),
-              price: 0,
-              willCalculateAtNextStep: true,
-            ),
+            if (CartManager().isWebShopOrder)
+              _item(
+                title: AppStrings.processing_fee.tr(),
+                price: 0,
+                willCalculateAtNextStep: true,
+              ),
+            if (CartManager().isWebShopOrder && cartBill.customFee > 0)
+              FutureBuilder<BusinessBranchInfo?>(
+                future: getIt.get<BusinessInformationProvider>().branchInfo(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    return _item(
+                      title: snapshot.data!.webshopCustomFeesTitle,
+                      price: cartBill.customFee,
+                    );
+                  }
+                  return Container();
+                },
+              ),
           ],
         ),
       ),
