@@ -75,11 +75,6 @@ class CartPriceView extends StatelessWidget {
                 price: cartBill.additionalFee,
                 onTap: onAdditionalFee,
               ),
-            _item(
-              title: AppStrings.service_fee.tr(),
-              price: cartBill.serviceFee,
-              willCalculateAtNextStep: true,
-            ),
             if (CartManager().isWebShopOrder)
               _item(
                 title: AppStrings.processing_fee.tr(),
