@@ -18,6 +18,8 @@ class CartBillModel {
   num? additionalFeeCent;
   num? serviceFee;
   num? serviceFeeCent;
+  num? restaurantServiceFee;
+  num? restaurantServiceFeeCent;
   num? itemPromoDiscount;
   num? orderPromoDiscount;
   num? orderPromoDiscountCent;
@@ -43,6 +45,8 @@ class CartBillModel {
     this.additionalFeeCent,
     this.serviceFee,
     this.serviceFeeCent,
+    this.restaurantServiceFee,
+    this.restaurantServiceFeeCent,
     this.items,
     this.numberOfSeniorCitizen,
     this.numberOfSeniorCustomer,
@@ -69,6 +73,8 @@ class CartBillModel {
     additionalFeeCent = json['additional_fee_cent'];
     serviceFee = json['service_fee'];
     serviceFeeCent = json['service_fee_cent'];
+    restaurantServiceFeeCent = json['restaurant_service_fee_cent'];
+    restaurantServiceFee = json['restaurant_service_fee'];
     itemPromoDiscount = json['item_promo_discount'];
     orderPromoDiscount = json['order_promo_discount'];
     orderPromoDiscountCent = json['order_promo_discount_cent'];
@@ -109,8 +115,8 @@ class CartBillModel {
         numberOfSeniorCitizen: numberOfSeniorCitizen ?? ZERO,
         numberOfSeniorCustomer: numberOfSeniorCustomer ?? ZERO,
         appliedPromo: appliedPromo,
-        restaurantServiceFee: ZERO,
-        restaurantServiceFeeCent: ZERO,
+        restaurantServiceFee: restaurantServiceFee.orZero(),
+        restaurantServiceFeeCent: restaurantServiceFeeCent.orZero(),
         merchantTotalPriceCent: ZERO,
         merchantTotalPrice: ZERO,
         feePaidByCustomer: false,

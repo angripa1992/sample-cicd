@@ -104,13 +104,13 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
             ),
             trailing: Icon(
               Icons.keyboard_arrow_down_rounded,
-              color: AppColors.greyDarker,
+              color: AppColors.black,
             ),
             trailingRotation: 180,
             title: Text(
               AppStrings.add_customer_info.tr(),
               style: regularTextStyle(
-                color: AppColors.greyDarker,
+                color: AppColors.black,
               ),
             ),
             content: Column(

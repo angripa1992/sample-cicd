@@ -25,7 +25,7 @@ class PlaceOrderDataRequestModel {
   int? vatAmount;
   int? discountAmount;
   int? additionalFee;
-  int? serviceFee;
+  num? restaurantServiceFee;
   List<BillingItemRequestModel>? cart;
   int? uniqueItems;
   int? totalItems;
@@ -63,7 +63,7 @@ class PlaceOrderDataRequestModel {
     this.vatAmount,
     this.discountAmount,
     this.additionalFee,
-    this.serviceFee,
+    this.restaurantServiceFee,
     this.cart,
     this.uniqueItems,
     this.totalItems,
@@ -94,7 +94,7 @@ class PlaceOrderDataRequestModel {
     data['vat_amount'] = vatAmount;
     data['discount_amount'] = discountAmount;
     data['additional_fee'] = additionalFee;
-    data['service_fee'] = serviceFee;
+    data['restaurant_service_fee'] = restaurantServiceFee;
     data['unique_items'] = uniqueItems;
     data['total_items'] = totalItems;
     data['currency_id'] = currencyId;
