@@ -3,7 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/entities/branch_info.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/strings.dart';
 
@@ -78,6 +81,20 @@ class _PriceViewState extends State<PriceView> {
                       AppStrings.restaurant_service_fee.tr(),
                       widget.order.restaurantServiceFee,
                     ),
+                  if (widget.order.customFee > 0.0)
+                    FutureBuilder<BusinessBranchInfo?>(
+                      future: fetchBranchInfo(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return _priceBreakdownItem(
+                            snapshot.data?.webshopCustomFeesTitle ?? 'Packaging Fee',
+                            widget.order.customFee,
+                          );
+                        }
+
+                        return Container();
+                      },
+                    ),
                   //  only if klikit order + not 0 + (manual order or (delivery order + not 3PL order))
                   if (widget.order.providerId == ProviderID.KLIKIT &&
                       widget.order.deliveryFee > 0 &&
@@ -138,6 +155,10 @@ class _PriceViewState extends State<PriceView> {
         ],
       ),
     );
+  }
+
+  Future<BusinessBranchInfo?> fetchBranchInfo() async {
+    return await getIt.get<BusinessInformationProvider>().branchInfo();
   }
 
   String _appliedPromos(Order order) {
