@@ -23,7 +23,7 @@ void showAddPaymentStatusMethodDialog({
   required BuildContext context,
   required Order order,
   required Function(int, int, int) onSuccess,
-  required bool willOnlyUpdatePaymentInfo,
+  required bool isWebShopPostPayment,
   required String title,
 }) {
   showDialog(
@@ -36,7 +36,7 @@ void showAddPaymentStatusMethodDialog({
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
           content: AddPaymentMethodAndStatusView(
             order: order,
-            willOnlyUpdatePaymentInfo: willOnlyUpdatePaymentInfo,
+            isWebShopPostPayment: isWebShopPostPayment,
             onSuccess: onSuccess,
             title: title,
           ),
@@ -49,14 +49,14 @@ void showAddPaymentStatusMethodDialog({
 class AddPaymentMethodAndStatusView extends StatefulWidget {
   final Order order;
   final Function(int, int, int) onSuccess;
-  final bool willOnlyUpdatePaymentInfo;
+  final bool isWebShopPostPayment;
   final String title;
 
   const AddPaymentMethodAndStatusView({
     Key? key,
     required this.order,
     required this.onSuccess,
-    required this.willOnlyUpdatePaymentInfo,
+    required this.isWebShopPostPayment,
     required this.title,
   }) : super(key: key);
 
@@ -68,16 +68,12 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
   static const _status = 'status';
   static const _method = 'method';
   static const _channel = 'channel';
-  final _paymentNotifier = ValueNotifier<Map<String, int?>>({
-    _status: null,
-    _method: null,
-    _channel: null,
-  });
+  final _paymentNotifier = ValueNotifier<Map<String, int?>>({_status: null, _method: null, _channel: null});
 
   @override
   void initState() {
     _paymentNotifier.value = {
-      _status: widget.willOnlyUpdatePaymentInfo ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null) : PaymentStatusId.paid,
+      _status: widget.isWebShopPostPayment ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null) : PaymentStatusId.paid,
       _method: widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
       _channel: widget.order.paymentChannel > 0 ? widget.order.paymentChannel : null,
     };
@@ -90,10 +86,9 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
     super.dispose();
   }
 
-  ///TODO need adjusment here
   void _updateStatus() {
     final value = _paymentNotifier.value;
-    if (widget.willOnlyUpdatePaymentInfo) {
+    if (widget.isWebShopPostPayment) {
       context.read<UpdatePaymentInfoCubit>().updatePaymentInfo({
         "id": widget.order.id,
         "payment_method": value[_method],
@@ -155,17 +150,20 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
             };
           },
         ),
-        PaymentStatusView(
-          initStatus: widget.willOnlyUpdatePaymentInfo ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null) : PaymentStatusId.paid,
-          willShowReqTag: true,
-          onChanged: (status) {
-            final previousValue = _paymentNotifier.value;
-            _paymentNotifier.value = {
-              _status: status,
-              _method: previousValue[_method],
-              _channel: previousValue[_channel],
-            };
-          },
+        Visibility(
+          visible: widget.isWebShopPostPayment,
+          child: PaymentStatusView(
+            initStatus: widget.isWebShopPostPayment ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null) : PaymentStatusId.paid,
+            willShowReqTag: true,
+            onChanged: (status) {
+              final previousValue = _paymentNotifier.value;
+              _paymentNotifier.value = {
+                _status: status,
+                _method: previousValue[_method],
+                _channel: previousValue[_channel],
+              };
+            },
+          ),
         ),
         ValueListenableBuilder<Map<String, int?>>(
           valueListenable: _paymentNotifier,

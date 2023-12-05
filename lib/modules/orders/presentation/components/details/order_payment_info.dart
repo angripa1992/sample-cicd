@@ -138,7 +138,7 @@ class PaymentInfoTagView extends StatelessWidget {
           showAddPaymentStatusMethodDialog(
             title: AppStrings.update_payment_info.tr(),
             context: context,
-            willOnlyUpdatePaymentInfo: true,
+            isWebShopPostPayment: true,
             onSuccess: onPaymentInfoChanged,
             order: order,
           );

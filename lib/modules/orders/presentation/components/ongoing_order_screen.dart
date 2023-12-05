@@ -118,12 +118,12 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
     bool willCancel = false,
     bool isFromDetails = false,
   }) {
-    if (status == OrderStatus.DELIVERED && (order.paymentStatus == PaymentStatusId.pending || order.paymentStatus == PaymentStatusId.failed)) {
+    if (status == OrderStatus.DELIVERED && order.isManualOrder && order.paymentStatus != PaymentStatusId.paid) {
       showAddPaymentStatusMethodDialog(
         title: AppStrings.select_payment_method_and_status.tr(),
         context: context,
         order: order,
-        willOnlyUpdatePaymentInfo: false,
+        isWebShopPostPayment: false,
         onSuccess: (method, channel, status) {
           _onActionSuccess(isFromDetails, status);
         },
