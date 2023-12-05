@@ -91,7 +91,7 @@ class _PriceViewState extends State<PriceView> {
                     _priceBreakdownItem(
                       AppStrings.service_fee.tr(),
                       widget.order.serviceFee,
-                      showNegative: !widget.order.isManualOrder,
+                      showNegative: true,
                     ),
                   if (widget.order.providerId == ProviderID.KLIKIT && widget.order.gatewayFee > 0 && !widget.order.feePaidByCustomer)
                     _priceBreakdownItem(
