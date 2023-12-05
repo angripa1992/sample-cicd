@@ -656,14 +656,19 @@ class AdditionalInfoModel {
 class VehicleInfoModel {
   @JsonKey(name: 'reg_no')
   String? regNo;
+  @JsonKey(name: 'additional_details')
+  String? additionalDetails;
 
-  VehicleInfoModel({this.regNo});
+  VehicleInfoModel({this.regNo, this.additionalDetails});
 
   factory VehicleInfoModel.fromJson(Map<String, dynamic> json) => _$VehicleInfoModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$VehicleInfoModelToJson(this);
 
   VehicleInfo toEntity() {
-    return VehicleInfo(regNo: regNo.orEmpty());
+    return VehicleInfo(
+      regNo: regNo.orEmpty(),
+      additionalDetails: additionalDetails.orEmpty(),
+    );
   }
 }

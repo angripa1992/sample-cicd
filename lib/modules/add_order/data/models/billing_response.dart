@@ -114,6 +114,7 @@ class CartBillModel {
         merchantTotalPriceCent: ZERO,
         merchantTotalPrice: ZERO,
         feePaidByCustomer: false,
+        customFee: ZERO,
       );
 }
 

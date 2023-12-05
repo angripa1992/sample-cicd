@@ -85,13 +85,12 @@ class _PriceViewState extends State<PriceView> {
                     FutureBuilder<BusinessBranchInfo?>(
                       future: fetchBranchInfo(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
+                        if (snapshot.hasData && snapshot.data != null) {
                           return _priceBreakdownItem(
-                            snapshot.data?.webshopCustomFeesTitle ?? 'Packaging Fee',
+                            snapshot.data!.webshopCustomFeesTitle,
                             widget.order.customFee,
                           );
                         }
-
                         return Container();
                       },
                     ),
