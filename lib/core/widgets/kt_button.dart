@@ -12,6 +12,8 @@ class KTButton extends StatelessWidget {
   final TextStyle? labelStyle;
   final BoxDecoration? backgroundDecoration;
   final Color? splashColor;
+  final Color? progressPrimaryColor;
+  final Color? progressSecondaryColor;
 
   const KTButton({
     super.key,
@@ -22,6 +24,8 @@ class KTButton extends StatelessWidget {
     this.labelStyle,
     this.backgroundDecoration,
     this.splashColor,
+    this.progressPrimaryColor,
+    this.progressSecondaryColor,
   });
 
   @override
@@ -43,13 +47,21 @@ class KTButton extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 2.rSp, vertical: 8.rh),
               decoration: BoxDecoration(
                 border: backgroundDecoration?.border,
-                    borderRadius: backgroundDecoration?.borderRadius?.resolve(null),
+                borderRadius: backgroundDecoration?.borderRadius?.resolve(null),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Visibility(
+                    visible: controller.loaded == false,
+                    child: CircularProgress(
+                      size: 16.rSp,
+                      strokeWidth: 2.rSp,
+                      primaryColor: progressPrimaryColor,
+                      secondaryColor: progressSecondaryColor,
+                    ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                  Visibility(visible: controller.loaded == false, child: CircularProgress(size: 16.rSp, strokeWidth: 2.rSp)),
                   Visibility(visible: controller.loaded == false, child: 5.rw.horizontalSpacer()),
                   prefixWidget.setVisibilityWithSpace(endSpace: 2.rw, direction: Axis.horizontal),
                   Text(
@@ -61,11 +73,11 @@ class KTButton extends StatelessWidget {
                   ),
                   suffixWidget.setVisibilityWithSpace(startSpace: 2.rw, direction: Axis.horizontal),
                 ],
-                  ),
-                ),
               ),
             ),
           ),
+        ),
+      ),
     );
   }
 }
