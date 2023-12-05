@@ -83,8 +83,7 @@ class _KTTextFieldState extends State<KTTextField> {
           return widget.validation!(text);
         }
       },
-      scrollPadding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      scrollPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       style: widget.textStyle ??
           regularTextStyle(
             color: AppColors.black,
@@ -98,16 +97,13 @@ class _KTTextFieldState extends State<KTTextField> {
         fillColor: widget.fillColor,
         suffixIcon: (widget.passwordField ?? false)
             ? IconButton(
-                onPressed: () {
+          onPressed: () {
                   _obscurePassword = !_obscurePassword;
                   if (mounted) {
                     setState(() {});
                   }
                 },
-                icon: _obscurePassword
-                    ? Icon(Icons.visibility_off_outlined,
-                        color: AppColors.white)
-                    : Icon(Icons.visibility_outlined, color: AppColors.white),
+                icon: _obscurePassword ? Icon(Icons.visibility_off_outlined, color: AppColors.neutralB600) : Icon(Icons.visibility_outlined, color: AppColors.neutralB600),
               )
             : widget.suffixIcon != null
                 ? Icon(widget.suffixIcon, color: widget.suffixIconColor)
@@ -115,8 +111,8 @@ class _KTTextFieldState extends State<KTTextField> {
         errorText: widget.errorText,
         hintText: widget.hintText,
         hintStyle: regularTextStyle(
-          color: AppColors.black,
-          fontSize: AppFontSize.s16.rSp,
+          color: AppColors.greyDarker,
+          fontSize: AppFontSize.s14.rSp,
         ),
         contentPadding: widget.contentPadding ??
             EdgeInsets.symmetric(
@@ -134,9 +130,7 @@ class _KTTextFieldState extends State<KTTextField> {
             width: widget.readOnly == true ? AppSize.s1.rSp : AppSize.s2.rSp,
           ),
         ),
-        errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            borderSide: BorderSide(color: AppColors.red)),
+        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppSize.s8.rSp), borderSide: BorderSide(color: AppColors.red)),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(AppSize.s8.rSp)),
         ),

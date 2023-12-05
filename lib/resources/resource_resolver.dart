@@ -27,4 +27,6 @@ class ImageResourceResolver {
   static SVGImageResource get profileSVG => SVGImageResource('$iconBasePath/ic_profile.svg');
 
   static SVGImageResource get notificationSVG => SVGImageResource('$iconBasePath/ic_notification.svg');
+
+  static SVGImageResource get notificationAlertSVG => SVGImageResource('$iconBasePath/ic_notification_alert.svg');
 }
