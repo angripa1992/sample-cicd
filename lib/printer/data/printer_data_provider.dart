@@ -8,6 +8,8 @@ import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
+import '../../app/di.dart';
+import '../../modules/common/business_information_provider.dart';
 import '../../modules/common/entities/brand.dart';
 
 class PrinterDataProvider {
@@ -17,10 +19,12 @@ class PrinterDataProvider {
 
   PrinterDataProvider._internal();
 
-  TemplateOrder createTemplateOrderData({
+  Future<TemplateOrder> createTemplateOrderData({
     required Brand? brand,
     required Order order,
-  }) {
+  }) async {
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final customFeeTitle = branchInfo?.webshopCustomFeesTitle ?? 'Packaging Fee';
     return TemplateOrder(
       id: order.id,
       externalId: order.externalId,
@@ -63,27 +67,29 @@ class PrinterDataProvider {
       fulfillmentStatusId: order.fulfillmentStatusId,
       fulfillmentPickupPin: order.fulfillmentPickupPin,
       fulfillmentTrackingUrl: order.fulfillmentTrackingUrl,
-      fulfillmentRider: order.fulfillmentRider != null
-          ? RiderInfo(
-              name: order.fulfillmentRider?.name,
-              phone: order.fulfillmentRider?.phone,
-              email: order.fulfillmentRider?.email,
-              licensePlate: order.fulfillmentRider?.licensePlate,
-              photoUrl: order.fulfillmentRider?.photoUrl,
-              coordinates: order.fulfillmentRider?.coordinates != null
-                  ? Coordinates(
-                      latitude: order.fulfillmentRider?.coordinates?.latitude,
-                      longitude: order.fulfillmentRider?.coordinates?.longitude,
-                    )
-                  : null,
-            )
-          : null,
       pickupAt: order.estimatedPickUpAt.isNotEmpty ? DateTimeProvider.pickupTime(order.estimatedPickUpAt) : order.estimatedPickUpAt,
       providerSubTotal: order.providerSubTotal,
       providerGrandTotal: order.providerGrandTotal,
       providerAdditionalFee: order.providerAdditionalFee,
       queueNo: order.queueNo,
       paidByCustomer: order.feePaidByCustomer,
+      customFee: order.customFee,
+      customFeeTitle: customFeeTitle,
+      fulfillmentRider: order.fulfillmentRider != null
+          ? RiderInfo(
+        name: order.fulfillmentRider?.name,
+        phone: order.fulfillmentRider?.phone,
+        email: order.fulfillmentRider?.email,
+        licensePlate: order.fulfillmentRider?.licensePlate,
+        photoUrl: order.fulfillmentRider?.photoUrl,
+        coordinates: order.fulfillmentRider?.coordinates != null
+            ? Coordinates(
+          latitude: order.fulfillmentRider?.coordinates?.latitude,
+          longitude: order.fulfillmentRider?.coordinates?.longitude,
+        )
+            : null,
+      )
+          : null,
     );
   }
 

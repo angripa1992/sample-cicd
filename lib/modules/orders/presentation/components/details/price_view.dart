@@ -85,13 +85,12 @@ class _PriceViewState extends State<PriceView> {
                     FutureBuilder<BusinessBranchInfo?>(
                       future: fetchBranchInfo(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
+                        if (snapshot.hasData && snapshot.data != null) {
                           return _priceBreakdownItem(
-                            snapshot.data?.webshopCustomFeesTitle ?? 'Packaging Fee',
+                            snapshot.data!.webshopCustomFeesTitle,
                             widget.order.customFee,
                           );
                         }
-
                         return Container();
                       },
                     ),
@@ -108,7 +107,7 @@ class _PriceViewState extends State<PriceView> {
                     _priceBreakdownItem(
                       AppStrings.service_fee.tr(),
                       widget.order.serviceFee,
-                      showNegative: !widget.order.isManualOrder,
+                      showNegative: true,
                     ),
                   if (widget.order.providerId == ProviderID.KLIKIT && widget.order.gatewayFee > 0 && !widget.order.feePaidByCustomer)
                     _priceBreakdownItem(
