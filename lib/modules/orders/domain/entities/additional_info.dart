@@ -10,8 +10,9 @@ class AdditionalInfo {
 
 class VehicleInfo {
   final String regNo;
+  final String additionalDetails;
 
-  VehicleInfo({required this.regNo});
+  VehicleInfo({required this.regNo, required this.additionalDetails});
 
-  VehicleInfoModel toModel() => VehicleInfoModel(regNo: regNo);
+  VehicleInfoModel toModel() => VehicleInfoModel(regNo: regNo, additionalDetails: additionalDetails);
 }

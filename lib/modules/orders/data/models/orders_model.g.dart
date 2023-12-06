@@ -40,6 +40,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       additionalFee: json['additional_fee'] as int?,
       gatewayFee: json['gateway_fee'] as int?,
       serviceFee: json['service_fee'] as int?,
+      customFee: (json['custom_fee'] as num?)?.toDouble(),
       vat: json['vat'] as int?,
       currency: json['currency'] as String?,
       currencySymbol: json['currency_symbol'] as String?,
@@ -168,6 +169,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'additional_fee': instance.additionalFee,
       'gateway_fee': instance.gatewayFee,
       'service_fee': instance.serviceFee,
+      'custom_fee': instance.customFee,
       'currency_symbol': instance.currencySymbol,
       'item_count': instance.itemCount,
       'unique_item_count': instance.uniqueItemCount,
@@ -384,9 +386,11 @@ Map<String, dynamic> _$AdditionalInfoModelToJson(
 VehicleInfoModel _$VehicleInfoModelFromJson(Map<String, dynamic> json) =>
     VehicleInfoModel(
       regNo: json['reg_no'] as String?,
+      additionalDetails: json['additional_details'] as String?,
     );
 
 Map<String, dynamic> _$VehicleInfoModelToJson(VehicleInfoModel instance) =>
     <String, dynamic>{
       'reg_no': instance.regNo,
+      'additional_details': instance.additionalDetails,
     };

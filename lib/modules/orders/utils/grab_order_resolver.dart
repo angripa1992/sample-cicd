@@ -74,6 +74,7 @@ class GrabOrderResolver {
         additionalFee: order.additionalFee,
         gatewayFee: order.gatewayFee,
         serviceFee: order.serviceFee,
+        customFee: order.customFee,
         currencySymbol: order.currencySymbol,
         itemCount: order.itemCount,
         uniqueItemCount: order.uniqueItemCount,

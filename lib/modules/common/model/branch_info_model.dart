@@ -37,6 +37,7 @@ class BusinessBranchInfoModel {
   List<String>? brandTitles;
   List<int>? dayAvailability;
   List<int>? kitchenEquipmentIds;
+  String? webshopCustomFeesTitle;
 
   BusinessBranchInfoModel({
     this.id,
@@ -74,6 +75,7 @@ class BusinessBranchInfoModel {
     this.brandTitles,
     this.dayAvailability,
     this.kitchenEquipmentIds,
+    this.webshopCustomFeesTitle,
   });
 
   BusinessBranchInfoModel.fromJson(dynamic json) {
@@ -112,6 +114,7 @@ class BusinessBranchInfoModel {
     brandTitles = json['brand_titles'] != null ? json['brand_titles'].cast<String>() : [];
     dayAvailability = json['day_availability'] != null ? json['day_availability'].cast<int>() : [];
     kitchenEquipmentIds = json['kitchen_equipment_ids'] != null ? json['kitchen_equipment_ids'].cast<int>() : [];
+    webshopCustomFeesTitle = json['webshop_custom_fees_title'];
   }
 
   BusinessBranchInfo toEntity() => BusinessBranchInfo(
@@ -150,5 +153,6 @@ class BusinessBranchInfoModel {
         brandTitles: brandTitles ?? [],
         dayAvailability: dayAvailability ?? [],
         kitchenEquipmentIds: kitchenEquipmentIds ?? [],
+        webshopCustomFeesTitle: webshopCustomFeesTitle ?? 'Packaging Fee',
       );
 }

@@ -27,6 +27,7 @@ class WebShopCalculateBillResponse {
   num? totalPromoDiscountCent;
   num? merchantTotalPriceCent;
   num? merchantTotalPrice;
+  num? customFee;
   bool? feePaidByCustomer;
   Promo? appliedPromo;
 
@@ -55,6 +56,7 @@ class WebShopCalculateBillResponse {
     this.totalPromoDiscountCent,
     this.merchantTotalPriceCent,
     this.merchantTotalPrice,
+    this.customFee,
     this.feePaidByCustomer,
     this.appliedPromo,
   });
@@ -89,6 +91,7 @@ class WebShopCalculateBillResponse {
     totalPromoDiscountCent = json['total_promo_discount_cent'];
     merchantTotalPriceCent = json['merchant_total_price_cent'];
     merchantTotalPrice = json['merchant_total_price'];
+    customFee = json['custom_fee'];
     feePaidByCustomer = json['fee_paid_by_customer'];
     appliedPromo = json['applied_promo'] != null ? Promo.fromJson(json['applied_promo']) : null;
   }
@@ -123,6 +126,7 @@ class WebShopCalculateBillResponse {
       merchantTotalPriceCent: merchantTotalPriceCent.orZero(),
       merchantTotalPrice: merchantTotalPrice.orZero(),
       feePaidByCustomer: feePaidByCustomer.orFalse(),
+      customFee: customFee.orZero(),
     );
   }
 }

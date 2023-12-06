@@ -6,7 +6,7 @@ class AppConstant {
   static const String roleAdmin = "admin";
   static const String roleBrandManager = "brand_manager";
   static const String roleBusinessOwner = "business_owner";
-  static const String whatappSupportNumber = "+639762884283";
+  static const String whatsappSupportNumber = "+6281936119055";
   static const String supportMail = "help@klikit.io";
   static const int refreshTime = 30;
   static const int busyTimeInMin = 60;
