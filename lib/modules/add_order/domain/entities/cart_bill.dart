@@ -28,6 +28,7 @@ class CartBill {
   final num restaurantServiceFeeCent;
   final num merchantTotalPriceCent;
   final num merchantTotalPrice;
+  final num customFee;
   final bool feePaidByCustomer;
 
   CartBill({
@@ -58,6 +59,7 @@ class CartBill {
     required this.restaurantServiceFeeCent,
     required this.merchantTotalPriceCent,
     required this.merchantTotalPrice,
+    required this.customFee,
     required this.feePaidByCustomer,
   });
 }

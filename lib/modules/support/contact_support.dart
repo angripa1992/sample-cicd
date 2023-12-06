@@ -20,7 +20,7 @@ class ContactSupportScreen extends StatefulWidget {
 
 class _ContactSupportScreenState extends State<ContactSupportScreen> {
   Future<void> _launchWhatsapp() async {
-    final whatsappAndroid = Uri.parse("whatsapp://send?phone=${AppConstant.whatappSupportNumber}");
+    final whatsappAndroid = Uri.parse("whatsapp://send?phone=${AppConstant.whatsappSupportNumber}");
     try {
       await launchUrl(whatsappAndroid);
     } on PlatformException catch (e) {
