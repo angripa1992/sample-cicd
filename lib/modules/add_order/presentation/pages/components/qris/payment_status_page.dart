@@ -7,7 +7,10 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../../../../app/constants.dart';
 import '../../../../../../app/enums.dart';
+import '../../../../../../core/route/routes.dart';
+import '../../../../../base/base_screen_cubit.dart';
 import '../../../../../widgets/app_button.dart';
 
 class PaymentStatusPage extends StatelessWidget {
@@ -26,10 +29,25 @@ class PaymentStatusPage extends StatelessWidget {
     if (isSuccessful) {
       if (paymentState == PaymentState.PRE_PAYMENT) {
         CartManager().clearAndNavigateToOrderScreen(context);
+      } else {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.base,
+          (Route<dynamic> route) => false,
+          arguments: {
+            ArgumentKey.kIS_NAVIGATE: true,
+            ArgumentKey.kNAVIGATE_DATA: NavigationData(
+              index: BottomNavItem.ORDER,
+              subTabIndex: OrderTab.History,
+              data: null,
+            ),
+          },
+        );
       }
     } else {
       if (paymentState == PaymentState.PRE_PAYMENT) {
         CartManager().clearAndNavigateToAddOrderScreen(context);
+      } else {
+        Navigator.of(context).pop();
       }
     }
   }

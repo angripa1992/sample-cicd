@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../../app/di.dart';
@@ -16,6 +18,7 @@ import '../../../../add_order/presentation/pages/components/checkout/pament_meth
 import '../../../../add_order/presentation/pages/components/checkout/payment_status.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../../widgets/snackbars.dart';
+import '../../../data/models/qris_payment_success_response.dart';
 import '../../../domain/entities/order.dart';
 import '../../bloc/update_payment_info_cubit.dart';
 
@@ -73,7 +76,7 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
   @override
   void initState() {
     _paymentNotifier.value = {
-      _status: widget.isWebShopPostPayment ? (widget.order.paymentStatus > 0 ? widget.order.paymentStatus : null) : PaymentStatusId.paid,
+      _status: widget.order.paymentStatus > 0 ? widget.order.paymentStatus : PaymentStatusId.paid,
       _method: widget.order.paymentMethod > 0 ? widget.order.paymentMethod : null,
       _channel: widget.order.paymentChannel > 0 ? widget.order.paymentChannel : null,
     };
@@ -88,28 +91,43 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
 
   void _updateStatus() {
     final value = _paymentNotifier.value;
-    if (widget.isWebShopPostPayment) {
-      context.read<UpdatePaymentInfoCubit>().updatePaymentInfo({
-        "id": widget.order.id,
-        "payment_method": value[_method],
-        "payment_channel_id": value[_channel],
-        "payment_status": value[_status],
-      });
-    } else {
-      context.read<UpdatePaymentInfoCubit>().updateOrderStatus({
-        "UPDATE_PAYMENT_STATUS": true,
-        "id": widget.order.id,
-        "payment_method": value[_method],
-        "payment_channel_id": value[_channel],
-        "payment_status": value[_status],
-        "status": OrderStatus.DELIVERED,
-      });
-    }
+    final paymentMethod = value[_method];
+    final paymentChanel = value[_channel];
+    final paymentStatus = value[_status];
+    final orderID = widget.order.id;
+    context.read<UpdatePaymentInfoCubit>().updatePaymentStatus(
+          isWebShopPostPayment: widget.isWebShopPostPayment,
+          orderID: orderID,
+          paymentMethod: paymentMethod!,
+          paymentStatus: paymentStatus!,
+          paymentChanel: paymentChanel!,
+        );
   }
 
   void _onSuccess() {
     final value = _paymentNotifier.value;
     widget.onSuccess(value[_method]!, value[_channel]!, value[_status]!);
+  }
+
+  bool _isButtonEnabled(Map<String, int?> value) {
+    if (widget.isWebShopPostPayment) {
+      return value[_status] != null && value[_method] != null;
+    } else {
+      return value[_method] != null;
+    }
+  }
+
+  void _navigateToQrisPaymentPage(QrisUpdatePaymentResponse response) {
+    if(response.checkoutLink != null){
+      Navigator.pop(context);
+      Navigator.of(context).push(MaterialPageRoute(builder: (_){
+        return QrisPaymentPage(
+          paymentLink: response.checkoutLink!,
+          orderID: widget.order.id,
+          paymentState: PaymentState.POST_PAYMENT,
+        );
+      }));
+    }
   }
 
   @override
@@ -174,6 +192,8 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
                   showSuccessSnackBar(context, state.data.message ?? '');
                   _onSuccess();
                   Navigator.pop(context);
+                } else if (state is Success<QrisUpdatePaymentResponse>) {
+                  _navigateToQrisPaymentPage(state.data);
                 } else if (state is Failed) {
                   showApiErrorSnackBar(context, state.failure);
                 }
@@ -183,7 +203,7 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
                   isLoading: state is Loading,
                   onTap: _updateStatus,
                   text: AppStrings.proceed.tr(),
-                  enabled: value[_status] != null && value[_method] != null,
+                  enabled: _isButtonEnabled(value),
                 );
               },
             );
