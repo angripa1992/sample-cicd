@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/size_config.dart';
 
 import '../../../../../resources/assets.dart';
@@ -22,7 +21,11 @@ class EmptyBrandView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SvgPicture.asset(AppIcons.emptyBrand),
+          Image.asset(
+            AppImages.selectBrand,
+            height: AppSize.s200.rh,
+            width: AppSize.s200.rw,
+          ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: AppSize.s16.rh),
             child: Text(

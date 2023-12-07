@@ -19,9 +19,9 @@ import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
+import '../../../core/route/routes.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
-import '../../add_order/presentation/pages/add_order_screen.dart';
 import '../../base/base_screen_cubit.dart';
 import '../../busy/presentation/pause_store_header_view.dart';
 import '../../orders/presentation/bloc/cancelled_order_cubit.dart';
@@ -105,14 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     HomeHeaderView(
                       onCartTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const AddOrderScreen(
-                              willOpenCart: true,
-                              willUpdateCart: false,
-                            ),
-                          ),
-                        );
+                        Navigator.of(context).pushNamed(Routes.addOrder);
                       },
                     ),
                     Positioned(

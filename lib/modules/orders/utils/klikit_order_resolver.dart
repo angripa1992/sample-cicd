@@ -6,10 +6,10 @@ import 'package:klikit/modules/orders/utils/update_manual_order_data_provider.da
 
 import '../../../app/constants.dart';
 import '../../../app/di.dart';
+import '../../../core/route/routes.dart';
 import '../../../printer/printing_handler.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
-import '../../add_order/presentation/pages/add_order_screen.dart';
 import '../../common/order_parameter_provider.dart';
 import '../../widgets/snackbars.dart';
 import '../domain/entities/order.dart';
@@ -42,11 +42,7 @@ class KlikitOrderResolver {
   }
 
   void _gotoCartScreen(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const AddOrderScreen(willOpenCart: true, willUpdateCart: true),
-      ),
-    );
+    Navigator.of(context).pushNamed(Routes.addOrder);
   }
 
   void findRider({

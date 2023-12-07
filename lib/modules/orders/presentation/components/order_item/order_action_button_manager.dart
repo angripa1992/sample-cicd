@@ -75,7 +75,9 @@ class OrderActionButtonManager {
 
   bool canUpdateOrder(Order order) {
     final preConditionMatch = order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
-    if (preConditionMatch && order.isManualOrder) {
+    if (order.isManualOrder && order.paymentChannel == PaymentChannelID.CREATE_QRIS && !order.canUpdate) {
+      return false;
+    } else if (preConditionMatch && order.isManualOrder) {
       return true;
     } else if (preConditionMatch && !order.isManualOrder && order.canUpdate) {
       return true;
