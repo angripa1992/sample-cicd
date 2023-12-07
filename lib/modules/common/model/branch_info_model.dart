@@ -38,6 +38,8 @@ class BusinessBranchInfoModel {
   List<int>? dayAvailability;
   List<int>? kitchenEquipmentIds;
   String? webshopCustomFeesTitle;
+  bool? mergeFeeEnable;
+  String? mergeFeeTitle;
 
   BusinessBranchInfoModel({
     this.id,
@@ -76,6 +78,8 @@ class BusinessBranchInfoModel {
     this.dayAvailability,
     this.kitchenEquipmentIds,
     this.webshopCustomFeesTitle,
+    this.mergeFeeEnable,
+    this.mergeFeeTitle,
   });
 
   BusinessBranchInfoModel.fromJson(dynamic json) {
@@ -115,6 +119,8 @@ class BusinessBranchInfoModel {
     dayAvailability = json['day_availability'] != null ? json['day_availability'].cast<int>() : [];
     kitchenEquipmentIds = json['kitchen_equipment_ids'] != null ? json['kitchen_equipment_ids'].cast<int>() : [];
     webshopCustomFeesTitle = json['webshop_custom_fees_title'];
+    mergeFeeEnable = json['merge_fees_enabled'];
+    mergeFeeTitle = json['merge_fees_title'];
   }
 
   BusinessBranchInfo toEntity() => BusinessBranchInfo(
@@ -154,5 +160,7 @@ class BusinessBranchInfoModel {
         dayAvailability: dayAvailability ?? [],
         kitchenEquipmentIds: kitchenEquipmentIds ?? [],
         webshopCustomFeesTitle: webshopCustomFeesTitle ?? 'Packaging Fee',
+        mergeFeeTitle: mergeFeeTitle.orEmpty(),
+        mergeFeeEnabled: mergeFeeEnable.orFalse(),
       );
 }
