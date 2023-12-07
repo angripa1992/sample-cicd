@@ -16,6 +16,7 @@ import 'package:klikit/modules/orders/edit_order/grab_order_update_request_model
 import '../../../common/business_information_provider.dart';
 import '../../../common/entities/source.dart';
 import '../models/orders_model.dart';
+import '../models/qris_payment_success_response.dart';
 
 class OrderRepositoryImpl extends OrderRepository {
   final OrderRemoteDatasource _datasource;
@@ -152,6 +153,20 @@ class OrderRepositoryImpl extends OrderRepository {
     if (await _connectivity.hasConnection()) {
       try {
         final response = await _datasource.updatePaymentInfo(params);
+        return Right(response);
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, QrisUpdatePaymentResponse>> updateQrisPaymentInfo(Map<String, dynamic> params) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.updateQrisPaymentInfo(params);
         return Right(response);
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);

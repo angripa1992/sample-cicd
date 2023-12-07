@@ -19,7 +19,6 @@ import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
 import 'components/brand_selector_app_bar.dart';
 import 'components/cart/cart_screen.dart';
-import 'components/checkout/checkout_screen.dart';
 import 'components/empty_brand_view.dart';
 import 'components/go_to_cart_button.dart';
 import 'components/menu_items_list_view.dart';
@@ -28,9 +27,11 @@ import 'components/modifier/edit_modifier.dart';
 
 class AddOrderBody extends StatefulWidget {
   final VoidCallback onBack;
-  final bool willOpenCart;
 
-  const AddOrderBody({Key? key, required this.onBack, required this.willOpenCart}) : super(key: key);
+  const AddOrderBody({
+    Key? key,
+    required this.onBack,
+  }) : super(key: key);
 
   @override
   State<AddOrderBody> createState() => _AddOrderBodyState();
@@ -50,7 +51,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   Widget build(BuildContext context) {
     return BlocConsumer<MenuBrandsCubit, ResponseState>(
       listener: (context, state) {
-        if (state is Success<List<Brand>> && widget.willOpenCart) {
+        if (state is Success<List<Brand>> && CartManager().items.isNotEmpty) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             _gotoCart();
           });

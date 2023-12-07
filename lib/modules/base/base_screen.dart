@@ -5,6 +5,7 @@ import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/base/update_available_view.dart';
@@ -31,7 +32,6 @@ import '../../app/constants.dart';
 import '../../core/utils/response_state.dart';
 import '../../language/language_manager.dart';
 import '../../resources/strings.dart';
-import '../add_order/presentation/pages/add_order_screen.dart';
 import '../busy/presentation/bloc/fetch_pause_store_data_cubit.dart';
 import '../home/presentation/cubit/fetch_zreport_cubit.dart';
 import '../home/presentation/home_screen.dart';
@@ -120,11 +120,7 @@ class _BaseScreenState extends State<BaseScreen> {
   }
 
   void _goToAddOrderScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const AddOrderScreen(willOpenCart: false, willUpdateCart: false),
-      ),
-    );
+    Navigator.of(context).pushNamed(Routes.addOrder);
   }
 
   void trackEvents(int index) async {

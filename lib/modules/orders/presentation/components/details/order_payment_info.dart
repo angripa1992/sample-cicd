@@ -94,9 +94,7 @@ class OrderPaymentStatusView extends StatelessWidget {
   final Order order;
   final Function(int, int, int) onPaymentInfoChanged;
 
-  OrderPaymentStatusView(
-      {Key? key, required this.order, required this.onPaymentInfoChanged})
-      : super(key: key);
+  OrderPaymentStatusView({Key? key, required this.order, required this.onPaymentInfoChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -129,9 +127,7 @@ class PaymentInfoTagView extends StatelessWidget {
   }) : super(key: key);
 
   bool _isWebshopPostPayment() {
-    return order.providerId == ProviderID.KLIKIT &&
-        !order.isManualOrder &&
-        order.paymentStatus != PaymentStatusId.paid;
+    return order.providerId == ProviderID.KLIKIT && !order.isManualOrder && order.paymentStatus != PaymentStatusId.paid;
   }
 
   @override
@@ -142,7 +138,7 @@ class PaymentInfoTagView extends StatelessWidget {
           showAddPaymentStatusMethodDialog(
             title: AppStrings.update_payment_info.tr(),
             context: context,
-            willOnlyUpdatePaymentInfo: true,
+            isWebShopPostPayment: true,
             onSuccess: onPaymentInfoChanged,
             order: order,
           );

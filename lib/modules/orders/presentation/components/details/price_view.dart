@@ -74,27 +74,21 @@ class _PriceViewState extends State<PriceView> {
               ),
               child: Column(
                 children: [
-                  if (widget.order.vat > 0) _priceBreakdownItem(_vatTitle(widget.order), widget.order.vat),
-                  if (widget.order.additionalFee > 0) _priceBreakdownItem(AppStrings.additional_fee.tr(), widget.order.additionalFee),
+                  if (widget.order.vat > 0)
+                    _priceBreakdownItem(
+                      _vatTitle(widget.order),
+                      widget.order.vat,
+                    ),
+                  if (widget.order.additionalFee > 0)
+                    _priceBreakdownItem(
+                      AppStrings.additional_fee.tr(),
+                      widget.order.additionalFee,
+                    ),
                   if (widget.order.restaurantServiceFee > 0)
                     _priceBreakdownItem(
                       AppStrings.restaurant_service_fee.tr(),
                       widget.order.restaurantServiceFee,
                     ),
-                  if (widget.order.customFee > 0.0)
-                    FutureBuilder<BusinessBranchInfo?>(
-                      future: fetchBranchInfo(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data != null) {
-                          return _priceBreakdownItem(
-                            snapshot.data!.webshopCustomFeesTitle,
-                            widget.order.customFee,
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                  //  only if klikit order + not 0 + (manual order or (delivery order + not 3PL order))
                   if (widget.order.providerId == ProviderID.KLIKIT &&
                       widget.order.deliveryFee > 0 &&
                       (widget.order.isManualOrder || (widget.order.type == OrderType.DELIVERY && !widget.order.isThreePlOrder)))
@@ -102,23 +96,25 @@ class _PriceViewState extends State<PriceView> {
                       AppStrings.delivery_fee.tr(),
                       widget.order.deliveryFee,
                     ),
-                  //  only if klikit order + not 0 + not paid by customer. (displayed with (-) sign in front)
-                  if (widget.order.providerId == ProviderID.KLIKIT && widget.order.serviceFee > 0 && !widget.order.feePaidByCustomer)
-                    _priceBreakdownItem(
-                      AppStrings.service_fee.tr(),
-                      widget.order.serviceFee,
-                      showNegative: true,
-                    ),
-                  if (widget.order.providerId == ProviderID.KLIKIT && widget.order.gatewayFee > 0 && !widget.order.feePaidByCustomer)
-                    _priceBreakdownItem(
-                      AppStrings.processing_fee.tr(),
-                      widget.order.gatewayFee,
-                      showNegative: true,
-                    ),
+                  FutureBuilder<BusinessBranchInfo?>(
+                    future: getIt.get<BusinessInformationProvider>().branchInfo(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return _showBranchDependentFee(snapshot.data!);
+                      }
+                      return Container();
+                    },
+                  ),
                   if (widget.order.discount > 0)
                     _priceBreakdownItem(
                       '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
                       widget.order.discount,
+                      showNegative: true,
+                    ),
+                  if (widget.order.rewardDiscount > 0)
+                    _priceBreakdownItem(
+                      'Reward',
+                      widget.order.rewardDiscount,
                       showNegative: true,
                     ),
                 ],
@@ -156,8 +152,34 @@ class _PriceViewState extends State<PriceView> {
     );
   }
 
-  Future<BusinessBranchInfo?> fetchBranchInfo() async {
-    return await getIt.get<BusinessInformationProvider>().branchInfo();
+  Widget _showBranchDependentFee(BusinessBranchInfo branch) {
+    return Column(
+      children: [
+        if (widget.order.customFee > 0.0)
+          _priceBreakdownItem(
+            branch.webshopCustomFeesTitle,
+            widget.order.customFee,
+          ),
+        if (branch.mergeFeeEnabled && widget.order.mergeFee > 0 && !widget.order.feePaidByCustomer && widget.order.providerId == ProviderID.KLIKIT)
+          _priceBreakdownItem(
+            branch.mergeFeeTitle,
+            widget.order.mergeFee,
+            showNegative: true,
+          ),
+        if (!branch.mergeFeeEnabled && widget.order.providerId == ProviderID.KLIKIT && widget.order.serviceFee > 0 && !widget.order.feePaidByCustomer)
+          _priceBreakdownItem(
+            AppStrings.service_fee.tr(),
+            widget.order.serviceFee,
+            showNegative: true,
+          ),
+        if (!branch.mergeFeeEnabled && widget.order.providerId == ProviderID.KLIKIT && widget.order.gatewayFee > 0 && !widget.order.feePaidByCustomer)
+          _priceBreakdownItem(
+            AppStrings.processing_fee.tr(),
+            widget.order.gatewayFee,
+            showNegative: true,
+          ),
+      ],
+    );
   }
 
   String _appliedPromos(Order order) {

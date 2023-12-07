@@ -1,31 +1,33 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/checkout/checkout_actions_buttons.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/checkout/pament_method.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/payment_status.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/constants.dart';
 import '../../../../../../app/di.dart';
 import '../../../../../../resources/strings.dart';
-import '../../../../../../resources/values.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../../utils/order_entity_provider.dart';
 import '../cart/order_action_button.dart';
-import '../cart/step_view.dart';
 import 'customer_info.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final CheckoutData checkoutData;
-  final VoidCallback onSuccess;
+  final bool willUpdateOrder;
 
   const CheckoutScreen({
     Key? key,
     required this.checkoutData,
-    required this.onSuccess,
+    required this.willUpdateOrder,
   }) : super(key: key);
 
   @override
@@ -33,9 +35,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  final _paymentMethodNotifier = ValueNotifier<int?>(null);
   CustomerInfo? _customerInfo;
-  int? _paymentStatus;
   int? _paymentMethod;
   int? _paymentChannel;
 
@@ -45,24 +45,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     if (paymentInfo != null) {
       _paymentMethod = paymentInfo.paymentMethod;
       _paymentChannel = paymentInfo.paymentChannel;
-      _paymentMethodNotifier.value = paymentInfo.paymentMethod;
-      _paymentStatus = paymentInfo.paymentStatus;
     }
     _customerInfo = CartManager().customerInfo;
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _paymentMethodNotifier.dispose();
-    super.dispose();
+  int _paymentStatus(CheckoutState checkoutState) {
+    late int paymentStatus;
+    if (widget.willUpdateOrder) {
+      paymentStatus = CartManager().paymentInfo?.paymentStatus ?? PaymentStatusId.pending;
+    } else if (checkoutState == CheckoutState.PAY_NOW) {
+      paymentStatus = PaymentStatusId.paid;
+    } else {
+      paymentStatus = PaymentStatusId.pending;
+    }
+    return paymentStatus;
   }
 
-  void _placeOrder() async {
+  void _placeOrder(CheckoutState checkoutState) async {
+    if (checkoutState == CheckoutState.PAY_NOW && (_paymentMethod == null || _paymentChannel == null)) {
+      showErrorSnackBar(context, 'Please select payment method');
+      return;
+    }
     EasyLoading.show();
     final body = await OrderEntityProvider().placeOrderRequestData(
       checkoutData: widget.checkoutData,
-      paymentStatus: _paymentMethod == null ? PaymentStatusId.pending : (_paymentStatus ?? PaymentStatusId.pending),
+      paymentStatus: _paymentStatus(checkoutState),
       paymentMethod: _paymentMethod,
       paymentChannel: _paymentChannel,
       info: _customerInfo,
@@ -70,18 +78,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final response = await getIt.get<AddOrderRepository>().placeOrder(body: body);
     EasyLoading.dismiss();
     response.fold(
-      (failure) {
-        showApiErrorSnackBar(context, failure);
-      },
-      (successResponse) {
-        showSuccessSnackBar(context, successResponse.message ?? '');
-        if (CartManager().willUpdateOrder) {
-          CartManager().clearAndNavigateToOrderScreen(context);
-        } else {
-          CartManager().clearAndNavigateToAddOrderScreen(context);
-        }
-      },
+      (failure) => showApiErrorSnackBar(context, failure),
+      (successResponse) => _handlePlacedOrderResponse(checkoutState, successResponse),
     );
+  }
+
+  void _handlePlacedOrderResponse(CheckoutState checkoutState, PlacedOrderResponse response) {
+    if (checkoutState == CheckoutState.PAY_NOW && response.checkoutLink != null) {
+      _payThroughQrisNow(response);
+      return;
+    }
+    showSuccessSnackBar(context, response.message ?? '');
+    if (widget.willUpdateOrder) {
+      CartManager().clearAndNavigateToOrderScreen(context);
+    } else {
+      CartManager().clearAndNavigateToAddOrderScreen(context);
+    }
+  }
+
+  void _payThroughQrisNow(PlacedOrderResponse response) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => QrisPaymentPage(
+        paymentLink: response.checkoutLink!,
+        orderID: response.orderId!,
+        paymentState: PaymentState.PRE_PAYMENT,
+      ),
+    ));
   }
 
   @override
@@ -94,47 +116,43 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CustomerInfoView(
-                    initInfo: _customerInfo,
-                    onCustomerInfoSave: (customerInfoData) {
-                      _customerInfo = customerInfoData;
-                    },
+                  Padding(
+                    padding: EdgeInsets.only(top: AppSize.s8.rh),
+                    child: CustomerInfoView(
+                      initInfo: _customerInfo,
+                      onCustomerInfoSave: (customerInfoData) {
+                        _customerInfo = customerInfoData;
+                      },
+                    ),
                   ),
-                  PaymentMethodView(
-                    initMethod: _paymentMethod,
-                    initChannel: _paymentChannel,
-                    onChanged: (paymentMethod, paymentChannel) {
-                      _paymentMethod = paymentMethod;
-                      _paymentChannel = paymentChannel;
-                      _paymentMethodNotifier.value = _paymentMethod;
-                    },
-                  ),
-                  ValueListenableBuilder(
-                    valueListenable: _paymentMethodNotifier,
-                    builder: (_, paymentMethod, __) {
-                      if (paymentMethod == null) {
-                        return const SizedBox();
-                      } else {
-                        return PaymentStatusView(
-                          initStatus: _paymentStatus,
-                          onChanged: (paymentStatus) {
-                            _paymentStatus = paymentStatus;
-                          },
-                        );
-                      }
-                    },
+                  Visibility(
+                    visible: !widget.willUpdateOrder,
+                    child: PaymentMethodView(
+                      initMethod: _paymentMethod,
+                      initChannel: _paymentChannel,
+                      onChanged: (paymentMethod, paymentChannel) {
+                        _paymentMethod = paymentMethod;
+                        _paymentChannel = paymentChannel;
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          OrderActionButton(
-            buttonText: CartManager().willUpdateOrder ? AppStrings.update_order.tr() : AppStrings.placed_order.tr(),
-            enable: true,
-            totalPrice: widget.checkoutData.cartBill.totalPrice,
-            onProceed: _placeOrder,
-            loading: false,
-          ),
+          widget.willUpdateOrder
+              ? OrderActionButton(
+                  buttonText: AppStrings.update_order.tr(),
+                  enable: true,
+                  loading: false,
+                  totalPrice: widget.checkoutData.cartBill.totalPrice,
+                  onProceed: () => _placeOrder(CheckoutState.PLACE_ORDER),
+                )
+              : CheckoutActionButton(
+                  totalPrice: widget.checkoutData.cartBill.totalPrice,
+                  onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
+                  onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+                ),
         ],
       ),
     );

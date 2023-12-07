@@ -16,9 +16,11 @@ class CustomerInfoView extends StatefulWidget {
   final CustomerInfo? initInfo;
   final Function(CustomerInfo) onCustomerInfoSave;
 
-  const CustomerInfoView(
-      {Key? key, required this.onCustomerInfoSave, this.initInfo})
-      : super(key: key);
+  const CustomerInfoView({
+    Key? key,
+    required this.onCustomerInfoSave,
+    this.initInfo,
+  }) : super(key: key);
 
   @override
   State<CustomerInfoView> createState() => _CustomerInfoViewState();
