@@ -4,6 +4,7 @@ import 'package:docket_design_template/model/modifiers.dart';
 import 'package:docket_design_template/model/order.dart';
 import 'package:docket_design_template/model/rider_info.dart';
 import 'package:docket_design_template/utils/date_time_provider.dart';
+import 'package:docket_design_template/utils/extension.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -24,7 +25,6 @@ class PrinterDataProvider {
     required Order order,
   }) async {
     final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
-    final customFeeTitle = branchInfo?.webshopCustomFeesTitle ?? 'Packaging Fee';
     return TemplateOrder(
       id: order.id,
       externalId: order.externalId,
@@ -60,7 +60,7 @@ class PrinterDataProvider {
       branchName: SessionManager().branchName(),
       isManualOrder: order.isManualOrder,
       isFoodpandaApiOrder: order.isFoodpandaApiOrder,
-      is_vat_included: order.isVatIncluded,
+      isVatIncluded: order.isVatIncluded,
       isThreePlOrder: order.isThreePlOrder,
       fulfillmentDeliveredTime: order.fulfillmentDeliveredTime,
       fulfillmentExpectedPickupTime: order.fulfillmentExpectedPickupTime,
@@ -73,22 +73,26 @@ class PrinterDataProvider {
       providerAdditionalFee: order.providerAdditionalFee,
       queueNo: order.queueNo,
       paidByCustomer: order.feePaidByCustomer,
+      rewardDiscount: order.rewardDiscount,
       customFee: order.customFee,
-      customFeeTitle: customFeeTitle,
+      mergeFee: order.mergeFee,
+      customFeeTitle: branchInfo?.webshopCustomFeesTitle ?? 'Packaging Fee',
+      mergeFeeTitle: branchInfo?.mergeFeeTitle ?? EMPTY,
+      mergeFeeEnabled: branchInfo?.mergeFeeEnabled ?? false,
       fulfillmentRider: order.fulfillmentRider != null
           ? RiderInfo(
-        name: order.fulfillmentRider?.name,
-        phone: order.fulfillmentRider?.phone,
-        email: order.fulfillmentRider?.email,
-        licensePlate: order.fulfillmentRider?.licensePlate,
-        photoUrl: order.fulfillmentRider?.photoUrl,
-        coordinates: order.fulfillmentRider?.coordinates != null
-            ? Coordinates(
-          latitude: order.fulfillmentRider?.coordinates?.latitude,
-          longitude: order.fulfillmentRider?.coordinates?.longitude,
-        )
-            : null,
-      )
+              name: order.fulfillmentRider?.name,
+              phone: order.fulfillmentRider?.phone,
+              email: order.fulfillmentRider?.email,
+              licensePlate: order.fulfillmentRider?.licensePlate,
+              photoUrl: order.fulfillmentRider?.photoUrl,
+              coordinates: order.fulfillmentRider?.coordinates != null
+                  ? Coordinates(
+                      latitude: order.fulfillmentRider?.coordinates?.latitude,
+                      longitude: order.fulfillmentRider?.coordinates?.longitude,
+                    )
+                  : null,
+            )
           : null,
     );
   }

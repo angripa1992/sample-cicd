@@ -35,6 +35,8 @@ class BusinessBranchInfo {
   final List<int> dayAvailability;
   final List<int> kitchenEquipmentIds;
   final String webshopCustomFeesTitle;
+  final bool mergeFeeEnabled;
+  final String mergeFeeTitle;
 
   BusinessBranchInfo({
     required this.id,
@@ -73,6 +75,8 @@ class BusinessBranchInfo {
     required this.dayAvailability,
     required this.kitchenEquipmentIds,
     required this.webshopCustomFeesTitle,
+    required this.mergeFeeEnabled,
+    required this.mergeFeeTitle,
   });
 
   Map<String, dynamic> toJson() {
@@ -113,6 +117,8 @@ class BusinessBranchInfo {
     map['day_availability'] = dayAvailability;
     map['kitchen_equipment_ids'] = kitchenEquipmentIds;
     map['webshop_custom_fees_title'] = webshopCustomFeesTitle;
+    map['merge_fees_enabled'] = mergeFeeEnabled;
+    map['merge_fees_title'] = mergeFeeTitle;
     return map;
   }
 }
