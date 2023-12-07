@@ -77,14 +77,13 @@ class CheckoutActionButton extends StatelessWidget {
                   textColor: AppColors.black,
                   color: AppColors.greyDark,
                   borderColor: AppColors.greyDark,
-
                 ),
               ),
               SizedBox(width: AppSize.s8.rw),
               Expanded(
                 child: AppButton(
                   onTap: onPlaceOrder,
-                  text: AppStrings.placed_order.tr(),
+                  text: 'Place Order',
                 ),
               ),
             ],

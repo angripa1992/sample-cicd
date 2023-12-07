@@ -37,7 +37,7 @@ class PaymentStatusPage extends StatelessWidget {
             ArgumentKey.kIS_NAVIGATE: true,
             ArgumentKey.kNAVIGATE_DATA: NavigationData(
               index: BottomNavItem.ORDER,
-              subTabIndex: OrderTab.History,
+              subTabIndex: OrderTab.NEW,
               data: null,
             ),
           },

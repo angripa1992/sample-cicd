@@ -12,22 +12,32 @@ class AddOrderScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  void _pop(BuildContext context) {
+    if (CartManager().willUpdateOrder) {
+      CartManager().clear();
+    }
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<MenuBrandsCubit>(create: (_) => getIt.get()),
-        BlocProvider<FetchAddOrderMenuItemsCubit>(create: (_) => getIt.get()),
-      ],
-      child: SafeArea(
-        child: Scaffold(
-          body: AddOrderBody(
-            onBack: () {
-              if (CartManager().willUpdateOrder) {
-                CartManager().clear();
-              }
-              Navigator.pop(context);
-            },
+    return WillPopScope(
+      onWillPop: () async {
+        _pop(context);
+        return false;
+      },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<MenuBrandsCubit>(create: (_) => getIt.get()),
+          BlocProvider<FetchAddOrderMenuItemsCubit>(create: (_) => getIt.get()),
+        ],
+        child: SafeArea(
+          child: Scaffold(
+            body: AddOrderBody(
+              onBack: () {
+                _pop(context);
+              },
+            ),
           ),
         ),
       ),
