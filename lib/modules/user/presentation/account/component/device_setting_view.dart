@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/resources/decorations.dart';
 
 import '../../../../../core/utils/response_state.dart';
 import '../../../../../resources/colors.dart';
@@ -12,8 +15,6 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../../widgets/loading_button.dart';
-import '../../../../widgets/snackbars.dart';
 import '../../../domain/entities/success_response.dart';
 import '../cubit/device_setting_cubit.dart';
 
@@ -27,6 +28,7 @@ class DeviceSettingScreen extends StatefulWidget {
 class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
   final _devices = [Device.android, Device.sunmi];
   int? _device;
+  final _updateButtonController = KTButtonController(AppStrings.update.tr(), true);
 
   @override
   void initState() {
@@ -39,75 +41,76 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt.get<DeviceSettingCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppStrings.printer_settings.tr()),
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: AppSize.s16.rh,
-            horizontal: AppSize.s16.rw,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            AppStrings.choose_device_type_to_connect_printer.tr(),
+            style: mediumTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s16.rSp,
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                AppStrings.choose_device_type_to_connect_printer.tr(),
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
+          SizedBox(height: AppSize.s16.rh),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: _devices.map((device) {
+              return ListTile(
+                contentPadding: EdgeInsets.fromLTRB(12.rw, 0, 8.rw, 0),
+                selected: _device == device,
+                selectedTileColor: AppColors.neutralB20,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.rSp)),
+                title: Text(
+                  device == Device.android ? 'Android' : 'Sunmi',
+                  style: mediumTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
                 ),
-              ),
-              SizedBox(height: AppSize.s8.rh),
-              Column(
-                children: _devices.map((device) {
-                  return ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      device == Device.android ? 'Android' : 'Sunmi',
-                      style: mediumTextStyle(
-                        color: AppColors.black,
-                        fontSize: AppFontSize.s14.rSp,
-                      ),
-                    ),
-                    leading: Radio<int>(
-                      value: device,
-                      groupValue: _device,
-                      activeColor: AppColors.primary,
-                      onChanged: (value) {
-                        setState(() {
-                          _device = value;
-                        });
-                      },
-                    ),
-                  );
-                }).toList(),
-              ),
-              const Spacer(),
-              BlocConsumer<DeviceSettingCubit, ResponseState>(
-                listener: (context, state) {
-                  if (state is Failed) {
-                    showApiErrorSnackBar(context, state.failure);
-                  } else if (state is Success<SuccessResponse>) {
-                    showSuccessSnackBar(context, state.data.message);
-                  }
+                trailing: Radio<int>(
+                  value: device,
+                  groupValue: _device,
+                  activeColor: AppColors.primary,
+                  onChanged: (value) {
+                    setState(() {
+                      _device = device;
+                    });
+                  },
+                ),
+                onTap: () {
+                  setState(() {
+                    _device = device;
+                  });
                 },
-                builder: (context, state) {
-                  return LoadingButton(
-                    isLoading: (state is Loading),
-                    text: AppStrings.save.tr(),
-                    color: AppColors.primary,
-                    borderColor: AppColors.primary,
-                    textColor: AppColors.white,
-                    onTap: () {
-                      context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
-                    },
-                  );
-                },
-              ),
-            ],
+              );
+            }).toList(),
           ),
-        ),
+          42.rh.verticalSpacer(),
+          BlocConsumer<DeviceSettingCubit, ResponseState>(
+            listener: (context, state) {
+              _updateButtonController.setLoaded(state is! Loading);
+
+              if (state is Failed) {
+                Navigator.pop(context, state.failure);
+              } else if (state is Success<SuccessResponse>) {
+                Navigator.pop(context, state.data.message);
+              }
+            },
+            builder: (context, state) {
+              return KTButton(
+                controller: _updateButtonController,
+                backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
+                labelStyle: mediumTextStyle(color: AppColors.white),
+                progressPrimaryColor: AppColors.white,
+                onTap: () {
+                  context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
+                },
+              );
+            },
+          ),
+        ],
       ),
     );
   }
