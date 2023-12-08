@@ -104,6 +104,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                 backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
                 labelStyle: mediumTextStyle(color: AppColors.white),
                 progressPrimaryColor: AppColors.white,
+                verticalContentPadding: 10.rh,
                 onTap: () {
                   context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
                 },
