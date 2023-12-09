@@ -89,7 +89,7 @@ class KTButtonController extends ChangeNotifier {
   bool enabled;
   bool loaded = true;
 
-  KTButtonController(this.label, this.enabled);
+  KTButtonController({required this.label, this.enabled = true});
 
   void setEnabled(bool enabled) {
     this.enabled = enabled;

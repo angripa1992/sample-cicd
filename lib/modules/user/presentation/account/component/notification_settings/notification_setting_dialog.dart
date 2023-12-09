@@ -27,8 +27,8 @@ void showPauseNotificationConfirmationDialog({
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      final positiveButtonController = KTButtonController(enable ? AppStrings.resume.tr() : AppStrings.pause.tr(), true);
-      final negativeButtonController = KTButtonController(AppStrings.cancel.tr(), true);
+      final positiveButtonController = KTButtonController(label: enable ? AppStrings.resume.tr() : AppStrings.pause.tr());
+      final negativeButtonController = KTButtonController(label: AppStrings.cancel.tr());
 
       return BlocProvider<ChangeNotificationSettingCubit>(
         create: (_) => getIt.get<ChangeNotificationSettingCubit>(),

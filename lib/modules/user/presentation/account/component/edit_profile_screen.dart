@@ -35,7 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _lastNameController = TextEditingController();
   final _phoneNameController = TextEditingController();
   final _emailNameController = TextEditingController();
-  final _updateButtonController = KTButtonController(AppStrings.update.tr(), true);
+  final _updateButtonController = KTButtonController(label: AppStrings.update.tr());
   final _formKey = GlobalKey<FormState>();
   late UserInfo _user;
 
@@ -63,9 +63,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         );
       } else {
         context.read<UpdateUserInfoCubit>().updateUserInfo(
-          UpdateUserInfoParams(
-            UserUpdateRequestModel(
-              branchId: _user.brandIDs.firstOrNull,
+              UpdateUserInfoParams(
+                UserUpdateRequestModel(
+                  branchId: _user.brandIDs.firstOrNull,
                   businessId: _user.businessId,
                   firstName: _firstNameController.text,
                   lastName: _lastNameController.text,
@@ -73,9 +73,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   roleIds: _user.roleIds,
                   countryIds: _user.countryIds,
                 ),
-            _user.id,
-          ),
-        );
+                _user.id,
+              ),
+            );
       }
     }
   }

@@ -30,7 +30,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  final _updateButtonController = KTButtonController(AppStrings.update.tr(), true);
+  final _updateButtonController = KTButtonController(label: AppStrings.update.tr());
   final _key = GlobalKey<FormState>();
 
   void _validateANdChangePassword(BuildContext context) {
