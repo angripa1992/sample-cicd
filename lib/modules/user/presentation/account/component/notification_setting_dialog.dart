@@ -9,14 +9,14 @@ import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 
-import '../../../../../../app/di.dart';
-import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
-import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
-import '../../../../../widgets/snackbars.dart';
-import '../../../../domain/entities/success_response.dart';
-import '../../cubit/change_notificcation_setting_cubit.dart';
+import '../../../../../app/di.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/styles.dart';
+import '../../../../../resources/values.dart';
+import '../../../../widgets/snackbars.dart';
+import '../../../domain/entities/success_response.dart';
+import '../cubit/change_notificcation_setting_cubit.dart';
 
 void showPauseNotificationConfirmationDialog({
   required BuildContext context,
