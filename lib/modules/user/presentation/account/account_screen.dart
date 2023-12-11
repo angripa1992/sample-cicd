@@ -32,7 +32,6 @@ import '../../../../core/route/routes.dart';
 import '../../../../language/language_setting_page.dart';
 import '../../../../resources/fonts.dart';
 import '../../../../segments/segemnt_data_provider.dart';
-import '../../../widgets/app_button.dart';
 import '../../../widgets/snackbars.dart';
 import 'component/account_header.dart';
 import 'component/app_version_info.dart';
@@ -108,34 +107,6 @@ class _AccountScreenState extends State<AccountScreen> {
             color: AppColors.redDark,
           ),
           title: Text(AppStrings.logout.tr()),
-          actionsAlignment: MainAxisAlignment.end,
-          actionsPadding: EdgeInsets.only(
-            right: AppSize.s16.rw,
-            left: AppSize.s16.rw,
-            bottom: AppSize.s16.rh,
-          ),
-          actions: [
-            AppButton(
-              text: AppStrings.cancel.tr(),
-              color: AppColors.white,
-              textColor: AppColors.black,
-              borderColor: AppColors.black,
-              onTap: () {
-                Navigator.of(dContext).pop();
-              },
-            ),
-            SizedBox(height: AppSize.s8.rh),
-            AppButton(
-              text: AppStrings.logout.tr(),
-              color: AppColors.white,
-              textColor: AppColors.redDark,
-              borderColor: AppColors.redDark,
-              onTap: () {
-                Navigator.of(dContext).pop();
-                context.read<LogoutCubit>().logout();
-              },
-            ),
-          ],
           content: Text(
             AppStrings.logout_confirm_message.tr(),
             textAlign: TextAlign.center,
@@ -144,6 +115,42 @@ class _AccountScreenState extends State<AccountScreen> {
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
+          actionsAlignment: MainAxisAlignment.end,
+          actionsPadding: EdgeInsets.only(
+            right: AppSize.s16.rw,
+            left: AppSize.s16.rw,
+            bottom: AppSize.s16.rh,
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: KTButton(
+                    controller: KTButtonController(label: AppStrings.cancel.tr()),
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
+                    labelStyle: mediumTextStyle(),
+                    splashColor: AppColors.greyBright,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                SizedBox(width: AppSize.s12.rw),
+                Expanded(
+                  child: KTButton(
+                    controller: KTButtonController(label: AppStrings.logout.tr()),
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.errorR300),
+                    labelStyle: mediumTextStyle(color: AppColors.white),
+                    onTap: () {
+                      Navigator.of(dContext).pop();
+                      context.read<LogoutCubit>().logout();
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
         );
       },
     );
