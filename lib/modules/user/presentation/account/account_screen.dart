@@ -13,6 +13,7 @@ import 'package:klikit/core/widgets/modal_sheet_manager.dart';
 import 'package:klikit/language/selected_locale.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/support/contact_support.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/presentation/account/component/device_setting_view.dart';
 import 'package:klikit/modules/user/presentation/account/component/notification_setting_dialog.dart';
@@ -90,6 +91,21 @@ class _AccountScreenState extends State<AccountScreen> {
           showApiErrorSnackBar(context, value);
         } else if (value is String) {
           showSuccessSnackBar(context, value);
+        }
+      },
+    );
+  }
+
+  void _onContactSupport() {
+    ModalSheetManager.openBottomSheet(
+      context,
+      const ContactSupportScreen(),
+      title: AppStrings.contact_support.tr(),
+      dismissible: false,
+    ).then(
+      (value) {
+        if (value is String) {
+          showApiErrorSnackBar(context, Failure(ResponseCode.DEFAULT, value));
         }
       },
     );
@@ -270,9 +286,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       title: AppStrings.contact_support.tr(),
                       prefixWidget: ImageResourceResolver.supportSVG.getImageWidget(width: 20.rw, height: 20.rh),
                       suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(Routes.contactSupport);
-                      },
+                      onTap: _onContactSupport,
                     ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 20.rh),
                     AppVersionInfo().setVisibilityWithSpace(direction: Axis.vertical, endSpace: 24.rh),
                     BlocConsumer<LogoutCubit, CubitState>(
