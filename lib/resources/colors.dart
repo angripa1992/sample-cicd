@@ -42,6 +42,7 @@ class AppColors {
   static Color successG600 = const Color(0xFF16B050);
   static Color neutralB40 = const Color(0xFFDEDEDE);
   static Color neutralB20 = const Color(0xFFF5F5F5);
+  static Color spanishGrey = const Color(0xFF949494);
 }
 
 Color getCheckboxColor(Set<MaterialState> states) {
