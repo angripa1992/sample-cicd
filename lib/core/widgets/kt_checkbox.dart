@@ -37,7 +37,7 @@ class KTCheckbox extends StatelessWidget {
                   ? enabled
                       ? primaryColor
                       : primaryColor.withOpacity(0.5)
-                  : AppColors.spanishGrey,
+                  : AppColors.neutralB80,
             ),
           ),
           shape: RoundedRectangleBorder(
@@ -52,7 +52,7 @@ class KTCheckbox extends StatelessWidget {
         title: Text(
           name,
           style: regularTextStyle(
-            color: enabled ? AppColors.black : AppColors.spanishGrey,
+            color: enabled ? AppColors.black : AppColors.neutralB80,
             fontSize: AppSize.s16.rSp,
           ),
         ),

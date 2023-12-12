@@ -6,7 +6,6 @@ import 'package:klikit/printer/presentation/sticker_config_tab.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../resources/strings.dart';
-import '../../resources/styles.dart';
 import 'docket_config_tab.dart';
 
 class PrinterConnectionSettingPage extends StatelessWidget {
