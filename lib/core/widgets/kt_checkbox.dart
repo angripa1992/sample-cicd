@@ -27,17 +27,21 @@ class KTCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        primaryColor: primaryColor,
-        unselectedWidgetColor: AppColors.primaryLighter,
+        primaryColor: enabled ? primaryColor : primaryColor.withOpacity(0.5),
+        unselectedWidgetColor: enabled ? (secondaryColor ?? AppColors.primaryLight) : (secondaryColor?.withOpacity(0.5) ?? AppColors.primaryLight.withOpacity(0.5)),
         checkboxTheme: CheckboxThemeData(
           side: MaterialStateBorderSide.resolveWith(
             (states) => BorderSide(
               width: AppSize.s2.rSp,
-              color: states.contains(MaterialState.selected) ? AppColors.primary : AppColors.spanishGrey,
+              color: states.contains(MaterialState.selected)
+                  ? enabled
+                      ? primaryColor
+                      : primaryColor.withOpacity(0.5)
+                  : AppColors.spanishGrey,
             ),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(4.rSp),
           ),
           fillColor: MaterialStateProperty.all(Colors.white),
         ),
@@ -52,10 +56,14 @@ class KTCheckbox extends StatelessWidget {
             fontSize: AppSize.s16.rSp,
           ),
         ),
-        value: checked ? true : enabled,
-        onChanged: (bool? value) => checked ? null : onChanged(value!),
+        value: checked,
+        onChanged: (bool? value) {
+          if (value != null) {
+            onChanged(value);
+          }
+        },
         controlAffinity: ListTileControlAffinity.leading,
-        checkColor: AppColors.primary,
+        checkColor: enabled ? primaryColor : primaryColor.withOpacity(0.5),
       ),
     );
   }
