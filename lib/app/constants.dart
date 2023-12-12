@@ -75,10 +75,12 @@ class OrderSource {
 
 class PaymentMethodID {
   static const int CASH = 2;
+  static const int QR = 17;
 }
 
 class PaymentChannelID {
   static const int CASH = 31;
+  static const int CREATE_QRIS = 37;
 }
 
 class ProviderID {
@@ -215,4 +217,6 @@ class ArgumentKey {
   static const String kBRAND_ID = 'brand_id';
   static const String kMENU_CATEGORY = 'menu_category';
   static const String kENABLED = 'enabled';
+  static const String kOPEN_CART = 'clear_cart';
+  static const String kUPDATE_CART = 'update_order';
 }

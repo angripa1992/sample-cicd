@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/add_order/presentation/pages/add_order_screen.dart';
 
 import '../../../app/constants.dart';
 import '../../../core/route/routes.dart';
@@ -113,12 +112,12 @@ class CartManager {
 
   Future<void> removeFromCart(AddToCartItem item) async {
     _deleteItemFromCartByUUIDandQuantity(item);
-    _checkCartAndClearIfNeeded();
+    _notifyListener();
   }
 
   void removeAllByBrand(int brandId) {
     _carts.removeWhere((element) => element.brand.id == brandId);
-    _checkCartAndClearIfNeeded();
+    _notifyListener();
   }
 
   Future<void> changeQuantity(AddToCartItem item, int quantity) async {
@@ -338,15 +337,7 @@ class CartManager {
 
   void clearAndNavigateToAddOrderScreen(BuildContext context) {
     clear();
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const AddOrderScreen(
-          willOpenCart: false,
-          willUpdateCart: false,
-        ),
-      ),
-      (Route<dynamic> route) => false,
-    );
+    Navigator.of(context).popUntil(ModalRoute.withName(Routes.addOrder));
   }
 
   void clear() {

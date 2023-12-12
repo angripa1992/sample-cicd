@@ -9,6 +9,7 @@ import 'package:klikit/modules/orders/data/models/settings_model.dart';
 import '../../edit_order/grab_order_update_request_model.dart';
 import '../models/cancellation_reason_model.dart';
 import '../models/order_status_model.dart';
+import '../models/qris_payment_success_response.dart';
 import '../models/webshop_order_details_model.dart';
 
 abstract class OrderRemoteDatasource {
@@ -26,6 +27,8 @@ abstract class OrderRemoteDatasource {
 
   Future<ActionSuccess> updatePaymentInfo(Map<String, dynamic> params);
 
+  Future<QrisUpdatePaymentResponse> updateQrisPaymentInfo(Map<String, dynamic> params);
+
   Future<ActionSuccess> addComment(Map<String, dynamic> params, int orderID);
 
   Future<ActionSuccess> deleteComment(int orderID);
@@ -38,7 +41,7 @@ abstract class OrderRemoteDatasource {
 
   Future<List<CancellationReasonModel>> fetchCancellationReasons();
 
-  Future<ActionSuccess> updatePrepTime(int orderID,Map<String, dynamic> params);
+  Future<ActionSuccess> updatePrepTime(int orderID, Map<String, dynamic> params);
 
   Future<ActionSuccess> cancelRider(int orderID);
 }
@@ -130,6 +133,16 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
+  Future<QrisUpdatePaymentResponse> updateQrisPaymentInfo(Map<String, dynamic> params) async {
+    try {
+      final response = await _restClient.request(Urls.updatePaymentInfo, Method.PATCH, params);
+      return QrisUpdatePaymentResponse.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
   Future<OrderModel> calculateGrabOrder(OrderModel model) async {
     try {
       final response = await _restClient.request(
@@ -189,9 +202,9 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> updatePrepTime(int orderID, Map<String, dynamic> params) async{
+  Future<ActionSuccess> updatePrepTime(int orderID, Map<String, dynamic> params) async {
     try {
-      final response = await _restClient.request(Urls.updatePrepTime(orderID), Method.PATCH,params);
+      final response = await _restClient.request(Urls.updatePrepTime(orderID), Method.PATCH, params);
       return ActionSuccess.fromJson(response);
     } on DioException {
       rethrow;
@@ -199,9 +212,9 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   }
 
   @override
-  Future<ActionSuccess> cancelRider(int orderID) async{
+  Future<ActionSuccess> cancelRider(int orderID) async {
     try {
-      await _restClient.request(Urls.cancelRider(orderID), Method.DELETE,null);
+      await _restClient.request(Urls.cancelRider(orderID), Method.DELETE, null);
       return ActionSuccess('Successfully canceled rider');
     } on DioException {
       rethrow;

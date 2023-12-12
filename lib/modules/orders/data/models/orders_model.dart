@@ -222,6 +222,10 @@ class OrderModel {
   bool? canCancelRider;
   @JsonKey(name: 'fee_paid_by_customer')
   bool? feePaidByCustomer;
+  @JsonKey(name: 'total_service_gateway_fee')
+  num? mergeFee;
+  @JsonKey(name: 'reward_discount')
+  num? rewardDiscount;
 
   OrderModel({
     this.id,
@@ -321,6 +325,8 @@ class OrderModel {
     this.additionalInfo,
     this.canCancelRider,
     this.feePaidByCustomer,
+    this.mergeFee,
+    this.rewardDiscount,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -427,6 +433,8 @@ class OrderModel {
       additionalInfo: additionalInfo?.toEntity(),
       canCancelRider: canCancelRider.orFalse(),
       feePaidByCustomer: feePaidByCustomer.orFalse(),
+      mergeFee: mergeFee.orZero(),
+      rewardDiscount: rewardDiscount.orZero(),
     );
   }
 }

@@ -65,8 +65,8 @@ android {
         staging {
             dimension "app"
             applicationId "io.klikit.enterprise.staging"
-            versionCode 195
-            versionName "1.9.5"
+            versionCode 197
+            versionName "1.9.7"
         }
         dev {
             dimension "app"
@@ -77,8 +77,8 @@ android {
         live {
             dimension "app"
             applicationId "io.klikit.cloud"
-            versionCode 143
-            versionName "1.4.3"
+            versionCode 144
+            versionName "1.4.4"
         }
     }
 

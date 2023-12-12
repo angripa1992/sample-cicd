@@ -114,6 +114,8 @@ class Order {
   final AdditionalInfo? additionalInfo;
   final bool canCancelRider;
   final bool feePaidByCustomer;
+  final num mergeFee;
+  final num rewardDiscount;
   bool canUpdate;
   num preparationTime;
   String klikitComment;
@@ -220,6 +222,8 @@ class Order {
     required this.additionalInfo,
     required this.canCancelRider,
     required this.feePaidByCustomer,
+    required this.mergeFee,
+    required this.rewardDiscount,
   });
 
   Order copy() => Order(
@@ -321,5 +325,7 @@ class Order {
         additionalInfo: additionalInfo,
         canCancelRider: canCancelRider,
         feePaidByCustomer: feePaidByCustomer,
+        mergeFee: mergeFee,
+        rewardDiscount: rewardDiscount,
       );
 }

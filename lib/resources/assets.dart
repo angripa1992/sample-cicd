@@ -16,6 +16,9 @@ class AppImages {
   static const String emptyCartSvg = "$IMAGE_PATH/empty_cart.svg";
   static const String loginPageBG = "$IMAGE_PATH/login_page_bg_image.png";
   static const String loginPageLogo = "$IMAGE_PATH/login_page_logo.svg";
+  static const String paymentFailed = "$IMAGE_PATH/payment_failed.png";
+  static const String paymentSuccess = "$IMAGE_PATH/payment_success.png";
+  static const String selectBrand = "$IMAGE_PATH/select_brand.png";
 }
 
 class AppIcons {
