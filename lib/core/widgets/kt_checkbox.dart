@@ -32,7 +32,7 @@ class KTCheckbox extends StatelessWidget {
         checkboxTheme: CheckboxThemeData(
           side: MaterialStateBorderSide.resolveWith(
             (states) => BorderSide(
-              width: AppSize.s2.rSp,
+              width: AppSize.s1.rSp,
               color: states.contains(MaterialState.selected)
                   ? enabled
                       ? primaryColor
