@@ -7,6 +7,7 @@ import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
+import '../../../../../app/user_permission_manager.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
@@ -186,21 +187,22 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                             ),
                                           ),
                                         ),
-                                        SizedBox(width: AppSize.s12.rw),
-                                        Flexible(
-                                          child: MenuSnoozeView(
-                                            menuCategoryItem: _menuCategoryItems[index],
-                                            providerId: widget.providerID,
-                                            parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
-                                            brandId: widget.brandID,
-                                            onMenuItemSnoozeChanged: (oos) {
-                                              _onItemSnoozeChanged(index, oos);
-                                            },
-                                            onMenuEnabledChanged: (enabled) {
-                                              _onMenuEnabledChanged(index, enabled);
-                                            },
+                                        if (UserPermissionManager().canOosMenu()) SizedBox(width: AppSize.s12.rw),
+                                        if (UserPermissionManager().canOosMenu())
+                                          Flexible(
+                                            child: MenuSnoozeView(
+                                              menuCategoryItem: _menuCategoryItems[index],
+                                              providerId: widget.providerID,
+                                              parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+                                              brandId: widget.brandID,
+                                              onMenuItemSnoozeChanged: (oos) {
+                                                _onItemSnoozeChanged(index, oos);
+                                              },
+                                              onMenuEnabledChanged: (enabled) {
+                                                _onMenuEnabledChanged(index, enabled);
+                                              },
+                                            ),
                                           ),
-                                        ),
                                       ],
                                     ),
                                   ],

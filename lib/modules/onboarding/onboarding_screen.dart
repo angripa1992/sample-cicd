@@ -64,6 +64,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
   }
 
   Future _registerFcmToken() async {
+    Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
+    return;
     final fcmToken = await FcmService().getFcmToken();
     final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
     response.fold(

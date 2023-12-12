@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
@@ -18,7 +16,6 @@ import 'package:klikit/modules/widgets/url_text_button.dart';
 import 'package:klikit/notification/fcm_service.dart';
 import 'package:klikit/notification/fcm_token_manager.dart';
 import 'package:klikit/notification/notification_handler.dart';
-import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -68,48 +65,23 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _checkRole(User user) {
-    var role = user.userInfo.roles.firstWhere(
-      (role) => role == AppConstant.roleBranchManger,
-      orElse: () => EMPTY,
-    );
-    if (role == EMPTY && user.userInfo.roles.isNotEmpty) {
-      role = user.userInfo.roles[0];
-    }
-    switch (role) {
-      case AppConstant.roleBranchManger:
-        _saveUserData(user);
-        break;
-      case AppConstant.roleAdmin:
-        showAccessDeniedDialog(
-          context: context,
-          role: AppStrings.admin.tr(),
-        );
-        break;
-      case AppConstant.roleBrandManager:
-        showAccessDeniedDialog(
-          context: context,
-          role: AppStrings.brand_manager.tr(),
-        );
-        break;
-      default:
-        showAccessDeniedDialog(
-          context: context,
-          role: AppStrings.business_owner.tr(),
-        );
-        break;
+    final role = user.userInfo.roles.first;
+    final displayRole = user.userInfo.displayRoles.first;
+    if (role == UserRole.branchManger || role == UserRole.staff || role == UserRole.cashier) {
+      _saveUserData(user);
+    } else {
+      showAccessDeniedDialog(context: context, role: displayRole);
     }
   }
 
   void _saveUserData(User user) async {
     await SessionManager().saveLastLoginEmail(user.userInfo.email);
-    await SessionManager().saveToken(
-      accessToken: user.accessToken,
-      refreshToken: user.refreshToken,
-    );
+    await SessionManager().saveToken(accessToken: user.accessToken, refreshToken: user.refreshToken);
     await SessionManager().setLoginState(isLoggedIn: true);
     await _saveUserSetting(user.userInfo);
     await SessionManager().saveUser(user.userInfo);
-    _registerFcmToken(user);
+   // _registerFcmToken(user);
+    _navigate(user);
   }
 
   Future<void> _saveUserSetting(UserInfo userInfo) async {

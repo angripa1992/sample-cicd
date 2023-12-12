@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/action_dialogs.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -110,7 +110,7 @@ class _ModifierSwitchViewState extends State<ModifierSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.providerId == ZERO
+    return widget.providerId == ZERO && UserPermissionManager().canOosMenu()
         ? Transform.scale(
             scale: 0.7,
             child: CupertinoSwitch(
