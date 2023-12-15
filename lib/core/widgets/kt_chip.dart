@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/core/widgets/decorated_image_view.dart';
+import 'package:klikit/resources/colors.dart';
 
 class KTChip extends StatelessWidget {
   final String text;
@@ -27,6 +28,7 @@ class KTChip extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: backgroundColor,
+        border: Border.all(color: AppColors.neutralB40),
         borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Row(
