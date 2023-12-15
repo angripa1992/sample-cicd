@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
@@ -218,17 +219,21 @@ class OrderItemDetails extends StatelessWidget {
           flex: 3,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _printerSetting.stickerPrinterEnabled
-                  ? IconButton(
-                      onPressed: () {
-                        getIt.get<PrintingHandler>().printSticker(order, cartV2);
-                      },
-                      icon: Icon(
-                        Icons.print,
-                        color: AppColors.primary,
+                  ? Padding(
+                    padding: EdgeInsets.only(right: AppSize.s8.rw),
+                    child: InkWell(
+                        onTap: () {
+                          getIt.get<PrintingHandler>().printSticker(order, cartV2);
+                        },
+                        child: Icon(
+                          Icons.print,
+                          color: AppColors.primary,
+                        ),
                       ),
-                    )
+                  )
                   : const SizedBox(),
               Text('${cartV2.quantity}x ', style: _itemTextStyle),
               SizedBox(width: AppSize.s4.rw),
@@ -280,7 +285,7 @@ class OrderItemDetails extends StatelessWidget {
             ),
           ),
         ),
-        if (modifierPrice > 0)
+        if (modifierPrice > 0 && order.providerId != ProviderID.FOOD_PANDA)
           Expanded(
             flex: 2,
             child: Text(

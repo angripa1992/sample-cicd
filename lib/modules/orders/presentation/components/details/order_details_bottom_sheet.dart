@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../../../../../resources/colors.dart';
 import '../order_item/order_action_button_components.dart';
 import '../order_item/order_action_buttons.dart';
 import 'order_details_screen.dart';
@@ -20,25 +18,12 @@ void _openBottomSheet({
     context: context,
     isScrollControlled: true,
     isDismissible: true,
-    backgroundColor: Colors.transparent,
-    builder: (context) => Scaffold(
-      backgroundColor: Colors.transparent,
-      resizeToAvoidBottomInset: false,
-      extendBody: false,
-      key: key,
-      body: Container(
-        margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-        color: AppColors.greyLight,
-        child: Scaffold(
-          body: OrderDetailsScreen(
-            order: order,
-            actionView: actionView,
-            onEditManualOrder: onEditManualOrder,
-            onRiderFind: onRiderFind,
-            onRefresh: onRefresh,
-          ),
-        ),
-      ),
+    builder: (context) => OrderDetailsScreen(
+      order: order,
+      actionView: actionView,
+      onEditManualOrder: onEditManualOrder,
+      onRiderFind: onRiderFind,
+      onRefresh: onRefresh,
     ),
   );
 }

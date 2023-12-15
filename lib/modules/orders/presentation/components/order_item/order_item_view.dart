@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -14,6 +15,7 @@ import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../core/provider/date_time_provider.dart';
+import '../../../../../resources/assets.dart';
 import 'order_action_button_components.dart';
 import 'order_action_buttons.dart';
 
@@ -101,6 +103,16 @@ class OrderItemView extends StatelessWidget {
                             color: AppColors.primary,
                           ),
                         ),
+                        if (!order.isManualOrder && order.promos.isNotEmpty && order.promos.first.isSeniorCitizenPromo!)
+                          Container(
+                            padding: EdgeInsets.all(AppSize.s4.rSp),
+                            margin: EdgeInsets.only(left: AppSize.s4.rw),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: AppColors.greyDarker),
+                            ),
+                            child: SvgPicture.asset(AppIcons.seniorCitizen),
+                          ),
                       ],
                     ),
                     SizedBox(height: AppSize.s2.rh),
@@ -128,10 +140,7 @@ class OrderItemView extends StatelessWidget {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.only(
-              top: AppSize.s8.rh,
-              right: AppSize.s4.rw,
-            ),
+            padding: EdgeInsets.only(top: AppSize.s8.rh, right: AppSize.s4.rw),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -173,10 +182,7 @@ class OrderItemView extends StatelessWidget {
     if (order.status == OrderStatus.CANCELLED || order.status == OrderStatus.DELIVERED || order.status == OrderStatus.PICKED_UP) {
       return SizedBox(
         width: AppSize.s42.rw,
-        child: PrintButton(
-          expanded: false,
-          onPrint: onPrint,
-        ),
+        child: PrintButton(expanded: false, onPrint: onPrint),
       );
     } else if (order.status == OrderStatus.SCHEDULED) {
       return _scheduleOrderAction();

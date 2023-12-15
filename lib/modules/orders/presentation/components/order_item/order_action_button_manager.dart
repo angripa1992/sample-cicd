@@ -22,7 +22,7 @@ class OrderActionButtonManager {
       return false;
     } else if (order.status == OrderStatus.PLACED) {
       return true;
-    } else if (order.providerId == ProviderID.KLIKIT && order.status == OrderStatus.ACCEPTED) {
+    } else if (order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.READY)) {
       return true;
     } else {
       return false;

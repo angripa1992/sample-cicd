@@ -184,7 +184,7 @@ class _PriceViewState extends State<PriceView> {
 
   String _appliedPromos(Order order) {
     final Set<String> promos = <String>{};
-    for (var element in order.appliedPromos) {
+    for (var element in order.promos) {
       promos.add(element.code ?? EMPTY);
     }
     final promoStr = promos.join(', ');

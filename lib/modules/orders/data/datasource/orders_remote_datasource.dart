@@ -7,6 +7,7 @@ import 'package:klikit/modules/orders/data/models/orders_model.dart';
 import 'package:klikit/modules/orders/data/models/settings_model.dart';
 
 import '../../edit_order/grab_order_update_request_model.dart';
+import '../models/attachment_image_file.dart';
 import '../models/cancellation_reason_model.dart';
 import '../models/order_status_model.dart';
 import '../models/qris_payment_success_response.dart';
@@ -44,6 +45,8 @@ abstract class OrderRemoteDatasource {
   Future<ActionSuccess> updatePrepTime(int orderID, Map<String, dynamic> params);
 
   Future<ActionSuccess> cancelRider(int orderID);
+
+  Future<List<AttachmentImageFile>> fetchAttachments(int orderID);
 }
 
 class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
@@ -216,6 +219,16 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
     try {
       await _restClient.request(Urls.cancelRider(orderID), Method.DELETE, null);
       return ActionSuccess('Successfully canceled rider');
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<AttachmentImageFile>> fetchAttachments(int orderID) async {
+    try {
+      final List<dynamic> responses = await _restClient.request(Urls.orderAttachments(orderID), Method.GET, null);
+      return responses.map((e) => AttachmentImageFile.fromJson(e)).toList();
     } on DioException {
       rethrow;
     }
