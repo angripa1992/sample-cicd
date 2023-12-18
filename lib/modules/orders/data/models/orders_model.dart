@@ -421,7 +421,7 @@ class OrderModel {
       cancellationReasonId: cancellationReasonId.orZero(),
       cancellationReason: cancellationReason.orEmpty(),
       restaurantServiceFee: restaurantServiceFee.orZero(),
-      appliedPromos: promos ?? [],
+      promos: promos ?? [],
       estimatedPickUpAt: pickUpAt.orEmpty(),
       deliveryInfo: deliveryInfo?.toEntity(),
       providerSubTotal: providerSubTotal.orZero(),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import '../../../app/constants.dart';
 import '../../../app/di.dart';
 import '../../../core/route/routes.dart';
 import '../../../printer/printing_handler.dart';
+import '../../../resources/strings.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
 import '../../common/order_parameter_provider.dart';
@@ -20,6 +22,7 @@ import '../presentation/bloc/ongoing_order_cubit.dart';
 import '../presentation/bloc/schedule_order_cubit.dart';
 import '../presentation/components/details/cancel_rider_dialog.dart';
 import '../presentation/components/dialogs/action_dialogs.dart';
+import '../presentation/components/dialogs/add_payment_method_and_status.dart';
 import '../presentation/components/dialogs/cancellation_reason.dart';
 
 class KlikitOrderResolver {
@@ -74,25 +77,45 @@ class KlikitOrderResolver {
     required VoidCallback onRefresh,
     bool isFromDetails = false,
   }) {
-    showOrderActionDialog(
-      params: getIt.get<OrderParameterProvider>().getOrderActionParams(order),
-      context: context,
-      title: title,
-      onSuccess: () {
-        onRefresh();
-        if (isFromDetails) {
-          Navigator.of(context).pop();
-        }
-        if (status == OrderStatus.ACCEPTED) {
-          printDocket(order: order, isFromDetails: isFromDetails, sourceTab: sourceTab);
-        }
-        SegmentManager().trackOrderSegment(
-          sourceTab: sourceTab,
-          status: status,
-          isFromDetails: isFromDetails,
-        );
-      },
-    );
+    if (status == OrderStatus.DELIVERED && order.isManualOrder && order.paymentStatus != PaymentStatusId.paid) {
+      showAddPaymentStatusMethodDialog(
+        title: AppStrings.select_payment_method_and_status.tr(),
+        context: context,
+        order: order,
+        isWebShopPostPayment: false,
+        onSuccess: (method, channel, status) {
+          onRefresh();
+          if (isFromDetails) {
+            Navigator.of(context).pop();
+          }
+          SegmentManager().trackOrderSegment(
+            sourceTab: sourceTab,
+            status: status,
+            isFromDetails: isFromDetails,
+          );
+        },
+      );
+    } else {
+      showOrderActionDialog(
+        params: getIt.get<OrderParameterProvider>().getOrderActionParams(order),
+        context: context,
+        title: title,
+        onSuccess: () {
+          onRefresh();
+          if (isFromDetails) {
+            Navigator.of(context).pop();
+          }
+          if (status == OrderStatus.ACCEPTED) {
+            printDocket(order: order, isFromDetails: isFromDetails, sourceTab: sourceTab);
+          }
+          SegmentManager().trackOrderSegment(
+            sourceTab: sourceTab,
+            status: status,
+            isFromDetails: isFromDetails,
+          );
+        },
+      );
+    }
   }
 
   void cancelOrder({
@@ -108,6 +131,7 @@ class KlikitOrderResolver {
         title: title,
         order: order,
         successCallback: () {
+          onRefresh();
           if (isFromDetails) {
             Navigator.of(context).pop();
           }

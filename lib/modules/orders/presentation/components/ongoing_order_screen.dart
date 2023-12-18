@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/modules/common/order_parameter_provider.dart';
@@ -10,14 +9,10 @@ import 'package:klikit/modules/orders/presentation/components/progress_indicator
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../../../../../segments/event_manager.dart';
-import '../../../../resources/strings.dart';
 import '../../utils/klikit_order_resolver.dart';
 import '../filter_observer.dart';
 import '../filter_subject.dart';
 import 'details/order_details_bottom_sheet.dart';
-import 'dialogs/action_dialogs.dart';
-import 'dialogs/add_payment_method_and_status.dart';
 import 'order_item/order_item_view.dart';
 
 class OngoingOrderScreen extends StatefulWidget {
@@ -99,69 +94,73 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
     }
   }
 
-  void _onActionSuccess(bool isFromDetails, int status) {
-    _refresh(willBackground: true);
-    if (isFromDetails) {
-      Navigator.of(context).pop();
-    }
-    SegmentManager().trackOrderSegment(
-      sourceTab: 'Ready Order',
-      status: status,
-      isFromDetails: isFromDetails,
-    );
-  }
+  // void _onActionSuccess(bool isFromDetails, int status) {
+  //   _refresh(willBackground: true);
+  //   if (isFromDetails) {
+  //     Navigator.of(context).pop();
+  //   }
+  //   SegmentManager().trackOrderSegment(
+  //     sourceTab: 'Ready Order',
+  //     status: status,
+  //     isFromDetails: isFromDetails,
+  //   );
+  // }
 
-  void _onAction({
-    required String title,
-    required Order order,
-    required int status,
-    bool willCancel = false,
-    bool isFromDetails = false,
-  }) {
-    if (status == OrderStatus.DELIVERED && order.isManualOrder && order.paymentStatus != PaymentStatusId.paid) {
-      showAddPaymentStatusMethodDialog(
-        title: AppStrings.select_payment_method_and_status.tr(),
-        context: context,
-        order: order,
-        isWebShopPostPayment: false,
-        onSuccess: (method, channel, status) {
-          _onActionSuccess(isFromDetails, status);
-        },
-      );
-    } else {
-      showOrderActionDialog(
-        params: _orderParamProvider.getOrderActionParams(order),
-        context: context,
-        onSuccess: () {
-          _onActionSuccess(isFromDetails, status);
-        },
-        title: title,
-      );
-    }
-  }
+  // void _onAction({
+  //   required String title,
+  //   required Order order,
+  //   required int status,
+  //   bool willCancel = false,
+  //   bool isFromDetails = false,
+  // }) {
+  //   if (status == OrderStatus.DELIVERED && order.isManualOrder && order.paymentStatus != PaymentStatusId.paid) {
+  //     showAddPaymentStatusMethodDialog(
+  //       title: AppStrings.select_payment_method_and_status.tr(),
+  //       context: context,
+  //       order: order,
+  //       isWebShopPostPayment: false,
+  //       onSuccess: (method, channel, status) {
+  //         _onActionSuccess(isFromDetails, status);
+  //       },
+  //     );
+  //   } else {
+  //     showOrderActionDialog(
+  //       params: _orderParamProvider.getOrderActionParams(order),
+  //       context: context,
+  //       onSuccess: () {
+  //         _onActionSuccess(isFromDetails, status);
+  //       },
+  //       title: title,
+  //     );
+  //   }
+  // }
 
   void _showDetails(Order item) {
     showOrderDetails(
       key: _modelScaffoldKey,
       context: context,
       order: item,
-      onAction: (title, status) => _onAction(
+      onAction: (title, status) => KlikitOrderResolver().onAction(
         title: title,
         order: item,
         status: status,
         isFromDetails: true,
+        context: context,
+        sourceTab: _sourceTab,
+        onRefresh: () => _refresh(willBackground: true),
       ),
       onPrint: () => KlikitOrderResolver().printDocket(
         order: item,
         isFromDetails: true,
         sourceTab: _sourceTab,
       ),
-      onCancel: (title) => _onAction(
+      onCancel: (title) => KlikitOrderResolver().cancelOrder(
         title: title,
         order: item,
-        status: OrderStatus.CANCELLED,
         isFromDetails: true,
-        willCancel: true,
+        context: context,
+        sourceTab: _sourceTab,
+        onRefresh: () => _refresh(willBackground: true),
       ),
       onRiderFind: () => KlikitOrderResolver().findRider(
         context: context,
@@ -183,21 +182,26 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
           return OrderItemView(
             order: item,
             seeDetails: () => _showDetails(item),
-            onAction: (title, status) => _onAction(
+            onAction: (title, status) => KlikitOrderResolver().onAction(
               title: title,
               status: status,
               order: item,
+              context: context,
+              sourceTab: _sourceTab,
+              onRefresh: () => _refresh(willBackground: true),
             ),
             onPrint: () => KlikitOrderResolver().printDocket(
               order: item,
               isFromDetails: false,
               sourceTab: _sourceTab,
             ),
-            onCancel: (title) => _onAction(
+            onCancel: (title) => KlikitOrderResolver().cancelOrder(
               title: title,
               order: item,
-              willCancel: true,
-              status: OrderStatus.CANCELLED,
+              context: context,
+              sourceTab: _sourceTab,
+              onRefresh: () => _refresh(willBackground: true),
+              isFromDetails: false,
             ),
             onRiderFind: () => KlikitOrderResolver().findRider(
               context: context,

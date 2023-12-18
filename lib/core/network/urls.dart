@@ -14,6 +14,7 @@ class Urls {
   static const String brand = '/v1/brand';
 
   static String branch(int id) => '/v1/branch/$id';
+  static String orderAttachments(int id) => '/v1/oni/order/$id/sc-attachments';
 
   static String updateWebShopOrder(int id) => '/v1/oni/oms/order/$id';
   static const String provider = '/v1/provider';

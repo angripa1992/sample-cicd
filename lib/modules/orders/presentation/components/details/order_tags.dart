@@ -89,6 +89,7 @@ class OrderTagsView extends StatelessWidget {
               if (order.providerId == ProviderID.KLIKIT) _tagView(order.isManualOrder ? AppStrings.manual.tr() : AppStrings.webshop.tr()),
               if (order.providerId == ProviderID.KLIKIT && order.tableNo.isNotEmpty) _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
               _tagView(_getStatus()),
+              if (order.orderAppliedPromo != null && order.orderAppliedPromo!.isSeniorCitizenPromo!) _tagView('SC/PWD'),
             ],
           ),
         ),
