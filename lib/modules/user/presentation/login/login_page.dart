@@ -68,20 +68,19 @@ class _LoginScreenState extends State<LoginScreen> {
     final role = user.userInfo.roles.first;
     final displayRole = user.userInfo.displayRoles.first;
     if (role == UserRole.branchManger || role == UserRole.staff || role == UserRole.cashier) {
-      _saveUserData(user);
+      _saveUserDataAndRegisterFcmToken(user);
     } else {
       showAccessDeniedDialog(context: context, role: displayRole);
     }
   }
 
-  void _saveUserData(User user) async {
+  void _saveUserDataAndRegisterFcmToken(User user) async {
     await SessionManager().saveLastLoginEmail(user.userInfo.email);
     await SessionManager().saveToken(accessToken: user.accessToken, refreshToken: user.refreshToken);
     await SessionManager().setLoginState(isLoggedIn: true);
     await _saveUserSetting(user.userInfo);
     await SessionManager().saveUser(user.userInfo);
-   // _registerFcmToken(user);
-    _navigate(user);
+    _registerFcmTokenAndNavigateNextScreen(user);
   }
 
   Future<void> _saveUserSetting(UserInfo userInfo) async {
@@ -89,20 +88,20 @@ class _LoginScreenState extends State<LoginScreen> {
     await SessionManager().setSunmiDevice(userInfo.sunmiDevice);
   }
 
-  Future _registerFcmToken(User user) async {
+  Future _registerFcmTokenAndNavigateNextScreen(User user) async {
     final fcmToken = await FcmService().getFcmToken();
-    final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
+    final response = await _fcmTokenManager.registerToken(fcmToken);
     response.fold(
       (failure) {
         showApiErrorSnackBar(context, failure);
       },
       (success) {
-        _navigate(user);
+        _navigateNextScreen(user);
       },
     );
   }
 
-  void _navigate(User user) {
+  void _navigateNextScreen(User user) {
     if (user.userInfo.firstLogin) {
       Navigator.of(context).pushReplacementNamed(Routes.changePassword);
     } else if (args == null) {

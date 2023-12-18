@@ -3,13 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
-import 'package:klikit/core/utils/app_update_manager.dart';
 import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
 
 import '../../app/size_config.dart';
 import '../../core/route/routes.dart';
-import '../../core/utils/permission_handler.dart';
 import '../../notification/fcm_service.dart';
 import '../../notification/fcm_token_manager.dart';
 import '../../notification/local_notification_service.dart';
@@ -31,10 +29,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
     vsync: this,
   )..repeat();
 
-  final Tween<double> _turnsTween = Tween<double>(
-    begin: 1,
-    end: 0,
-  );
+  final Tween<double> _turnsTween = Tween<double>(begin: 1, end: 0);
 
   @override
   void initState() {
@@ -64,8 +59,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
   }
 
   Future _registerFcmToken() async {
-    Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
-    return;
     final fcmToken = await FcmService().getFcmToken();
     final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
     response.fold(
