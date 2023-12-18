@@ -190,7 +190,7 @@ class InAppNotificationHandler {
                           SizedBox(width: AppSize.s16.rw),
                           Expanded(
                             child: Text(
-                              '${AppStrings.you_have_received.tr()} $value scheduled order !',
+                              '${AppStrings.you_have_received.tr()} $value scheduled order!',
                               style: textStyle,
                             ),
                           ),
