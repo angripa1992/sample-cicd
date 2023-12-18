@@ -4,83 +4,56 @@ import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/resources/strings.dart';
 
 class KTDropdown<T> extends StatefulWidget {
-  final List<T> _dataItems;
-  final String Function(T dataItem) _titleBuilder;
-  final void Function(T? dataItem) _onItemSelected;
+  final List<T> items;
+  final String Function(T item) titleBuilder;
+  final void Function(T selectedItem) onSelected;
+  final T? selectedItem;
+  final EdgeInsets? padding;
+  final BorderRadius? borderRadius;
+  final BoxDecoration? backgroundDecoration;
+  final DecoratedImageView? trailingWidget;
+  final String? hintText;
+  final TextStyle? textStyle;
+  final TextStyle? hintTextStyle;
 
-  final int _initSelectionIndex;
-
-  final T? _initSelectedItem;
-  final EdgeInsets? _padding;
-  final BorderRadius? _borderRadius;
-  final BoxDecoration? _backgroundDecoration;
-  final DecoratedImageView? _suffixIcon;
-  final String? _hintText;
-  final TextStyle? _textStyle;
-  final TextStyle? _hintTextStyle;
-  final bool _applySelectedItemToList;
-
-  const KTDropdown({
-    Key? key,
-    required List<T> dataItems,
-    required String Function(T dataItem) titleBuilder,
-    required void Function(T? dataItem) onItemSelected,
-    int initSelectionIndex = -1,
-    T? initSelectedItem,
-    EdgeInsets? padding,
-    BorderRadius? borderRadius,
-    BoxDecoration? backgroundDecoration,
-    DecoratedImageView? suffixIcon,
-    String? hintText,
-    TextStyle? textStyle,
-    TextStyle? hintTextStyle,
-    bool applySelectedItemToList = true,
-  })  : _dataItems = dataItems,
-        _titleBuilder = titleBuilder,
-        _onItemSelected = onItemSelected,
-        _initSelectionIndex = initSelectionIndex,
-        _initSelectedItem = initSelectedItem,
-        _padding = padding,
-        _borderRadius = borderRadius,
-        _backgroundDecoration = backgroundDecoration,
-        _suffixIcon = suffixIcon,
-        _hintText = hintText,
-        _textStyle = textStyle,
-        _hintTextStyle = hintTextStyle,
-        _applySelectedItemToList = applySelectedItemToList,
-        super(key: key);
+  const KTDropdown(
+      {super.key,
+      required this.items,
+      required this.titleBuilder,
+      required this.onSelected,
+      this.selectedItem,
+      this.padding,
+      this.borderRadius,
+      this.backgroundDecoration,
+      this.trailingWidget,
+      this.hintText,
+      this.textStyle,
+      this.hintTextStyle});
 
   @override
   State<KTDropdown<T>> createState() => _KTDropdownState<T>();
 }
 
 class _KTDropdownState<T> extends State<KTDropdown<T>> {
-  // data
-  int? _selectedItemIndex;
+  int? selectedItemIndex;
 
   @override
   void initState() {
     super.initState();
-
-    // refresh index in case parent requests rebuild.
-    // this is extremely light - no worries.
-    _selectedItemIndex = _refreshSelection();
+    selectedItemIndex = refreshSelection();
   }
 
   @override
   void didUpdateWidget(covariant KTDropdown<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    // refresh index in case parent requests rebuild.
-    // this is extremely light - no worries.
-    _selectedItemIndex = _refreshSelection();
+    selectedItemIndex = refreshSelection();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: widget._padding,
-      decoration: widget._backgroundDecoration,
+      padding: widget.padding,
+      decoration: widget.backgroundDecoration,
       child: DropdownButton<T>(
         isExpanded: true,
         menuMaxHeight: 384,
@@ -88,58 +61,48 @@ class _KTDropdownState<T> extends State<KTDropdown<T>> {
           width: 0,
           height: 0,
         ),
-        icon: widget._suffixIcon,
-        borderRadius: widget._borderRadius,
+        icon: widget.trailingWidget,
+        borderRadius: widget.borderRadius,
         alignment: Alignment.centerLeft,
         hint: Text(
-          widget._hintText ?? AppStrings.select.tr(),
-          style: widget._hintTextStyle,
+          widget.hintText ?? AppStrings.select.tr(),
+          style: widget.hintTextStyle,
         ),
-        items: widget._dataItems.map<DropdownMenuItem<T>>(
+        items: widget.items.map<DropdownMenuItem<T>>(
           (currentData) {
             return DropdownMenuItem(
               value: currentData,
               child: Text(
-                widget._titleBuilder(currentData),
-                style: widget._textStyle,
+                widget.titleBuilder(currentData),
+                style: widget.textStyle,
               ),
             );
           },
         ).toList(),
         onChanged: (T? value) {
-          // notify caller
-          widget._onItemSelected(value);
+          if (value != null) {
+            widget.onSelected(value);
 
-          // update ui
-          if (value != null && widget._applySelectedItemToList == true) {
             setState(() {
-              _selectedItemIndex = _findItemIndex(value);
+              selectedItemIndex = findItemIndex(value);
             });
           }
         },
-        value: _selectedItemIndex != null ? widget._dataItems[_selectedItemIndex!] : null,
+        value: selectedItemIndex != null ? widget.items[selectedItemIndex!] : null,
       ),
     );
   }
 
-  int? _refreshSelection() {
-    if (widget._initSelectedItem != null) {
-      return _findItemIndex(widget._initSelectedItem as T);
-    } else if (widget._dataItems.isNotEmpty && widget._initSelectionIndex >= 0 && widget._initSelectionIndex < widget._dataItems.length) {
-      return widget._initSelectionIndex;
+  int? refreshSelection() {
+    if (widget.selectedItem != null) {
+      return findItemIndex(widget.selectedItem as T);
     } else {
-      return null;
+      return selectedItemIndex;
     }
   }
 
-  int? _findItemIndex(T value) {
-    int? idx;
-    for (int i = 0; i < widget._dataItems.length; i++) {
-      if (value == widget._dataItems[i]) {
-        idx = i;
-        break;
-      }
-    }
-    return idx;
+  int? findItemIndex(T value) {
+    int index = widget.items.indexOf(value);
+    return index != -1 ? index : null;
   }
 }
