@@ -14,6 +14,7 @@ class KTButton extends StatelessWidget {
   final Color? splashColor;
   final Color? progressPrimaryColor;
   final Color? progressSecondaryColor;
+  final double? verticalContentPadding;
 
   const KTButton({
     super.key,
@@ -26,6 +27,7 @@ class KTButton extends StatelessWidget {
     this.splashColor,
     this.progressPrimaryColor,
     this.progressSecondaryColor,
+    this.verticalContentPadding,
   });
 
   @override
@@ -44,7 +46,7 @@ class KTButton extends StatelessWidget {
             borderRadius: backgroundDecoration?.borderRadius?.resolve(null),
             splashColor: splashColor,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 2.rSp, vertical: 8.rh),
+              padding: EdgeInsets.symmetric(horizontal: 2.rw, vertical: verticalContentPadding ?? 8.rh),
               decoration: BoxDecoration(
                 border: backgroundDecoration?.border,
                 borderRadius: backgroundDecoration?.borderRadius?.resolve(null),
