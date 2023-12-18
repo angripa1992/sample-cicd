@@ -8,6 +8,8 @@ import 'package:klikit/resources/values.dart';
 
 class ActionableTile extends StatelessWidget {
   final String title;
+  final TextStyle? titleStyle;
+  final Widget? titleHelper;
   final String? subtitle;
   final BoxDecoration? decoration;
   final Color? splashColor;
@@ -18,6 +20,8 @@ class ActionableTile extends StatelessWidget {
   const ActionableTile({
     Key? key,
     required this.title,
+    this.titleStyle,
+    this.titleHelper,
     this.subtitle,
     this.decoration,
     this.splashColor,
@@ -48,12 +52,19 @@ class ActionableTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    title,
-                    style: mediumTextStyle(
-                      color: AppColors.black,
-                      fontSize: AppFontSize.s16.rSp,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: titleStyle ??
+                            mediumTextStyle(
+                              color: AppColors.black,
+                              fontSize: AppFontSize.s16.rSp,
+                            ),
+                      ),
+                      titleHelper.setVisibilityWithSpace(startSpace: AppSize.s12.rw, direction: Axis.horizontal)
+                    ],
                   ),
                   if (subtitle.isNotNullOrEmpty())
                     Text(

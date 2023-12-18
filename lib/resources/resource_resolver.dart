@@ -37,4 +37,6 @@ class ImageResourceResolver {
   static SVGImageResource get emailSVG => SVGImageResource('$iconBasePath/ic_email.svg');
 
   static SVGImageResource get deleteSVG => SVGImageResource('$iconBasePath/ic_delete.svg');
+
+  static SVGImageResource get refreshSVG => SVGImageResource('$iconBasePath/ic_refresh.svg');
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/values.dart';
 
 class KTChip extends StatelessWidget {
   final String text;
-  final double borderRadius;
+  final double? borderRadius;
+  final Color? strokeColor;
   final Color backgroundColor;
   final EdgeInsets? padding;
   final DecoratedImageView? leadingIcon;
@@ -14,7 +17,8 @@ class KTChip extends StatelessWidget {
   const KTChip({
     Key? key,
     required this.text,
-    required this.borderRadius,
+    this.borderRadius,
+    this.strokeColor,
     required this.backgroundColor,
     this.padding,
     this.leadingIcon,
@@ -28,8 +32,8 @@ class KTChip extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(color: AppColors.neutralB40),
-        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(color: strokeColor ?? AppColors.neutralB40),
+        borderRadius: BorderRadius.circular(borderRadius ?? AppSize.s60.rSp),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
