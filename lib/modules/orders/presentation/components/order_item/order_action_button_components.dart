@@ -39,6 +39,7 @@ class PrintButton extends StatelessWidget {
             side: BorderSide(color: AppColors.primary)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.print,
@@ -221,6 +222,7 @@ class AcceptButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.check,
@@ -276,6 +278,7 @@ class CanceledButton extends StatelessWidget {
         child: expanded
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.clear, color: enabled ? AppColors.red : AppColors.greyDarker),
                   if (expanded)
