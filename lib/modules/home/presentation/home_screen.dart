@@ -290,20 +290,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         }
 
+                        int unread = (state is Success<Orders>) ? state.data.total : 0;
                         return ActionableTile(
                           title: AppStrings.new_orders.tr(),
                           titleStyle: mediumTextStyle(),
                           titleHelper: KTChip(
-                            text: (state is Success<Orders>) ? state.data.total.toString() : "0",
+                            text: "$unread",
                             textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.white),
                             strokeColor: AppColors.errorR300,
                             backgroundColor: AppColors.errorR300,
                             padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
                           ),
-                          prefixWidget: ImageResourceResolver.notificationSVG.getImageWidget(
-                            width: AppSize.s20.rw,
-                            height: AppSize.s20.rh,
-                          ),
+                          prefixWidget: unread > 0
+                              ? ImageResourceResolver.unreadNotificationSVG.getImageWidget(
+                                  width: AppSize.s20.rw,
+                                  height: AppSize.s20.rh,
+                                )
+                              : ImageResourceResolver.notificationSVG.getImageWidget(
+                                  width: AppSize.s20.rw,
+                                  height: AppSize.s20.rh,
+                                ),
                           suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
                           onTap: () {
                             context.read<BaseScreenCubit>().changeIndex(

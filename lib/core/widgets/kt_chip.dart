@@ -29,7 +29,7 @@ class KTChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? const EdgeInsets.all(4),
+      padding: padding ?? EdgeInsets.all(AppSize.s4.rSp),
       decoration: BoxDecoration(
         color: backgroundColor,
         border: Border.all(color: strokeColor ?? AppColors.neutralB40),
@@ -39,7 +39,7 @@ class KTChip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (leadingIcon != null) (leadingIcon!),
-          if (leadingIcon != null) const SizedBox(width: 4),
+          if (leadingIcon != null) SizedBox(width: AppSize.s4.rw),
           Flexible(
             child: Text(
               text,
@@ -47,7 +47,7 @@ class KTChip extends StatelessWidget {
               style: textStyle,
             ),
           ),
-          if (trailingIcon != null) const SizedBox(width: 4),
+          if (trailingIcon != null) SizedBox(width: AppSize.s4.rw),
           if (trailingIcon != null) (trailingIcon!),
         ],
       ),

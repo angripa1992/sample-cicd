@@ -28,6 +28,8 @@ class ImageResourceResolver {
 
   static SVGImageResource get notificationSVG => SVGImageResource('$iconBasePath/ic_notification.svg');
 
+  static SVGImageResource get unreadNotificationSVG => SVGImageResource('$iconBasePath/ic_unread_notification.svg');
+
   static SVGImageResource get notificationAlertSVG => SVGImageResource('$iconBasePath/ic_notification_alert.svg');
 
   static SVGImageResource get closeSVG => SVGImageResource('$iconBasePath/ic_close.svg');
