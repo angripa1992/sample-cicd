@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
@@ -326,6 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              8.rh.verticalSpacer(),
               const ZReportView(),
             ],
           ),

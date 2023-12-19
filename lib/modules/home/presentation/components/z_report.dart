@@ -1,11 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:klikit/app/enums.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_dropdown.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/resources/decorations.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/segments/event_manager.dart';
 import 'package:klikit/segments/segemnt_data_provider.dart';
@@ -16,7 +20,6 @@ import '../../../../resources/colors.dart';
 import '../../../../resources/fonts.dart';
 import '../../../../resources/styles.dart';
 import '../../../../resources/values.dart';
-import '../../../widgets/loading_button.dart';
 import '../../data/model/z_report_data_model.dart';
 import '../cubit/fetch_zreport_cubit.dart';
 
@@ -30,16 +33,26 @@ class ZReportView extends StatefulWidget {
 class _ZReportViewState extends State<ZReportView> {
   DateType _selectedValue = DateType.today;
   DateTime _selectedDate = DateTime.now();
+  late final generateButtonController = KTButtonController(label: AppStrings.generate.tr());
+  List<String> days = [];
+
+  @override
+  void initState() {
+    days = [AppStrings.today.tr(), AppStrings.yesterday.tr(), AppStrings.custom.tr()];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: AppColors.white,
       padding: EdgeInsets.symmetric(
-        vertical: AppSize.s24.rh,
         horizontal: AppSize.s16.rw,
+        vertical: AppSize.s16.rh,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             AppStrings.z_report.tr(),
@@ -49,26 +62,46 @@ class _ZReportViewState extends State<ZReportView> {
             ),
           ),
           SizedBox(height: AppSize.s8.rh),
-          Container(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSize.s16.rh,
-              horizontal: AppSize.s8.rw,
+          Text(
+            'Select and download the Z Report for a detailed breakdown of your transactions.',
+            style: regularTextStyle(
+              color: AppColors.neutralB300,
+              fontSize: AppFontSize.s14.rSp,
             ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-              color: AppColors.white,
-            ),
-            child: Column(
-              children: [
-                ZReportSelector(
-                  onDateChange: (dateTime, dateType) {
-                    _selectedValue = dateType;
-                    _selectedDate = dateTime;
+          ),
+          SizedBox(height: AppSize.s16.rh),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              /*ZReportSelector(
+                onDateChange: (dateTime, dateType) {
+                  _selectedValue = dateType;
+                  _selectedDate = dateTime;
+                },
+              ),*/
+              Expanded(
+                child: KTDropdown(
+                  items: days,
+                  titleBuilder: (String item) {
+                    return item;
                   },
+                  onSelected: (String selectedItem) {},
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw, vertical: AppSize.s1.rh),
+                  borderRadius: BorderRadius.circular(AppSize.s6.rSp),
+                  backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
+                  trailingWidget: ImageResourceResolver.downArrowSVG.getImageWidget(
+                    width: 14.rw,
+                    height: 14.rh,
+                    color: AppColors.neutralB700,
+                  ),
                 ),
-                SizedBox(height: AppSize.s16.rh),
-                BlocConsumer<FetchZReportCubit, ResponseState>(
+              ),
+              AppSize.s12.rw.horizontalSpacer(),
+              Expanded(
+                child: BlocConsumer<FetchZReportCubit, ResponseState>(
                   listener: (ct, state) {
+                    generateButtonController.setLoaded(state is! Loading);
+
                     if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
                     } else if (state is Success<ZReportDataModel>) {
@@ -76,15 +109,17 @@ class _ZReportViewState extends State<ZReportView> {
                     }
                   },
                   builder: (ct, state) {
-                    return LoadingButton(
-                      isLoading: state is Loading,
-                      text: AppStrings.generate.tr(),
-                      enabled: true,
-                      borderColor: AppColors.primary,
-                      color: AppColors.primary,
-                      icon: Icons.print,
-                      textColor: AppColors.white,
-                      onTap: () {
+                    return KTButton(
+                      controller: generateButtonController,
+                      prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(
+                        width: 18.rw,
+                        height: 18.rh,
+                        color: AppColors.neutralB700,
+                      ),
+                      backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
+                      labelStyle: mediumTextStyle(),
+                      splashColor: AppColors.greyBright,
+                      onTap: () async {
                         context.read<FetchZReportCubit>().fetchZReportData(_selectedDate);
                         SegmentManager().track(
                           event: SegmentEvents.GENERATE_ZREPORT,
@@ -96,12 +131,18 @@ class _ZReportViewState extends State<ZReportView> {
                     );
                   },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    generateButtonController.dispose();
+    super.dispose();
   }
 
   String prepareDateType(DateType dateType) {
