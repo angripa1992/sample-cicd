@@ -35,7 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _lastNameController = TextEditingController();
   final _phoneNameController = TextEditingController();
   final _emailNameController = TextEditingController();
-  final _updateButtonController = KTButtonController(AppStrings.update.tr(), true);
+  final _updateButtonController = KTButtonController(label: AppStrings.update.tr());
   final _formKey = GlobalKey<FormState>();
   late UserInfo _user;
 

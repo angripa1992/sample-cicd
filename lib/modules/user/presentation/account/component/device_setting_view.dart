@@ -28,7 +28,7 @@ class DeviceSettingScreen extends StatefulWidget {
 class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
   final _devices = [Device.android, Device.sunmi];
   int? _device;
-  final _updateButtonController = KTButtonController(AppStrings.update.tr(), true);
+  final _updateButtonController = KTButtonController(label: AppStrings.update.tr());
 
   @override
   void initState() {

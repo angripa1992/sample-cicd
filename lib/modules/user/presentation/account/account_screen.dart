@@ -8,11 +8,14 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/core/widgets/actionable_tile.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_switch.dart';
 import 'package:klikit/core/widgets/modal_sheet_manager.dart';
+import 'package:klikit/language/selected_locale.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/presentation/account/component/device_setting_view.dart';
+import 'package:klikit/modules/user/presentation/account/component/notification_setting_dialog.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/decorations.dart';
@@ -26,7 +29,6 @@ import '../../../../app/session_manager.dart';
 import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
 import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
 import '../../../../core/route/routes.dart';
-import '../../../../language/language_manager.dart';
 import '../../../../language/language_setting_page.dart';
 import '../../../../resources/fonts.dart';
 import '../../../../segments/segemnt_data_provider.dart';
@@ -34,7 +36,6 @@ import '../../../widgets/app_button.dart';
 import '../../../widgets/snackbars.dart';
 import 'component/account_header.dart';
 import 'component/app_version_info.dart';
-import 'component/notification_settings/notification_settings_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -44,12 +45,14 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  final _languageManager = getIt.get<LanguageManager>();
   final _businessInfoProvider = getIt.get<BusinessInformationProvider>();
-  late final logoutButtonController = KTButtonController(AppStrings.logout.tr(), true);
+  late final logoutButtonController = KTButtonController(label: AppStrings.logout.tr());
+  final _controller = ValueNotifier<bool>(false);
 
   @override
   void initState() {
+    _controller.value = SessionManager().notificationEnable();
+
     SegmentManager().screen(
       event: SegmentEvents.ACCOUNT_TAB,
       name: 'Account Tab',
@@ -58,15 +61,20 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _onLanguageChange() {
-    showLanguageSettingDialog(
-      context: context,
-      onLanguageChange: (locale, id) {
-        _languageManager.changeLocale(
-          context: context,
-          locale: locale,
-          languageId: id,
-        );
-        context.read<ChangeLanguageCubit>().openLanguageSettingDialog(locale, id);
+    ModalSheetManager.openBottomSheet(
+      context,
+      const LanguageSettingPage(),
+      title: AppStrings.select_language.tr(),
+      dismissible: false,
+    ).then(
+      (value) async {
+        if (value is SelectedLocale) {
+          /// TODO: Should have a better solution
+          await Future.delayed(const Duration(milliseconds: 300));
+          if (mounted) {
+            context.read<ChangeLanguageCubit>().openLanguageSettingDialog(value);
+          }
+        }
       },
     );
   }
@@ -76,7 +84,6 @@ class _AccountScreenState extends State<AccountScreen> {
       context,
       const DeviceSettingScreen(),
       title: AppStrings.device_setting.tr(),
-      showCloseButton: true,
       dismissible: false,
     ).then(
       (value) {
@@ -205,7 +212,24 @@ class _AccountScreenState extends State<AccountScreen> {
                         fontSize: AppSize.s16.rSp,
                       ),
                     ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 16.rh),
-                    const NotificationSettingScreen().setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ActionableTile(
+                      title: AppStrings.notification.tr(),
+                      prefixWidget: ImageResourceResolver.notificationSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      suffixWidget: KTSwitch(
+                        controller: _controller,
+                        onChanged: (enabled) {
+                          showPauseNotificationConfirmationDialog(
+                            context: context,
+                            enable: enabled,
+                            onSuccess: () {
+                              _controller.value = enabled;
+                            },
+                          );
+                        },
+                        height: 18.rh,
+                        width: 36.rw,
+                      ),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
                     ActionableTile(
                       title: AppStrings.change_language.tr(),
                       prefixWidget: ImageResourceResolver.languageSVG.getImageWidget(width: 20.rw, height: 20.rh, color: AppColors.neutralB600),
@@ -257,6 +281,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         }
                       },
                       builder: (context, state) {
+                        logoutButtonController.label = AppStrings.logout.tr();
                         return KTButton(
                           controller: logoutButtonController,
                           prefixWidget: ImageResourceResolver.logoutSVG.getImageWidget(width: 20.rw, height: 20.rh),

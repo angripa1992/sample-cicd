@@ -9,14 +9,14 @@ import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 
-import '../../../../../../app/di.dart';
-import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
-import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
-import '../../../../../widgets/snackbars.dart';
-import '../../../../domain/entities/success_response.dart';
-import '../../cubit/change_notificcation_setting_cubit.dart';
+import '../../../../../app/di.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/styles.dart';
+import '../../../../../resources/values.dart';
+import '../../../../widgets/snackbars.dart';
+import '../../../domain/entities/success_response.dart';
+import '../cubit/change_notificcation_setting_cubit.dart';
 
 void showPauseNotificationConfirmationDialog({
   required BuildContext context,
@@ -27,8 +27,8 @@ void showPauseNotificationConfirmationDialog({
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      final positiveButtonController = KTButtonController(enable ? AppStrings.resume.tr() : AppStrings.pause.tr(), true);
-      final negativeButtonController = KTButtonController(AppStrings.cancel.tr(), true);
+      final positiveButtonController = KTButtonController(label: enable ? AppStrings.resume.tr() : AppStrings.pause.tr());
+      final negativeButtonController = KTButtonController(label: AppStrings.cancel.tr());
 
       return BlocProvider<ChangeNotificationSettingCubit>(
         create: (_) => getIt.get<ChangeNotificationSettingCubit>(),
