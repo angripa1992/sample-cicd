@@ -18,82 +18,64 @@ Widget getActionButtons({
   required VoidCallback onEditManualOrder,
   required VoidCallback onRiderFind,
 }) {
-  final gapBetweenButtons = ScreenSizes.isTablet ? EdgeInsets.symmetric(horizontal: AppSize.s2.rw) : EdgeInsets.zero;
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.end,
+  return Wrap(
+    alignment: WrapAlignment.end,
+    runSpacing: AppSize.s8.rh,
     children: [
       Visibility(
         visible: OrderActionButtonManager().canAccept(order),
-        child: Padding(
-          padding: gapBetweenButtons,
-          child: AcceptButton(
-            expanded: false,
-            enabled: true,
-            onAccept: () {
-              onAction('${AppStrings.accept_order.tr()} #${order.id}', OrderStatus.ACCEPTED);
-            },
-          ),
+        child: AcceptButton(
+          expanded: false,
+          enabled: true,
+          onAccept: () {
+            onAction('${AppStrings.accept_order.tr()} #${order.id}', OrderStatus.ACCEPTED);
+          },
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canReject(order),
-        child: Padding(
-          padding: gapBetweenButtons,
-          child: CanceledButton(
-            expanded: false,
-            enabled: true,
-            onCanceled: () {
-              onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
-            },
-          ),
+        child: CanceledButton(
+          expanded: false,
+          enabled: true,
+          onCanceled: () {
+            onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
+          },
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canReady(order),
-        child: Padding(
-          padding: gapBetweenButtons,
-          child: ReadyButton(
-            expanded: false,
-            enabled: true,
-            onReady: () {
-              onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
-            },
-          ),
+        child: ReadyButton(
+          expanded: false,
+          enabled: true,
+          onReady: () {
+            onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
+          },
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canDelivery(order),
-        child: Padding(
-          padding: gapBetweenButtons,
-          child: DeliverButton(
-            expanded: false,
-            enabled: true,
-            onDeliver: () {
-              onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
-            },
-          ),
+        child: DeliverButton(
+          expanded: false,
+          enabled: true,
+          onDeliver: () {
+            onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
+          },
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canUpdateOrder(order),
-        child: Padding(
-          padding: gapBetweenButtons,
-          child: EditButton(
-            onEdit: () {
-              onEditManualOrder();
-            },
-          ),
+        child: EditButton(
+          onEdit: () {
+            onEditManualOrder();
+          },
         ),
       ),
       Visibility(
         visible: OrderActionButtonManager().canPrint(order),
-        child: Padding(
-          padding: gapBetweenButtons,
-          child: PrintButton(
-            onPrint: onPrint,
-            padding: AppSize.s16,
-            expanded: false,
-          ),
+        child: PrintButton(
+          onPrint: onPrint,
+          padding: AppSize.s16,
+          expanded: false,
         ),
       ),
     ],

@@ -104,7 +104,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         body: Builder(
           builder: (context) => SingleChildScrollView(
             child: SizedBox(
-              height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight - (Scaffold.of(context).appBarMaxHeight ?? 0),
+              height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight - (Scaffold.of(context).appBarMaxHeight ?? AppSize.s50.rh),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
