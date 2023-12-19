@@ -251,7 +251,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: AppStrings.ongoing_orders.tr(),
                           titleStyle: mediumTextStyle(),
                           titleHelper: KTChip(
-                            text: (state is Success<Orders>) ? state.data.total.toString() : "0",
+                            text: (state is Success<Orders>) ? state.data.total.toString() : "200",
+                            textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
                             strokeColor: AppColors.neutralB20,
                             backgroundColor: AppColors.neutralB20,
                             padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
@@ -294,8 +295,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           titleStyle: mediumTextStyle(),
                           titleHelper: KTChip(
                             text: (state is Success<Orders>) ? state.data.total.toString() : "0",
-                            strokeColor: AppColors.neutralB20,
-                            backgroundColor: AppColors.neutralB20,
+                            textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.white),
+                            strokeColor: AppColors.errorR300,
+                            backgroundColor: AppColors.errorR300,
                             padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
                           ),
                           prefixWidget: ImageResourceResolver.notificationSVG.getImageWidget(
