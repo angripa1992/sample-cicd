@@ -112,12 +112,12 @@ class CartManager {
 
   Future<void> removeFromCart(AddToCartItem item) async {
     _deleteItemFromCartByUUIDandQuantity(item);
-    _checkCartAndClearIfNeeded();
+    _notifyListener();
   }
 
   void removeAllByBrand(int brandId) {
     _carts.removeWhere((element) => element.brand.id == brandId);
-    _checkCartAndClearIfNeeded();
+    _notifyListener();
   }
 
   Future<void> changeQuantity(AddToCartItem item, int quantity) async {

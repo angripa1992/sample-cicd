@@ -46,7 +46,7 @@ class KTButton extends StatelessWidget {
             borderRadius: backgroundDecoration?.borderRadius?.resolve(null),
             splashColor: splashColor,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 2.rSp, vertical: verticalContentPadding ?? 8.rh),
+              padding: EdgeInsets.symmetric(horizontal: 2.rw, vertical: verticalContentPadding ?? 8.rh),
               decoration: BoxDecoration(
                 border: backgroundDecoration?.border,
                 borderRadius: backgroundDecoration?.borderRadius?.resolve(null),
