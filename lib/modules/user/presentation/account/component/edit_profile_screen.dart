@@ -63,9 +63,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         );
       } else {
         context.read<UpdateUserInfoCubit>().updateUserInfo(
-          UpdateUserInfoParams(
-            UserUpdateRequestModel(
-              branchId: _user.brandIDs.firstOrNull,
+              UpdateUserInfoParams(
+                UserUpdateRequestModel(
+                  branchId: _user.brandIDs.firstOrNull,
                   businessId: _user.businessId,
                   firstName: _firstNameController.text,
                   lastName: _lastNameController.text,
@@ -73,9 +73,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   roleIds: _user.roleIds,
                   countryIds: _user.countryIds,
                 ),
-            _user.id,
-          ),
-        );
+                _user.id,
+              ),
+            );
       }
     }
   }
@@ -104,7 +104,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         body: Builder(
           builder: (context) => SingleChildScrollView(
             child: SizedBox(
-              height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight - (Scaffold.of(context).appBarMaxHeight ?? 0),
+              height: ScreenSizes.screenHeight - ScreenSizes.statusBarHeight - (Scaffold.of(context).appBarMaxHeight ?? AppSize.s50.rh),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

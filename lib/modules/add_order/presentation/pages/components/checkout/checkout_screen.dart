@@ -6,7 +6,6 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/checkout_actions_buttons.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/checkout/pament_method.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
@@ -18,6 +17,7 @@ import '../../../../../../resources/strings.dart';
 import '../../../../../widgets/snackbars.dart';
 import '../../../../utils/order_entity_provider.dart';
 import '../cart/order_action_button.dart';
+import 'checkout_actions_buttons.dart';
 import 'customer_info.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -38,6 +38,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   CustomerInfo? _customerInfo;
   int? _paymentMethod;
   int? _paymentChannel;
+  late ValueNotifier<int?> _paymentChanelNotifier;
 
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       _paymentChannel = paymentInfo.paymentChannel;
     }
     _customerInfo = CartManager().customerInfo;
+    _paymentChanelNotifier = ValueNotifier(_paymentChannel);
     super.initState();
   }
 
@@ -133,6 +135,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       onChanged: (paymentMethod, paymentChannel) {
                         _paymentMethod = paymentMethod;
                         _paymentChannel = paymentChannel;
+                        _paymentChanelNotifier.value = _paymentChannel;
                       },
                     ),
                   ),
@@ -148,13 +151,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   totalPrice: widget.checkoutData.cartBill.totalPrice,
                   onProceed: () => _placeOrder(CheckoutState.PLACE_ORDER),
                 )
-              : CheckoutActionButton(
-                  totalPrice: widget.checkoutData.cartBill.totalPrice,
-                  onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
-                  onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+              : ValueListenableBuilder<int?>(
+                  valueListenable: _paymentChanelNotifier,
+                  builder: (_, chanelID, __) {
+                    return CheckoutActionButton(
+                      willShowPlaceOrder: chanelID != PaymentChannelID.CREATE_QRIS,
+                      totalPrice: widget.checkoutData.cartBill.totalPrice,
+                      onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
+                      onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+                    );
+                  },
                 ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _paymentChanelNotifier.dispose();
+    super.dispose();
   }
 }
