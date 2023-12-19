@@ -41,6 +41,8 @@ class AppIcons {
   static const String delete = "$ICON_PATH/ic_delete.svg";
   static const String updateStar = "$ICON_PATH/ic_update_star.svg";
   static const String alert = "$ICON_PATH/ic_alert.svg";
+  static const String seniorCitizen = "$ICON_PATH/ic_sc.svg";
+  static const String totalCustomer = "$ICON_PATH/ic_total_customer.svg";
   static const String notificationIcon = '@mipmap/ic_launcher';
 }
 

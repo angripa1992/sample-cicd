@@ -108,7 +108,7 @@ class Order {
   final num providerAdditionalFee;
   final AppliedPromoInfo? orderAppliedPromo;
   final List<AppliedPromoInfo> itemAppliedPromos;
-  final List<AppliedPromoItem> appliedPromos;
+  final List<AppliedPromoItem> promos;
   final String queueNo;
   final int pickupType;
   final AdditionalInfo? additionalInfo;
@@ -210,7 +210,7 @@ class Order {
     required this.cancellationReasonId,
     required this.cancellationReason,
     required this.restaurantServiceFee,
-    required this.appliedPromos,
+    required this.promos,
     required this.estimatedPickUpAt,
     required this.deliveryInfo,
     required this.providerSubTotal,
@@ -313,7 +313,7 @@ class Order {
         cancellationReasonId: cancellationReasonId,
         cancellationReason: cancellationReason,
         restaurantServiceFee: restaurantServiceFee,
-        appliedPromos: appliedPromos,
+        promos: promos,
         estimatedPickUpAt: estimatedPickUpAt,
         deliveryInfo: deliveryInfo,
         providerSubTotal: providerSubTotal,
