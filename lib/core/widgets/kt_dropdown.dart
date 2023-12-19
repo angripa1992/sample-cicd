@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/resources/strings.dart';
 
 class KTDropdown<T> extends StatefulWidget {
@@ -11,7 +10,7 @@ class KTDropdown<T> extends StatefulWidget {
   final EdgeInsets? padding;
   final BorderRadius? borderRadius;
   final BoxDecoration? backgroundDecoration;
-  final DecoratedImageView? trailingWidget;
+  final Widget? trailingWidget;
   final String? hintText;
   final TextStyle? textStyle;
   final TextStyle? hintTextStyle;

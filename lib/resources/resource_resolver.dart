@@ -41,4 +41,8 @@ class ImageResourceResolver {
   static SVGImageResource get deleteSVG => SVGImageResource('$iconBasePath/ic_delete.svg');
 
   static SVGImageResource get refreshSVG => SVGImageResource('$iconBasePath/ic_refresh.svg');
+
+  static SVGImageResource get downloadSVG => SVGImageResource('$iconBasePath/ic_download.svg');
+
+  static SVGImageResource get downArrowSVG => SVGImageResource('$iconBasePath/ic_down_arrow.svg');
 }

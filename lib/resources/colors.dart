@@ -37,6 +37,7 @@ class AppColors {
   static Color black = const Color(0xFF262626);
   static Color neutralB500 = const Color(0xFF3B3B3B);
   static Color neutralB100 = const Color(0xFF757575);
+  static Color neutralB300 = const Color(0xFF575757);
   static Color neutralB700 = const Color(0xFF1C1C1C);
   static Color primaryP300 = const Color(0xFF6A13F4);
   static Color primaryP50 = const Color(0xFFF0E7FE);
