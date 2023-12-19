@@ -71,6 +71,24 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
+  void _onDeviceChange() {
+    ModalSheetManager.openBottomSheet(
+      context,
+      const DeviceSettingScreen(),
+      title: AppStrings.device_setting.tr(),
+      showCloseButton: true,
+      dismissible: false,
+    ).then(
+      (value) {
+        if (value is Failure) {
+          showApiErrorSnackBar(context, value);
+        } else if (value is String) {
+          showSuccessSnackBar(context, value);
+        }
+      },
+    );
+  }
+
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -215,23 +233,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       title: AppStrings.device_setting.tr(),
                       prefixWidget: ImageResourceResolver.phoneSVG.getImageWidget(width: 20.rw, height: 20.rh),
                       suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
-                      onTap: () {
-                        ModalSheetManager.openBottomSheet(
-                          context,
-                          const DeviceSettingScreen(),
-                          title: AppStrings.device_setting.tr(),
-                          showCloseButton: true,
-                          dismissible: false,
-                        ).then(
-                          (value) {
-                            if (value is Failure) {
-                              showApiErrorSnackBar(context, value);
-                            } else if (value is String) {
-                              showSuccessSnackBar(context, value);
-                            }
-                          },
-                        );
-                      },
+                      onTap: _onDeviceChange,
                     ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
                     ActionableTile(
                       title: AppStrings.contact_support.tr(),
