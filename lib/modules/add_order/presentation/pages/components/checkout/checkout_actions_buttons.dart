@@ -16,12 +16,14 @@ class CheckoutActionButton extends StatelessWidget {
   final num totalPrice;
   final VoidCallback onPlaceOrder;
   final VoidCallback onPayNow;
+  final bool willShowPlaceOrder;
 
   const CheckoutActionButton({
     Key? key,
     required this.totalPrice,
     required this.onPayNow,
     required this.onPlaceOrder,
+    required this.willShowPlaceOrder,
   }) : super(key: key);
 
   @override
@@ -79,13 +81,14 @@ class CheckoutActionButton extends StatelessWidget {
                   borderColor: AppColors.greyDark,
                 ),
               ),
-              SizedBox(width: AppSize.s8.rw),
-              Expanded(
-                child: AppButton(
-                  onTap: onPlaceOrder,
-                  text: 'Place Order',
+              if (willShowPlaceOrder) SizedBox(width: AppSize.s8.rw),
+              if (willShowPlaceOrder)
+                Expanded(
+                  child: AppButton(
+                    onTap: onPlaceOrder,
+                    text: 'Place Order',
+                  ),
                 ),
-              ),
             ],
           ),
         ],
