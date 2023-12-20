@@ -8,7 +8,9 @@ import 'package:klikit/resources/values.dart';
 
 class ActionableTile extends StatelessWidget {
   final String title;
+  final String? subtitle;
   final BoxDecoration? decoration;
+  final Color? splashColor;
   final Widget? prefixWidget;
   final Widget? suffixWidget;
   final Function()? onTap;
@@ -16,7 +18,9 @@ class ActionableTile extends StatelessWidget {
   const ActionableTile({
     Key? key,
     required this.title,
+    this.subtitle,
     this.decoration,
+    this.splashColor,
     this.prefixWidget,
     this.onTap,
     this.suffixWidget,
@@ -25,8 +29,9 @@ class ActionableTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: decoration?.borderRadius?.resolve(null) ?? BorderRadius.circular(AppSize.s8.rSp),
       onTap: onTap,
+      borderRadius: decoration?.borderRadius?.resolve(null) ?? BorderRadius.circular(AppSize.s8.rSp),
+      splashColor: splashColor,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10.rh, horizontal: 12.rw),
         decoration: BoxDecoration(
@@ -37,17 +42,31 @@ class ActionableTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            prefixWidget.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 12.rw),
+            prefixWidget.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 12),
             Expanded(
-              child: Text(
-                title,
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: mediumTextStyle(
+                      color: AppColors.black,
+                      fontSize: AppFontSize.s16.rSp,
+                    ),
+                  ),
+                  if (subtitle.isNotNullOrEmpty())
+                    Text(
+                      subtitle!,
+                      style: regularTextStyle(
+                        color: AppColors.neutralB500,
+                        fontSize: AppFontSize.s12.rSp,
+                      ),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: 4.rh),
+                ],
               ),
             ),
-            suffixWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 12.rw),
+            suffixWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 12),
           ],
         ),
       ),

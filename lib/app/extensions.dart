@@ -1,6 +1,7 @@
 import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/size_config.dart';
 
 const String EMPTY = '';
 const int ZERO = 0;
@@ -113,52 +114,42 @@ extension PaperSizeToRollSize on int {
 
 extension RemoveDotFromString on String {
   String removeDot() {
-    return this.replaceAll('.', '');
+    return replaceAll('.', '');
   }
 }
 
-extension SpaceDivider on double {
+extension SpaceDivider on num {
   SizedBox verticalSpacer() {
-    return SizedBox(height: this);
+    return SizedBox(height: rh);
   }
 
   SizedBox horizontalSpacer() {
-    return SizedBox(width: this);
+    return SizedBox(width: rw);
   }
 
-  SizedBox axisBasedSpacer(Axis direction, double space) {
+  SizedBox axisBasedSpacer(Axis direction, num space) {
     return direction == Axis.horizontal ? space.horizontalSpacer() : space.verticalSpacer();
   }
 }
 
 extension WidgetVisibility on Widget? {
   Visibility setVisibility() {
-    return Visibility(visible: this != null, child: this ?? Container());
+    return Visibility(visible: this != null, child: this ?? const SizedBox());
   }
 
-  Widget setVisibilityWithSpace({double? startSpace, double? endSpace, required Axis direction}) {
+  Widget setVisibilityWithSpace({num? startSpace, num? endSpace, required Axis direction}) {
     if (this == null) {
-      return Container();
+      return const SizedBox();
     } else {
-      List<Widget> children = [];
-      if (startSpace != null) {
-        children.add(startSpace.axisBasedSpacer(direction, startSpace));
-      }
-      children.add(this!);
-      if (endSpace != null) {
-        children.add(endSpace.axisBasedSpacer(direction, endSpace));
-      }
-
-      if (direction == Axis.horizontal) {
-        return Row(
-          children: children,
-        );
-      } else {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: children,
-        );
-      }
+      return Padding(
+        padding: EdgeInsets.only(
+          top: direction == Axis.vertical && startSpace != null ? startSpace.rh : 0,
+          bottom: direction == Axis.vertical && endSpace != null ? endSpace.rh : 0,
+          left: direction == Axis.horizontal && startSpace != null ? startSpace.rw : 0,
+          right: direction == Axis.horizontal && endSpace != null ? endSpace.rw : 0,
+        ),
+        child: this,
+      );
     }
   }
 }

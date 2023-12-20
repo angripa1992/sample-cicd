@@ -31,4 +31,10 @@ class ImageResourceResolver {
   static SVGImageResource get notificationAlertSVG => SVGImageResource('$iconBasePath/ic_notification_alert.svg');
 
   static SVGImageResource get closeSVG => SVGImageResource('$iconBasePath/ic_close.svg');
+
+  static SVGImageResource get whatsappSVG => SVGImageResource('$iconBasePath/ic_whatsapp.svg');
+
+  static SVGImageResource get emailSVG => SVGImageResource('$iconBasePath/ic_email.svg');
+
+  static SVGImageResource get deleteSVG => SVGImageResource('$iconBasePath/ic_delete.svg');
 }
