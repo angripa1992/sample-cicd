@@ -36,11 +36,15 @@ class AppColors {
 
   static Color black = const Color(0xFF262626);
   static Color neutralB500 = const Color(0xFF3B3B3B);
+  static Color neutralB100 = const Color(0xFF757575);
+  static Color neutralB700 = const Color(0xFF1C1C1C);
   static Color primaryP300 = const Color(0xFF6A13F4);
+  static Color primaryP50 = const Color(0xFFF0E7FE);
   static Color neutralB600 = const Color(0xFF2E2E2E);
   static Color successG600 = const Color(0xFF16B050);
   static Color neutralB40 = const Color(0xFFDEDEDE);
   static Color neutralB20 = const Color(0xFFF5F5F5);
+  static Color neutralB80 = const Color(0xFF949494);
 }
 
 Color getCheckboxColor(Set<MaterialState> states) {
