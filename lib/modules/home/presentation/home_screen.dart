@@ -277,8 +277,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         containerHighlightColor: AppColors.grey,
                       );
                     }
+
+                    int unread = (state is Success<Orders>) ? state.data.total : 0;
                     return HomeOrderNavCard(
-                      numberOfOrders: (state is Success<Orders>) ? state.data.total.toString() : "0",
+                      numberOfOrders: '$unread',
                       bgColor: AppColors.white,
                       textColor: AppColors.black,
                       onTap: () {
