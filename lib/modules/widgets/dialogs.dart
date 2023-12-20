@@ -19,8 +19,7 @@ void showValidationDialog({
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -104,42 +103,33 @@ void showAccessDeniedDialog({
                 fontSize: AppFontSize.s24.rSp,
               ),
             ),
-            SizedBox(
-              height: AppSize.s16.rh,
-            ),
+            SizedBox(height: AppSize.s16.rh),
             Text(
               '${AppStrings.access_denied_message_header_part_one.tr()} $role ${AppStrings.access_denied_message_header_part_two.tr()}',
               textAlign: TextAlign.start,
               style: regularStyle,
             ),
-            SizedBox(
-              height: AppSize.s10.rh,
-            ),
+            SizedBox(height: AppSize.s10.rh),
             RichText(
               textScaleFactor: MediaQuery.of(context).textScaleFactor,
               text: TextSpan(
-                text:
-                    '${AppStrings.access_denied_message_middle_part_one.tr()} ',
+                text: '${AppStrings.access_denied_message_middle_part_one.tr()} ',
                 style: regularStyle,
                 children: <TextSpan>[
                   TextSpan(
-                    text: AppStrings.access_denied_message_middle_part_two.tr(),
+                    text: 'currently only available to Branch Managers, Staffs and Cashiers',
                     style: boldStyle,
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              height: AppSize.s10.rh,
-            ),
+            SizedBox(height: AppSize.s10.rh),
             Text(
               AppStrings.access_denied_message_footer.tr(),
               textAlign: TextAlign.start,
               style: regularStyle,
             ),
-            SizedBox(
-              height: AppSize.s32.rh,
-            ),
+            SizedBox(height: AppSize.s32.rh),
             LoadingButton(
               isLoading: false,
               text: AppStrings.go_back.tr(),

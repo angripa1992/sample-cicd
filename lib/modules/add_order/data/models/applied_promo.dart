@@ -95,6 +95,9 @@ class AppliedPromoItem {
   int? id;
   String? code;
   int? discount;
+  bool? isSeniorCitizenPromo;
+  int? numberOfCustomer;
+  int? numberOfSeniorCitizen;
 
   AppliedPromoItem({this.id, this.code, this.discount});
 
@@ -102,6 +105,9 @@ class AppliedPromoItem {
     id = json['id'];
     code = json['code'];
     discount = json['discount'];
+    isSeniorCitizenPromo = json['is_senior_citizen_promo'];
+    numberOfCustomer = json['number_of_customer'];
+    numberOfSeniorCitizen = json['number_of_senior_citizen'];
   }
 
   Map<String, dynamic> toJson() {
@@ -109,6 +115,9 @@ class AppliedPromoItem {
     data['id'] = id;
     data['code'] = code;
     data['discount'] = discount;
+    data['is_senior_citizen_promo'] = isSeniorCitizenPromo;
+    data['number_of_customer'] = numberOfCustomer;
+    data['number_of_senior_citizen'] = numberOfSeniorCitizen;
     return data;
   }
 }
