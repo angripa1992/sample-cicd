@@ -150,25 +150,6 @@ extension WidgetVisibility on Widget? {
         ),
         child: this,
       );
-      // List<Widget> children = [];
-      // if (startSpace != null) {
-      //   children.add(startSpace.axisBasedSpacer(direction, startSpace));
-      // }
-      // children.add(this!);
-      // if (endSpace != null) {
-      //   children.add(endSpace.axisBasedSpacer(direction, endSpace));
-      // }
-      //
-      // if (direction == Axis.horizontal) {
-      //   return Row(
-      //     children: children,
-      //   );
-      // } else {
-      //   return Column(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: children,
-      //   );
-      // }
     }
   }
 }
