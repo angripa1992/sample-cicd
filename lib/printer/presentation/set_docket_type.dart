@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_checkbox.dart';
 import 'package:klikit/printer/presentation/printer_setting_checkbox.dart';
 
 import '../../modules/widgets/counter_view.dart';
@@ -88,12 +89,12 @@ class _SetDocketTypeState extends State<SetDocketType> {
             Row(
               children: [
                 Expanded(
-                  child: PrinterSettingCheckbox(
+                  child: KTCheckbox(
                     enabled: _kitchenCopyEnabled!,
                     onChanged: _changeKitchenCopyEnabled,
                     name: AppStrings.kitchen.tr(),
-                    willAlwaysChecked: false,
-                    activeColor: AppColors.primary,
+                    checked: false,
+                    primaryColor: AppColors.primary,
                   ),
                 ),
                 CounterView(
