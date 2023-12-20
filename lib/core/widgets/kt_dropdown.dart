@@ -5,6 +5,7 @@ import 'package:klikit/resources/strings.dart';
 class KTDropdown<T> extends StatefulWidget {
   final List<T> items;
   final String Function(T item) titleBuilder;
+  final String Function(T item, bool isSelected)? selectedItemBuilder;
   final void Function(T selectedItem) onSelected;
   final T? selectedItem;
   final EdgeInsets? padding;
@@ -19,6 +20,7 @@ class KTDropdown<T> extends StatefulWidget {
       {super.key,
       required this.items,
       required this.titleBuilder,
+      this.selectedItemBuilder,
       required this.onSelected,
       this.selectedItem,
       this.padding,
@@ -63,9 +65,12 @@ class _KTDropdownState<T> extends State<KTDropdown<T>> {
         icon: widget.trailingWidget,
         borderRadius: widget.borderRadius,
         alignment: Alignment.centerLeft,
-        hint: Text(
-          widget.hintText ?? AppStrings.select.tr(),
-          style: widget.hintTextStyle,
+        hint: DropdownMenuItem(
+          value: widget.hintText ?? AppStrings.select.tr(),
+          child: Text(
+            widget.hintText ?? AppStrings.select.tr(),
+            style: widget.hintTextStyle,
+          ),
         ),
         items: widget.items.map<DropdownMenuItem<T>>(
           (currentData) {
@@ -78,6 +83,21 @@ class _KTDropdownState<T> extends State<KTDropdown<T>> {
             );
           },
         ).toList(),
+        selectedItemBuilder: widget.selectedItemBuilder != null
+            ? (context) => List.generate(
+                  widget.items.length,
+                  (position) {
+                    final currentData = widget.items[position];
+                    return DropdownMenuItem(
+                      value: currentData,
+                      child: Text(
+                        widget.selectedItemBuilder!(currentData, selectedItemIndex == position),
+                        style: widget.textStyle,
+                      ),
+                    );
+                  },
+                )
+            : null,
         onChanged: (T? value) {
           if (value != null) {
             widget.onSelected(value);
