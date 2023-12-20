@@ -57,7 +57,7 @@ class ModalSheetManager {
                       ),
                   ],
                 ),
-              if (title != null || showCloseButton) const Divider().setVisibilityWithSpace(direction: Axis.vertical, startSpace: 12.rh, endSpace: 12.rh),
+              if (title != null || showCloseButton) const Divider().setVisibilityWithSpace(direction: Axis.vertical, startSpace: 12, endSpace: 12),
               widget
             ],
           ),

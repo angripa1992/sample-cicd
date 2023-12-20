@@ -42,7 +42,7 @@ class ActionableTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            prefixWidget.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 12.rw),
+            prefixWidget.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +66,7 @@ class ActionableTile extends StatelessWidget {
                 ],
               ),
             ),
-            suffixWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 12.rw),
+            suffixWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 12),
           ],
         ),
       ),
