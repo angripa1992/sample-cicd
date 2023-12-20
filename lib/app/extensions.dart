@@ -1,4 +1,5 @@
 import 'package:docket_design_template/utils/printer_configuration.dart';
+import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 
 const String EMPTY = '';
@@ -23,6 +24,14 @@ extension EmptyToNUll on String? {
     } else {
       return null;
     }
+  }
+
+  bool isNullOrEmpty() {
+    return this == null || this!.isEmpty;
+  }
+
+  bool isNotNullOrEmpty() {
+    return !(this == null || this!.isEmpty);
   }
 }
 
@@ -105,5 +114,51 @@ extension PaperSizeToRollSize on int {
 extension RemoveDotFromString on String {
   String removeDot() {
     return this.replaceAll('.', '');
+  }
+}
+
+extension SpaceDivider on double {
+  SizedBox verticalSpacer() {
+    return SizedBox(height: this);
+  }
+
+  SizedBox horizontalSpacer() {
+    return SizedBox(width: this);
+  }
+
+  SizedBox axisBasedSpacer(Axis direction, double space) {
+    return direction == Axis.horizontal ? space.horizontalSpacer() : space.verticalSpacer();
+  }
+}
+
+extension WidgetVisibility on Widget? {
+  Visibility setVisibility() {
+    return Visibility(visible: this != null, child: this ?? Container());
+  }
+
+  Widget setVisibilityWithSpace({double? startSpace, double? endSpace, required Axis direction}) {
+    if (this == null) {
+      return Container();
+    } else {
+      List<Widget> children = [];
+      if (startSpace != null) {
+        children.add(startSpace.axisBasedSpacer(direction, startSpace));
+      }
+      children.add(this!);
+      if (endSpace != null) {
+        children.add(endSpace.axisBasedSpacer(direction, endSpace));
+      }
+
+      if (direction == Axis.horizontal) {
+        return Row(
+          children: children,
+        );
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: children,
+        );
+      }
+    }
   }
 }
