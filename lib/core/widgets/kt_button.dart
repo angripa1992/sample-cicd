@@ -46,7 +46,7 @@ class KTButton extends StatelessWidget {
             borderRadius: backgroundDecoration?.borderRadius?.resolve(null),
             splashColor: splashColor,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 2.rSp, vertical: verticalContentPadding ?? 8.rh),
+              padding: EdgeInsets.symmetric(horizontal: 2.rw, vertical: verticalContentPadding ?? 8.rh),
               decoration: BoxDecoration(
                 border: backgroundDecoration?.border,
                 borderRadius: backgroundDecoration?.borderRadius?.resolve(null),
@@ -64,8 +64,8 @@ class KTButton extends StatelessWidget {
                       secondaryColor: progressSecondaryColor,
                     ),
                   ),
-                  Visibility(visible: controller.loaded == false, child: 5.rw.horizontalSpacer()),
-                  prefixWidget.setVisibilityWithSpace(endSpace: 2.rw, direction: Axis.horizontal),
+                  Visibility(visible: controller.loaded == false, child: 5.horizontalSpacer()),
+                  prefixWidget.setVisibilityWithSpace(endSpace: 2, direction: Axis.horizontal),
                   Text(
                     controller.label,
                     maxLines: 1,
@@ -73,7 +73,7 @@ class KTButton extends StatelessWidget {
                     style: style.copyWith(color: style.color?.withOpacity(controller.enabled ? 1.0 : 0.5)),
                     textAlign: TextAlign.center,
                   ),
-                  suffixWidget.setVisibilityWithSpace(startSpace: 2.rw, direction: Axis.horizontal),
+                  suffixWidget.setVisibilityWithSpace(startSpace: 2, direction: Axis.horizontal),
                 ],
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/action_dialogs.dart';
 
 import '../../../../../resources/colors.dart';
@@ -77,7 +78,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.providerId == ZERO
+    return widget.providerId == ZERO && UserPermissionManager().canOosMenu()
         ? Container(
             decoration: const BoxDecoration(),
             child: Padding(
