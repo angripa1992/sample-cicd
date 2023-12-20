@@ -5,6 +5,7 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/modules/orders/data/datasource/orders_remote_datasource.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
+import 'package:klikit/modules/orders/data/models/attachment_image_file.dart';
 import 'package:klikit/modules/orders/data/models/order_status_model.dart';
 import 'package:klikit/modules/orders/data/models/webshop_order_details_model.dart';
 import 'package:klikit/modules/orders/domain/entities/cancellation_reason.dart';
@@ -272,6 +273,20 @@ class OrderRepositoryImpl extends OrderRepository {
       }
     } else {
       return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<List<AttachmentImageFile>> fetchAttachments(int orderID) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchAttachments(orderID);
+        return response;
+      } on DioException {
+        return [];
+      }
+    } else {
+      return [];
     }
   }
 }

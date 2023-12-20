@@ -6,6 +6,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/provider_advanced_price.dart';
 
 import '../../../../../app/constants.dart';
+import '../../../../../app/user_permission_manager.dart';
 import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../core/provider/image_url_provider.dart';
 import '../../../../../resources/assets.dart';
@@ -100,14 +101,15 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                       ),
                     ),
                   ),
-                  MenuSnoozeView(
-                    menuCategoryItem: widget.menuCategoryItem,
-                    brandId: widget.brandId,
-                    providerId: widget.providerID,
-                    parentEnabled: widget.parentEnabled,
-                    onMenuItemSnoozeChanged: _onItemSnoozeChanged,
-                    onMenuEnabledChanged: _onEnabledChanged,
-                  ),
+                  if (UserPermissionManager().canOosMenu())
+                    MenuSnoozeView(
+                      menuCategoryItem: widget.menuCategoryItem,
+                      brandId: widget.brandId,
+                      providerId: widget.providerID,
+                      parentEnabled: widget.parentEnabled,
+                      onMenuItemSnoozeChanged: _onItemSnoozeChanged,
+                      onMenuEnabledChanged: _onEnabledChanged,
+                    ),
                   MenuSwitchView(
                     menuVersion: widget.menuCategoryItem.menuVersion,
                     id: widget.menuCategoryItem.id,

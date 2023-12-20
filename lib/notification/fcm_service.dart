@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/notification/local_notification_service.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
@@ -26,10 +27,10 @@ class FcmService {
     messaging = FirebaseMessaging.instance;
   }
 
-  Future<String?> getFcmToken() async {
+  Future<String> getFcmToken() async {
     final fcmToken = await messaging.getToken();
     debugPrint('fcm token => $fcmToken');
-    return fcmToken;
+    return fcmToken ?? EMPTY;
   }
 
   void registerForegroundListener() {

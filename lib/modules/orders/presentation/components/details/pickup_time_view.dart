@@ -29,7 +29,7 @@ class PickupTimeView extends StatelessWidget {
             AppStrings.estimated_pickup_time.tr(),
             style: semiBoldTextStyle(
               color: AppColors.black,
-              fontSize: AppFontSize.s15.rSp,
+              fontSize: AppFontSize.s17.rSp,
             ),
           ),
           SizedBox(height: AppSize.s4.rh),

@@ -6,6 +6,7 @@ import 'package:klikit/modules/orders/data/models/orders_model.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart' as order;
 import 'package:klikit/modules/orders/domain/entities/settings.dart';
 
+import '../../data/models/attachment_image_file.dart';
 import '../../data/models/qris_payment_success_response.dart';
 import '../../data/models/webshop_order_details_model.dart';
 import '../../edit_order/grab_order_update_request_model.dart';
@@ -19,6 +20,8 @@ abstract class OrderRepository {
   Future<Either<Failure, order.Orders>> fetchOrder(Map<String, dynamic> params);
 
   Future<order.Order?> fetchOrderById(int id);
+
+  Future<List<AttachmentImageFile>> fetchAttachments(int orderID);
 
   Future<WebShopOrderDetailsModel?> fetchOmsOrderById(String externalID);
 

@@ -1,3 +1,4 @@
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
 import '../../../../../app/constants.dart';
@@ -18,11 +19,11 @@ class OrderActionButtonManager {
   }
 
   bool canReject(Order order) {
-    if (order.isInterceptorOrder || order.providerId == ProviderID.GO_FOOD) {
+    if (!UserPermissionManager().canCancelOrder() || order.isInterceptorOrder || order.providerId == ProviderID.GO_FOOD) {
       return false;
     } else if (order.status == OrderStatus.PLACED) {
       return true;
-    } else if (order.providerId == ProviderID.KLIKIT && order.status == OrderStatus.ACCEPTED) {
+    } else if (order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.READY)) {
       return true;
     } else {
       return false;
