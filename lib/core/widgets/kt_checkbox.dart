@@ -32,12 +32,12 @@ class KTCheckbox extends StatelessWidget {
         checkboxTheme: CheckboxThemeData(
           side: MaterialStateBorderSide.resolveWith(
             (states) => BorderSide(
-              width: AppSize.s2.rSp,
+              width: AppSize.s1.rSp,
               color: states.contains(MaterialState.selected)
                   ? enabled
                       ? primaryColor
                       : primaryColor.withOpacity(0.5)
-                  : AppColors.spanishGrey,
+                  : AppColors.neutralB80,
             ),
           ),
           shape: RoundedRectangleBorder(
@@ -52,7 +52,7 @@ class KTCheckbox extends StatelessWidget {
         title: Text(
           name,
           style: regularTextStyle(
-            color: enabled ? AppColors.black : AppColors.spanishGrey,
+            color: enabled ? AppColors.black : AppColors.neutralB80,
             fontSize: AppSize.s16.rSp,
           ),
         ),

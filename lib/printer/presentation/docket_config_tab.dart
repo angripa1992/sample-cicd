@@ -4,22 +4,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/decorated_image_view.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
-import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/set_docket_type.dart';
-import 'package:klikit/printer/presentation/set_font_size_dropdown.dart';
+import 'package:klikit/printer/presentation/set_font_size.dart';
 import 'package:klikit/printer/presentation/set_paper_size.dart';
 import 'package:klikit/printer/presentation/set_printer_connection_type.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
+import 'package:klikit/resources/decorations.dart';
+import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/resource_resolver.dart';
+import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../app/di.dart';
 import '../../core/utils/response_state.dart';
-import '../../modules/widgets/app_button.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
 
@@ -42,6 +46,8 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   late int _kitchenCopyCount;
   late int _printerFontId;
   late ValueNotifier<int> _connectionStateListener;
+  final _showDevicesController = KTButtonController(label: AppStrings.show_devices.tr());
+  final _saveButtonController = KTButtonController(label: AppStrings.save.tr());
 
   @override
   void initState() {
@@ -70,13 +76,11 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
 
   void _savePrinterSettingLocally({PrinterSetting? savingData}) async {
     await _appPreferences.savePrinterSettings(
-      printerSetting:
-          savingData ?? _createPrinterSettingFromLocalVariables(false),
+      printerSetting: savingData ?? _createPrinterSettingFromLocalVariables(false),
     );
     if (savingData == null) {
       _connectionStateListener.value = 0;
-      _connectionStateListener.value =
-          _appPreferences.printerSetting().type;
+      _connectionStateListener.value = _appPreferences.printerSetting().type;
     }
   }
 
@@ -93,18 +97,11 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
       paperSize: _paperSize,
       customerCopyEnabled: _customerCopyEnabled,
       kitchenCopyEnabled: _kitchenCopyEnabled,
-      customerCopyCount: isUpdating
-          ? (_customerCopyEnabled ? _customerCopyCount : 1)
-          : _customerCopyCount,
-      kitchenCopyCount: isUpdating
-          ? (_kitchenCopyEnabled
-              ? (_kitchenCopyCount > 0 ? _kitchenCopyCount : 1)
-              : 0)
-          : _kitchenCopyCount,
+      customerCopyCount: isUpdating ? (_customerCopyEnabled ? _customerCopyCount : 1) : _customerCopyCount,
+      kitchenCopyCount: isUpdating ? (_kitchenCopyEnabled ? (_kitchenCopyCount > 0 ? _kitchenCopyCount : 1) : 0) : _kitchenCopyCount,
       fonts: PrinterFonts.fromId(_printerFontId),
       fontId: _printerFontId,
-      stickerPrinterEnabled:
-          _appPreferences.printerSetting().stickerPrinterEnabled,
+      stickerPrinterEnabled: _appPreferences.printerSetting().stickerPrinterEnabled,
     );
   }
 
@@ -124,108 +121,167 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     );
   }
 
-  Widget _body() => Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: AppSize.s10.rh,
-          horizontal: AppSize.s8.rw,
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SetPrinterConnectionType(
-                      initType: _connectionType,
-                      willUsbEnabled: true,
-                      onChanged: (type) {
-                        _connectionType = type;
-                        _connectionStateListener.value = type;
-                      },
-                    ),
-                    SetPaperSize(
-                      initSize: _paperSize,
-                      onChanged: (size) {
-                        _paperSize = size;
-                      },
-                    ),
-                    SetDocketType(
-                      initCustomerCopyEnabled: _customerCopyEnabled,
-                      initCustomerCopyCount: _customerCopyCount,
-                      initKitchenCopyEnabled: _kitchenCopyEnabled,
-                      initKitchenCopyCount: _kitchenCopyCount,
-                      changeCustomerCopyCount: (count) {
-                        _customerCopyCount = count;
-                      },
-                      changeKitchenCopyCount: (count) {
-                        _kitchenCopyCount = count;
-                      },
-                      changeKitchenCopyEnabled: (enabled) {
-                        _kitchenCopyEnabled = enabled;
-                      },
-                    ),
-                    SetFontSizeDropDown(
-                      initFont: _printerFontId,
-                      onChanged: (font) {
-                        _printerFontId = font;
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            _buttons(),
-          ],
-        ),
-      );
-
-  Widget _buttons() => Row(
+  Widget _body() => Column(
         children: [
           Expanded(
-            child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
-              listener: (context, state) {
-                if (state is Failed) {
-                  showApiErrorSnackBar(context, state.failure);
-                } else if (state is Success<ActionSuccess>) {
-                  _savePrinterSettingLocally();
-                  showSuccessSnackBar(context, state.data.message ?? '');
-                }
-              },
-              builder: (context, state) {
-                return LoadingButton(
-                  isLoading: state is Loading,
-                  onTap: _updatePrinterSetting,
-                  text: AppStrings.save.tr(),
-                );
-              },
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    color: AppColors.white,
+                    padding: EdgeInsets.all(13.rSp),
+                    child: Row(
+                      children: [
+                        DecoratedImageView(
+                          iconWidget: ImageResourceResolver.printerSVG.getImageWidget(
+                            height: 20.rh,
+                            width: 20.rw,
+                            color: AppColors.primaryP300,
+                          ),
+                          padding: EdgeInsets.all(6.rSp),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryLighter,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(200.rSp),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 12.rw),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Test Print',
+                                style: semiBoldTextStyle(fontSize: AppFontSize.s14.rSp, color: AppColors.black),
+                              ),
+                              Text(
+                                'Test your printing connectivity',
+                                style: regularTextStyle(
+                                  color: AppColors.neutralB100,
+                                  fontSize: AppFontSize.s12.rSp,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        KTButton(
+                          controller: KTButtonController(label: 'Test Print'),
+                          backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP50),
+                          prefixWidget: SizedBox(
+                            width: 20.rw,
+                          ),
+                          labelStyle: mediumTextStyle(color: AppColors.primaryP300),
+                          suffixWidget: SizedBox(
+                            width: 20.rw,
+                          ),
+                          onTap: () {},
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 4.rh),
+                  SetPrinterConnectionType(
+                    initType: _connectionType,
+                    willUsbEnabled: true,
+                    onChanged: (type) {
+                      _connectionType = type;
+                      _connectionStateListener.value = type;
+                    },
+                  ),
+                  SizedBox(height: 4.rh),
+                  SetPaperSize(
+                    initSize: _paperSize,
+                    onChanged: (size) {
+                      _paperSize = size;
+                    },
+                  ),
+                  SizedBox(height: 4.rh),
+                  SetFontSize(
+                    initFont: _printerFontId,
+                    onChanged: (font) {
+                      _printerFontId = font;
+                    },
+                  ),
+                  SizedBox(height: 4.rh),
+                  SetDocketType(
+                    initCustomerCopyEnabled: _customerCopyEnabled,
+                    initCustomerCopyCount: _customerCopyCount,
+                    initKitchenCopyEnabled: _kitchenCopyEnabled,
+                    initKitchenCopyCount: _kitchenCopyCount,
+                    changeCustomerCopyCount: (count) {
+                      _customerCopyCount = count;
+                    },
+                    changeKitchenCopyCount: (count) {
+                      _kitchenCopyCount = count;
+                    },
+                    changeKitchenCopyEnabled: (enabled) {
+                      _kitchenCopyEnabled = enabled;
+                    },
+                  ),
+                  SizedBox(height: 4.rh),
+                ],
+              ),
             ),
           ),
-          SizedBox(width: AppSize.s8.rw),
-          Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: _connectionStateListener,
-              builder: (_, value, __) {
-                return AppButton(
-                  enable:
-                      _appPreferences.printerSetting().type == value,
-                  onTap: () {
-                    _printingHandler.showDevices(
-                        initialIndex: PrinterSelectIndex.docket);
-                  },
-                  text: AppStrings.show_devices.tr(),
-                  color: AppColors.white,
-                  borderColor: AppColors.black,
-                  textColor: AppColors.black,
-                  icon: _appPreferences.printerSetting().type ==
-                          CType.BLE
-                      ? Icons.bluetooth
-                      : Icons.usb,
-                );
-              },
-            ),
-          ),
+          SizedBox(height: 4.rh),
+          _buttons(),
         ],
+      );
+
+  Widget _buttons() => Container(
+        color: AppColors.white,
+        padding: EdgeInsets.all(16.rSp),
+        child: Row(
+          children: [
+            Expanded(
+              child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
+                listener: (context, state) {
+                  _saveButtonController.setLoaded(state is! Loading);
+
+                  if (state is Failed) {
+                    showApiErrorSnackBar(context, state.failure);
+                  } else if (state is Success<ActionSuccess>) {
+                    _savePrinterSettingLocally();
+                    showSuccessSnackBar(context, state.data.message ?? '');
+                  }
+                },
+                builder: (context, state) {
+                  return KTButton(
+                    controller: _saveButtonController,
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
+                    labelStyle: mediumTextStyle(color: AppColors.white),
+                    progressPrimaryColor: AppColors.white,
+                    verticalContentPadding: 10.rh,
+                    onTap: _updatePrinterSetting,
+                  );
+                },
+              ),
+            ),
+            SizedBox(width: AppSize.s8.rw),
+            Expanded(
+              child: ValueListenableBuilder(
+                valueListenable: _connectionStateListener,
+                builder: (_, value, __) {
+                  _showDevicesController.setEnabled(_appPreferences.printerSetting().type == value);
+
+                  return KTButton(
+                    controller: _showDevicesController,
+                    prefixWidget: Icon(_appPreferences.printerSetting().type == CType.BLE ? Icons.bluetooth : Icons.usb),
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
+                    labelStyle: mediumTextStyle(),
+                    splashColor: AppColors.greyBright,
+                    onTap: () {
+                      _printingHandler.showDevices(initialIndex: PrinterSelectIndex.docket);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       );
 }
