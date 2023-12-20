@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: AppStrings.ongoing_orders.tr(),
                           titleStyle: mediumTextStyle(),
                           titleHelper: KTChip(
-                            text: (state is Success<Orders>) ? state.data.total.toString() : "200",
+                            text: (state is Success<Orders>) ? state.data.total.toString() : "0",
                             textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
                             strokeColor: AppColors.neutralB20,
                             backgroundColor: AppColors.neutralB20,
