@@ -35,4 +35,6 @@ class ImageResourceResolver {
   static SVGImageResource get whatsappSVG => SVGImageResource('$iconBasePath/ic_whatsapp.svg');
 
   static SVGImageResource get emailSVG => SVGImageResource('$iconBasePath/ic_email.svg');
+
+  static SVGImageResource get deleteSVG => SVGImageResource('$iconBasePath/ic_delete.svg');
 }
