@@ -46,7 +46,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   late int _kitchenCopyCount;
   late int _printerFontId;
   late ValueNotifier<int> _connectionStateListener;
-  final showDevicesController = KTButtonController(label: AppStrings.show_devices.tr());
+  final _showDevicesController = KTButtonController(label: AppStrings.show_devices.tr());
   final _saveButtonController = KTButtonController(label: AppStrings.save.tr());
 
   @override
@@ -266,10 +266,10 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
               child: ValueListenableBuilder(
                 valueListenable: _connectionStateListener,
                 builder: (_, value, __) {
-                  showDevicesController.setEnabled(_appPreferences.printerSetting().type == value);
+                  _showDevicesController.setEnabled(_appPreferences.printerSetting().type == value);
 
                   return KTButton(
-                    controller: showDevicesController,
+                    controller: _showDevicesController,
                     prefixWidget: Icon(_appPreferences.printerSetting().type == CType.BLE ? Icons.bluetooth : Icons.usb),
                     backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
                     labelStyle: mediumTextStyle(),
