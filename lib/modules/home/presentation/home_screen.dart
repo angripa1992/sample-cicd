@@ -9,6 +9,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/core/widgets/filter/filter_screen.dart';
 import 'package:klikit/modules/home/presentation/shimer/home_order_nav_card_shimmer.dart';
 import 'package:klikit/modules/home/presentation/shimer/order_card_shimmer.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -99,6 +100,15 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => FilterScreen(),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.filter_alt_outlined)),
               DeferredPointerHandler(
                 child: Stack(
                   clipBehavior: Clip.none,
