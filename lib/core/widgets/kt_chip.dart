@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/values.dart';
 
 class KTChip extends StatelessWidget {
   final String text;
-  final double borderRadius;
+  final double? borderRadius;
+  final Color? strokeColor;
   final Color backgroundColor;
   final EdgeInsets? padding;
   final DecoratedImageView? leadingIcon;
@@ -14,7 +17,8 @@ class KTChip extends StatelessWidget {
   const KTChip({
     Key? key,
     required this.text,
-    required this.borderRadius,
+    this.borderRadius,
+    this.strokeColor,
     required this.backgroundColor,
     this.padding,
     this.leadingIcon,
@@ -25,17 +29,17 @@ class KTChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? const EdgeInsets.all(4),
+      padding: padding ?? EdgeInsets.all(AppSize.s4.rSp),
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(color: AppColors.neutralB40),
-        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(color: strokeColor ?? AppColors.neutralB40),
+        borderRadius: BorderRadius.circular(borderRadius ?? AppSize.s60.rSp),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (leadingIcon != null) (leadingIcon!),
-          if (leadingIcon != null) const SizedBox(width: 4),
+          if (leadingIcon != null) SizedBox(width: AppSize.s4.rw),
           Flexible(
             child: Text(
               text,
@@ -43,7 +47,7 @@ class KTChip extends StatelessWidget {
               style: textStyle,
             ),
           ),
-          if (trailingIcon != null) const SizedBox(width: 4),
+          if (trailingIcon != null) SizedBox(width: AppSize.s4.rw),
           if (trailingIcon != null) (trailingIcon!),
         ],
       ),
