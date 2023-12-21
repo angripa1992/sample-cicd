@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/core/widgets/kt_dropdown.dart';
+import 'package:klikit/modules/home/data/model/report_info.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
@@ -31,15 +32,25 @@ class ZReportView extends StatefulWidget {
 }
 
 class _ZReportViewState extends State<ZReportView> {
-  DateType _selectedValue = DateType.today;
-  DateTime _selectedDate = DateTime.now();
   late final generateButtonController = KTButtonController(label: AppStrings.generate.tr());
-  List<String> days = [];
+  late ReportInfo reportInfo;
+  List<ReportInfo> days = [];
 
   @override
   void initState() {
-    days = [AppStrings.today.tr(), AppStrings.yesterday.tr(), AppStrings.custom.tr()];
+    days = prepareReportInfoData();
+    reportInfo = days.first;
     super.initState();
+  }
+
+  List<ReportInfo> prepareReportInfoData() {
+    List<ReportInfo> list = [];
+    DateTime today = DateTime.now();
+    list.add(ReportInfo(name: AppStrings.today.tr(), dateType: DateType.today, dateTime: today));
+    list.add(ReportInfo(name: AppStrings.yesterday.tr(), dateType: DateType.yesterday, dateTime: today.subtract(const Duration(days: 1))));
+    list.add(ReportInfo(name: AppStrings.custom.tr(), dateType: DateType.range, dateTime: today));
+
+    return list;
   }
 
   @override
@@ -73,20 +84,31 @@ class _ZReportViewState extends State<ZReportView> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              /*ZReportSelector(
-                onDateChange: (dateTime, dateType) {
-                  _selectedValue = dateType;
-                  _selectedDate = dateTime;
-                },
-              ),*/
               Expanded(
                 child: KTDropdown(
                   items: days,
-                  titleBuilder: (String item) {
-                    return item;
+                  titleBuilder: (ReportInfo item) {
+                    return item.name;
                   },
-                  onSelected: (String selectedItem) {},
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw, vertical: AppSize.s1.rh),
+                  selectedItemBuilder: (ReportInfo item, bool isSelected) {
+                    return reportInfo.dateType == DateType.range ? item.prepareSelectedItemData() : item.name;
+                  },
+                  selectedItem: reportInfo,
+                  onSelected: (ReportInfo selectedItem) async {
+                    if (selectedItem.dateType == DateType.range) {
+                      DateTime? dateTime = await showKTDatePicker(selectedItem.dateTime);
+
+                      if (dateTime != null) {
+                        setState(() {
+                          days.removeWhere((element) => element.dateType == DateType.range);
+                          days.add(reportInfo = selectedItem.copyWith(dateTime: dateTime));
+                        });
+                      }
+                    } else {
+                      reportInfo = selectedItem;
+                    }
+                  },
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw),
                   borderRadius: BorderRadius.circular(AppSize.s6.rSp),
                   backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
                   trailingWidget: ImageResourceResolver.downArrowSVG.getImageWidget(
@@ -105,7 +127,7 @@ class _ZReportViewState extends State<ZReportView> {
                     if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
                     } else if (state is Success<ZReportDataModel>) {
-                      getIt.get<PrintingHandler>().printZReport(state.data, _selectedDate);
+                      getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime);
                     }
                   },
                   builder: (ct, state) {
@@ -120,11 +142,11 @@ class _ZReportViewState extends State<ZReportView> {
                       labelStyle: mediumTextStyle(),
                       splashColor: AppColors.greyBright,
                       onTap: () async {
-                        context.read<FetchZReportCubit>().fetchZReportData(_selectedDate);
+                        context.read<FetchZReportCubit>().fetchZReportData(reportInfo.dateTime);
                         SegmentManager().track(
                           event: SegmentEvents.GENERATE_ZREPORT,
                           properties: {
-                            'date_type': prepareDateType(_selectedValue),
+                            'date_type': reportInfo.name,
                           },
                         );
                       },
@@ -139,182 +161,35 @@ class _ZReportViewState extends State<ZReportView> {
     );
   }
 
+  Future<DateTime?> showKTDatePicker(DateTime? selectedOne) async {
+    return await showDatePicker(
+      context: context,
+      initialDate: selectedOne ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: AppColors.primaryP300,
+              onPrimary: AppColors.white,
+              onSurface: AppColors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.primary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     generateButtonController.dispose();
     super.dispose();
-  }
-
-  String prepareDateType(DateType dateType) {
-    switch (dateType) {
-      case DateType.today:
-        return 'Today';
-      case DateType.yesterday:
-        return 'Yesterday';
-      case DateType.range:
-        return 'Custom';
-    }
-  }
-}
-
-class ZReportSelector extends StatefulWidget {
-  final Function(DateTime, DateType) onDateChange;
-
-  const ZReportSelector({
-    Key? key,
-    required this.onDateChange,
-  }) : super(key: key);
-
-  @override
-  State<ZReportSelector> createState() => _ZReportSelectorState();
-}
-
-class _ZReportSelectorState extends State<ZReportSelector> {
-  DateType _selectedValue = DateType.today;
-  DateTime _selectedDate = DateTime.now();
-
-  void _showDatePicker() async {
-    _selectedDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime.now(),
-          builder: (context, child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: ColorScheme.light(
-                  primary: AppColors.primary,
-                  onPrimary: AppColors.white,
-                  onSurface: AppColors.black,
-                ),
-                textButtonTheme: TextButtonThemeData(
-                  style: TextButton.styleFrom(
-                    foregroundColor: AppColors.primary, // button text color
-                  ),
-                ),
-              ),
-              child: child!,
-            );
-          },
-        ) ??
-        DateTime.now();
-    _changeDate(
-      DateType.range,
-      _selectedDate,
-    );
-  }
-
-  void _changeDate(DateType type, DateTime dateTime) {
-    setState(() {
-      _selectedValue = type;
-      _selectedDate = dateTime;
-    });
-    widget.onDateChange(_selectedDate, _selectedValue);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              _changeDate(
-                DateType.today,
-                DateTime.now(),
-              );
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: _selectedValue == DateType.today ? AppColors.primary : AppColors.greyLight,
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                child: Center(
-                  child: Text(
-                    AppStrings.today.tr(),
-                    style: regularTextStyle(
-                      color: _selectedValue == DateType.today ? AppColors.white : AppColors.black,
-                      fontSize: AppFontSize.s14.rSp,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(width: AppSize.s4.rw),
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              _changeDate(
-                DateType.yesterday,
-                DateTime.now().subtract(const Duration(days: 1)),
-              );
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: _selectedValue == DateType.yesterday ? AppColors.primary : AppColors.greyLight,
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-                child: Center(
-                  child: Text(
-                    AppStrings.yesterday.tr(),
-                    style: regularTextStyle(
-                      color: _selectedValue == DateType.yesterday ? AppColors.white : AppColors.black,
-                      fontSize: AppFontSize.s14.rSp,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(width: AppSize.s4.rw),
-        Expanded(
-          child: InkWell(
-            onTap: _showDatePicker,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: _selectedValue == DateType.range ? AppColors.primary : AppColors.greyLight,
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSize.s8.rh,
-                  horizontal: AppSize.s8.rw,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.date_range,
-                      size: AppSize.s14.rSp,
-                      color: _selectedValue == DateType.range ? AppColors.white : AppColors.black,
-                    ),
-                    SizedBox(width: AppSize.s4.rw),
-                    Flexible(
-                      child: Text(
-                        (_selectedValue == DateType.range) ? DateFormat('d MMM').format(_selectedDate) : AppStrings.custom.tr(),
-                        style: regularTextStyle(
-                          color: _selectedValue == DateType.range ? AppColors.white : AppColors.black,
-                          fontSize: AppFontSize.s14.rSp,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }
