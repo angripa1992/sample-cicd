@@ -19,23 +19,24 @@ class AppVersionInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
           AppImages.splashLogo,
           color: AppColors.black,
-          height: AppSize.s24.rh,
-          width: AppSize.s24.rw,
+          height: AppSize.s16.rh,
+          width: AppSize.s14.rw,
         ),
-        SizedBox(width: AppSize.s16.rw),
+        SizedBox(width: AppSize.s10.rw),
         FutureBuilder<String>(
           future: _deviceInfoProvider.versionName(),
           builder: (_, version) {
             if (version.hasData) {
               return Text(
-                '${AppStrings.app_version.tr()} :  ${version.data!}',
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
+                '${AppStrings.app_version.tr()} : ${version.data!}',
+                style: regularTextStyle(
+                  color: AppColors.neutralB500,
+                  fontSize: AppFontSize.s12.rSp,
                 ),
               );
             }

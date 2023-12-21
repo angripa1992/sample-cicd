@@ -2,14 +2,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
+import 'package:klikit/core/widgets/actionable_tile.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_switch.dart';
+import 'package:klikit/core/widgets/modal_sheet_manager.dart';
+import 'package:klikit/language/selected_locale.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/support/contact_support.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
+import 'package:klikit/modules/user/presentation/account/component/device_setting_view.dart';
+import 'package:klikit/modules/user/presentation/account/component/notification_setting_dialog.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
-import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/decorations.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
@@ -19,16 +30,12 @@ import '../../../../app/session_manager.dart';
 import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
 import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
 import '../../../../core/route/routes.dart';
-import '../../../../language/language_manager.dart';
 import '../../../../language/language_setting_page.dart';
 import '../../../../resources/fonts.dart';
 import '../../../../segments/segemnt_data_provider.dart';
-import '../../../widgets/app_button.dart';
 import '../../../widgets/snackbars.dart';
 import 'component/account_header.dart';
-import 'component/account_setting_item.dart';
 import 'component/app_version_info.dart';
-import 'component/notification_settings/notification_settings_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -38,11 +45,14 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  final _languageManager = getIt.get<LanguageManager>();
   final _businessInfoProvider = getIt.get<BusinessInformationProvider>();
+  late final logoutButtonController = KTButtonController(label: AppStrings.logout.tr());
+  final _controller = ValueNotifier<bool>(false);
 
   @override
   void initState() {
+    _controller.value = SessionManager().notificationEnable();
+
     SegmentManager().screen(
       event: SegmentEvents.ACCOUNT_TAB,
       name: 'Account Tab',
@@ -51,15 +61,52 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _onLanguageChange() {
-    showLanguageSettingDialog(
-      context: context,
-      onLanguageChange: (locale, id) {
-        _languageManager.changeLocale(
-          context: context,
-          locale: locale,
-          languageId: id,
-        );
-        context.read<ChangeLanguageCubit>().openLanguageSettingDialog(locale, id);
+    ModalSheetManager.openBottomSheet(
+      context,
+      const LanguageSettingPage(),
+      title: AppStrings.select_language.tr(),
+      dismissible: false,
+    ).then(
+      (value) async {
+        if (value is SelectedLocale) {
+          /// TODO: Should have a better solution
+          await Future.delayed(const Duration(milliseconds: 300));
+          if (mounted) {
+            context.read<ChangeLanguageCubit>().openLanguageSettingDialog(value);
+          }
+        }
+      },
+    );
+  }
+
+  void _onDeviceChange() {
+    ModalSheetManager.openBottomSheet(
+      context,
+      const DeviceSettingScreen(),
+      title: AppStrings.device_setting.tr(),
+      dismissible: false,
+    ).then(
+      (value) {
+        if (value is Failure) {
+          showApiErrorSnackBar(context, value);
+        } else if (value is String) {
+          showSuccessSnackBar(context, value);
+        }
+      },
+    );
+  }
+
+  void _onContactSupport() {
+    ModalSheetManager.openBottomSheet(
+      context,
+      const ContactSupportScreen(),
+      title: AppStrings.contact_support.tr(),
+      dismissible: false,
+    ).then(
+      (value) {
+        if (value is String) {
+          showApiErrorSnackBar(context, Failure(ResponseCode.DEFAULT, value));
+        }
       },
     );
   }
@@ -76,34 +123,6 @@ class _AccountScreenState extends State<AccountScreen> {
             color: AppColors.redDark,
           ),
           title: Text(AppStrings.logout.tr()),
-          actionsAlignment: MainAxisAlignment.end,
-          actionsPadding: EdgeInsets.only(
-            right: AppSize.s16.rw,
-            left: AppSize.s16.rw,
-            bottom: AppSize.s16.rh,
-          ),
-          actions: [
-            AppButton(
-              text: AppStrings.cancel.tr(),
-              color: AppColors.white,
-              textColor: AppColors.black,
-              borderColor: AppColors.black,
-              onTap: () {
-                Navigator.of(dContext).pop();
-              },
-            ),
-            SizedBox(height: AppSize.s8.rh),
-            AppButton(
-              text: AppStrings.logout.tr(),
-              color: AppColors.white,
-              textColor: AppColors.redDark,
-              borderColor: AppColors.redDark,
-              onTap: () {
-                Navigator.of(dContext).pop();
-                context.read<LogoutCubit>().logout();
-              },
-            ),
-          ],
           content: Text(
             AppStrings.logout_confirm_message.tr(),
             textAlign: TextAlign.center,
@@ -112,6 +131,42 @@ class _AccountScreenState extends State<AccountScreen> {
               fontSize: AppFontSize.s14.rSp,
             ),
           ),
+          actionsAlignment: MainAxisAlignment.end,
+          actionsPadding: EdgeInsets.only(
+            right: AppSize.s16.rw,
+            left: AppSize.s16.rw,
+            bottom: AppSize.s16.rh,
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: KTButton(
+                    controller: KTButtonController(label: AppStrings.cancel.tr()),
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
+                    labelStyle: mediumTextStyle(),
+                    splashColor: AppColors.greyBright,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                SizedBox(width: AppSize.s12.rw),
+                Expanded(
+                  child: KTButton(
+                    controller: KTButtonController(label: AppStrings.logout.tr()),
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.errorR300),
+                    labelStyle: mediumTextStyle(color: AppColors.white),
+                    onTap: () {
+                      Navigator.of(dContext).pop();
+                      context.read<LogoutCubit>().logout();
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
         );
       },
     );
@@ -137,121 +192,145 @@ class _AccountScreenState extends State<AccountScreen> {
         BlocProvider(lazy: false, create: (_) => getIt.get<ConsumerProtectionCubit>()),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppStrings.account.tr()),
-          centerTitle: true,
-        ),
+        appBar: AppBar(title: Text(AppStrings.settings.tr()), elevation: 0, shadowColor: AppColors.greyBright),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSize.s18.rh,
-              horizontal: AppSize.s16.rw,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const AccountHeader(),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSize.s16.rh),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: AppButton(
-                          text: AppStrings.edit_profile.tr(),
-                          icon: Icons.edit_outlined,
-                          color: AppColors.white,
-                          textColor: AppColors.black,
-                          borderColor: AppColors.black,
-                          onTap: () {
-                            Navigator.of(context).pushNamed(Routes.editProfile);
-                          },
-                        ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Divider(thickness: 8.rh, color: AppColors.greyBright),
+              Padding(padding: EdgeInsets.fromLTRB(16.rw, 16.rh, 16.rw, 20.rh), child: const AccountHeader()),
+              Divider(thickness: 8.rh, color: AppColors.greyBright),
+              Padding(
+                padding: EdgeInsets.fromLTRB(AppSize.s16.rh, AppSize.s16.rw, AppSize.s16.rh, AppSize.s24.rw),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.account.tr(),
+                      style: semiBoldTextStyle(
+                        color: AppColors.neutralB500,
+                        fontSize: AppSize.s16.rSp,
                       ),
-                      SizedBox(width: AppSize.s16.rw),
-                      Expanded(
-                        child: BlocConsumer<LogoutCubit, CubitState>(
-                          listener: (context, state) {
-                            if (state is Failed) {
-                              showApiErrorSnackBar(context, state.failure);
-                            } else if (state is Success<SuccessResponse>) {
-                              showSuccessSnackBar(context, state.data.message);
-                              SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
-                              SessionManager().logout();
-                            }
-                          },
-                          builder: (context, state) {
-                            return LoadingButton(
-                              isLoading: (state is Loading),
-                              text: AppStrings.logout.tr(),
-                              color: AppColors.white,
-                              borderColor: AppColors.redDark,
-                              textColor: AppColors.redDark,
-                              icon: Icons.logout_outlined,
-                              onTap: () {
-                                _showLogoutDialog(context);
-                              },
-                            );
-                          },
-                        ),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 16.rh),
+                    ActionableTile(
+                      title: AppStrings.edit_profile.tr(),
+                      prefixWidget: ImageResourceResolver.profileSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Routes.editProfile);
+                      },
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ActionableTile(
+                      title: AppStrings.change_password.tr(),
+                      prefixWidget: ImageResourceResolver.changePasswordSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Routes.changePassword);
+                      },
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    Text(
+                      'Preferences',
+                      style: semiBoldTextStyle(
+                        color: AppColors.neutralB500,
+                        fontSize: AppSize.s16.rSp,
                       ),
-                    ],
-                  ),
-                ),
-                Text(
-                  AppStrings.settings.tr(),
-                  style: boldTextStyle(
-                    color: AppColors.black,
-                    fontSize: AppSize.s16.rSp,
-                  ),
-                ),
-                const Divider(),
-                const NotificationSettingScreen(),
-                AccountSettingItem(
-                  title: AppStrings.change_language.tr(),
-                  iconData: Icons.language_outlined,
-                  onTap: _onLanguageChange,
-                ),
-                AccountSettingItem(
-                  title: AppStrings.printer_settings.tr(),
-                  iconData: Icons.print,
-                  onTap: () {
-                    trackPrinterSettingsClickEvent();
+                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 16.rh),
+                    ActionableTile(
+                      title: AppStrings.notification.tr(),
+                      prefixWidget: ImageResourceResolver.notificationSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      suffixWidget: KTSwitch(
+                        controller: _controller,
+                        onChanged: (enabled) {
+                          showPauseNotificationConfirmationDialog(
+                            context: context,
+                            enable: enabled,
+                            onSuccess: () {
+                              _controller.value = enabled;
+                            },
+                          );
+                        },
+                        height: 18.rh,
+                        width: 36.rw,
+                      ),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ActionableTile(
+                      title: AppStrings.change_language.tr(),
+                      prefixWidget: ImageResourceResolver.languageSVG.getImageWidget(width: 20.rw, height: 20.rh, color: AppColors.neutralB600),
+                      suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      onTap: _onLanguageChange,
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    Text(
+                      'Devices',
+                      style: semiBoldTextStyle(
+                        color: AppColors.neutralB500,
+                        fontSize: AppSize.s16.rSp,
+                      ),
+                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 16.rh),
+                    ActionableTile(
+                      title: AppStrings.printer_settings.tr(),
+                      prefixWidget: ImageResourceResolver.printerSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      onTap: () {
+                        trackPrinterSettingsClickEvent();
 
-                    Navigator.of(context).pushNamed(Routes.printerSettings);
-                  },
+                        Navigator.of(context).pushNamed(Routes.printerSettings);
+                      },
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ActionableTile(
+                      title: AppStrings.device_setting.tr(),
+                      prefixWidget: ImageResourceResolver.phoneSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      onTap: _onDeviceChange,
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ActionableTile(
+                      title: AppStrings.contact_support.tr(),
+                      prefixWidget: ImageResourceResolver.supportSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                      onTap: _onContactSupport,
+                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 20.rh),
+                    AppVersionInfo().setVisibilityWithSpace(direction: Axis.vertical, endSpace: 24.rh),
+                    BlocConsumer<LogoutCubit, CubitState>(
+                      listener: (context, state) {
+                        logoutButtonController.setLoaded(state is! Loading);
+
+                        if (state is Failed) {
+                          showApiErrorSnackBar(context, state.failure);
+                        } else if (state is Success<SuccessResponse>) {
+                          showSuccessSnackBar(context, state.data.message);
+                          SegmentManager().identify(event: SegmentEvents.USER_LOGGED_OUT);
+                          SessionManager().logout();
+                        }
+                      },
+                      builder: (context, state) {
+                        logoutButtonController.label = AppStrings.logout.tr();
+                        return KTButton(
+                          controller: logoutButtonController,
+                          prefixWidget: ImageResourceResolver.logoutSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
+                          labelStyle: mediumTextStyle(),
+                          splashColor: AppColors.greyBright,
+                          onTap: () async {
+                            _showLogoutDialog(context);
+                          },
+                        );
+                      },
+                    ),
+                    const ConsumerProtectionView(
+                      loggedIn: true,
+                    ),
+                  ],
                 ),
-                AccountSettingItem(
-                  title: AppStrings.device_setting.tr(),
-                  iconData: Icons.phone_android_rounded,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Routes.deviceSetting);
-                  },
-                ),
-                AccountSettingItem(
-                  title: AppStrings.contact_support.tr(),
-                  iconData: Icons.help_outline,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Routes.contactSupport);
-                  },
-                ),
-                AccountSettingItem(
-                  title: AppStrings.change_password.tr(),
-                  iconData: Icons.key_outlined,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Routes.changePassword);
-                  },
-                ),
-                const Divider(),
-                AppVersionInfo(),
-                const ConsumerProtectionView(
-                  loggedIn: true,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    logoutButtonController.dispose();
+    super.dispose();
   }
 }

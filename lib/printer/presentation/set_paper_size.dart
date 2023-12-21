@@ -14,9 +14,7 @@ class SetPaperSize extends StatefulWidget {
   final int initSize;
   final Function(int) onChanged;
 
-  const SetPaperSize(
-      {Key? key, required this.initSize, required this.onChanged})
-      : super(key: key);
+  const SetPaperSize({Key? key, required this.initSize, required this.onChanged}) : super(key: key);
 
   @override
   State<SetPaperSize> createState() => _SetPaperSizeState();
@@ -40,37 +38,35 @@ class _SetPaperSizeState extends State<SetPaperSize> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.only(
-          right: AppSize.s12.rw,
-          left: AppSize.s12.rw,
-          top: AppSize.s8.rh,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              AppStrings.set_paper_size.tr(),
-              style: mediumTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s16.rSp,
-              ),
+    return Container(
+      color: AppColors.white,
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s16.rw,
+        vertical: AppSize.s12.rh,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            AppStrings.set_paper_size.tr(),
+            style: mediumTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s16.rSp,
             ),
-            PrinterSettingRadioItem(
-              value: RollId.mm58,
-              groupValue: _paperSize!,
-              onChanged: _changePrinterPaperSize,
-              name: '58mm',
-            ),
-            PrinterSettingRadioItem(
-              value: RollId.mm80,
-              groupValue: _paperSize!,
-              onChanged: _changePrinterPaperSize,
-              name: '80mm',
-            ),
-          ],
-        ),
+          ),
+          PrinterSettingRadioItem(
+            value: RollId.mm58,
+            groupValue: _paperSize!,
+            onChanged: _changePrinterPaperSize,
+            name: '58mm',
+          ),
+          PrinterSettingRadioItem(
+            value: RollId.mm80,
+            groupValue: _paperSize!,
+            onChanged: _changePrinterPaperSize,
+            name: '80mm',
+          ),
+        ],
       ),
     );
   }
