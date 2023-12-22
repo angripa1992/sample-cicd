@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _checkRole(User user) {
     final role = user.userInfo.roles.first;
     final displayRole = user.userInfo.displayRoles.first;
-    if (role == UserRole.branchManger || role == UserRole.staff || role == UserRole.cashier) {
+    if (role == UserRole.businessOwner || role == UserRole.branchManger || role == UserRole.staff || role == UserRole.cashier) {
       _saveUserDataAndRegisterFcmToken(user);
     } else {
       showAccessDeniedDialog(context: context, role: displayRole);

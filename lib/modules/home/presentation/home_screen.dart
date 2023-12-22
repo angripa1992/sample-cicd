@@ -45,6 +45,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Timer? _timer;
+  AppliedFilter? _appliedFilter;
 
   @override
   void initState() {
@@ -104,7 +105,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => FilterScreen(),
+                        builder: (_) => FilterScreen(
+                          onApplyFilterCallback: (filteredData) {
+                            _appliedFilter = filteredData;
+                          },
+                        ),
                       ),
                     );
                   },

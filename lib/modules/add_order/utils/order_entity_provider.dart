@@ -246,7 +246,7 @@ class OrderEntityProvider {
       user.phone = info.phone.notEmptyOrNull();
     }
     final updateInfo = CartManager().updateCartInfo;
-    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     return PlaceOrderDataRequestModel(
       id: updateInfo?.orderID,
       externalId: updateInfo?.externalId,

@@ -24,7 +24,7 @@ class PrinterDataProvider {
     required Brand? brand,
     required Order order,
   }) async {
-    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     return TemplateOrder(
       id: order.id,
       externalId: order.externalId,

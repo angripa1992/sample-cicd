@@ -1,4 +1,5 @@
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/add_order/data/models/modifier/modifier_rule.dart';
 import 'package:klikit/modules/add_order/data/models/modifier/title_v2_model.dart';
@@ -8,7 +9,7 @@ import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier.
 import 'package:klikit/modules/add_order/domain/entities/modifier/item_modifier_group.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 
-import '../../common/entities/branch_info.dart';
+import '../../common/entities/branch.dart';
 import '../data/models/modifier/item_price_model.dart';
 import '../data/models/request/billing_request.dart';
 import '../data/models/request/item_brand_request.dart';
@@ -28,7 +29,7 @@ class WebShopEntityProvider {
     required List<AddToCartItem> cartItems,
     required num deliveryFee,
   }) async {
-    final branch = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final branch = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     final cartItem = cartItems.first;
     final orderPromoInfo = CartManager().promoInfo;
     final updateCartInfo = CartManager().updateCartInfo;
@@ -52,7 +53,7 @@ class WebShopEntityProvider {
     );
   }
 
-  Future<WebShopCartItemPayload> _cartItem(AddToCartItem cartItem, BusinessBranchInfo branchInfo) async {
+  Future<WebShopCartItemPayload> _cartItem(AddToCartItem cartItem, Branch branchInfo) async {
     final groups = await ModifierManager().billingWebShopItemModifiers(cartItem.modifiers);
     return WebShopCartItemPayload(
       branch: branchInfo,
@@ -100,7 +101,7 @@ class WebShopEntityProvider {
     final currency = CartManager().currency;
     final items = CartManager().items;
     final tz = await DateTimeProvider.timeZone();
-    final branch = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final branch = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     int totalItems = 0;
     for (var element in items) {
       totalItems += element.quantity;
@@ -136,7 +137,7 @@ class WebShopEntityProvider {
   }
 
   WebShopPlaceOrderCartItem _cartItemPayload({
-    required BusinessBranchInfo branchInfo,
+    required Branch branchInfo,
     required AddToCartItem cartItem,
     required ItemBill itemBill,
     required List<WebShopModifierGroupPayload> groups,

@@ -1,7 +1,34 @@
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/common/entities/branch_info.dart';
 
-class BusinessBranchInfoModel {
+import '../entities/branch.dart';
+
+class BranchDataModel {
+  List<BranchModel>? results;
+  int? total;
+  int? page;
+  int? size;
+
+  BranchDataModel({this.results, this.total, this.page, this.size});
+
+  BranchDataModel.fromJson(Map<String, dynamic> json) {
+    try {
+      if (json['results'] != null) {
+        results = <BranchModel>[];
+        json['results'].forEach((v) {
+          final branch = BranchModel.fromJson(v);
+          results!.add(branch);
+        });
+      }
+    } catch (e) {
+      //ignore
+    }
+    total = json['total'];
+    page = json['page'];
+    size = json['size'];
+  }
+}
+
+class BranchModel {
   int? id;
   int? businessId;
   String? title;
@@ -12,8 +39,8 @@ class BusinessBranchInfoModel {
   String? deletedAt;
   int? openingTime;
   int? closingTime;
-  double? lat;
-  double? lon;
+  num? lat;
+  num? lon;
   int? cityId;
   int? countryId;
   int? currencyId;
@@ -37,11 +64,15 @@ class BusinessBranchInfoModel {
   List<String>? brandTitles;
   List<int>? dayAvailability;
   List<int>? kitchenEquipmentIds;
+  String? serviceFeeCustomTitle;
+  String? processingFeeCustomTitle;
+  bool? mergeFeesEnabled;
+  String? mergeFeesTitle;
+  bool? webshopCustomFeesEnabled;
   String? webshopCustomFeesTitle;
-  bool? mergeFeeEnable;
-  String? mergeFeeTitle;
+  String? countryCode;
 
-  BusinessBranchInfoModel({
+  BranchModel({
     this.id,
     this.businessId,
     this.title,
@@ -77,12 +108,16 @@ class BusinessBranchInfoModel {
     this.brandTitles,
     this.dayAvailability,
     this.kitchenEquipmentIds,
+    this.serviceFeeCustomTitle,
+    this.processingFeeCustomTitle,
+    this.mergeFeesEnabled,
+    this.mergeFeesTitle,
+    this.webshopCustomFeesEnabled,
     this.webshopCustomFeesTitle,
-    this.mergeFeeEnable,
-    this.mergeFeeTitle,
+    this.countryCode,
   });
 
-  BusinessBranchInfoModel.fromJson(dynamic json) {
+  BranchModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     businessId = json['business_id'];
     title = json['title'];
@@ -114,16 +149,20 @@ class BusinessBranchInfoModel {
     businessTitle = json['business_title'];
     isBusy = json['is_busy'];
     busyModeUpdatedAt = json['busy_mode_updated_at'];
-    brandIds = json['brand_ids'] != null ? json['brand_ids'].cast<int>() : [];
-    brandTitles = json['brand_titles'] != null ? json['brand_titles'].cast<String>() : [];
-    dayAvailability = json['day_availability'] != null ? json['day_availability'].cast<int>() : [];
-    kitchenEquipmentIds = json['kitchen_equipment_ids'] != null ? json['kitchen_equipment_ids'].cast<int>() : [];
+    brandIds = json['brand_ids']?.cast<int>();
+    brandTitles = json['brand_titles']?.cast<String>();
+    dayAvailability = json['day_availability']?.cast<int>();
+    kitchenEquipmentIds = json['kitchen_equipment_ids']?.cast<int>();
+    serviceFeeCustomTitle = json['service_fee_custom_title'];
+    processingFeeCustomTitle = json['processing_fee_custom_title'];
+    mergeFeesEnabled = json['merge_fees_enabled'];
+    mergeFeesTitle = json['merge_fees_title'];
+    webshopCustomFeesEnabled = json['webshop_custom_fees_enabled'];
     webshopCustomFeesTitle = json['webshop_custom_fees_title'];
-    mergeFeeEnable = json['merge_fees_enabled'];
-    mergeFeeTitle = json['merge_fees_title'];
+    countryCode = json['country_code'];
   }
 
-  BusinessBranchInfo toEntity() => BusinessBranchInfo(
+  Branch toEntity() => Branch(
         id: id.orZero(),
         businessId: businessId.orZero(),
         title: title.orEmpty(),
@@ -159,8 +198,8 @@ class BusinessBranchInfoModel {
         brandTitles: brandTitles ?? [],
         dayAvailability: dayAvailability ?? [],
         kitchenEquipmentIds: kitchenEquipmentIds ?? [],
-        webshopCustomFeesTitle: webshopCustomFeesTitle ?? 'Packaging Fee',
-        mergeFeeTitle: mergeFeeTitle.orEmpty(),
-        mergeFeeEnabled: mergeFeeEnable.orFalse(),
+        webshopCustomFeesTitle: webshopCustomFeesTitle.orEmpty(),
+        mergeFeeEnabled: mergeFeesEnabled.orFalse(),
+        mergeFeeTitle: mergeFeesTitle.orEmpty(),
       );
 }

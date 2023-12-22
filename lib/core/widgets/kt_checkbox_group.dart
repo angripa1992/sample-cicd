@@ -60,6 +60,7 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: _modifiedValues.map((value) {
         final title = Text(
           value.title,
@@ -76,10 +77,14 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
                 onChanged: (isSelected) {
                   _onChanged(value, isSelected!);
                 },
-                secondary: KTNetworkImage(
-                  imageUrl: value.logo!,
+                secondary: SizedBox(
                   width: 32.rSp,
                   height: 32.rSp,
+                  child: KTNetworkImage(
+                    imageUrl: value.logo!,
+                    width: 32.rSp,
+                    height: 32.rSp,
+                  ),
                 ),
               )
             : CheckboxListTile(

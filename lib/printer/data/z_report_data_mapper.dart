@@ -1,5 +1,6 @@
 import 'package:docket_design_template/model/z_report_data.dart';
 import 'package:intl/intl.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 
 import '../../app/constants.dart';
@@ -44,7 +45,7 @@ class ZReportDataProvider {
         return ZReportCurrency(summary.currency!, summary.currencySymbol!);
       }
     }
-    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     if (branchInfo != null) {
       return ZReportCurrency(branchInfo.currencyCode, branchInfo.currencySymbol);
     }
