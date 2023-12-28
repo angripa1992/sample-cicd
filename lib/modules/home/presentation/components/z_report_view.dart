@@ -90,6 +90,8 @@ class _ZReportViewState extends State<ZReportView> {
                   titleBuilder: (ReportInfo item) {
                     return item.name;
                   },
+                  textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
+                  hintTextStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   selectedItemBuilder: (ReportInfo item, bool isSelected) {
                     return reportInfo.dateType == DateType.range ? item.prepareSelectedItemData() : item.name;
                   },
@@ -107,7 +109,7 @@ class _ZReportViewState extends State<ZReportView> {
                     }
                   },
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw),
-                  borderRadius: BorderRadius.circular(AppSize.s6.rSp),
+                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                   backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
                   trailingWidget: ImageResourceResolver.downArrowSVG.getImageWidget(
                     width: 14.rw,
@@ -116,7 +118,7 @@ class _ZReportViewState extends State<ZReportView> {
                   ),
                 ),
               ),
-              AppSize.s12.rw.horizontalSpacer(),
+              AppSize.s12.horizontalSpacer(),
               Expanded(
                 child: BlocConsumer<FetchZReportCubit, ResponseState>(
                   listener: (ct, state) {
@@ -137,7 +139,7 @@ class _ZReportViewState extends State<ZReportView> {
                         color: AppColors.neutralB700,
                       ),
                       backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
-                      labelStyle: mediumTextStyle(),
+                      labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                       splashColor: AppColors.greyBright,
                       onTap: () async {
                         context.read<FetchZReportCubit>().fetchZReportData(reportInfo.dateTime);

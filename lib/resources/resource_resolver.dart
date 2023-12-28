@@ -45,4 +45,6 @@ class ImageResourceResolver {
   static SVGImageResource get downloadSVG => SVGImageResource('$iconBasePath/ic_download.svg');
 
   static SVGImageResource get downArrowSVG => SVGImageResource('$iconBasePath/ic_down_arrow.svg');
+
+  static SVGImageResource get infoSVG => SVGImageResource('$iconBasePath/ic_info.svg');
 }
