@@ -37,7 +37,7 @@ import '../../orders/presentation/bloc/total_order_cubit.dart';
 import '../../orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import 'components/home_header_view.dart';
 import 'components/home_total_order_card.dart';
-import 'components/z_report.dart';
+import 'components/z_report_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

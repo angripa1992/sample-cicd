@@ -96,14 +96,12 @@ class _ZReportViewState extends State<ZReportView> {
                   selectedItem: reportInfo,
                   onSelected: (ReportInfo selectedItem) async {
                     if (selectedItem.dateType == DateType.range) {
-                      DateTime? dateTime = await showKTDatePicker(selectedItem.dateTime);
+                      DateTime dateTime = await showKTDatePicker(selectedItem.dateTime) ?? selectedItem.dateTime;
 
-                      if (dateTime != null) {
-                        setState(() {
-                          days.removeWhere((element) => element.dateType == DateType.range);
-                          days.add(reportInfo = selectedItem.copyWith(dateTime: dateTime));
-                        });
-                      }
+                      setState(() {
+                        days.removeWhere((element) => element.dateType == DateType.range);
+                        days.add(reportInfo = selectedItem.copyWith(dateTime: dateTime));
+                      });
                     } else {
                       reportInfo = selectedItem;
                     }
