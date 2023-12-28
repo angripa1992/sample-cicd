@@ -258,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
                           ),
                           prefixWidget: ImageResourceResolver.refreshSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh),
-                          suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh),
                           onTap: () {
                             context.read<BaseScreenCubit>().changeIndex(
                                   NavigationData(
@@ -310,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: AppSize.s20.rw,
                                   height: AppSize.s20.rh,
                                 ),
-                          suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh),
                           onTap: () {
                             context.read<BaseScreenCubit>().changeIndex(
                                   NavigationData(
