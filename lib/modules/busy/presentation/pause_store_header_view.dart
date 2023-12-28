@@ -2,11 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_breakdowns.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_timer_view.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_toogle_button.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 
 import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
@@ -59,31 +62,24 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-        color: AppColors.white,
-      ),
-      child: BlocConsumer<FetchPauseStoreDataCubit, ResponseState>(
-        listener: (ct,state){
-          if(state is Failed){
-            showApiErrorSnackBar(context, state.failure);
-          }
-        },
-        builder: (ct, state) {
-          if (state is Failed) {
-            return const SizedBox();
-          } else if (state is Success<PauseStoresData>) {
-            return _body(state.data);
-          }
-          return Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primary,
-            ),
-          );
-        },
-      ),
+    return BlocConsumer<FetchPauseStoreDataCubit, ResponseState>(
+      listener: (ct, state) {
+        if (state is Failed) {
+          showApiErrorSnackBar(context, state.failure);
+        }
+      },
+      builder: (ct, state) {
+        if (state is Failed) {
+          return const SizedBox();
+        } else if (state is Success<PauseStoresData>) {
+          return _body(state.data);
+        }
+        return Center(
+          child: CircularProgressIndicator(
+            color: AppColors.primary,
+          ),
+        );
+      },
     );
   }
 
@@ -109,11 +105,25 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
         Text(
           AppStrings.pause_store.tr(),
           style: mediumTextStyle(
-            color: AppColors.black,
-            fontSize: AppFontSize.s16.rSp,
+            color: AppColors.neutralB700,
+            fontSize: AppFontSize.s12.rSp,
           ),
+        ).setVisibilityWithSpace(startSpace: AppSize.s8, direction: Axis.horizontal, endSpace: AppSize.s4),
+        Tooltip(
+          message: 'Toggle pause store',
+          child: ImageResourceResolver.infoSVG.getImageWidget(
+            width: AppSize.s16.rw,
+            height: AppSize.s16.rh,
+          ),
+        ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s12),
+        KTChip(
+          text: data.isBusy == true ? 'Enable' : 'Disabled',
+          textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
+          strokeColor: AppColors.neutralB40,
+          backgroundColor: AppColors.white,
+          padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
         ),
-        SizedBox(width: AppSize.s16.rw),
+        AppSize.s16.horizontalSpacer(),
         data.isBusy
             ? PauseStoreTimerView(
                 duration: data.duration,
@@ -122,15 +132,12 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
               )
             : (noOfPausedStore > 0 ? Text('$noOfPausedStore ${AppStrings.paused.tr()}') : const SizedBox()),
         const Spacer(),
-        IconButton(
-          onPressed: () {
+        InkWell(
+          onTap: () {
             _showBreakDowns();
           },
-          icon: Icon(
-            Icons.keyboard_arrow_right_rounded,
-            color: AppColors.black,
-          ),
-        )
+          child: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh, color: AppColors.neutralB50),
+        ),
       ],
     );
   }

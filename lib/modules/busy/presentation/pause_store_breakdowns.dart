@@ -164,7 +164,6 @@ class _PauseStoreBreakDownTileState extends State<PauseStoreBreakDownTile> {
             isBusy: widget.data.isBusy,
             isBranch: false,
             brandID: widget.data.brandId,
-            scale: 0.65,
             onSuccess: widget.onFinished,
           ),
         ],

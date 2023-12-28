@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_switch.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 
 import '../../../resources/colors.dart';
@@ -18,7 +18,6 @@ import '../domain/repository/pause_store_repository.dart';
 class PauseStoreToggleButton extends StatefulWidget {
   final bool isBusy;
   final bool isBranch;
-  final double scale;
   final VoidCallback onSuccess;
   final int? brandID;
 
@@ -27,7 +26,6 @@ class PauseStoreToggleButton extends StatefulWidget {
     required this.isBusy,
     required this.isBranch,
     required this.onSuccess,
-    this.scale = 0.75,
     this.brandID,
   }) : super(key: key);
 
@@ -36,6 +34,14 @@ class PauseStoreToggleButton extends StatefulWidget {
 }
 
 class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
+  final _pauseStoreController = ValueNotifier<bool>(false);
+
+  @override
+  void initState() {
+    _pauseStoreController.value = widget.isBusy;
+
+    super.initState();
+  }
 
   void _updatePauseStore(bool isBusy) async {
     EasyLoading.show();
@@ -49,10 +55,10 @@ class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
     final response = await getIt.get<PauseStoreRepository>().updatePauseStore(params);
     EasyLoading.dismiss();
     response.fold(
-      (failure) {
+          (failure) {
         showApiErrorSnackBar(context, failure);
       },
-      (successResponse) {
+          (successResponse) {
         showSuccessSnackBar(context, successResponse.message);
         widget.onSuccess();
       },
@@ -61,21 +67,19 @@ class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
-      scale: widget.scale,
-      child: CupertinoSwitch(
-        onChanged: (isBusy) {
-          _showPauseStoreConfirmDialog(
-            isBusy,
-            () {
-              _updatePauseStore(isBusy);
-            },
-          );
-        },
-        value: widget.isBusy,
-        activeColor: AppColors.greyDarker,
-        trackColor: AppColors.primary,
-      ),
+    return KTSwitch(
+      width: 34.rw,
+      height: 18.rh,
+      controller: _pauseStoreController,
+      activeColor: AppColors.errorR300,
+      onChanged: (isBusy) {
+        _showPauseStoreConfirmDialog(
+          isBusy,
+          () {
+            _updatePauseStore(isBusy);
+          },
+        );
+      },
     );
   }
 

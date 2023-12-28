@@ -213,13 +213,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Padding(
+              8.rh.verticalSpacer(),
+              Container(
+                color: AppColors.white,
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.s16.rw,
                   vertical: AppSize.s16.rh,
                 ),
                 child: const PauseStoreHeaderView(),
               ),
+              8.verticalSpacer(),
               Container(
                 color: AppColors.white,
                 padding: EdgeInsets.symmetric(
@@ -327,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              8.rh.verticalSpacer(),
+              8.verticalSpacer(),
               const ZReportView(),
             ],
           ),
