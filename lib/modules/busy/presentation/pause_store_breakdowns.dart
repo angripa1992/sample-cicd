@@ -1,17 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_network_image.dart';
+import 'package:klikit/core/widgets/popups.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_timer_view.dart';
-import 'package:klikit/modules/busy/presentation/pause_store_toogle_button.dart';
-import 'package:klikit/resources/strings.dart';
+import 'package:klikit/modules/busy/presentation/pause_store_toggle_button.dart';
 
 import '../../../core/utils/response_state.dart';
 import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
 import '../../../resources/styles.dart';
 import '../../../resources/values.dart';
-import '../../widgets/snackbars.dart';
 import '../domain/entity/pause_store_data.dart';
 import 'bloc/fetch_pause_store_data_cubit.dart';
 
@@ -35,65 +36,45 @@ class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppStrings.pause_store.tr(),
-                style: semiBoldTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
+    return BlocListener<FetchPauseStoreDataCubit, ResponseState>(
+      listener: (context, state) {
+        if (state is Failed) {
+          showNotifierDialog(context, state.failure.message, false, title: "Failed!");
+        }
+      },
+      child: BlocBuilder<FetchPauseStoreDataCubit, ResponseState>(
+        builder: (ct, state) {
+          if (state is Failed) {
+            return AppSize.s200.verticalSpacer();
+          } else if (state is Success<PauseStoresData>) {
+            return _body(state.data);
+          }
+          return SizedBox(
+            height: AppSize.s200.rh,
+            child: Center(
+              child: CircularProgress(
+                primaryColor: AppColors.primary,
               ),
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.clear,
-                  color: AppColors.black,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: AppSize.s8.rh),
-          Expanded(
-            child: BlocBuilder<FetchPauseStoreDataCubit, ResponseState>(
-              builder: (ct, state) {
-                if (state is Failed) {
-                  showApiErrorSnackBar(context, state.failure);
-                  return const SizedBox();
-                } else if (state is Success<PauseStoresData>) {
-                  return _body(state.data);
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primary,
-                  ),
-                );
-              },
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 
   Widget _body(PauseStoresData data) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppStrings.store.tr(),
+              data.branchName,
               style: semiBoldTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s18.rSp,
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s16.rSp,
               ),
             ),
             PauseStoreToggleButton(
@@ -103,20 +84,26 @@ class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
             ),
           ],
         ),
-        Divider(color: AppColors.black),
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: data.breakdowns.length,
-            itemBuilder: (_, index) {
-              return PauseStoreBreakDownTile(
-                key: UniqueKey(),
-                data: data.breakdowns[index],
-                onFinished: _fetchData,
-              );
-            },
+        Divider(color: AppColors.neutralB40).setVisibilityWithSpace(startSpace: 10, direction: Axis.vertical, endSpace: 10),
+        if (data.breakdowns.isEmpty) AppSize.s200.verticalSpacer(),
+        if (data.breakdowns.isNotEmpty)
+          Flexible(
+            fit: FlexFit.loose,
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemCount: data.breakdowns.length,
+              itemBuilder: (_, index) {
+                return PauseStoreBreakDownTile(
+                  key: UniqueKey(),
+                  data: data.breakdowns[index],
+                  onFinished: _fetchData,
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return 12.verticalSpacer();
+              },
+            ),
           ),
-        ),
       ],
     );
   }
@@ -135,39 +122,42 @@ class PauseStoreBreakDownTile extends StatefulWidget {
 class _PauseStoreBreakDownTileState extends State<PauseStoreBreakDownTile> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: AppSize.s8.rh),
-      child: Row(
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Text(
-                  widget.data.brandName,
-                  style: mediumTextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s14.rSp,
-                  ),
+    return Row(
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              KTNetworkImage(
+                imageUrl: widget.data.brandLogo,
+                width: AppSize.s28.rSp,
+                height: AppSize.s28.rSp,
+                boxShape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(AppSize.s4.rSp),
+              ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s12),
+              Text(
+                widget.data.brandName,
+                style: mediumTextStyle(
+                  color: AppColors.neutralB500,
+                  fontSize: AppFontSize.s14.rSp,
                 ),
-                SizedBox(width: AppSize.s16.rw),
-                widget.data.isBusy
-                    ? PauseStoreTimerView(
-                        duration: widget.data.duration,
-                        timeLeft: widget.data.timeLeft,
-                        onFinished: widget.onFinished,
-                      )
-                    : const SizedBox(),
-              ],
-            ),
+              ),
+              const Spacer(),
+              if (widget.data.isBusy)
+                PauseStoreTimerView(
+                  duration: widget.data.duration,
+                  timeLeft: widget.data.timeLeft,
+                  onFinished: widget.onFinished,
+                ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s20),
+            ],
           ),
-          PauseStoreToggleButton(
-            isBusy: widget.data.isBusy,
-            isBranch: false,
-            brandID: widget.data.brandId,
-            onSuccess: widget.onFinished,
-          ),
-        ],
-      ),
+        ),
+        PauseStoreToggleButton(
+          isBusy: widget.data.isBusy,
+          isBranch: false,
+          brandID: widget.data.brandId,
+          onSuccess: widget.onFinished,
+        ),
+      ],
     );
   }
 }

@@ -13,10 +13,8 @@ void showNotifierDialog(BuildContext context, String message, bool isSuccess, {S
     ),
   ).then(
     (value) {
-      if (Navigator.of(context).canPop()) {
-        if (onDismiss != null) {
-          onDismiss();
-        }
+      if (onDismiss != null) {
+        onDismiss();
       }
     },
   );

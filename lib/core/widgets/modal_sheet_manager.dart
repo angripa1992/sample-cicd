@@ -5,6 +5,7 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/styles.dart';
+import 'package:klikit/resources/values.dart';
 
 class ModalSheetManager {
   static Future<dynamic> openBottomSheet(
@@ -31,7 +32,7 @@ class ModalSheetManager {
       ),
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.fromLTRB(16.rw, 24.rh, 16.rw, 20.rh),
+          padding: EdgeInsets.only(top: 24.rh, bottom: 20.rh),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -39,6 +40,7 @@ class ModalSheetManager {
               if (title != null || showCloseButton)
                 Row(
                   children: [
+                    16.horizontalSpacer(),
                     if (title != null)
                       Text(
                         title,
@@ -55,10 +57,14 @@ class ModalSheetManager {
                           Navigator.of(context).pop();
                         },
                       ),
+                    16.horizontalSpacer(),
                   ],
                 ),
               if (title != null || showCloseButton) const Divider().setVisibilityWithSpace(direction: Axis.vertical, startSpace: 12, endSpace: 12),
-              widget
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+                child: widget,
+              )
             ],
           ),
         );

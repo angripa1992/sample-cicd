@@ -1,11 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/resources/colors.dart';
-import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/fonts.dart';
-import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -31,35 +29,30 @@ class MessageNotifier extends StatelessWidget {
           Radius.circular(20.rSp),
         ),
       ),
-      title: title != null
-          ? Text(
-              title!,
-              textAlign: TextAlign.center,
-              style: mediumTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s17.rSp,
-              ),
-            )
-          : null,
+      title: Row(
+        children: [
+          if (title != null) Text(title!, textAlign: TextAlign.center, style: mediumTextStyle(color: AppColors.black, fontSize: AppFontSize.s17.rSp)),
+          const Spacer(),
+          InkWell(
+            child: ImageResourceResolver.closeSVG.getImageWidget(width: 20.rw, height: 20.rh),
+            onTap: () {
+              _onDismissed(context);
+            },
+          )
+        ],
+      ),
       content: Padding(
-        padding: EdgeInsets.all(AppSize.s12.rSp),
-        child: Text(message, textAlign: TextAlign.start, style: regularTextStyle(fontSize: AppSize.s16.rSp)),
+        padding: EdgeInsets.symmetric(vertical: AppSize.s12.rh),
+        child: Row(
+          children: [
+            isSuccess
+                ? ImageResourceResolver.successSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh)
+                : ImageResourceResolver.infoSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.errorR300),
+            10.horizontalSpacer(),
+            Text(message, textAlign: TextAlign.start, style: regularTextStyle(fontSize: AppSize.s14.rSp, color: AppColors.neutralB200)),
+          ],
+        ),
       ),
-      actionsPadding: EdgeInsets.only(
-        left: AppSize.s16.rw,
-        right: AppSize.s16.rw,
-        bottom: AppSize.s8.rh,
-      ),
-      actions: [
-        KTButton(
-          controller: KTButtonController(label: AppStrings.ok.tr()),
-          backgroundDecoration: regularRoundedDecoration(backgroundColor: isSuccess ? AppColors.successG600 : AppColors.errorR300),
-          labelStyle: mediumTextStyle(color: AppColors.white),
-          onTap: () {
-            _onDismissed(context);
-          },
-        )
-      ],
     );
   }
 
