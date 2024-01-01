@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
@@ -48,24 +48,34 @@ class _FilterScreenState extends State<FilterScreen> {
 
   List<KTRadioValue> _dateFilterItems() {
     return [
-      KTRadioValue(DateType.today, 'Today'),
+      KTRadioValue(DateType.today, 'Today', subTitle: '(Default)'),
       KTRadioValue(DateType.yesterday, 'Yesterday'),
       KTRadioValue(DateType.lastWeek, 'Last Week'),
       KTRadioValue(DateType.lastMonth, 'Last Month'),
-      KTRadioValue(DateType.custom, 'Custom'),
+      KTRadioValue(DateType.custom, 'Custom', subTitle: '(23 Aug -23Aug)', editableIcon: Icons.edit_calendar),
     ];
   }
 
   List<KTCheckboxValue> _brandFilterItem(List<Brand> brands) {
     return brands.map((brand) {
-      final alreadySelectedOrNull = _selectedBrands.firstWhereOrNull((element) => false)
-      return KTCheckboxValue(brand.id, brand.title, logo: brand.logo);
+      final alreadySelectedOrNull = _selectedBrands.firstWhereOrNull((element) => element.id == brand.id);
+      return KTCheckboxValue(
+        brand.id,
+        brand.title,
+        logo: brand.logo,
+        isSelected: alreadySelectedOrNull?.isSelected ?? false,
+      );
     }).toList();
   }
 
   List<KTCheckboxValue> _branchFilterItem(List<Branch> branches) {
     return branches.map((branch) {
-      return KTCheckboxValue(branch.id, branch.title);
+      final alreadySelectedOrNull = _selectedBranches.firstWhereOrNull((element) => element.id == branch.id);
+      return KTCheckboxValue(
+        branch.id,
+        branch.title,
+        isSelected: alreadySelectedOrNull?.isSelected ?? false,
+      );
     }).toList();
   }
 
@@ -111,6 +121,9 @@ class _FilterScreenState extends State<FilterScreen> {
                       values: _dateFilterItems(),
                       onChangedCallback: (selectedValue) {
                         _selectedDateType = selectedValue;
+                      },
+                      onEditItemValue: (editableItem) {
+                        print(editableItem.title);
                       },
                     ),
                   ),

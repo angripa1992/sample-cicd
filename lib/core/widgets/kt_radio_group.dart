@@ -7,9 +7,17 @@ import '../../resources/colors.dart';
 class KTRadioValue {
   final int id;
   final String title;
+  final String? subTitle;
+  final IconData? editableIcon;
   final String? logo;
 
-  KTRadioValue(this.id, this.title, {this.logo});
+  KTRadioValue(
+    this.id,
+    this.title, {
+    this.subTitle,
+    this.editableIcon,
+    this.logo,
+  });
 
   @override
   String toString() {
@@ -21,12 +29,14 @@ class KTRadioGroup extends StatefulWidget {
   final List<KTRadioValue> values;
   final int initiallySelectedButtonID;
   final Function(KTRadioValue) onChangedCallback;
+  final Function(KTRadioValue)? onEditItemValue;
 
   const KTRadioGroup({
     super.key,
     required this.values,
     required this.initiallySelectedButtonID,
     required this.onChangedCallback,
+    required this.onEditItemValue,
   });
 
   @override
@@ -47,12 +57,40 @@ class _KTRadioGroupState extends State<KTRadioGroup> {
     return Column(
       children: widget.values.map((value) {
         return ListTile(
-          title: Text(
-            value.title,
-            style: mediumTextStyle(
-              color: AppColors.black,
-              fontSize: 14.rSp,
-            ),
+          title: Row(
+            children: [
+              Text(
+                value.title,
+                style: mediumTextStyle(
+                  color: AppColors.black,
+                  fontSize: 14.rSp,
+                ),
+              ),
+              if (value.subTitle != null)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.rw),
+                  child: Text(
+                    value.subTitle!,
+                    style: mediumTextStyle(
+                      color: AppColors.neutralB100,
+                      fontSize: 14.rSp,
+                    ),
+                  ),
+                ),
+              if (value.editableIcon != null)
+                InkWell(
+                  onTap: () {
+                    if (widget.onEditItemValue != null) {
+                      widget.onEditItemValue!(value);
+                    }
+                  },
+                  child: Icon(
+                    value.editableIcon!,
+                    size: 18.rSp,
+                    color: AppColors.primary,
+                  ),
+                ),
+            ],
           ),
           trailing: Radio<int>(
             activeColor: AppColors.primary,

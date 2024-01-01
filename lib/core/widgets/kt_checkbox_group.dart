@@ -40,9 +40,22 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
 
   @override
   void initState() {
-    _modifiedValues.add(KTCheckboxValue(_selectAllItemID, 'Select All'));
-    _modifiedValues.addAll(widget.values);
+    _initValues();
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant KTCheckboxGroup oldWidget) {
+    _initValues();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _initValues() {
+    final totalItems = widget.values.length;
+    final numberOfSelectedItems = widget.values.where((element) => element.isSelected ?? false).length;
+    final isAllSelected = (numberOfSelectedItems > 0) && (totalItems == numberOfSelectedItems);
+    _modifiedValues.add(KTCheckboxValue(_selectAllItemID, 'Select All', isSelected: isAllSelected));
+    _modifiedValues.addAll(widget.values);
   }
 
   void _onChanged(KTCheckboxValue value, bool isSelected) {
