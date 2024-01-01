@@ -6,9 +6,10 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
+import 'package:klikit/core/widgets/modal_sheet_manager.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_breakdowns.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_timer_view.dart';
-import 'package:klikit/modules/busy/presentation/pause_store_toogle_button.dart';
+import 'package:klikit/modules/busy/presentation/pause_store_toggle_button.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 
 import '../../../resources/colors.dart';
@@ -39,22 +40,14 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
   }
 
   void _showBreakDowns() {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppSize.s16.rSp),
-        ),
+    ModalSheetManager.openBottomSheet(
+      context,
+      BlocProvider(
+        create: (_) => getIt.get<FetchPauseStoreDataCubit>(),
+        child: const PauseStoreBreakdownView(),
       ),
-      builder: (ct) {
-        return BlocProvider(
-          create: (_) => getIt.get<FetchPauseStoreDataCubit>(),
-          child: const Scaffold(
-            backgroundColor: Colors.transparent,
-            body: PauseStoreBreakdownView(),
-          ),
-        );
-      },
+      title: AppStrings.pause_store.tr(),
+      dismissible: false,
     ).then((value) {
       _fetchData();
     });
@@ -115,22 +108,20 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
             width: AppSize.s16.rw,
             height: AppSize.s16.rh,
           ),
-        ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s12),
-        KTChip(
-          text: data.isBusy == true ? 'Enable' : 'Disabled',
-          textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
-          strokeColor: AppColors.neutralB40,
-          backgroundColor: AppColors.white,
-          padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
-        ),
-        AppSize.s16.horizontalSpacer(),
+        ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
         data.isBusy
             ? PauseStoreTimerView(
                 duration: data.duration,
                 timeLeft: data.timeLeft,
                 onFinished: _fetchData,
               )
-            : (noOfPausedStore > 0 ? Text('$noOfPausedStore ${AppStrings.paused.tr()}') : const SizedBox()),
+            : KTChip(
+                text: noOfPausedStore > 0 ? '$noOfPausedStore ${AppStrings.paused.tr()}' : 'Enabled',
+                textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
+                strokeColor: noOfPausedStore > 0 ? AppColors.errorR300 : AppColors.neutralB20,
+                backgroundColor: AppColors.white,
+                padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
+              ),
         const Spacer(),
         InkWell(
           onTap: () {
