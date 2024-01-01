@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
@@ -57,6 +58,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
   List<KTCheckboxValue> _brandFilterItem(List<Brand> brands) {
     return brands.map((brand) {
+      final alreadySelectedOrNull = _selectedBrands.firstWhereOrNull((element) => false)
       return KTCheckboxValue(brand.id, brand.title, logo: brand.logo);
     }).toList();
   }
