@@ -61,10 +61,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
             children: [
               if (canUpdateKlikitOrder) Expanded(child: _editOrderButton(onEditManualOrder)),
               if (canUpdateKlikitOrder) SizedBox(width: AppSize.s8.rw),
-              if (order.isThreePlOrder && order.canFindFulfillmentRider) SizedBox(width: AppSize.s8.rw),
-              Expanded(
-                child: CommentActionView(onCommentActionSuccess: onCommentActionSuccess, order: order),
-              ),
+              Expanded(child: CommentActionView(onCommentActionSuccess: onCommentActionSuccess, order: order)),
             ],
           ),
         ],
