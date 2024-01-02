@@ -31,7 +31,7 @@ class BusinessInformationProvider {
   ///brands
   Future<List<Brand>> fetchBrands() => _brandProvider.fetchBrands();
 
-  Future<List<int>> findBrandsIds() => _brandProvider.findBrandsIds();
+  Future<List<int>> fetchBrandsIds() => _brandProvider.fetchBrandsIds();
 
   Future<Brand?> findBrandById(int id) => _brandProvider.findBrandById(id);
 

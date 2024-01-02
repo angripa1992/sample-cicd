@@ -1,5 +1,7 @@
 import 'package:docket_design_template/utils/printer_configuration.dart';
+import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/size_config.dart';
 
 const String EMPTY = '';
 const int ZERO = 0;
@@ -23,6 +25,14 @@ extension EmptyToNUll on String? {
     } else {
       return null;
     }
+  }
+
+  bool isNullOrEmpty() {
+    return this == null || this!.isEmpty;
+  }
+
+  bool isNotNullOrEmpty() {
+    return !(this == null || this!.isEmpty);
   }
 }
 
@@ -104,6 +114,42 @@ extension PaperSizeToRollSize on int {
 
 extension RemoveDotFromString on String {
   String removeDot() {
-    return this.replaceAll('.', '');
+    return replaceAll('.', '');
+  }
+}
+
+extension SpaceDivider on num {
+  SizedBox verticalSpacer() {
+    return SizedBox(height: rh);
+  }
+
+  SizedBox horizontalSpacer() {
+    return SizedBox(width: rw);
+  }
+
+  SizedBox axisBasedSpacer(Axis direction, num space) {
+    return direction == Axis.horizontal ? space.horizontalSpacer() : space.verticalSpacer();
+  }
+}
+
+extension WidgetVisibility on Widget? {
+  Visibility setVisibility() {
+    return Visibility(visible: this != null, child: this ?? const SizedBox());
+  }
+
+  Widget setVisibilityWithSpace({num? startSpace, num? endSpace, required Axis direction}) {
+    if (this == null) {
+      return const SizedBox();
+    } else {
+      return Padding(
+        padding: EdgeInsets.only(
+          top: direction == Axis.vertical && startSpace != null ? startSpace.rh : 0,
+          bottom: direction == Axis.vertical && endSpace != null ? endSpace.rh : 0,
+          left: direction == Axis.horizontal && startSpace != null ? startSpace.rw : 0,
+          right: direction == Axis.horizontal && endSpace != null ? endSpace.rw : 0,
+        ),
+        child: this,
+      );
+    }
   }
 }

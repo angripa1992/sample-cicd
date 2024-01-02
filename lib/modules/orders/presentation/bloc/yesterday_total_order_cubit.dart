@@ -23,7 +23,7 @@ class YesterdayTotalOrderCubit extends Cubit<ResponseState> {
       OrderStatus.DELIVERED,
       OrderStatus.PICKED_UP
     ];
-    final brands = await _informationProvider.findBrandsIds();
+    final brands = await _informationProvider.fetchBrandsIds();
     final providers = await _informationProvider.findProvidersIds();
     final branch = SessionManager().branchId();
     final timeZone = await DateTimeProvider.timeZone();

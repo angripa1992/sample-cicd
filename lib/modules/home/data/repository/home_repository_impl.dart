@@ -17,7 +17,7 @@ class HomeRepositoryImpl extends HomeRepository {
   );
 
   @override
-  Future<Either<Failure, ZReportDataModel>> fetchZReportData(
+  Future<Either<Failure, ZReportData>> fetchZReportData(
     Map<String, dynamic> params,
   ) async {
     if (await _networkConnectivity.hasConnection()) {

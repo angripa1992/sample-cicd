@@ -18,7 +18,7 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
 
   void fetchTodayCompletedOrder({required bool willShowLoading}) async {
     final timeZone = await DateTimeProvider.timeZone();
-    final brands = await _informationProvider.findBrandsIds();
+    final brands = await _informationProvider.fetchBrandsIds();
     final providers = await _informationProvider.findProvidersIds();
     final Map<String, dynamic> params = {};
     params["start"] = DateTimeProvider.today();
@@ -34,7 +34,7 @@ class CompletedOrderCubit extends Cubit<ResponseState> {
     List<int>? providersID,
     List<int>? brandsID,
   }) async {
-    final brands = brandsID ?? await _informationProvider.findBrandsIds();
+    final brands = brandsID ?? await _informationProvider.fetchBrandsIds();
     final providers =
         providersID ?? await _informationProvider.findProvidersIds();
     final Map<String, dynamic> params = {};

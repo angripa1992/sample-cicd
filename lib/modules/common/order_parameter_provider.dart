@@ -125,7 +125,7 @@ class OrderParameterProvider {
     int? page,
     int? pageSize,
   }) async {
-    final brands = brandsID ?? await _informationProvider.findBrandsIds();
+    final brands = brandsID ?? await _informationProvider.fetchBrandsIds();
     final providers =
         providersID ?? await _informationProvider.findProvidersIds();
     final branch = SessionManager().branchId();
