@@ -49,4 +49,10 @@ class ImageResourceResolver {
   static SVGImageResource get infoSVG => SVGImageResource('$iconBasePath/ic_info.svg');
 
   static SVGImageResource get successSVG => SVGImageResource('$iconBasePath/ic_success.svg');
+
+  static SVGImageResource get appLogoSVG => SVGImageResource('$iconBasePath/ic_app_logo.svg');
+
+  static SVGImageResource get appWordMarkSVG => SVGImageResource('$iconBasePath/ic_app_word_mark.svg');
+
+  static SVGImageResource get cartSVG => SVGImageResource('$iconBasePath/ic_cart.svg');
 }
