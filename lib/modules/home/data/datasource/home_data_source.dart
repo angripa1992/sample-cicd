@@ -6,7 +6,7 @@ import '../../../../core/network/urls.dart';
 import '../model/z_report_data_model.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<ZReportDataModel> fetchZReportData(Map<String, dynamic> params);
+  Future<ZReportData> fetchZReportData(Map<String, dynamic> params);
 }
 
 class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
@@ -15,14 +15,14 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
   HomeRemoteDataSourceImpl(this._restClient);
 
   @override
-  Future<ZReportDataModel> fetchZReportData(Map<String, dynamic> params) async {
+  Future<ZReportData> fetchZReportData(Map<String, dynamic> params) async {
     try {
       final response = await _restClient.request(
         Urls.zReportSummary,
         Method.GET,
         params,
       );
-      return ZReportDataModel.fromJson(response);
+      return ZReportData.fromJson(response);
     } on DioException {
       rethrow;
     }
