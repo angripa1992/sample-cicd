@@ -40,7 +40,7 @@ void showPauseNotificationConfirmationDialog({
                   .getImageWidget(
                     width: 20.rw,
                     height: 20.rh,
-                    color: enable ? AppColors.successG600 : AppColors.errorR300,
+                    color: enable ? AppColors.successG300 : AppColors.errorR300,
                   )
                   .setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 8.rw),
               Expanded(
@@ -100,7 +100,7 @@ void showPauseNotificationConfirmationDialog({
                     builder: (context, state) {
                       return KTButton(
                         controller: positiveButtonController,
-                        backgroundDecoration: regularRoundedDecoration(backgroundColor: enable ? AppColors.successG600 : AppColors.errorR300),
+                        backgroundDecoration: regularRoundedDecoration(backgroundColor: enable ? AppColors.successG300 : AppColors.errorR300),
                         labelStyle: mediumTextStyle(color: AppColors.white),
                         progressPrimaryColor: AppColors.white,
                         onTap: () {

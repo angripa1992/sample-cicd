@@ -13,11 +13,7 @@ class BaseScreenAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.only(
-          left: 24.rw,
-          right: 20.rw,
-          top: 24.rh,
-        ),
+        padding: EdgeInsets.only(left: 16.rw, right: 16.rw, top: 10.rh, bottom: 12.rh),
         color: AppColors.white,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
