@@ -72,9 +72,11 @@ class ZReportDataProvider {
     final summaries = <TemplateSummaryItem>[];
     num totalSales = 0;
     num discount = 0;
+    num netSales = 0;
     for (var summary in orderSummary?.summary ?? <OrderSummaryItem>[]) {
-      totalSales += summary.netRevenue ?? 0;
+      totalSales += summary.realizedRevenue ?? 0;
       discount += summary.discount ?? 0;
+      netSales += summary.netRevenue ?? 0;
       if (summary.providerId! == ProviderID.KLIKIT) {
         for (var source in summary.orderSourceSummaries ?? <OrderSourceSummaries>[]) {
           String name = 'Klikit Webshop';
@@ -84,7 +86,7 @@ class ZReportDataProvider {
           summaries.add(
             TemplateSummaryItem(
               name: name,
-              amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: source.netRevenue ?? 0),
+              amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: source.realizedRevenue ?? 0),
             ),
           );
         }
@@ -93,7 +95,7 @@ class ZReportDataProvider {
         summaries.add(
           TemplateSummaryItem(
             name: provider.title,
-            amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: summary.netRevenue ?? 0),
+            amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: summary.realizedRevenue ?? 0),
           ),
         );
       }
@@ -101,7 +103,7 @@ class ZReportDataProvider {
     return TemplateSalesSummary(
       totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
       discount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: discount),
-      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales - discount),
+      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: netSales),
       summaries: summaries,
     );
   }
@@ -110,21 +112,23 @@ class ZReportDataProvider {
     final summaries = <TemplateSummaryItem>[];
     num totalSales = 0;
     num discount = 0;
+    num netSales = 0;
     for (var summary in orderSummary?.brandOrderSummary ?? <BrandOrderSummary>[]) {
       final brand = await getIt.get<BusinessInformationProvider>().findBrandById(summary.brandId!);
-      totalSales += summary.netRevenue ?? 0;
+      totalSales += summary.realizedRevenue ?? 0;
       discount += summary.discount ?? 0;
+      netSales += summary.netRevenue ?? 0;
       summaries.add(
         TemplateSummaryItem(
           name: brand?.title ?? '',
-          amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: summary.netRevenue ?? 0),
+          amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: summary.realizedRevenue ?? 0),
         ),
       );
     }
     return TemplateBrandSummary(
       totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
       discount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: discount),
-      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales - discount),
+      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: netSales),
       summaries: summaries,
     );
   }
@@ -151,17 +155,23 @@ class ZReportDataProvider {
   Future<TemplatePaymentMethodSummary> _templatePaymentMethodSummary(PaymentSummary paymentSummary, ZReportCurrency currency) async {
     final methodSummaries = <TemplateSummaryItem>[];
     num totalSales = 0;
+    num discount = 0;
+    num netSales = 0;
     for (var methodSummary in paymentSummary.summary ?? <PaymentSummaryItem>[]) {
-      totalSales += methodSummary.netRevenue ?? 0;
+      totalSales += methodSummary.grossRevenue ?? 0;
+      discount += methodSummary.discount ?? 0;
+      netSales += methodSummary.netRevenue ?? 0;
       methodSummaries.add(
         TemplateSummaryItem(
           name: methodSummary.paymentMethod ?? '',
-          amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: methodSummary.netRevenue ?? 0),
+          amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: methodSummary.grossRevenue ?? 0),
         ),
       );
     }
     return TemplatePaymentMethodSummary(
       totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
+      discount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: discount),
+      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: netSales),
       summaries: methodSummaries,
     );
   }
@@ -172,19 +182,25 @@ class ZReportDataProvider {
   ) async {
     final channelSummaries = <TemplateSummaryItem>[];
     num totalSales = 0;
+    num discount = 0;
+    num netSales = 0;
     for (var methodSummary in summaryModel.summary ?? <PaymentSummaryItem>[]) {
       for (var channelSummary in methodSummary.channelAnalytics ?? <PaymentChannelItem>[]) {
-        totalSales += channelSummary.netRevenue ?? 0;
+        totalSales += channelSummary.grossRevenue ?? 0;
+        discount += channelSummary.discount ?? 0;
+        netSales += channelSummary.netRevenue ?? 0;
         channelSummaries.add(
           TemplateSummaryItem(
             name: channelSummary.paymentChannel ?? '',
-            amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: channelSummary.netRevenue ?? 0),
+            amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: channelSummary.grossRevenue ?? 0),
           ),
         );
       }
     }
     return TemplatePaymentChannelSummary(
       totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
+      discount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: discount),
+      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: netSales),
       summaries: channelSummaries,
     );
   }
