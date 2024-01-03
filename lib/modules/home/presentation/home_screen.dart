@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:defer_pointer/defer_pointer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,19 +11,17 @@ import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/actionable_tile.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
+import 'package:klikit/modules/base/base_screen_app_bar.dart';
 import 'package:klikit/modules/home/presentation/shimer/home_order_nav_card_shimmer.dart';
-import 'package:klikit/modules/home/presentation/shimer/order_card_shimmer.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/presentation/components/orders_card.dart';
+import 'package:klikit/modules/orders/presentation/components/order_summary_card.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
-import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../core/route/routes.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
 import '../../base/base_screen_cubit.dart';
@@ -35,8 +32,6 @@ import '../../orders/presentation/bloc/new_order_cubit.dart';
 import '../../orders/presentation/bloc/ongoing_order_cubit.dart';
 import '../../orders/presentation/bloc/total_order_cubit.dart';
 import '../../orders/presentation/bloc/yesterday_total_order_cubit.dart';
-import 'components/home_header_view.dart';
-import 'components/home_total_order_card.dart';
 import 'components/z_report_view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -96,6 +91,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cards = [
+      OrderSummaryCard(
+          label: AppStrings.completed_orders.tr(),
+          value: "123123123",
+          tooltipMessage: AppStrings.completed_orders.tr(),
+          changeInPercentage: 20,
+          labelToCompareWith: AppStrings.yesterday.tr(),
+          isPositive: true),
+      OrderSummaryCard(
+          label: AppStrings.cancelled_orders.tr(),
+          value: "123123123",
+          tooltipMessage: AppStrings.cancelled_orders.tr(),
+          changeInPercentage: 20,
+          labelToCompareWith: AppStrings.yesterday.tr(),
+          isPositive: false),
+      OrderSummaryCard(
+          label: AppStrings.completed_orders.tr(),
+          value: "123123123",
+          tooltipMessage: AppStrings.completed_orders.tr(),
+          changeInPercentage: 20,
+          labelToCompareWith: AppStrings.yesterday.tr(),
+          isPositive: true),
+      OrderSummaryCard(
+          label: AppStrings.cancelled_orders.tr(),
+          value: "123123123",
+          tooltipMessage: AppStrings.cancelled_orders.tr(),
+          changeInPercentage: 20,
+          labelToCompareWith: AppStrings.yesterday.tr(),
+          isPositive: true)
+    ];
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -103,50 +129,62 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              DeferredPointerHandler(
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    HomeHeaderView(
-                      onCartTap: () {
-                        Navigator.of(context).pushNamed(Routes.addOrder);
-                      },
-                    ),
-                    Positioned(
-                      bottom: -50.rh,
-                      left: AppSize.s20.rw,
-                      right: AppSize.s20.rw,
-                      child: DeferPointer(
-                        child: HomeTotalOrdersCard(
-                          onYesterday: () {
-                            context.read<BaseScreenCubit>().changeIndex(
-                                  NavigationData(
-                                    index: BottomNavItem.ORDER,
-                                    subTabIndex: OrderTab.History,
-                                    data: {
-                                      HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.yesterday(),
-                                    },
-                                  ),
-                                );
-                          },
-                          onToday: () {
-                            context.read<BaseScreenCubit>().changeIndex(
-                                  NavigationData(
-                                    index: BottomNavItem.ORDER,
-                                    subTabIndex: OrderTab.History,
-                                    data: {
-                                      HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.today(),
-                                    },
-                                  ),
-                                );
-                          },
-                        ),
-                      ),
-                    )
-                  ],
+              const BaseScreenAppBar(),
+              2.rh.verticalSpacer(),
+              Container(
+                color: AppColors.white,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s16.rw,
+                  vertical: AppSize.s16.rh,
+                ),
+                child: const PauseStoreHeaderView(),
+              ),
+              8.rh.verticalSpacer(),
+              Container(
+                color: AppColors.white,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s16.rw,
+                ),
+                child: Container(
+                  color: AppColors.greyLight,
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.8,
+                    mainAxisSpacing: 1.rh,
+                    crossAxisSpacing: 1.rw,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: cards.map((orderSummary) {
+                      return orderSummary;
+                    }).toList(),
+                  ),
                 ),
               ),
-              SizedBox(height: AppSize.s90.rh),
+              /*HomeTotalOrdersCard(
+                onYesterday: () {
+                  context.read<BaseScreenCubit>().changeIndex(
+                        NavigationData(
+                          index: BottomNavItem.ORDER,
+                          subTabIndex: OrderTab.History,
+                          data: {
+                            HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.yesterday(),
+                          },
+                        ),
+                      );
+                },
+                onToday: () {
+                  context.read<BaseScreenCubit>().changeIndex(
+                        NavigationData(
+                          index: BottomNavItem.ORDER,
+                          subTabIndex: OrderTab.History,
+                          data: {
+                            HistoryNavData.HISTORY_NAV_DATA: HistoryNavData.today(),
+                          },
+                        ),
+                      );
+                },
+              ),
+              8.rh.verticalSpacer(),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.s20.rw,
@@ -212,129 +250,131 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-              ),
+              ),*/
               8.rh.verticalSpacer(),
-              Container(
-                color: AppColors.white,
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s16.rw,
-                  vertical: AppSize.s16.rh,
-                ),
-                child: const PauseStoreHeaderView(),
-              ),
-              8.verticalSpacer(),
-              Container(
-                color: AppColors.white,
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s16.rw,
-                  vertical: AppSize.s16.rh,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Quick Actions", style: semiBoldTextStyle()),
-                    SizedBox(height: AppSize.s16.rh),
-                    BlocConsumer<OngoingOrderCubit, ResponseState>(
-                      listener: (context, state) {
-                        if (state is Failed) {
-                          showApiErrorSnackBar(context, state.failure);
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is Loading) {
-                          return HomeOrderNavCardShimmer(
-                            bgColor: AppColors.white,
-                            text: AppStrings.ongoing_orders.tr(),
-                            textBaseColor: AppColors.primaryLight,
-                            textHighlightColor: AppColors.grey,
-                            containerBaseColor: AppColors.primaryLight,
-                            containerHighlightColor: AppColors.grey,
-                          );
-                        }
-                        return ActionableTile(
-                          title: AppStrings.ongoing_orders.tr(),
-                          titleStyle: mediumTextStyle(),
-                          titleHelper: KTChip(
-                            text: (state is Success<Orders>) ? state.data.total.toString() : "0",
-                            textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
-                            strokeColor: AppColors.neutralB20,
-                            backgroundColor: AppColors.neutralB20,
-                            padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
-                          ),
-                          prefixWidget: ImageResourceResolver.refreshSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh),
-                          suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh),
-                          onTap: () {
-                            context.read<BaseScreenCubit>().changeIndex(
-                                  NavigationData(
-                                    index: BottomNavItem.ORDER,
-                                    subTabIndex: OrderTab.ONGOING,
-                                    data: null,
-                                  ),
-                                );
-                          },
-                        );
-                      },
-                    ),
-                    SizedBox(height: AppSize.s8.rh),
-                    BlocConsumer<NewOrderCubit, ResponseState>(
-                      listener: (context, state) {
-                        if (state is Failed) {
-                          showApiErrorSnackBar(context, state.failure);
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is Loading) {
-                          return HomeOrderNavCardShimmer(
-                            bgColor: AppColors.primary,
-                            text: AppStrings.new_orders.tr(),
-                            textBaseColor: AppColors.white,
-                            textHighlightColor: AppColors.primaryLight,
-                            containerBaseColor: AppColors.primaryLight,
-                            containerHighlightColor: AppColors.grey,
-                          );
-                        }
-
-                        int unread = (state is Success<Orders>) ? state.data.total : 0;
-                        return ActionableTile(
-                          title: AppStrings.new_orders.tr(),
-                          titleStyle: mediumTextStyle(),
-                          titleHelper: KTChip(
-                            text: "$unread",
-                            textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.white),
-                            strokeColor: AppColors.errorR300,
-                            backgroundColor: AppColors.errorR300,
-                            padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
-                          ),
-                          prefixWidget: unread > 0
-                              ? ImageResourceResolver.unreadNotificationSVG.getImageWidget(
-                                  width: AppSize.s20.rw,
-                                  height: AppSize.s20.rh,
-                                )
-                              : ImageResourceResolver.notificationSVG.getImageWidget(
-                                  width: AppSize.s20.rw,
-                                  height: AppSize.s20.rh,
-                                ),
-                          suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh),
-                          onTap: () {
-                            context.read<BaseScreenCubit>().changeIndex(
-                                  NavigationData(
-                                    index: BottomNavItem.ORDER,
-                                    subTabIndex: OrderTab.NEW,
-                                    data: null,
-                                  ),
-                                );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              const HomeQuickActions(),
               8.verticalSpacer(),
               const ZReportView(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class HomeQuickActions extends StatelessWidget {
+  const HomeQuickActions({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.white,
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s16.rw,
+        vertical: AppSize.s16.rh,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Quick Actions", style: semiBoldTextStyle()),
+          SizedBox(height: AppSize.s16.rh),
+          BlocConsumer<OngoingOrderCubit, ResponseState>(
+            listener: (context, state) {
+              if (state is Failed) {
+                showApiErrorSnackBar(context, state.failure);
+              }
+            },
+            builder: (context, state) {
+              if (state is Loading) {
+                return HomeOrderNavCardShimmer(
+                  bgColor: AppColors.white,
+                  text: AppStrings.ongoing_orders.tr(),
+                  textBaseColor: AppColors.primaryLight,
+                  textHighlightColor: AppColors.grey,
+                  containerBaseColor: AppColors.primaryLight,
+                  containerHighlightColor: AppColors.grey,
+                );
+              }
+              return ActionableTile(
+                title: AppStrings.ongoing_orders.tr(),
+                titleStyle: mediumTextStyle(),
+                titleHelper: KTChip(
+                  text: (state is Success<Orders>) ? state.data.total.toString() : "0",
+                  textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
+                  strokeColor: AppColors.neutralB20,
+                  backgroundColor: AppColors.neutralB20,
+                  padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
+                ),
+                prefixWidget: ImageResourceResolver.refreshSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh),
+                suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh),
+                onTap: () {
+                  context.read<BaseScreenCubit>().changeIndex(
+                        NavigationData(
+                          index: BottomNavItem.ORDER,
+                          subTabIndex: OrderTab.ONGOING,
+                          data: null,
+                        ),
+                      );
+                },
+              );
+            },
+          ),
+          SizedBox(height: AppSize.s8.rh),
+          BlocConsumer<NewOrderCubit, ResponseState>(
+            listener: (context, state) {
+              if (state is Failed) {
+                showApiErrorSnackBar(context, state.failure);
+              }
+            },
+            builder: (context, state) {
+              if (state is Loading) {
+                return HomeOrderNavCardShimmer(
+                  bgColor: AppColors.primary,
+                  text: AppStrings.new_orders.tr(),
+                  textBaseColor: AppColors.white,
+                  textHighlightColor: AppColors.primaryLight,
+                  containerBaseColor: AppColors.primaryLight,
+                  containerHighlightColor: AppColors.grey,
+                );
+              }
+
+              int unread = (state is Success<Orders>) ? state.data.total : 0;
+              return ActionableTile(
+                title: AppStrings.new_orders.tr(),
+                titleStyle: mediumTextStyle(),
+                titleHelper: KTChip(
+                  text: "$unread",
+                  textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.white),
+                  strokeColor: AppColors.errorR300,
+                  backgroundColor: AppColors.errorR300,
+                  padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
+                ),
+                prefixWidget: unread > 0
+                    ? ImageResourceResolver.unreadNotificationSVG.getImageWidget(
+                        width: AppSize.s20.rw,
+                        height: AppSize.s20.rh,
+                      )
+                    : ImageResourceResolver.notificationSVG.getImageWidget(
+                        width: AppSize.s20.rw,
+                        height: AppSize.s20.rh,
+                      ),
+                suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh),
+                onTap: () {
+                  context.read<BaseScreenCubit>().changeIndex(
+                        NavigationData(
+                          index: BottomNavItem.ORDER,
+                          subTabIndex: OrderTab.NEW,
+                          data: null,
+                        ),
+                      );
+                },
+              );
+            },
+          ),
+        ],
       ),
     );
   }
