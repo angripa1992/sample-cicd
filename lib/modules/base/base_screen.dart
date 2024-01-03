@@ -140,7 +140,7 @@ class _BaseScreenState extends State<BaseScreen> {
     }
 
     if (eventName.isNotEmpty) {
-      final brandIds = await _businessInfoProvider.findBrandsIds();
+      final brandIds = await _businessInfoProvider.fetchBrandsIds();
       SegmentManager().track(
         event: eventName,
         properties: {

@@ -118,7 +118,7 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void trackPrinterSettingsClickEvent() async {
-    final brandIds = await _businessInfoProvider.findBrandsIds();
+    final brandIds = await _businessInfoProvider.fetchBrandsIds();
     SegmentManager().track(
       event: SegmentEvents.MODULE_CLICK_PRINTER_SETTINGS,
       properties: {

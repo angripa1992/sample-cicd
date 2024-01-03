@@ -29,7 +29,7 @@ class BrandProvider {
     });
   }
 
-  Future<List<int>> findBrandsIds() async {
+  Future<List<int>> fetchBrandsIds() async {
     if (_brands.isEmpty) {
       final brands = await fetchBrands();
       return await extractBrandsIds(brands);
