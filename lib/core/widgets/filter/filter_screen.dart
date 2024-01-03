@@ -15,22 +15,29 @@ import '../kt_checkbox_group.dart';
 import '../kt_radio_group.dart';
 import 'custom_expansion_tile.dart';
 
-class AppliedFilter {
-  final int? dateType;
-  final List<int>? branches;
-  final List<int>? brands;
+class AppliedFilterData {
+  final KTRadioValue? dateType;
+  final KTRadioValue? branch;
+  final List<KTCheckboxValue>? branches;
+  final List<KTCheckboxValue>? brands;
 
-  AppliedFilter({
+  AppliedFilterData({
     required this.dateType,
+    required this.branch,
     required this.branches,
     required this.brands,
   });
 }
 
 class FilterScreen extends StatefulWidget {
-  final Function(AppliedFilter) onApplyFilterCallback;
+  final AppliedFilterData? initialFilteredData;
+  final Function(AppliedFilterData) onApplyFilterCallback;
 
-  const FilterScreen({super.key, required this.onApplyFilterCallback});
+  const FilterScreen({
+    super.key,
+    required this.onApplyFilterCallback,
+    this.initialFilteredData,
+  });
 
   @override
   State<FilterScreen> createState() => _FilterScreenState();
@@ -40,9 +47,14 @@ class _FilterScreenState extends State<FilterScreen> {
   final List<KTCheckboxValue> _selectedBranches = [];
   final List<KTCheckboxValue> _selectedBrands = [];
   KTRadioValue? _selectedDateType;
+  KTRadioValue? _selectedBranch;
 
   @override
   void initState() {
+    if (widget.initialFilteredData != null) {
+      _selectedBranches.addAll(widget.initialFilteredData?.branches ?? []);
+      _selectedBrands.addAll(widget.initialFilteredData?.brands ?? []);
+    }
     super.initState();
   }
 
@@ -80,10 +92,14 @@ class _FilterScreenState extends State<FilterScreen> {
   }
 
   void _applyFilter() {
-    final dateType = _selectedDateType?.id;
-    final brands = _selectedBrands.where((element) => element.isSelected ?? false).toList().map((e) => e.id).toList();
-    final branches = _selectedBranches.where((element) => element.isSelected ?? false).toList().map((e) => e.id).toList();
-    final appliedFilter = AppliedFilter(dateType: dateType, branches: branches, brands: brands);
+    final brands = _selectedBrands.where((element) => element.isSelected ?? false).toList();
+    final branches = _selectedBranches.where((element) => element.isSelected ?? false).toList();
+    final appliedFilter = AppliedFilterData(
+      dateType: _selectedDateType,
+      branch: _selectedBranch,
+      branches: branches,
+      brands: brands,
+    );
     widget.onApplyFilterCallback(appliedFilter);
     Navigator.pop(context);
   }

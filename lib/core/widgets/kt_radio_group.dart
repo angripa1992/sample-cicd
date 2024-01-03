@@ -7,9 +7,9 @@ import '../../resources/colors.dart';
 class KTRadioValue {
   final int id;
   final String title;
+  final String? logo;
   final String? subTitle;
   final IconData? editableIcon;
-  final String? logo;
 
   KTRadioValue(
     this.id,
@@ -18,6 +18,10 @@ class KTRadioValue {
     this.editableIcon,
     this.logo,
   });
+
+  set subtitle(String value){
+
+  }
 
   @override
   String toString() {
