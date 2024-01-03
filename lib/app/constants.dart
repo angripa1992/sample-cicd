@@ -203,14 +203,6 @@ class MenuVersion {
   static const v2 = 2;
 }
 
-class DateType {
-  static const today = 1;
-  static const yesterday = 2;
-  static const lastWeek = 3;
-  static const lastMonth = 4;
-  static const custom = 5;
-}
-
 class FulfillmentStatusId {
   static const ALLOCATING_RIDER = 1; //or 2
   static const ALLOCATING_RIDER_TWO = 2;

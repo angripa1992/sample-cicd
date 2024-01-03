@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
@@ -14,6 +13,7 @@ import '../../../resources/styles.dart';
 import '../kt_checkbox_group.dart';
 import '../kt_radio_group.dart';
 import 'custom_expansion_tile.dart';
+import 'date_filter.dart';
 
 class AppliedFilterData {
   final KTRadioValue? dateType;
@@ -56,16 +56,6 @@ class _FilterScreenState extends State<FilterScreen> {
       _selectedBrands.addAll(widget.initialFilteredData?.brands ?? []);
     }
     super.initState();
-  }
-
-  List<KTRadioValue> _dateFilterItems() {
-    return [
-      KTRadioValue(DateType.today, 'Today', subTitle: '(Default)'),
-      KTRadioValue(DateType.yesterday, 'Yesterday'),
-      KTRadioValue(DateType.lastWeek, 'Last Week'),
-      KTRadioValue(DateType.lastMonth, 'Last Month'),
-      KTRadioValue(DateType.custom, 'Custom', subTitle: '(23 Aug -23Aug)', editableIcon: Icons.edit_calendar),
-    ];
   }
 
   List<KTCheckboxValue> _brandFilterItem(List<Brand> brands) {
@@ -125,24 +115,7 @@ class _FilterScreenState extends State<FilterScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  CustomExpansionTile(
-                    title: 'Date',
-                    trailingIcon: Icons.add,
-                    expandedTrailingIcon: Icons.remove,
-                    color: AppColors.black,
-                    expandedColor: AppColors.black,
-                    initiallyExpanded: true,
-                    child: KTRadioGroup(
-                      initiallySelectedButtonID: DateType.today,
-                      values: _dateFilterItems(),
-                      onChangedCallback: (selectedValue) {
-                        _selectedDateType = selectedValue;
-                      },
-                      onEditItemValue: (editableItem) {
-                        print(editableItem.title);
-                      },
-                    ),
-                  ),
+                  DateFilter(),
                   Divider(color: AppColors.grey, thickness: 8.rh),
                   CustomExpansionTile(
                     title: 'Branches',

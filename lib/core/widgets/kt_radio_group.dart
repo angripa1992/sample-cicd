@@ -8,8 +8,8 @@ class KTRadioValue {
   final int id;
   final String title;
   final String? logo;
-  final String? subTitle;
-  final IconData? editableIcon;
+  String? subTitle;
+  IconData? editableIcon;
 
   KTRadioValue(
     this.id,
@@ -19,8 +19,12 @@ class KTRadioValue {
     this.logo,
   });
 
-  set subtitle(String value){
+  set subtitle(String value) {
+    subTitle = value;
+  }
 
+  set icon(IconData iconData) {
+    editableIcon = iconData;
   }
 
   @override
@@ -31,7 +35,7 @@ class KTRadioValue {
 
 class KTRadioGroup extends StatefulWidget {
   final List<KTRadioValue> values;
-  final int initiallySelectedButtonID;
+  final int? initiallySelectedButtonID;
   final Function(KTRadioValue) onChangedCallback;
   final Function(KTRadioValue)? onEditItemValue;
 
@@ -71,13 +75,15 @@ class _KTRadioGroupState extends State<KTRadioGroup> {
                 ),
               ),
               if (value.subTitle != null)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.rw),
-                  child: Text(
-                    value.subTitle!,
-                    style: mediumTextStyle(
-                      color: AppColors.neutralB100,
-                      fontSize: 14.rSp,
+                Flexible(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.rw),
+                    child: Text(
+                      value.subTitle!,
+                      style: mediumTextStyle(
+                        color: AppColors.neutralB100,
+                        fontSize: 14.rSp,
+                      ),
                     ),
                   ),
                 ),
