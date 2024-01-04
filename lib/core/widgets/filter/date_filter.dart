@@ -4,33 +4,20 @@ import '../../../resources/colors.dart';
 import '../../functions/pickers.dart';
 import '../kt_radio_group.dart';
 import 'custom_expansion_tile.dart';
-
-class DateType {
-  static const today = 1;
-  static const yesterday = 2;
-  static const lastWeek = 3;
-  static const lastMonth = 4;
-  static const custom = 5;
-}
-
-class AppliedDateFilterData {
-  final KTRadioValue? selectedItem;
-  final DateTimeRange? dateTimeRange;
-
-  AppliedDateFilterData({this.selectedItem, this.dateTimeRange});
-}
+import 'filter_data.dart';
 
 class DateFilter extends StatefulWidget {
-  final AppliedDateFilterData? initialData;
+  final DateFilteredData? initialData;
+  final Function(DateFilteredData) onChangedCallback;
 
-  const DateFilter({super.key, this.initialData});
+  const DateFilter({super.key, this.initialData, required this.onChangedCallback});
 
   @override
   State<DateFilter> createState() => _DateFilterState();
 }
 
 class _DateFilterState extends State<DateFilter> {
-  AppliedDateFilterData? _appliedDateFilterData;
+  DateFilteredData? _appliedDateFilterData;
 
   List<KTRadioValue> _filterItems() {
     final items = [
@@ -39,7 +26,7 @@ class _DateFilterState extends State<DateFilter> {
       KTRadioValue(DateType.lastWeek, 'Last Week'),
       KTRadioValue(DateType.lastMonth, 'Last Month'),
     ];
-    if (_appliedDateFilterData != null && _appliedDateFilterData?.selectedItem != null && _appliedDateFilterData!.selectedItem!.id == DateType.custom) {
+    if (_appliedDateFilterData?.selectedItem?.id == DateType.custom) {
       final customItem = KTRadioValue(
         DateType.custom,
         'Custom',
@@ -70,16 +57,17 @@ class _DateFilterState extends State<DateFilter> {
       dateTimeRange = await showKTDateRangePicker(context: context);
     }
     setState(() {
-      _appliedDateFilterData = AppliedDateFilterData(
+      _appliedDateFilterData = DateFilteredData(
         selectedItem: selectedValue,
         dateTimeRange: dateTimeRange,
       );
+      widget.onChangedCallback(_appliedDateFilterData!);
     });
   }
 
   void _setInitialValue() {
     if (widget.initialData == null) {
-      _appliedDateFilterData = AppliedDateFilterData(
+      _appliedDateFilterData = DateFilteredData(
         selectedItem: KTRadioValue(DateType.today, 'Today', subTitle: '(Default)'),
         dateTimeRange: DateTimeRange(start: DateTime.now(), end: DateTime.now()),
       );
@@ -92,6 +80,12 @@ class _DateFilterState extends State<DateFilter> {
   void initState() {
     _setInitialValue();
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant DateFilter oldWidget) {
+    _setInitialValue();
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

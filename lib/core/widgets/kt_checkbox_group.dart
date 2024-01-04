@@ -54,6 +54,7 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
     final totalItems = widget.values.length;
     final numberOfSelectedItems = widget.values.where((element) => element.isSelected ?? false).length;
     final isAllSelected = (numberOfSelectedItems > 0) && (totalItems == numberOfSelectedItems);
+    _modifiedValues.clear();
     _modifiedValues.add(KTCheckboxValue(_selectAllItemID, 'Select All', isSelected: isAllSelected));
     _modifiedValues.addAll(widget.values);
   }
@@ -66,8 +67,15 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
     } else {
       value.isSelected = isSelected;
     }
+    _removeSelectAllItemAndSendCallback();
     setState(() {});
-    widget.onChangedCallback(_modifiedValues);
+  }
+
+  void _removeSelectAllItemAndSendCallback() {
+    final values = <KTCheckboxValue>[];
+    values.addAll(_modifiedValues);
+    values.removeWhere((element) => element.id == _selectAllItemID);
+    widget.onChangedCallback(values);
   }
 
   @override
@@ -75,21 +83,11 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: _modifiedValues.map((value) {
-        final title = Text(
-          value.title,
-          style: mediumTextStyle(
-            color: AppColors.black,
-            fontSize: 14.rSp,
-          ),
-        );
         return value.logo != null
             ? CheckboxListTile(
                 activeColor: AppColors.primary,
-                title: title,
+                title: _title(value),
                 value: value.isSelected,
-                onChanged: (isSelected) {
-                  _onChanged(value, isSelected!);
-                },
                 secondary: SizedBox(
                   width: 32.rSp,
                   height: 32.rSp,
@@ -99,16 +97,29 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
                     height: 32.rSp,
                   ),
                 ),
+                onChanged: (isSelected) {
+                  _onChanged(value, isSelected!);
+                },
               )
             : CheckboxListTile(
                 activeColor: AppColors.primary,
-                title: title,
+                title: _title(value),
                 value: value.isSelected,
                 onChanged: (isSelected) {
                   _onChanged(value, isSelected!);
                 },
               );
       }).toList(),
+    );
+  }
+
+  Widget _title(KTCheckboxValue value) {
+    return Text(
+      value.title,
+      style: mediumTextStyle(
+        color: AppColors.black,
+        fontSize: 14.rSp,
+      ),
     );
   }
 }

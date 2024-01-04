@@ -9,7 +9,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/core/widgets/filter/filter_screen.dart';
+import 'package:klikit/core/widgets/filter/home_filter_screen.dart';
 import 'package:klikit/modules/home/presentation/shimer/home_order_nav_card_shimmer.dart';
 import 'package:klikit/modules/home/presentation/shimer/order_card_shimmer.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -21,6 +21,7 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../core/route/routes.dart';
+import '../../../core/widgets/filter/filter_data.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
 import '../../base/base_screen_cubit.dart';
@@ -45,7 +46,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Timer? _timer;
-  AppliedFilterData? _appliedFilter;
+  HomeFilterAppliedDate? _appliedFilter;
 
   @override
   void initState() {
@@ -105,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => FilterScreen(
+                        builder: (_) => HomeFilterScreen(
                           initialFilteredData: _appliedFilter,
                           onApplyFilterCallback: (filteredData) {
                             _appliedFilter = filteredData;
