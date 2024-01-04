@@ -42,10 +42,10 @@ class PauseStoreToggleButton extends StatelessWidget {
     EasyLoading.dismiss();
     response.fold(
       (failure) {
-        showNotifierDialog(context, failure.message, false, title: "Failed!");
+        showNotifierDialog(context, failure.message, false);
       },
       (successResponse) {
-        showNotifierDialog(context, successResponse.message, true, title: AppStrings.successfully_saved.tr());
+        showNotifierDialog(context, successResponse.message, true);
         onSuccess();
       },
     );

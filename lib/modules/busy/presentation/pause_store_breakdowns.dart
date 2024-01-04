@@ -39,7 +39,7 @@ class _PauseStoreBreakdownViewState extends State<PauseStoreBreakdownView> {
     return BlocListener<FetchPauseStoreDataCubit, ResponseState>(
       listener: (context, state) {
         if (state is Failed) {
-          showNotifierDialog(context, state.failure.message, false, title: "Failed!");
+          showNotifierDialog(context, state.failure.message, false);
         }
       },
       child: BlocBuilder<FetchPauseStoreDataCubit, ResponseState>(
