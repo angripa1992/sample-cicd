@@ -61,7 +61,8 @@ class OrderSummaryCard extends StatelessWidget {
             ),
             AppSize.s4.verticalSpacer(),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 isPositive
                     ? ImageResourceResolver.incrementSVG.getImageWidget(
@@ -75,11 +76,11 @@ class OrderSummaryCard extends StatelessWidget {
                 AppSize.s4.horizontalSpacer(),
                 Text(
                   '$changeInPercentage%',
-                  style: mediumTextStyle(fontSize: 10, color: isPositive ? AppColors.successG300 : AppColors.errorR300),
+                  style: mediumTextStyle(fontSize: AppSize.s10.rSp, color: isPositive ? AppColors.successG300 : AppColors.errorR300),
                 ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s4),
                 Text(
-                  'vs $labelToCompareWith%',
-                  style: regularTextStyle(fontSize: 10, color: AppColors.neutralB90),
+                  'vs $labelToCompareWith',
+                  style: regularTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB90),
                 )
               ],
             ),
