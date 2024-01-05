@@ -18,6 +18,8 @@ class ImageResourceResolver {
 
   static SVGImageResource get printerSVG => SVGImageResource('$iconBasePath/ic_printer.svg');
 
+  static SVGImageResource get filterSVG => SVGImageResource('$iconBasePath/ic_filter.svg');
+
   static SVGImageResource get phoneSVG => SVGImageResource('$iconBasePath/ic_phone.svg');
 
   static SVGImageResource get supportSVG => SVGImageResource('$iconBasePath/ic_contact_support.svg');

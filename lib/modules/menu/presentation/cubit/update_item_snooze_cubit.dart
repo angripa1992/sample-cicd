@@ -27,7 +27,7 @@ class UpdateItemSnoozeCubit extends Cubit<ResponseState> {
         brandId: brandId,
         duration: duration,
         enabled: enabled,
-        timeZoneOffset: DateTimeProvider.timeZoneOffset(),
+        timeZoneOffset: DateTimeFormatter.timeZoneOffset(),
         menuVersion: menuVersion,
       ),
     );

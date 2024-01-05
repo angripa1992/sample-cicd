@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/filter/multiple_branch_filter.dart';
-import 'package:klikit/core/widgets/filter/single_brand_filter.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
-import 'package:klikit/core/widgets/kt_radio_group.dart';
 import 'package:klikit/resources/colors.dart';
 
 import '../../../resources/styles.dart';
@@ -13,8 +11,8 @@ import 'filter_data.dart';
 import 'multiple_brand_filter.dart';
 
 class HomeFilterScreen extends StatefulWidget {
-  final HomeFilterAppliedDate? initialFilteredData;
-  final Function(HomeFilterAppliedDate) onApplyFilterCallback;
+  final HomeFilterAppliedData? initialFilteredData;
+  final Function(HomeFilterAppliedData?) onApplyFilterCallback;
 
   const HomeFilterScreen({
     super.key,
@@ -30,7 +28,6 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
   final List<KTCheckboxValue> _selectedBranches = [];
   final List<KTCheckboxValue> _selectedBrands = [];
   DateFilteredData? _dateFilteredData;
-  KTRadioValue? _brand;
 
   @override
   void initState() {
@@ -45,7 +42,12 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
   void _applyFilter() {
     final brands = _selectedBrands.where((element) => element.isSelected ?? false).toList();
     final branches = _selectedBranches.where((element) => element.isSelected ?? false).toList();
-    final appliedFilter = HomeFilterAppliedDate(branches: branches, brands: brands, dateFilteredData: _dateFilteredData);
+    HomeFilterAppliedData? appliedFilter;
+    if (brands.isEmpty && branches.isEmpty && _dateFilteredData == null) {
+      appliedFilter = null;
+    } else {
+      appliedFilter = HomeFilterAppliedData(branches: branches, brands: brands, dateFilteredData: _dateFilteredData);
+    }
     widget.onApplyFilterCallback(appliedFilter);
     Navigator.pop(context);
   }
@@ -79,12 +81,6 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SingleBrandFilter(
-                    initialValue: _brand,
-                    onChangedCallback: (brand) {
-                      _brand = brand;
-                    },
-                  ),
                   DateFilter(
                     initialData: _dateFilteredData,
                     onChangedCallback: (dateFilteredData) {

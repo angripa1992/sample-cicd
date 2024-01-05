@@ -17,57 +17,51 @@ class HomeHeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.black,
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: AppSize.s16.rw,
-          top: AppSize.s16.rh,
-          bottom: AppSize.s75.rh,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    SessionManager().userName(),
-                    style: regularTextStyle(
-                      color: AppColors.white,
-                      fontSize: AppFontSize.s25.rSp,
-                    ),
-                  ),
-                ),
-                CartBadge(
-                  iconColor: AppColors.white,
-                  onCartTap: onCartTap,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: AppSize.s12.rh,
-            ),
-            Container(
-              margin: EdgeInsets.only(right: AppSize.s16.rw),
-              decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(AppSize.s5.rSp),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSize.s8.rh,
-                  horizontal: AppSize.s12.rw,
-                ),
+      padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 8.rh),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(
                 child: Text(
-                  '${SessionManager().userDisplayRole()}, ${SessionManager().businessName()}, ${SessionManager().branchName()} ',
+                  SessionManager().userName(),
                   style: regularTextStyle(
                     color: AppColors.white,
-                    fontSize: AppFontSize.s12.rSp,
+                    fontSize: AppFontSize.s25.rSp,
                   ),
                 ),
               ),
-            )
-          ],
-        ),
+              CartBadge(
+                iconColor: AppColors.white,
+                onCartTap: onCartTap,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: AppSize.s12.rh,
+          ),
+          Container(
+            margin: EdgeInsets.only(right: AppSize.s16.rw),
+            decoration: BoxDecoration(
+              color: AppColors.white.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(AppSize.s5.rSp),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: AppSize.s8.rh,
+                horizontal: AppSize.s12.rw,
+              ),
+              child: Text(
+                '${SessionManager().userDisplayRole()}, ${SessionManager().businessName()}, ${SessionManager().branchName()} ',
+                style: regularTextStyle(
+                  color: AppColors.white,
+                  fontSize: AppFontSize.s12.rSp,
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

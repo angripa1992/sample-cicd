@@ -10,6 +10,7 @@ import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/base/update_available_view.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/home/presentation/cubit/order_summary_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/new_order_cubit.dart';
@@ -166,6 +167,7 @@ class _BaseScreenState extends State<BaseScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<FetchPauseStoreDataCubit>(create: (_) => getIt.get()),
+        BlocProvider<OrderSummaryCubit>(create: (_) => getIt.get<OrderSummaryCubit>()),
         BlocProvider<TotalOrderCubit>(create: (_) => getIt.get<TotalOrderCubit>()),
         BlocProvider<YesterdayTotalOrderCubit>(create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
         BlocProvider<CompletedOrderCubit>(create: (_) => getIt.get<CompletedOrderCubit>()),

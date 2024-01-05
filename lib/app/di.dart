@@ -9,6 +9,7 @@ import 'package:klikit/modules/add_order/presentation/cubit/update_webshop_order
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/data/business_remote_datasource.dart';
+import 'package:klikit/modules/home/presentation/cubit/order_summary_cubit.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/repository/menu_repository_impl.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
@@ -83,7 +84,7 @@ import '../modules/common/data/business_info_provider_repo_impl.dart';
 import '../modules/common/order_parameter_provider.dart';
 import '../modules/home/data/datasource/home_data_source.dart';
 import '../modules/home/data/repository/home_repository_impl.dart';
-import '../modules/home/domain/home_repository.dart';
+import '../modules/home/domain/repository/home_repository.dart';
 import '../modules/home/presentation/cubit/fetch_zreport_cubit.dart';
 import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/edit_order/calculate_grab_order_cubit.dart';
@@ -157,6 +158,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => BusinessInformationProvider(getIt()));
   getIt.registerLazySingleton(() => OrderParameterProvider(getIt()));
   getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(), getIt(), getIt()));
+  getIt.registerFactory(() => OrderSummaryCubit(getIt()));
   getIt.registerLazySingleton(() => FetchTotalOrders(getIt()));
   getIt.registerFactory(() => TotalOrderCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => FetchYesterdayTotalOrders(getIt()));

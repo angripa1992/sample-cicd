@@ -100,7 +100,7 @@ class WebShopEntityProvider {
     final customerInfo = CartManager().customerInfo;
     final currency = CartManager().currency;
     final items = CartManager().items;
-    final tz = await DateTimeProvider.timeZone();
+    final tz = await DateTimeFormatter.timeZone();
     final branch = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     int totalItems = 0;
     for (var element in items) {

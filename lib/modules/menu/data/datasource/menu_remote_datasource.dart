@@ -47,7 +47,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   Future<MenuData> fetchMenus(FetchMenuParams params) async {
     try {
       if (params.menuV2Enabled) {
-        final tz = await DateTimeProvider.timeZone();
+        final tz = await DateTimeFormatter.timeZone();
         final fetchParams = <String, dynamic>{
           'businessID': params.businessId,
           'brandID': params.brandId,
@@ -150,7 +150,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
               brandId: params.brandId,
               duration: 0,
               enabled: params.enabled,
-              timeZoneOffset: DateTimeProvider.timeZoneOffset(),
+              timeZoneOffset: DateTimeFormatter.timeZoneOffset(),
             ),
           );
           if (response.available ?? false) {

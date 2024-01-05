@@ -125,7 +125,7 @@ class OrderItemView extends StatelessWidget {
                     ),
                     SizedBox(height: AppSize.s4.rh),
                     Text(
-                      DateTimeProvider.parseOrderCreatedDate(order.createdAt),
+                      DateTimeFormatter.parseOrderCreatedDate(order.createdAt),
                       style: regularTextStyle(
                         color: AppColors.black,
                         fontSize: AppFontSize.s12.rSp,
@@ -223,7 +223,7 @@ class OrderItemView extends StatelessWidget {
               SizedBox(width: AppSize.s4.rw),
               Flexible(
                 child: Text(
-                  DateTimeProvider.scheduleDate(order.scheduledTime),
+                  DateTimeFormatter.scheduleDate(order.scheduledTime),
                   style: mediumTextStyle(
                     color: AppColors.primary,
                     fontSize: AppFontSize.s14.rSp,
@@ -244,7 +244,7 @@ class OrderItemView extends StatelessWidget {
             SizedBox(width: AppSize.s4.rw),
             Flexible(
               child: Text(
-                DateTimeProvider.scheduleTime(order.scheduledTime),
+                DateTimeFormatter.scheduleTime(order.scheduledTime),
                 style: mediumTextStyle(
                   color: AppColors.primary,
                   fontSize: AppFontSize.s14.rSp,

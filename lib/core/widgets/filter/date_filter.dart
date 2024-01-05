@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/core/provider/date_time_provider.dart';
 
 import '../../../resources/colors.dart';
 import '../../functions/pickers.dart';
@@ -21,7 +22,7 @@ class _DateFilterState extends State<DateFilter> {
 
   List<KTRadioValue> _filterItems() {
     final items = [
-      KTRadioValue(DateType.today, 'Today', subTitle: '(Default)'),
+      KTRadioValue(DateType.today, 'Today', subTitle: '( Default )'),
       KTRadioValue(DateType.yesterday, 'Yesterday'),
       KTRadioValue(DateType.lastWeek, 'Last Week'),
       KTRadioValue(DateType.lastMonth, 'Last Month'),
@@ -30,7 +31,7 @@ class _DateFilterState extends State<DateFilter> {
       final customItem = KTRadioValue(
         DateType.custom,
         'Custom',
-        subTitle: '${_appliedDateFilterData?.dateTimeRange?.start} - ${_appliedDateFilterData?.dateTimeRange?.end}',
+        subTitle: '( ${DateTimeFormatter.dateRangeString(_appliedDateFilterData!.dateTimeRange!)} )',
         editableIcon: Icons.edit_calendar,
       );
       items.add(customItem);
@@ -55,6 +56,9 @@ class _DateFilterState extends State<DateFilter> {
       dateTimeRange = DateTimeRange(start: lastMonth, end: DateTime.now());
     } else {
       dateTimeRange = await showKTDateRangePicker(context: context);
+      if (dateTimeRange?.start == null || dateTimeRange?.end == null) {
+        dateTimeRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
+      }
     }
     setState(() {
       _appliedDateFilterData = DateFilteredData(

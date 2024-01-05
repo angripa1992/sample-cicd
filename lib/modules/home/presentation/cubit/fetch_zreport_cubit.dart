@@ -4,7 +4,7 @@ import 'package:klikit/core/utils/response_state.dart';
 
 import '../../../../app/session_manager.dart';
 import '../../data/model/z_report_data_model.dart';
-import '../../domain/home_repository.dart';
+import '../../domain/repository/home_repository.dart';
 
 class FetchZReportCubit extends Cubit<ResponseState> {
   final HomeRepository _repository;

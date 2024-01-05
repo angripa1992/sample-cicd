@@ -126,7 +126,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
             ),
             if (widget.menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
               Text(
-                '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
+                '(${AppStrings.out_of_stock_till.tr()} ${DateTimeFormatter.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
                 style: mediumTextStyle(
                   color: AppColors.redDark,
                   fontSize: AppFontSize.s12.rSp,
