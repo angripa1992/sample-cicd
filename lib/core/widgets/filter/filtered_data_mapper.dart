@@ -21,7 +21,7 @@ class FilteredDataMapper {
   final _periodEnd = 'period_end';
   final _period = 'period';
 
-  Future<Map<String, dynamic>> homeFilterDataMap(HomeFilterAppliedData? data) async {
+  Future<Map<String, dynamic>> homeFilterDataMap(HomeFilteredData? data) async {
     final branches = await _branches(data?.branches);
     final brands = await _brands(data?.brands);
     final period = _dateMap(data?.dateFilteredData);

@@ -17,10 +17,16 @@ import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/menu/menu_data.dart';
 
 class MenuScreen extends StatefulWidget {
-  final Brand? brand;
-  final int? providerId;
+  final int brand;
+  final int branch;
+  final List<int> providers;
 
-  const MenuScreen({Key? key, required this.brand, this.providerId}) : super(key: key);
+  const MenuScreen({
+    Key? key,
+    required this.brand,
+    required this.branch,
+    required this.providers,
+  }) : super(key: key);
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
@@ -29,27 +35,29 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
+    _fetchMenu();
     SegmentManager().screen(event: SegmentEvents.MENU_SCREEN, name: 'Menu Screen');
     super.initState();
   }
 
   @override
+  void didUpdateWidget(covariant MenuScreen oldWidget) {
+    _fetchMenu();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _fetchMenu() {
+    context.read<MenusCubit>().fetchMenu(
+          branchID: widget.branch,
+          brandId: widget.brand,
+          providers: widget.providers,
+        );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (widget.brand != null) {
-      context.read<MenusCubit>().fetchMenu(widget.brand!.id, widget.providerId);
-    }
     return Expanded(
-      child: widget.brand == null
-          ? Center(
-              child: Text(
-                AppStrings.please_select_a_brand.tr(),
-                style: regularTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
-              ),
-            )
-          : BlocBuilder<MenusCubit, ResponseState>(
+      child:BlocBuilder<MenusCubit, ResponseState>(
               builder: (context, state) {
                 if (state is Success<MenuData>) {
                   if (state.data.sections.isEmpty) {

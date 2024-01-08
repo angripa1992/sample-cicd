@@ -31,7 +31,7 @@ class OrderMenuItemProvider {
               businessId: SessionManager().businessID(),
               branchId: branchId,
               brandId: brandId,
-              providerID: providerId,
+              providers: [providerId],
             ),
           );
       for (var section in menusItemsResponse.sections) {

@@ -8,7 +8,8 @@ import 'package:klikit/modules/menu/presentation/cubit/fetch_modifier_groups_cub
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_item_snooze_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_menu_enabled_cubit.dart';
-import 'package:klikit/modules/menu/presentation/pages/menu_mgt_screen.dart';
+import 'package:klikit/modules/menu/presentation/pages/menu_management_body.dart';
+import 'package:klikit/resources/colors.dart';
 
 import '../../../../app/di.dart';
 import '../../../../resources/strings.dart';
@@ -47,11 +48,9 @@ class _MenuManagementScreenState extends State<MenuManagementScreen> {
         BlocProvider<AggregatorSelectionCubit>(create: (_) => getIt.get()),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppStrings.menu.tr()),
-          centerTitle: true,
-        ),
-        body: const MenuMgtScreen(),
+        appBar: AppBar(title: Text(AppStrings.menu.tr())),
+        backgroundColor: AppColors.white,
+        body: const MenuManagementBody(),
       ),
     );
   }

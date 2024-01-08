@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/filter/multiple_branch_filter.dart';
+import 'package:klikit/core/widgets/filter/multiple_provider_filter.dart';
+import 'package:klikit/core/widgets/filter/single_branch_filter.dart';
+import 'package:klikit/core/widgets/filter/single_brand_filter.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_radio_group.dart';
 import 'package:klikit/resources/colors.dart';
 
 import '../../../resources/styles.dart';
@@ -10,52 +14,49 @@ import 'date_filter.dart';
 import 'filter_data.dart';
 import 'multiple_brand_filter.dart';
 
-class HomeFilterScreen extends StatefulWidget {
-  final HomeFilteredData? initData;
-  final Function(HomeFilteredData?) onApplyFilterCallback;
+class MenuFilterScreen extends StatefulWidget {
+  final MenuFilteredData? initData;
+  final Function(MenuFilteredData?) onApplyFilterCallback;
 
-  const HomeFilterScreen({
+  const MenuFilterScreen({
     super.key,
     required this.onApplyFilterCallback,
     this.initData,
   });
 
   @override
-  State<HomeFilterScreen> createState() => _HomeFilterScreenState();
+  State<MenuFilterScreen> createState() => _MenuFilterScreenState();
 }
 
-class _HomeFilterScreenState extends State<HomeFilterScreen> {
-  final List<KTCheckboxValue> _selectedBranches = [];
-  final List<KTCheckboxValue> _selectedBrands = [];
-  DateFilteredData? _dateFilteredData;
+class _MenuFilterScreenState extends State<MenuFilterScreen> {
+  final List<KTCheckboxValue> _selectedProviders = [];
+  KTRadioValue? _selectedBrand;
+  KTRadioValue? _selectedBranch;
 
   @override
   void initState() {
-    if (widget.initData != null) {
-      _selectedBranches.addAll(widget.initData?.branches ?? []);
-      _selectedBrands.addAll(widget.initData?.brands ?? []);
-      _dateFilteredData = widget.initData?.dateFilteredData;
-    }
+    _selectedProviders.addAll(widget.initData?.providers ?? []);
+    _selectedBrand = widget.initData?.brand;
+    _selectedBranch = widget.initData?.branch;
     super.initState();
   }
 
   void _applyFilter() {
-    final brands = _selectedBrands.where((element) => element.isSelected ?? false).toList();
-    final branches = _selectedBranches.where((element) => element.isSelected ?? false).toList();
-    HomeFilteredData? appliedFilter;
-    if (brands.isEmpty && branches.isEmpty && _dateFilteredData == null) {
+    final providers = _selectedProviders.where((element) => element.isSelected ?? false).toList();
+    MenuFilteredData? appliedFilter;
+    if (providers.isEmpty && _selectedBrand == null && _selectedBranch == null) {
       appliedFilter = null;
     } else {
-      appliedFilter = HomeFilteredData(branches: branches, brands: brands, dateFilteredData: _dateFilteredData);
+      appliedFilter = MenuFilteredData(brand: _selectedBrand, branch: _selectedBranch, providers: providers);
     }
     widget.onApplyFilterCallback(appliedFilter);
     Navigator.pop(context);
   }
 
   void _clearAll() {
-    _dateFilteredData = null;
-    _selectedBranches.clear();
-    _selectedBrands.clear();
+    _selectedProviders.clear();
+    _selectedBranch = null;
+    _selectedBrand = null;
     setState(() {});
   }
 
@@ -81,26 +82,25 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  DateFilter(
-                    initialData: _dateFilteredData,
-                    onChangedCallback: (dateFilteredData) {
-                      _dateFilteredData = dateFilteredData;
+                  SingleBrandFilter(
+                    initialValue: _selectedBrand,
+                    onChangedCallback: (selectedBrand) {
+                      _selectedBrand = selectedBrand;
                     },
                   ),
                   Divider(color: AppColors.grey, thickness: 8.rh),
-                  MultipleBranchFilter(
-                    initialSelectedValues: _selectedBranches,
-                    onChangedCallback: (selectedBranches) {
-                      _selectedBranches.clear();
-                      _selectedBranches.addAll(selectedBranches);
+                  SingleBranchFilter(
+                    initialValue: _selectedBranch,
+                    onChangedCallback: (selectedBranch) {
+                      _selectedBranch = selectedBranch;
                     },
                   ),
                   Divider(color: AppColors.grey, thickness: 8.rh),
-                  MultipleBrandFilter(
-                    initialSelectedValues: _selectedBrands,
+                  MultipleProviderFilter(
+                    initialSelectedValues: _selectedProviders,
                     onChangedCallback: (selectedBrands) {
-                      _selectedBrands.clear();
-                      _selectedBrands.addAll(selectedBrands);
+                      _selectedProviders.clear();
+                      _selectedProviders.addAll(selectedBrands);
                     },
                   ),
                 ],

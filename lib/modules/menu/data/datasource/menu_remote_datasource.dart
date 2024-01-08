@@ -54,8 +54,8 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
           'branchID': params.branchId,
           'tz': tz,
         };
-        if (params.providerID != null) {
-          fetchParams['providerID'] = params.providerID;
+        if (params.providers.isNotEmpty) {
+          fetchParams['providerID'] = ListParam(params.providers, ListFormat.csv);
         }
         final response = await _restClient.request(Urls.menuV2, Method.GET, fetchParams);
         return mapMMV2toMenu(response is List<dynamic> ? MenuV2DataModel(branchInfo: null, sections: null) : MenuV2DataModel.fromJson(response));
@@ -63,8 +63,8 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
         final fetchParams = <String, dynamic>{
           'brand_id': params.brandId,
         };
-        if (params.providerID != null) {
-          fetchParams['provider_id'] = params.providerID;
+        if (params.providers.isNotEmpty) {
+          fetchParams['provider_id'] = ListParam(params.providers, ListFormat.csv);
         }
         final response = await _restClient.request(
           Urls.menuV1(params.branchId),
