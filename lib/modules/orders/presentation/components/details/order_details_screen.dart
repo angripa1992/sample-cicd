@@ -7,7 +7,6 @@ import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/details/pickup_time_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/preparation_time_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/price_view.dart';
-import 'package:klikit/modules/orders/presentation/components/details/rider_action_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/rider_info_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/scheduled_view.dart';
 import 'package:klikit/modules/orders/utils/grab_order_resolver.dart';
@@ -110,8 +109,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         },
                       );
                     },
+                    onRiderFind: widget.onRiderFind,
                   ),
-                  RiderActionView(order: _currentOrder, onRiderFind: widget.onRiderFind),
                   PrepTimeView(
                     order: _currentOrder,
                     onUpdateSuccess: (min) {
