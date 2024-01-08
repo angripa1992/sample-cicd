@@ -4,19 +4,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/decorated_image_view.dart';
+import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/order_item/three_pl_status.dart';
-import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../resources/assets.dart';
-import 'order_action_button_components.dart';
 import 'order_action_buttons.dart';
 
 class OrderItemView extends StatelessWidget {
@@ -55,137 +56,116 @@ class OrderItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: AppSize.s10),
-                child: SizedBox(
-                  child: ImageView(path: order.orderSource.logo),
-                ),
-              ),
-              SizedBox(width: AppSize.s8.rw),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
+    return InkWell(
+      onTap: seeDetails,
+      child: Container(
+        padding: EdgeInsets.all(AppSize.s12.rSp),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(width: 0.5.rSp, color: AppColors.neutralB40),
+          borderRadius: BorderRadius.circular(AppSize.s12.rSp),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  // providerId == 1 ? order.orderSource.logo :
+                  KTNetworkImage(width: AppSize.s34.rw, height: AppSize.s34.rh, imageUrl: order.orderSource.logo),
+                  SizedBox(width: AppSize.s8.rw),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Flexible(
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: AppSize.s2.rh),
-                            child: Text(
-                              '# ${_id()}',
-                              style: boldTextStyle(
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding: EdgeInsets.only(bottom: AppSize.s2.rh),
+                                child: Text(
+                                  '# ${_id()}',
+                                  style: boldTextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: AppFontSize.s16.rSp,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: AppSize.s8.rw),
+                            InkWell(
+                              onTap: () {
+                                Clipboard.setData(
+                                  ClipboardData(
+                                    text: _id(),
+                                  ),
+                                ).then((value) {
+                                  showSuccessSnackBar(context, AppStrings.order_id_copied.tr());
+                                });
+                              },
+                              child: Icon(
+                                Icons.copy,
+                                size: AppSize.s14.rSp,
                                 color: AppColors.primary,
-                                fontSize: AppFontSize.s16.rSp,
                               ),
                             ),
-                          ),
-                        ),
-                        SizedBox(width: AppSize.s8.rw),
-                        InkWell(
-                          onTap: () {
-                            Clipboard.setData(
-                              ClipboardData(
-                                text: _id(),
+                            if (!order.isManualOrder && order.promos.isNotEmpty && order.promos.first.isSeniorCitizenPromo!)
+                              Container(
+                                padding: EdgeInsets.all(AppSize.s4.rSp),
+                                margin: EdgeInsets.only(left: AppSize.s4.rw),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: AppColors.greyDarker),
+                                ),
+                                child: SvgPicture.asset(AppIcons.seniorCitizen),
                               ),
-                            ).then((value) {
-                              showSuccessSnackBar(context, AppStrings.order_id_copied.tr());
-                            });
-                          },
-                          child: Icon(
-                            Icons.copy,
-                            size: AppSize.s14.rSp,
-                            color: AppColors.primary,
+                          ],
+                        ),
+                        SizedBox(height: AppSize.s2.rh),
+                        Text(
+                          order.orderSource.title,
+                          style: regularTextStyle(
+                            color: AppColors.black,
+                            fontSize: AppFontSize.s14.rSp,
                           ),
                         ),
-                        if (!order.isManualOrder && order.promos.isNotEmpty && order.promos.first.isSeniorCitizenPromo!)
-                          Container(
-                            padding: EdgeInsets.all(AppSize.s4.rSp),
-                            margin: EdgeInsets.only(left: AppSize.s4.rw),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: AppColors.greyDarker),
-                            ),
-                            child: SvgPicture.asset(AppIcons.seniorCitizen),
+                        SizedBox(height: AppSize.s4.rh),
+                        Text(
+                          DateTimeProvider.parseOrderCreatedDate(order.createdAt),
+                          style: regularTextStyle(
+                            color: AppColors.black,
+                            fontSize: AppFontSize.s12.rSp,
                           ),
+                        ),
+                        ThreePlStatus(order: order, showTag: false, onSwitchRider: onSwitchRider),
                       ],
                     ),
-                    SizedBox(height: AppSize.s2.rh),
-                    Text(
-                      order.orderSource.title,
-                      style: regularTextStyle(
-                        color: AppColors.black,
-                        fontSize: AppFontSize.s14.rSp,
-                      ),
-                    ),
-                    SizedBox(height: AppSize.s4.rh),
-                    Text(
-                      DateTimeProvider.parseOrderCreatedDate(order.createdAt),
-                      style: regularTextStyle(
-                        color: AppColors.black,
-                        fontSize: AppFontSize.s12.rSp,
-                      ),
-                    ),
-                    ThreePlStatus(order: order, showTag: false, onSwitchRider: onSwitchRider),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(top: AppSize.s8.rh, right: AppSize.s4.rw),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                _getActionButton(),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    minimumSize: Size.zero,
-                    padding: EdgeInsets.only(top: AppSize.s10.rh, bottom: AppSize.s4.rh),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  onPressed: seeDetails,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        AppStrings.see_details.tr(),
-                        style: mediumTextStyle(
-                          color: AppColors.primary,
-                          fontSize: AppFontSize.s12.rSp,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        color: AppColors.primary,
-                        size: AppSize.s16.rSp,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
             ),
-          ),
+            _getActionButton(),
+          ],
         ),
-      ],
+      ),
     );
   }
 
   Widget _getActionButton() {
     if (order.status == OrderStatus.CANCELLED || order.status == OrderStatus.DELIVERED || order.status == OrderStatus.PICKED_UP) {
-      return SizedBox(
-        width: AppSize.s42.rw,
-        child: PrintButton(expanded: false, onPrint: onPrint),
+      return DecoratedImageView(
+        iconWidget: ImageResourceResolver.printerSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
+        padding: EdgeInsets.all(AppSize.s10.rSp),
+        decoration: BoxDecoration(
+          color: AppColors.neutralB20,
+          borderRadius: BorderRadius.all(
+            Radius.circular(200.rSp),
+          ),
+        ),
+        onTap: onPrint,
       );
     } else if (order.status == OrderStatus.SCHEDULED) {
-      return _scheduleOrderAction();
+      return Expanded(child: _scheduleOrderAction());
     } else {
       return getActionButtons(
         order: order,
