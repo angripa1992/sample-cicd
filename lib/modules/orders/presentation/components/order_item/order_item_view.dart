@@ -70,7 +70,6 @@ class OrderItemView extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  // providerId == 1 ? order.orderSource.logo :
                   KTNetworkImage(width: AppSize.s34.rw, height: AppSize.s34.rh, imageUrl: order.orderSource.logo),
                   SizedBox(width: AppSize.s8.rw),
                   Expanded(
@@ -85,9 +84,9 @@ class OrderItemView extends StatelessWidget {
                                 padding: EdgeInsets.only(bottom: AppSize.s2.rh),
                                 child: Text(
                                   '# ${_id()}',
-                                  style: boldTextStyle(
-                                    color: AppColors.primary,
-                                    fontSize: AppFontSize.s16.rSp,
+                                  style: semiBoldTextStyle(
+                                    color: AppColors.neutralB500,
+                                    fontSize: AppFontSize.s14.rSp,
                                   ),
                                 ),
                               ),
@@ -103,11 +102,7 @@ class OrderItemView extends StatelessWidget {
                                   showSuccessSnackBar(context, AppStrings.order_id_copied.tr());
                                 });
                               },
-                              child: Icon(
-                                Icons.copy,
-                                size: AppSize.s14.rSp,
-                                color: AppColors.primary,
-                              ),
+                              child: ImageResourceResolver.copySVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB400),
                             ),
                             if (!order.isManualOrder && order.promos.isNotEmpty && order.promos.first.isSeniorCitizenPromo!)
                               Container(
@@ -125,15 +120,15 @@ class OrderItemView extends StatelessWidget {
                         Text(
                           order.orderSource.title,
                           style: regularTextStyle(
-                            color: AppColors.black,
-                            fontSize: AppFontSize.s14.rSp,
+                            color: AppColors.neutralB200,
+                            fontSize: AppFontSize.s12.rSp,
                           ),
                         ),
                         SizedBox(height: AppSize.s4.rh),
                         Text(
-                          DateTimeProvider.parseOrderCreatedDate(order.createdAt),
+                          DateTimeProvider.parseOrderCreatedDate(order.createdAt, 'd MMM yy h:mm a'),
                           style: regularTextStyle(
-                            color: AppColors.black,
+                            color: AppColors.neutralB500,
                             fontSize: AppFontSize.s12.rSp,
                           ),
                         ),

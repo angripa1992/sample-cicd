@@ -89,22 +89,6 @@ Widget getActionButtons({
         ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
       ),
       Visibility(
-        visible: OrderActionButtonManager().canUpdateOrder(order),
-        child: DecoratedImageView(
-          iconWidget: ImageResourceResolver.editSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
-          padding: EdgeInsets.all(AppSize.s10.rSp),
-          decoration: BoxDecoration(
-            color: AppColors.neutralB20,
-            borderRadius: BorderRadius.all(
-              Radius.circular(200.rSp),
-            ),
-          ),
-          onTap: () {
-            onEditManualOrder();
-          },
-        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
-      ),
-      Visibility(
         visible: OrderActionButtonManager().canDelivery(order),
         child: DecoratedImageView(
           iconWidget: ImageResourceResolver.deliveryCardSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.primaryP300),
