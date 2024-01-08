@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/common/order_parameter_provider.dart';
@@ -158,7 +159,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> with FilterObse
               newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
               firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
             ),
-            separatorBuilder: (BuildContext context, int index) => const Divider(),
+            separatorBuilder: (BuildContext context, int index) => AppSize.s8.verticalSpacer(),
           ),
         )
       ],
