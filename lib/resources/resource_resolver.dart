@@ -59,4 +59,12 @@ class ImageResourceResolver {
   static SVGImageResource get incrementSVG => SVGImageResource('$iconBasePath/ic_increment.svg');
 
   static SVGImageResource get decrementSVG => SVGImageResource('$iconBasePath/ic_decrement.svg');
+
+  static SVGImageResource get cancelSVG => SVGImageResource('$iconBasePath/ic_cancel.svg');
+
+  static SVGImageResource get editSVG => SVGImageResource('$iconBasePath/ic_edit_pencil.svg');
+
+  static SVGImageResource get deliveryCardSVG => SVGImageResource('$iconBasePath/ic_delivery_car.svg');
+
+  static SVGImageResource get readyFoodSVG => SVGImageResource('$iconBasePath/ic_ready_food.svg');
 }
