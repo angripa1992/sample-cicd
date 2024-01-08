@@ -64,7 +64,7 @@ class _MultipleBranchFilterState extends State<MultipleBranchFilter> {
       expandedColor: AppColors.black,
       initiallyExpanded: true,
       child: FutureBuilder<List<Branch>>(
-        future: getIt.get<BusinessInformationProvider>().getBranches(),
+        future: getIt.get<BusinessInformationProvider>().fetchBranches(),
         builder: (_, snap) {
           if (snap.hasData && snap.data != null) {
             return KTCheckboxGroup(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
+import 'package:klikit/modules/home/domain/entities/order_summary_overview.dart';
 import 'package:klikit/modules/home/presentation/cubit/order_summary_cubit.dart';
 import 'package:klikit/resources/styles.dart';
 
@@ -49,7 +51,7 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
                 builder: (_, setState) {
                   return FilterIconView(
                     applied: _filterAppliedData != null,
-                    applyFilter: () {
+                    openFilterScreen: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => HomeFilterScreen(
@@ -70,17 +72,30 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
             ],
           ),
         ),
-        Row(
-          children: [
-            _summaryItem('Completed Orders', '12345'),
-            _summaryItem('Cancelled Order', '12345'),
-          ],
-        ),
-        Row(
-          children: [
-            _summaryItem('Completed Orders', '12345'),
-            _summaryItem('Cancelled Order', '12345'),
-          ],
+        BlocBuilder<OrderSummaryCubit, ResponseState>(
+          builder: (_, state) {
+            if (state is Loading) {
+              return const CircularProgressIndicator();
+            } else if (state is Success<OrderSummaryOverview>) {
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      _summaryItem('Completed Orders', '${state.data.completedOrders}'),
+                      _summaryItem('Cancelled Order', '${state.data.cancelledOrders}'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      _summaryItem('Gross order Value', state.data.grossOrderValues),
+                      _summaryItem('Discount Value', state.data.discountValues),
+                    ],
+                  ),
+                ],
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ],
     );
@@ -97,17 +112,19 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
             children: [
               Text(
                 value,
+                textAlign: TextAlign.center,
                 style: semiBoldTextStyle(
                   color: AppColors.primary,
-                  fontSize: 20.rSp,
+                  fontSize: 16.rSp,
                 ),
               ),
               SizedBox(height: 4.rh),
               Text(
                 name,
+                textAlign: TextAlign.center,
                 style: regularTextStyle(
                   color: AppColors.black,
-                  fontSize: 16.rSp,
+                  fontSize: 14.rSp,
                 ),
               ),
             ],

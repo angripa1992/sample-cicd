@@ -6,18 +6,18 @@ import '../../../resources/resource_resolver.dart';
 
 class FilterIconView extends StatelessWidget {
   final bool applied;
-  final VoidCallback applyFilter;
+  final VoidCallback openFilterScreen;
 
   const FilterIconView({
     super.key,
     required this.applied,
-    required this.applyFilter,
+    required this.openFilterScreen,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: applyFilter,
+      onTap: openFilterScreen,
       child: Container(
         padding: EdgeInsets.all(8.rSp),
         decoration: BoxDecoration(

@@ -63,7 +63,7 @@ class BusinessInformationProvider {
   Future<PaymentMethod> fetchPaymentMethod(int id) => _paymentInfoProvider.findMethodById(id);
 
   ///branch
-  Future<List<Branch>> getBranches() => _branchInfoProvider.branches();
+  Future<List<Branch>> fetchBranches() => _branchInfoProvider.branches();
 
   Future<Branch?> branchByID(int branchID) => _branchInfoProvider.branchByID(branchID);
 
