@@ -69,4 +69,8 @@ class ImageResourceResolver {
   static SVGImageResource get readyFoodSVG => SVGImageResource('$iconBasePath/ic_ready_food.svg');
 
   static SVGImageResource get copySVG => SVGImageResource('$iconBasePath/ic_copy.svg');
+
+  static SVGImageResource get commentSVG => SVGImageResource('$iconBasePath/ic_comment.svg');
+
+  static SVGImageResource get riderSVG => SVGImageResource('$iconBasePath/ic_rider.svg');
 }
