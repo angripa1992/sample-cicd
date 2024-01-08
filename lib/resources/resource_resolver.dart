@@ -67,4 +67,6 @@ class ImageResourceResolver {
   static SVGImageResource get deliveryCardSVG => SVGImageResource('$iconBasePath/ic_delivery_car.svg');
 
   static SVGImageResource get readyFoodSVG => SVGImageResource('$iconBasePath/ic_ready_food.svg');
+
+  static SVGImageResource get copySVG => SVGImageResource('$iconBasePath/ic_copy.svg');
 }
