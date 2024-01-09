@@ -70,6 +70,8 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
             'businessID': branchInfo.businessID,
             'brandID': branchInfo.brandID,
             'branchID': branchInfo.branchID,
+            'sectionID': sectionID,
+            'categoryID': categoryID,
           },
         );
         final str = jsonEncode(response);
