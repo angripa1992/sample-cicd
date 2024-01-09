@@ -27,6 +27,8 @@ import '../models/request/webshop_pace_order_payload.dart';
 abstract class AddOrderDatasource {
   Future<List<MenuItemModifierGroup>> fetchModifiers({
     required int itemID,
+    required int sectionID,
+    required int categoryID,
     required MenuBranchInfo branchInfo,
     required int type,
   });
@@ -52,6 +54,8 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<List<MenuItemModifierGroup>> fetchModifiers({
     required int itemID,
+    required int sectionID,
+    required int categoryID,
     required MenuBranchInfo branchInfo,
     required int type,
   }) async {

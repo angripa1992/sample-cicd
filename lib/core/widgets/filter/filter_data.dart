@@ -3,15 +3,27 @@ import 'package:flutter/material.dart';
 import '../kt_checkbox_group.dart';
 import '../kt_radio_group.dart';
 
-class HomeFilterAppliedData {
+class HomeFilteredData {
   final DateFilteredData? dateFilteredData;
   final List<KTCheckboxValue>? branches;
   final List<KTCheckboxValue>? brands;
 
-  HomeFilterAppliedData({
+  HomeFilteredData({
     required this.dateFilteredData,
     required this.branches,
     required this.brands,
+  });
+}
+
+class MenuFilteredData {
+  final KTRadioValue? brand;
+  final KTRadioValue? branch;
+  final List<KTCheckboxValue>? providers;
+
+  MenuFilteredData({
+    required this.brand,
+    required this.branch,
+    required this.providers,
   });
 }
 

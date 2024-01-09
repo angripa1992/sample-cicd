@@ -14,6 +14,7 @@ class UpdateItemSnoozeCubit extends Cubit<ResponseState> {
   void updateItem({
     required int menuVersion,
     required int brandId,
+    required int branchID,
     required int itemId,
     required bool enabled,
     required duration,
@@ -23,7 +24,7 @@ class UpdateItemSnoozeCubit extends Cubit<ResponseState> {
       UpdateItemSnoozeParam(
         itemId: itemId,
         businessID: SessionManager().businessID(),
-        branchId: SessionManager().branchId(),
+        branchId: branchID,
         brandId: brandId,
         duration: duration,
         enabled: enabled,

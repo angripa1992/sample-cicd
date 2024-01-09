@@ -12,17 +12,17 @@ import 'modifer_switch_view.dart';
 
 class ModifierListView extends StatefulWidget {
   final int brandId;
-  final int providerId;
+  final int branchID;
   final ModifierGroup modifierGroup;
   final Function(List<GroupedModifierItem>) onChanged;
 
-  const ModifierListView(
-      {Key? key,
-      required this.modifierGroup,
-      required this.brandId,
-      required this.onChanged,
-      required this.providerId})
-      : super(key: key);
+  const ModifierListView({
+    Key? key,
+    required this.modifierGroup,
+    required this.brandId,
+    required this.onChanged,
+    required this.branchID,
+  }) : super(key: key);
 
   @override
   State<ModifierListView> createState() => _ModifierListViewState();
@@ -47,8 +47,7 @@ class _ModifierListViewState extends State<ModifierListView> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                        padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
                         child: Text(
                           widget.modifierGroup.modifiers[index].title,
                           style: regularTextStyle(
@@ -60,7 +59,7 @@ class _ModifierListViewState extends State<ModifierListView> {
                     ),
                     ModifierSwitchView(
                       menuVersion: widget.modifierGroup.menuVersion,
-                      providerId: widget.providerId,
+                      branchID: widget.branchID,
                       brandId: widget.brandId,
                       groupId: widget.modifierGroup.id,
                       modifierId: widget.modifierGroup.modifiers[index].id,

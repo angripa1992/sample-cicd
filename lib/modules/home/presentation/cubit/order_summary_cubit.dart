@@ -14,7 +14,7 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
 
   OrderSummaryCubit(this._repository) : super(Empty());
 
-  void fetchOrderSummaryData(HomeFilterAppliedData? data) async {
+  void fetchOrderSummaryData(HomeFilteredData? data) async {
     emit(Loading());
     final params = await FilteredDataMapper().homeFilterDataMap(data);
     final response = await _repository.fetchSummary(params);

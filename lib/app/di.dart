@@ -19,12 +19,10 @@ import 'package:klikit/modules/menu/domain/usecase/ftech_modifier_groups.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_item_snooze.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_menu_enabled.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_modifier_enabled.dart';
-import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/fetch_modifier_groups_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
-import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_item_snooze_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_menu_enabled_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_modifier_enabled_cubit.dart';
@@ -86,7 +84,6 @@ import '../modules/home/data/datasource/home_data_source.dart';
 import '../modules/home/data/repository/home_repository_impl.dart';
 import '../modules/home/domain/repository/home_repository.dart';
 import '../modules/home/presentation/cubit/fetch_zreport_cubit.dart';
-import '../modules/menu/presentation/cubit/aggregator_selection_cubit.dart';
 import '../modules/orders/edit_order/calculate_grab_order_cubit.dart';
 import '../modules/orders/edit_order/update_grab_order_cubit.dart';
 import '../modules/orders/presentation/bloc/add_comment_cubit.dart';
@@ -192,8 +189,6 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton<MenuRemoteDatasource>(() => MenuRemoteDatasourceImpl(getIt.get()));
   getIt.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(getIt.get(), getIt.get()));
   getIt.registerFactory(() => MenuBrandsCubit(getIt.get()));
-  getIt.registerFactory(() => BrandSelectionCubit());
-  getIt.registerFactory(() => TabSelectionCubit());
   getIt.registerLazySingleton(() => FetchMenus(getIt.get()));
   getIt.registerFactory(() => MenusCubit(getIt.get()));
   getIt.registerLazySingleton(() => UpdateItemSnooze(getIt.get()));
@@ -203,10 +198,9 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerLazySingleton(() => FetchModifierGroups(getIt.get()));
   getIt.registerFactory(() => FetchModifierGroupsCubit(getIt.get()));
   getIt.registerLazySingleton(() => CheckAffected(getIt.get()));
-  getIt.registerFactory(() => CheckAffectedCubit(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => CheckAffectedCubit(getIt.get()));
   getIt.registerLazySingleton(() => UpdateModifierEnabled(getIt.get()));
-  getIt.registerFactory(() => UpdateModifierEnabledCubit(getIt.get(), getIt.get()));
-  getIt.registerFactory(() => AggregatorSelectionCubit());
+  getIt.registerFactory(() => UpdateModifierEnabledCubit(getIt.get()));
 
   ///printer
   getIt.registerLazySingleton(() => BluetoothPrinterHandler());

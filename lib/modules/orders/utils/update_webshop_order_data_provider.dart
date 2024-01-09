@@ -47,7 +47,7 @@ class UpdateWebShopOrderDataProvider {
           providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
-          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cart, menuItemOrNull.branchInfo, order.type);
+          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cart, menuItemOrNull, order.type);
           final brand = await _fetchMenuBrand(brandId: cart.cartBrand.id);
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();

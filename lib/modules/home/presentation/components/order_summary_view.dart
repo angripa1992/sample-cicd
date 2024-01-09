@@ -19,7 +19,7 @@ class OrderSummaryView extends StatefulWidget {
 }
 
 class _OrderSummaryViewState extends State<OrderSummaryView> {
-  HomeFilterAppliedData? _filterAppliedData;
+  HomeFilteredData? _filterAppliedData;
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => HomeFilterScreen(
-                            initialFilteredData: _filterAppliedData,
+                            initData: _filterAppliedData,
                             onApplyFilterCallback: (filteredData) {
                               setState(() {
                                 _filterAppliedData = filteredData;
