@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/core/widgets/filter/home_filter_screen.dart';
 import 'package:klikit/modules/home/presentation/shimer/home_order_nav_card_shimmer.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -17,17 +17,12 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../core/route/routes.dart';
-import '../../../core/widgets/filter/filter_data.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
 import '../../base/base_screen_cubit.dart';
 import '../../busy/presentation/pause_store_header_view.dart';
-import '../../orders/presentation/bloc/cancelled_order_cubit.dart';
-import '../../orders/presentation/bloc/completed_order_cubit.dart';
 import '../../orders/presentation/bloc/new_order_cubit.dart';
 import '../../orders/presentation/bloc/ongoing_order_cubit.dart';
-import '../../orders/presentation/bloc/total_order_cubit.dart';
-import '../../orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import 'components/home_header_view.dart';
 import 'components/home_order_nav_card.dart';
 import 'components/order_summary_view.dart';
@@ -107,16 +102,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.rw),
-                child: OrderSummaryView(),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s20.rw,
-                  vertical: AppSize.s16.rh,
+                padding: EdgeInsets.only(
+                  left: 16.rw,
+                  right: 16.rw,
+                  bottom: 24.rh,
                 ),
-                child: const PauseStoreHeaderView(),
+                child: const OrderSummaryView(),
               ),
+              if (!UserPermissionManager().isBizOwner())
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: AppSize.s20.rw,
+                    right: AppSize.s20.rw,
+                    bottom: AppSize.s16.rh,
+                  ),
+                  child: const PauseStoreHeaderView(),
+                ),
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.s20.rw,
@@ -196,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              const ZReportView(),
+              if (!UserPermissionManager().isBizOwner()) const ZReportView(),
             ],
           ),
         ),

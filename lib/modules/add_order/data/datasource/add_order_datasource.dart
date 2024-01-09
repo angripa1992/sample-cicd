@@ -60,7 +60,6 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
     required int type,
   }) async {
     try {
-      //TODO add section and category id in payload request for v2
       if (SessionManager().menuV2EnabledForKlikitOrder()) {
         List<dynamic>? response = await _restClient.request(
           Urls.itmModifiersV2,

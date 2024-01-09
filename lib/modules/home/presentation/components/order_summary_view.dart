@@ -36,7 +36,7 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.rh),
+          padding: EdgeInsets.symmetric(vertical: 16.rh),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -75,14 +75,14 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
         BlocBuilder<OrderSummaryCubit, ResponseState>(
           builder: (_, state) {
             if (state is Loading) {
-              return const CircularProgressIndicator();
+              return  CircularProgressIndicator(color: AppColors.primary);
             } else if (state is Success<OrderSummaryOverview>) {
               return Column(
                 children: [
                   Row(
                     children: [
                       _summaryItem('Completed Orders', '${state.data.completedOrders}'),
-                      _summaryItem('Cancelled Order', '${state.data.cancelledOrders}'),
+                      _summaryItem('Cancelled Orders', '${state.data.cancelledOrders}'),
                     ],
                   ),
                   Row(
@@ -122,7 +122,7 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
               Text(
                 name,
                 textAlign: TextAlign.center,
-                style: regularTextStyle(
+                style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: 14.rSp,
                 ),

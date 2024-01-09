@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -25,15 +26,16 @@ class OrderHeaderView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: EdgeInsets.only(
-            right: AppSize.s12.rw,
-            left: AppSize.s12.rw,
-            top: AppSize.s12.rh,
-            bottom: AppSize.s8.rh,
+        if (!UserPermissionManager().isBizOwner())
+          Padding(
+            padding: EdgeInsets.only(
+              right: AppSize.s12.rw,
+              left: AppSize.s12.rw,
+              top: AppSize.s12.rh,
+              bottom: AppSize.s8.rh,
+            ),
+            child: const PauseStoreHeaderView(),
           ),
-          child: const PauseStoreHeaderView(),
-        ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSize.s14.rw, vertical: AppSize.s12.rh),
           child: Text(
