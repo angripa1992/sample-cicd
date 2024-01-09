@@ -40,7 +40,7 @@ class MessageNotifier extends StatelessWidget {
                 : ImageResourceResolver.infoSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.errorR300),
             padding: EdgeInsets.all(4.rSp),
             decoration: BoxDecoration(
-              color: isSuccess ? AppColors.successG50 : AppColors.redLighter,
+              color: isSuccess ? AppColors.successG50 : AppColors.errorR50,
               borderRadius: BorderRadius.all(
                 Radius.circular(200.rSp),
               ),
