@@ -5,6 +5,7 @@ import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
@@ -155,7 +156,7 @@ class _BaseScreenState extends State<BaseScreen> {
 
   void _selectedTab(int index) {
     trackEvents(index);
-    if (index == BottomNavItem.ADD_ORDER) {
+    if (index == BottomNavItem.ADD_ORDER && !UserPermissionManager().isBizOwner()) {
       _goToAddOrderScreen();
     } else {
       context.read<BaseScreenCubit>().changeIndex(NavigationData(index: index, subTabIndex: null, data: null));
@@ -239,11 +240,12 @@ class _BaseScreenState extends State<BaseScreen> {
                       text: AppStrings.orders.tr(),
                       index: BottomNavItem.ORDER,
                     ),
-                    FABBottomAppBarItem(
-                      iconData: Icons.add_circle_outline_sharp,
-                      text: AppStrings.add_order.tr(),
-                      index: BottomNavItem.ADD_ORDER,
-                    ),
+                    if (!UserPermissionManager().isBizOwner())
+                      FABBottomAppBarItem(
+                        iconData: Icons.add_circle_outline_sharp,
+                        text: AppStrings.add_order.tr(),
+                        index: BottomNavItem.ADD_ORDER,
+                      ),
                     FABBottomAppBarItem(
                       iconData: Icons.dashboard,
                       text: AppStrings.menu.tr(),
