@@ -31,9 +31,9 @@ Widget getActionButtons({
     runSpacing: AppSize.s8.rh,
     children: [
       Visibility(
-        visible: OrderActionButtonManager().canAccept(order),
+        visible: OrderActionButtonManager().canPrint(order),
         child: DecoratedImageView(
-          iconWidget: ImageResourceResolver.successSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.successG300),
+          iconWidget: ImageResourceResolver.printerSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
           padding: EdgeInsets.all(AppSize.s10.rSp),
           decoration: BoxDecoration(
             color: AppColors.neutralB20,
@@ -41,10 +41,8 @@ Widget getActionButtons({
               Radius.circular(200.rSp),
             ),
           ),
-          onTap: () {
-            onAction('${AppStrings.accept_order.tr()} #${order.id}', OrderStatus.ACCEPTED);
-          },
-        ),
+          onTap: onPrint,
+        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
       ),
       Visibility(
         visible: OrderActionButtonManager().canReject(order),
@@ -63,9 +61,9 @@ Widget getActionButtons({
         ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
       ),
       Visibility(
-        visible: OrderActionButtonManager().canPrint(order),
+        visible: OrderActionButtonManager().canAccept(order),
         child: DecoratedImageView(
-          iconWidget: ImageResourceResolver.printerSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
+          iconWidget: ImageResourceResolver.successSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.successG300),
           padding: EdgeInsets.all(AppSize.s10.rSp),
           decoration: BoxDecoration(
             color: AppColors.neutralB20,
@@ -73,7 +71,9 @@ Widget getActionButtons({
               Radius.circular(200.rSp),
             ),
           ),
-          onTap: onPrint,
+          onTap: () {
+            onAction('${AppStrings.accept_order.tr()} #${order.id}', OrderStatus.ACCEPTED);
+          },
         ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
       ),
       Visibility(
