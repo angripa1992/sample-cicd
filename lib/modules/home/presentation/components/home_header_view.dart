@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
@@ -32,19 +33,17 @@ class HomeHeaderView extends StatelessWidget {
                   ),
                 ),
               ),
-              CartBadge(
-                iconColor: AppColors.white,
-                onCartTap: onCartTap,
-              ),
+              if (!UserPermissionManager().isBizOwner())
+                CartBadge(
+                  iconColor: AppColors.white,
+                  onCartTap: onCartTap,
+                ),
             ],
           ),
-          SizedBox(
-            height: AppSize.s12.rh,
-          ),
           Container(
-            margin: EdgeInsets.only(right: AppSize.s16.rw),
+            margin: EdgeInsets.only(right: AppSize.s16.rw,top: 8.rh),
             decoration: BoxDecoration(
-              color: AppColors.white.withOpacity(0.3),
+              color: AppColors.graniteGrey,
               borderRadius: BorderRadius.circular(AppSize.s5.rSp),
             ),
             child: Padding(
@@ -53,10 +52,12 @@ class HomeHeaderView extends StatelessWidget {
                 horizontal: AppSize.s12.rw,
               ),
               child: Text(
-                '${SessionManager().userDisplayRole()}, ${SessionManager().businessName()}, ${SessionManager().branchName()} ',
+                UserPermissionManager().isBizOwner()
+                    ? '${SessionManager().userDisplayRole()}, ${SessionManager().businessName()}'
+                    : '${SessionManager().userDisplayRole()}, ${SessionManager().businessName()}, ${SessionManager().branchName()}',
                 style: regularTextStyle(
                   color: AppColors.white,
-                  fontSize: AppFontSize.s12.rSp,
+                  fontSize: AppFontSize.s14.rSp,
                 ),
               ),
             ),
