@@ -136,16 +136,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               vertical: AppSize.s8.rh,
               horizontal: AppSize.s16.rw,
             ),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  offset: Offset(1.0, 0.0),
-                  blurRadius: 4.0,
-                ),
-              ],
-            ),
+            decoration: const BoxDecoration(color: Colors.white),
             child: widget.actionView,
           ),
         ],
