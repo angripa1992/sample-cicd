@@ -58,14 +58,16 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   void initState() {
-    context.read<PrinterSettingCubit>().getPrinterSetting();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        if (mounted) {
-          _handleArgumentData();
-        }
-      },
-    );
+    if (!UserPermissionManager().isBizOwner()) {
+      context.read<PrinterSettingCubit>().getPrinterSetting();
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) async {
+          if (mounted) {
+            _handleArgumentData();
+          }
+        },
+      );
+    }
     super.initState();
   }
 
@@ -121,10 +123,6 @@ class _BaseScreenState extends State<BaseScreen> {
     }
   }
 
-  void _goToAddOrderScreen() {
-    Navigator.of(context).pushNamed(Routes.addOrder);
-  }
-
   void trackEvents(int index) async {
     String eventName = '';
     switch (index) {
@@ -156,8 +154,8 @@ class _BaseScreenState extends State<BaseScreen> {
 
   void _selectedTab(int index) {
     trackEvents(index);
-    if (index == BottomNavItem.ADD_ORDER && !UserPermissionManager().isBizOwner()) {
-      _goToAddOrderScreen();
+    if (index == BottomNavItem.ADD_ORDER) {
+      Navigator.of(context).pushNamed(Routes.addOrder);
     } else {
       context.read<BaseScreenCubit>().changeIndex(NavigationData(index: index, subTabIndex: null, data: null));
     }
@@ -191,13 +189,14 @@ class _BaseScreenState extends State<BaseScreen> {
         },
         child: MultiBlocListener(
           listeners: [
-            BlocListener<PrinterSettingCubit, ResponseState>(
-              listener: (context, state) {
-                if (state is Success<PrinterSetting>) {
-                  _handlePrinterSetting(state.data);
-                }
-              },
-            ),
+            if (!UserPermissionManager().isBizOwner())
+              BlocListener<PrinterSettingCubit, ResponseState>(
+                listener: (context, state) {
+                  if (state is Success<PrinterSetting>) {
+                    _handlePrinterSetting(state.data);
+                  }
+                },
+              ),
             BlocListener<ChangeLanguageCubit, ChangeLanguageState>(
               listener: (_, state) {
                 if (state is OnChangeState) {
