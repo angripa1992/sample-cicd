@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/widgets/filter/multiple_branch_filter.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/multiple_provider_filter.dart';
 import 'package:klikit/core/widgets/filter/single_branch_filter.dart';
 import 'package:klikit/core/widgets/filter/single_brand_filter.dart';
@@ -10,9 +10,7 @@ import 'package:klikit/resources/colors.dart';
 
 import '../../../resources/styles.dart';
 import '../kt_checkbox_group.dart';
-import 'date_filter.dart';
 import 'filter_data.dart';
-import 'multiple_brand_filter.dart';
 
 class MenuFilterScreen extends StatefulWidget {
   final MenuFilteredData? initData;
@@ -89,13 +87,14 @@ class _MenuFilterScreenState extends State<MenuFilterScreen> {
                     },
                   ),
                   Divider(color: AppColors.grey, thickness: 8.rh),
-                  SingleBranchFilter(
-                    initialValue: _selectedBranch,
-                    onChangedCallback: (selectedBranch) {
-                      _selectedBranch = selectedBranch;
-                    },
-                  ),
-                  Divider(color: AppColors.grey, thickness: 8.rh),
+                  if (UserPermissionManager().isBizOwner())
+                    SingleBranchFilter(
+                      initialValue: _selectedBranch,
+                      onChangedCallback: (selectedBranch) {
+                        _selectedBranch = selectedBranch;
+                      },
+                    ),
+                  if (UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
                   MultipleProviderFilter(
                     initialSelectedValues: _selectedProviders,
                     onChangedCallback: (selectedBrands) {

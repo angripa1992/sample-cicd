@@ -9,18 +9,17 @@ class FetchModifierGroupParams {
   final int branchID;
   final int brandID;
   final int businessID;
-  final int? providerID;
+  final List<int> providers;
 
   FetchModifierGroupParams({
     required this.branchID,
     required this.brandID,
     required this.businessID,
-    this.providerID,
+    required this.providers,
   });
 }
 
-class FetchModifierGroups
-    extends UseCase<List<ModifierGroup>, FetchModifierGroupParams> {
+class FetchModifierGroups extends UseCase<List<ModifierGroup>, FetchModifierGroupParams> {
   final MenuRepository _repository;
 
   FetchModifierGroups(this._repository);

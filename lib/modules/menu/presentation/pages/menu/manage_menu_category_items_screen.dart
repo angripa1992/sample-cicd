@@ -3,13 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_item_list.dart';
-import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_title.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
-
-import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
-import '../../../../../resources/styles.dart';
 
 class ManageItemsScreen extends StatelessWidget {
   const ManageItemsScreen({Key? key}) : super(key: key);
@@ -20,7 +15,7 @@ class ManageItemsScreen extends StatelessWidget {
     final menuCategory = args[ArgumentKey.kMENU_CATEGORY];
     final parentEnabled = args[ArgumentKey.kENABLED];
     final brandId = args[ArgumentKey.kBRAND_ID];
-    final providerId = args[ArgumentKey.kPROVIDER_ID];
+    final branchId = args[ArgumentKey.kBRANCH_ID];
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context, menuCategory);
@@ -52,7 +47,7 @@ class ManageItemsScreen extends StatelessWidget {
                 },
                 parentEnabled: parentEnabled,
                 brandID: brandId,
-                providerID: providerId,
+                branchID: branchId,
               ),
             ],
           ),

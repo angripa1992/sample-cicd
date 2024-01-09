@@ -6,7 +6,6 @@ import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart'
 
 import '../../../app/session_manager.dart';
 import '../../add_order/domain/entities/modifier/item_modifier_group.dart';
-import '../../menu/domain/entities/menu/menu_branch_info.dart';
 import '../../menu/domain/entities/menu/menu_item.dart';
 import '../../menu/domain/usecase/fetch_menus.dart';
 import '../domain/entities/cart.dart';
@@ -51,13 +50,15 @@ class OrderMenuItemProvider {
 
   Future<List<MenuItemModifierGroup>> fetchModifiers(
     CartV2 cartV2,
-    MenuBranchInfo branchInfo,
+    MenuCategoryItem item,
     int type,
   ) async {
     try {
       final groups = await getIt.get<AddOrderDatasource>().fetchModifiers(
             itemID: int.parse(cartV2.id),
-            branchInfo: branchInfo,
+            branchInfo: item.branchInfo,
+            sectionID: item.sectionID,
+            categoryID: item.categoryID,
             type: type,
           );
       for (var modifierGroupOne in cartV2.modifierGroups) {

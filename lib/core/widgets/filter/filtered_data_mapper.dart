@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 
@@ -22,7 +24,7 @@ class FilteredDataMapper {
   final _period = 'period';
 
   Future<Map<String, dynamic>> homeFilterDataMap(HomeFilteredData? data) async {
-    final branches = await _branches(data?.branches);
+    final branches = UserPermissionManager().isBizOwner() ? await _branches(data?.branches) : [SessionManager().branchId()];
     final brands = await _brands(data?.brands);
     final period = _dateMap(data?.dateFilteredData);
     final map = <String, dynamic>{};

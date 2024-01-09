@@ -13,6 +13,7 @@ class UpdateMenuEnabledCubit extends Cubit<ResponseState> {
   void updateMenu({
     required int menuVersion,
     required int brandId,
+    required int branchId,
     required int id,
     required int type,
     required bool enabled,
@@ -22,7 +23,7 @@ class UpdateMenuEnabledCubit extends Cubit<ResponseState> {
       UpdateMenuParams(
         menuVersion: menuVersion,
         businessId: SessionManager().businessID(),
-        branchId: SessionManager().branchId(),
+        branchId: branchId,
         brandId: brandId,
         enabled: enabled,
         id: id,

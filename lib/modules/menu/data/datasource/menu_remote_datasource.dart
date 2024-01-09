@@ -8,7 +8,6 @@ import 'package:klikit/modules/menu/domain/usecase/update_menu_enabled.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
 import '../../../../app/enums.dart';
-import '../../../../app/extensions.dart';
 import '../../../../core/network/urls.dart';
 import '../../../../core/provider/date_time_provider.dart';
 import '../../domain/entities/menu/menu_data.dart';
@@ -174,10 +173,9 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   @override
   Future<List<V1ModifierGroupModel>> fetchV1ModifiersGroup(FetchModifierGroupParams params) async {
     try {
-      final fetchParams = {'brand_id': params.brandID, 'branch_id': params.branchID};
-      final providerId = params.providerID;
-      if (providerId != null && providerId != ZERO) {
-        fetchParams['provider_id'] = providerId;
+      Map<String, dynamic> fetchParams = {'brand_id': params.brandID, 'branch_id': params.branchID};
+      if (params.providers.isNotEmpty) {
+        fetchParams['provider_id'] = ListParam(params.providers, ListFormat.csv);
       }
       final List<dynamic> response = await _restClient.request(Urls.v1ModifiersGroup, Method.GET, fetchParams);
       return response.map((e) => V1ModifierGroupModel.fromJson(e)).toList();
@@ -189,7 +187,11 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   @override
   Future<List<V2ModifierGroupModel>> fetchV2ModifiersGroup(FetchModifierGroupParams params) async {
     try {
-      final fetchParams = {'brandID': params.brandID, 'branchID': params.branchID, 'businessID': params.businessID};
+      final fetchParams = {
+        'brandID': params.brandID,
+        'branchID': params.branchID,
+        'businessID': params.businessID,
+      };
       final List<dynamic> response = await _restClient.request(
         Urls.v2ModifiersGroup,
         Method.GET,

@@ -22,6 +22,7 @@ void showMenuActionDialog({
   required VoidCallback onSuccess,
   required int menuVersion,
   required int brandId,
+  required int branchId,
   required int id,
   required int type,
   required bool enabled,
@@ -67,7 +68,14 @@ void showMenuActionDialog({
                         return LoadingButton(
                           isLoading: (state is Loading),
                           onTap: () {
-                            context.read<UpdateMenuEnabledCubit>().updateMenu(menuVersion: menuVersion, brandId: brandId, id: id, enabled: enabled, type: type);
+                            context.read<UpdateMenuEnabledCubit>().updateMenu(
+                                  menuVersion: menuVersion,
+                                  brandId: brandId,
+                                  branchId: branchId,
+                                  id: id,
+                                  enabled: enabled,
+                                  type: type,
+                                );
                           },
                           text: enabled ? AppStrings.enable.tr() : AppStrings.disable.tr(),
                         );

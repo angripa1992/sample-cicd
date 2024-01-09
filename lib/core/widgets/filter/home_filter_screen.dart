@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/multiple_branch_filter.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/resources/colors.dart';
@@ -88,14 +89,15 @@ class _HomeFilterScreenState extends State<HomeFilterScreen> {
                     },
                   ),
                   Divider(color: AppColors.grey, thickness: 8.rh),
-                  MultipleBranchFilter(
-                    initialSelectedValues: _selectedBranches,
-                    onChangedCallback: (selectedBranches) {
-                      _selectedBranches.clear();
-                      _selectedBranches.addAll(selectedBranches);
-                    },
-                  ),
-                  Divider(color: AppColors.grey, thickness: 8.rh),
+                  if (UserPermissionManager().isBizOwner())
+                    MultipleBranchFilter(
+                      initialSelectedValues: _selectedBranches,
+                      onChangedCallback: (selectedBranches) {
+                        _selectedBranches.clear();
+                        _selectedBranches.addAll(selectedBranches);
+                      },
+                    ),
+                  if (UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
                   MultipleBrandFilter(
                     initialSelectedValues: _selectedBrands,
                     onChangedCallback: (selectedBrands) {

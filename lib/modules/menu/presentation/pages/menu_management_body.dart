@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/core/widgets/filter/filter_icon_view.dart';
 import 'package:klikit/core/widgets/filter/menu_filter_screen.dart';
-import 'package:klikit/modules/common/entities/brand.dart';
-import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_screen.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/styles.dart';
 
-import '../../../../resources/values.dart';
 import 'menu_tabbar_view.dart';
 import 'modifier/modifier_screen.dart';
 
@@ -28,12 +26,6 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
   final _filterDataChangeListener = ValueNotifier<MenuFilteredData?>(null);
 
   @override
-  void initState() {
-    context.read<MenuBrandsCubit>().fetchMenuBrands();
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _tabChangeListener.dispose();
     _filterDataChangeListener.dispose();
@@ -45,12 +37,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(
-            top: 12.rh,
-            bottom: 8.rh,
-            left: 12.rw,
-            right: 12.rw,
-          ),
+          padding: EdgeInsets.only(top: 12.rh, bottom: 8.rh, left: 12.rw, right: 12.rw),
           child: MenuTabBarView(
             onChanged: (index) {
               _tabChangeListener.value = index;
@@ -58,7 +45,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 12.rw),
+          padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 16.rw),
           child: Row(
             children: [
               Expanded(
@@ -69,7 +56,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
                       index == MenuTabIndex.MODIFIER ? 'Modifier List' : 'Menu List',
                       style: semiBoldTextStyle(
                         color: AppColors.black,
-                        fontSize: 16.rSp,
+                        fontSize: 14.rSp,
                       ),
                     );
                   },
@@ -115,18 +102,38 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
   }
 
   Widget _body(int index, MenuFilteredData? data) {
-    final selected = (data != null && data.brand != null && data.branch != null);
+    final branchID = UserPermissionManager().isBizOwner() ? data?.branch?.id : SessionManager().branchId();
+    final brandID = data?.brand?.id;
+    final selected = (data != null && brandID != null && branchID != null);
     final providers = data?.providers?.map((e) => e.id).toList() ?? [];
     if (selected && index == MenuTabIndex.MENU) {
-      return MenuScreen(
-        branch: data.branch!.id,
-        brand: data.brand!.id,
-        providers: providers,
-      );
+      return MenuScreen(branch: branchID, brand: brandID, providers: providers);
     } else if (selected && index == MenuTabIndex.MODIFIER) {
-      return ModifierScreen(brand: null, providerId: null);
+      return ModifierScreen(branch: branchID, brand: brandID, providers: providers);
     } else {
-      return Text('Select brand and branch');
+      return _emptyView();
     }
+  }
+
+  Widget _emptyView() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ImageResourceResolver.emptyMenuPNG.getImageWidget(width: 100.rSp, height: 100.rSp),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.rw),
+            child: Text(
+              ' Select a brand and branch to seamlessly manage menus and modifiers',
+              textAlign: TextAlign.center,
+              style: mediumTextStyle(
+                color: AppColors.black,
+                fontSize: 14.rSp,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

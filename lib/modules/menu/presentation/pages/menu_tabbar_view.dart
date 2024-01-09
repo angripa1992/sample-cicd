@@ -1,14 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_tab.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
-
-import '../../../../resources/values.dart';
 
 class MenuTabBarView extends StatefulWidget {
   final Function(int) onChanged;

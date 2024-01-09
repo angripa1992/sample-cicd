@@ -26,8 +26,7 @@ class MenuItemDetails extends StatefulWidget {
   final Function(MenuOutOfStock) onMenuItemSnoozeChanged;
   final Function(bool) onMenuEnabledChanged;
   final int brandID;
-  final int providerID;
-  final int brandId;
+  final int branchID;
 
   const MenuItemDetails({
     Key? key,
@@ -36,8 +35,7 @@ class MenuItemDetails extends StatefulWidget {
     required this.onMenuItemSnoozeChanged,
     required this.onMenuEnabledChanged,
     required this.brandID,
-    required this.providerID,
-    required this.brandId,
+    required this.branchID,
   }) : super(key: key);
 
   @override
@@ -104,8 +102,8 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                   if (UserPermissionManager().canOosMenu())
                     MenuSnoozeView(
                       menuCategoryItem: widget.menuCategoryItem,
-                      brandId: widget.brandId,
-                      providerId: widget.providerID,
+                      brandId: widget.brandID,
+                      branchID: widget.branchID,
                       parentEnabled: widget.parentEnabled,
                       onMenuItemSnoozeChanged: _onItemSnoozeChanged,
                       onMenuEnabledChanged: _onEnabledChanged,
@@ -114,7 +112,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                     menuVersion: widget.menuCategoryItem.menuVersion,
                     id: widget.menuCategoryItem.id,
                     brandId: widget.brandID,
-                    providerId: widget.providerID,
+                    branchId: widget.branchID,
                     type: MenuType.ITEM,
                     enabled: widget.menuCategoryItem.enabled,
                     parentEnabled: widget.parentEnabled,
