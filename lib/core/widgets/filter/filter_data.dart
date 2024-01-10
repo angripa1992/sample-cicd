@@ -15,6 +15,22 @@ class HomeFilteredData {
   });
 }
 
+class OniFilteredData {
+  final DateFilteredData? dateFilteredData;
+  final List<KTCheckboxValue>? branches;
+  final List<KTCheckboxValue>? brands;
+  final List<KTCheckboxValue>? providers;
+  final List<KTCheckboxValue>? statuses;
+
+  OniFilteredData({
+    required this.dateFilteredData,
+    required this.branches,
+    required this.brands,
+    required this.providers,
+    required this.statuses,
+  });
+}
+
 class MenuFilteredData {
   final KTRadioValue? brand;
   final KTRadioValue? branch;
@@ -40,4 +56,16 @@ class DateFilteredData {
   final DateTimeRange? dateTimeRange;
 
   DateFilteredData({this.selectedItem, this.dateTimeRange});
+}
+
+class StatusItem {
+  final int id;
+  final String name;
+  final bool isChecked;
+
+  StatusItem(this.id, this.name, {this.isChecked = true});
+
+  StatusItem copyWith({required isChecked}) {
+    return StatusItem(id, name, isChecked: isChecked);
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/modules/orders/utils/update_manual_order_data_provider.dart';
 
 import '../../../app/constants.dart';
@@ -12,7 +13,7 @@ import '../../../printer/printing_handler.dart';
 import '../../../resources/strings.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
-import '../../common/order_parameter_provider.dart';
+import '../../common/oni_parameter_provider.dart';
 import '../../widgets/snackbars.dart';
 import '../domain/entities/order.dart';
 import '../domain/repository/orders_repository.dart';
@@ -97,7 +98,7 @@ class KlikitOrderResolver {
       );
     } else {
       showOrderActionDialog(
-        params: getIt.get<OrderParameterProvider>().getOrderActionParams(order),
+        params: OniParameterProvider().getOrderActionParams(order),
         context: context,
         title: title,
         onSuccess: () {
@@ -161,13 +162,12 @@ class KlikitOrderResolver {
 
   void refreshOrderCounts(
     BuildContext context, {
-    List<int>? providers,
-    List<int>? brands,
+    OniFilteredData? filteredData,
   }) {
-    context.read<AllOrderCubit>().fetchAllOrder(providersID: providers, brandsID: brands);
-    context.read<NewOrderCubit>().fetchNewOrder(willShowLoading: false, providersID: providers, brandsID: brands);
-    context.read<OngoingOrderCubit>().fetchOngoingOrder(willShowLoading: false, providersID: providers, brandsID: brands);
-    context.read<ScheduleOrderCubit>().fetchScheduleOrder(willShowLoading: false, providersID: providers, brandsID: brands);
+    context.read<NewOrderCubit>().fetchNewOrder(willShowLoading: false, filteredData: filteredData);
+    context.read<OngoingOrderCubit>().fetchOngoingOrder(willShowLoading: false, filteredData: filteredData);
+    context.read<AllOrderCubit>().fetchAllOrder(filteredData: filteredData);
+    context.read<ScheduleOrderCubit>().fetchScheduleOrder(willShowLoading: false, filteredData: filteredData);
   }
 
   void sendOrderDetailsScreenEvent(String sourceTab) {

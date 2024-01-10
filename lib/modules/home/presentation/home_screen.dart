@@ -77,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _fetchOrder(bool isInitialCall) {
-    context.read<NewOrderCubit>().fetchNewOrder(willShowLoading: isInitialCall);
-    context.read<OngoingOrderCubit>().fetchOngoingOrder(willShowLoading: isInitialCall);
+    context.read<NewOrderCubit>().fetchNewOrder(willShowLoading: isInitialCall, filteredData: null);
+    context.read<OngoingOrderCubit>().fetchOngoingOrder(willShowLoading: isInitialCall, filteredData: null);
   }
 
   @override
