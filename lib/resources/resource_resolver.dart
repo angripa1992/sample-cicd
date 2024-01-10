@@ -73,4 +73,8 @@ class ImageResourceResolver {
   static SVGImageResource get commentSVG => SVGImageResource('$iconBasePath/ic_comment.svg');
 
   static SVGImageResource get riderSVG => SVGImageResource('$iconBasePath/ic_rider.svg');
+
+  static SVGImageResource get writeSVG => SVGImageResource('$iconBasePath/ic_write.svg');
+
+  static SVGImageResource get noteSVG => SVGImageResource('$iconBasePath/ic_note.svg');
 }
