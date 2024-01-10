@@ -48,7 +48,8 @@ class OrderDetailsHeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
     final canUpdateKlikitOrder = OrderActionButtonManager().canUpdateOrder(order);
-    return Padding(
+    return Container(
+      color: AppColors.white,
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
         vertical: AppSize.s10.rh,
@@ -104,11 +105,8 @@ class OrderDetailsHeaderView extends StatelessWidget {
               ),
             ],
           ),
-          AppSize.s12.verticalSpacer(),
-          OrderTagsView(order: order, onSwitchRider: onSwitchRider),
-          AppSize.s8.verticalSpacer(),
-          _externalIdView(),
-          AppSize.s12.verticalSpacer(),
+          _externalIdView().setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s12.rh, endSpace: AppSize.s12.rh),
+          OrderTagsView(order: order, onSwitchRider: onSwitchRider).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s12.rh),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

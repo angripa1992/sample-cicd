@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -147,30 +149,26 @@ class PaymentInfoTagView extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s8.rw,
-          vertical: AppSize.s4.rh,
+          vertical: AppSize.s2.rh,
         ),
         decoration: BoxDecoration(
+          color: AppColors.neutralB20,
           borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-          border: Border.all(color: AppColors.greyDarker),
+          border: Border.all(color: AppColors.neutralB40),
         ),
         child: Row(
           children: [
             Text(
               tagName,
               style: regularTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s12.rSp,
               ),
             ),
             if (_isWebshopPostPayment())
-              Padding(
-                padding: EdgeInsets.only(left: AppSize.s8.rw),
-                child: Icon(
-                  Icons.edit_outlined,
-                  size: AppSize.s16.rSp,
-                  color: AppColors.black,
-                ),
-              )
+              ImageResourceResolver.writeSVG
+                  .getImageWidget(width: AppSize.s14.rw, height: AppSize.s14.rh, color: AppColors.neutralB400)
+                  .setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s4.rw)
           ],
         ),
       ),

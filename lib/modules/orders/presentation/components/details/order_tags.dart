@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -99,7 +100,7 @@ class OrderTagsView extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: AppSize.s8.rh),
+        AppSize.s10.verticalSpacer(),
         Row(
           children: [
             OrderPaymentInfoView(order: order),

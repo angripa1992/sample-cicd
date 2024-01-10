@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/details/pickup_time_view.dart';
@@ -11,6 +12,7 @@ import 'package:klikit/modules/orders/presentation/components/details/rider_info
 import 'package:klikit/modules/orders/presentation/components/details/scheduled_view.dart';
 import 'package:klikit/modules/orders/utils/grab_order_resolver.dart';
 import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
+import 'package:klikit/resources/colors.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../resources/strings.dart';
@@ -73,8 +75,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               _currentOrder = snapshot.data!;
               return _body();
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgress(
+                primaryColor: AppColors.primary,
+              ),
             );
           },
         ),
@@ -121,12 +125,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ),
                   CancellationReasonView(order: _currentOrder),
                   OrderItemDetails(order: _currentOrder),
+                  PriceView(order: _currentOrder),
                   CommentView(comment: _currentOrder.orderComment),
                   RiderInfoView(order: _currentOrder),
-                  OrderCustomerInfoView(order: _currentOrder),
                   PickupTimeView(order: _currentOrder),
                   DeliveryAddressView(order: _currentOrder),
-                  PriceView(order: _currentOrder),
+                  OrderCustomerInfoView(order: _currentOrder),
                 ],
               ),
             ),

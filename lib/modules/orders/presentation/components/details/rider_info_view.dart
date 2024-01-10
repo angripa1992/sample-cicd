@@ -20,7 +20,8 @@ class RiderInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: order.isThreePlOrder && order.fulfillmentRider != null,
-      child: Padding(
+      child: Container(
+        color: AppColors.white,
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s16.rw,
           vertical: AppSize.s8.rh,
@@ -64,7 +65,7 @@ class RiderInfoView extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh),
     );
   }
 

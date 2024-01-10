@@ -2,6 +2,7 @@ import 'package:docket_design_template/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
@@ -62,7 +63,8 @@ class _PrepTimeViewState extends State<PrepTimeView> {
   Widget build(BuildContext context) {
     return Visibility(
       visible: widget.order.providerId == ProviderID.KLIKIT && widget.order.preparationTime > 0,
-      child: Padding(
+      child: Container(
+        color: AppColors.white,
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s16.rw,
           vertical: AppSize.s8.rh,
@@ -110,7 +112,7 @@ class _PrepTimeViewState extends State<PrepTimeView> {
             ),
           ],
         ),
-      ),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh),
     );
   }
 }

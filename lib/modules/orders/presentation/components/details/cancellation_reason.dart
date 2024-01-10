@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/strings.dart';
 
@@ -19,7 +20,8 @@ class CancellationReasonView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: order.status == OrderStatus.CANCELLED && order.cancellationReason.isNotEmpty,
-      child: Padding(
+      child: Container(
+        color: AppColors.white,
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s16.rw,
           vertical: AppSize.s8.rh,
@@ -29,7 +31,7 @@ class CancellationReasonView extends StatelessWidget {
           children: [
             const Divider(),
             Text(
-             AppStrings.cancellation_reason.tr(),
+              AppStrings.cancellation_reason.tr(),
               style: boldTextStyle(
                 color: AppColors.redDark,
                 fontSize: AppFontSize.s15.rSp,
@@ -46,7 +48,7 @@ class CancellationReasonView extends StatelessWidget {
             const Divider(),
           ],
         ),
-      ),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh),
     );
   }
 }

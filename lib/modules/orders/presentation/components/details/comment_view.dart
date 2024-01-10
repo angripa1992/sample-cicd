@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -17,7 +18,8 @@ class CommentView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: comment.isNotEmpty,
-      child: Padding(
+      child: Container(
+        color: AppColors.white,
         padding: EdgeInsets.symmetric(
           vertical: AppSize.s8.rh,
           horizontal: AppSize.s16.rw,
@@ -26,7 +28,6 @@ class CommentView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Divider(color: AppColors.greyDarker),
             Text(
               AppStrings.order_instruction.tr(),
               style: boldTextStyle(
@@ -44,7 +45,7 @@ class CommentView extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh),
     );
   }
 }
