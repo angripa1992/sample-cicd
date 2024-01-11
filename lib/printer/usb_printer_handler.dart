@@ -1,3 +1,5 @@
+import 'package:another_imin_printer/enums/print_size_imin.dart';
+import 'package:another_imin_printer/imin_printer.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 
@@ -45,7 +47,10 @@ class UsbPrinterHandler {
 
   Future<void> printDocket(List<int> data) async {
     try {
-      await PrinterManager.instance.send(type: PrinterType.usb, bytes: data);
+      // await PrinterManager.instance.send(type: PrinterType.usb, bytes: data);
+      IminPrinter iminPrinter = IminPrinter();
+      await iminPrinter.initPrinter(printSizeImin: PrintSizeImin.mm58);
+      await iminPrinter.printBytes(Uint8List.fromList(data));
     } on PlatformException {
       //ignored
     }
