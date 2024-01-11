@@ -125,25 +125,7 @@ class _PriceViewState extends State<PriceView> {
           const Divider(),
           Padding(
             padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppStrings.total.tr(),
-                  style: mediumTextStyle(
-                    color: AppColors.neutralB500,
-                    fontSize: AppFontSize.s16.rSp,
-                  ),
-                ),
-                Text(
-                  PriceCalculator.convertPrice(widget.order, widget.order.finalPrice),
-                  style: mediumTextStyle(
-                    color: AppColors.neutralB500,
-                    fontSize: AppFontSize.s16.rSp,
-                  ),
-                ),
-              ],
-            ),
+            child: TotalPrice(order: widget.order),
           ),
         ],
       ),
@@ -217,6 +199,38 @@ class _PriceViewState extends State<PriceView> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class TotalPrice extends StatelessWidget {
+  final Order order;
+  final TextStyle? textStyle;
+
+  const TotalPrice({Key? key, required this.order, this.textStyle}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          AppStrings.total.tr(),
+          style: textStyle ??
+              mediumTextStyle(
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+        ),
+        Text(
+          PriceCalculator.convertPrice(order, order.finalPrice),
+          style: textStyle ??
+              mediumTextStyle(
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+        ),
+      ],
     );
   }
 }

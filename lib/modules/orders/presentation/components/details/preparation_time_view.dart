@@ -5,13 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/bloc/update_prep_time_cubit.dart';
 import 'package:klikit/modules/widgets/loading_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -71,48 +74,34 @@ class _PrepTimeViewState extends State<PrepTimeView> {
         ),
         child: Row(
           children: [
-            Icon(Icons.timer, color: AppColors.black),
+            ImageResourceResolver.timerSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB80),
             Expanded(
+              flex: 4,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                 child: Text(
                   'Average meal preparation time will be',
-                  style: mediumTextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s14.rSp,
+                  style: regularTextStyle(
+                    color: AppColors.neutralB500,
+                    fontSize: AppFontSize.s12.rSp,
                   ),
                 ),
               ),
             ),
-            InkWell(
-              onTap: _editPrepTime,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppSize.s4.rh,
-                  horizontal: AppSize.s8.rw,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                  color: AppColors.greyDark,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      '${widget.order.preparationTime} min',
-                      style: mediumTextStyle(
-                        color: AppColors.black,
-                        fontSize: AppFontSize.s14.rSp,
-                      ),
-                    ),
-                    SizedBox(width: AppSize.s4.rw),
-                    Icon(Icons.edit_outlined, size: AppSize.s18.rSp),
-                  ],
-                ),
+            Expanded(
+              flex: 2,
+              child: KTButton(
+                controller: KTButtonController(label: '${widget.order.preparationTime} Mins'),
+                suffixWidget: ImageResourceResolver.editSVG.getImageWidget(width: AppSize.s14.rw, height: AppSize.s14.rh, color: AppColors.neutralB400),
+                backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
+                labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
+                splashColor: AppColors.greyBright,
+                onTap: _editPrepTime,
               ),
             ),
           ],
         ),
-      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8),
     );
   }
 }

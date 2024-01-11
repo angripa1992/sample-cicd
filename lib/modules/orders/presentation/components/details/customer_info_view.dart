@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/strings.dart';
@@ -41,10 +42,9 @@ class OrderCustomerInfoView extends StatelessWidget {
             ),
             if (order.orderAppliedPromo != null && order.orderAppliedPromo!.isSeniorCitizenPromo!)
               Padding(
-                padding: EdgeInsets.only(top: AppSize.s8.rh),
+                padding: EdgeInsets.only(top: AppSize.s12.rh),
                 child: _tagView(),
               ),
-            SizedBox(height: AppSize.s8.rh),
             Row(
               children: [
                 Expanded(
@@ -60,24 +60,24 @@ class OrderCustomerInfoView extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-            SizedBox(height: AppSize.s8.rh),
+            ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: (order.userFirstName.isNotEmpty || order.userPhone.isNotEmpty) ? AppSize.s12 : 0),
             Row(
               children: [
-                Expanded(
-                  child: Visibility(
-                    visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null,
-                    child: _infoItem(AppStrings.vehicle_registration.tr(), '${order.additionalInfo?.vehicleInfo?.regNo}'),
-                  ),
+                Visibility(
+                  visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null,
+                  child: Expanded(child: _infoItem(AppStrings.vehicle_registration.tr(), '${order.additionalInfo?.vehicleInfo?.regNo}')),
                 ),
-                Expanded(
-                  child: Visibility(
-                    visible:
-                        order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null && order.additionalInfo!.vehicleInfo!.additionalDetails.isNotEmpty,
-                    child: _infoItem('Additional Information', '${order.additionalInfo?.vehicleInfo?.additionalDetails}'),
-                  ),
+                Visibility(
+                  visible: order.estimatedPickUpAt.isNotEmpty,
+                  child: Expanded(child: _infoItem(AppStrings.estimated_pickup_time.tr(), DateTimeProvider.parseOrderCreatedDate(order.estimatedPickUpAt))),
                 ),
               ],
+            ).setVisibilityWithSpace(
+                direction: Axis.vertical,
+                startSpace: ((order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null) || order.estimatedPickUpAt.isNotEmpty) ? AppSize.s12 : 0),
+            Visibility(
+              visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null && order.additionalInfo!.vehicleInfo!.additionalDetails.isNotEmpty,
+              child: _infoItem('Additional Information', '${order.additionalInfo?.vehicleInfo?.additionalDetails}').setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s12),
             ),
             if (!order.isManualOrder && order.orderAppliedPromo != null && order.orderAppliedPromo!.isSeniorCitizenPromo!) AttachmentView(order: order),
           ],
