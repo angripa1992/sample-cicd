@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/modules/orders/utils/update_manual_order_data_provider.dart';
 
@@ -106,7 +107,7 @@ class KlikitOrderResolver {
           if (isFromDetails) {
             Navigator.of(context).pop();
           }
-          if (status == OrderStatus.ACCEPTED) {
+          if (status == OrderStatus.ACCEPTED && !UserPermissionManager().isBizOwner()) {
             printDocket(order: order, isFromDetails: isFromDetails, sourceTab: sourceTab);
           }
           SegmentManager().trackOrderSegment(

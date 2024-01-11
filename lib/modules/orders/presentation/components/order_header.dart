@@ -51,7 +51,11 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
           ),
         if (!UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 12.rw),
+          padding: EdgeInsets.only(
+            top: 8.rh,
+            left: 12.rw,
+            right: 12.rw,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

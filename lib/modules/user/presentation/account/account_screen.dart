@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
@@ -206,28 +207,30 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 ),
                 const Divider(),
-                const NotificationSettingScreen(),
+                if (!UserPermissionManager().isBizOwner()) const NotificationSettingScreen(),
                 AccountSettingItem(
                   title: AppStrings.change_language.tr(),
                   iconData: Icons.language_outlined,
                   onTap: _onLanguageChange,
                 ),
-                AccountSettingItem(
-                  title: AppStrings.printer_settings.tr(),
-                  iconData: Icons.print,
-                  onTap: () {
-                    trackPrinterSettingsClickEvent();
+                if (!UserPermissionManager().isBizOwner())
+                  AccountSettingItem(
+                    title: AppStrings.printer_settings.tr(),
+                    iconData: Icons.print,
+                    onTap: () {
+                      trackPrinterSettingsClickEvent();
 
-                    Navigator.of(context).pushNamed(Routes.printerSettings);
-                  },
-                ),
-                AccountSettingItem(
-                  title: AppStrings.device_setting.tr(),
-                  iconData: Icons.phone_android_rounded,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Routes.deviceSetting);
-                  },
-                ),
+                      Navigator.of(context).pushNamed(Routes.printerSettings);
+                    },
+                  ),
+                if (!UserPermissionManager().isBizOwner())
+                  AccountSettingItem(
+                    title: AppStrings.device_setting.tr(),
+                    iconData: Icons.phone_android_rounded,
+                    onTap: () {
+                      Navigator.of(context).pushNamed(Routes.deviceSetting);
+                    },
+                  ),
                 AccountSettingItem(
                   title: AppStrings.contact_support.tr(),
                   iconData: Icons.help_outline,

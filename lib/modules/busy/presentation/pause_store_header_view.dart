@@ -60,7 +60,7 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+     // padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s4.rSp),
         color: AppColors.white,

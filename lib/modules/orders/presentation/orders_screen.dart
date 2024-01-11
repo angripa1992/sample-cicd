@@ -70,7 +70,6 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
       backgroundColor: AppColors.white,
       appBar: AppBar(
         title: Text(AppStrings.order_dashboard.tr()),
-        centerTitle: true,
       ),
       body: FutureBuilder<OniFilteredData>(
         future: FilteredDataMapper().initialOniFilteredData(),
@@ -80,7 +79,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
             KlikitOrderResolver().refreshOrderCounts(context, filteredData: snap.data);
             return _body();
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator(color: AppColors.primary));
           }
         },
       ),
