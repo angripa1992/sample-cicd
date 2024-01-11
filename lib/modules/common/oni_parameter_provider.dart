@@ -23,7 +23,7 @@ class OniParameterProvider {
       OrderStatus.DRIVER_ASSIGNED,
       OrderStatus.PICKED_UP,
     ];
-    return _getParams(filteredData: filteredData, status: status);
+    return _getParams(filteredData: filteredData, status: status, page: page, pageSize: pageSize);
   }
 
   Future<Map<String, dynamic>> newOrder({
@@ -32,7 +32,7 @@ class OniParameterProvider {
     int? pageSize,
   }) async {
     final status = [OrderStatus.PLACED, OrderStatus.ACCEPTED];
-    return _getParams(filteredData: filteredData, status: status);
+    return _getParams(filteredData: filteredData, status: status, page: page, pageSize: pageSize);
   }
 
   Future<Map<String, dynamic>> scheduleOrder({
@@ -41,7 +41,7 @@ class OniParameterProvider {
     int? pageSize,
   }) async {
     final status = [OrderStatus.SCHEDULED];
-    return _getParams(filteredData: filteredData, status: status);
+    return _getParams(filteredData: filteredData, status: status, page: page, pageSize: pageSize);
   }
 
   Future<Map<String, dynamic>> historyOrder({
@@ -50,7 +50,7 @@ class OniParameterProvider {
     int? pageSize,
   }) async {
     final status = await FilteredDataMapper().extractStatusIDs(filteredData?.statuses);
-    final params = await _getParams(filteredData: filteredData, status: status);
+    final params = await _getParams(filteredData: filteredData, status: status, page: page, pageSize: pageSize);
     final startDate = filteredData?.dateFilteredData?.dateTimeRange?.start ?? DateTime.now();
     final endDate = filteredData?.dateFilteredData?.dateTimeRange?.end ?? DateTime.now();
     params['start'] = DateTimeFormatter.getDate(startDate);
@@ -65,7 +65,7 @@ class OniParameterProvider {
     int? pageSize,
   }) async {
     final status = [OrderStatus.READY];
-    return _getParams(filteredData: filteredData, status: status);
+    return _getParams(filteredData: filteredData, status: status, page: page, pageSize: pageSize);
   }
 
   Future<Map<String, dynamic>> othersOrder({
@@ -78,7 +78,7 @@ class OniParameterProvider {
       OrderStatus.DRIVER_ARRIVED,
       OrderStatus.PICKED_UP,
     ];
-    return _getParams(filteredData: filteredData, status: status);
+    return _getParams(filteredData: filteredData, status: status, page: page, pageSize: pageSize);
   }
 
   Future<Map<String, dynamic>> _getParams({

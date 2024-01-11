@@ -47,7 +47,7 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen> with FilterOb
   }
 
   void _fetchScheduleOrder(int pageKey) async {
-    final params = await OniParameterProvider().scheduleOrder(filteredData: _filteredData, pageSize: _pageSize);
+    final params = await OniParameterProvider().scheduleOrder(filteredData: _filteredData, page: pageKey, pageSize: _pageSize);
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {

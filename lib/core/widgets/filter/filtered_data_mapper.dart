@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
@@ -37,7 +38,7 @@ class FilteredDataMapper {
   }
 
   Future<Map<String, dynamic>> homeFilterDataMap(HomeFilteredData? data) async {
-    final branches =  await extractBranchIDs(data?.branches);
+    final branches = await extractBranchIDs(data?.branches);
     final brands = await extractBrandIDs(data?.brands);
     final period = _dateMap(data?.dateFilteredData);
     final map = <String, dynamic>{};
@@ -56,7 +57,9 @@ class FilteredDataMapper {
       final dateType = data.selectedItem?.id;
       startDate = formatter.format(data.dateTimeRange!.start);
       if (dateType != DateType.today && dateType != DateType.yesterday) {
-        endDate = formatter.format(data.dateTimeRange!.end);
+        if (!data.dateTimeRange!.start.isSameDate(data.dateTimeRange!.end)) {
+          endDate = formatter.format(data.dateTimeRange!.end);
+        }
       }
     } else {
       startDate = formatter.format(DateTime.now());
