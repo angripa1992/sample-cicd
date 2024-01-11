@@ -4,6 +4,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class StickerPrinterHandler {
   static final StickerPrinterHandler _instance = StickerPrinterHandler._internal();
+  static final _bluetooth = FlutterBluePlus.instance;
   BluetoothDevice? _connectedDevice;
 
   factory StickerPrinterHandler() => _instance;
@@ -13,13 +14,13 @@ class StickerPrinterHandler {
   Future<List<ScanResult>> scanDevices() async {
     final finalScanResults = <ScanResult>[];
     try {
-      FlutterBluePlus.startScan(timeout: const Duration(seconds: 4));
-      final subscriptions = FlutterBluePlus.scanResults.listen((event) {
+      _bluetooth.startScan(timeout: const Duration(seconds: 4));
+      final subscriptions = _bluetooth.scanResults.listen((event) {
         finalScanResults.clear();
         finalScanResults.addAll(event);
       });
       return await Future.delayed(const Duration(seconds: 4), () async {
-        FlutterBluePlus.stopScan();
+        _bluetooth.stopScan();
         subscriptions.cancel();
         return finalScanResults;
       });
@@ -29,15 +30,15 @@ class StickerPrinterHandler {
   }
 
   Future<bool> isConnected() async {
-    final connectedDevices = FlutterBluePlus.connectedDevices;
+    final connectedDevices = await _bluetooth.connectedDevices;
     return _connectedDevice != null && connectedDevices.isNotEmpty;
   }
 
   Future<bool> connect(BluetoothDevice device) async {
     try {
-      final connectedDevices = FlutterBluePlus.connectedDevices;
+      final connectedDevices = await _bluetooth.connectedDevices;
       for (var connectedDevice in connectedDevices) {
-        if (connectedDevice.remoteId.str == device.remoteId.str) {
+        if (connectedDevice.id.id == device.id.id) {
           await device.disconnect();
         }
       }
