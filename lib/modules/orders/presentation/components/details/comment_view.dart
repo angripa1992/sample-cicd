@@ -45,7 +45,7 @@ class CommentView extends StatelessWidget {
             ),
           ],
         ),
-      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8),
     );
   }
 }

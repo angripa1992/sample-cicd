@@ -82,7 +82,7 @@ class OrderCustomerInfoView extends StatelessWidget {
             if (!order.isManualOrder && order.orderAppliedPromo != null && order.orderAppliedPromo!.isSeniorCitizenPromo!) AttachmentView(order: order),
           ],
         ),
-      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8),
     );
   }
 

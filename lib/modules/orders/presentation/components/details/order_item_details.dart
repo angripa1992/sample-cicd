@@ -128,7 +128,7 @@ class OrderItemDetails extends StatelessWidget {
                                                               children: secondModifierGroups.modifiers.map(
                                                                 (secondModifier) {
                                                                   return _modifierItemView(modifiers: secondModifier, prevQuantity: modifiersOne.quantity, itemQuantity: cart.quantity, paddingLevel: 5)
-                                                                      .setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s4.rh);
+                                                                      .setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s4);
                                                                 },
                                                               ).toList(),
                                                             ),
@@ -167,7 +167,7 @@ class OrderItemDetails extends StatelessWidget {
             }
             return const CircularProgressIndicator();
           },
-        )).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh);
+        )).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8);
   }
 
   Widget _brandView(CartBrand cartBrand, int itemCount) {
@@ -221,7 +221,7 @@ class OrderItemDetails extends StatelessWidget {
                   onTap: () {
                     getIt.get<PrintingHandler>().printSticker(order, cartV2);
                   },
-                ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8.rw),
+                ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
               ),
               Text('${cartV2.quantity} x ', style: _itemTextStyle),
               SizedBox(width: AppSize.s4.rw),

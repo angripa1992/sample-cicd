@@ -48,7 +48,7 @@ class CancellationReasonView extends StatelessWidget {
             const Divider(),
           ],
         ),
-      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8.rh),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8),
     );
   }
 }

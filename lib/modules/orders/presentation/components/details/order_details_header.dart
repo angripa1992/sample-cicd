@@ -105,8 +105,8 @@ class OrderDetailsHeaderView extends StatelessWidget {
               ),
             ],
           ),
-          _externalIdView().setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s12.rh, endSpace: AppSize.s12.rh),
-          OrderTagsView(order: order, onSwitchRider: onSwitchRider).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s12.rh),
+          _externalIdView().setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s12, endSpace: AppSize.s12),
+          OrderTagsView(order: order, onSwitchRider: onSwitchRider).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

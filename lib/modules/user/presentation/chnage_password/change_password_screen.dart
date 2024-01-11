@@ -78,7 +78,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               }
                               return null;
                             },
-                          ).setVisibilityWithSpace(startSpace: AppSize.s10.rh, direction: Axis.vertical, endSpace: AppSize.s20.rh),
+                          ).setVisibilityWithSpace(startSpace: AppSize.s10, direction: Axis.vertical, endSpace: AppSize.s20),
                           LabeledTextField(
                             label: AppStrings.new_password.tr(),
                             controller: _newPasswordController,
@@ -91,7 +91,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               }
                               return null;
                             },
-                          ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s20.rh),
+                          ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s20),
                           LabeledTextField(
                             label: AppStrings.confirm_new_password.tr(),
                             controller: _confirmPasswordController,

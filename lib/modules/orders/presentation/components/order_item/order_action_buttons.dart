@@ -42,7 +42,7 @@ Widget getActionButtons({
             ),
           ),
           onTap: onPrint,
-        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
+        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
       Visibility(
         visible: OrderActionButtonManager().canReject(order),
@@ -58,7 +58,7 @@ Widget getActionButtons({
           onTap: () {
             onCancel('${AppStrings.cancel_order.tr()} #${order.id}');
           },
-        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
+        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
       Visibility(
         visible: OrderActionButtonManager().canAccept(order),
@@ -74,7 +74,7 @@ Widget getActionButtons({
           onTap: () {
             onAction('${AppStrings.accept_order.tr()} #${order.id}', OrderStatus.ACCEPTED);
           },
-        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
+        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
       Visibility(
         visible: OrderActionButtonManager().canReady(order),
@@ -90,7 +90,7 @@ Widget getActionButtons({
           onTap: () {
             onAction('${AppStrings.ready_order.tr()} #${order.id}', OrderStatus.READY);
           },
-        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
+        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
       Visibility(
         visible: OrderActionButtonManager().canDelivery(order),
@@ -106,7 +106,7 @@ Widget getActionButtons({
           onTap: () {
             onAction('${AppStrings.deliver_order.tr()} #${order.id}', OrderStatus.DELIVERED);
           },
-        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
+        ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
     ],
   );

@@ -54,7 +54,7 @@ class KTChip extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: textStyle,
                 ),
-                textHelperTrailingWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s4.rw),
+                textHelperTrailingWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s4),
               ],
             ),
           ),

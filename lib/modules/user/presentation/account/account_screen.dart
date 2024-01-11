@@ -211,7 +211,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,
                       ),
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 16.rh),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s16),
                     ActionableTile(
                       title: AppStrings.edit_profile.tr(),
                       prefixWidget: ImageResourceResolver.profileSVG.getImageWidget(width: 20.rw, height: 20.rh),
@@ -219,7 +219,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onTap: () {
                         Navigator.of(context).pushNamed(Routes.editProfile);
                       },
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     ActionableTile(
                       title: AppStrings.change_password.tr(),
                       prefixWidget: ImageResourceResolver.changePasswordSVG.getImageWidget(width: 20.rw, height: 20.rh),
@@ -227,14 +227,14 @@ class _AccountScreenState extends State<AccountScreen> {
                       onTap: () {
                         Navigator.of(context).pushNamed(Routes.changePassword);
                       },
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     Text(
                       'Preferences',
                       style: semiBoldTextStyle(
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,
                       ),
-                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 16.rh),
+                    ).setVisibilityWithSpace(startSpace: AppSize.s16, direction: Axis.vertical, endSpace: AppSize.s16),
                     ActionableTile(
                       title: AppStrings.notification.tr(),
                       prefixWidget: ImageResourceResolver.notificationSVG.getImageWidget(width: 20.rw, height: 20.rh),
@@ -252,20 +252,20 @@ class _AccountScreenState extends State<AccountScreen> {
                         height: 18.rh,
                         width: 36.rw,
                       ),
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     ActionableTile(
                       title: AppStrings.change_language.tr(),
                       prefixWidget: ImageResourceResolver.languageSVG.getImageWidget(width: 20.rw, height: 20.rh, color: AppColors.neutralB600),
                       suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
                       onTap: _onLanguageChange,
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     Text(
                       'Devices',
                       style: semiBoldTextStyle(
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,
                       ),
-                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 16.rh),
+                    ).setVisibilityWithSpace(startSpace: AppSize.s16, direction: Axis.vertical, endSpace: AppSize.s16),
                     ActionableTile(
                       title: AppStrings.printer_settings.tr(),
                       prefixWidget: ImageResourceResolver.printerSVG.getImageWidget(width: 20.rw, height: 20.rh),
@@ -275,20 +275,20 @@ class _AccountScreenState extends State<AccountScreen> {
 
                         Navigator.of(context).pushNamed(Routes.printerSettings);
                       },
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     ActionableTile(
                       title: AppStrings.device_setting.tr(),
                       prefixWidget: ImageResourceResolver.phoneSVG.getImageWidget(width: 20.rw, height: 20.rh),
                       suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
                       onTap: _onDeviceChange,
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     ActionableTile(
                       title: AppStrings.contact_support.tr(),
                       prefixWidget: ImageResourceResolver.supportSVG.getImageWidget(width: 20.rw, height: 20.rh),
                       suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
                       onTap: _onContactSupport,
-                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 20.rh),
-                    AppVersionInfo().setVisibilityWithSpace(direction: Axis.vertical, endSpace: 24.rh),
+                    ).setVisibilityWithSpace(startSpace: AppSize.s16, direction: Axis.vertical, endSpace: AppSize.s20),
+                    AppVersionInfo().setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s24),
                     BlocConsumer<LogoutCubit, CubitState>(
                       listener: (context, state) {
                         logoutButtonController.setLoaded(state is! Loading);

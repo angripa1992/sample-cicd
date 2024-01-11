@@ -42,7 +42,7 @@ void showPauseNotificationConfirmationDialog({
                     height: 20.rh,
                     color: enable ? AppColors.successG300 : AppColors.errorR300,
                   )
-                  .setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 8.rw),
+                  .setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
               Expanded(
                 child: Text(
                   enable ? AppStrings.resume_notification_alert_msg.tr() : AppStrings.pause_notification_alert_msg.tr(),

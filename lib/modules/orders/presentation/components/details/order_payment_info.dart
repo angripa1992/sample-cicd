@@ -168,7 +168,7 @@ class PaymentInfoTagView extends StatelessWidget {
             if (_isWebshopPostPayment())
               ImageResourceResolver.writeSVG
                   .getImageWidget(width: AppSize.s14.rw, height: AppSize.s14.rh, color: AppColors.neutralB400)
-                  .setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s4.rw)
+                  .setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s4)
           ],
         ),
       ),
