@@ -77,4 +77,8 @@ class ImageResourceResolver {
   static SVGImageResource get writeSVG => SVGImageResource('$iconBasePath/ic_write.svg');
 
   static SVGImageResource get noteSVG => SVGImageResource('$iconBasePath/ic_note.svg');
+
+  static SVGImageResource get timeSVG => SVGImageResource('$iconBasePath/ic_time.svg');
+
+  static SVGImageResource get timerSVG => SVGImageResource('$iconBasePath/ic_timer.svg');
 }
