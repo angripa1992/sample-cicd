@@ -81,4 +81,6 @@ class ImageResourceResolver {
   static SVGImageResource get timeSVG => SVGImageResource('$iconBasePath/ic_time.svg');
 
   static SVGImageResource get timerSVG => SVGImageResource('$iconBasePath/ic_timer.svg');
+
+  static SVGImageResource get cancelNotificationSVG => SVGImageResource('$iconBasePath/ic_cancel_notification.svg');
 }
