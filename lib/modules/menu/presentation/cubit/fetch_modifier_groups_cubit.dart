@@ -1,7 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
+import '../../../../app/constants.dart';
+import '../../../../app/di.dart';
 import '../../../../app/session_manager.dart';
+import '../../../../app/user_permission_manager.dart';
+import '../../../common/business_information_provider.dart';
 import '../../domain/entities/modifier/grouped_modifier_item.dart';
 import '../../domain/entities/modifier/modifier_group.dart';
 import '../../domain/usecase/ftech_modifier_groups.dart';
@@ -17,10 +21,13 @@ class FetchModifierGroupsCubit extends Cubit<ResponseState> {
     required List<int> providers,
   }) async {
     emit(Loading());
+    final branch = await getIt.get<BusinessInformationProvider>().branchByID(branchID);
+    final menuV2Enabled = UserPermissionManager().isBizOwner() ? (branch?.menuVersion ?? MenuVersion.v2) == MenuVersion.v2 : SessionManager().menuV2Enabled();
     final params = FetchModifierGroupParams(
       brandID: brandId,
       providers: providers,
       branchID: branchID,
+      menuV2Enabled: menuV2Enabled,
       businessID: SessionManager().businessID(),
     );
     final response = await _fetchModifierGroups(params);

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
-import 'package:klikit/core/widgets/filter/filtered_data_mapper.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/schedule_order_screen.dart';
 import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
@@ -54,6 +53,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
     OrderScreenNavigateDataHandler().setData(widget.data);
     _tabController!.index = widget.tabIndex;
     _filterManager.addObserver(this, ObserverTag.ORDER_SCREEN);
+    KlikitOrderResolver().refreshOrderCounts(context);
     SegmentManager().screen(event: SegmentEvents.ORDER_TAB, name: 'Order Tab');
     super.initState();
   }
@@ -71,18 +71,19 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
       appBar: AppBar(
         title: Text(AppStrings.order_dashboard.tr()),
       ),
-      body: FutureBuilder<OniFilteredData>(
-        future: FilteredDataMapper().initialOniFilteredData(),
-        builder: (_, snap) {
-          if (snap.hasData && snap.data != null) {
-            _filterManager.setFilterData(snap.data);
-            KlikitOrderResolver().refreshOrderCounts(context, filteredData: snap.data);
-            return _body();
-          } else {
-            return Center(child: CircularProgressIndicator(color: AppColors.primary));
-          }
-        },
-      ),
+      body: _body(),
+      // body: FutureBuilder<OniFilteredData>(
+      //   future: FilteredDataMapper().initialOniFilteredData(),
+      //   builder: (_, snap) {
+      //     if (snap.hasData && snap.data != null) {
+      //       _filterManager.setFilterData(snap.data);
+      //       KlikitOrderResolver().refreshOrderCounts(context, filteredData: snap.data);
+      //       return _body();
+      //     } else {
+      //       return Center(child: CircularProgressIndicator(color: AppColors.primary));
+      //     }
+      //   },
+      // ),
     );
   }
 

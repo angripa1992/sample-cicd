@@ -45,8 +45,8 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
     return OrderSummaryOverview(
       completedOrders: completed,
       cancelledOrders: cancelled,
-      grossOrderValues: PriceCalculator.formatPrice(price: grossValues, code: currency, symbol: currencySymbol),
-      discountValues: PriceCalculator.formatPrice(price: discount, code: currency, symbol: currencySymbol),
+      grossOrderValues: PriceCalculator.formatCompactPrice(price: grossValues/100, code: currency, symbol: currencySymbol),
+      discountValues: PriceCalculator.formatCompactPrice(price: discount/100, code: currency, symbol: currencySymbol),
     );
   }
 }

@@ -2,8 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
+import '../../../../app/constants.dart';
 import '../../../../app/di.dart';
 import '../../../../app/session_manager.dart';
+import '../../../../app/user_permission_manager.dart';
 import '../../../common/business_information_provider.dart';
 import '../../data/models/modifier_request_model.dart';
 import '../../domain/usecase/update_modifier_enabled.dart';
@@ -24,8 +26,10 @@ class UpdateModifierEnabledCubit extends Cubit<ResponseState> {
   }) async {
     emit(Loading());
     final allProviders = await getIt.get<BusinessInformationProvider>().findProvidersIds();
+    final branch = await getIt.get<BusinessInformationProvider>().branchByID(brandId);
+    final version = UserPermissionManager().isBizOwner() ? (branch?.menuVersion ?? MenuVersion.v2) : menuVersion;
     final param = ModifierRequestModel(
-      menuVersion: menuVersion,
+      menuVersion: version,
       type: type,
       isEnabled: enabled,
       brandId: brandId,

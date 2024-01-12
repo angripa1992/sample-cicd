@@ -59,6 +59,35 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
     _modifiedValues.addAll(widget.values);
   }
 
+  bool _allSelected() {
+    final totalItems = widget.values.length;
+    final numberOfSelectedItems = _modifiedValues.where((element) {
+      if (element.id == _selectAllItemID || element.isSelected == null) {
+        return false;
+      } else {
+        return element.isSelected!;
+      }
+    }).length;
+    return totalItems == numberOfSelectedItems;
+  }
+
+  bool _allDeselected() {
+    final totalItems = widget.values.length;
+    final numberOfDeselectedItems = _modifiedValues.where((element) {
+      if (element.id == _selectAllItemID || element.isSelected == null) {
+        return false;
+      } else {
+        return !element.isSelected!;
+      }
+    }).length;
+    return totalItems == numberOfDeselectedItems;
+  }
+
+  void _updateAllCheckbox(bool selected) {
+    final item = _modifiedValues.firstWhere((element) => element.id == _selectAllItemID);
+    item.isSelected = selected;
+  }
+
   void _onChanged(KTCheckboxValue value, bool isSelected) {
     if (value.id == _selectAllItemID) {
       for (var modifiedValue in _modifiedValues) {
@@ -66,6 +95,11 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
       }
     } else {
       value.isSelected = isSelected;
+      if (_allSelected()) {
+        _updateAllCheckbox(true);
+      } else {
+        _updateAllCheckbox(false);
+      }
     }
     _removeSelectAllItemAndSendCallback();
     setState(() {});

@@ -79,9 +79,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
   }
 
   @override
-  Future<MenuOosResponseModel> updateItemSnooze(
-    UpdateItemSnoozeParam params,
-  ) async {
+  Future<MenuOosResponseModel> updateItemSnooze(UpdateItemSnoozeParam params) async {
     try {
       if (params.menuVersion == MenuVersion.v2) {
         final response = await _restClient.request(Urls.updateV2temSnooze(params.itemId), Method.PATCH, {
@@ -101,9 +99,7 @@ class MenuRemoteDatasourceImpl extends MenuRemoteDatasource {
     }
   }
 
-  Future<MenuOosResponseModel> _updateV1ItemSnooze(
-    UpdateItemSnoozeParam params,
-  ) async {
+  Future<MenuOosResponseModel> _updateV1ItemSnooze(UpdateItemSnoozeParam params) async {
     try {
       final response = await _restClient.request(Urls.updateV1ItemSnooze(params.itemId), Method.PATCH, {
         'branch_id': params.branchId,
