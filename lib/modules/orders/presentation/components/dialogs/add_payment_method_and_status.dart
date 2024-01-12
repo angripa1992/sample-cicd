@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
+import 'package:klikit/resources/decorations.dart';
 
 import '../../../../../app/di.dart';
 import '../../../../../core/utils/response_state.dart';
@@ -16,7 +18,6 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../add_order/presentation/pages/components/checkout/pament_method.dart';
 import '../../../../add_order/presentation/pages/components/checkout/payment_status.dart';
-import '../../../../widgets/loading_button.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../data/models/qris_payment_success_response.dart';
 import '../../../domain/entities/order.dart';
@@ -72,6 +73,7 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
   static const _method = 'method';
   static const _channel = 'channel';
   final _paymentNotifier = ValueNotifier<Map<String, int?>>({_status: null, _method: null, _channel: null});
+  final KTButtonController positiveButtonController = KTButtonController(label: AppStrings.proceed.tr());
 
   @override
   void initState() {
@@ -118,9 +120,9 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
   }
 
   void _navigateToQrisPaymentPage(QrisUpdatePaymentResponse response) {
-    if(response.checkoutLink != null){
+    if (response.checkoutLink != null) {
       Navigator.pop(context);
-      Navigator.of(context).push(MaterialPageRoute(builder: (_){
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return QrisPaymentPage(
           paymentLink: response.checkoutLink!,
           orderID: widget.order.id,
@@ -199,11 +201,15 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
                 }
               },
               builder: (context, state) {
-                return LoadingButton(
-                  isLoading: state is Loading,
+                positiveButtonController.setLoaded(state is! Loading);
+                positiveButtonController.setEnabled(_isButtonEnabled(value));
+
+                return KTButton(
+                  controller: positiveButtonController,
+                  backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
+                  labelStyle: mediumTextStyle(color: AppColors.white),
+                  progressPrimaryColor: AppColors.white,
                   onTap: _updateStatus,
-                  text: AppStrings.proceed.tr(),
-                  enabled: _isButtonEnabled(value),
                 );
               },
             );
