@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/base/common_app_bar.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/schedule_order_screen.dart';
 import 'package:klikit/resources/colors.dart';
@@ -95,108 +97,114 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.order_dashboard.tr()),
-        centerTitle: true,
-      ),
-      body: NestedScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        headerSliverBuilder: (context, isScrolled) {
-          return [
-            SliverToBoxAdapter(
-              child: OrderHeaderView(
-                subject: _filterSubject,
-                tabController: _tabController!,
-              ),
-            ),
-            SliverPersistentHeader(
-              delegate: MyDelegate(
-                TabBar(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CommonAppBar(title: AppStrings.orders.tr()),
+          AppSize.s1.rh.verticalSpacer(),
+          Expanded(
+            child: NestedScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              headerSliverBuilder: (context, isScrolled) {
+                return [
+                  SliverToBoxAdapter(
+                    child: OrderHeaderView(
+                      subject: _filterSubject,
+                      tabController: _tabController!,
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                    delegate: MyDelegate(
+                      TabBar(
+                        controller: _tabController,
+                        tabs: [
+                          BlocBuilder<NewOrderCubit, ResponseState>(
+                            builder: (context, state) {
+                              return OrderTabItem(
+                                title: AppStrings.new_str.tr(),
+                                tabIndex: 0,
+                                tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                                count: state is Success<Orders> ? state.data.total : 0,
+                              );
+                            },
+                          ),
+                          BlocBuilder<OngoingOrderCubit, ResponseState>(
+                            builder: (context, state) {
+                              return OrderTabItem(
+                                title: AppStrings.ready.tr(),
+                                tabIndex: 1,
+                                tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                                count: state is Success<Orders> ? state.data.total : 0,
+                              );
+                            },
+                          ),
+                          BlocBuilder<AllOrderCubit, ResponseState>(
+                            builder: (context, state) {
+                              return OrderTabItem(
+                                title: AppStrings.all.tr(),
+                                tabIndex: 2,
+                                tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                                count: state is Success<Orders> ? state.data.total : 0,
+                              );
+                            },
+                          ),
+                          BlocBuilder<ScheduleOrderCubit, ResponseState>(
+                            builder: (context, state) {
+                              return OrderTabItem(
+                                title: AppStrings.schedule.tr(),
+                                tabIndex: 3,
+                                tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                                count: state is Success<Orders> ? state.data.total : 0,
+                              );
+                            },
+                          ),
+                          OrderTabItem(
+                            title: AppStrings.history.tr(),
+                            tabIndex: 4,
+                            tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                            count: 0,
+                          ),
+                          OrderTabItem(
+                            title: AppStrings.other.tr(),
+                            tabIndex: 5,
+                            tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                            count: 0,
+                          ),
+                        ],
+                        labelPadding: EdgeInsets.all(AppSize.s8.rSp),
+                        indicatorColor: Colors.transparent,
+                        indicatorWeight: 0.01,
+                        isScrollable: true,
+                      ),
+                    ),
+                    pinned: true,
+                    floating: true,
+                  ),
+                ];
+              },
+              body: Container(
+                padding: EdgeInsets.only(
+                  left: AppSize.s12.rw,
+                  right: AppSize.s12.rw,
+                  top: AppSize.s12.rh,
+                ),
+                color: AppColors.white,
+                child: TabBarView(
                   controller: _tabController,
-                  tabs: [
-                    BlocBuilder<NewOrderCubit, ResponseState>(
-                      builder: (context, state) {
-                        return OrderTabItem(
-                          title: AppStrings.new_str.tr(),
-                          tabIndex: 0,
-                          tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
-                          count: state is Success<Orders> ? state.data.total : 0,
-                        );
-                      },
-                    ),
-                    BlocBuilder<OngoingOrderCubit, ResponseState>(
-                      builder: (context, state) {
-                        return OrderTabItem(
-                          title: AppStrings.ready.tr(),
-                          tabIndex: 1,
-                          tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
-                          count: state is Success<Orders> ? state.data.total : 0,
-                        );
-                      },
-                    ),
-                    BlocBuilder<AllOrderCubit, ResponseState>(
-                      builder: (context, state) {
-                        return OrderTabItem(
-                          title: AppStrings.all.tr(),
-                          tabIndex: 2,
-                          tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
-                          count: state is Success<Orders> ? state.data.total : 0,
-                        );
-                      },
-                    ),
-                    BlocBuilder<ScheduleOrderCubit, ResponseState>(
-                      builder: (context, state) {
-                        return OrderTabItem(
-                          title: AppStrings.schedule.tr(),
-                          tabIndex: 3,
-                          tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
-                          count: state is Success<Orders> ? state.data.total : 0,
-                        );
-                      },
-                    ),
-                    OrderTabItem(
-                      title: AppStrings.history.tr(),
-                      tabIndex: 4,
-                      tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
-                      count: 0,
-                    ),
-                    OrderTabItem(
-                      title: AppStrings.other.tr(),
-                      tabIndex: 5,
-                      tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
-                      count: 0,
-                    ),
+                  children: [
+                    NewOrderScreen(subject: _filterSubject),
+                    OngoingOrderScreen(subject: _filterSubject),
+                    AllOrderScreen(subject: _filterSubject),
+                    ScheduleOrderScreen(subject: _filterSubject),
+                    OrderHistoryScreen(subject: _filterSubject),
+                    OthersOrderScreen(subject: _filterSubject),
                   ],
-                  labelPadding: EdgeInsets.all(AppSize.s8.rSp),
-                  indicatorColor: Colors.transparent,
-                  indicatorWeight: 0.01,
-                  isScrollable: true,
                 ),
               ),
-              pinned: true,
-              floating: true,
             ),
-          ];
-        },
-        body: Container(
-          padding: EdgeInsets.only(
-            left: AppSize.s12.rw,
-            right: AppSize.s12.rw,
-            top: AppSize.s12.rh,
           ),
-          color: AppColors.white,
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              NewOrderScreen(subject: _filterSubject),
-              OngoingOrderScreen(subject: _filterSubject),
-              AllOrderScreen(subject: _filterSubject),
-              ScheduleOrderScreen(subject: _filterSubject),
-              OrderHistoryScreen(subject: _filterSubject),
-              OthersOrderScreen(subject: _filterSubject),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }

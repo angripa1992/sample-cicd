@@ -25,12 +25,11 @@ class OrderHeaderView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: EdgeInsets.only(
-            right: AppSize.s12.rw,
-            left: AppSize.s12.rw,
-            top: AppSize.s12.rh,
-            bottom: AppSize.s8.rh,
+        Container(
+          color: AppColors.white,
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSize.s16.rw,
+            vertical: AppSize.s16.rh,
           ),
           child: const PauseStoreHeaderView(),
         ),
