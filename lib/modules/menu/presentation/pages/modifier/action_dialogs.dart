@@ -22,6 +22,7 @@ void showUpdateModifierEnabledConfirmationDialog({
   required VoidCallback onSuccess,
   required bool isEnable,
   required int brandId,
+  required int branchID,
   required int groupId,
   required int type,
   required int menuVersion,
@@ -101,6 +102,7 @@ void showUpdateModifierEnabledConfirmationDialog({
                                 type: type,
                                 enabled: isEnable,
                                 brandId: brandId,
+                                branchID: branchID,
                                 groupId: groupId,
                                 modifierId: modifierId,
                               );

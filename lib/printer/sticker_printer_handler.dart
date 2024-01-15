@@ -3,9 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class StickerPrinterHandler {
-  static final StickerPrinterHandler _instance =
-      StickerPrinterHandler._internal();
-  static final FlutterBluePlus _flutterBlue = FlutterBluePlus.instance;
+  static final StickerPrinterHandler _instance = StickerPrinterHandler._internal();
+  static final _bluetooth = FlutterBluePlus.instance;
   BluetoothDevice? _connectedDevice;
 
   factory StickerPrinterHandler() => _instance;
@@ -15,13 +14,13 @@ class StickerPrinterHandler {
   Future<List<ScanResult>> scanDevices() async {
     final finalScanResults = <ScanResult>[];
     try {
-      _flutterBlue.startScan(timeout: const Duration(seconds: 4));
-      final subscriptions = _flutterBlue.scanResults.listen((event) {
+      _bluetooth.startScan(timeout: const Duration(seconds: 4));
+      final subscriptions = _bluetooth.scanResults.listen((event) {
         finalScanResults.clear();
         finalScanResults.addAll(event);
       });
       return await Future.delayed(const Duration(seconds: 4), () async {
-        _flutterBlue.stopScan();
+        _bluetooth.stopScan();
         subscriptions.cancel();
         return finalScanResults;
       });
@@ -31,13 +30,13 @@ class StickerPrinterHandler {
   }
 
   Future<bool> isConnected() async {
-    final connectedDevices = await _flutterBlue.connectedDevices;
+    final connectedDevices = await _bluetooth.connectedDevices;
     return _connectedDevice != null && connectedDevices.isNotEmpty;
   }
 
   Future<bool> connect(BluetoothDevice device) async {
     try {
-      final connectedDevices = await _flutterBlue.connectedDevices;
+      final connectedDevices = await _bluetooth.connectedDevices;
       for (var connectedDevice in connectedDevices) {
         if (connectedDevice.id.id == device.id.id) {
           await device.disconnect();
@@ -55,8 +54,7 @@ class StickerPrinterHandler {
     if (await isConnected()) {
       try {
         BluetoothCharacteristic? writeCharacteristic;
-        List<BluetoothService> services =
-            await _connectedDevice!.discoverServices();
+        List<BluetoothService> services = await _connectedDevice!.discoverServices();
         for (var service in services) {
           for (var characteristic in service.characteristics) {
             if (characteristic.properties.write) {

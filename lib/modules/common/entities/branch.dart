@@ -1,4 +1,4 @@
-class BusinessBranchInfo {
+class Branch {
   final int id;
   final int businessId;
   final String title;
@@ -9,8 +9,8 @@ class BusinessBranchInfo {
   final String deletedAt;
   final int openingTime;
   final int closingTime;
-  final double lat;
-  final double lon;
+  final num lat;
+  final num lon;
   final int cityId;
   final int countryId;
   final int currencyId;
@@ -38,7 +38,7 @@ class BusinessBranchInfo {
   final bool mergeFeeEnabled;
   final String mergeFeeTitle;
 
-  BusinessBranchInfo({
+  Branch({
     required this.id,
     required this.businessId,
     required this.title,

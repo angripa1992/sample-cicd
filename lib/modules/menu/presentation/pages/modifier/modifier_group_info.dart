@@ -13,7 +13,7 @@ import 'modifer_switch_view.dart';
 
 class ModifierGroupInfoView extends StatelessWidget {
   final int brandId;
-  final int providerId;
+  final int branchID;
   final ModifierGroup modifiersGroup;
   final Function(ModifierGroup) onChanged;
 
@@ -22,7 +22,7 @@ class ModifierGroupInfoView extends StatelessWidget {
     required this.modifiersGroup,
     required this.brandId,
     required this.onChanged,
-    required this.providerId,
+    required this.branchID,
   }) : super(key: key);
 
   @override
@@ -46,7 +46,7 @@ class ModifierGroupInfoView extends StatelessWidget {
             ),
             ModifierSwitchView(
               menuVersion: modifiersGroup.menuVersion,
-              providerId: providerId,
+              branchID: branchID,
               brandId: brandId,
               groupId: modifiersGroup.id,
               enabled: modifiersGroup.isEnabled,
@@ -59,9 +59,7 @@ class ModifierGroupInfoView extends StatelessWidget {
           ],
         ),
         Container(
-          decoration: BoxDecoration(
-              color: AppColors.grey,
-              borderRadius: BorderRadius.circular(AppSize.s4.rSp)),
+          decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(AppSize.s4.rSp)),
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,

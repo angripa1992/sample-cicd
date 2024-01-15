@@ -1,30 +1,40 @@
+import 'package:collection/collection.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
 
 import 'data/business_info_provider_repo.dart';
-import 'entities/branch_info.dart';
+import 'entities/branch.dart';
 
 class BranchInfoProvider {
   final BusinessInfoProviderRepo _orderRepository;
-  BusinessBranchInfo? _branchInfo;
+  final List<Branch> _branches = [];
 
   BranchInfoProvider(this._orderRepository);
 
-  Future<BusinessBranchInfo?> getBranchInfo() async {
-    if (_branchInfo != null) return _branchInfo;
-    final response = await _orderRepository.fetchBranchDetails(SessionManager().branchId());
-    return response.fold(
-      (failure) {
-        return null;
-      },
-      (data) {
-        return data;
-      },
-    );
+  Future<Branch?> branchByID(int branchID) async {
+    final data = await branches();
+    return data.firstWhereOrNull((element) => element.id == branchID);
   }
 
-  Future<MenuBranchInfo?> getMenuBranchInfo() async {
-    final businessBranch = await getBranchInfo();
+  Future<List<Branch>> branches() async {
+    if (_branches.isNotEmpty) return _branches;
+    final businessID = SessionManager().businessID();
+    final response = await _orderRepository.fetchBranches({
+      'filterByBusiness': businessID,
+      'page': 1,
+      'size': 500,
+    });
+    return response.fold((failure) {
+      return [];
+    }, (data) {
+      _branches.clear();
+      _branches.addAll(data);
+      return _branches;
+    });
+  }
+
+  Future<MenuBranchInfo?> menuBranchByID(int branchID) async {
+    final businessBranch = await branchByID(branchID);
     if (businessBranch != null) {
       return MenuBranchInfo(
         businessID: businessBranch.businessId,
@@ -45,6 +55,6 @@ class BranchInfoProvider {
   }
 
   void clear() {
-    _branchInfo = null;
+    _branches.clear();
   }
 }

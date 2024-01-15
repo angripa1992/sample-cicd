@@ -1,30 +1,32 @@
-import '../../../app/session_manager.dart';
-import 'model/brand_request_model.dart';
-import 'entities/brand.dart';
+import 'package:dio/dio.dart';
+import 'package:klikit/modules/common/branch_info_provider.dart';
+
 import 'data/business_info_provider_repo.dart';
+import 'entities/brand.dart';
 
 class BrandProvider {
   final BusinessInfoProviderRepo _orderRepository;
-  List<Brand> _brands = [];
+  final BranchInfoProvider _branchInfoProvider;
+  final List<Brand> _brands = [];
 
-  BrandProvider(this._orderRepository);
+  BrandProvider(this._orderRepository, this._branchInfoProvider);
 
   Future<List<Brand>> fetchBrands() async {
-    if (_brands.isEmpty) {
-      final requestModel = BrandRequestModel(
-        filterByBranch: SessionManager().branchId(),
-      );
-      final response = await _orderRepository.fetchBrand(requestModel);
-      if (response.isRight()) {
-        final brands = response.getOrElse(() => Brands([]));
-        _brands = brands.brands;
-        return _brands;
-      } else {
-        return [];
-      }
-    } else {
+    if (_brands.isNotEmpty) return _brands;
+    final branches = await _branchInfoProvider.branches();
+    final branchIDs = branches.map((e) => e.id).toList();
+    final response = await _orderRepository.fetchBrand({
+      'filterByBranch': ListParam<int>(branchIDs, ListFormat.csv),
+      'page': 1,
+      'size': 1000,
+    });
+    return response.fold((failure) {
+      return [];
+    }, (data) {
+      _brands.clear();
+      _brands.addAll(data.brands);
       return _brands;
-    }
+    });
   }
 
   Future<List<int>> fetchBrandsIds() async {

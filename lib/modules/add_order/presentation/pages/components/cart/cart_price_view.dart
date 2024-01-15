@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
@@ -12,7 +13,7 @@ import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../common/business_information_provider.dart';
-import '../../../../../common/entities/branch_info.dart';
+import '../../../../../common/entities/branch.dart';
 import '../../../../utils/cart_manager.dart';
 
 class CartPriceView extends StatelessWidget {
@@ -82,8 +83,8 @@ class CartPriceView extends StatelessWidget {
                 willCalculateAtNextStep: true,
               ),
             if (CartManager().isWebShopOrder && cartBill.customFee > 0)
-              FutureBuilder<BusinessBranchInfo?>(
-                future: getIt.get<BusinessInformationProvider>().branchInfo(),
+              FutureBuilder<Branch?>(
+                future: getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     return _item(

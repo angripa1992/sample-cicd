@@ -212,7 +212,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         SizedBox(width: AppSize.s6.rw),
         Expanded(
           child: Text(
-            DateTimeProvider.parseOrderCreatedDate(order.createdAt),
+            DateTimeFormatter.parseOrderCreatedDate(order.createdAt),
             style: mediumTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,

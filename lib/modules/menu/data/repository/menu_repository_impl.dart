@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
@@ -72,12 +71,10 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, List<ModifierGroup>>> fetchModifiersGroups(
-    FetchModifierGroupParams params,
-  ) async {
+  Future<Either<Failure, List<ModifierGroup>>> fetchModifiersGroups(FetchModifierGroupParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        if (SessionManager().menuV2Enabled()) {
+        if (params.menuV2Enabled) {
           final response = await _datasource.fetchV2ModifiersGroup(params);
           return Right(mapModifierV2ToModifier(response));
         } else {
