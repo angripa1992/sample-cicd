@@ -29,7 +29,7 @@ class CommonDashboardAppBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: Platform.isIOS ? CrossAxisAlignment.center : CrossAxisAlignment.start,
               children: [
-                Text(title, style: mediumTextStyle()),
+                Text(title, style: mediumTextStyle(fontSize: AppSize.s16.rSp, color: AppColors.neutralB700)),
                 if (subtitle != null)
                   Text(subtitle!, style: regularTextStyle(fontSize: 12, color: AppColors.neutralB500)).setVisibilityWithSpace(
                     direction: Axis.vertical,
