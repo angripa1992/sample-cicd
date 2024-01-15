@@ -124,6 +124,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataRequestModel body) async {
     try {
+      final str = json.encode(body.toJson());
       final response = await _restClient.request(Urls.manualOrder, Method.POST, body.toJson());
       return PlacedOrderResponse.fromJson(response);
     } on DioException {

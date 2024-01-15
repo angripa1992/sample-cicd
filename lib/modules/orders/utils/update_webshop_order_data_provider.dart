@@ -131,6 +131,7 @@ class UpdateWebShopOrderDataProvider {
       CartManager().setCartFee = editInfo;
       CartManager().setPaymentInfo = paymentInfo;
       CartManager().setUpdateCartInfo = updateCartInfo;
+      CartManager().setRoundOffApplicable = null;
     } catch (error) {
       rethrow;
     }

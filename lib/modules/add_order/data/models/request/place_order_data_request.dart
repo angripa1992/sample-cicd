@@ -37,6 +37,8 @@ class PlaceOrderDataRequestModel {
   int? numberOfCustomer;
   num? orderPromoDiscount;
   bool? manualOrderAutoAcceptEnabled;
+  bool? roundOffApplicable;
+  num? roundOffAmount;
   Promo? appliedPromoModel;
 
   PlaceOrderDataRequestModel({
@@ -76,6 +78,8 @@ class PlaceOrderDataRequestModel {
     this.appliedPromoModel,
     this.manualOrderAutoAcceptEnabled,
     this.orderPromoDiscount,
+    this.roundOffApplicable,
+    this.roundOffAmount,
   });
 
   Map<String, dynamic> toJson() {
@@ -144,6 +148,12 @@ class PlaceOrderDataRequestModel {
     }
     if (appliedPromoModel != null) {
       data['applied_promo'] = appliedPromoModel!.toJson();
+    }
+    if (roundOffApplicable != null) {
+      data['is_rounding_off_applicable'] = roundOffApplicable;
+    }
+    if (roundOffAmount != null) {
+      data['round_off_amount'] = roundOffAmount;
     }
     data['manual_order_auto_accept_enabled'] = manualOrderAutoAcceptEnabled;
     return data;

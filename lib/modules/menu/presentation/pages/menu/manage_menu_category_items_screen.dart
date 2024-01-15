@@ -6,6 +6,8 @@ import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_item_l
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
+import 'menu_category_title.dart';
+
 class ManageItemsScreen extends StatelessWidget {
   const ManageItemsScreen({Key? key}) : super(key: key);
 
@@ -39,7 +41,7 @@ class ManageItemsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              //MenuCategoryTitle(menuCategory: menuCategory),
+              MenuCategoryTitle(menuCategory: menuCategory),
               MenuCategoryItemListView(
                 menuCategory: menuCategory,
                 onChanged: (modifiedItems) {

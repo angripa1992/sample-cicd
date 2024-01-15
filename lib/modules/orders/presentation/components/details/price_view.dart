@@ -118,6 +118,12 @@ class _PriceViewState extends State<PriceView> {
                       widget.order.rewardDiscount,
                       showNegative: true,
                     ),
+                  if (widget.order.isManualOrder && widget.order.roundOffAmount != 0)
+                    _priceBreakdownItem(
+                      'Rounding Off',
+                      widget.order.roundOffAmount,
+                      isRoundOff: true,
+                    ),
                 ],
               ),
             ),
@@ -203,6 +209,7 @@ class _PriceViewState extends State<PriceView> {
     String name,
     num price, {
     bool showNegative = false,
+    bool isRoundOff = false,
   }) {
     final textStyle = TextStyle(
       color: showNegative ? AppColors.red : AppColors.black,
@@ -216,7 +223,7 @@ class _PriceViewState extends State<PriceView> {
         children: [
           Text(name, style: textStyle),
           Text(
-            '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
+            isRoundOff ? '${widget.order.currencySymbol} ${price.isNegative ? '' : '+'}${price / 100}' : '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
             style: textStyle,
           ),
         ],

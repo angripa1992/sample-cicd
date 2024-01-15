@@ -140,5 +140,6 @@ class UpdateManualOrderDataProvider {
     CartManager().setCartFee = editInfo;
     CartManager().setPaymentInfo = paymentInfo;
     CartManager().setUpdateCartInfo = updateCartInfo;
+    CartManager().setRoundOffApplicable = order.roundOffAmount != 0 ? true : null;
   }
 }

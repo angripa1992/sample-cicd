@@ -61,6 +61,7 @@ class OrderEntityProvider {
       numberOfSeniorCitizen: orderPromoInfo?.numberOfSeniorCitizen,
       numberOfCustomer: orderPromoInfo?.numberOfCustomer,
       items: await _cartsToBillingItemsForCalculateBill(cartsItems: cartItems),
+      roundOffApplicable: CartManager().roundOffApplicable,
     );
   }
 
@@ -282,6 +283,8 @@ class OrderEntityProvider {
       orderPromoDiscount: bill.orderPromoDiscountCent,
       appliedPromoModel: bill.appliedPromo,
       manualOrderAutoAcceptEnabled: branchInfo?.manualOrderAutoAcceptEnabled,
+      roundOffApplicable: CartManager().roundOffApplicable,
+      roundOffAmount: bill.roundOffAmountCent != 0 ? bill.roundOffAmountCent : null,
     );
   }
 }

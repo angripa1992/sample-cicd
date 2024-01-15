@@ -21,6 +21,7 @@ class CartPriceView extends StatelessWidget {
   final VoidCallback onDeliveryFee;
   final VoidCallback onDiscount;
   final VoidCallback onAdditionalFee;
+  final Function(bool) onApplyRoundOff;
 
   const CartPriceView({
     Key? key,
@@ -28,6 +29,7 @@ class CartPriceView extends StatelessWidget {
     required this.onDeliveryFee,
     required this.onDiscount,
     required this.onAdditionalFee,
+    required this.onApplyRoundOff,
   }) : super(key: key);
 
   @override
@@ -95,9 +97,63 @@ class CartPriceView extends StatelessWidget {
                   return Container();
                 },
               ),
+            if (!CartManager().isWebShopOrder) _roundOffView(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _roundOffView() {
+    return Column(
+      children: [
+        const Divider(),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Rounding Off',
+                style: regularTextStyle(
+                  color: AppColors.black,
+                  fontSize: 14.rSp,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s4.rh),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                color: cartBill.roundOffAmount != 0 ? AppColors.grey : AppColors.primaryLighter,
+              ),
+              child: cartBill.roundOffAmount != 0
+                  ? Row(
+                      children: [
+                        Text(
+                          '${CartManager().currency.symbol} ${cartBill.roundOffAmount.isNegative ? '' : '+'}${cartBill.roundOffAmount}',
+                          style: regularTextStyle(color: AppColors.black, fontSize: 14.rSp),
+                        ),
+                        SizedBox(width: 4.rw),
+                        InkWell(
+                          onTap: () {
+                            onApplyRoundOff(false);
+                          },
+                          child: Icon(Icons.clear, size: 14.rSp),
+                        ),
+                      ],
+                    )
+                  : InkWell(
+                      onTap: () {
+                        onApplyRoundOff(true);
+                      },
+                      child: Text(
+                        'Apply',
+                        style: regularTextStyle(color: AppColors.primary, fontSize: 14.rSp),
+                      ),
+                    ),
+            ),
+          ],
+        )
+      ],
     );
   }
 
