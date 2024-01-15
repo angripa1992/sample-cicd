@@ -9,11 +9,11 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-class CommonAppBar extends StatelessWidget {
+class CommonDashboardAppBar extends StatelessWidget {
   final String title;
   final String? subtitle;
 
-  const CommonAppBar({Key? key, required this.title, this.subtitle}) : super(key: key);
+  const CommonDashboardAppBar({Key? key, required this.title, this.subtitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

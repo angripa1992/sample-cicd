@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/base/common_app_bar.dart';
+import 'package:klikit/modules/base/common_dashboard_app_bar.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/schedule_order_screen.dart';
 import 'package:klikit/resources/colors.dart';
@@ -101,7 +101,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          CommonAppBar(title: AppStrings.orders.tr()),
+          CommonDashboardAppBar(title: AppStrings.orders.tr()),
           AppSize.s1.rh.verticalSpacer(),
           Expanded(
             child: NestedScrollView(
