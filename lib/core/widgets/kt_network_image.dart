@@ -48,7 +48,7 @@ class KTNetworkImage extends StatelessWidget {
         final circleSize = (((width ?? 34.rw) + (height ?? 34.rh)) / 2);
         return buildPlaceholder(boxShape, CircularProgress(size: circleSize, strokeWidth: 2.rSp), 0, borderRadius);
       },
-      errorWidget: (context, url, error) => errorWidget ?? buildPlaceholder(boxShape, ImageResourceResolver.userSVG.getImageWidget(), widgetPadding, borderRadius),
+      errorWidget: (context, url, error) => errorWidget ?? buildPlaceholder(boxShape, ImageResourceResolver.placeholderSVG.getImageWidget(width: width, height: height), widgetPadding, borderRadius),
     );
   }
 }

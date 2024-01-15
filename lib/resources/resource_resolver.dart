@@ -1,3 +1,5 @@
+import 'package:klikit/resources/assets.dart';
+
 import 'asset_resolver/svg_image_resource.dart';
 
 const String assetBasePath = 'assets';
@@ -10,7 +12,7 @@ class ImageResourceResolver {
 
   static SVGImageResource get userSVG => SVGImageResource('$iconBasePath/ic_user.svg');
 
-  static SVGImageResource get placeholderSVG => SVGImageResource('$iconBasePath/ic_default_placeholder.svg');
+  static SVGImageResource get placeholderSVG => SVGImageResource(AppImages.placeholder);
 
   static SVGImageResource get languageSVG => SVGImageResource('$iconBasePath/ic_language.svg');
 
@@ -83,4 +85,6 @@ class ImageResourceResolver {
   static SVGImageResource get timerSVG => SVGImageResource('$iconBasePath/ic_timer.svg');
 
   static SVGImageResource get cancelNotificationSVG => SVGImageResource('$iconBasePath/ic_cancel_notification.svg');
+
+  static SVGImageResource get navBackSVG => SVGImageResource('$iconBasePath/ic_nav_back.svg');
 }
