@@ -8,8 +8,8 @@ import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_title.
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
-class ManageItemsScreen extends StatelessWidget {
-  const ManageItemsScreen({Key? key}) : super(key: key);
+class MenuCategoryItemsScreen extends StatelessWidget {
+  const MenuCategoryItemsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

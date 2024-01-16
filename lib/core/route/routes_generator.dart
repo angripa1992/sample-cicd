@@ -5,7 +5,7 @@ import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/add_order/presentation/pages/add_order_screen.dart';
 import 'package:klikit/modules/base/base_screen.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
-import 'package:klikit/modules/menu/presentation/pages/menu/manage_menu_category_items_screen.dart';
+import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_items_screen.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/manage_modifiers_screen.dart';
 import 'package:klikit/modules/onboarding/onboarding_screen.dart';
 import 'package:klikit/modules/user/presentation/chnage_password/change_password_screen.dart';
@@ -70,7 +70,7 @@ class RoutesGenerator {
         );
       case Routes.manageItems:
         return MaterialPageRoute(
-          builder: (_) => const ManageItemsScreen(),
+          builder: (_) => const MenuCategoryItemsScreen(),
           settings: routeSettings,
         );
       case Routes.manageModifiers:
