@@ -19,6 +19,8 @@ class MenuSwitchView extends StatefulWidget {
   final int type;
   final int providerId;
   final bool willShowBg;
+  final double? switchWidth;
+  final double? switchHeight;
 
   const MenuSwitchView({
     Key? key,
@@ -31,6 +33,8 @@ class MenuSwitchView extends StatefulWidget {
     required this.type,
     required this.providerId,
     this.willShowBg = true,
+    this.switchWidth,
+    this.switchHeight,
   }) : super(key: key);
 
   @override
@@ -81,16 +85,16 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
   Widget build(BuildContext context) {
     return widget.providerId == ZERO && UserPermissionManager().canOosMenu()
         ? KTSwitch(
-            width: 36.rw,
-            height: 18.rh,
-            controller: ValueNotifier<bool>(_enabled),
-            activeColor: AppColors.primaryP300,
-            onChanged: (enabled) {
-              if (widget.parentEnabled) {
-                _handleMenu(enabled);
-              }
-            },
-          )
+      width: widget.switchWidth ?? 36.rw,
+      height: widget.switchHeight ?? 18.rh,
+      controller: ValueNotifier<bool>(_enabled),
+      activeColor: AppColors.primaryP300,
+      onChanged: (enabled) {
+        if (widget.parentEnabled) {
+          _handleMenu(enabled);
+        }
+      },
+    )
         : SizedBox(height: AppSize.s40.rh);
   }
 }

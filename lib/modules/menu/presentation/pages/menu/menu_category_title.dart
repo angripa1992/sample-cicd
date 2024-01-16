@@ -1,9 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/widgets/kt_switch.dart';
+import 'package:klikit/modules/menu/presentation/pages/menu/menu_switch_view.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
+import 'package:klikit/segments/event_manager.dart';
+import 'package:klikit/segments/segemnt_data_provider.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -12,8 +15,19 @@ import '../../../domain/entities/menu/menu_categories.dart';
 
 class MenuCategoryTitle extends StatelessWidget {
   final MenuCategory menuCategory;
+  final bool parentEnabled;
+  final int brandID;
+  final int providerID;
+  final Function(MenuCategory) onChanged;
 
-  const MenuCategoryTitle({Key? key, required this.menuCategory}) : super(key: key);
+  const MenuCategoryTitle({
+    Key? key,
+    required this.menuCategory,
+    required this.parentEnabled,
+    required this.brandID,
+    required this.providerID,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +59,29 @@ class MenuCategoryTitle extends StatelessWidget {
               ],
             ),
           ),
-          KTSwitch(
-            width: 44.rw,
-            height: 22.rh,
-            controller: ValueNotifier<bool>(menuCategory.enabled),
-            activeColor: AppColors.primaryP300,
-            onChanged: (enabled) {},
-          )
+          MenuSwitchView(
+            menuVersion: menuCategory.menuVersion,
+            enabled: menuCategory.enabled,
+            parentEnabled: parentEnabled,
+            id: menuCategory.id,
+            brandId: brandID,
+            providerId: providerID,
+            type: MenuType.CATEGORY,
+            switchWidth: 44.rw,
+            switchHeight: 22.rh,
+            onMenuEnableChanged: (enabled) {
+              menuCategory.enabled = enabled;
+              onChanged(menuCategory);
+              SegmentManager().track(
+                event: SegmentEvents.CATEGORY_TOGGLE,
+                properties: {
+                  'id': menuCategory.id,
+                  'name': menuCategory.title,
+                  'enabled': enabled ? 'Yes' : 'No',
+                },
+              );
+            },
+          ),
         ],
       ),
     );
