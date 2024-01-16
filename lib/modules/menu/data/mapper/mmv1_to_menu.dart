@@ -1,18 +1,17 @@
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/modules/menu/data/mapper/price_mapper.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_available_times.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
 
 import '../../domain/entities/menu/menu_categories.dart';
 import '../../domain/entities/menu/menu_data.dart';
 import '../../domain/entities/menu/menu_item.dart';
-import '../../domain/entities/menu/menu_item_price.dart';
 import '../../domain/entities/menu/menu_out_of_stock.dart';
 import '../../domain/entities/menu/menu_sections.dart';
 import '../../domain/entities/menu/menu_visibility.dart';
 import '../models/menu/menu_v1_data.dart';
-import '../models/v2_common_data_model.dart';
 
 MenuData mapMMV1toMenu(MenuV1MenusDataModel menusData) {
   final branchInfo = _menuV1dataToMenuBranchInfo(menusData.branchInfo!);
@@ -120,7 +119,7 @@ MenuCategoryItem _menuV1ItemToMenuItem(
     categoryName: categoryName,
     defaultItemId: data.defaultItemId.orZero(),
     title: data.title.orEmpty(),
-    prices: data.prices?.map((e) => _mmV1PriceToMenuItemPrice(e)).toList() ?? [],
+    prices: data.prices?.map((e) => v1PriceToItemPrice(e)).toList() ?? [],
     vat: data.vat.orZero(),
     skuID: data.skuID.orEmpty(),
     description: data.description.orEmpty(),
@@ -178,25 +177,5 @@ MenuSlots _v1SlotsToMenuSlots(MenuV1SlotsModel data) {
   return MenuSlots(
     startTime: data.startTime.orZero(),
     endTime: data.endTime.orZero(),
-  );
-}
-
-MenuItemPrice _mmV1PriceToMenuItemPrice(MenuV1PricesModel data) {
-  return MenuItemPrice(
-    providerId: data.providerId.orZero(),
-    currencyId: data.currencyId.orZero(),
-    currencyCode: data.code.orEmpty(),
-    price: data.price.orZero(),
-    takeAwayPrice: data.price.orZero(),
-    currencySymbol: data.symbol.orEmpty(),
-    advancedPrice: _toAdvancedPrice(null),
-  );
-}
-
-MenuItemAdvancedPrice _toAdvancedPrice(V2AdvancedPricingModel? advancePriceModel) {
-  return MenuItemAdvancedPrice(
-    delivery: advancePriceModel?.delivery ?? ZERO,
-    dineIn: advancePriceModel?.dineIn ?? ZERO,
-    pickup: advancePriceModel?.pickup ?? ZERO,
   );
 }

@@ -26,10 +26,10 @@ class YesterdayTotalOrderCubit extends Cubit<ResponseState> {
     final brands = await _informationProvider.fetchBrandsIds();
     final providers = await _informationProvider.findProvidersIds();
     final branch = SessionManager().branchId();
-    final timeZone = await DateTimeProvider.timeZone();
+    final timeZone = await DateTimeFormatter.timeZone();
     final params = {
-      "start": DateTimeProvider.yesterday(),
-      "end": DateTimeProvider.today(),
+      "start": DateTimeFormatter.yesterday(),
+      "end": DateTimeFormatter.today(),
       "timezone": timeZone,
       "filterByBranch": branch,
       "filterByBrand": ListParam<int>(brands, ListFormat.csv),

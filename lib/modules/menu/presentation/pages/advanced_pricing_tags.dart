@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 
-import '../../../../../core/utils/price_calculator.dart';
-import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
-import '../../../../../resources/styles.dart';
-import '../../../../../resources/values.dart';
-import '../../../domain/entities/menu/menu_item_price.dart';
+import '../../../../core/utils/price_calculator.dart';
+import '../../../../resources/colors.dart';
+import '../../../../resources/fonts.dart';
+import '../../../../resources/styles.dart';
+import '../../../../resources/values.dart';
+import '../../domain/entities/item_price.dart';
 
 class MenuAdvancedPriceTags extends StatelessWidget {
-  final MenuItemPrice price;
+  final ItemPrice price;
 
   const MenuAdvancedPriceTags({
     super.key,

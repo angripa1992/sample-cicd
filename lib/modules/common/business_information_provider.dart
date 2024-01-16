@@ -6,7 +6,7 @@ import 'aggregrator_provider.dart';
 import 'branch_info_provider.dart';
 import 'brand_provider.dart';
 import 'data/business_info_provider_repo.dart';
-import 'entities/branch_info.dart';
+import 'entities/branch.dart';
 import 'entities/brand.dart';
 import 'entities/payment_info.dart';
 import 'entities/provider.dart';
@@ -21,11 +21,11 @@ class BusinessInformationProvider {
   late BranchInfoProvider _branchInfoProvider;
 
   BusinessInformationProvider(this._orderRepository) {
-    _brandProvider = BrandProvider(_orderRepository);
+    _branchInfoProvider = BranchInfoProvider(_orderRepository);
+    _brandProvider = BrandProvider(_orderRepository, _branchInfoProvider);
     _aggregatorProvider = AggregatorProvider(_orderRepository);
     _sourceProvider = SourceProvider(_orderRepository);
     _paymentInfoProvider = PaymentInfoProvider(_orderRepository);
-    _branchInfoProvider = BranchInfoProvider(_orderRepository);
   }
 
   ///brands
@@ -63,9 +63,11 @@ class BusinessInformationProvider {
   Future<PaymentMethod> fetchPaymentMethod(int id) => _paymentInfoProvider.findMethodById(id);
 
   ///branch
-  Future<BusinessBranchInfo?> branchInfo() => _branchInfoProvider.getBranchInfo();
+  Future<List<Branch>> fetchBranches() => _branchInfoProvider.branches();
 
-  Future<MenuBranchInfo?> menuBranchInfo() => _branchInfoProvider.getMenuBranchInfo();
+  Future<Branch?> branchByID(int branchID) => _branchInfoProvider.branchByID(branchID);
+
+  Future<MenuBranchInfo> menuBranchInfo(int branchID) => _branchInfoProvider.menuBranchByID(branchID);
 
   ///clear data after logout
   void clearData() {

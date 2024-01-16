@@ -1,16 +1,16 @@
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/session_manager.dart';
 
-class MenuItemPrice {
+class ItemPrice {
   final int providerId;
   final int currencyId;
   final String currencyCode;
   final String currencySymbol;
   final num takeAwayPrice;
-  final MenuItemAdvancedPrice advancedPrice;
+  final ItemAdvancedPrice advancedPrice;
   final num _price;
 
-  MenuItemPrice({
+  ItemPrice({
     required this.providerId,
     required this.currencyId,
     required this.currencyCode,
@@ -39,12 +39,12 @@ class MenuItemPrice {
   }
 }
 
-class MenuItemAdvancedPrice {
+class ItemAdvancedPrice {
   final num delivery;
   final num dineIn;
   final num pickup;
 
-  MenuItemAdvancedPrice({
+  ItemAdvancedPrice({
     required this.delivery,
     required this.dineIn,
     required this.pickup,

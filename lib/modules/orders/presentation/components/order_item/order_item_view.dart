@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/presentation/components/order_item/order_action_button_manager.dart';
 import 'package:klikit/modules/orders/presentation/components/order_item/three_pl_status.dart';
 import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -125,7 +126,7 @@ class OrderItemView extends StatelessWidget {
                     ),
                     SizedBox(height: AppSize.s4.rh),
                     Text(
-                      DateTimeProvider.parseOrderCreatedDate(order.createdAt),
+                      DateTimeFormatter.parseOrderCreatedDate(order.createdAt),
                       style: regularTextStyle(
                         color: AppColors.black,
                         fontSize: AppFontSize.s12.rSp,
@@ -180,9 +181,12 @@ class OrderItemView extends StatelessWidget {
 
   Widget _getActionButton() {
     if (order.status == OrderStatus.CANCELLED || order.status == OrderStatus.DELIVERED || order.status == OrderStatus.PICKED_UP) {
-      return SizedBox(
-        width: AppSize.s42.rw,
-        child: PrintButton(expanded: false, onPrint: onPrint),
+      return Visibility(
+        visible: OrderActionButtonManager().canPrint(order),
+        child: PrintButton(
+          expanded: false,
+          onPrint: onPrint,
+        ),
       );
     } else if (order.status == OrderStatus.SCHEDULED) {
       return _scheduleOrderAction();
@@ -223,7 +227,7 @@ class OrderItemView extends StatelessWidget {
               SizedBox(width: AppSize.s4.rw),
               Flexible(
                 child: Text(
-                  DateTimeProvider.scheduleDate(order.scheduledTime),
+                  DateTimeFormatter.scheduleDate(order.scheduledTime),
                   style: mediumTextStyle(
                     color: AppColors.primary,
                     fontSize: AppFontSize.s14.rSp,
@@ -244,7 +248,7 @@ class OrderItemView extends StatelessWidget {
             SizedBox(width: AppSize.s4.rw),
             Flexible(
               child: Text(
-                DateTimeProvider.scheduleTime(order.scheduledTime),
+                DateTimeFormatter.scheduleTime(order.scheduledTime),
                 style: mediumTextStyle(
                   color: AppColors.primary,
                   fontSize: AppFontSize.s14.rSp,

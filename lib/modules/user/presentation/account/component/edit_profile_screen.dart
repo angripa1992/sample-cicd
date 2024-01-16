@@ -60,7 +60,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         context.read<UpdateUserInfoCubit>().updateUserInfo(
               UpdateUserInfoParams(
                 UserUpdateRequestModel(
-                  branchId: _user.brandIDs.first,
+               //   branchId: _user.branchIDs.first,
                   businessId: _user.businessId,
                   firstName: _firstNameController.text,
                   lastName: _lastNameController.text,

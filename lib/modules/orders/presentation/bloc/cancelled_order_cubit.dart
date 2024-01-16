@@ -17,12 +17,12 @@ class CancelledOrderCubit extends Cubit<ResponseState> {
       : super(Empty());
 
   void fetchTodayCancelledOrder({required bool willShowLoading}) async {
-    final timeZone = await DateTimeProvider.timeZone();
+    final timeZone = await DateTimeFormatter.timeZone();
     final brands = await _informationProvider.fetchBrandsIds();
     final providers = await _informationProvider.findProvidersIds();
     final Map<String, dynamic> params = {};
-    params["start"] = DateTimeProvider.today();
-    params["end"] = DateTimeProvider.nextDay();
+    params["start"] = DateTimeFormatter.today();
+    params["end"] = DateTimeFormatter.nextDay();
     params["timezone"] = timeZone;
     params["filterByBrand"] = ListParam<int>(brands, ListFormat.csv);
     params["filterByProvider"] = ListParam<int>(providers, ListFormat.csv);

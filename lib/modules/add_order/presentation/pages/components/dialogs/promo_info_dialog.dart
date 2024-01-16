@@ -62,7 +62,7 @@ class PromoInfoView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _itemInfo(AppStrings.min_value.tr(), '$currencySymbol ${promo.minOrderAmount}'),
-            _itemInfo(AppStrings.promo_end.tr(), DateTimeProvider.dateTime(promo.endTime!)),
+            _itemInfo(AppStrings.promo_end.tr(), DateTimeFormatter.dateTime(promo.endTime!)),
           ],
         ),
       ],

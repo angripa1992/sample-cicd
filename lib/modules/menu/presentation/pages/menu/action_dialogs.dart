@@ -22,10 +22,21 @@ void showMenuActionDialog({
   required VoidCallback onSuccess,
   required int menuVersion,
   required int brandId,
+  required int branchId,
   required int id,
   required int type,
   required bool enabled,
 }) {
+  String typeName() {
+    if (type == MenuType.CATEGORY) {
+      return 'category';
+    } else if (type == MenuType.SECTION) {
+      return 'section';
+    } else {
+      return 'item';
+    }
+  }
+
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -38,7 +49,7 @@ void showMenuActionDialog({
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this ${type == MenuType.SECTION ? 'entire menu' : 'category'}?',
+                '${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this ${typeName()}?',
                 style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
@@ -67,7 +78,14 @@ void showMenuActionDialog({
                         return LoadingButton(
                           isLoading: (state is Loading),
                           onTap: () {
-                            context.read<UpdateMenuEnabledCubit>().updateMenu(menuVersion: menuVersion, brandId: brandId, id: id, enabled: enabled, type: type);
+                            context.read<UpdateMenuEnabledCubit>().updateMenu(
+                                  menuVersion: menuVersion,
+                                  brandId: brandId,
+                                  branchId: branchId,
+                                  id: id,
+                                  enabled: enabled,
+                                  type: type,
+                                );
                           },
                           text: enabled ? AppStrings.enable.tr() : AppStrings.disable.tr(),
                         );
