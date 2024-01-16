@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/network/rest_client.dart';
 
+import '../app/enums.dart';
 import '../app/session_manager.dart';
+import '../core/network/urls.dart';
 import '../core/provider/device_information_provider.dart';
 
 class FcmTokenManager {
@@ -34,13 +37,11 @@ class FcmTokenManager {
     params['app_type'] = 2;
     params['branch_id'] = branchID;
     params['uuid'] = uuid;
-    return const Right(true);
-    //TODO implement business owner role
-    // try {
-    //   await _restClient.request(Urls.tokenRegistration, Method.POST, params);
-    //   return const Right(true);
-    // } on DioException catch (error) {
-    //   return Left(ErrorHandler.handle(error).failure);
-    // }
+    try {
+      await _restClient.request(Urls.tokenRegistration, Method.POST, params);
+      return const Right(true);
+    } on DioException catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
   }
 }

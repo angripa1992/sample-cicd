@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_item_details.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../app/constants.dart';
+import '../../../../../app/di.dart';
 import '../../../../../resources/colors.dart';
 import '../../../domain/entities/modifier/grouped_modifier_item.dart';
 import '../../../domain/entities/modifier/modifier_group.dart';
+import '../../cubit/check_affected_cubit.dart';
 import 'modifer_switch_view.dart';
 
 class ModifierListView extends StatefulWidget {
@@ -39,20 +42,23 @@ class _ModifierListViewState extends State<ModifierListView> {
         ),
       ),
       builder: (BuildContext context) {
-        return SizedBox(
-          height: ScreenSizes.screenHeight / 1.5,
-          child: ModifierItemDetails(
-            item: widget.modifierGroup.modifiers[index],
-            groupID: widget.modifierGroup.id,
-            menuVersion: widget.modifierGroup.menuVersion,
-            brandID: widget.brandId,
-            branchID: widget.branchID,
-            onEnabledChanged: (enabled) {
-              setState(() {
-                widget.modifierGroup.modifiers[index].isEnabled = enabled;
-                widget.onChanged(widget.modifierGroup.modifiers);
-              });
-            },
+        return BlocProvider(
+          create: (_) => getIt.get<CheckAffectedCubit>(),
+          child: SizedBox(
+            height: ScreenSizes.screenHeight / 1.5,
+            child: ModifierItemDetails(
+              item: widget.modifierGroup.modifiers[index],
+              groupID: widget.modifierGroup.id,
+              menuVersion: widget.modifierGroup.menuVersion,
+              brandID: widget.brandId,
+              branchID: widget.branchID,
+              onEnabledChanged: (enabled) {
+                setState(() {
+                  widget.modifierGroup.modifiers[index].isEnabled = enabled;
+                  widget.onChanged(widget.modifierGroup.modifiers);
+                });
+              },
+            ),
           ),
         );
       },

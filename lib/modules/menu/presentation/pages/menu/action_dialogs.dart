@@ -27,6 +27,16 @@ void showMenuActionDialog({
   required int type,
   required bool enabled,
 }) {
+  String typeName() {
+    if (type == MenuType.CATEGORY) {
+      return 'category';
+    } else if (type == MenuType.SECTION) {
+      return 'section';
+    } else {
+      return 'item';
+    }
+  }
+
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -39,7 +49,7 @@ void showMenuActionDialog({
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this ${type == MenuType.SECTION ? 'entire menu' : 'category'}?',
+                '${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this ${typeName()}?',
                 style: mediumTextStyle(
                   color: AppColors.black,
                   fontSize: AppFontSize.s16.rSp,
