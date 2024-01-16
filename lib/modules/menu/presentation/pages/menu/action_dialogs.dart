@@ -31,7 +31,7 @@ void showMenuActionDialog({
     if (type == MenuType.CATEGORY) {
       return 'category';
     } else if (type == MenuType.SECTION) {
-      return 'section';
+      return 'menu';
     } else {
       return 'item';
     }
