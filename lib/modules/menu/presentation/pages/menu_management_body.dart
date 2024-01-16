@@ -56,7 +56,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
                       index == MenuTabIndex.MODIFIER ? 'Modifier List' : 'Menu List',
                       style: semiBoldTextStyle(
                         color: AppColors.black,
-                        fontSize: 14.rSp,
+                        fontSize: 16.rSp,
                       ),
                     );
                   },

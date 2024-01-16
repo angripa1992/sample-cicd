@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
 
@@ -33,25 +34,22 @@ class BranchInfoProvider {
     });
   }
 
-  Future<MenuBranchInfo?> menuBranchByID(int branchID) async {
+  Future<MenuBranchInfo> menuBranchByID(int branchID) async {
     final businessBranch = await branchByID(branchID);
-    if (businessBranch != null) {
-      return MenuBranchInfo(
-        businessID: businessBranch.businessId,
-        brandID: businessBranch.brandIds.first,
-        branchID: businessBranch.id,
-        countryID: businessBranch.countryId,
-        currencyID: businessBranch.currencyId,
-        startTime: 0,
-        endTime: 0,
-        availabilityMask: businessBranch.availabilityMask,
-        providerIDs: '',
-        languageCode: businessBranch.languageCode,
-        currencyCode: businessBranch.currencyCode,
-        currencySymbol: businessBranch.currencySymbol,
-      );
-    }
-    return null;
+    return MenuBranchInfo(
+      businessID: businessBranch?.businessId.orZero(),
+      brandID: businessBranch?.brandIds.first.orZero(),
+      branchID: businessBranch?.id ?? ZERO,
+      countryID: businessBranch?.countryId ?? ZERO,
+      currencyID: businessBranch?.currencyId ?? ZERO,
+      startTime: 0,
+      endTime: 0,
+      availabilityMask: businessBranch?.availabilityMask ?? ZERO,
+      providerIDs: EMPTY,
+      languageCode: businessBranch?.languageCode ?? EMPTY,
+      currencyCode: businessBranch?.currencyCode ?? EMPTY,
+      currencySymbol: businessBranch?.currencySymbol ?? EMPTY,
+    );
   }
 
   void clear() {

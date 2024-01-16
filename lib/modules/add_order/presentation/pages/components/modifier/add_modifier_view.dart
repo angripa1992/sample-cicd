@@ -3,7 +3,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
-import 'package:klikit/modules/menu/domain/entities/menu/menu_item_price.dart';
+import 'package:klikit/modules/menu/domain/entities/item_price.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/values.dart';
@@ -43,7 +43,7 @@ class _AddModifierViewState extends State<AddModifierView> {
   final _textController = TextEditingController();
   final _enabledNotifier = ValueNotifier<bool>(false);
   final _priceNotifier = ValueNotifier<num>(0);
-  late MenuItemPrice _itemPrice;
+  late ItemPrice _itemPrice;
   num _modifierPrice = 0;
   int _quantity = 1;
 

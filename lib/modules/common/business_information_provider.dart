@@ -22,7 +22,7 @@ class BusinessInformationProvider {
 
   BusinessInformationProvider(this._orderRepository) {
     _branchInfoProvider = BranchInfoProvider(_orderRepository);
-    _brandProvider = BrandProvider(_orderRepository,_branchInfoProvider);
+    _brandProvider = BrandProvider(_orderRepository, _branchInfoProvider);
     _aggregatorProvider = AggregatorProvider(_orderRepository);
     _sourceProvider = SourceProvider(_orderRepository);
     _paymentInfoProvider = PaymentInfoProvider(_orderRepository);
@@ -67,7 +67,7 @@ class BusinessInformationProvider {
 
   Future<Branch?> branchByID(int branchID) => _branchInfoProvider.branchByID(branchID);
 
-  Future<MenuBranchInfo?> menuBranchInfo(int branchID) => _branchInfoProvider.menuBranchByID(branchID);
+  Future<MenuBranchInfo> menuBranchInfo(int branchID) => _branchInfoProvider.menuBranchByID(branchID);
 
   ///clear data after logout
   void clearData() {

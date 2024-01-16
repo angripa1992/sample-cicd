@@ -13,7 +13,7 @@ import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../app/constants.dart';
 import '../../../app/session_manager.dart';
-import '../../menu/domain/entities/menu/menu_item_price.dart';
+import '../../menu/domain/entities/item_price.dart';
 import '../../menu/domain/entities/menu/menu_out_of_stock.dart';
 import '../../menu/domain/entities/menu/menu_visibility.dart';
 import '../data/models/applied_promo.dart';
@@ -208,7 +208,7 @@ class OrderEntityProvider {
         hidden: visibility.visible,
       );
 
-  MenuItemPriceModel _priceModel(MenuItemPrice price) => MenuItemPriceModel(
+  MenuItemPriceModel _priceModel(ItemPrice price) => MenuItemPriceModel(
         providerId: price.providerId,
         currencyId: price.currencyId,
         code: price.currencyCode,

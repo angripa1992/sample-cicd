@@ -83,7 +83,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
                           group.title,
                           style: regularTextStyle(
                             color: AppColors.black,
-                            fontSize: AppFontSize.s14.rSp,
+                            fontSize: AppFontSize.s16.rSp,
                           ),
                         ),
                       ),

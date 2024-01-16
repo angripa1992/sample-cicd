@@ -145,7 +145,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
               ),
             ),
             SizedBox(height: AppSize.s8.rh),
-            ProviderAdvancePrice(menuCategoryItem: widget.menuCategoryItem),
+            ProviderAdvancePrice(itemPrices: widget.menuCategoryItem.prices),
           ],
         ),
       ),
