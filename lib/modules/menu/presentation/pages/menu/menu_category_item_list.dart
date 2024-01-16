@@ -116,6 +116,8 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
               key: UniqueKey(),
               itemCount: _menuCategoryItems.length,
               itemBuilder: (_, index) {
+                final categoryItem = _menuCategoryItems[index];
+
                 return Container(
                   color: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s6.rh),
@@ -127,72 +129,61 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        KTNetworkImage(
-                          imageUrl: _menuCategoryItems[index].image,
-                          width: AppSize.s48.rSp,
-                          height: AppSize.s48.rSp,
-                          boxFit: BoxFit.cover,
-                          boxShape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                          imageBorderWidth: 0,
+                        Opacity(
+                          opacity: (UserPermissionManager().canOosMenu() && !categoryItem.enabled && widget.providerID == ZERO) ? 0.5 : 1.0,
+                          child: KTNetworkImage(
+                            imageUrl: categoryItem.image,
+                            width: AppSize.s48.rSp,
+                            height: AppSize.s48.rSp,
+                            boxFit: BoxFit.cover,
+                            boxShape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                            imageBorderWidth: 0,
+                          ),
                         ),
                         SizedBox(width: AppSize.s16.rw),
                         Expanded(
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      _menuCategoryItems[index].title.trim(),
-                                      style: mediumTextStyle(fontSize: AppSize.s14.rSp, color: AppColors.neutralB500),
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                categoryItem.title.trim(),
+                                style: mediumTextStyle(fontSize: AppSize.s14.rSp, color: AppColors.neutralB500),
                               ),
                               AppSize.s4.verticalSpacer(),
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      PriceCalculator.formatPrice(
-                                        price: _menuCategoryItems[index].klikitPrice().price(),
-                                        code: _menuCategoryItems[index].klikitPrice().currencyCode,
-                                        symbol: _menuCategoryItems[index].klikitPrice().currencySymbol,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      style: regularTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB400),
-                                    ),
-                                  ),
-                                  if (UserPermissionManager().canOosMenu()) SizedBox(width: AppSize.s12.rw),
-                                  if (UserPermissionManager().canOosMenu())
-                                    Expanded(
-                                      child: MenuSnoozeView(
-                                        menuCategoryItem: _menuCategoryItems[index],
-                                        providerId: widget.providerID,
-                                        parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
-                                        brandId: widget.brandID,
-                                        onMenuItemSnoozeChanged: (oos) {
-                                          _onItemSnoozeChanged(index, oos);
-                                        },
-                                        onMenuEnabledChanged: (enabled) {
-                                          _onMenuEnabledChanged(index, enabled);
-                                        },
-                                      ),
-                                    ),
-                                ],
+                              Text(
+                                PriceCalculator.formatPrice(
+                                  price: categoryItem.klikitPrice().price(),
+                                  code: categoryItem.klikitPrice().currencyCode,
+                                  symbol: categoryItem.klikitPrice().currencySymbol,
+                                ),
+                                textAlign: TextAlign.center,
+                                style: regularTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB400),
                               ),
+                              if (UserPermissionManager().canOosMenu() && !categoryItem.enabled && widget.providerID == ZERO)
+                                MenuSnoozeView(
+                                  menuCategoryItem: categoryItem,
+                                  providerId: widget.providerID,
+                                  parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+                                  brandId: widget.brandID,
+                                  onMenuItemSnoozeChanged: (oos) {
+                                    _onItemSnoozeChanged(index, oos);
+                                  },
+                                  onMenuEnabledChanged: (enabled) {
+                                    _onMenuEnabledChanged(index, enabled);
+                                  },
+                                ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s6.rh),
                             ],
                           ),
                         ),
                         AppSize.s12.horizontalSpacer(),
                         MenuSwitchView(
                           menuVersion: widget.menuCategory.menuVersion,
-                          id: _menuCategoryItems[index].id,
+                          id: categoryItem.id,
                           brandId: widget.brandID,
                           providerId: widget.providerID,
                           type: MenuType.ITEM,
-                          enabled: _menuCategoryItems[index].enabled,
+                          enabled: categoryItem.enabled,
                           parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
                           onMenuEnableChanged: (enabled) {
                             _onMenuEnabledChanged(index, enabled);
