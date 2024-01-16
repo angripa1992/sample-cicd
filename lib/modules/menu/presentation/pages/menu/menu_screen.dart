@@ -9,6 +9,7 @@ import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_list_view.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
@@ -41,12 +42,19 @@ class _MenuScreenState extends State<MenuScreen> {
     return Expanded(
       child: widget.brand == null
           ? Center(
-              child: Text(
-                AppStrings.please_select_a_brand.tr(),
-                style: regularTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ImageResourceResolver.menuBrandPNG.getImageWidget(width: 131.rw, height: 131.rh),
+                  Text(
+                    AppStrings.please_select_a_brand.tr(),
+                    style: regularTextStyle(
+                      color: AppColors.black,
+                      fontSize: AppFontSize.s16.rSp,
+                    ),
+                  ),
+                ],
               ),
             )
           : BlocBuilder<MenusCubit, ResponseState>(

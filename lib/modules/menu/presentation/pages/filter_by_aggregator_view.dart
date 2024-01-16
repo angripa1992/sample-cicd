@@ -2,8 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_dropdown.dart';
+import 'package:klikit/modules/orders/presentation/components/dialogs/action_dialogs.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
@@ -28,12 +32,12 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
 
   late GlobalKey _dropdownKey;
   final _providers = <Provider>[];
-  final _allProvider = Provider(ZERO, 'All', EMPTY, EMPTY);
+  Provider dropDownValue = Provider(ZERO, 'All', EMPTY, EMPTY);
 
   @override
   void initState() {
     _providers.clear();
-    _providers.add(_allProvider);
+    _providers.add(dropDownValue);
     _providers.addAll(widget.providers);
     _dropdownKey = GlobalKey();
     super.initState();
@@ -41,76 +45,63 @@ class _FilterByAggregatorViewState extends State<FilterByAggregatorView> {
 
   @override
   Widget build(BuildContext context) {
-    Provider? dropDownValue = _allProvider;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: AppSize.s4.rw, bottom: AppSize.s10.rh),
-          child: Text(
-            AppStrings.delivery_aggregator.tr(),
-            style: mediumTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s16.rSp,
+    return Container(
+      color: AppColors.white,
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s12.rh),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {},
+            child: prepareActionDecoration(
+              ImageResourceResolver.filterSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.neutralB600),
+              AppColors.neutralB20,
             ),
           ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            color: AppColors.grey,
+          AppSize.s8.horizontalSpacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Aggregators',
+                style: mediumTextStyle(color: AppColors.neutralB600, fontSize: AppFontSize.s14.rSp),
+              ),
+              AppSize.s2.verticalSpacer(),
+              Text(
+                'Filter by aggregators',
+                style: regularTextStyle(color: AppColors.neutralB300, fontSize: AppFontSize.s12.rSp),
+              ),
+            ],
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-            child: StatefulBuilder(
-              builder: (_, setState) {
-                return DropdownButton<Provider>(
-                  key: _dropdownKey,
-                  value: dropDownValue,
-                  isExpanded: true,
-                  underline: const SizedBox(),
-                  icon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: AppColors.black,
-                  ),
-                  selectedItemBuilder: (BuildContext context) {
-                    return _providers.map<Widget>((Provider item) {
-                      return Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          item.title,
-                          style: dropDownTextStyle,
-                        ),
-                      );
-                    }).toList();
-                  },
-                  items: _providers.map<DropdownMenuItem<Provider>>(
-                    (provider) {
-                      return DropdownMenuItem<Provider>(
-                        value: provider,
-                        child: RadioListTile<Provider>(
-                          title: Text(provider.title, style: dropDownTextStyle),
-                          value: provider,
-                          groupValue: dropDownValue,
-                          activeColor: AppColors.primary,
-                          onChanged: (value) {
-                            Navigator.pop(_dropdownKey.currentContext!);
-                            setState(() {
-                              dropDownValue = value;
-                              widget.onChanged(value);
-                            });
-                          },
-                        ),
-                      );
-                    },
-                  ).toList(),
-                  onChanged: (value) {},
-                );
+          AppSize.s6.horizontalSpacer(),
+          Expanded(
+            child: KTDropdown(
+              items: _providers,
+              titleBuilder: (Provider item) {
+                return item.id == dropDownValue.id ? '● ${item.title}' : '    ${item.title}';
               },
+              hintText: AppStrings.select_brand.tr(),
+              textStyle: mediumTextStyle(fontSize: AppSize.s14.rSp),
+              hintTextStyle: regularTextStyle(fontSize: AppSize.s14.rSp),
+              selectedItemBuilder: (Provider item, bool isSelected) {
+                return item.title;
+              },
+              selectedItem: dropDownValue,
+              onSelected: (Provider selectedItem) async {
+                setState(() {
+                  dropDownValue = selectedItem;
+                  widget.onChanged(selectedItem);
+                });
+              },
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s14.rw),
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+              backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
+              trailingWidget: ImageResourceResolver.downArrowSVG.getImageWidget(width: 14.rw, height: 14.rh, color: AppColors.neutralB700),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

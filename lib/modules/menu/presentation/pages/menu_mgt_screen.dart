@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_mgt_body.dart';
@@ -28,7 +29,7 @@ class _MenuMgtScreenState extends State<MenuMgtScreen> {
         } else if (state is Failed) {
           return Center(child: Text(state.failure.message));
         }
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgress());
       },
     );
   }

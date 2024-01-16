@@ -102,7 +102,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         mainAxisSize: MainAxisSize.min,
         children: [
           CommonDashboardAppBar(title: AppStrings.orders.tr()),
-          AppSize.s1.rh.verticalSpacer(),
+          AppSize.s1.verticalSpacer(),
           Expanded(
             child: NestedScrollView(
               physics: const NeverScrollableScrollPhysics(),

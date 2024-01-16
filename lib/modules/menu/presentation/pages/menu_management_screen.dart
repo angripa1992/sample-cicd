@@ -1,18 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/base/common_dashboard_app_bar.dart';
 import 'package:klikit/modules/menu/presentation/cubit/brand_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
-import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/fetch_modifier_groups_cubit.dart';
+import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_item_snooze_cubit.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_menu_enabled_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_mgt_screen.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../../app/di.dart';
 import '../../../../resources/strings.dart';
-import '../../../../resources/styles.dart';
 import '../../../../segments/event_manager.dart';
 import '../../../../segments/segemnt_data_provider.dart';
 import '../cubit/aggregator_selection_cubit.dart';
@@ -47,11 +49,13 @@ class _MenuManagementScreenState extends State<MenuManagementScreen> {
         BlocProvider<AggregatorSelectionCubit>(create: (_) => getIt.get()),
       ],
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppStrings.menu.tr()),
-          centerTitle: true,
+        body: Column(
+          children: [
+            CommonDashboardAppBar(title: AppStrings.menu.tr()),
+            AppSize.s1.verticalSpacer(),
+            const Expanded(child: MenuMgtScreen()),
+          ],
         ),
-        body: const MenuMgtScreen(),
       ),
     );
   }
