@@ -1,3 +1,4 @@
+import 'package:klikit/resources/asset_resolver/png_image_resource.dart';
 import 'package:klikit/resources/assets.dart';
 
 import 'asset_resolver/svg_image_resource.dart';
@@ -87,4 +88,8 @@ class ImageResourceResolver {
   static SVGImageResource get cancelNotificationSVG => SVGImageResource('$iconBasePath/ic_cancel_notification.svg');
 
   static SVGImageResource get navBackSVG => SVGImageResource('$iconBasePath/ic_nav_back.svg');
+
+  static PNGImageResource get menuBrandPNG => const PNGImageResource(AppImages.menuBrandPNG);
+
+  static SVGImageResource get filterSVG => SVGImageResource('$iconBasePath/ic_filter.svg');
 }
