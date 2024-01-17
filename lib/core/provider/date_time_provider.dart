@@ -17,15 +17,13 @@ class DateTimeFormatter {
 
   static String yesterday() {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final String formatted =
-        formatter.format(DateTime.now().subtract(const Duration(days: 1)));
+    final String formatted = formatter.format(DateTime.now().subtract(const Duration(days: 1)));
     return formatted;
   }
 
   static String nextDay() {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final String formatted =
-        formatter.format(DateTime.now().add(const Duration(days: 1)));
+    final String formatted = formatter.format(DateTime.now().add(const Duration(days: 1)));
     return formatted;
   }
 
@@ -49,8 +47,8 @@ class DateTimeFormatter {
     return '$start - $end';
   }
 
-  static String parseOrderCreatedDate(String createdAt) {
-    final formatter = DateFormat('d MMM yyyy • h:mm a');
+  static String parseOrderCreatedDate(String createdAt, [String pattern = 'd MMM yyyy • h:mm a']) {
+    final formatter = DateFormat(pattern);
     final dateTime = DateTime.parse(createdAt).toLocal();
     return formatter.format(dateTime);
   }

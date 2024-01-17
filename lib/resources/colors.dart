@@ -49,6 +49,7 @@ class AppColors {
   static Color neutralB20 = const Color(0xFFF5F5F5);
   static Color neutralB80 = const Color(0xFF949494);
   static Color neutralB90 = const Color(0xFF858585);
+  static Color neutralB400 = const Color(0xFF4A4A4A);
 }
 
 Color getCheckboxColor(Set<MaterialState> states) {

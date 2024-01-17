@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/size_config.dart';
 import '../../../../../resources/colors.dart';
-import '../../../../../resources/values.dart';
 
 class MyDelegate extends SliverPersistentHeaderDelegate {
   MyDelegate(this.tabBar);
@@ -17,13 +17,8 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   ) {
     return Align(
       child: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: AppSize.s8.rw,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s4.rSp),
-          color: AppColors.white,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+        color: AppColors.white,
         child: tabBar,
       ),
     );
