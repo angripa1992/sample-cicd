@@ -42,11 +42,7 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
       children: [
         if (!UserPermissionManager().isBizOwner())
           Padding(
-            padding: EdgeInsets.only(
-              right: AppSize.s12.rw,
-              left: AppSize.s12.rw,
-              top: AppSize.s12.rh,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s12.rh),
             child: const PauseStoreHeaderView(),
           ),
         if (!UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
