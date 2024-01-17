@@ -219,7 +219,7 @@ class PrintingHandler {
     }
   }
 
-  void printZReport(ZReportDataModel model, DateTime reportDate) async {
+  void printZReport(ZReportData model, DateTime reportDate) async {
     if (SessionManager().isSunmiDevice()) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
       final data = await ZReportDataProvider().generateTemplateData(model, reportDate);
@@ -278,7 +278,7 @@ class PrintingHandler {
   }
 
   Future<List<int>?> _generateZReportTicket(
-    ZReportDataModel dataModel,
+    ZReportData dataModel,
     DateTime reportTime,
   ) async {
     final data = await ZReportDataProvider().generateTemplateData(dataModel, reportTime);

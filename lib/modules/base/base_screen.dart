@@ -5,11 +5,13 @@ import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/base/update_available_view.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/home/presentation/cubit/order_summary_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/cancelled_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/completed_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/new_order_cubit.dart';
@@ -56,14 +58,16 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   void initState() {
-    context.read<PrinterSettingCubit>().getPrinterSetting();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        if (mounted) {
-          _handleArgumentData();
-        }
-      },
-    );
+    if (!UserPermissionManager().isBizOwner()) {
+      context.read<PrinterSettingCubit>().getPrinterSetting();
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) async {
+          if (mounted) {
+            _handleArgumentData();
+          }
+        },
+      );
+    }
     super.initState();
   }
 
@@ -119,10 +123,6 @@ class _BaseScreenState extends State<BaseScreen> {
     }
   }
 
-  void _goToAddOrderScreen() {
-    Navigator.of(context).pushNamed(Routes.addOrder);
-  }
-
   void trackEvents(int index) async {
     String eventName = '';
     switch (index) {
@@ -140,7 +140,7 @@ class _BaseScreenState extends State<BaseScreen> {
     }
 
     if (eventName.isNotEmpty) {
-      final brandIds = await _businessInfoProvider.findBrandsIds();
+      final brandIds = await _businessInfoProvider.fetchBrandsIds();
       SegmentManager().track(
         event: eventName,
         properties: {
@@ -155,7 +155,7 @@ class _BaseScreenState extends State<BaseScreen> {
   void _selectedTab(int index) {
     trackEvents(index);
     if (index == BottomNavItem.ADD_ORDER) {
-      _goToAddOrderScreen();
+      Navigator.of(context).pushNamed(Routes.addOrder);
     } else {
       context.read<BaseScreenCubit>().changeIndex(NavigationData(index: index, subTabIndex: null, data: null));
     }
@@ -166,6 +166,7 @@ class _BaseScreenState extends State<BaseScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<FetchPauseStoreDataCubit>(create: (_) => getIt.get()),
+        BlocProvider<OrderSummaryCubit>(create: (_) => getIt.get<OrderSummaryCubit>()),
         BlocProvider<TotalOrderCubit>(create: (_) => getIt.get<TotalOrderCubit>()),
         BlocProvider<YesterdayTotalOrderCubit>(create: (_) => getIt.get<YesterdayTotalOrderCubit>()),
         BlocProvider<CompletedOrderCubit>(create: (_) => getIt.get<CompletedOrderCubit>()),
@@ -188,13 +189,14 @@ class _BaseScreenState extends State<BaseScreen> {
         },
         child: MultiBlocListener(
           listeners: [
-            BlocListener<PrinterSettingCubit, ResponseState>(
-              listener: (context, state) {
-                if (state is Success<PrinterSetting>) {
-                  _handlePrinterSetting(state.data);
-                }
-              },
-            ),
+            if (!UserPermissionManager().isBizOwner())
+              BlocListener<PrinterSettingCubit, ResponseState>(
+                listener: (context, state) {
+                  if (state is Success<PrinterSetting>) {
+                    _handlePrinterSetting(state.data);
+                  }
+                },
+              ),
             BlocListener<ChangeLanguageCubit, ChangeLanguageState>(
               listener: (_, state) {
                 if (state is OnChangeState) {
@@ -236,11 +238,12 @@ class _BaseScreenState extends State<BaseScreen> {
                       text: AppStrings.orders.tr(),
                       index: BottomNavItem.ORDER,
                     ),
-                    FABBottomAppBarItem(
-                      iconData: Icons.add_circle_outline_sharp,
-                      text: AppStrings.add_order.tr(),
-                      index: BottomNavItem.ADD_ORDER,
-                    ),
+                    if (!UserPermissionManager().isBizOwner())
+                      FABBottomAppBarItem(
+                        iconData: Icons.add_circle_outline_sharp,
+                        text: AppStrings.add_order.tr(),
+                        index: BottomNavItem.ADD_ORDER,
+                      ),
                     FABBottomAppBarItem(
                       iconData: Icons.dashboard,
                       text: AppStrings.menu.tr(),

@@ -76,7 +76,9 @@ class OrderActionButtonManager {
 
   bool canUpdateOrder(Order order) {
     final preConditionMatch = order.providerId == ProviderID.KLIKIT && (order.status == OrderStatus.ACCEPTED || order.status == OrderStatus.PLACED);
-    if (order.isManualOrder && order.paymentChannel == PaymentChannelID.CREATE_QRIS && !order.canUpdate) {
+    if (UserPermissionManager().isBizOwner()) {
+      return false;
+    } else if (order.isManualOrder && order.paymentChannel == PaymentChannelID.CREATE_QRIS && !order.canUpdate) {
       return false;
     } else if (preConditionMatch && order.isManualOrder) {
       return true;
@@ -88,6 +90,6 @@ class OrderActionButtonManager {
   }
 
   bool canPrint(Order order) {
-    return order.status != OrderStatus.PLACED;
+    return order.status != OrderStatus.PLACED && !UserPermissionManager().isBizOwner();
   }
 }

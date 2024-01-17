@@ -16,6 +16,8 @@ import '../entities/order_source.dart';
 abstract class AddOrderRepository {
   Future<Either<Failure, List<MenuItemModifierGroup>>> fetchModifiers({
     required int itemId,
+    required int sectionID,
+    required int categoryID,
     required MenuBranchInfo branchInfo,
     required int type,
   });
