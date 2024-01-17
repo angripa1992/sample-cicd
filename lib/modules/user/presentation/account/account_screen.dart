@@ -267,7 +267,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,
                       ),
-                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 16.rh),
+                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: !UserPermissionManager().isBizOwner() ? 16.rh : 0),
                     if (!UserPermissionManager().isBizOwner())
                       ActionableTile(
                         title: AppStrings.printer_settings.tr(),
