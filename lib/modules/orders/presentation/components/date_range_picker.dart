@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/functions/pickers.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
@@ -14,9 +15,7 @@ class DateSelector extends StatefulWidget {
   final DateTimeRange dateTimeRange;
   final Function(DateTimeRange) onPick;
 
-  const DateSelector(
-      {Key? key, required this.onPick, required this.dateTimeRange})
-      : super(key: key);
+  const DateSelector({Key? key, required this.onPick, required this.dateTimeRange}) : super(key: key);
 
   @override
   State<DateSelector> createState() => _DateSelectorState();
@@ -43,35 +42,17 @@ class _DateSelectorState extends State<DateSelector> {
     }
   }
 
-  Future _pickDateRange() async {
-    final newDateRange = await showDateRangePicker(
-        context: context,
-        initialDateRange: _dateTimeRange,
-        lastDate: DateTime.now(),
-        firstDate: DateTime.now().subtract(const Duration(days: (336 * 10))),
-        builder: (context, child) {
-          return Theme(
-            data: ThemeData.light().copyWith(
-              primaryColor: AppColors.primaryLight,
-              dividerColor: AppColors.white,
-              colorScheme: ColorScheme.fromSwatch().copyWith(
-                primary: AppColors.primaryLight,
-                onSurface: AppColors.primaryLight,
-              ),
-            ),
-            child: child!,
-          );
-        });
-    if (newDateRange == null) return;
-    _validate(newDateRange);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
       child: InkWell(
-        onTap: _pickDateRange,
+        onTap: () async {
+          final newDateRange = await showKTDateRangePicker(context: context, initialDateRange: _dateTimeRange);
+
+          if (newDateRange == null) return;
+          _validate(newDateRange);
+        },
         child: Container(
           padding: const EdgeInsets.all(AppSize.s8),
           decoration: BoxDecoration(
@@ -88,7 +69,7 @@ class _DateSelectorState extends State<DateSelector> {
               ),
               SizedBox(width: AppSize.s8.rw),
               Text(
-                DateTimeProvider.dateRangeString(_dateTimeRange!),
+                DateTimeFormatter.dateRangeString(_dateTimeRange!),
                 style: regularTextStyle(
                   color: AppColors.primary,
                   fontSize: AppFontSize.s13.rSp,

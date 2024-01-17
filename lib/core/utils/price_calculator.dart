@@ -55,6 +55,19 @@ class PriceCalculator {
     return NumberFormat.currency(name: code, symbol: symbol, decimalDigits: 2).format(price);
   }
 
+  static String formatCompactPrice({
+    required num price,
+    required String code,
+    required String symbol,
+  }) {
+    if (code.toUpperCase() == 'IDR') {
+      return NumberFormat.compactCurrency(locale: 'id', symbol: symbol, decimalDigits: 0).format(price);
+    } else if (code.toUpperCase() == 'JPY') {
+      return NumberFormat.compactCurrency(locale: 'ja', symbol: symbol, decimalDigits: 0).format(price);
+    }
+    return NumberFormat.compactCurrency(name: code, symbol: symbol, decimalDigits: 2).format(price);
+  }
+
   static String convertPrice(Order order, num priceInCent) {
     final price = priceInCent / 100;
     return formatPrice(

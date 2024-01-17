@@ -23,8 +23,7 @@ class V2ModifierGroupModel {
     this.groupedModifiers,
   });
 
-  factory V2ModifierGroupModel.fromJson(Map<String, dynamic> json) =>
-      _$V2ModifierGroupModelFromJson(json);
+  factory V2ModifierGroupModel.fromJson(Map<String, dynamic> json) => _$V2ModifierGroupModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -33,6 +32,7 @@ class V2GroupedModifiersModel {
   V2TitleModel? title;
   V2TitleModel? description;
   List<V2VisibilityModel>? visibilities;
+  List<V2PriceModel>? prices;
   bool? isEnabled;
   int? sequence;
 
@@ -43,8 +43,8 @@ class V2GroupedModifiersModel {
     this.visibilities,
     this.isEnabled,
     this.sequence,
+    this.prices,
   });
 
-  factory V2GroupedModifiersModel.fromJson(Map<String, dynamic> json) =>
-      _$V2GroupedModifiersModelFromJson(json);
+  factory V2GroupedModifiersModel.fromJson(Map<String, dynamic> json) => _$V2GroupedModifiersModelFromJson(json);
 }

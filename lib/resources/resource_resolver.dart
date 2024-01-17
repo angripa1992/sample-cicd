@@ -1,3 +1,5 @@
+import 'package:klikit/resources/asset_resolver/png_image_resource.dart';
+
 import 'asset_resolver/svg_image_resource.dart';
 
 const String assetBasePath = 'assets';
@@ -17,6 +19,8 @@ class ImageResourceResolver {
   static SVGImageResource get rightArrowSVG => SVGImageResource('$iconBasePath/ic_right_arrow.svg');
 
   static SVGImageResource get printerSVG => SVGImageResource('$iconBasePath/ic_printer.svg');
+
+  static SVGImageResource get filterSVG => SVGImageResource('$iconBasePath/ic_filter.svg');
 
   static SVGImageResource get phoneSVG => SVGImageResource('$iconBasePath/ic_phone.svg');
 
@@ -39,6 +43,8 @@ class ImageResourceResolver {
   static SVGImageResource get emailSVG => SVGImageResource('$iconBasePath/ic_email.svg');
 
   static SVGImageResource get deleteSVG => SVGImageResource('$iconBasePath/ic_delete.svg');
+
+  static PNGImageResource get emptyMenuPNG => const PNGImageResource('$imageBasePath/empty_menu.png');
 
   static SVGImageResource get refreshSVG => SVGImageResource('$iconBasePath/ic_refresh.svg');
 

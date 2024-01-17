@@ -128,24 +128,6 @@ Map<String, dynamic> _$MenuV1StatusesModelToJson(
       'enabled': instance.enabled,
     };
 
-MenuV1PricesModel _$MenuV1PricesModelFromJson(Map<String, dynamic> json) =>
-    MenuV1PricesModel(
-      providerId: json['provider_id'] as int?,
-      currencyId: json['currency_id'] as int?,
-      code: json['code'] as String?,
-      symbol: json['symbol'] as String?,
-      price: (json['price'] as num?)?.toDouble(),
-    );
-
-Map<String, dynamic> _$MenuV1PricesModelToJson(MenuV1PricesModel instance) =>
-    <String, dynamic>{
-      'provider_id': instance.providerId,
-      'currency_id': instance.currencyId,
-      'code': instance.code,
-      'symbol': instance.symbol,
-      'price': instance.price,
-    };
-
 MenuV1StockModel _$MenuV1StockModelFromJson(Map<String, dynamic> json) =>
     MenuV1StockModel(
       available: json['available'] as bool?,
@@ -177,7 +159,7 @@ MenuV1ItemsModel _$MenuV1ItemsModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       title: json['title'] as String?,
       prices: (json['prices'] as List<dynamic>?)
-          ?.map((e) => MenuV1PricesModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => V1PricesModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       vat: json['vat'] as int?,
       description: json['description'] as String?,
