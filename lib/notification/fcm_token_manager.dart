@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/network/rest_client.dart';
-import 'package:klikit/core/network/urls.dart';
 
+import '../app/enums.dart';
 import '../app/session_manager.dart';
+import '../core/network/urls.dart';
 import '../core/provider/device_information_provider.dart';
 
 class FcmTokenManager {

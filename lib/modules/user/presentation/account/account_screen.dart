@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/utils/cubit_state.dart';
 import 'package:klikit/core/widgets/actionable_tile.dart';
@@ -173,7 +174,7 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void trackPrinterSettingsClickEvent() async {
-    final brandIds = await _businessInfoProvider.findBrandsIds();
+    final brandIds = await _businessInfoProvider.fetchBrandsIds();
     SegmentManager().track(
       event: SegmentEvents.MODULE_CLICK_PRINTER_SETTINGS,
       properties: {
@@ -235,24 +236,25 @@ class _AccountScreenState extends State<AccountScreen> {
                         fontSize: AppSize.s16.rSp,
                       ),
                     ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 16.rh),
-                    ActionableTile(
-                      title: AppStrings.notification.tr(),
-                      prefixWidget: ImageResourceResolver.notificationSVG.getImageWidget(width: 20.rw, height: 20.rh),
-                      suffixWidget: KTSwitch(
-                        controller: _controller,
-                        onChanged: (enabled) {
-                          showPauseNotificationConfirmationDialog(
-                            context: context,
-                            enable: enabled,
-                            onSuccess: () {
-                              _controller.value = enabled;
-                            },
-                          );
-                        },
-                        height: 18.rh,
-                        width: 36.rw,
-                      ),
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    if (!UserPermissionManager().isBizOwner())
+                      ActionableTile(
+                        title: AppStrings.notification.tr(),
+                        prefixWidget: ImageResourceResolver.notificationSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                        suffixWidget: KTSwitch(
+                          controller: _controller,
+                          onChanged: (enabled) {
+                            showPauseNotificationConfirmationDialog(
+                              context: context,
+                              enable: enabled,
+                              onSuccess: () {
+                                _controller.value = enabled;
+                              },
+                            );
+                          },
+                          height: 18.rh,
+                          width: 36.rw,
+                        ),
+                      ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
                     ActionableTile(
                       title: AppStrings.change_language.tr(),
                       prefixWidget: ImageResourceResolver.languageSVG.getImageWidget(width: 20.rw, height: 20.rh, color: AppColors.neutralB600),
@@ -265,23 +267,25 @@ class _AccountScreenState extends State<AccountScreen> {
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,
                       ),
-                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: 16.rh),
-                    ActionableTile(
-                      title: AppStrings.printer_settings.tr(),
-                      prefixWidget: ImageResourceResolver.printerSVG.getImageWidget(width: 20.rw, height: 20.rh),
-                      suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
-                      onTap: () {
-                        trackPrinterSettingsClickEvent();
+                    ).setVisibilityWithSpace(startSpace: 16.rh, direction: Axis.vertical, endSpace: !UserPermissionManager().isBizOwner() ? 16.rh : 0),
+                    if (!UserPermissionManager().isBizOwner())
+                      ActionableTile(
+                        title: AppStrings.printer_settings.tr(),
+                        prefixWidget: ImageResourceResolver.printerSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                        suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                        onTap: () {
+                          trackPrinterSettingsClickEvent();
 
-                        Navigator.of(context).pushNamed(Routes.printerSettings);
-                      },
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
-                    ActionableTile(
-                      title: AppStrings.device_setting.tr(),
-                      prefixWidget: ImageResourceResolver.phoneSVG.getImageWidget(width: 20.rw, height: 20.rh),
-                      suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
-                      onTap: _onDeviceChange,
-                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                          Navigator.of(context).pushNamed(Routes.printerSettings);
+                        },
+                      ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
+                    if (!UserPermissionManager().isBizOwner())
+                      ActionableTile(
+                        title: AppStrings.device_setting.tr(),
+                        prefixWidget: ImageResourceResolver.phoneSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                        suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                        onTap: _onDeviceChange,
+                      ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh),
                     ActionableTile(
                       title: AppStrings.contact_support.tr(),
                       prefixWidget: ImageResourceResolver.supportSVG.getImageWidget(width: 20.rw, height: 20.rh),

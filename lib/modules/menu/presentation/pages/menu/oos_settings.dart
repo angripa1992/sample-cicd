@@ -35,7 +35,7 @@ void showOosDialog({
   required Function(bool) onMenuEnableChanged,
   required Function(MenuOutOfStock) onItemSnoozeChanged,
   required int brandId,
-  required int providerId,
+  required int branchID,
   required bool parentEnabled,
 }) {
   showDialog(
@@ -48,7 +48,7 @@ void showOosDialog({
           content: OutOfStockSettingScreen(
             menuCategoryItem: menuCategoryItem,
             brandId: brandId,
-            providerId: providerId,
+            branchID: branchID,
             parentEnabled: parentEnabled,
             onMenuEnableChanged: onMenuEnableChanged,
             onItemSnoozeChanged: onItemSnoozeChanged,
@@ -62,7 +62,7 @@ void showOosDialog({
 class OutOfStockSettingScreen extends StatefulWidget {
   final MenuCategoryItem menuCategoryItem;
   final int brandId;
-  final int providerId;
+  final int branchID;
   final bool parentEnabled;
   final Function(bool) onMenuEnableChanged;
   final Function(MenuOutOfStock) onItemSnoozeChanged;
@@ -71,7 +71,7 @@ class OutOfStockSettingScreen extends StatefulWidget {
     Key? key,
     required this.menuCategoryItem,
     required this.brandId,
-    required this.providerId,
+    required this.branchID,
     required this.parentEnabled,
     required this.onMenuEnableChanged,
     required this.onItemSnoozeChanged,
@@ -113,7 +113,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                   menuVersion: widget.menuCategoryItem.menuVersion,
                   id: widget.menuCategoryItem.id,
                   brandId: widget.brandId,
-                  providerId: widget.providerId,
+                  branchId: widget.branchID,
                   type: MenuType.ITEM,
                   enabled: widget.menuCategoryItem.enabled,
                   parentEnabled: widget.parentEnabled,
@@ -127,7 +127,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
               if (widget.menuCategoryItem.outOfStock.menuSnooze.endTime.isNotEmpty)
                 Flexible(
                   child: Text(
-                    '(${AppStrings.out_of_stock_till.tr()} ${DateTimeProvider.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
+                    '(${AppStrings.out_of_stock_till.tr()} ${DateTimeFormatter.parseSnoozeEndTime(widget.menuCategoryItem.outOfStock.menuSnooze.endTime)})',
                     style: mediumTextStyle(
                       color: AppColors.redDark,
                       fontSize: AppFontSize.s12.rSp,
@@ -179,6 +179,7 @@ class _OutOfStockSettingScreenState extends State<OutOfStockSettingScreen> {
                         context.read<UpdateItemSnoozeCubit>().updateItem(
                               menuVersion: widget.menuCategoryItem.menuVersion,
                               brandId: widget.brandId,
+                              branchID: widget.branchID,
                               itemId: widget.menuCategoryItem.id,
                               enabled: widget.menuCategoryItem.enabled,
                               duration: _currentDuration,
@@ -322,10 +323,10 @@ class _OutOfStockRadioGroupsState extends State<OutOfStockRadioGroup> {
             cursorColor: AppColors.primary,
             decoration: InputDecoration(
               border: OutlineInputBorder(
-                borderSide:  BorderSide(color: AppColors.greyDarker),
+                borderSide: BorderSide(color: AppColors.greyDarker),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide:  BorderSide(color: AppColors.greyDarker),
+                borderSide: BorderSide(color: AppColors.greyDarker),
               ),
               labelText: AppStrings.hours.tr(),
               labelStyle: _textStyle,

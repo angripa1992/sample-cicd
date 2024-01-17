@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/action_dialogs.dart';
@@ -14,9 +13,9 @@ class MenuSwitchView extends StatefulWidget {
   final bool parentEnabled;
   final Function(bool) onMenuEnableChanged;
   final int brandId;
+  final int branchId;
   final int id;
   final int type;
-  final int providerId;
   final bool willShowBg;
 
   const MenuSwitchView({
@@ -28,7 +27,7 @@ class MenuSwitchView extends StatefulWidget {
     required this.brandId,
     required this.id,
     required this.type,
-    required this.providerId,
+    required this.branchId,
     this.willShowBg = true,
   }) : super(key: key);
 
@@ -63,6 +62,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
     showMenuActionDialog(
       context: context,
       brandId: widget.brandId,
+      branchId: widget.branchId,
       id: widget.id,
       type: widget.type,
       enabled: value,
@@ -78,7 +78,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.providerId == ZERO && UserPermissionManager().canOosMenu()
+    return UserPermissionManager().canOosMenu()
         ? Container(
             decoration: const BoxDecoration(),
             child: Padding(

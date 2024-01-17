@@ -65,6 +65,8 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
     EasyLoading.show();
     final response = await _addOrderRepository.fetchModifiers(
       itemId: item.id,
+      sectionID: item.sectionID,
+      categoryID: item.categoryID,
       branchInfo: item.branchInfo,
       type: CartManager().orderType,
     );

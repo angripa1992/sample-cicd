@@ -127,6 +127,8 @@ class WebShopCalculateBillResponse {
       merchantTotalPrice: merchantTotalPrice.orZero(),
       feePaidByCustomer: feePaidByCustomer.orFalse(),
       customFee: customFee.orZero(),
+      roundOffAmountCent: ZERO,
+      roundOffAmount: ZERO,
     );
   }
 }
