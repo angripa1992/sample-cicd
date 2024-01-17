@@ -7,7 +7,6 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/actionable_tile.dart';
@@ -16,7 +15,6 @@ import 'package:klikit/modules/base/base_screen_app_bar.dart';
 import 'package:klikit/modules/home/presentation/components/order_summary_view.dart';
 import 'package:klikit/modules/home/presentation/shimer/home_order_nav_card_shimmer.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/presentation/components/order_summary_card.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/resource_resolver.dart';
@@ -30,9 +28,6 @@ import '../../base/base_screen_cubit.dart';
 import '../../busy/presentation/pause_store_header_view.dart';
 import '../../orders/presentation/bloc/new_order_cubit.dart';
 import '../../orders/presentation/bloc/ongoing_order_cubit.dart';
-import 'components/home_header_view.dart';
-import '../../orders/presentation/bloc/total_order_cubit.dart';
-import '../../orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import 'components/z_report_view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -76,37 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cards = [
-      OrderSummaryCard(
-          label: AppStrings.completed_orders.tr(),
-          value: "123123123",
-          tooltipMessage: AppStrings.completed_orders.tr(),
-          changeInPercentage: 20,
-          labelToCompareWith: AppStrings.yesterday.tr(),
-          isPositive: true),
-      OrderSummaryCard(
-          label: AppStrings.cancelled_orders.tr(),
-          value: "123123123",
-          tooltipMessage: AppStrings.cancelled_orders.tr(),
-          changeInPercentage: 20,
-          labelToCompareWith: AppStrings.yesterday.tr(),
-          isPositive: false),
-      OrderSummaryCard(
-          label: AppStrings.completed_orders.tr(),
-          value: "123123123",
-          tooltipMessage: AppStrings.completed_orders.tr(),
-          changeInPercentage: 20,
-          labelToCompareWith: AppStrings.yesterday.tr(),
-          isPositive: true),
-      OrderSummaryCard(
-          label: AppStrings.cancelled_orders.tr(),
-          value: "123123123",
-          tooltipMessage: AppStrings.cancelled_orders.tr(),
-          changeInPercentage: 20,
-          labelToCompareWith: AppStrings.yesterday.tr(),
-          isPositive: true)
-    ];
-
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -130,20 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.s16.rw,
                 ),
-                child: Container(
-                  color: AppColors.greyLight,
-                  child: GridView.count(
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.8,
-                    mainAxisSpacing: 1.rh,
-                    crossAxisSpacing: 1.rw,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: cards.map((orderSummary) {
-                      return orderSummary;
-                    }).toList(),
-                  ),
-                ),
+                child: const OrderSummaryView(),
               ),
               8.rh.verticalSpacer(),
               const HomeQuickActions(),
@@ -156,6 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+// TODO separate to new file
 
 class HomeQuickActions extends StatelessWidget {
   const HomeQuickActions({
