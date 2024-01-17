@@ -12,8 +12,8 @@ class Urls {
   static const String order = '/v1/oni/order';
   static const String omsOrder = '/v1/oni/oms/raw-order';
   static const String brand = '/v1/brand';
+  static const String branch = '/v1/branch';
 
-  static String branch(int id) => '/v1/branch/$id';
   static String orderAttachments(int id) => '/v1/oni/order/$id/sc-attachments';
 
   static String updateWebShopOrder(int id) => '/v1/oni/oms/order/$id';
@@ -24,7 +24,8 @@ class Urls {
   static const String updatePaymentInfo = '/v1/oni/manualorder/payment';
   static const String tokenRegistration = '/v1/notify-token';
   static const String webShopCalculateBill = '/v1/oni/oms/order/calculate-bill';
- // static const String webShopCalculateBill = '/v1/oms/calculate/bill';
+
+  // static const String webShopCalculateBill = '/v1/oms/calculate/bill';
   static const String calculateBill = '/v1/menu/manual-order/calculate-bill';
   static const String calculateBillV2 = '/v1/menu-v2/manual-order/calculate-bill';
   static const String calculateGrabOrderBill = '/v1/oni/grabfoodorder/calculate-bill';
@@ -33,6 +34,7 @@ class Urls {
   static const String promos = '/v1/promoit/promo/common/search';
   static const String cancellationReasons = '/v1/oni/cancel-order-reasons';
   static const String zReportSummary = '/v2/analyseit/z-report/summary';
+  static const String orderSummary = '/v2/analyseit/order/summary';
 
   static String findRider(int id) => '/v1/oni/order/fulfillment/dispatch/$id';
 

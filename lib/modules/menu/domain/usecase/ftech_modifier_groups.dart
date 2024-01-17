@@ -9,26 +9,25 @@ class FetchModifierGroupParams {
   final int branchID;
   final int brandID;
   final int businessID;
-  final int? providerID;
+  final bool menuV2Enabled;
+  final List<int> providers;
 
   FetchModifierGroupParams({
     required this.branchID,
     required this.brandID,
     required this.businessID,
-    this.providerID,
+    required this.menuV2Enabled,
+    required this.providers,
   });
 }
 
-class FetchModifierGroups
-    extends UseCase<List<ModifierGroup>, FetchModifierGroupParams> {
+class FetchModifierGroups extends UseCase<List<ModifierGroup>, FetchModifierGroupParams> {
   final MenuRepository _repository;
 
   FetchModifierGroups(this._repository);
 
   @override
-  Future<Either<Failure, List<ModifierGroup>>> call(
-    FetchModifierGroupParams params,
-  ) {
+  Future<Either<Failure, List<ModifierGroup>>> call(FetchModifierGroupParams params) {
     return _repository.fetchModifiersGroups(params);
   }
 }

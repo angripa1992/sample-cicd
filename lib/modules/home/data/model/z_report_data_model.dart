@@ -1,13 +1,13 @@
-class ZReportDataModel {
-  OrderSummaryModel? orderSummary;
-  ItemSummaryModel? itemSummary;
-  ItemSummaryModel? modifierItemSummary;
-  PaymentSummaryModel? paymentSummary;
+class ZReportData {
+  OrderSummary? orderSummary;
+  ItemAndModifierSummary? itemSummary;
+  ItemAndModifierSummary? modifierItemSummary;
+  PaymentSummary? paymentSummary;
   String? createdAt;
   String? fromTime;
   String? toTime;
 
-  ZReportDataModel({
+  ZReportData({
     this.orderSummary,
     this.itemSummary,
     this.modifierItemSummary,
@@ -17,63 +17,70 @@ class ZReportDataModel {
     this.toTime,
   });
 
-  ZReportDataModel.fromJson(Map<String, dynamic> json) {
-    orderSummary = json['order_summary'] != null ? OrderSummaryModel.fromJson(json['order_summary']) : null;
-    itemSummary = json['item_summary'] != null ? ItemSummaryModel.fromJson(json['item_summary']) : null;
-    modifierItemSummary = json['modifier_summary'] != null ? ItemSummaryModel.fromJson(json['modifier_summary']) : null;
-    paymentSummary = json['payment_summary'] != null ? PaymentSummaryModel.fromJson(json['payment_summary']) : null;
+  ZReportData.fromJson(Map<String, dynamic> json) {
+    orderSummary = json['order_summary'] != null ? OrderSummary.fromJson(json['order_summary']) : null;
+    itemSummary = json['item_summary'] != null ? ItemAndModifierSummary.fromJson(json['item_summary']) : null;
+    modifierItemSummary = json['modifier_summary'] != null ? ItemAndModifierSummary.fromJson(json['modifier_summary']) : null;
+    paymentSummary = json['payment_summary'] != null ? PaymentSummary.fromJson(json['payment_summary']) : null;
     createdAt = json['created_at'];
     fromTime = json['from_time'];
     toTime = json['to_time'];
   }
 }
 
-class OrderSummaryModel {
-  List<OrderSummaryItemModel>? summary;
+class OrderSummary {
+  List<OrderSummaryItem>? summary;
+  List<BrandOrderSummary>? brandOrderSummary;
 
-  OrderSummaryModel({this.summary});
+  OrderSummary({this.summary, this.brandOrderSummary});
 
-  OrderSummaryModel.fromJson(Map<String, dynamic> json) {
+  OrderSummary.fromJson(Map<String, dynamic> json) {
     if (json['summary'] != null) {
-      summary = <OrderSummaryItemModel>[];
+      summary = <OrderSummaryItem>[];
       json['summary'].forEach((v) {
-        summary!.add(OrderSummaryItemModel.fromJson(v));
+        summary!.add(OrderSummaryItem.fromJson(v));
+      });
+    }
+    if (json['brand_order_summary'] != null) {
+      brandOrderSummary = <BrandOrderSummary>[];
+      json['brand_order_summary'].forEach((v) {
+        brandOrderSummary!.add(BrandOrderSummary.fromJson(v));
       });
     }
   }
 }
 
-class ItemSummaryModel {
-  List<ItemSummaryItemModel>? summary;
+class ItemAndModifierSummary {
+  List<ItemSummaryItem>? summary;
 
-  ItemSummaryModel({this.summary});
+  ItemAndModifierSummary({this.summary});
 
-  ItemSummaryModel.fromJson(Map<String, dynamic> json) {
+  ItemAndModifierSummary.fromJson(Map<String, dynamic> json) {
     if (json['summary'] != null) {
-      summary = <ItemSummaryItemModel>[];
+      summary = <ItemSummaryItem>[];
       json['summary'].forEach((v) {
-        summary!.add(ItemSummaryItemModel.fromJson(v));
+        summary!.add(ItemSummaryItem.fromJson(v));
       });
     }
   }
 }
 
-class PaymentSummaryModel {
-  List<PaymentSummaryItemModel>? summary;
+class PaymentSummary {
+  List<PaymentSummaryItem>? summary;
 
-  PaymentSummaryModel({this.summary});
+  PaymentSummary({this.summary});
 
-  PaymentSummaryModel.fromJson(Map<String, dynamic> json) {
+  PaymentSummary.fromJson(Map<String, dynamic> json) {
     if (json['summary'] != null) {
-      summary = <PaymentSummaryItemModel>[];
+      summary = <PaymentSummaryItem>[];
       json['summary'].forEach((v) {
-        summary!.add(PaymentSummaryItemModel.fromJson(v));
+        summary!.add(PaymentSummaryItem.fromJson(v));
       });
     }
   }
 }
 
-class OrderSummaryItemModel {
+class OrderSummaryItem {
   int? providerId;
   num? totalOrders;
   num? completedOrders;
@@ -82,16 +89,17 @@ class OrderSummaryItemModel {
   String? currencySymbol;
   num? grossRevenue;
   num? realizedRevenue;
+  num? netRevenue;
   num? lostRevenue;
   num? avgCompletedBasketSize;
   num? avgCancelledBasketSize;
-  List<OrderSourceSummariesModel>? orderSourceSummaries;
+  List<OrderSourceSummaries>? orderSourceSummaries;
   num? discount;
   num? ordersPercentage;
   num? merchantDiscount;
   num? providerDiscount;
 
-  OrderSummaryItemModel({
+  OrderSummaryItem({
     this.providerId,
     this.totalOrders,
     this.completedOrders,
@@ -100,6 +108,7 @@ class OrderSummaryItemModel {
     this.currencySymbol,
     this.grossRevenue,
     this.realizedRevenue,
+    this.netRevenue,
     this.lostRevenue,
     this.avgCompletedBasketSize,
     this.avgCancelledBasketSize,
@@ -110,7 +119,7 @@ class OrderSummaryItemModel {
     this.providerDiscount,
   });
 
-  OrderSummaryItemModel.fromJson(Map<String, dynamic> json) {
+  OrderSummaryItem.fromJson(Map<String, dynamic> json) {
     providerId = json['provider_id'];
     totalOrders = json['total_orders'];
     completedOrders = json['completed_orders'];
@@ -119,13 +128,14 @@ class OrderSummaryItemModel {
     currencySymbol = json['currency_symbol'];
     grossRevenue = json['gross_revenue'];
     realizedRevenue = json['realized_revenue'];
+    netRevenue = json['net_revenue'];
     lostRevenue = json['lost_revenue'];
     avgCompletedBasketSize = json['avg_completed_basket_size'];
     avgCancelledBasketSize = json['avg_cancelled_basket_size'];
     if (json['order_source_summaries'] != null) {
-      orderSourceSummaries = <OrderSourceSummariesModel>[];
+      orderSourceSummaries = <OrderSourceSummaries>[];
       json['order_source_summaries'].forEach((v) {
-        orderSourceSummaries!.add(OrderSourceSummariesModel.fromJson(v));
+        orderSourceSummaries!.add(OrderSourceSummaries.fromJson(v));
       });
     }
     discount = json['discount'];
@@ -135,7 +145,7 @@ class OrderSummaryItemModel {
   }
 }
 
-class OrderSourceSummariesModel {
+class OrderSourceSummaries {
   int? providerId;
   num? totalOrders;
   num? completedOrders;
@@ -144,6 +154,7 @@ class OrderSourceSummariesModel {
   String? currencySymbol;
   num? grossRevenue;
   num? realizedRevenue;
+  num? netRevenue;
   num? lostRevenue;
   num? avgCompletedBasketSize;
   num? avgCancelledBasketSize;
@@ -153,7 +164,7 @@ class OrderSourceSummariesModel {
   num? merchantDiscount;
   num? providerDiscount;
 
-  OrderSourceSummariesModel(
+  OrderSourceSummaries(
       {this.providerId,
       this.totalOrders,
       this.completedOrders,
@@ -162,6 +173,7 @@ class OrderSourceSummariesModel {
       this.currencySymbol,
       this.grossRevenue,
       this.realizedRevenue,
+      this.netRevenue,
       this.lostRevenue,
       this.avgCompletedBasketSize,
       this.avgCancelledBasketSize,
@@ -171,7 +183,7 @@ class OrderSourceSummariesModel {
       this.merchantDiscount,
       this.providerDiscount});
 
-  OrderSourceSummariesModel.fromJson(Map<String, dynamic> json) {
+  OrderSourceSummaries.fromJson(Map<String, dynamic> json) {
     providerId = json['provider_id'];
     totalOrders = json['total_orders'];
     completedOrders = json['completed_orders'];
@@ -180,6 +192,7 @@ class OrderSourceSummariesModel {
     currencySymbol = json['currency_symbol'];
     grossRevenue = json['gross_revenue'];
     realizedRevenue = json['realized_revenue'];
+    netRevenue = json['net_revenue'];
     lostRevenue = json['lost_revenue'];
     avgCompletedBasketSize = json['avg_completed_basket_size'];
     avgCancelledBasketSize = json['avg_cancelled_basket_size'];
@@ -191,41 +204,97 @@ class OrderSourceSummariesModel {
   }
 }
 
-class ItemSummaryItemModel {
+class BrandOrderSummary {
+  int? brandId;
+  int? totalOrders;
+  int? completedOrders;
+  int? cancelledOrders;
+  String? currency;
+  String? currencySymbol;
+  num? grossRevenue;
+  num? realizedRevenue;
+  num? netRevenue;
+  num? lostRevenue;
+  num? avgCompletedBasketSize;
+  num? avgCancelledBasketSize;
+  num? discount;
+  num? ordersPercentage;
+  num? merchantDiscount;
+  num? providerDiscount;
+
+  BrandOrderSummary(
+      {this.brandId,
+      this.totalOrders,
+      this.completedOrders,
+      this.cancelledOrders,
+      this.currency,
+      this.currencySymbol,
+      this.grossRevenue,
+      this.realizedRevenue,
+      this.netRevenue,
+      this.lostRevenue,
+      this.avgCompletedBasketSize,
+      this.avgCancelledBasketSize,
+      this.discount,
+      this.ordersPercentage,
+      this.merchantDiscount,
+      this.providerDiscount});
+
+  BrandOrderSummary.fromJson(Map<String, dynamic> json) {
+    brandId = json['brand_id'];
+    totalOrders = json['total_orders'];
+    completedOrders = json['completed_orders'];
+    cancelledOrders = json['cancelled_orders'];
+    currency = json['currency'];
+    currencySymbol = json['currency_symbol'];
+    grossRevenue = json['gross_revenue'];
+    realizedRevenue = json['realized_revenue'];
+    netRevenue = json['net_revenue'];
+    lostRevenue = json['lost_revenue'];
+    avgCompletedBasketSize = json['avg_completed_basket_size'];
+    avgCancelledBasketSize = json['avg_cancelled_basket_size'];
+    discount = json['discount'];
+    ordersPercentage = json['orders_percentage'];
+    merchantDiscount = json['merchant_discount'];
+    providerDiscount = json['provider_discount'];
+  }
+}
+
+class ItemSummaryItem {
   String? title;
   num? count;
   int? quantity;
   num? revenue;
   num? revenueUsd;
-  List<ItemSummaryProviderModel>? providers;
+  List<ItemSummaryProvider>? providers;
 
-  ItemSummaryItemModel({this.title, this.count, this.quantity, this.revenue, this.revenueUsd, this.providers});
+  ItemSummaryItem({this.title, this.count, this.quantity, this.revenue, this.revenueUsd, this.providers});
 
-  ItemSummaryItemModel.fromJson(Map<String, dynamic> json) {
+  ItemSummaryItem.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     count = json['count'];
     quantity = json['quantity'];
     revenue = json['revenue'];
     revenueUsd = json['revenue_usd'];
     if (json['providers'] != null) {
-      providers = <ItemSummaryProviderModel>[];
+      providers = <ItemSummaryProvider>[];
       json['providers'].forEach((v) {
-        providers!.add(ItemSummaryProviderModel.fromJson(v));
+        providers!.add(ItemSummaryProvider.fromJson(v));
       });
     }
   }
 }
 
-class ItemSummaryProviderModel {
+class ItemSummaryProvider {
   int? providerId;
   num? orderCount;
   int? quantity;
   num? revenue;
   num? revenueUsd;
 
-  ItemSummaryProviderModel({this.providerId, this.orderCount, this.quantity, this.revenue, this.revenueUsd});
+  ItemSummaryProvider({this.providerId, this.orderCount, this.quantity, this.revenue, this.revenueUsd});
 
-  ItemSummaryProviderModel.fromJson(Map<String, dynamic> json) {
+  ItemSummaryProvider.fromJson(Map<String, dynamic> json) {
     providerId = json['provider_id'];
     orderCount = json['order_count'];
     quantity = json['quantity'];
@@ -234,60 +303,74 @@ class ItemSummaryProviderModel {
   }
 }
 
-class PaymentSummaryItemModel {
+class PaymentSummaryItem {
   String? paymentMethod;
   String? currency;
   String? currencySymbol;
   num? totalOrders;
   num? grossRevenue;
+  num? netRevenue;
   num? discount;
   num? avgBasketSize;
-  List<PaymentChannelAnalyticModel>? channelAnalytics;
+  List<PaymentChannelItem>? channelAnalytics;
 
-  PaymentSummaryItemModel({
+  PaymentSummaryItem({
     this.paymentMethod,
     this.currency,
     this.currencySymbol,
     this.totalOrders,
+    this.netRevenue,
     this.grossRevenue,
     this.discount,
     this.avgBasketSize,
     this.channelAnalytics,
   });
 
-  PaymentSummaryItemModel.fromJson(Map<String, dynamic> json) {
+  PaymentSummaryItem.fromJson(Map<String, dynamic> json) {
     paymentMethod = json['payment_method'];
     currency = json['currency'];
     currencySymbol = json['currency_symbol'];
     totalOrders = json['total_orders'];
+    netRevenue = json['net_revenue'];
     grossRevenue = json['gross_revenue'];
     discount = json['discount'];
     avgBasketSize = json['avg_basket_size'];
     if (json['channel_analytics'] != null) {
-      channelAnalytics = <PaymentChannelAnalyticModel>[];
+      channelAnalytics = <PaymentChannelItem>[];
       json['channel_analytics'].forEach((v) {
-        channelAnalytics!.add(PaymentChannelAnalyticModel.fromJson(v));
+        channelAnalytics!.add(PaymentChannelItem.fromJson(v));
       });
     }
   }
 }
 
-class PaymentChannelAnalyticModel {
+class PaymentChannelItem {
   String? paymentChannel;
   String? currency;
   String? currencySymbol;
   num? totalOrders;
+  num? netRevenue;
   num? grossRevenue;
   num? discount;
   num? avgBasketSize;
 
-  PaymentChannelAnalyticModel({this.paymentChannel, this.currency, this.currencySymbol, this.totalOrders, this.grossRevenue, this.discount, this.avgBasketSize});
+  PaymentChannelItem({
+    this.paymentChannel,
+    this.currency,
+    this.currencySymbol,
+    this.totalOrders,
+    this.netRevenue,
+    this.grossRevenue,
+    this.discount,
+    this.avgBasketSize,
+  });
 
-  PaymentChannelAnalyticModel.fromJson(Map<String, dynamic> json) {
+  PaymentChannelItem.fromJson(Map<String, dynamic> json) {
     paymentChannel = json['payment_channel'];
     currency = json['currency'];
     currencySymbol = json['currency_symbol'];
     totalOrders = json['total_orders'];
+    netRevenue = json['net_revenue'];
     grossRevenue = json['gross_revenue'];
     discount = json['discount'];
     avgBasketSize = json['avg_basket_size'];

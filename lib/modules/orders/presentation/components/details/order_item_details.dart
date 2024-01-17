@@ -4,6 +4,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/cart.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/colors.dart';
@@ -221,10 +222,10 @@ class OrderItemDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _printerSetting.stickerPrinterEnabled
+              (!UserPermissionManager().isBizOwner() && _printerSetting.stickerPrinterEnabled)
                   ? Padding(
-                    padding: EdgeInsets.only(right: AppSize.s8.rw),
-                    child: InkWell(
+                      padding: EdgeInsets.only(right: AppSize.s8.rw),
+                      child: InkWell(
                         onTap: () {
                           getIt.get<PrintingHandler>().printSticker(order, cartV2);
                         },
@@ -233,7 +234,7 @@ class OrderItemDetails extends StatelessWidget {
                           color: AppColors.primary,
                         ),
                       ),
-                  )
+                    )
                   : const SizedBox(),
               Text('${cartV2.quantity}x ', style: _itemTextStyle),
               SizedBox(width: AppSize.s4.rw),

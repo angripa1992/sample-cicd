@@ -49,7 +49,7 @@ class ScheduledDetailsView extends StatelessWidget {
               SizedBox(width: AppSize.s4.rw),
               Flexible(
                 child: Text(
-                  '${AppStrings.scheduled.tr()} - ${DateTimeProvider.scheduleDate(scheduleTime)}, ${DateTimeProvider.scheduleTime(scheduleTime)}',
+                  '${AppStrings.scheduled.tr()} - ${DateTimeFormatter.scheduleDate(scheduleTime)}, ${DateTimeFormatter.scheduleTime(scheduleTime)}',
                   style: _textStyle,
                 ),
               ),
