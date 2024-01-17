@@ -11,3 +11,5 @@ enum DateType { today, yesterday, range }
 enum CheckoutState { PAY_NOW, PLACE_ORDER }
 
 enum PaymentState { PRE_PAYMENT, POST_PAYMENT }
+
+enum FilterOption { singleDate, singleBranch, multipleBrand, multipleBranch, multipleProvider }

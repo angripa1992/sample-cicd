@@ -24,7 +24,7 @@ class MenuCategoryItemListView extends StatefulWidget {
   final MenuCategory menuCategory;
   final bool parentEnabled;
   final int brandID;
-  final int providerID;
+  final int branchID;
   final Function(List<MenuCategoryItem>) onChanged;
 
   const MenuCategoryItemListView({
@@ -33,7 +33,7 @@ class MenuCategoryItemListView extends StatefulWidget {
     required this.onChanged,
     required this.parentEnabled,
     required this.brandID,
-    required this.providerID,
+    required this.branchID,
   }) : super(key: key);
 
   @override
@@ -93,8 +93,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
             menuCategoryItem: _menuCategoryItems[index],
             parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
             brandID: widget.brandID,
-            providerID: widget.providerID,
-            brandId: widget.brandID,
+            branchID: widget.branchID,
             onMenuItemSnoozeChanged: (oos) {
               _onItemSnoozeChanged(index, oos);
             },
@@ -155,7 +154,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                           menuVersion: widget.menuCategory.menuVersion,
                                           id: _menuCategoryItems[index].id,
                                           brandId: widget.brandID,
-                                          providerId: widget.providerID,
+                                          branchId: widget.branchID,
                                           type: MenuType.ITEM,
                                           enabled: _menuCategoryItems[index].enabled,
                                           parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
@@ -192,7 +191,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
                                           Flexible(
                                             child: MenuSnoozeView(
                                               menuCategoryItem: _menuCategoryItems[index],
-                                              providerId: widget.providerID,
+                                              branchID: widget.branchID,
                                               parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
                                               brandId: widget.brandID,
                                               onMenuItemSnoozeChanged: (oos) {

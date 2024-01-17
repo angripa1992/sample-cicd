@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/functions/pickers.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/strings.dart';
@@ -71,7 +72,7 @@ class _ZReportViewState extends State<ZReportView> {
                   listener: (ct, state) {
                     if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
-                    } else if (state is Success<ZReportDataModel>) {
+                    } else if (state is Success<ZReportData>) {
                       getIt.get<PrintingHandler>().printZReport(state.data, _selectedDate);
                     }
                   },
@@ -133,30 +134,14 @@ class _ZReportSelectorState extends State<ZReportSelector> {
   DateTime _selectedDate = DateTime.now();
 
   void _showDatePicker() async {
-    _selectedDate = await showDatePicker(
+    _selectedDate = await showKTDatePicker(
           context: context,
-          initialDate: DateTime.now(),
+          initialDate: _selectedDate,
           firstDate: DateTime(2000),
           lastDate: DateTime.now(),
-          builder: (context, child) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                colorScheme: ColorScheme.light(
-                  primary: AppColors.primary,
-                  onPrimary: AppColors.white,
-                  onSurface: AppColors.black,
-                ),
-                textButtonTheme: TextButtonThemeData(
-                  style: TextButton.styleFrom(
-                    foregroundColor: AppColors.primary, // button text color
-                  ),
-                ),
-              ),
-              child: child!,
-            );
-          },
         ) ??
-        DateTime.now();
+        _selectedDate;
+
     _changeDate(
       DateType.range,
       _selectedDate,

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/slack_logger.dart';
@@ -68,7 +67,7 @@ class RestClient {
   void _handleRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (options.path != Urls.login || options.path != Urls.forgetPassword) {
       final token = _tokenProvider.getAccessToken();
-      debugPrint('Authorization token ====>>>>> $token');
+      // debugPrint('Authorization token ====>>>>> $token');
       options.headers[authorization] = _token(token);
     }
     handler.next(options);

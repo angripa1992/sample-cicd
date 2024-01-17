@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 
 import 'menu_available_times.dart';
 import 'menu_branch_info.dart';
-import 'menu_item_price.dart';
+import '../item_price.dart';
 import 'menu_out_of_stock.dart';
 import 'menu_resources.dart';
 import 'menu_visibility.dart';
@@ -18,7 +18,7 @@ class MenuCategoryItem {
   final int defaultItemId;
   final String title;
   final String description;
-  final List<MenuItemPrice> prices;
+  final List<ItemPrice> prices;
   final int vat;
   final String skuID;
   final String image;
@@ -53,7 +53,7 @@ class MenuCategoryItem {
     this.resources,
   });
 
-  MenuItemPrice klikitPrice() => prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
+  ItemPrice klikitPrice() => prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
 
   bool visible(int providerID) {
     final visibility = visibilities.firstWhereOrNull((element) => element.providerID == providerID);

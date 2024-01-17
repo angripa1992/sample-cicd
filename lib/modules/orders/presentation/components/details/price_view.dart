@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
-import 'package:klikit/modules/common/entities/branch_info.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/strings.dart';
 
@@ -96,8 +97,8 @@ class _PriceViewState extends State<PriceView> {
                       AppStrings.delivery_fee.tr(),
                       widget.order.deliveryFee,
                     ),
-                  FutureBuilder<BusinessBranchInfo?>(
-                    future: getIt.get<BusinessInformationProvider>().branchInfo(),
+                  FutureBuilder<Branch?>(
+                    future: getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data != null) {
                         return _showBranchDependentFee(snapshot.data!);
@@ -116,6 +117,12 @@ class _PriceViewState extends State<PriceView> {
                       'Reward',
                       widget.order.rewardDiscount,
                       showNegative: true,
+                    ),
+                  if (widget.order.isManualOrder && widget.order.roundOffAmount != 0)
+                    _priceBreakdownItem(
+                      'Rounding Off',
+                      widget.order.roundOffAmount,
+                      isRoundOff: true,
                     ),
                 ],
               ),
@@ -152,7 +159,7 @@ class _PriceViewState extends State<PriceView> {
     );
   }
 
-  Widget _showBranchDependentFee(BusinessBranchInfo branch) {
+  Widget _showBranchDependentFee(Branch branch) {
     return Column(
       children: [
         if (widget.order.customFee > 0.0)
@@ -202,6 +209,7 @@ class _PriceViewState extends State<PriceView> {
     String name,
     num price, {
     bool showNegative = false,
+    bool isRoundOff = false,
   }) {
     final textStyle = TextStyle(
       color: showNegative ? AppColors.red : AppColors.black,
@@ -215,7 +223,7 @@ class _PriceViewState extends State<PriceView> {
         children: [
           Text(name, style: textStyle),
           Text(
-            '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
+            isRoundOff ? '${widget.order.currencySymbol} ${price.isNegative ? '' : '+'}${price / 100}' : '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
             style: textStyle,
           ),
         ],
