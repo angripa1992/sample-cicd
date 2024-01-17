@@ -32,6 +32,8 @@ class ImageResourceResolver {
 
   static SVGImageResource get notificationSVG => SVGImageResource('$iconBasePath/ic_notification.svg');
 
+  static SVGImageResource get unreadNotificationSVG => SVGImageResource('$iconBasePath/ic_unread_notification.svg');
+
   static SVGImageResource get notificationAlertSVG => SVGImageResource('$iconBasePath/ic_notification_alert.svg');
 
   static SVGImageResource get closeSVG => SVGImageResource('$iconBasePath/ic_close.svg');
@@ -43,4 +45,6 @@ class ImageResourceResolver {
   static SVGImageResource get deleteSVG => SVGImageResource('$iconBasePath/ic_delete.svg');
 
   static PNGImageResource get emptyMenuPNG => const PNGImageResource('$imageBasePath/empty_menu.png');
+
+  static SVGImageResource get refreshSVG => SVGImageResource('$iconBasePath/ic_refresh.svg');
 }
