@@ -1,22 +1,27 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
+import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/route/routes_generator.dart';
+import 'package:klikit/core/widgets/decorated_image_view.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/order_item/order_action_button_manager.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/constants.dart';
-import '../../../../../app/di.dart';
-import '../../../../../app/extensions.dart';
-import '../../../../common/business_information_provider.dart';
-import '../../../../common/entities/provider.dart';
 import '../../../../widgets/snackbars.dart';
 import 'comment_action_view.dart';
 import 'order_tags.dart';
@@ -27,6 +32,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
   final VoidCallback onEditGrabOrder;
   final VoidCallback onEditManualOrder;
   final VoidCallback onSwitchRider;
+  final VoidCallback onRiderFind;
 
   const OrderDetailsHeaderView({
     Key? key,
@@ -35,33 +41,103 @@ class OrderDetailsHeaderView extends StatelessWidget {
     required this.onEditGrabOrder,
     required this.onEditManualOrder,
     required this.onSwitchRider,
+    required this.onRiderFind,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
     final canUpdateKlikitOrder = OrderActionButtonManager().canUpdateOrder(order);
-    return Padding(
+    return Container(
+      color: AppColors.white,
       padding: EdgeInsets.symmetric(
         horizontal: AppSize.s16.rw,
         vertical: AppSize.s10.rh,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _idView(),
-          SizedBox(height: AppSize.s12.rh),
-          OrderTagsView(order: order, onSwitchRider: onSwitchRider),
-          SizedBox(height: AppSize.s8.rh),
-          _externalIdView(),
-          SizedBox(height: AppSize.s8.rh),
-          _timeView(),
-          SizedBox(height: AppSize.s12.rh),
+          Row(
+            children: [
+              DecoratedImageView(
+                iconWidget: ImageResourceResolver.appLogoSVG.getImageWidget(width: AppSize.s28.rw, height: AppSize.s28.rh),
+                padding: EdgeInsets.all(AppSize.s12.rSp),
+                decoration: BoxDecoration(
+                  color: AppColors.neutralB20,
+                  border: Border.all(color: AppColors.neutralB50),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(200.rSp),
+                  ),
+                ),
+              ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _idView(),
+                    if (order.providerId > ZERO)
+                      FutureBuilder<Provider>(
+                        future: getIt.get<BusinessInformationProvider>().findProviderById(order.providerId),
+                        builder: (_, result) {
+                          if (result.hasData && result.data != null) {
+                            return Text(
+                              '${AppStrings.placed_on.tr()} ${result.data!.title}',
+                              style: mediumTextStyle(
+                                color: AppColors.neutralB700,
+                                fontSize: AppFontSize.s12.rSp,
+                              ),
+                            ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s2);
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                    Text(
+                      DateTimeFormatter.parseOrderCreatedDate(order.createdAt, 'd MMM yyyy, h:mm a'),
+                      style: regularTextStyle(
+                        color: AppColors.neutralB600,
+                        fontSize: AppFontSize.s12.rSp,
+                      ),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s2),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          _externalIdView().setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s12, endSpace: AppSize.s12),
+          OrderTagsView(order: order, onSwitchRider: onSwitchRider).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (canUpdateKlikitOrder) Expanded(child: _editOrderButton(onEditManualOrder)),
-              if (canUpdateKlikitOrder) SizedBox(width: AppSize.s8.rw),
-              Expanded(child: CommentActionView(onCommentActionSuccess: onCommentActionSuccess, order: order)),
+              if (canUpdateKlikitOrder || canUpdateGrabOrder)
+                Expanded(child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8)),
+              if (OrderActionButtonManager().canTrackRider(order) || OrderActionButtonManager().canFindRider(order))
+                Expanded(
+                  child: KTButton(
+                    controller: KTButtonController(label: OrderActionButtonManager().canFindRider(order) ? AppStrings.find_rider.tr() : AppStrings.track_rider.tr()),
+                    prefixWidget: ImageResourceResolver.riderSVG.getImageWidget(width: AppSize.s14.rw, height: AppSize.s14.rh, color: AppColors.neutralB400),
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
+                    labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
+                    splashColor: AppColors.greyBright,
+                    onTap: () {
+                      if (OrderActionButtonManager().canFindRider(order)) {
+                        onRiderFind();
+                      } else if (OrderActionButtonManager().canTrackRider(order)) {
+                        Navigator.of(context).pushNamed(
+                          Routes.webView,
+                          arguments: order.fulfillmentTrackingUrl,
+                        );
+                      }
+                    },
+                  ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
+                ),
+              Expanded(
+                child: CommentActionView(
+                  onCommentActionSuccess: onCommentActionSuccess,
+                  order: order,
+                ),
+              ),
             ],
           ),
         ],
@@ -70,38 +146,17 @@ class OrderDetailsHeaderView extends StatelessWidget {
   }
 
   Widget _editOrderButton(VoidCallback onEdit) {
-    return InkWell(
-      onTap: onEdit,
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s8.rw,
-          vertical: AppSize.s6.rh,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-          border: Border.all(color: AppColors.black),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.edit_outlined,
-              color: AppColors.black,
-              size: AppSize.s16.rSp,
-            ),
-            SizedBox(width: AppSize.s8.rw),
-            Flexible(
-              child: Text(
-                AppStrings.edit_order.tr(),
-                style: regularTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
-            ),
-          ],
-        ),
+    return KTButton(
+      controller: KTButtonController(label: AppStrings.edit_order.tr()),
+      prefixWidget: ImageResourceResolver.editSVG.getImageWidget(
+        width: AppSize.s14.rw,
+        height: AppSize.s14.rh,
+        color: AppColors.neutralB700,
       ),
+      backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
+      labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
+      splashColor: AppColors.greyBright,
+      onTap: onEdit,
     );
   }
 
@@ -112,9 +167,9 @@ class OrderDetailsHeaderView extends StatelessWidget {
         Flexible(
           child: Text(
             (order.providerId == ProviderID.KLIKIT) ? '#${order.id}' : '#${order.shortId}',
-            style: boldTextStyle(
+            style: semiBoldTextStyle(
               color: AppColors.black,
-              fontSize: AppFontSize.s20.rSp,
+              fontSize: AppFontSize.s18.rSp,
             ),
           ),
         ),
@@ -122,35 +177,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
         _copyIdView(
           (order.providerId == ProviderID.KLIKIT) ? order.id.toString() : order.shortId,
         ),
-        if (order.providerId > ZERO)
-          Padding(
-            padding: EdgeInsets.only(left: AppSize.s18.rw),
-            child: FutureBuilder<Provider>(
-              future: getIt.get<BusinessInformationProvider>().findProviderById(order.providerId),
-              builder: (_, result) {
-                if (result.hasData && result.data != null) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSize.s4.rh,
-                      horizontal: AppSize.s8.rw,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-                      border: Border.all(color: AppColors.primary),
-                    ),
-                    child: Text(
-                      '${AppStrings.placed_on.tr()} ${result.data!.title}',
-                      style: mediumTextStyle(
-                        color: AppColors.primary,
-                        fontSize: AppFontSize.s14.rSp,
-                      ),
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-          ),
       ],
     );
   }
@@ -167,11 +193,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
           );
         });
       },
-      child: Icon(
-        Icons.copy,
-        size: AppSize.s18.rSp,
-        color: AppColors.black,
-      ),
+      child: ImageResourceResolver.copySVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.neutralB90),
     );
   }
 
@@ -197,28 +219,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
         ),
         SizedBox(width: AppSize.s8.rw),
         _copyIdView(order.externalId),
-      ],
-    );
-  }
-
-  Widget _timeView() {
-    return Row(
-      children: [
-        Icon(
-          Icons.date_range,
-          color: AppColors.primary,
-          size: AppSize.s18.rSp,
-        ),
-        SizedBox(width: AppSize.s6.rw),
-        Expanded(
-          child: Text(
-            DateTimeFormatter.parseOrderCreatedDate(order.createdAt),
-            style: mediumTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s14.rSp,
-            ),
-          ),
-        ),
       ],
     );
   }

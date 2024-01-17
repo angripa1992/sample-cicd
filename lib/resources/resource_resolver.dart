@@ -75,4 +75,16 @@ class ImageResourceResolver {
   static SVGImageResource get readyFoodSVG => SVGImageResource('$iconBasePath/ic_ready_food.svg');
 
   static SVGImageResource get copySVG => SVGImageResource('$iconBasePath/ic_copy.svg');
+
+  static SVGImageResource get commentSVG => SVGImageResource('$iconBasePath/ic_comment.svg');
+
+  static SVGImageResource get riderSVG => SVGImageResource('$iconBasePath/ic_rider.svg');
+
+  static SVGImageResource get writeSVG => SVGImageResource('$iconBasePath/ic_write.svg');
+
+  static SVGImageResource get noteSVG => SVGImageResource('$iconBasePath/ic_note.svg');
+
+  static SVGImageResource get timeSVG => SVGImageResource('$iconBasePath/ic_time.svg');
+
+  static SVGImageResource get timerSVG => SVGImageResource('$iconBasePath/ic_timer.svg');
 }

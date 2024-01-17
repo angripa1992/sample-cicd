@@ -82,7 +82,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
               Navigator.pop(context, SelectedLocale(_currentLanguageId!, locale));
             }
           },
-        ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s16.rh),
+        ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s16),
       ],
     );
   }
@@ -104,8 +104,8 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
 
     for (final flag in flags) {
       list.add(flag.getImageWidget(width: 28.rw, height: 20.rh).setVisibilityWithSpace(
-            direction: Axis.horizontal,
-            startSpace: 8.rw,
+        direction: Axis.horizontal,
+            startSpace: 8,
           ));
     }
 

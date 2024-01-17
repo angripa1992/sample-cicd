@@ -1,17 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
-import 'package:klikit/modules/orders/presentation/components/details/pickup_time_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/preparation_time_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/price_view.dart';
-import 'package:klikit/modules/orders/presentation/components/details/rider_action_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/rider_info_view.dart';
 import 'package:klikit/modules/orders/presentation/components/details/scheduled_view.dart';
 import 'package:klikit/modules/orders/utils/grab_order_resolver.dart';
 import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
+import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/styles.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../resources/strings.dart';
@@ -74,8 +77,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               _currentOrder = snapshot.data!;
               return _body();
             }
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgress(
+                primaryColor: AppColors.primary,
+              ),
             );
           },
         ),
@@ -91,10 +96,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  if (_currentOrder.status == OrderStatus.SCHEDULED && _currentOrder.scheduledTime.isNotEmpty)
-                    ScheduledDetailsView(
-                      scheduleTime: _currentOrder.scheduledTime,
-                    ),
+                  Visibility(
+                    visible: _currentOrder.status == OrderStatus.SCHEDULED && _currentOrder.scheduledTime.isNotEmpty,
+                    child: ScheduledDetailsView(scheduleTime: _currentOrder.scheduledTime),
+                  ),
                   OrderDetailsHeaderView(
                     order: _currentOrder,
                     onCommentActionSuccess: widget.onRefresh,
@@ -110,8 +115,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         },
                       );
                     },
+                    onRiderFind: widget.onRiderFind,
                   ),
-                  RiderActionView(order: _currentOrder, onRiderFind: widget.onRiderFind),
                   PrepTimeView(
                     order: _currentOrder,
                     onUpdateSuccess: (min) {
@@ -122,33 +127,29 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   ),
                   CancellationReasonView(order: _currentOrder),
                   OrderItemDetails(order: _currentOrder),
+                  PriceView(order: _currentOrder),
                   CommentView(comment: _currentOrder.orderComment),
                   RiderInfoView(order: _currentOrder),
-                  OrderCustomerInfoView(order: _currentOrder),
-                  PickupTimeView(order: _currentOrder),
                   DeliveryAddressView(order: _currentOrder),
-                  PriceView(order: _currentOrder),
+                  OrderCustomerInfoView(order: _currentOrder),
                 ],
               ),
             ),
           ),
           Container(
+            color: Colors.white,
             padding: EdgeInsets.symmetric(
               vertical: AppSize.s8.rh,
               horizontal: AppSize.s16.rw,
             ),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  offset: Offset(1.0, 0.0),
-                  blurRadius: 4.0,
-                ),
+            child: Column(
+              children: [
+                TotalPrice(order: widget.order, textStyle: mediumTextStyle(color: AppColors.neutralB500, fontSize: AppFontSize.s12.rSp)),
+                AppSize.s8.verticalSpacer(),
+                widget.actionView,
               ],
             ),
-            child: widget.actionView,
-          ),
+          ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s1),
         ],
       );
 }

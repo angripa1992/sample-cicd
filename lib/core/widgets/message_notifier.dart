@@ -40,12 +40,12 @@ class MessageNotifier extends StatelessWidget {
                 : ImageResourceResolver.infoSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.errorR300),
             padding: EdgeInsets.all(4.rSp),
             decoration: BoxDecoration(
-              color: isSuccess ? AppColors.successG50 : AppColors.redLighter,
+              color: isSuccess ? AppColors.successG50 : AppColors.errorR50,
               borderRadius: BorderRadius.all(
                 Radius.circular(200.rSp),
               ),
             ),
-          ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8.rw),
+          ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
           Text(title ?? (isSuccess ? 'Success!' : 'Error!'), textAlign: TextAlign.start, style: semiBoldTextStyle(color: AppColors.neutralB700, fontSize: AppFontSize.s18.rSp)),
           const Spacer(),
           InkWell(
@@ -53,7 +53,7 @@ class MessageNotifier extends StatelessWidget {
             onTap: () {
               _onDismissed(context);
             },
-          ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw)
+          ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8)
         ],
       ),
       content: Text(message, textAlign: TextAlign.start, style: regularTextStyle(fontSize: AppSize.s14.rSp, color: AppColors.neutralB200)),
