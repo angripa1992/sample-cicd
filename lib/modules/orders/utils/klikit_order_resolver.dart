@@ -102,6 +102,7 @@ class KlikitOrderResolver {
         params: OniParameterProvider().getOrderActionParams(order),
         context: context,
         title: title,
+        status: status,
         onSuccess: () {
           onRefresh();
           if (isFromDetails) {
