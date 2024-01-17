@@ -46,10 +46,15 @@ class OrdersScreen extends StatefulWidget {
 class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderStateMixin, FilterObserver {
   final _filterManager = OniFilterManager();
   TabController? _tabController;
+  ValueNotifier<int>? tabIndexChangeListener;
 
   @override
   void initState() {
     _tabController = TabController(length: 6, vsync: this);
+    tabIndexChangeListener = ValueNotifier(widget.tabIndex);
+    _tabController?.addListener(() {
+      tabIndexChangeListener?.value = _tabController?.index ?? widget.tabIndex;
+    });
     OrderScreenNavigateDataHandler().setData(widget.data);
     _tabController!.index = widget.tabIndex;
     _filterManager.addObserver(this, ObserverTag.ORDER_SCREEN);
@@ -61,6 +66,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
   @override
   void dispose() {
     _tabController?.dispose();
+    tabIndexChangeListener?.dispose();
     super.dispose();
   }
 
@@ -72,18 +78,6 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
         title: Text(AppStrings.order_dashboard.tr()),
       ),
       body: _body(),
-      // body: FutureBuilder<OniFilteredData>(
-      //   future: FilteredDataMapper().initialOniFilteredData(),
-      //   builder: (_, snap) {
-      //     if (snap.hasData && snap.data != null) {
-      //       _filterManager.setFilterData(snap.data);
-      //       KlikitOrderResolver().refreshOrderCounts(context, filteredData: snap.data);
-      //       return _body();
-      //     } else {
-      //       return Center(child: CircularProgressIndicator(color: AppColors.primary));
-      //     }
-      //   },
-      // ),
     );
   }
 
@@ -104,6 +98,8 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                     builder: (context, state) {
                       return OrderTabItem(
                         title: AppStrings.new_str.tr(),
+                        tabIndex: 0,
+                        tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
                         count: state is Success<Orders> ? state.data.total : 0,
                       );
                     },
@@ -112,6 +108,8 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                     builder: (context, state) {
                       return OrderTabItem(
                         title: AppStrings.ready.tr(),
+                        tabIndex: 1,
+                        tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
                         count: state is Success<Orders> ? state.data.total : 0,
                       );
                     },
@@ -120,6 +118,8 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                     builder: (context, state) {
                       return OrderTabItem(
                         title: AppStrings.all.tr(),
+                        tabIndex: 2,
+                        tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
                         count: state is Success<Orders> ? state.data.total : 0,
                       );
                     },
@@ -128,12 +128,14 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                     builder: (context, state) {
                       return OrderTabItem(
                         title: AppStrings.schedule.tr(),
+                        tabIndex: 3,
+                        tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
                         count: state is Success<Orders> ? state.data.total : 0,
                       );
                     },
                   ),
-                  OrderTabItem(title: AppStrings.history.tr(), count: 0),
-                  OrderTabItem(title: AppStrings.other.tr(), count: 0),
+                  OrderTabItem(title: AppStrings.history.tr(), tabIndex: 4, tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex), count: 0),
+                  OrderTabItem(title: AppStrings.other.tr(), tabIndex: 5, tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex), count: 0),
                 ],
                 labelPadding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 10.rw),
                 unselectedLabelColor: AppColors.black,
