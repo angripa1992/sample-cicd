@@ -7,6 +7,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/actionable_tile.dart';
@@ -80,15 +81,15 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const BaseScreenAppBar(),
               2.rh.verticalSpacer(),
-              Container(
-                color: AppColors.white,
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s16.rw,
-                  vertical: AppSize.s16.rh,
-                ),
-                child: const PauseStoreHeaderView(),
-              ),
-              8.rh.verticalSpacer(),
+              if (!UserPermissionManager().isBizOwner())
+                Container(
+                  color: AppColors.white,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSize.s16.rw,
+                    vertical: AppSize.s16.rh,
+                  ),
+                  child: const PauseStoreHeaderView(),
+                ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8),
               Container(
                 color: AppColors.white,
                 padding: EdgeInsets.symmetric(
@@ -98,8 +99,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               8.rh.verticalSpacer(),
               const HomeQuickActions(),
-              8.verticalSpacer(),
-              const ZReportView(),
+              if (!UserPermissionManager().isBizOwner())
+                const ZReportView().setVisibilityWithSpace(
+                  direction: Axis.vertical,
+                  startSpace: 8,
+                  endSpace: 8,
+                ),
             ],
           ),
         ),
