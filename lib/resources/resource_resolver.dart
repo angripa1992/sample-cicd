@@ -92,4 +92,6 @@ class ImageResourceResolver {
   static PNGImageResource get menuBrandPNG => const PNGImageResource(AppImages.menuBrandPNG);
 
   static SVGImageResource get filterSVG => SVGImageResource('$iconBasePath/ic_filter.svg');
+
+  static SVGImageResource get upArrowSVG => SVGImageResource('$iconBasePath/ic_up_arrow.svg');
 }

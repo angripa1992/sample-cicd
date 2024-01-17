@@ -82,20 +82,17 @@ class _MenuListViewState extends State<MenuListView> {
                     },
                     brandId: widget.brandID,
                   ),
-                  content: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-                    child: MenuCategoryListView(
-                      key: UniqueKey(),
-                      categories: widget.sections[index].categories,
-                      parentEnabled: widget.sections[index].enabled,
-                      onChanged: (modifiedSubSections) {
-                        setState(() {
-                          widget.sections[index].categories = modifiedSubSections;
-                        });
-                      },
-                      brandID: widget.brandID,
-                      providerID: widget.providerID,
-                    ),
+                  content: MenuCategoryListView(
+                    key: UniqueKey(),
+                    categories: widget.sections[index].categories,
+                    parentEnabled: widget.sections[index].enabled,
+                    onChanged: (modifiedSubSections) {
+                      setState(() {
+                        widget.sections[index].categories = modifiedSubSections;
+                      });
+                    },
+                    brandID: widget.brandID,
+                    providerID: widget.providerID,
                   ),
                 );
               },
