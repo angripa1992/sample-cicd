@@ -39,7 +39,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
     final canUpdateKlikitOrder = OrderActionButtonManager().canUpdateOrder(order);
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -60,15 +59,9 @@ class OrderDetailsHeaderView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (canUpdateKlikitOrder || canUpdateGrabOrder) Expanded(child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder)),
-              if (canUpdateKlikitOrder || canUpdateGrabOrder) SizedBox(width: AppSize.s8.rw),
-              if (order.isThreePlOrder && order.canFindFulfillmentRider) SizedBox(width: AppSize.s8.rw),
-              Expanded(
-                child: CommentActionView(
-                  onCommentActionSuccess: onCommentActionSuccess,
-                  order: order,
-                ),
-              ),
+              if (canUpdateKlikitOrder) Expanded(child: _editOrderButton(onEditManualOrder)),
+              if (canUpdateKlikitOrder) SizedBox(width: AppSize.s8.rw),
+              Expanded(child: CommentActionView(onCommentActionSuccess: onCommentActionSuccess, order: order)),
             ],
           ),
         ],
@@ -219,7 +212,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
         SizedBox(width: AppSize.s6.rw),
         Expanded(
           child: Text(
-            DateTimeProvider.parseOrderCreatedDate(order.createdAt),
+            DateTimeFormatter.parseOrderCreatedDate(order.createdAt),
             style: mediumTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,

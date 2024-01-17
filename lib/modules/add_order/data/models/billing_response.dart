@@ -25,6 +25,8 @@ class CartBillModel {
   num? orderPromoDiscountCent;
   num? totalPromoDiscount;
   num? manualDiscount;
+  num? roundOffAmount;
+  num? roundOffAmountCent;
   List<ItemBillModel>? items;
   int? numberOfSeniorCitizen;
   int? numberOfSeniorCustomer;
@@ -56,6 +58,8 @@ class CartBillModel {
     this.orderPromoDiscountCent,
     this.totalPromoDiscount,
     this.manualDiscount,
+    this.roundOffAmount,
+    this.roundOffAmountCent,
   });
 
   CartBillModel.fromJson(Map<String, dynamic> json) {
@@ -82,6 +86,8 @@ class CartBillModel {
     manualDiscount = json['manual_discount_amount'];
     numberOfSeniorCitizen = json['number_of_senior_citizen'];
     numberOfSeniorCustomer = json['number_of_customer'];
+    roundOffAmount = json['round_off_amount'];
+    roundOffAmountCent = json['round_off_amount_cent'];
     appliedPromo = json['applied_promo'] != null ? Promo.fromJson(json['applied_promo']) : null;
     if (json['items'] != null) {
       items = <ItemBillModel>[];
@@ -121,6 +127,8 @@ class CartBillModel {
         merchantTotalPrice: ZERO,
         feePaidByCustomer: false,
         customFee: ZERO,
+        roundOffAmount: roundOffAmount.orZero(),
+        roundOffAmountCent: roundOffAmountCent.orZero(),
       );
 }
 

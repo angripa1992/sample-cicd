@@ -169,6 +169,10 @@ class _CartScreenState extends State<CartScreen> {
                       feeType: FeeType.additional,
                     );
                   },
+                  onApplyRoundOff: (roundOffApplicable) {
+                    CartManager().setRoundOffApplicable = roundOffApplicable;
+                    _calculateBill();
+                  },
                   textController: _textController,
                 ),
               ],

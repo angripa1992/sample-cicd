@@ -226,6 +226,8 @@ class OrderModel {
   num? mergeFee;
   @JsonKey(name: 'reward_discount')
   num? rewardDiscount;
+  @JsonKey(name: 'round_off_amount')
+  num? roundOffAmount;
 
   OrderModel({
     this.id,
@@ -327,6 +329,7 @@ class OrderModel {
     this.feePaidByCustomer,
     this.mergeFee,
     this.rewardDiscount,
+    this.roundOffAmount,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -435,6 +438,7 @@ class OrderModel {
       feePaidByCustomer: feePaidByCustomer.orFalse(),
       mergeFee: mergeFee.orZero(),
       rewardDiscount: rewardDiscount.orZero(),
+      roundOffAmount: roundOffAmount.orZero(),
     );
   }
 }

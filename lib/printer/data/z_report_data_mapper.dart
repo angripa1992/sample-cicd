@@ -1,5 +1,6 @@
 import 'package:docket_design_template/model/z_report_data.dart';
 import 'package:intl/intl.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 
 import '../../app/constants.dart';
@@ -16,9 +17,6 @@ class ZReportCurrency {
 
 class ZReportDataProvider {
   static final _instance = ZReportDataProvider._internal();
-
-  static const _total = "total_sales";
-  static const _summaries = "summaries";
 
   factory ZReportDataProvider() => _instance;
 
@@ -37,230 +35,174 @@ class ZReportDataProvider {
     );
   }
 
-  Future<ZReportCurrency> _currency(OrderSummaryModel? orderSummary) async {
+  Future<ZReportCurrency> _currency(OrderSummary? orderSummary) async {
     if (orderSummary != null && orderSummary.summary != null) {
       if (orderSummary.summary!.isNotEmpty) {
         final summary = orderSummary.summary!.first;
         return ZReportCurrency(summary.currency!, summary.currencySymbol!);
       }
     }
-    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     if (branchInfo != null) {
       return ZReportCurrency(branchInfo.currencyCode, branchInfo.currencySymbol);
     }
     return ZReportCurrency('USD', '\$');
   }
 
-  Future<TemplateZReport> generateTemplateData(ZReportDataModel dataModel, DateTime reportTime) async {
+  Future<TemplateZReport> generateTemplateData(ZReportData dataModel, DateTime reportTime) async {
     final currency = await _currency(dataModel.orderSummary);
-    final providerSummary = await _templateProviderSummary(dataModel.orderSummary, currency);
-    final itemSummary = await _templateItemSummary(dataModel.itemSummary, currency);
-    final itemModifierSummary = await _templateItemSummary(dataModel.modifierItemSummary, currency);
+    final salesSummary = await _templateSalesSummary(dataModel.orderSummary, currency);
+    final brandSummary = await _templateBrandSummary(dataModel.orderSummary, currency);
+    final itemSummary = await _templateItemAndModifierSummary(dataModel.itemSummary, currency);
+    final itemModifierSummary = await _templateItemAndModifierSummary(dataModel.modifierItemSummary, currency);
     final paymentMethodSummary = await _templatePaymentMethodSummary(dataModel.paymentSummary!, currency);
     final paymentChannelSummary = await _templatePaymentChannelSummary(dataModel.paymentSummary!, currency);
     return TemplateZReport(
       generatedDate: DateFormat('MMMM dd yyyy, hh:mm aaa').format(DateTime.now().toLocal()).toString(),
       reportDate: DateFormat('MMMM dd, yyyy').format(reportTime).toString(),
-      providerSummary: providerSummary,
+      salesSummary: salesSummary,
       itemSummary: itemSummary,
       modifierItemSummary: itemModifierSummary,
       paymentMethodSummary: paymentMethodSummary,
       paymentChannelSummary: paymentChannelSummary,
+      brandSummary: brandSummary,
     );
   }
 
-  Future<TemplateProviderSummary> _templateProviderSummary(
-    OrderSummaryModel? orderSummaryModel,
-    ZReportCurrency currency,
-  ) async {
-    final response = await _providerSummaryItems(
-      orderSummaryModel!.summary,
-      currency,
-    );
-    return TemplateProviderSummary(
-      totalSales: response[_total],
-      summaries: response[_summaries],
-    );
-  }
-
-  Future<Map<String, dynamic>> _providerSummaryItems(
-    List<OrderSummaryItemModel>? summaries,
-    ZReportCurrency currency,
-  ) async {
-    final providerSummaries = <TemplateSummaryItem>[];
+  Future<TemplateSalesSummary> _templateSalesSummary(OrderSummary? orderSummary, ZReportCurrency currency) async {
+    final summaries = <TemplateSummaryItem>[];
     num totalSales = 0;
-    for (var providerSummary in summaries!) {
-      totalSales += providerSummary.realizedRevenue!;
-      if (providerSummary.providerId! == ProviderID.KLIKIT) {
-        for (var klikitProvider in providerSummary.orderSourceSummaries!) {
+    num discount = 0;
+    num netSales = 0;
+    for (var summary in orderSummary?.summary ?? <OrderSummaryItem>[]) {
+      totalSales += summary.realizedRevenue ?? 0;
+      discount += summary.discount ?? 0;
+      netSales += summary.netRevenue ?? 0;
+      if (summary.providerId! == ProviderID.KLIKIT) {
+        for (var source in summary.orderSourceSummaries ?? <OrderSourceSummaries>[]) {
           String name = 'Klikit Webshop';
-          if (klikitProvider.orderSource == 'm') {
+          if (source.orderSource == 'm') {
             name = 'Klikit Add Order';
           }
-          providerSummaries.add(
+          summaries.add(
             TemplateSummaryItem(
               name: name,
-              amount: _convertPrice(
-                code: currency.code,
-                symbol: currency.symbol,
-                priceInCent: klikitProvider.realizedRevenue!,
-              ),
+              amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: source.realizedRevenue ?? 0),
             ),
           );
         }
       } else {
-        final provider = await getIt.get<BusinessInformationProvider>().findProviderById(providerSummary.providerId!);
-        providerSummaries.add(
+        final provider = await getIt.get<BusinessInformationProvider>().findProviderById(summary.providerId!);
+        summaries.add(
           TemplateSummaryItem(
             name: provider.title,
-            amount: _convertPrice(
-              code: currency.code,
-              symbol: currency.symbol,
-              priceInCent: providerSummary.realizedRevenue!,
-            ),
+            amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: summary.realizedRevenue ?? 0),
           ),
         );
       }
     }
-    return {
-      _total: _convertPrice(
-        code: currency.code,
-        symbol: currency.symbol,
-        priceInCent: totalSales,
-      ),
-      _summaries: providerSummaries,
-    };
-  }
-
-  Future<TemplateItemSummary> _templateItemSummary(
-    ItemSummaryModel? summaryModel,
-    ZReportCurrency currency,
-  ) async {
-    final response = await _itemSummaries(
-      summaryModel!.summary,
-      currency,
-    );
-    return TemplateItemSummary(
-      totalSales: response[_total],
-      summaries: response[_summaries],
+    return TemplateSalesSummary(
+      totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
+      discount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: discount),
+      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: netSales),
+      summaries: summaries,
     );
   }
 
-  Future<Map<String, dynamic>> _itemSummaries(
-    List<ItemSummaryItemModel>? summaries,
-    ZReportCurrency currency,
-  ) async {
-    final itemSummaries = <TemplateSummaryItem>[];
+  Future<TemplateBrandSummary> _templateBrandSummary(OrderSummary? orderSummary, ZReportCurrency currency) async {
+    final summaries = <TemplateSummaryItem>[];
     num totalSales = 0;
-    for (var itemSummary in summaries!) {
-      totalSales += itemSummary.revenue!;
-      itemSummaries.add(
+    num discount = 0;
+    num netSales = 0;
+    for (var summary in orderSummary?.brandOrderSummary ?? <BrandOrderSummary>[]) {
+      final brand = await getIt.get<BusinessInformationProvider>().findBrandById(summary.brandId!);
+      totalSales += summary.realizedRevenue ?? 0;
+      discount += summary.discount ?? 0;
+      netSales += summary.netRevenue ?? 0;
+      summaries.add(
         TemplateSummaryItem(
-          name: itemSummary.title!,
-          quantity: itemSummary.quantity!,
-          amount: _convertPrice(
-            code: currency.code,
-            symbol: currency.symbol,
-            priceInCent: itemSummary.revenue!,
-          ),
+          name: brand?.title ?? '',
+          amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: summary.realizedRevenue ?? 0),
         ),
       );
     }
-    return {
-      _total: _convertPrice(
-        code: currency.code,
-        symbol: currency.symbol,
-        priceInCent: totalSales,
-      ),
-      _summaries: itemSummaries,
-    };
-  }
-
-  Future<TemplatePaymentMethodSummary> _templatePaymentMethodSummary(
-    PaymentSummaryModel summaryModel,
-    ZReportCurrency currency,
-  ) async {
-    final response = await _paymentMethodSummaries(
-      summaryModel.summary,
-      currency,
-    );
-    return TemplatePaymentMethodSummary(
-      totalSales: response[_total],
-      summaries: response[_summaries],
+    return TemplateBrandSummary(
+      totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
+      discount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: discount),
+      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: netSales),
+      summaries: summaries,
     );
   }
 
-  Future<Map<String, dynamic>> _paymentMethodSummaries(
-    List<PaymentSummaryItemModel>? summaries,
-    ZReportCurrency currency,
-  ) async {
+  Future<TemplateItemSummary> _templateItemAndModifierSummary(ItemAndModifierSummary? summaryModel, ZReportCurrency currency) async {
+    final summaries = <TemplateSummaryItem>[];
+    num totalSales = 0;
+    for (var summary in summaryModel?.summary ?? <ItemSummaryItem>[]) {
+      totalSales += summary.revenue ?? 0;
+      summaries.add(
+        TemplateSummaryItem(
+          name: summary.title ?? '',
+          quantity: summary.quantity ?? 0,
+          amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: summary.revenue ?? 0),
+        ),
+      );
+    }
+    return TemplateItemSummary(
+      totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
+      summaries: summaries,
+    );
+  }
+
+  Future<TemplatePaymentMethodSummary> _templatePaymentMethodSummary(PaymentSummary paymentSummary, ZReportCurrency currency) async {
     final methodSummaries = <TemplateSummaryItem>[];
     num totalSales = 0;
-    for (var methodSummary in summaries!) {
-      totalSales += methodSummary.grossRevenue!;
+    num discount = 0;
+    num netSales = 0;
+    for (var methodSummary in paymentSummary.summary ?? <PaymentSummaryItem>[]) {
+      totalSales += methodSummary.grossRevenue ?? 0;
+      discount += methodSummary.discount ?? 0;
+      netSales += methodSummary.netRevenue ?? 0;
       methodSummaries.add(
         TemplateSummaryItem(
-          name: methodSummary.paymentMethod!,
-          amount: _convertPrice(
-            code: currency.code,
-            symbol: currency.symbol,
-            priceInCent: methodSummary.grossRevenue!,
-          ),
+          name: methodSummary.paymentMethod ?? '',
+          amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: methodSummary.grossRevenue ?? 0),
         ),
       );
     }
-    return {
-      _total: _convertPrice(
-        code: currency.code,
-        symbol: currency.symbol,
-        priceInCent: totalSales,
-      ),
-      _summaries: methodSummaries,
-    };
+    return TemplatePaymentMethodSummary(
+      totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
+      discount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: discount),
+      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: netSales),
+      summaries: methodSummaries,
+    );
   }
 
   Future<TemplatePaymentChannelSummary> _templatePaymentChannelSummary(
-    PaymentSummaryModel summaryModel,
-    ZReportCurrency currency,
-  ) async {
-    final response = await _paymentChannelSummaries(
-      summaryModel.summary,
-      currency,
-    );
-    return TemplatePaymentChannelSummary(
-      totalSales: response[_total],
-      summaries: response[_summaries],
-    );
-  }
-
-  Future<Map<String, dynamic>> _paymentChannelSummaries(
-    List<PaymentSummaryItemModel>? summaries,
+    PaymentSummary summaryModel,
     ZReportCurrency currency,
   ) async {
     final channelSummaries = <TemplateSummaryItem>[];
     num totalSales = 0;
-    for (var methodSummary in summaries!) {
-      for (var channelSummary in methodSummary.channelAnalytics!) {
-        totalSales += channelSummary.grossRevenue!;
+    num discount = 0;
+    num netSales = 0;
+    for (var methodSummary in summaryModel.summary ?? <PaymentSummaryItem>[]) {
+      for (var channelSummary in methodSummary.channelAnalytics ?? <PaymentChannelItem>[]) {
+        totalSales += channelSummary.grossRevenue ?? 0;
+        discount += channelSummary.discount ?? 0;
+        netSales += channelSummary.netRevenue ?? 0;
         channelSummaries.add(
           TemplateSummaryItem(
-            name: channelSummary.paymentChannel!,
-            amount: _convertPrice(
-              code: currency.code,
-              symbol: currency.symbol,
-              priceInCent: channelSummary.grossRevenue!,
-            ),
+            name: channelSummary.paymentChannel ?? '',
+            amount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: channelSummary.grossRevenue ?? 0),
           ),
         );
       }
     }
-    return {
-      _total: _convertPrice(
-        code: currency.code,
-        symbol: currency.symbol,
-        priceInCent: totalSales,
-      ),
-      _summaries: channelSummaries,
-    };
+    return TemplatePaymentChannelSummary(
+      totalSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: totalSales),
+      discount: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: discount),
+      netSales: _convertPrice(code: currency.code, symbol: currency.symbol, priceInCent: netSales),
+      summaries: channelSummaries,
+    );
   }
 }
