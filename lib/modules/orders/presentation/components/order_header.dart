@@ -41,8 +41,12 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (!UserPermissionManager().isBizOwner())
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s12.rh),
+          Container(
+            color: AppColors.white,
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSize.s16.rw,
+              vertical: AppSize.s16.rh,
+            ),
             child: const PauseStoreHeaderView(),
           ),
         if (!UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
