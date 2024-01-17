@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:intl/intl.dart';
 
-class DateTimeProvider {
+class DateTimeFormatter {
   static String currentDateTime() {
     final formatter = DateFormat('d MMM yyyy • h:mm a');
     final String formatted = formatter.format(DateTime.now().toLocal());
@@ -41,7 +41,7 @@ class DateTimeProvider {
   }
 
   static String dateRangeString(DateTimeRange dateTimeRange) {
-    final formatter = DateFormat('d MMMM yyy');
+    final formatter = DateFormat('d MMM yy');
     final start = formatter.format(dateTimeRange.start);
     final end = formatter.format(dateTimeRange.end);
     return '$start - $end';

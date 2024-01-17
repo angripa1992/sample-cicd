@@ -1,15 +1,14 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../core/network/error_handler.dart';
-import '../entities/branch_info.dart';
+import '../entities/branch.dart';
+import '../entities/brand.dart';
 import '../entities/payment_info.dart';
 import '../entities/provider.dart';
 import '../entities/source.dart';
-import '../model/brand_request_model.dart';
-import '../entities/brand.dart';
 
 abstract class BusinessInfoProviderRepo {
-  Future<Either<Failure, Brands>> fetchBrand(BrandRequestModel requestModel);
+  Future<Either<Failure, Brands>> fetchBrand(Map<String, dynamic> param);
 
   Future<Either<Failure, List<Provider>>> fetchProvider(Map<String, dynamic> param);
 
@@ -19,5 +18,5 @@ abstract class BusinessInfoProviderRepo {
 
   Future<Either<Failure, List<PaymentStatus>>> fetchPaymentSources();
 
-  Future<Either<Failure, BusinessBranchInfo>> fetchBranchDetails(int branchID);
+  Future<Either<Failure, List<Branch>>> fetchBranches(Map<String,dynamic> params);
 }

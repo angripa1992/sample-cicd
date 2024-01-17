@@ -10,14 +10,12 @@ class MenuTab extends StatelessWidget {
   final String name;
   final bool isSelected;
   final VoidCallback onTabChanged;
-  final BorderRadius borderRadius;
 
   const MenuTab({
     Key? key,
     required this.name,
     required this.isSelected,
     required this.onTabChanged,
-    required this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -26,27 +24,19 @@ class MenuTab extends StatelessWidget {
       child: InkWell(
         onTap: onTabChanged,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
-            borderRadius: borderRadius,
-            color: isSelected ? AppColors.primary : AppColors.grey,
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.greyLight,
-                blurRadius: 2.0,
-                offset:
-                    const Offset(2.0, 2.0), // shadow direction: bottom right
-              )
-            ],
+            borderRadius: BorderRadius.circular(8.rSp),
+            color: isSelected ? AppColors.white : AppColors.neutralB20,
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
+            padding: EdgeInsets.symmetric(vertical: 8.rh),
             child: Center(
               child: Text(
                 name,
-                style: regularTextStyle(
-                  color: isSelected ? AppColors.white : AppColors.black,
-                  fontSize: AppFontSize.s15.rSp,
+                style: semiBoldTextStyle(
+                  color: isSelected ? AppColors.black : AppColors.black,
+                  fontSize: AppFontSize.s14.rSp,
                 ),
               ),
             ),

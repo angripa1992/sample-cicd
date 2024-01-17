@@ -94,7 +94,7 @@ class OrderDetailsHeaderView extends StatelessWidget {
                         },
                       ),
                     Text(
-                      DateTimeProvider.parseOrderCreatedDate(order.createdAt, 'd MMM yyyy, h:mm a'),
+                      DateTimeFormatter.parseOrderCreatedDate(order.createdAt, 'd MMM yyyy, h:mm a'),
                       style: regularTextStyle(
                         color: AppColors.neutralB600,
                         fontSize: AppFontSize.s12.rSp,

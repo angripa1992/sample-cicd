@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../v1_common_data_model.dart';
+
 part 'modifier_v1_data.g.dart';
 
 @JsonSerializable()
@@ -30,7 +32,7 @@ class V1GroupedModifierItemModel {
   String? title;
   int? sequence;
   bool? defaultData;
-  List<V1ModifierPricesModel>? prices;
+  List<V1PricesModel>? prices;
   List<V1StatusesModel>? statuses;
   dynamic meta;
 
@@ -63,26 +65,4 @@ class V1StatusesModel {
 
   factory V1StatusesModel.fromJson(Map<String, dynamic> json) =>
       _$V1StatusesModelFromJson(json);
-}
-
-@JsonSerializable()
-class V1ModifierPricesModel {
-  @JsonKey(name: 'provider_id')
-  int? providerId;
-  @JsonKey(name: 'currency_id')
-  int? currencyId;
-  String? code;
-  String? symbol;
-  double? price;
-
-  V1ModifierPricesModel({
-    this.providerId,
-    this.currencyId,
-    this.code,
-    this.symbol,
-    this.price,
-  });
-
-  factory V1ModifierPricesModel.fromJson(Map<String, dynamic> json) =>
-      _$V1ModifierPricesModelFromJson(json);
 }

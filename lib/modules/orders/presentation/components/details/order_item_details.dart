@@ -3,6 +3,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/core/widgets/kt_network_image.dart';
@@ -208,7 +209,7 @@ class OrderItemDetails extends StatelessWidget {
           child: Row(
             children: [
               Visibility(
-                visible: _printerSetting.stickerPrinterEnabled,
+                visible: (_printerSetting.stickerPrinterEnabled && !UserPermissionManager().isBizOwner()),
                 child: DecoratedImageView(
                   iconWidget: ImageResourceResolver.printerSVG.getImageWidget(width: AppSize.s14.rw, height: AppSize.s14.rh, color: AppColors.primaryP300),
                   padding: EdgeInsets.all(AppSize.s10.rSp),
