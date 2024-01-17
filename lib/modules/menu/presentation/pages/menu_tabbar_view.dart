@@ -1,16 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_tab.dart';
+import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
 
-import '../../../../resources/values.dart';
-
 class MenuTabBarView extends StatefulWidget {
-  const MenuTabBarView({Key? key}) : super(key: key);
+  final Function(int) onChanged;
+
+  const MenuTabBarView({Key? key, required this.onChanged}) : super(key: key);
 
   @override
   State<MenuTabBarView> createState() => _MenuTabBarViewState();
@@ -19,42 +18,40 @@ class MenuTabBarView extends StatefulWidget {
 class _MenuTabBarViewState extends State<MenuTabBarView> {
   int selectedTab = MenuTabIndex.MENU;
 
-  void changeIndex(int index) =>
-      context.read<TabSelectionCubit>().changeTab(index);
+  void changeIndex(int index) => widget.onChanged(index);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        MenuTab(
-          name: AppStrings.menu.tr().toUpperCase(),
-          isSelected: selectedTab == MenuTabIndex.MENU,
-          onTabChanged: () {
-            setState(() {
-              selectedTab = MenuTabIndex.MENU;
-              changeIndex(selectedTab);
-            });
-          },
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(AppSize.s4.rSp),
-            bottomLeft: Radius.circular(AppSize.s4.rSp),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 4.rh, horizontal: 8.rw),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.rSp),
+        color: AppColors.neutralB20,
+      ),
+      child: Row(
+        children: [
+          MenuTab(
+            name: AppStrings.menu.tr().toUpperCase(),
+            isSelected: selectedTab == MenuTabIndex.MENU,
+            onTabChanged: () {
+              setState(() {
+                selectedTab = MenuTabIndex.MENU;
+                changeIndex(selectedTab);
+              });
+            },
           ),
-        ),
-        MenuTab(
-          name: AppStrings.modifiers.tr().toUpperCase(),
-          isSelected: selectedTab == MenuTabIndex.MODIFIER,
-          onTabChanged: () {
-            setState(() {
-              selectedTab = MenuTabIndex.MODIFIER;
-              changeIndex(selectedTab);
-            });
-          },
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(AppSize.s4.rSp),
-            bottomRight: Radius.circular(AppSize.s4.rSp),
+          MenuTab(
+            name: AppStrings.modifiers.tr().toUpperCase(),
+            isSelected: selectedTab == MenuTabIndex.MODIFIER,
+            onTabChanged: () {
+              setState(() {
+                selectedTab = MenuTabIndex.MODIFIER;
+                changeIndex(selectedTab);
+              });
+            },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

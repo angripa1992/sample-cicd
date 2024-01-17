@@ -30,6 +30,8 @@ class CartBill {
   final num merchantTotalPrice;
   final num customFee;
   final bool feePaidByCustomer;
+  final num roundOffAmount;
+  final num roundOffAmountCent;
 
   CartBill({
     required this.subTotal,
@@ -61,6 +63,8 @@ class CartBill {
     required this.merchantTotalPrice,
     required this.customFee,
     required this.feePaidByCustomer,
+    required this.roundOffAmount,
+    required this.roundOffAmountCent,
   });
 }
 

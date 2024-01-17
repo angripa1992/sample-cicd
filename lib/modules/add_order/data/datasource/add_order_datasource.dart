@@ -27,6 +27,8 @@ import '../models/request/webshop_pace_order_payload.dart';
 abstract class AddOrderDatasource {
   Future<List<MenuItemModifierGroup>> fetchModifiers({
     required int itemID,
+    required int sectionID,
+    required int categoryID,
     required MenuBranchInfo branchInfo,
     required int type,
   });
@@ -52,6 +54,8 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<List<MenuItemModifierGroup>> fetchModifiers({
     required int itemID,
+    required int sectionID,
+    required int categoryID,
     required MenuBranchInfo branchInfo,
     required int type,
   }) async {
@@ -65,6 +69,8 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
             'businessID': branchInfo.businessID,
             'brandID': branchInfo.brandID,
             'branchID': branchInfo.branchID,
+            'sectionID': sectionID,
+            'categoryID': categoryID,
           },
         );
         final str = jsonEncode(response);
@@ -118,6 +124,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<PlacedOrderResponse> placeOrder(PlaceOrderDataRequestModel body) async {
     try {
+      final str = json.encode(body.toJson());
       final response = await _restClient.request(Urls.manualOrder, Method.POST, body.toJson());
       return PlacedOrderResponse.fromJson(response);
     } on DioException {
@@ -128,7 +135,7 @@ class AddOrderDatasourceImpl extends AddOrderDatasource {
   @override
   Future<List<Promo>> fetchPromos(Map<String, dynamic> params) async {
     try {
-      final timezone = await DateTimeProvider.timeZone();
+      final timezone = await DateTimeFormatter.timeZone();
       params['timezone'] = timezone;
       final List<dynamic>? response = await _restClient.request(Urls.promos, Method.GET, params);
       return response?.map((e) => Promo.fromJson(e)).toList() ?? [];

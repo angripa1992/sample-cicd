@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_list.dart';
@@ -13,13 +13,13 @@ import '../../../domain/entities/menu/menu_sections.dart';
 class MenuListView extends StatefulWidget {
   final List<MenuSection> sections;
   final int brandID;
-  final int providerID;
+  final int branchID;
 
   const MenuListView({
     Key? key,
     required this.sections,
     required this.brandID,
-    required this.providerID,
+    required this.branchID,
   }) : super(key: key);
 
   @override
@@ -55,7 +55,8 @@ class _MenuListViewState extends State<MenuListView> {
           title: MenuSectionItem(
             controller: controller,
             index: index,
-            providerID: widget.providerID,
+            brandId: widget.brandID,
+            branchId: widget.branchID,
             section: widget.sections[index],
             onChanged: (enabled) {
               setState(() {
@@ -70,7 +71,6 @@ class _MenuListViewState extends State<MenuListView> {
                 },
               );
             },
-            brandId: widget.brandID,
           ),
           content: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
@@ -84,7 +84,7 @@ class _MenuListViewState extends State<MenuListView> {
                 });
               },
               brandID: widget.brandID,
-              providerID: widget.providerID,
+              branchID: widget.branchID,
             ),
           ),
         );
