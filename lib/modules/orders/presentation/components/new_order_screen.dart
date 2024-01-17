@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:klikit/core/widgets/filter/filter_data.dart';
+import 'package:klikit/modules/common/oni_parameter_provider.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/common/order_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -13,15 +15,14 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../filter_observer.dart';
-import '../filter_subject.dart';
+import '../oni_filter_manager.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'order_item/order_item_view.dart';
 
 class NewOrderScreen extends StatefulWidget {
-  final FilterSubject subject;
+  final OniFilterManager oniFilterManager;
 
-  const NewOrderScreen({Key? key, required this.subject}) : super(key: key);
+  const NewOrderScreen({Key? key, required this.oniFilterManager}) : super(key: key);
 
   @override
   State<NewOrderScreen> createState() => _NewOrderScreenState();
@@ -29,23 +30,19 @@ class NewOrderScreen extends StatefulWidget {
 
 class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
-  final _orderParameterProvider = getIt.get<OrderParameterProvider>();
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   final _sourceTab = 'New Order';
   static const _pageSize = 10;
   static const _firstPageKey = 1;
   Timer? _timer;
-  List<int>? _providers;
-  List<int>? _brands;
+  OniFilteredData? _filteredData;
   PagingController<int, Order>? _pagingController;
 
   @override
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
-    filterSubject = widget.subject;
-    filterSubject?.addObserver(this, ObserverTag.NEW_ORDER);
-    _providers = filterSubject?.getProviders();
-    _brands = filterSubject?.getBrands();
+    widget.oniFilterManager.addObserver(this, ObserverTag.NEW_ORDER);
+    _filteredData = widget.oniFilterManager.filteredData();
     _startTimer();
     _pagingController?.addPageRequestListener((pageKey) {
       _fetchNewOrder(pageKey);
@@ -54,12 +51,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   }
 
   void _fetchNewOrder(int pageKey) async {
-    final params = await _orderParameterProvider.getNewOrderParams(
-      _brands,
-      _providers,
-      page: pageKey,
-      pageSize: _pageSize,
-    );
+    final params = await OniParameterProvider().newOrder(filteredData: _filteredData, page: pageKey, pageSize: _pageSize);
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
@@ -87,7 +79,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   }
 
   void _refresh({bool willBackground = false, bool isFromAction = false}) {
-    KlikitOrderResolver().refreshOrderCounts(context, providers: _providers, brands: _brands);
+    KlikitOrderResolver().refreshOrderCounts(context, filteredData: _filteredData);
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);
@@ -196,22 +188,13 @@ class _NewOrderScreenState extends State<NewOrderScreen> with FilterObserver {
   void dispose() {
     _timer?.cancel();
     _pagingController?.dispose();
-    filterSubject?.removeObserver(ObserverTag.NEW_ORDER);
+    widget.oniFilterManager.removeObserver(ObserverTag.NEW_ORDER);
     super.dispose();
   }
 
   @override
-  void applyBrandsFilter(List<int> brandsID) {
-    _brands = brandsID;
+  void applyFilter(OniFilteredData? filteredData) {
+    _filteredData = filteredData;
     _refresh();
   }
-
-  @override
-  void applyProviderFilter(List<int> providersID) {
-    _providers = providersID;
-    _refresh();
-  }
-
-  @override
-  void applyStatusFilter(List<int> status) {}
 }

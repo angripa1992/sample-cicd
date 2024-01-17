@@ -1,11 +1,15 @@
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/menu/data/mapper/price_mapper.dart';
 
 import '../../../../app/constants.dart';
 import '../../../../app/session_manager.dart';
+import '../../domain/entities/item_price.dart';
 import '../../domain/entities/modifier/grouped_modifier_item.dart';
 import '../../domain/entities/modifier/modifier_group.dart';
 import '../../domain/entities/modifier/modifier_visibility.dart';
 import '../models/modifier/modifier_v1_data.dart';
+import '../models/v1_common_data_model.dart';
+import '../models/v2_common_data_model.dart';
 
 List<ModifierGroup> mapModifierV1ToModifier(List<V1ModifierGroupModel>? data) {
   return data?.map((e) => _v1ToModifierGroup(e)).toList() ?? [];
@@ -34,6 +38,7 @@ GroupedModifierItem _v1ToModifier(V1GroupedModifierItemModel data) {
     sequence: data.sequence.orZero(),
     isEnabled: data.statuses?[0].enabled ?? true,
     visibilities: data.statuses?.map((e) => _v1ToVisibility(e)).toList() ?? [],
+    prices: data.prices?.map((e) => v1PriceToItemPrice(e)).toList() ?? [],
   );
 }
 

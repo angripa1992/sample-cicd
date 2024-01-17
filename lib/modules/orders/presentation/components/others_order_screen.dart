@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/common/order_parameter_provider.dart';
+import 'package:klikit/core/widgets/filter/filter_data.dart';
+import 'package:klikit/modules/common/oni_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
@@ -12,15 +14,14 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../filter_observer.dart';
-import '../filter_subject.dart';
+import '../oni_filter_manager.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'order_item/order_item_view.dart';
 
 class OthersOrderScreen extends StatefulWidget {
-  final FilterSubject subject;
+  final OniFilterManager oniFilterManager;
 
-  const OthersOrderScreen({Key? key, required this.subject}) : super(key: key);
+  const OthersOrderScreen({Key? key, required this.oniFilterManager}) : super(key: key);
 
   @override
   State<OthersOrderScreen> createState() => _OthersOrderScreenState();
@@ -28,24 +29,19 @@ class OthersOrderScreen extends StatefulWidget {
 
 class _OthersOrderScreenState extends State<OthersOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
-  final _orderParamProvider = getIt.get<OrderParameterProvider>();
   final _sourceTab = 'Other';
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
   Timer? _timer;
-  List<int>? _providers;
-  List<int>? _brands;
-
   PagingController<int, Order>? _pagingController;
+  OniFilteredData? _filteredData;
 
   @override
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
-    filterSubject = widget.subject;
-    filterSubject?.addObserver(this, ObserverTag.OTHERS_ORDER);
-    _providers = filterSubject?.getProviders();
-    _brands = filterSubject?.getBrands();
+    widget.oniFilterManager.addObserver(this, ObserverTag.OTHERS_ORDER);
+    _filteredData = widget.oniFilterManager.filteredData();
     _startTimer();
     _pagingController?.addPageRequestListener((pageKey) {
       _fetchOthersOrder(pageKey);
@@ -54,12 +50,7 @@ class _OthersOrderScreenState extends State<OthersOrderScreen> with FilterObserv
   }
 
   void _fetchOthersOrder(int pageKey) async {
-    final params = await _orderParamProvider.getOthersOrderParams(
-      _brands,
-      _providers,
-      page: pageKey,
-      pageSize: _pageSize,
-    );
+    final params = await OniParameterProvider().othersOrder(filteredData: _filteredData, page: pageKey, pageSize: _pageSize);
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
@@ -150,22 +141,13 @@ class _OthersOrderScreenState extends State<OthersOrderScreen> with FilterObserv
   void dispose() {
     _timer?.cancel();
     _pagingController?.dispose();
-    filterSubject?.removeObserver(ObserverTag.OTHERS_ORDER);
+    widget.oniFilterManager.removeObserver(ObserverTag.OTHERS_ORDER);
     super.dispose();
   }
 
   @override
-  void applyBrandsFilter(List<int> brandsID) {
-    _brands = brandsID;
+  void applyFilter(OniFilteredData? filteredData) {
+    _filteredData = filteredData;
     _refresh();
   }
-
-  @override
-  void applyProviderFilter(List<int> providersID) {
-    _providers = providersID;
-    _refresh();
-  }
-
-  @override
-  void applyStatusFilter(List<int> status) {}
 }

@@ -59,31 +59,31 @@ class OrderSummaryCard extends StatelessWidget {
               value,
               style: boldTextStyle(fontSize: AppSize.s20.rSp, color: AppColors.neutralB700),
             ),
-            AppSize.s4.verticalSpacer(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                isPositive
-                    ? ImageResourceResolver.incrementSVG.getImageWidget(
-                        width: AppSize.s12.rw,
-                        height: AppSize.s12.rh,
-                      )
-                    : ImageResourceResolver.decrementSVG.getImageWidget(
-                        width: AppSize.s12.rw,
-                        height: AppSize.s12.rh,
-                      ),
-                AppSize.s4.horizontalSpacer(),
-                Text(
-                  '$changeInPercentage%',
-                  style: mediumTextStyle(fontSize: AppSize.s10.rSp, color: isPositive ? AppColors.successG300 : AppColors.errorR300),
-                ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s4),
-                Text(
-                  'vs $labelToCompareWith',
-                  style: regularTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB90),
-                )
-              ],
-            ),
+            // AppSize.s4.verticalSpacer(),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     isPositive
+            //         ? ImageResourceResolver.incrementSVG.getImageWidget(
+            //             width: AppSize.s12.rw,
+            //             height: AppSize.s12.rh,
+            //           )
+            //         : ImageResourceResolver.decrementSVG.getImageWidget(
+            //             width: AppSize.s12.rw,
+            //             height: AppSize.s12.rh,
+            //           ),
+            //     AppSize.s4.horizontalSpacer(),
+            //     Text(
+            //       '$changeInPercentage%',
+            //       style: mediumTextStyle(fontSize: AppSize.s10.rSp, color: isPositive ? AppColors.successG300 : AppColors.errorR300),
+            //     ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s4),
+            //     Text(
+            //       'vs $labelToCompareWith',
+            //       style: regularTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB90),
+            //     )
+            //   ],
+            // ),
           ],
         ),
       ),
