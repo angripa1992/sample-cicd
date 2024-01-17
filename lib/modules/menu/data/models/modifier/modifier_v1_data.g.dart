@@ -39,8 +39,7 @@ V1GroupedModifierItemModel _$V1GroupedModifierItemModelFromJson(
       sequence: json['sequence'] as int?,
       defaultData: json['defaultData'] as bool?,
       prices: (json['prices'] as List<dynamic>?)
-          ?.map(
-              (e) => V1ModifierPricesModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => V1PricesModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       statuses: (json['statuses'] as List<dynamic>?)
           ?.map((e) => V1StatusesModel.fromJson(e as Map<String, dynamic>))
@@ -72,24 +71,4 @@ Map<String, dynamic> _$V1StatusesModelToJson(V1StatusesModel instance) =>
       'provider_id': instance.providerId,
       'hidden': instance.hidden,
       'enabled': instance.enabled,
-    };
-
-V1ModifierPricesModel _$V1ModifierPricesModelFromJson(
-        Map<String, dynamic> json) =>
-    V1ModifierPricesModel(
-      providerId: json['provider_id'] as int?,
-      currencyId: json['currency_id'] as int?,
-      code: json['code'] as String?,
-      symbol: json['symbol'] as String?,
-      price: (json['price'] as num?)?.toDouble(),
-    );
-
-Map<String, dynamic> _$V1ModifierPricesModelToJson(
-        V1ModifierPricesModel instance) =>
-    <String, dynamic>{
-      'provider_id': instance.providerId,
-      'currency_id': instance.currencyId,
-      'code': instance.code,
-      'symbol': instance.symbol,
-      'price': instance.price,
     };

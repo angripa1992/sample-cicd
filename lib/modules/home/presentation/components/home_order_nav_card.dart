@@ -43,16 +43,16 @@ class HomeOrderNavCard extends StatelessWidget {
                   text,
                   style: regularTextStyle(
                     color: textColor,
-                    fontSize: AppFontSize.s15.rSp,
+                    fontSize: AppFontSize.s14.rSp,
                   ),
                 ),
               ),
               const Spacer(),
               Text(
                 numberOfOrders,
-                style: regularTextStyle(
+                style: semiBoldTextStyle(
                   color: textColor,
-                  fontSize: AppFontSize.s25.rSp,
+                  fontSize: AppFontSize.s16.rSp,
                 ),
               ),
               SizedBox(width: AppSize.s20.rw),

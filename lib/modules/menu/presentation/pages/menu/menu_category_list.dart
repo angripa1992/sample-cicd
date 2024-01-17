@@ -18,7 +18,7 @@ class MenuCategoryListView extends StatelessWidget {
   final List<MenuCategory> categories;
   final bool parentEnabled;
   final int brandID;
-  final int providerID;
+  final int branchID;
   final Function(List<MenuCategory>) onChanged;
 
   const MenuCategoryListView({
@@ -27,7 +27,7 @@ class MenuCategoryListView extends StatelessWidget {
     required this.parentEnabled,
     required this.onChanged,
     required this.brandID,
-    required this.providerID,
+    required this.branchID,
   }) : super(key: key);
 
   @override
@@ -62,7 +62,7 @@ class MenuCategoryListView extends StatelessWidget {
                       ArgumentKey.kMENU_CATEGORY: categories[index],
                       ArgumentKey.kENABLED: parentEnabled,
                       ArgumentKey.kBRAND_ID: brandID,
-                      ArgumentKey.kPROVIDER_ID: providerID,
+                      ArgumentKey.kBRANCH_ID: branchID,
                     },
                   ) as MenuCategory;
                   categories[index] = modifiedCategory;
@@ -76,8 +76,7 @@ class MenuCategoryListView extends StatelessWidget {
                         child: Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(
-                                  left: AppSize.s20.rw, right: AppSize.s4.rw),
+                              padding: EdgeInsets.only(left: AppSize.s20.rw, right: AppSize.s4.rw),
                               child: Text(
                                 '${index + 1}.',
                                 style: regularTextStyle(
@@ -108,7 +107,7 @@ class MenuCategoryListView extends StatelessWidget {
                           parentEnabled: parentEnabled,
                           id: categories[index].id,
                           brandId: brandID,
-                          providerId: providerID,
+                          branchId: branchID,
                           type: MenuType.CATEGORY,
                           onMenuEnableChanged: (enabled) {
                             categories[index].enabled = enabled;

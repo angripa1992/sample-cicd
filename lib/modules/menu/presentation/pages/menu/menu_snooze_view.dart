@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/fonts.dart';
 
-import '../../../../../app/extensions.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
@@ -15,7 +14,7 @@ import 'oos_settings.dart';
 class MenuSnoozeView extends StatelessWidget {
   final MenuCategoryItem menuCategoryItem;
   final int brandId;
-  final int providerId;
+  final int branchID;
   final bool parentEnabled;
   final Function(MenuOutOfStock) onMenuItemSnoozeChanged;
   final Function(bool) onMenuEnabledChanged;
@@ -23,9 +22,9 @@ class MenuSnoozeView extends StatelessWidget {
   const MenuSnoozeView({
     Key? key,
     required this.menuCategoryItem,
-    required this.providerId,
     required this.parentEnabled,
     required this.brandId,
+    required this.branchID,
     required this.onMenuItemSnoozeChanged,
     required this.onMenuEnabledChanged,
   }) : super(key: key);
@@ -47,14 +46,14 @@ class MenuSnoozeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!menuCategoryItem.enabled && providerId == ZERO) {
-      return InkWell(
+    return !menuCategoryItem.enabled
+        ? InkWell(
             onTap: () => !parentEnabled
                 ? null
                 : showOosDialog(
                     menuCategoryItem: menuCategoryItem,
                     brandId: brandId,
-                    providerId: providerId,
+                    branchID: branchID,
                     parentEnabled: parentEnabled,
                     onMenuEnableChanged: onMenuEnabledChanged,
                     onItemSnoozeChanged: onMenuItemSnoozeChanged,
@@ -90,9 +89,7 @@ class MenuSnoozeView extends StatelessWidget {
                 ),
               ),
             ),
-          );
-    } else {
-      return const SizedBox();
-    }
+          )
+        : const SizedBox();
   }
 }
