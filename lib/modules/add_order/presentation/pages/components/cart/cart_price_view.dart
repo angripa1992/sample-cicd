@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
@@ -12,7 +13,7 @@ import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../common/business_information_provider.dart';
-import '../../../../../common/entities/branch_info.dart';
+import '../../../../../common/entities/branch.dart';
 import '../../../../utils/cart_manager.dart';
 
 class CartPriceView extends StatelessWidget {
@@ -20,6 +21,7 @@ class CartPriceView extends StatelessWidget {
   final VoidCallback onDeliveryFee;
   final VoidCallback onDiscount;
   final VoidCallback onAdditionalFee;
+  final Function(bool) onApplyRoundOff;
 
   const CartPriceView({
     Key? key,
@@ -27,6 +29,7 @@ class CartPriceView extends StatelessWidget {
     required this.onDeliveryFee,
     required this.onDiscount,
     required this.onAdditionalFee,
+    required this.onApplyRoundOff,
   }) : super(key: key);
 
   @override
@@ -82,8 +85,8 @@ class CartPriceView extends StatelessWidget {
                 willCalculateAtNextStep: true,
               ),
             if (CartManager().isWebShopOrder && cartBill.customFee > 0)
-              FutureBuilder<BusinessBranchInfo?>(
-                future: getIt.get<BusinessInformationProvider>().branchInfo(),
+              FutureBuilder<Branch?>(
+                future: getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
                     return _item(
@@ -94,9 +97,63 @@ class CartPriceView extends StatelessWidget {
                   return Container();
                 },
               ),
+            if (!CartManager().isWebShopOrder) _roundOffView(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _roundOffView() {
+    return Column(
+      children: [
+        const Divider(),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'Rounding Off',
+                style: regularTextStyle(
+                  color: AppColors.black,
+                  fontSize: 14.rSp,
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s4.rh),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppSize.s16.rSp),
+                color: cartBill.roundOffAmount != 0 ? AppColors.grey : AppColors.primaryLighter,
+              ),
+              child: cartBill.roundOffAmount != 0
+                  ? Row(
+                      children: [
+                        Text(
+                          '${CartManager().currency.symbol} ${cartBill.roundOffAmount.isNegative ? '' : '+'}${cartBill.roundOffAmount}',
+                          style: regularTextStyle(color: AppColors.black, fontSize: 14.rSp),
+                        ),
+                        SizedBox(width: 4.rw),
+                        InkWell(
+                          onTap: () {
+                            onApplyRoundOff(false);
+                          },
+                          child: Icon(Icons.clear, size: 14.rSp),
+                        ),
+                      ],
+                    )
+                  : InkWell(
+                      onTap: () {
+                        onApplyRoundOff(true);
+                      },
+                      child: Text(
+                        'Apply',
+                        style: regularTextStyle(color: AppColors.primary, fontSize: 14.rSp),
+                      ),
+                    ),
+            ),
+          ],
+        )
+      ],
     );
   }
 

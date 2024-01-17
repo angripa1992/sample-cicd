@@ -62,7 +62,7 @@ class UpdateManualOrderDataProvider {
           providerId: order.providerId,
         );
         if (menuItemOrNull != null) {
-          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cartv2, menuItemOrNull.branchInfo, order.type);
+          final modifierGroups = await OrderMenuItemProvider().fetchModifiers(cartv2, menuItemOrNull, order.type);
           final brand = await _fetchMenuBrand(brandId: cartv2.cartBrand.id);
           final modifiersPrice = await ModifierManager().calculateModifiersPrice(modifierGroups);
           final itemPrice = menuItemOrNull.klikitPrice();
@@ -140,5 +140,6 @@ class UpdateManualOrderDataProvider {
     CartManager().setCartFee = editInfo;
     CartManager().setPaymentInfo = paymentInfo;
     CartManager().setUpdateCartInfo = updateCartInfo;
+    CartManager().setRoundOffApplicable = order.roundOffAmount != 0 ? true : null;
   }
 }

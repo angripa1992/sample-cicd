@@ -14,6 +14,11 @@ class UserPermissionManager {
     return user.permissions.contains(UserPermission.cancelOrder);
   }
 
+  bool isBizOwner() {
+    final user = SessionManager().user();
+    return user?.roles.first == UserRole.businessOwner;
+  }
+
   bool canOosMenu() {
     final user = SessionManager().user();
     if (user == null) return false;

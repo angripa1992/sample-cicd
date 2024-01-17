@@ -226,7 +226,7 @@ packages:
     source: hosted
     version: "4.3.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       url: "https://pub.dartlang.org"
@@ -356,7 +356,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: c80414745dd73a10439415feeb9661641161a4c4
+      resolved-ref: "40f1dc479dda65f7b461d0e9c0278936371c3267"
       url: "https://github.com/klikit/docket_design_template.git"
     source: git
     version: "0.0.1"

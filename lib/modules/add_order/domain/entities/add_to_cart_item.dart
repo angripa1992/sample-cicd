@@ -2,7 +2,7 @@ import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../menu/domain/entities/menu/menu_item.dart';
-import '../../../menu/domain/entities/menu/menu_item_price.dart';
+import '../../../menu/domain/entities/item_price.dart';
 import '../../data/models/applied_promo.dart';
 import '../../data/models/request/webshop_calculate_bill_payload.dart';
 import 'modifier/item_modifier_group.dart';
@@ -11,7 +11,7 @@ class AddToCartItem {
   final List<MenuItemModifierGroup> modifiers;
   final MenuCategoryItem item;
   final num modifiersPrice;
-  final MenuItemPrice itemPrice;
+  final ItemPrice itemPrice;
   String itemInstruction;
   Brand brand;
   int quantity;

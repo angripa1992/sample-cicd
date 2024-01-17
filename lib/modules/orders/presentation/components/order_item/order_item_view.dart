@@ -4,9 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/modules/orders/presentation/components/order_item/order_action_button_manager.dart';
 import 'package:klikit/modules/orders/presentation/components/order_item/three_pl_status.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
@@ -16,7 +18,6 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../../core/provider/date_time_provider.dart';
 import '../../../../../resources/assets.dart';
 import 'order_action_buttons.dart';
 
@@ -126,7 +127,7 @@ class OrderItemView extends StatelessWidget {
                         ),
                         SizedBox(height: AppSize.s4.rh),
                         Text(
-                          DateTimeProvider.parseOrderCreatedDate(order.createdAt, 'd MMM yy h:mm a'),
+                          DateTimeFormatter.parseOrderCreatedDate(order.createdAt, 'd MMM yy h:mm a'),
                           style: regularTextStyle(
                             color: AppColors.neutralB500,
                             fontSize: AppFontSize.s12.rSp,
@@ -148,16 +149,19 @@ class OrderItemView extends StatelessWidget {
 
   Widget _getActionButton() {
     if (order.status == OrderStatus.CANCELLED || order.status == OrderStatus.DELIVERED || order.status == OrderStatus.PICKED_UP) {
-      return DecoratedImageView(
-        iconWidget: ImageResourceResolver.printerSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
-        padding: EdgeInsets.all(AppSize.s10.rSp),
-        decoration: BoxDecoration(
-          color: AppColors.neutralB20,
-          borderRadius: BorderRadius.all(
-            Radius.circular(200.rSp),
+      return Visibility(
+        visible: OrderActionButtonManager().canPrint(order),
+        child: DecoratedImageView(
+          iconWidget: ImageResourceResolver.printerSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
+          padding: EdgeInsets.all(AppSize.s10.rSp),
+          decoration: BoxDecoration(
+            color: AppColors.neutralB20,
+            borderRadius: BorderRadius.all(
+              Radius.circular(200.rSp),
+            ),
           ),
+          onTap: onPrint,
         ),
-        onTap: onPrint,
       );
     } else if (order.status == OrderStatus.SCHEDULED) {
       return Expanded(child: _scheduleOrderAction());
@@ -198,7 +202,7 @@ class OrderItemView extends StatelessWidget {
               SizedBox(width: AppSize.s4.rw),
               Flexible(
                 child: Text(
-                  DateTimeProvider.scheduleDate(order.scheduledTime),
+                  DateTimeFormatter.scheduleDate(order.scheduledTime),
                   style: mediumTextStyle(
                     color: AppColors.primary,
                     fontSize: AppFontSize.s14.rSp,
@@ -219,7 +223,7 @@ class OrderItemView extends StatelessWidget {
             SizedBox(width: AppSize.s4.rw),
             Flexible(
               child: Text(
-                DateTimeProvider.scheduleTime(order.scheduledTime),
+                DateTimeFormatter.scheduleTime(order.scheduledTime),
                 style: mediumTextStyle(
                   color: AppColors.primary,
                   fontSize: AppFontSize.s14.rSp,

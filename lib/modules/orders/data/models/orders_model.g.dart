@@ -147,6 +147,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       feePaidByCustomer: json['fee_paid_by_customer'] as bool?,
       mergeFee: json['total_service_gateway_fee'] as num?,
       rewardDiscount: json['reward_discount'] as num?,
+      roundOffAmount: json['round_off_amount'] as num?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -252,6 +253,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'fee_paid_by_customer': instance.feePaidByCustomer,
       'total_service_gateway_fee': instance.mergeFee,
       'reward_discount': instance.rewardDiscount,
+      'round_off_amount': instance.roundOffAmount,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

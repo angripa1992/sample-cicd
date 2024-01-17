@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/modules/common/order_parameter_provider.dart';
+import 'package:klikit/core/widgets/filter/filter_data.dart';
+import 'package:klikit/modules/common/oni_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
@@ -12,15 +13,14 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
 import '../../utils/klikit_order_resolver.dart';
-import '../filter_observer.dart';
-import '../filter_subject.dart';
+import '../oni_filter_manager.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'order_item/order_item_view.dart';
 
 class OngoingOrderScreen extends StatefulWidget {
-  final FilterSubject subject;
+  final OniFilterManager oniFilterManager;
 
-  const OngoingOrderScreen({Key? key, required this.subject}) : super(key: key);
+  const OngoingOrderScreen({Key? key, required this.oniFilterManager}) : super(key: key);
 
   @override
   State<OngoingOrderScreen> createState() => _OngoingOrderScreenState();
@@ -28,24 +28,19 @@ class OngoingOrderScreen extends StatefulWidget {
 
 class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
-  final _orderParamProvider = getIt.get<OrderParameterProvider>();
   final _sourceTab = 'Ready';
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   static const _pageSize = 10;
   static const _firstPageKey = 1;
   Timer? _timer;
-  List<int>? _providers;
-  List<int>? _brands;
-
   PagingController<int, Order>? _pagingController;
+  OniFilteredData? _filteredData;
 
   @override
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
-    filterSubject = widget.subject;
-    filterSubject?.addObserver(this, ObserverTag.ONGOING_ORDER);
-    _providers = filterSubject?.getProviders();
-    _brands = filterSubject?.getBrands();
+    widget.oniFilterManager.addObserver(this, ObserverTag.ONGOING_ORDER);
+    _filteredData = widget.oniFilterManager.filteredData();
     _startTimer();
     _pagingController?.addPageRequestListener((pageKey) {
       _fetchOngoingOrder(pageKey);
@@ -54,12 +49,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
   }
 
   void _fetchOngoingOrder(int pageKey) async {
-    final params = await _orderParamProvider.getOngoingOrderParams(
-      _brands,
-      _providers,
-      page: pageKey,
-      pageSize: _pageSize,
-    );
+    final params = await OniParameterProvider().ongoingOrder(filteredData: _filteredData, page: pageKey, pageSize: _pageSize);
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
@@ -87,7 +77,7 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
   }
 
   void _refresh({bool willBackground = false}) {
-    KlikitOrderResolver().refreshOrderCounts(context, providers: _providers, brands: _brands);
+    KlikitOrderResolver().refreshOrderCounts(context, filteredData: _filteredData);
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);
@@ -95,47 +85,6 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
       _pagingController?.refresh();
     }
   }
-
-  // void _onActionSuccess(bool isFromDetails, int status) {
-  //   _refresh(willBackground: true);
-  //   if (isFromDetails) {
-  //     Navigator.of(context).pop();
-  //   }
-  //   SegmentManager().trackOrderSegment(
-  //     sourceTab: 'Ready Order',
-  //     status: status,
-  //     isFromDetails: isFromDetails,
-  //   );
-  // }
-
-  // void _onAction({
-  //   required String title,
-  //   required Order order,
-  //   required int status,
-  //   bool willCancel = false,
-  //   bool isFromDetails = false,
-  // }) {
-  //   if (status == OrderStatus.DELIVERED && order.isManualOrder && order.paymentStatus != PaymentStatusId.paid) {
-  //     showAddPaymentStatusMethodDialog(
-  //       title: AppStrings.select_payment_method_and_status.tr(),
-  //       context: context,
-  //       order: order,
-  //       isWebShopPostPayment: false,
-  //       onSuccess: (method, channel, status) {
-  //         _onActionSuccess(isFromDetails, status);
-  //       },
-  //     );
-  //   } else {
-  //     showOrderActionDialog(
-  //       params: _orderParamProvider.getOrderActionParams(order),
-  //       context: context,
-  //       onSuccess: () {
-  //         _onActionSuccess(isFromDetails, status);
-  //       },
-  //       title: title,
-  //     );
-  //   }
-  // }
 
   void _showDetails(Order item) {
     showOrderDetails(
@@ -229,22 +178,13 @@ class _OngoingOrderScreenState extends State<OngoingOrderScreen> with FilterObse
   void dispose() {
     _timer?.cancel();
     _pagingController?.dispose();
-    filterSubject?.removeObserver(ObserverTag.ONGOING_ORDER);
+    widget.oniFilterManager.removeObserver(ObserverTag.ONGOING_ORDER);
     super.dispose();
   }
 
   @override
-  void applyBrandsFilter(List<int> brandsID) {
-    _brands = brandsID;
+  void applyFilter(OniFilteredData? filteredData) {
+    _filteredData = filteredData;
     _refresh();
   }
-
-  @override
-  void applyProviderFilter(List<int> providersID) {
-    _providers = providersID;
-    _refresh();
-  }
-
-  @override
-  void applyStatusFilter(List<int> status) {}
 }
