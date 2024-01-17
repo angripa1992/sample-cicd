@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/notification/notification_handler.dart';
 import 'package:klikit/resources/assets.dart';
 
@@ -33,25 +34,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) async {
-        if (mounted) {
-          final notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-          if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-            NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
-          } else {
-            _gotoNextScreen();
+    if (UserPermissionManager().isBizOwner()) {
+      _gotoNextScreen();
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) async {
+          if (mounted) {
+            final notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+            if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+              NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
+            } else {
+              _gotoNextScreen();
+            }
           }
-        }
-      },
-    );
+        },
+      );
+    }
     super.initState();
   }
 
   void _gotoNextScreen() {
     Timer(const Duration(seconds: 2), () {
       if (SessionManager().isLoggedIn() && !SessionManager().firstLogin()) {
-        _registerFcmToken();
+        if (UserPermissionManager().isBizOwner()) {
+          _navigateBaseScreen();
+        } else {
+          _registerFcmToken();
+        }
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);
       }
@@ -66,9 +75,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
         showApiErrorSnackBar(context, failure);
       },
       (success) {
-        Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
+        _navigateBaseScreen();
       },
     );
+  }
+
+  void _navigateBaseScreen() {
+    Navigator.of(context).pushReplacementNamed(Routes.base, arguments: null);
   }
 
   @override

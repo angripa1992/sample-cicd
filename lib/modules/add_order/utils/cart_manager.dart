@@ -22,6 +22,7 @@ class CartManager {
   static int? _orderType;
   static int? _orderSource;
   static String? _orderComment;
+  static bool? _roundOffApplicable;
   static final _cartItemNotifier = ValueNotifier<int>(0);
   static final _noOfCartItemNotifier = ValueNotifier<int>(0);
   static final _orderTypeNotifier = ValueNotifier<int?>(_orderType);
@@ -59,6 +60,8 @@ class CartManager {
 
   int get orderSource => _orderSource ?? OrderSource.IN_STORE;
 
+  bool? get roundOffApplicable => _roundOffApplicable;
+
   String get orderComment => _orderComment ?? EMPTY;
 
   set orderType(int type) {
@@ -79,6 +82,8 @@ class CartManager {
   set setUpdateCartInfo(UpdateCartInfo data) => _updateCartInfo = data;
 
   set setPromoInfo(AppliedPromoInfo? data) => _promoInfo = data;
+
+  set setRoundOffApplicable(bool? data) => _roundOffApplicable = data;
 
   Future<void> addToCart(AddToCartItem cartItem) async {
     final duplicateItem = await _findCartItemByUniqueID(cartItem);
@@ -351,6 +356,7 @@ class CartManager {
     _orderSource = null;
     _orderComment = null;
     _orderTypeNotifier.value = null;
+    _roundOffApplicable = null;
     _notifyListener();
   }
 }

@@ -12,7 +12,7 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../../common/entities/brand.dart';
 import '../../../../../menu/domain/entities/menu/menu_item.dart';
-import '../../../../../menu/domain/entities/menu/menu_item_price.dart';
+import '../../../../../menu/domain/entities/item_price.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
@@ -48,7 +48,7 @@ class _EditModifierViewState extends State<EditModifierView> {
   late List<MenuItemModifierGroup> _groups;
   late MenuCategoryItem _item;
   late Brand? _brand;
-  late MenuItemPrice _itemPrice;
+  late ItemPrice _itemPrice;
   late num _modifierPrice;
   late int _quantity;
 

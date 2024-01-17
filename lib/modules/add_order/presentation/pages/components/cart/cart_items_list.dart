@@ -26,6 +26,7 @@ class CartItemsListView extends StatelessWidget {
   final Function(AddToCartItem) addDiscount;
   final Function(AddToCartItem) onDelete;
   final Function(AddToCartItem, int) onQuantityChanged;
+  final Function(bool roundOffApplicable) onApplyRoundOff;
   final Function(int) removeAll;
 
   const CartItemsListView({
@@ -41,6 +42,7 @@ class CartItemsListView extends StatelessWidget {
     required this.onQuantityChanged,
     required this.removeAll,
     required this.textController,
+    required this.onApplyRoundOff,
   }) : super(key: key);
 
   @override
@@ -119,6 +121,7 @@ class CartItemsListView extends StatelessWidget {
           onDeliveryFee: onDeliveryFee,
           onAdditionalFee: onAdditionalFee,
           onDiscount: onDiscount,
+          onApplyRoundOff: onApplyRoundOff,
         ),
       ],
     );

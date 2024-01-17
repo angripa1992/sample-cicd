@@ -34,7 +34,7 @@ class PickupTimeView extends StatelessWidget {
           ),
           SizedBox(height: AppSize.s4.rh),
           Text(
-            DateTimeProvider.parseOrderCreatedDate(order.estimatedPickUpAt),
+            DateTimeFormatter.parseOrderCreatedDate(order.estimatedPickUpAt),
             style: regularTextStyle(
               color: AppColors.black,
               fontSize: AppFontSize.s14.rSp,

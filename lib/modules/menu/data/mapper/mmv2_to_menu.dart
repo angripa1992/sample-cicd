@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/menu/data/mapper/price_mapper.dart';
 import 'package:klikit/modules/menu/data/models/menu/menu_v2_data.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
-import 'package:klikit/modules/menu/domain/entities/menu/menu_item_price.dart';
+import 'package:klikit/modules/menu/domain/entities/item_price.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_visibility.dart';
 
 import '../../domain/entities/menu/menu_available_times.dart';
@@ -125,7 +126,7 @@ MenuCategoryItem _v2ToMenuCategoryItem(
     visibilities: data.visibilities?.map((data) => _v2ToMenuVisibility(data)).toList() ?? [],
     enabled: data.enabled.orFalse(),
     sequence: data.sequence.orZero(),
-    prices: data.prices?.map((e) => _v2ToMenuItemPrice(e, branchInfo, data.id.orZero())).toList() ?? [],
+    prices: data.prices?.map((e) => v2PriceToItemPrice(e, branchInfo, data.id.orZero())).toList() ?? [],
     vat: data.vat.orZero(),
     skuID: data.skuID.orEmpty(),
     image: _defaultImage(data.resources),
@@ -196,43 +197,6 @@ MenuOutOfStock _v2ToMenuOutOfStock(V2OosModel data) {
   return MenuOutOfStock(
     available: data.available.orFalse(),
     menuSnooze: snooze,
-  );
-}
-
-MenuItemPrice _v2ToMenuItemPrice(
-  V2PriceModel data,
-  MenuBranchInfo branchInfo,
-  int id,
-) {
-  try {
-    final v2PriceDetails = data.details!.firstWhere((element) => element.currencyCode!.toUpperCase() == branchInfo.currencyCode.toUpperCase());
-    return MenuItemPrice(
-      providerId: data.providerID.orZero(),
-      currencyId: branchInfo.currencyID.orZero(),
-      currencyCode: branchInfo.currencyCode,
-      currencySymbol: branchInfo.currencySymbol,
-      price: v2PriceDetails.price ?? ZERO,
-      takeAwayPrice: v2PriceDetails.takeAwayPrice ?? ZERO,
-      advancedPrice: _toAdvancedPrice(v2PriceDetails.advancedPricing),
-    );
-  } catch (e) {
-    return MenuItemPrice(
-      providerId: data.providerID.orZero(),
-      currencyId: branchInfo.currencyID.orZero(),
-      currencyCode: branchInfo.currencyCode,
-      currencySymbol: branchInfo.currencySymbol,
-      price: ZERO,
-      takeAwayPrice: ZERO,
-      advancedPrice: _toAdvancedPrice(null),
-    );
-  }
-}
-
-MenuItemAdvancedPrice _toAdvancedPrice(V2AdvancedPricingModel? advancePriceModel) {
-  return MenuItemAdvancedPrice(
-    delivery: advancePriceModel?.delivery ?? ZERO,
-    dineIn: advancePriceModel?.dineIn ?? ZERO,
-    pickup: advancePriceModel?.pickup ?? ZERO,
   );
 }
 

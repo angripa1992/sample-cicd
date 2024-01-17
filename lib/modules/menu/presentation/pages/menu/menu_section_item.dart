@@ -16,7 +16,7 @@ class MenuSectionItem extends StatefulWidget {
   final ExpandedTileController controller;
   final int index;
   final int brandId;
-  final int providerID;
+  final int branchId;
   final MenuSection section;
   final Function(bool) onChanged;
 
@@ -27,7 +27,7 @@ class MenuSectionItem extends StatefulWidget {
     required this.section,
     required this.onChanged,
     required this.brandId,
-    required this.providerID,
+    required this.branchId,
   }) : super(key: key);
 
   @override
@@ -77,9 +77,7 @@ class _MenuSectionItemState extends State<MenuSectionItem> {
                     Padding(
                       padding: EdgeInsets.only(left: AppSize.s12.rw),
                       child: Icon(
-                        widget.controller.isExpanded
-                            ? Icons.arrow_drop_up
-                            : Icons.arrow_drop_down,
+                        widget.controller.isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                         color: AppColors.primary,
                         size: AppSize.s18.rSp,
                       ),
@@ -113,7 +111,7 @@ class _MenuSectionItemState extends State<MenuSectionItem> {
                       menuVersion: widget.section.menuVersion,
                       enabled: widget.section.enabled,
                       parentEnabled: true,
-                      providerId: widget.providerID,
+                      branchId: widget.branchId,
                       id: widget.section.id,
                       brandId: widget.brandId,
                       type: MenuType.SECTION,

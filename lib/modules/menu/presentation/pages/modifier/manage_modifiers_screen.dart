@@ -23,7 +23,7 @@ class ManageModifiersScreen extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     ModifierGroup modifierGroup = args[ArgumentKey.kGROUP];
     final brandId = args[ArgumentKey.kBRAND_ID];
-    final providerId = args[ArgumentKey.kPROVIDER_ID];
+    final branchID = args[ArgumentKey.kBRANCH_ID];
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context, modifierGroup);
@@ -32,6 +32,7 @@ class ManageModifiersScreen extends StatelessWidget {
       child: BlocProvider(
         create: (_) => getIt.get<CheckAffectedCubit>(),
         child: Scaffold(
+          backgroundColor: AppColors.white,
           appBar: AppBar(
             leading: IconButton(
               onPressed: () {
@@ -41,47 +42,34 @@ class ManageModifiersScreen extends StatelessWidget {
             ),
             title: Text(AppStrings.modifiers.tr()),
           ),
-          body: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSize.s10.rh,
-              horizontal: AppSize.s16.rw,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ModifierGroupInfoView(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.rw,vertical: 16.rh),
+                child: ModifierGroupInfoView(
                   modifiersGroup: modifierGroup,
                   brandId: brandId,
-                  providerId: providerId,
+                  branchID: branchID,
                   onChanged: (modifiedGroup) {
                     modifierGroup.isEnabled = modifiedGroup.isEnabled;
                   },
                 ),
-                SizedBox(height: AppSize.s16.rh),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: AppSize.s4.rh,
-                    horizontal: AppSize.s4.rw,
-                  ),
-                  child: Text(
-                    AppStrings.modifiers.tr().toUpperCase(),
-                    style: regularTextStyle(
-                      color: AppColors.black,
-                      fontSize: AppFontSize.s16.rSp,
-                    ),
-                  ),
-                ),
-                ModifierListView(
+              ),
+             Divider(thickness: 8.rh),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.rw),
+                child: ModifierListView(
                   modifierGroup: modifierGroup,
-                  providerId: providerId,
+                  branchID: branchID,
                   brandId: brandId,
                   onChanged: (changedModifiers) {
                     modifierGroup.modifiers = changedModifiers;
                   },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

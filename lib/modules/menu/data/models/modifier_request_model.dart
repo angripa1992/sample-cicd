@@ -9,7 +9,7 @@ class ModifierRequestModel {
   final int businessId;
   final int groupId;
   final int? modifierId;
-  final List<int>? providerIds;
+  final List<int> providerIds;
 
   ModifierRequestModel({
     required this.menuVersion,
@@ -20,7 +20,7 @@ class ModifierRequestModel {
     required this.businessId,
     required this.groupId,
     this.modifierId,
-    this.providerIds,
+    required this.providerIds,
   });
 
   Map<String, dynamic> toV1Json() {
@@ -32,7 +32,9 @@ class ModifierRequestModel {
     if (modifierId != null) {
       data['modifier_id'] = modifierId;
     }
-    data['provider_ids'] = providerIds;
+    if (providerIds.isNotEmpty) {
+      data['provider_ids'] = providerIds;
+    }
     return data;
   }
 
