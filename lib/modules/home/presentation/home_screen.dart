@@ -30,7 +30,6 @@ import '../../busy/presentation/pause_store_header_view.dart';
 import '../../orders/presentation/bloc/new_order_cubit.dart';
 import '../../orders/presentation/bloc/ongoing_order_cubit.dart';
 import 'components/home_header_view.dart';
-import 'components/home_total_order_card.dart';
 import 'components/z_report_view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -95,14 +94,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const OrderSummaryView(),
               ),
               if (!UserPermissionManager().isBizOwner())
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: AppSize.s20.rw,
-                    right: AppSize.s20.rw,
-                    bottom: AppSize.s16.rh,
+                Container(
+                  color: AppColors.white,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSize.s16.rw,
+                    vertical: AppSize.s16.rh,
                   ),
                   child: const PauseStoreHeaderView(),
-                ),
+                ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8),
+              8.verticalSpacer(),
               Container(
                 color: AppColors.white,
                 padding: EdgeInsets.symmetric(
@@ -210,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              if (!UserPermissionManager().isBizOwner()) const ZReportView(),
+              if (!UserPermissionManager().isBizOwner()) const ZReportView().setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8),
             ],
           ),
         ),

@@ -87,7 +87,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
               );
             }).toList(),
           ),
-          42.rh.verticalSpacer(),
+          42.verticalSpacer(),
           BlocConsumer<DeviceSettingCubit, ResponseState>(
             listener: (context, state) {
               _updateButtonController.setLoaded(state is! Loading);

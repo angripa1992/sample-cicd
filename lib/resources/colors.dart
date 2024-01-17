@@ -29,7 +29,7 @@ class AppColors {
   static Color greyLight = const Color(0xFFf4f5f7);
   static Color greyLighter = const Color(0xFFfafafa);
   static Color greyBright = const Color(0xFFEBEBEB);
-  static Color graniteGrey = const Color(0xFF666666);
+  static Color neutralB200 = const Color(0xFF666666);
   static Color errorR300 = const Color(0xFFF43F5E);
 
   static Color white = const Color(0xFFFFFFFF);
@@ -43,7 +43,9 @@ class AppColors {
   static Color primaryP50 = const Color(0xFFF0E7FE);
   static Color neutralB600 = const Color(0xFF2E2E2E);
   static Color successG600 = const Color(0xFF16B050);
+  static Color successG50 = const Color(0xFFEFFBF4);
   static Color neutralB40 = const Color(0xFFDEDEDE);
+  static Color neutralB50 = const Color(0xFFBFBFBF);
   static Color neutralB20 = const Color(0xFFF5F5F5);
   static Color neutralB80 = const Color(0xFF949494);
 }
