@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
+import 'package:klikit/language/selected_locale.dart';
 
 import 'language.dart';
 
@@ -76,12 +77,8 @@ class LanguageManager {
     return Locale(language.code!, language.countryCode);
   }
 
-  void changeLocale({
-    required BuildContext context,
-    required Locale locale,
-    required int languageId,
-  }) {
-    context.setLocale(locale);
-    saveCurrentLanguageCode(languageId);
+  void changeLocale({required BuildContext context, required SelectedLocale selectedLocale}) {
+    context.setLocale(selectedLocale.locale);
+    saveCurrentLanguageCode(selectedLocale.languageId);
   }
 }

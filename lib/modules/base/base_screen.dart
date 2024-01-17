@@ -202,8 +202,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 if (state is OnChangeState) {
                   _languageManager.changeLocale(
                     context: context,
-                    locale: state.locale,
-                    languageId: state.id,
+                    selectedLocale: state.selectedLocale,
                   );
                 }
               },

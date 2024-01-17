@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/printer/presentation/printer_setting_checkbox.dart';
+import 'package:klikit/core/widgets/kt_checkbox.dart';
+import 'package:klikit/core/widgets/kt_counter.dart';
 
-import '../../modules/widgets/counter_view.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../resources/strings.dart';
@@ -35,24 +35,24 @@ class SetDocketType extends StatefulWidget {
 }
 
 class _SetDocketTypeState extends State<SetDocketType> {
-  bool? _kitchenCopyEnabled;
-  bool? _customerCopyEnabled;
+  bool? _kitchenCopyChecked;
+  bool? _customerCopyChecked;
   int? _kitchenCopyCount;
   int? _customerCopyCount;
 
   @override
   void initState() {
-    _kitchenCopyEnabled = widget.initKitchenCopyEnabled;
-    _customerCopyEnabled = widget.initCustomerCopyEnabled;
+    _kitchenCopyChecked = widget.initKitchenCopyEnabled;
+    _customerCopyChecked = widget.initCustomerCopyEnabled;
     _kitchenCopyCount = widget.initKitchenCopyCount;
     _customerCopyCount = widget.initCustomerCopyCount;
     super.initState();
   }
 
-  void _changeKitchenCopyEnabled(bool enabled) {
+  void _changeKitchenCopyEnabled(bool checked) {
     setState(() {
-      _kitchenCopyEnabled = enabled;
-      widget.changeKitchenCopyEnabled(_kitchenCopyEnabled!);
+      _kitchenCopyChecked = checked;
+      widget.changeKitchenCopyEnabled(_kitchenCopyChecked!);
     });
   }
 
@@ -68,65 +68,62 @@ class _SetDocketTypeState extends State<SetDocketType> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.only(
-          right: AppSize.s12.rw,
-          left: AppSize.s12.rw,
-          top: AppSize.s8.rh,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              AppStrings.set_docket_type.tr(),
-              style: mediumTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s16.rSp,
+    return Container(
+      color: AppColors.white,
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s16.rw,
+        vertical: AppSize.s12.rh,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            AppStrings.set_docket_type.tr(),
+            style: mediumTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s16.rSp,
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: KTCheckbox(
+                  onChanged: _changeKitchenCopyEnabled,
+                  name: AppStrings.kitchen.tr(),
+                  checked: _kitchenCopyChecked!,
+                  primaryColor: AppColors.primaryP300,
+                ),
               ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: PrinterSettingCheckbox(
-                    enabled: _kitchenCopyEnabled!,
-                    onChanged: _changeKitchenCopyEnabled,
-                    name: AppStrings.kitchen.tr(),
-                    willAlwaysChecked: false,
-                    activeColor: AppColors.primary,
-                  ),
+              KTCounter(
+                enabled: _kitchenCopyChecked!,
+                count: _kitchenCopyCount!,
+                onChanged: _changeKitchenCopyCount,
+                minCount: 0,
+                maxCount: 5,
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: KTCheckbox(
+                  enabled: false,
+                  onChanged: _changeKitchenCopyEnabled,
+                  name: AppStrings.customer.tr(),
+                  checked: _customerCopyChecked!,
+                  primaryColor: AppColors.primaryP300,
                 ),
-                CounterView(
-                  enabled: _kitchenCopyEnabled!,
-                  count: _kitchenCopyCount!,
-                  onChanged: _changeKitchenCopyCount,
-                  minCount: 0,
-                  maxCount: 5,
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: PrinterSettingCheckbox(
-                    enabled: _customerCopyEnabled!,
-                    onChanged: _changeKitchenCopyEnabled,
-                    name: AppStrings.customer.tr(),
-                    willAlwaysChecked: true,
-                    activeColor: AppColors.greyDarker,
-                  ),
-                ),
-                CounterView(
-                  enabled: _customerCopyEnabled!,
-                  count: _customerCopyCount!,
-                  onChanged: _changeCustomerCopyCount,
-                  minCount: 1,
-                  maxCount: 5,
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              KTCounter(
+                enabled: _customerCopyChecked!,
+                count: _customerCopyCount!,
+                onChanged: _changeCustomerCopyCount,
+                minCount: 1,
+                maxCount: 5,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

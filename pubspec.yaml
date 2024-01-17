@@ -22,6 +22,7 @@ dependencies:
   shared_preferences: ^2.0.15
   connectivity_plus: ^3.0.4
   equatable: ^2.0.5
+  collection: ^1.16.0
   json_serializable: ^6.3.1
   flutter_bloc: ^8.1.1
   webview_flutter: ^3.0.4

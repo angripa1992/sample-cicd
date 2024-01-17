@@ -1,22 +1,20 @@
-import 'dart:ui';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/language/selected_locale.dart';
 
 abstract class ChangeLanguageState {}
 
 class InitState extends ChangeLanguageState {}
 
 class OnChangeState extends ChangeLanguageState {
-  final Locale locale;
-  final int id;
+  final SelectedLocale selectedLocale;
 
-  OnChangeState(this.locale, this.id);
+  OnChangeState(this.selectedLocale);
 }
 
 class ChangeLanguageCubit extends Cubit<ChangeLanguageState> {
   ChangeLanguageCubit() : super(InitState());
 
-  void openLanguageSettingDialog(Locale locale, int id) {
-    emit(OnChangeState(locale, id));
+  void openLanguageSettingDialog(SelectedLocale selectedLocale) {
+    emit(OnChangeState(selectedLocale));
   }
 }
