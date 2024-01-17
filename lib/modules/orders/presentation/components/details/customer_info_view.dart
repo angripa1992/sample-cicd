@@ -67,10 +67,10 @@ class OrderCustomerInfoView extends StatelessWidget {
                   visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null,
                   child: Expanded(child: _infoItem(AppStrings.vehicle_registration.tr(), '${order.additionalInfo?.vehicleInfo?.regNo}')),
                 ),
-                Visibility(
-                  visible: order.estimatedPickUpAt.isNotEmpty,
-                  child: Expanded(child: _infoItem(AppStrings.estimated_pickup_time.tr(), DateTimeProvider.parseOrderCreatedDate(order.estimatedPickUpAt))),
-                ),
+                if (order.estimatedPickUpAt.isNotEmpty)
+                  Expanded(
+                    child: _infoItem(AppStrings.estimated_pickup_time.tr(), DateTimeFormatter.parseOrderCreatedDate(order.estimatedPickUpAt)),
+                  )
               ],
             ).setVisibilityWithSpace(
                 direction: Axis.vertical,
