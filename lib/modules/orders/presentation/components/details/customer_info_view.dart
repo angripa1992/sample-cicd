@@ -69,7 +69,7 @@ class OrderCustomerInfoView extends StatelessWidget {
                 ),
                 if (order.estimatedPickUpAt.isNotEmpty)
                   Expanded(
-                    child: _infoItem(AppStrings.estimated_pickup_time.tr(), DateTimeProvider.parseOrderCreatedDate(order.estimatedPickUpAt)),
+                    child: _infoItem(AppStrings.estimated_pickup_time.tr(), DateTimeFormatter.parseOrderCreatedDate(order.estimatedPickUpAt)),
                   )
               ],
             ).setVisibilityWithSpace(
