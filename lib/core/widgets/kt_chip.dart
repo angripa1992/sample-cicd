@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/resources/colors.dart';
@@ -6,6 +7,7 @@ import 'package:klikit/resources/values.dart';
 
 class KTChip extends StatelessWidget {
   final String text;
+  final Widget? textHelperTrailingWidget;
   final double? borderRadius;
   final Color? strokeColor;
   final double? strokeWidth;
@@ -18,6 +20,7 @@ class KTChip extends StatelessWidget {
   const KTChip({
     Key? key,
     required this.text,
+    this.textHelperTrailingWidget,
     this.borderRadius,
     this.strokeColor,
     this.strokeWidth,
@@ -43,10 +46,16 @@ class KTChip extends StatelessWidget {
           if (leadingIcon != null) (leadingIcon!),
           if (leadingIcon != null) SizedBox(width: AppSize.s4.rw),
           Flexible(
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: textStyle,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: textStyle,
+                ),
+                textHelperTrailingWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s4.rw),
+              ],
             ),
           ),
           if (trailingIcon != null) SizedBox(width: AppSize.s4.rw),
