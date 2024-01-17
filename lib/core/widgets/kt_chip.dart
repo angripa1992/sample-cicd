@@ -8,6 +8,7 @@ class KTChip extends StatelessWidget {
   final String text;
   final double? borderRadius;
   final Color? strokeColor;
+  final double? strokeWidth;
   final Color backgroundColor;
   final EdgeInsets? padding;
   final DecoratedImageView? leadingIcon;
@@ -19,6 +20,7 @@ class KTChip extends StatelessWidget {
     required this.text,
     this.borderRadius,
     this.strokeColor,
+    this.strokeWidth,
     required this.backgroundColor,
     this.padding,
     this.leadingIcon,
@@ -32,7 +34,7 @@ class KTChip extends StatelessWidget {
       padding: padding ?? EdgeInsets.all(AppSize.s4.rSp),
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(color: strokeColor ?? AppColors.neutralB40),
+        border: Border.all(color: strokeColor ?? AppColors.neutralB40, width: strokeWidth ?? 1.rSp),
         borderRadius: BorderRadius.circular(borderRadius ?? AppSize.s60.rSp),
       ),
       child: Row(

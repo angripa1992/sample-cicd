@@ -22,12 +22,12 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
       },
       (data) {
         final overviewData = _summaryOverview(data);
-        emit(Success<OrderSummaryOverview>(overviewData));
+        emit(Success<List<OrderSummaryOverview>>(overviewData));
       },
     );
   }
 
-  OrderSummaryOverview _summaryOverview(OrderSummaryData data) {
+  List<OrderSummaryOverview> _summaryOverview(OrderSummaryData data) {
     int completed = 0;
     int cancelled = 0;
     num grossValues = 0;
@@ -42,11 +42,23 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
       currency = summary.currency;
       currencySymbol = summary.currencySymbol;
     }
-    return OrderSummaryOverview(
-      completedOrders: completed,
-      cancelledOrders: cancelled,
-      grossOrderValues: PriceCalculator.formatCompactPrice(price: grossValues/100, code: currency, symbol: currencySymbol),
-      discountValues: PriceCalculator.formatCompactPrice(price: discount/100, code: currency, symbol: currencySymbol),
-    );
+    return [
+      OrderSummaryOverview(
+        label: 'Completed Orders',
+        value: completed.toString(),
+      ),
+      OrderSummaryOverview(
+        label: 'Cancelled Orders',
+        value: cancelled.toString(),
+      ),
+      OrderSummaryOverview(
+        label: 'Gross order Value',
+        value: PriceCalculator.formatCompactPrice(price: grossValues / 100, code: currency, symbol: currencySymbol),
+      ),
+      OrderSummaryOverview(
+        label: 'Discount Value',
+        value: PriceCalculator.formatCompactPrice(price: discount / 100, code: currency, symbol: currencySymbol),
+      )
+    ];
   }
 }

@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/core/widgets/kt_switch.dart';
+import 'package:klikit/core/widgets/popups.dart';
 
 import '../../../resources/colors.dart';
 import '../../../resources/fonts.dart';
@@ -15,10 +15,9 @@ import '../../../resources/values.dart';
 import '../../widgets/app_button.dart';
 import '../domain/repository/pause_store_repository.dart';
 
-class PauseStoreToggleButton extends StatefulWidget {
+class PauseStoreToggleButton extends StatelessWidget {
   final bool isBusy;
   final bool isBranch;
-  final double scale;
   final VoidCallback onSuccess;
   final int? brandID;
 
@@ -27,59 +26,51 @@ class PauseStoreToggleButton extends StatefulWidget {
     required this.isBusy,
     required this.isBranch,
     required this.onSuccess,
-    this.scale = 0.75,
     this.brandID,
   }) : super(key: key);
 
-  @override
-  State<PauseStoreToggleButton> createState() => _PauseStoreToggleButtonState();
-}
-
-class _PauseStoreToggleButtonState extends State<PauseStoreToggleButton> {
-
-  void _updatePauseStore(bool isBusy) async {
+  void _updatePauseStore(BuildContext context, bool isBusy) async {
     EasyLoading.show();
     final params = {
       'branch_id': SessionManager().branchId(),
       'is_busy': isBusy,
     };
-    if (!widget.isBranch && widget.brandID != null) {
-      params['brand_id'] = widget.brandID!;
+    if (!isBranch && brandID != null) {
+      params['brand_id'] = brandID!;
     }
     final response = await getIt.get<PauseStoreRepository>().updatePauseStore(params);
     EasyLoading.dismiss();
     response.fold(
       (failure) {
-        showApiErrorSnackBar(context, failure);
+        showNotifierDialog(context, failure.message, false);
       },
       (successResponse) {
-        showSuccessSnackBar(context, successResponse.message);
-        widget.onSuccess();
+        showNotifierDialog(context, successResponse.message, true);
+        onSuccess();
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Transform.scale(
-      scale: widget.scale,
-      child: CupertinoSwitch(
-        onChanged: (isBusy) {
-          _showPauseStoreConfirmDialog(
-            isBusy,
-            () {
-              _updatePauseStore(isBusy);
-            },
-          );
-        },
-        value: widget.isBusy,
-        activeColor: AppColors.greyDarker,
-        trackColor: AppColors.primary,
-      ),
+    return KTSwitch(
+      width: 40.rw,
+      height: 20.rh,
+      controller: ValueNotifier<bool>(isBusy),
+      activeColor: AppColors.errorR300,
+      onChanged: (isBusy) {
+        _showPauseStoreConfirmDialog(
+          context,
+          isBusy,
+          () {
+            _updatePauseStore(context, isBusy);
+          },
+        );
+      },
     );
   }
 
-  void _showPauseStoreConfirmDialog(bool isBusy, VoidCallback onAction) {
+  void _showPauseStoreConfirmDialog(BuildContext context, bool isBusy, VoidCallback onAction) {
     showDialog(
       context: context,
       barrierDismissible: false,

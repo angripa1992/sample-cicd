@@ -38,8 +38,7 @@ class KTSwitch extends StatefulWidget {
   State<KTSwitch> createState() => _KTSwitchState();
 }
 
-class _KTSwitchState extends State<KTSwitch>
-    with SingleTickerProviderStateMixin {
+class _KTSwitchState extends State<KTSwitch> with SingleTickerProviderStateMixin {
   static const _duration = Duration(milliseconds: 250);
   late ValueNotifier<bool> _controller;
   late AnimationController _animationController;
@@ -67,6 +66,10 @@ class _KTSwitchState extends State<KTSwitch>
   void didUpdateWidget(covariant KTSwitch oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    if (widget.controller != null) {
+      _controller.value = widget.controller!.value;
+      _animationController.value = _controller.value ? 1.0 : 0.0;
+    }
     _initAnimation();
   }
 
@@ -102,9 +105,7 @@ class _KTSwitchState extends State<KTSwitch>
                     valueListenable: _controller,
                     builder: (_, __, ___) {
                       return AnimatedCrossFade(
-                        crossFadeState: _controller.value
-                            ? CrossFadeState.showSecond
-                            : CrossFadeState.showFirst,
+                        crossFadeState: _controller.value ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                         duration: _duration,
                         firstChild: Image(
                           width: widget.width,
@@ -164,8 +165,7 @@ class _KTSwitchState extends State<KTSwitch>
                               Container(
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFFFFFF),
-                                  borderRadius: widget.borderRadius
-                                      .subtract(BorderRadius.circular(1)),
+                                  borderRadius: widget.borderRadius.subtract(BorderRadius.circular(1)),
                                   boxShadow: const [
                                     BoxShadow(
                                       color: Color(0x42000000),

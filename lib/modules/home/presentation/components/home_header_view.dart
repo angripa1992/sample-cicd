@@ -41,9 +41,9 @@ class HomeHeaderView extends StatelessWidget {
             ],
           ),
           Container(
-            margin: EdgeInsets.only(right: AppSize.s16.rw,top: 8.rh),
+            margin: EdgeInsets.only(right: AppSize.s16.rw, top: 8.rh),
             decoration: BoxDecoration(
-              color: AppColors.graniteGrey,
+              color: AppColors.neutralB200,
               borderRadius: BorderRadius.circular(AppSize.s5.rSp),
             ),
             child: Padding(

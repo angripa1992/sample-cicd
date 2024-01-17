@@ -32,6 +32,8 @@ class ImageResourceResolver {
 
   static SVGImageResource get notificationSVG => SVGImageResource('$iconBasePath/ic_notification.svg');
 
+  static SVGImageResource get unreadNotificationSVG => SVGImageResource('$iconBasePath/ic_unread_notification.svg');
+
   static SVGImageResource get notificationAlertSVG => SVGImageResource('$iconBasePath/ic_notification_alert.svg');
 
   static SVGImageResource get closeSVG => SVGImageResource('$iconBasePath/ic_close.svg');
@@ -43,4 +45,24 @@ class ImageResourceResolver {
   static SVGImageResource get deleteSVG => SVGImageResource('$iconBasePath/ic_delete.svg');
 
   static PNGImageResource get emptyMenuPNG => const PNGImageResource('$imageBasePath/empty_menu.png');
+
+  static SVGImageResource get refreshSVG => SVGImageResource('$iconBasePath/ic_refresh.svg');
+
+  static SVGImageResource get downloadSVG => SVGImageResource('$iconBasePath/ic_download.svg');
+
+  static SVGImageResource get downArrowSVG => SVGImageResource('$iconBasePath/ic_down_arrow.svg');
+
+  static SVGImageResource get infoSVG => SVGImageResource('$iconBasePath/ic_info.svg');
+
+  static SVGImageResource get successSVG => SVGImageResource('$iconBasePath/ic_success.svg');
+
+  static SVGImageResource get appLogoSVG => SVGImageResource('$iconBasePath/ic_app_logo.svg');
+
+  static SVGImageResource get appWordMarkSVG => SVGImageResource('$iconBasePath/ic_app_word_mark.svg');
+
+  static SVGImageResource get cartSVG => SVGImageResource('$iconBasePath/ic_cart.svg');
+
+  static SVGImageResource get incrementSVG => SVGImageResource('$iconBasePath/ic_increment.svg');
+
+  static SVGImageResource get decrementSVG => SVGImageResource('$iconBasePath/ic_decrement.svg');
 }
