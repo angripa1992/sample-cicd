@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
@@ -29,7 +30,8 @@ import '../../busy/presentation/pause_store_header_view.dart';
 import '../../orders/presentation/bloc/new_order_cubit.dart';
 import '../../orders/presentation/bloc/ongoing_order_cubit.dart';
 import 'components/home_header_view.dart';
-import 'components/z_report.dart';
+import 'components/home_total_order_card.dart';
+import 'components/z_report_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
