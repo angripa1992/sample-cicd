@@ -61,4 +61,8 @@ class ImageResourceResolver {
   static SVGImageResource get appWordMarkSVG => SVGImageResource('$iconBasePath/ic_app_word_mark.svg');
 
   static SVGImageResource get cartSVG => SVGImageResource('$iconBasePath/ic_cart.svg');
+
+  static SVGImageResource get incrementSVG => SVGImageResource('$iconBasePath/ic_increment.svg');
+
+  static SVGImageResource get decrementSVG => SVGImageResource('$iconBasePath/ic_decrement.svg');
 }

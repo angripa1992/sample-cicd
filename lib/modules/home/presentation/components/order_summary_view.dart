@@ -5,6 +5,7 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/modules/home/domain/entities/order_summary_overview.dart';
 import 'package:klikit/modules/home/presentation/cubit/order_summary_cubit.dart';
+import 'package:klikit/modules/orders/presentation/components/order_summary_card.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../core/widgets/filter/filter_icon_view.dart';
@@ -36,16 +37,13 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.rh),
+          padding: EdgeInsets.symmetric(vertical: 8.rh),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Order Summary',
-                style: boldTextStyle(
-                  color: AppColors.black,
-                  fontSize: 16.rSp,
-                ),
+                style: boldTextStyle(color: AppColors.black, fontSize: 16.rSp),
               ),
               StatefulBuilder(
                 builder: (_, setState) {
@@ -72,65 +70,38 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
             ],
           ),
         ),
+        const Divider(),
         BlocBuilder<OrderSummaryCubit, ResponseState>(
           builder: (_, state) {
             if (state is Loading) {
-              return  CircularProgressIndicator(color: AppColors.primary);
-            } else if (state is Success<OrderSummaryOverview>) {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      _summaryItem('Completed Orders', '${state.data.completedOrders}'),
-                      _summaryItem('Cancelled Orders', '${state.data.cancelledOrders}'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      _summaryItem('Gross order Value', state.data.grossOrderValues),
-                      _summaryItem('Discount Value', state.data.discountValues),
-                    ],
-                  ),
-                ],
+              return CircularProgressIndicator(color: AppColors.primary);
+            } else if (state is Success<List<OrderSummaryOverview>>) {
+              return Container(
+                color: AppColors.greyLight,
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  childAspectRatio: 2.2,
+                  mainAxisSpacing: 1.rh,
+                  crossAxisSpacing: 1.rw,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: state.data.map((orderSummary) {
+                    return OrderSummaryCard(
+                      label: orderSummary.label,
+                      value: orderSummary.value,
+                      tooltipMessage: orderSummary.label,
+                      changeInPercentage: 20,
+                      labelToCompareWith: '',
+                      isPositive: true,
+                    );
+                  }).toList(),
+                ),
               );
             }
             return const SizedBox();
           },
         ),
       ],
-    );
-  }
-
-  Widget _summaryItem(String name, String value) {
-    return Expanded(
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(10.rSp),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                value,
-                textAlign: TextAlign.center,
-                style: semiBoldTextStyle(
-                  color: AppColors.primary,
-                  fontSize: 16.rSp,
-                ),
-              ),
-              SizedBox(height: 4.rh),
-              Text(
-                name,
-                textAlign: TextAlign.center,
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: 14.rSp,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
