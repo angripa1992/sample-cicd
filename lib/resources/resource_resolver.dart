@@ -1,8 +1,6 @@
 import 'package:klikit/resources/asset_resolver/png_image_resource.dart';
-import 'package:klikit/resources/assets.dart';
-
-import 'package:klikit/resources/asset_resolver/png_image_resource.dart';
 import 'package:klikit/resources/asset_resolver/svg_image_resource.dart';
+import 'package:klikit/resources/assets.dart';
 
 const String assetBasePath = 'assets';
 const String fontBasePath = '$assetBasePath/fonts';
@@ -95,8 +93,6 @@ class ImageResourceResolver {
   static SVGImageResource get navBackSVG => SVGImageResource('$iconBasePath/ic_nav_back.svg');
 
   static PNGImageResource get menuBrandPNG => const PNGImageResource(AppImages.menuBrandPNG);
-
-  static SVGImageResource get filterSVG => SVGImageResource('$iconBasePath/ic_filter.svg');
 
   static SVGImageResource get upArrowSVG => SVGImageResource('$iconBasePath/ic_up_arrow.svg');
 }

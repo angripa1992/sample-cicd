@@ -4,6 +4,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_item_details.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';

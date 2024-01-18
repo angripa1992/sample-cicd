@@ -65,7 +65,7 @@ class _MenuListViewState extends State<MenuListView> {
                   title: MenuSectionItem(
                     controller: controller,
                     index: index,
-                    branchID: widget.branchID,
+                    branchId: widget.branchID,
                     section: widget.sections[index],
                     onChanged: (enabled) {
                       setState(() {

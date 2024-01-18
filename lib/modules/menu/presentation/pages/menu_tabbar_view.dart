@@ -5,6 +5,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_tab.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/values.dart';
 
 class MenuTabBarView extends StatefulWidget {
   final Function(int) onChanged;
