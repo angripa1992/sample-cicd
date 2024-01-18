@@ -334,7 +334,6 @@ class PrintingHandler {
     required PrintingType printingType,
   }) async {
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-    print('rollSize: $rollSize');
     final templateOrder = await _generateTemplateOrder(order);
     List<int>? rawBytes = await DocketDesignTemplate().generateTicket(
       templateOrder,
