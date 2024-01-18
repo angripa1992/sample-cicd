@@ -339,5 +339,7 @@
   "you_will_receive_notification": "您将收到有关即将到来的订单的通知。",
   "you_wont_receive_notification": "您将不会收到任何即将到来订单的通知。",
   "docket": "单据",
-  "sticker": "贴纸"
+  "sticker": "贴纸",
+  "gross_order_value": "总订单价值",
+  "discount_value": "折扣价值"
 }

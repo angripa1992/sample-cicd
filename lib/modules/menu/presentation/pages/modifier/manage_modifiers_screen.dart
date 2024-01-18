@@ -8,9 +8,6 @@ import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart
 import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
-import '../../../../../resources/styles.dart';
-import '../../../../../resources/values.dart';
 import '../../../domain/entities/modifier/modifier_group.dart';
 import 'modifier_group_info.dart';
 import 'modifier_list_view.dart';
@@ -47,7 +44,7 @@ class ManageModifiersScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.rw,vertical: 16.rh),
+                padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 16.rh),
                 child: ModifierGroupInfoView(
                   modifiersGroup: modifierGroup,
                   brandId: brandId,
@@ -57,16 +54,18 @@ class ManageModifiersScreen extends StatelessWidget {
                   },
                 ),
               ),
-             Divider(thickness: 8.rh),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.rw),
-                child: ModifierListView(
-                  modifierGroup: modifierGroup,
-                  branchID: branchID,
-                  brandId: brandId,
-                  onChanged: (changedModifiers) {
-                    modifierGroup.modifiers = changedModifiers;
-                  },
+              Divider(thickness: 8.rh),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.rw),
+                  child: ModifierListView(
+                    modifierGroup: modifierGroup,
+                    branchID: branchID,
+                    brandId: brandId,
+                    onChanged: (changedModifiers) {
+                      modifierGroup.modifiers = changedModifiers;
+                    },
+                  ),
                 ),
               ),
             ],

@@ -339,5 +339,7 @@
   "you_will_receive_notification": "Anda akan menerima notifikasi untuk order yang akan masuk",
   "you_wont_receive_notification": "Anda tidak akan menerima notifikasi untuk order yang akan masuk",
   "docket": "Docket",
-  "sticker": "Sticker"
+  "sticker": "Sticker",
+  "gross_order_value": "Penghasilan Kotor",
+  "discount_value": "Diskon"
 }

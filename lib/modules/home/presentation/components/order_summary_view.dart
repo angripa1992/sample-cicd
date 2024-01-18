@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
@@ -5,6 +6,7 @@ import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/modules/home/domain/entities/order_summary_overview.dart';
 import 'package:klikit/modules/home/presentation/cubit/order_summary_cubit.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../core/widgets/filter/filter_icon_view.dart';
@@ -75,20 +77,20 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
         BlocBuilder<OrderSummaryCubit, ResponseState>(
           builder: (_, state) {
             if (state is Loading) {
-              return  CircularProgressIndicator(color: AppColors.primary);
+              return CircularProgressIndicator(color: AppColors.primary);
             } else if (state is Success<OrderSummaryOverview>) {
               return Column(
                 children: [
                   Row(
                     children: [
-                      _summaryItem('Completed Orders', '${state.data.completedOrders}'),
-                      _summaryItem('Cancelled Orders', '${state.data.cancelledOrders}'),
+                      _summaryItem(AppStrings.completed_orders.tr(), '${state.data.completedOrders}'),
+                      _summaryItem(AppStrings.cancelled_orders.tr(), '${state.data.cancelledOrders}'),
                     ],
                   ),
                   Row(
                     children: [
-                      _summaryItem('Gross order Value', state.data.grossOrderValues),
-                      _summaryItem('Discount Value', state.data.discountValues),
+                      _summaryItem(AppStrings.gross_order_value.tr(), state.data.grossOrderValues),
+                      _summaryItem(AppStrings.discount_value.tr(), state.data.discountValues),
                     ],
                   ),
                 ],

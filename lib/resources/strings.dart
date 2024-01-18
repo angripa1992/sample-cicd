@@ -375,4 +375,6 @@ class AppStrings {
   static const String you_wont_receive_notification = 'you_wont_receive_notification';
   static const String docket = 'docket';
   static const String sticker = 'sticker';
+  static const String gross_order_value = 'gross_order_value';
+  static const String discount_value = 'discount_value';
 }
