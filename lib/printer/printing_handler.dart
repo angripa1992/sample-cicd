@@ -145,7 +145,7 @@ class PrintingHandler {
             roll: rollSize,
             printingType: PrintingType.manual,
             isConsumerCopy: true,);
-          await BluetoothPrinterHandler().print(printingData,printerAddress);
+          await BluetoothPrinterHandler().print(printingData!,printerAddress);
         } else {
           final printingData = await _generateDocketTicket(
             order: order,
@@ -258,7 +258,7 @@ class PrintingHandler {
           roll: rollSize,
           printingType: PrintingType.auto,
           isConsumerCopy: true,);
-        await BluetoothPrinterHandler().print(printingData,printerAddress);
+        await BluetoothPrinterHandler().print(printingData!,printerAddress);
       }
     }
     if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
@@ -266,7 +266,7 @@ class PrintingHandler {
         roll: rollSize,
         printingType: PrintingType.auto,
         isConsumerCopy: false,);
-      await BluetoothPrinterHandler().print(printingData,printerAddress);
+      await BluetoothPrinterHandler().print(printingData!,printerAddress);
     }
   }
 
@@ -391,7 +391,7 @@ class PrintingHandler {
           roll: rollSize,
           printingType: PrintingType.auto,
           isConsumerCopy: true,);
-        await NetworkPrinterHandler().doPrint(printingData,printerIpAddress!);
+        await NetworkPrinterHandler().doPrint(printingData!,printerIpAddress!);
       }
     }
     if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
@@ -399,7 +399,7 @@ class PrintingHandler {
         roll: rollSize,
         printingType: PrintingType.auto,
         isConsumerCopy: false,);
-      await NetworkPrinterHandler().doPrint(printingData,printerIpAddress!);
+      await NetworkPrinterHandler().doPrint(printingData!,printerIpAddress!);
     }
   }
   void _ipManualPrint(Order order) {
@@ -411,9 +411,9 @@ class PrintingHandler {
           final printerIpAddress = _preferences.getPrinterIpAddress();
         final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
           roll: rollSize,
-          printingType: PrintingType.auto,
+          printingType: PrintingType.manual,
           isConsumerCopy: false,);
-        await NetworkPrinterHandler().doPrint(printingData,printerIpAddress!);
+        await NetworkPrinterHandler().doPrint(printingData!,printerIpAddress!);
 
       },
     );

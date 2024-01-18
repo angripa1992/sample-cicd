@@ -85,7 +85,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   }
 
   void _updatePrinterSetting() {
-    print('_printerIpAddress on update $_printerIpAddress');
     _appPreferences.setPrinterIpAddress(_printerIpAddress);
     context.read<UpdatePrinterSettingCubit>().updatePrintSetting(
           printerSetting: _createPrinterSettingFromLocalVariables(true),
