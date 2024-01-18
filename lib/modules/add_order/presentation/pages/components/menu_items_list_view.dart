@@ -277,7 +277,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
                         itemBuilder: (BuildContext context, int index) {
                           return MenuCategoryItemView(
                             menuItem: category.items[index],
-                            dayInfo: AvailableTimeProvider().todayInfo(category.availableTimes),
+                            dayInfo: MenuAvailableTimeProvider().findCurrentDay(category.availableTimes),
                             onAddItem: () {
                               _fetchModifier(category.items[index]);
                             },

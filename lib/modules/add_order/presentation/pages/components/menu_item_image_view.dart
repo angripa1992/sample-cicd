@@ -17,7 +17,7 @@ import '../../../../../resources/values.dart';
 
 class MenuItemImageView extends StatelessWidget {
   final String image;
-  final Availability availability;
+  final MenuAvailability availability;
 
   const MenuItemImageView({
     Key? key,
@@ -42,8 +42,8 @@ class MenuItemImageView extends StatelessWidget {
           child: Stack(
             alignment: AlignmentDirectional.center,
             children: [
-              if (availability == Availability.OUT_OF_STOCK) _getBlurImage(),
-              if (availability == Availability.OUT_OF_STOCK)
+              if (availability == MenuAvailability.OUT_OF_STOCK) _getBlurImage(),
+              if (availability == MenuAvailability.OUT_OF_STOCK)
                 _outOfStockMessage(),
             ],
           ),
@@ -74,8 +74,8 @@ class MenuItemImageView extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              if (availability == Availability.OUT_OF_STOCK) _getBlurImage(),
-              if (availability == Availability.OUT_OF_STOCK)
+              if (availability == MenuAvailability.OUT_OF_STOCK) _getBlurImage(),
+              if (availability == MenuAvailability.OUT_OF_STOCK)
                 _outOfStockMessage(),
             ],
           ),

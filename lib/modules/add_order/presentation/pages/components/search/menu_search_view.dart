@@ -172,8 +172,8 @@ class _MenuSearchViewState extends State<MenuSearchView> {
                     itemBuilder: (BuildContext context, int index) {
                       return MenuCategoryItemView(
                         menuItem: items[index],
-                        dayInfo: AvailableTimeProvider()
-                            .todayInfo(items[index].availableTimes),
+                        dayInfo: MenuAvailableTimeProvider()
+                            .findCurrentDay(items[index].availableTimes),
                         onAddItem: () {
                           widget.onItemSelected(items[index]);
                         },

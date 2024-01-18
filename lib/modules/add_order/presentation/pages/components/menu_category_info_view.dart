@@ -13,9 +13,7 @@ class MenuCategoryInfoView extends StatelessWidget {
   final MenuCategory category;
   final int index;
 
-  const MenuCategoryInfoView(
-      {Key? key, required this.category, required this.index})
-      : super(key: key);
+  const MenuCategoryInfoView({Key? key, required this.category, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +48,7 @@ class MenuCategoryInfoView extends StatelessWidget {
                 ),
                 SizedBox(width: AppSize.s4.rw),
                 Text(
-                  AvailableTimeProvider()
-                      .availableTime(category.availableTimes),
+                  MenuAvailableTimeProvider().availableTime(category.availableTimes),
                   style: regularTextStyle(color: AppColors.primary),
                 ),
               ],

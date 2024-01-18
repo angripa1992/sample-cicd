@@ -24,13 +24,13 @@ class MenuCategoryItemView extends StatelessWidget {
     required this.onAddItem,
   }) : super(key: key);
 
-  Availability _checkAvailability() {
+  MenuAvailability _checkAvailability() {
     if (!menuItem.outOfStock.available) {
-      return Availability.OUT_OF_STOCK;
-    } else if (AvailableTimeProvider().haveAvailableTime(dayInfo) == null) {
-      return Availability.UNAVAILABLE;
+      return MenuAvailability.OUT_OF_STOCK;
+    } else if (MenuAvailableTimeProvider().haveAvailableTime(dayInfo) == null) {
+      return MenuAvailability.UNAVAILABLE;
     } else {
-      return Availability.STOCK;
+      return MenuAvailability.AVAILABLE;
     }
   }
 
@@ -47,7 +47,7 @@ class MenuCategoryItemView extends StatelessWidget {
         child: Column(
           children: [
             InkWell(
-              onTap: availability == Availability.OUT_OF_STOCK ? null : onAddItem,
+              onTap: availability == MenuAvailability.OUT_OF_STOCK ? null : onAddItem,
               child: SizedBox(
                 height: AppSize.s100.rh,
                 child: Stack(
@@ -95,7 +95,7 @@ class MenuCategoryItemView extends StatelessWidget {
                         child: Icon(
                           Icons.add_circle,
                           size: AppSize.s28.rSp,
-                          color: availability == Availability.OUT_OF_STOCK ? AppColors.greyLight : AppColors.primary,
+                          color: availability == MenuAvailability.OUT_OF_STOCK ? AppColors.greyLight : AppColors.primary,
                         ),
                       ),
                     )
@@ -104,7 +104,7 @@ class MenuCategoryItemView extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: availability == Availability.OUT_OF_STOCK ? null : onAddItem,
+              onTap: availability == MenuAvailability.OUT_OF_STOCK ? null : onAddItem,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppSize.s4.rw,

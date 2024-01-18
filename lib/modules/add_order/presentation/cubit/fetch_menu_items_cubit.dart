@@ -2,13 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 
-import '../../../menu/domain/entities/menu/menu_categories.dart';
-import '../../../menu/domain/entities/menu/menu_item.dart';
-import '../../../menu/domain/entities/menu/menu_sections.dart';
-import '../../../menu/domain/repository/menu_repository.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_categories.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_sections.dart';
+import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
 
 class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
   final MenuRepository _repository;
@@ -34,6 +35,35 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
         emit(Success<List<MenuCategory>>(categories));
       },
     );
+  }
+
+  void _filterSection(List<MenuSection> sections){
+    final availableSections = <MenuSection>[];
+    final unavailableSections = <MenuSection>[];
+    final sortedSections = <MenuSection>[];
+    for (var section in sections) {
+      final currentDaya = MenuAvailableTimeProvider().findCurrentDay(section.availableTimes);
+      final haveAvailableTime = MenuAvailableTimeProvider().haveAvailableTime(currentDaya) != null;
+      if(haveAvailableTime){
+        availableSections.add(section);
+      }else{
+        unavailableSections.add(section);
+      }
+    }
+    sortedSections.addAll(availableSections);
+    sortedSections.addAll(unavailableSections);
+    sortedSections.sort((a,b) => a.sequence.compareTo(b.sequence));
+    final filteredCategories = <MenuCategory>[];
+    for (var section in sortedSections) {
+      if(section.enabled && section.visible(ProviderID.KLIKIT)){
+        final tempSubSections =  <MenuCategory>[];
+        tempSubSections.addAll(section.categories);
+        tempSubSections.sort((a,b) => a.sequence.compareTo(b.sequence));
+        for (var element in tempSubSections) {
+
+        }
+      }
+    }
   }
 
   List<MenuCategory> _filterMenuCategory(List<MenuSection> sections) {
