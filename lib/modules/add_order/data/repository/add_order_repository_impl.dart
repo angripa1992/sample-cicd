@@ -26,6 +26,8 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
   @override
   Future<Either<Failure, List<MenuItemModifierGroup>>> fetchModifiers({
     required int itemId,
+    required int sectionID,
+    required int categoryID,
     required MenuBranchInfo branchInfo,
     required int type,
   }) async {
@@ -33,6 +35,8 @@ class AddOrderRepositoryImpl extends AddOrderRepository {
       try {
         final response = await _datasource.fetchModifiers(
           itemID: itemId,
+          sectionID: sectionID,
+          categoryID: categoryID,
           branchInfo: branchInfo,
           type: type,
         );

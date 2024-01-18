@@ -1,24 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
-import '../../../common/order_parameter_provider.dart';
+import '../../../../core/widgets/filter/filter_data.dart';
+import '../../../common/oni_parameter_provider.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/usecases/fetch_new_order.dart';
 
 class AllOrderCubit extends Cubit<ResponseState> {
   final FetchNewOrder _fetchNewOrder;
-  final OrderParameterProvider _orderParameterProvider;
 
-  AllOrderCubit(
-    this._fetchNewOrder,
-    this._orderParameterProvider,
-  ) : super(Empty());
+  AllOrderCubit(this._fetchNewOrder) : super(Empty());
 
-  void fetchAllOrder({
-    List<int>? providersID,
-    List<int>? brandsID,
-  }) async {
-    final params = await _orderParameterProvider.getAllOrderParams(brandsID, providersID);
+  void fetchAllOrder({required OniFilteredData? filteredData}) async {
+    final params = await OniParameterProvider().allOrder(filteredData: filteredData);
     final response = await _fetchNewOrder(params);
     response.fold(
       (failure) {

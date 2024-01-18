@@ -16,7 +16,7 @@ import 'oos_settings.dart';
 class MenuSnoozeView extends StatelessWidget {
   final MenuCategoryItem menuCategoryItem;
   final int brandId;
-  final int providerId;
+  final int branchID;
   final bool parentEnabled;
   final Function(MenuOutOfStock) onMenuItemSnoozeChanged;
   final Function(bool) onMenuEnabledChanged;
@@ -24,9 +24,9 @@ class MenuSnoozeView extends StatelessWidget {
   const MenuSnoozeView({
     Key? key,
     required this.menuCategoryItem,
-    required this.providerId,
     required this.parentEnabled,
     required this.brandId,
+    required this.branchID,
     required this.onMenuItemSnoozeChanged,
     required this.onMenuEnabledChanged,
   }) : super(key: key);
@@ -48,29 +48,28 @@ class MenuSnoozeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!menuCategoryItem.enabled && providerId == ZERO) {
-      return InkWell(
-        onTap: () => !parentEnabled
-            ? null
-            : showOosDialog(
-                menuCategoryItem: menuCategoryItem,
-                brandId: brandId,
-                providerId: providerId,
-                parentEnabled: parentEnabled,
-                onMenuEnableChanged: onMenuEnabledChanged,
-                onItemSnoozeChanged: onMenuItemSnoozeChanged,
-              ),
-        child: KTChip(
-          text: _duration(),
-          textHelperTrailingWidget: ImageResourceResolver.writeSVG.getImageWidget(width: AppSize.s12.rw, height: AppSize.s12.rh, color: AppColors.neutralB500),
-          textStyle: regularTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
-          strokeColor: AppColors.warningY300,
-          backgroundColor: AppColors.warningY50,
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
-        ),
-      );
-    } else {
-      return const SizedBox();
-    }
+    return !menuCategoryItem.enabled
+        ? InkWell(
+      onTap: () {
+        if (parentEnabled) {
+          showOosDialog(
+            menuCategoryItem: menuCategoryItem,
+            brandId: brandId,
+            branchID: branchID,
+            parentEnabled: parentEnabled,
+            onMenuEnableChanged: onMenuEnabledChanged,
+            onItemSnoozeChanged: onMenuItemSnoozeChanged,
+          )
+        }
+      },
+      child: KTChip(
+        text: _duration(),
+        textHelperTrailingWidget: ImageResourceResolver.writeSVG.getImageWidget(width: AppSize.s12.rw, height: AppSize.s12.rh, color: AppColors.neutralB500),
+        textStyle: regularTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
+        strokeColor: AppColors.warningY300,
+        backgroundColor: AppColors.warningY50,
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+      ),
+    ) : const SizedBox();
   }
 }

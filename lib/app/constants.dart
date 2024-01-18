@@ -226,6 +226,7 @@ class ArgumentKey {
   static const String kPROVIDER_ID = 'provider_id';
   static const String kGROUP = 'group';
   static const String kBRAND_ID = 'brand_id';
+  static const String kBRANCH_ID = 'branch_id';
   static const String kMENU_CATEGORY = 'menu_category';
   static const String kENABLED = 'enabled';
   static const String kOPEN_CART = 'clear_cart';

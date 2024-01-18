@@ -24,6 +24,7 @@ import 'package:klikit/resources/values.dart';
 import 'package:klikit/segments/event_manager.dart';
 
 import '../../../../app/session_manager.dart';
+import '../../../../app/user_permission_manager.dart';
 import '../../../../consumer_protection/presentation/consumer_protection_view.dart';
 import '../../../../consumer_protection/presentation/cubit/consumer_protection_cubit.dart';
 import '../../../../segments/segemnt_data_provider.dart';
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _checkRole(User user) {
     final role = user.userInfo.roles.first;
     final displayRole = user.userInfo.displayRoles.first;
-    if (role == UserRole.branchManger || role == UserRole.staff || role == UserRole.cashier) {
+    if (role == UserRole.businessOwner || role == UserRole.branchManger || role == UserRole.staff || role == UserRole.cashier) {
       _saveUserDataAndRegisterFcmToken(user);
     } else {
       showAccessDeniedDialog(context: context, role: displayRole);
@@ -80,7 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
     await SessionManager().setLoginState(isLoggedIn: true);
     await _saveUserSetting(user.userInfo);
     await SessionManager().saveUser(user.userInfo);
-    _registerFcmTokenAndNavigateNextScreen(user);
+    if (UserPermissionManager().isBizOwner()) {
+      _navigateNextScreen(user);
+    } else {
+      _registerFcmTokenAndNavigateNextScreen(user);
+    }
   }
 
   Future<void> _saveUserSetting(UserInfo userInfo) async {
@@ -199,10 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               alignment: Alignment.centerLeft,
                             ),
                             onPressed: () {
-                              Navigator.of(context).pushNamed(
-                                Routes.webView,
-                                arguments: AppConstant.signUpUrl,
-                              );
+                              Navigator.of(context).pushNamed(Routes.webView, arguments: AppConstant.signUpUrl);
                             },
                             child: Text(
                               AppStrings.dont_have_account.tr(),
