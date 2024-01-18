@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 
 import '../../../app/di.dart';
 import '../../../modules/common/business_information_provider.dart';
@@ -78,7 +79,7 @@ class _MultipleBrandFilterState extends State<MultipleBrandFilter> {
             );
           }
           return Center(
-            child: CircularProgressIndicator(color: AppColors.primary),
+            child: CircularProgress(primaryColor: AppColors.primary),
           ).setVisibilityWithSpace(
             startSpace: 8,
             endSpace: 8,

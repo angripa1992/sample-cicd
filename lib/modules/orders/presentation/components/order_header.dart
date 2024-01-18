@@ -49,21 +49,21 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
             ),
             child: const PauseStoreHeaderView(),
           ),
-        if (!UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
-        Padding(
-          padding: EdgeInsets.only(
-            top: 8.rh,
-            left: 12.rw,
-            right: 12.rw,
+        if (!UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 6.rh, height: 0),
+        Container(
+          color: AppColors.white,
+          padding: EdgeInsets.symmetric(
+            vertical: 8.rh,
+            horizontal: 12.rw,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Orders',
+                'Orders history',
                 style: semiBoldTextStyle(
                   fontSize: 16.rSp,
-                  color: AppColors.black,
+                  color: AppColors.neutralB500,
                 ),
               ),
               StatefulBuilder(
@@ -92,7 +92,6 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
             ],
           ),
         ),
-        Divider(color: AppColors.grey),
       ],
     );
   }
