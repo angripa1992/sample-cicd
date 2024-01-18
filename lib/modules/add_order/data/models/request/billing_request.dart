@@ -15,6 +15,7 @@ class BillingRequestModel {
   int? numberOfCustomer;
   Promo? appliedPromoModel;
   int? orderType;
+  bool? roundOffApplicable;
 
   BillingRequestModel({
     this.businessId,
@@ -30,6 +31,7 @@ class BillingRequestModel {
     this.numberOfCustomer,
     this.appliedPromoModel,
     this.orderType,
+    this.roundOffApplicable,
   });
 
   Map<String, dynamic> toJsonV1() {
@@ -57,6 +59,9 @@ class BillingRequestModel {
     }
     if (orderType != null) {
       data['order_type'] = orderType;
+    }
+    if (roundOffApplicable != null) {
+      data['is_rounding_off_applicable'] = roundOffApplicable;
     }
     return data;
   }
@@ -86,6 +91,9 @@ class BillingRequestModel {
     }
     if (orderType != null) {
       data['order_type'] = orderType;
+    }
+    if (roundOffApplicable != null) {
+      data['is_rounding_off_applicable'] = roundOffApplicable;
     }
     return data;
   }

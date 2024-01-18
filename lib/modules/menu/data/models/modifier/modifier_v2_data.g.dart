@@ -54,6 +54,9 @@ V2GroupedModifiersModel _$V2GroupedModifiersModelFromJson(
           .toList(),
       isEnabled: json['isEnabled'] as bool?,
       sequence: json['sequence'] as int?,
+      prices: (json['prices'] as List<dynamic>?)
+          ?.map((e) => V2PriceModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$V2GroupedModifiersModelToJson(
@@ -63,6 +66,7 @@ Map<String, dynamic> _$V2GroupedModifiersModelToJson(
       'title': instance.title,
       'description': instance.description,
       'visibilities': instance.visibilities,
+      'prices': instance.prices,
       'isEnabled': instance.isEnabled,
       'sequence': instance.sequence,
     };

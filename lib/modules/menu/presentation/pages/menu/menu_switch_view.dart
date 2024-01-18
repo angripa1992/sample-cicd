@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/kt_switch.dart';
@@ -15,9 +14,9 @@ class MenuSwitchView extends StatefulWidget {
   final bool parentEnabled;
   final Function(bool) onMenuEnableChanged;
   final int brandId;
+  final int branchId;
   final int id;
   final int type;
-  final int providerId;
   final bool willShowBg;
   final double? switchWidth;
   final double? switchHeight;
@@ -31,7 +30,7 @@ class MenuSwitchView extends StatefulWidget {
     required this.brandId,
     required this.id,
     required this.type,
-    required this.providerId,
+    required this.branchId,
     this.willShowBg = true,
     this.switchWidth,
     this.switchHeight,
@@ -68,6 +67,7 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
     showMenuActionDialog(
       context: context,
       brandId: widget.brandId,
+      branchId: widget.branchId,
       id: widget.id,
       type: widget.type,
       enabled: value,
@@ -83,18 +83,18 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.providerId == ZERO && UserPermissionManager().canOosMenu()
+    return UserPermissionManager().canOosMenu()
         ? KTSwitch(
-      width: widget.switchWidth ?? 36.rw,
-      height: widget.switchHeight ?? 18.rh,
-      controller: ValueNotifier<bool>(_enabled),
-      activeColor: AppColors.primaryP300,
-      onChanged: (enabled) {
-        if (widget.parentEnabled) {
-          _handleMenu(enabled);
-        }
-      },
-    )
+            width: widget.switchWidth ?? 36.rw,
+            height: widget.switchHeight ?? 18.rh,
+            controller: ValueNotifier<bool>(_enabled),
+            activeColor: AppColors.primaryP300,
+            onChanged: (enabled) {
+              if (widget.parentEnabled) {
+                _handleMenu(enabled);
+              }
+            },
+          )
         : SizedBox(height: AppSize.s40.rh);
   }
 }

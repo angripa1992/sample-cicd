@@ -1,6 +1,6 @@
 import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
 
-import '../../../../common/entities/branch_info.dart';
+import '../../../../common/entities/branch.dart';
 import '../modifier/item_price_model.dart';
 import '../modifier/modifier_rule.dart';
 import '../modifier/title_v2_model.dart';
@@ -52,7 +52,7 @@ class WebShopCalculateBillPayload {
 class WebShopCartItemPayload {
   num? itemId;
   num? subSectionId;
-  BusinessBranchInfo? branch;
+  Branch? branch;
   ItemBrandRequestModel? brand;
   String? comment;
   num? discountValue;

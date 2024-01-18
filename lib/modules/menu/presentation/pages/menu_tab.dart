@@ -26,7 +26,7 @@ class MenuTab extends StatelessWidget {
       child: InkWell(
         onTap: onTabChanged,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 300),
           decoration: isSelected ? BoxDecoration(borderRadius: borderRadius, color: AppColors.white) : null,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),

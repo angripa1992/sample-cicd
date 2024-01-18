@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../v1_common_data_model.dart';
+
 part 'menu_v1_data.g.dart';
 
 @JsonSerializable()
@@ -12,6 +14,7 @@ class MenuV1MenusDataModel {
     this.sections,
     this.branchInfo,
   });
+
   factory MenuV1MenusDataModel.fromJson(Map<String, dynamic> json) => _$MenuV1MenusDataModelFromJson(json);
 }
 
@@ -123,27 +126,6 @@ class MenuV1StatusesModel {
 }
 
 @JsonSerializable()
-class MenuV1PricesModel {
-  @JsonKey(name: 'provider_id')
-  int? providerId;
-  @JsonKey(name: 'currency_id')
-  int? currencyId;
-  String? code;
-  String? symbol;
-  double? price;
-
-  MenuV1PricesModel({
-    this.providerId,
-    this.currencyId,
-    this.code,
-    this.symbol,
-    this.price,
-  });
-
-  factory MenuV1PricesModel.fromJson(Map<String, dynamic> json) => _$MenuV1PricesModelFromJson(json);
-}
-
-@JsonSerializable()
 class MenuV1StockModel {
   bool? available;
   MenuV1SnoozeModel? snooze;
@@ -174,7 +156,7 @@ class MenuV1SnoozeModel {
 class MenuV1ItemsModel {
   int? id;
   String? title;
-  List<MenuV1PricesModel>? prices;
+  List<V1PricesModel>? prices;
   int? vat;
   String? description;
   String? image;

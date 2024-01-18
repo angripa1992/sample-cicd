@@ -19,8 +19,7 @@ class ManageModifiersScreen extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     ModifierGroup modifierGroup = args[ArgumentKey.kGROUP];
     final brandId = args[ArgumentKey.kBRAND_ID];
-    final providerId = args[ArgumentKey.kPROVIDER_ID];
-
+    final branchID = args[ArgumentKey.kBRANCH_ID];
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context, modifierGroup);
@@ -42,7 +41,7 @@ class ManageModifiersScreen extends StatelessWidget {
               ModifierGroupInfoView(
                 modifiersGroup: modifierGroup,
                 brandId: brandId,
-                providerId: providerId,
+                branchID: branchID,
                 onChanged: (modifiedGroup) {
                   modifierGroup.isEnabled = modifiedGroup.isEnabled;
                 },
@@ -50,7 +49,7 @@ class ManageModifiersScreen extends StatelessWidget {
               AppSize.s4.verticalSpacer(),
               ModifierListView(
                 modifierGroup: modifierGroup,
-                providerId: providerId,
+                branchID: branchID,
                 brandId: brandId,
                 onChanged: (changedModifiers) {
                   modifierGroup.modifiers = changedModifiers;

@@ -22,19 +22,16 @@ class _MenuCategoryItemsScreenState extends State<MenuCategoryItemsScreen> {
   ValueNotifier<MenuCategory?> menuCategory = ValueNotifier<MenuCategory?>(null);
   late final bool parentEnabled;
   late final int brandId;
-  late final int providerId;
+  late final int branchId;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      args = ModalRoute
-          .of(context)
-          ?.settings
-          .arguments as Map<String, dynamic>;
+      args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
       parentEnabled = args[ArgumentKey.kENABLED];
       brandId = args[ArgumentKey.kBRAND_ID];
-      providerId = args[ArgumentKey.kPROVIDER_ID];
+      branchId = args[ArgumentKey.kBRANCH_ID];
       menuCategory.value = args[ArgumentKey.kMENU_CATEGORY];
     });
     super.initState();
@@ -68,7 +65,7 @@ class _MenuCategoryItemsScreenState extends State<MenuCategoryItemsScreen> {
                   menuCategory: value,
                   parentEnabled: parentEnabled,
                   brandID: brandId,
-                  providerID: providerId,
+                  branchID: branchId,
                   onChanged: (category) {
                     menuCategory.value = category.copyWith();
                   },
@@ -81,7 +78,7 @@ class _MenuCategoryItemsScreenState extends State<MenuCategoryItemsScreen> {
                   },
                   parentEnabled: parentEnabled,
                   brandID: brandId,
-                  providerID: providerId,
+                  branchID: branchId,
                 ),
               ],
             );

@@ -69,9 +69,19 @@ class SessionManager {
 
   bool menuV2Enabled() => (_user?.menuV2Enabled ?? false) && (_user?.menuVersion ?? MenuVersion.v1) == MenuVersion.v2;
 
-  int branchId() => _user?.branchIDs.first ?? 0;
+  int branchId() {
+    if (_user != null && _user!.branchIDs.isNotEmpty) {
+      return _user!.branchIDs.first;
+    }
+    return ZERO;
+  }
 
-  String branchName() => _user?.branchTitles.first ?? EMPTY;
+  String branchName() {
+    if (_user != null && _user!.branchTitles.isNotEmpty) {
+      return _user!.branchTitles.first;
+    }
+    return EMPTY;
+  }
 
   int businessID() => _user?.businessId ?? 0;
 

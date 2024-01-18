@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/values.dart';
@@ -6,14 +5,13 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../app/constants.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
-import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../domain/entities/modifier/modifier_group.dart';
 import 'modifer_switch_view.dart';
 
 class ModifierGroupInfoView extends StatelessWidget {
   final int brandId;
-  final int providerId;
+  final int branchID;
   final ModifierGroup modifiersGroup;
   final Function(ModifierGroup) onChanged;
 
@@ -22,7 +20,7 @@ class ModifierGroupInfoView extends StatelessWidget {
     required this.modifiersGroup,
     required this.brandId,
     required this.onChanged,
-    required this.providerId,
+    required this.branchID,
   }) : super(key: key);
 
   @override
@@ -57,7 +55,7 @@ class ModifierGroupInfoView extends StatelessWidget {
           ),
           ModifierSwitchView(
             menuVersion: modifiersGroup.menuVersion,
-            providerId: providerId,
+            branchID: branchID,
             brandId: brandId,
             groupId: modifiersGroup.id,
             enabled: modifiersGroup.isEnabled,

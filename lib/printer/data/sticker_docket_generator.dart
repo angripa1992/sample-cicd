@@ -113,7 +113,7 @@ class StickerDocketGenerator {
     required double initialYPosition,
   }) {
     String tslText = "";
-    final date = DateTimeProvider.getStickerDocketDate(order.createdAt);
+    final date = DateTimeFormatter.getStickerDocketDate(order.createdAt);
     final itemPosition = order.cartV2.indexOf(item) + 1;
     final itemCount = '$itemPosition/${order.cartV2.length}';
     double yPosition = initialYPosition + _gap;

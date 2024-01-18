@@ -27,7 +27,7 @@ class ScheduledDetailsView extends StatelessWidget {
           ImageResourceResolver.timeSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.warningY300),
           SizedBox(width: AppSize.s4.rw),
           Text(
-            '${AppStrings.scheduled.tr()} - ${DateTimeProvider.scheduleDate(scheduleTime)}, ${DateTimeProvider.scheduleTime(scheduleTime)}',
+            '${AppStrings.scheduled.tr()} - ${DateTimeFormatter.scheduleDate(scheduleTime)}, ${DateTimeFormatter.scheduleTime(scheduleTime)}',
             style: mediumTextStyle(
               color: AppColors.neutralB700,
               fontSize: AppFontSize.s12.rSp,

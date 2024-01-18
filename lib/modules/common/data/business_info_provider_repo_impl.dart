@@ -1,8 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:klikit/core/network/error_handler.dart';
-import 'package:klikit/modules/common/entities/branch_info.dart';
-import 'package:klikit/modules/common/model/brand_request_model.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../core/network/network_connectivity.dart';
@@ -34,10 +33,10 @@ class BusinessInfoProviderRepoImpl extends BusinessInfoProviderRepo {
   }
 
   @override
-  Future<Either<Failure, Brands>> fetchBrand(BrandRequestModel requestModel) async {
+  Future<Either<Failure, Brands>> fetchBrand(Map<String, dynamic> param) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchBrand(requestModel);
+        final response = await _datasource.fetchBrand(param);
         return Right(response.toEntity());
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
@@ -93,11 +92,12 @@ class BusinessInfoProviderRepoImpl extends BusinessInfoProviderRepo {
   }
 
   @override
-  Future<Either<Failure, BusinessBranchInfo>> fetchBranchDetails(int branchID) async {
+  Future<Either<Failure, List<Branch>>> fetchBranches(Map<String, dynamic> params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        final response = await _datasource.fetchBranchDetails(branchID);
-        return Right(response.toEntity());
+        final response = await _datasource.fetchBranches(params);
+        final branches = response.results?.map((e) => e.toEntity()).toList() ?? [];
+        return Right(branches);
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

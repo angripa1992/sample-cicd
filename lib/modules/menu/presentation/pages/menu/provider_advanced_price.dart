@@ -14,27 +14,27 @@ import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../../common/business_information_provider.dart';
 import '../../../../widgets/image_view.dart';
-import '../../../domain/entities/menu/menu_item_price.dart';
-import 'advanced_pricing_tags.dart';
+import '../../../domain/entities/item_price.dart';
+import '../advanced_pricing_tags.dart';
 
 class ProviderAdvancePrice extends StatelessWidget {
-  final MenuCategoryItem menuCategoryItem;
+  final List<ItemPrice> itemPrices;
 
   const ProviderAdvancePrice({
     super.key,
-    required this.menuCategoryItem,
+    required this.itemPrices,
   });
 
   @override
   Widget build(BuildContext context) {
-    final grabPrice = menuCategoryItem.prices.firstWhereOrNull((element) => element.providerId == ProviderID.GRAB_FOOD);
+    final grabPrice = itemPrices.firstWhereOrNull((element) => element.providerId == ProviderID.GRAB_FOOD);
     return Column(
       children: [
-        _klikitPriceBreakdown(menuCategoryItem.klikitPrice()),
+        _klikitPriceBreakdown(itemPrices.firstWhere((element) => element.providerId == ProviderID.KLIKIT)),
         SizedBox(height: AppSize.s8.rh),
         if (grabPrice != null) _providerPriceTile(grabPrice),
         Column(
-          children: menuCategoryItem.prices.map((providerPrice) {
+          children: itemPrices.map((providerPrice) {
             if (providerPrice.providerId == ProviderID.KLIKIT || providerPrice.providerId == ProviderID.GRAB_FOOD) {
               return const SizedBox();
             }
@@ -45,7 +45,7 @@ class ProviderAdvancePrice extends StatelessWidget {
     );
   }
 
-  Widget _providerPriceTile(MenuItemPrice price) {
+  Widget _providerPriceTile(ItemPrice price) {
     return ListTileTheme(
       contentPadding: const EdgeInsets.all(0),
       horizontalTitleGap: 8,
@@ -65,7 +65,7 @@ class ProviderAdvancePrice extends StatelessWidget {
     );
   }
 
-  Widget _providerPriceTitle(MenuItemPrice price, bool showPadding) {
+  Widget _providerPriceTitle(ItemPrice price, bool showPadding) {
     return FutureBuilder<Provider>(
       future: getIt.get<BusinessInformationProvider>().findProviderById(price.providerId),
       builder: (context, snapshot) {
@@ -105,7 +105,7 @@ class ProviderAdvancePrice extends StatelessWidget {
     );
   }
 
-  Widget _klikitPriceBreakdown(MenuItemPrice price) {
+  Widget _klikitPriceBreakdown(ItemPrice price) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

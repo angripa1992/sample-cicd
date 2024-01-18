@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/network/error_handler.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/menu/data/datasource/menu_remote_datasource.dart';
 import 'package:klikit/modules/menu/data/models/modifier_request_model.dart';
 import 'package:klikit/modules/menu/domain/entities/modifier/affected_modifier_response.dart';
@@ -10,6 +10,7 @@ import 'package:klikit/modules/menu/domain/usecase/update_item_snooze.dart';
 import 'package:klikit/modules/menu/domain/usecase/update_menu_enabled.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 
+import '../../../../app/di.dart';
 import '../../../../core/network/network_connectivity.dart';
 import '../../domain/entities/menu/menu_data.dart';
 import '../../domain/entities/menu/menu_out_of_stock.dart';
@@ -72,14 +73,13 @@ class MenuRepositoryImpl extends MenuRepository {
   }
 
   @override
-  Future<Either<Failure, List<ModifierGroup>>> fetchModifiersGroups(
-    FetchModifierGroupParams params,
-  ) async {
+  Future<Either<Failure, List<ModifierGroup>>> fetchModifiersGroups(FetchModifierGroupParams params) async {
     if (await _connectivity.hasConnection()) {
       try {
-        if (SessionManager().menuV2Enabled()) {
+        if (params.menuV2Enabled) {
           final response = await _datasource.fetchV2ModifiersGroup(params);
-          return Right(mapModifierV2ToModifier(response));
+          final menuBranchInfo = await getIt.get<BusinessInformationProvider>().menuBranchInfo(params.branchID);
+          return Right(mapModifierV2ToModifier(response, menuBranchInfo));
         } else {
           final response = await _datasource.fetchV1ModifiersGroup(params);
           return Right(mapModifierV1ToModifier(response));

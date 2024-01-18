@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
+import '../../../../app/session_manager.dart';
 import '../../data/model/z_report_data_model.dart';
-import '../../domain/home_repository.dart';
+import '../../domain/repository/home_repository.dart';
 
 class FetchZReportCubit extends Cubit<ResponseState> {
   final HomeRepository _repository;
@@ -21,8 +21,6 @@ class FetchZReportCubit extends Cubit<ResponseState> {
         'period_start': '$date $startTime',
         'period_end': '$date $endTime',
         'branch_id': SessionManager().branchId(),
-        // 'period_start': '2023-08-11 10:10:00',
-        // 'period_end': '2023-08-18 11:10:00',
       },
     );
     response.fold(
@@ -30,7 +28,7 @@ class FetchZReportCubit extends Cubit<ResponseState> {
         emit(Failed(failure));
       },
       (data) {
-        emit(Success<ZReportDataModel>(data));
+        emit(Success<ZReportData>(data));
       },
     );
   }

@@ -1,17 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/menu/presentation/cubit/tab_selection_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_tab.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
 
-import '../../../../resources/values.dart';
-
 class MenuTabBarView extends StatefulWidget {
-  const MenuTabBarView({Key? key}) : super(key: key);
+  final Function(int) onChanged;
+
+  const MenuTabBarView({Key? key, required this.onChanged}) : super(key: key);
 
   @override
   State<MenuTabBarView> createState() => _MenuTabBarViewState();
@@ -20,7 +18,7 @@ class MenuTabBarView extends StatefulWidget {
 class _MenuTabBarViewState extends State<MenuTabBarView> {
   int selectedTab = MenuTabIndex.MENU;
 
-  void changeIndex(int index) => context.read<TabSelectionCubit>().changeTab(index);
+  void changeIndex(int index) => widget.onChanged(index);
 
   @override
   Widget build(BuildContext context) {
