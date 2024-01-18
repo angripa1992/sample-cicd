@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/resources/resource_resolver.dart';
@@ -48,28 +47,30 @@ class MenuSnoozeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !menuCategoryItem.enabled
-        ? InkWell(
-      onTap: () {
-        if (parentEnabled) {
-          showOosDialog(
-            menuCategoryItem: menuCategoryItem,
-            brandId: brandId,
-            branchID: branchID,
-            parentEnabled: parentEnabled,
-            onMenuEnableChanged: onMenuEnabledChanged,
-            onItemSnoozeChanged: onMenuItemSnoozeChanged,
-          )
-        }
-      },
-      child: KTChip(
-        text: _duration(),
-        textHelperTrailingWidget: ImageResourceResolver.writeSVG.getImageWidget(width: AppSize.s12.rw, height: AppSize.s12.rh, color: AppColors.neutralB500),
-        textStyle: regularTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
-        strokeColor: AppColors.warningY300,
-        backgroundColor: AppColors.warningY50,
-        padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+    return Visibility(
+      visible: !menuCategoryItem.enabled,
+      child: InkWell(
+        onTap: () {
+          if (parentEnabled) {
+            showOosDialog(
+              menuCategoryItem: menuCategoryItem,
+              brandId: brandId,
+              branchID: branchID,
+              parentEnabled: parentEnabled,
+              onMenuEnableChanged: onMenuEnabledChanged,
+              onItemSnoozeChanged: onMenuItemSnoozeChanged,
+            );
+          }
+        },
+        child: KTChip(
+          text: _duration(),
+          textHelperTrailingWidget: ImageResourceResolver.writeSVG.getImageWidget(width: AppSize.s12.rw, height: AppSize.s12.rh, color: AppColors.neutralB500),
+          textStyle: regularTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
+          strokeColor: AppColors.warningY300,
+          backgroundColor: AppColors.warningY50,
+          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+        ),
       ),
-    ) : const SizedBox();
+    );
   }
 }

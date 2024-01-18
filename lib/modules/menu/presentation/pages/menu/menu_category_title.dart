@@ -17,7 +17,7 @@ class MenuCategoryTitle extends StatelessWidget {
   final MenuCategory menuCategory;
   final bool parentEnabled;
   final int brandID;
-  final int providerID;
+  final int branchID;
   final Function(MenuCategory) onChanged;
 
   const MenuCategoryTitle({
@@ -25,7 +25,7 @@ class MenuCategoryTitle extends StatelessWidget {
     required this.menuCategory,
     required this.parentEnabled,
     required this.brandID,
-    required this.providerID,
+    required this.branchID,
     required this.onChanged,
   }) : super(key: key);
 
@@ -65,7 +65,7 @@ class MenuCategoryTitle extends StatelessWidget {
             parentEnabled: parentEnabled,
             id: menuCategory.id,
             brandId: brandID,
-            providerId: providerID,
+            branchId: branchID,
             type: MenuType.CATEGORY,
             switchWidth: 44.rw,
             switchHeight: 22.rh,
