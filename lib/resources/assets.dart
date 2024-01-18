@@ -19,6 +19,7 @@ class AppImages {
   static const String paymentFailed = "$IMAGE_PATH/payment_failed.png";
   static const String paymentSuccess = "$IMAGE_PATH/payment_success.png";
   static const String selectBrand = "$IMAGE_PATH/select_brand.png";
+  static const String menuBrandPNG = "$IMAGE_PATH/menu_brand.png";
 }
 
 class AppIcons {

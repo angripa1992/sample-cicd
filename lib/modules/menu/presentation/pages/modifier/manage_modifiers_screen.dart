@@ -1,15 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/base/kt_app_bar.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
-import 'package:klikit/resources/strings.dart';
 
-import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
-import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/modifier/modifier_group.dart';
 import 'modifier_group_info.dart';
@@ -32,42 +28,32 @@ class ManageModifiersScreen extends StatelessWidget {
       child: BlocProvider(
         create: (_) => getIt.get<CheckAffectedCubit>(),
         child: Scaffold(
-          backgroundColor: AppColors.white,
-          appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context, modifierGroup);
-              },
-              icon: const Icon(Icons.arrow_back_outlined),
-            ),
-            title: Text(AppStrings.modifiers.tr()),
+          appBar: KTAppBar(
+            title: 'Manage Modifiers',
+            onNavBack: () {
+              Navigator.pop(context, modifierGroup);
+            },
           ),
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.rw,vertical: 16.rh),
-                child: ModifierGroupInfoView(
-                  modifiersGroup: modifierGroup,
-                  brandId: brandId,
-                  branchID: branchID,
-                  onChanged: (modifiedGroup) {
-                    modifierGroup.isEnabled = modifiedGroup.isEnabled;
-                  },
-                ),
+              AppSize.s2.verticalSpacer(),
+              ModifierGroupInfoView(
+                modifiersGroup: modifierGroup,
+                brandId: brandId,
+                branchID: branchID,
+                onChanged: (modifiedGroup) {
+                  modifierGroup.isEnabled = modifiedGroup.isEnabled;
+                },
               ),
-             Divider(thickness: 8.rh),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.rw),
-                child: ModifierListView(
-                  modifierGroup: modifierGroup,
-                  branchID: branchID,
-                  brandId: brandId,
-                  onChanged: (changedModifiers) {
-                    modifierGroup.modifiers = changedModifiers;
-                  },
-                ),
+              AppSize.s4.verticalSpacer(),
+              ModifierListView(
+                modifierGroup: modifierGroup,
+                branchID: branchID,
+                brandId: brandId,
+                onChanged: (changedModifiers) {
+                  modifierGroup.modifiers = changedModifiers;
+                },
               ),
             ],
           ),

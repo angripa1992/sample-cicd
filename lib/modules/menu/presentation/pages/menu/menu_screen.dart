@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_list_view.dart';
 import 'package:klikit/resources/strings.dart';
@@ -57,7 +58,7 @@ class _MenuScreenState extends State<MenuScreen> {
           } else if (state is Failed) {
             return Center(child: Text(state.failure.message));
           }
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgress());
         },
       ),
     );

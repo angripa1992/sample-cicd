@@ -10,12 +10,14 @@ class MenuTab extends StatelessWidget {
   final String name;
   final bool isSelected;
   final VoidCallback onTabChanged;
+  final BorderRadius borderRadius;
 
   const MenuTab({
     Key? key,
     required this.name,
     required this.isSelected,
     required this.onTabChanged,
+    required this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -25,17 +27,14 @@ class MenuTab extends StatelessWidget {
         onTap: onTabChanged,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.rSp),
-            color: isSelected ? AppColors.white : AppColors.neutralB20,
-          ),
+          decoration: isSelected ? BoxDecoration(borderRadius: borderRadius, color: AppColors.white) : null,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.rh),
+            padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
             child: Center(
               child: Text(
                 name,
-                style: semiBoldTextStyle(
-                  color: isSelected ? AppColors.black : AppColors.black,
+                style: mediumTextStyle(
+                  color: isSelected ? AppColors.neutralB700 : AppColors.neutralB300,
                   fontSize: AppFontSize.s14.rSp,
                 ),
               ),
