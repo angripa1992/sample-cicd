@@ -5,12 +5,11 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
-import 'package:klikit/modules/base/common_app_bar.dart';
+import 'package:klikit/modules/base/common_dashboard_app_bar.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/schedule_order_screen.dart';
 import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
 import 'package:klikit/resources/colors.dart';
-import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 import 'package:klikit/segments/event_manager.dart';
@@ -85,7 +84,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        CommonAppBar(title: AppStrings.orders.tr()),
+        CommonDashboardAppBar(title: AppStrings.orders.tr()),
         AppSize.s1.verticalSpacer(),
         Expanded(
           child: NestedScrollView(
@@ -143,20 +142,9 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                         OrderTabItem(title: AppStrings.history.tr(), tabIndex: 4, tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex), count: 0),
                         OrderTabItem(title: AppStrings.other.tr(), tabIndex: 5, tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex), count: 0),
                       ],
-                      labelPadding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 10.rw),
-                      unselectedLabelColor: AppColors.black,
-                      labelColor: AppColors.primary,
-                      indicatorColor: AppColors.primary,
-                      labelStyle: TextStyle(
-                        fontSize: 14.rSp,
-                        fontFamily: AppFonts.Inter,
-                        fontWeight: AppFontWeight.medium,
-                      ),
-                      unselectedLabelStyle: TextStyle(
-                        fontSize: 14.rSp,
-                        fontFamily: AppFonts.Inter,
-                        fontWeight: AppFontWeight.medium,
-                      ),
+                      labelPadding: EdgeInsets.all(AppSize.s8.rSp),
+                      indicatorColor: Colors.transparent,
+                      indicatorWeight: 0.01,
                       isScrollable: true,
                     ),
                   ),
@@ -166,7 +154,11 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               ];
             },
             body: Container(
-              padding: EdgeInsets.only(left: 12.rw, right: 12.rw, top: 12.rh),
+              padding: EdgeInsets.only(
+                left: AppSize.s12.rw,
+                right: AppSize.s12.rw,
+                top: AppSize.s12.rh,
+              ),
               color: AppColors.white,
               child: TabBarView(
                 controller: _tabController,

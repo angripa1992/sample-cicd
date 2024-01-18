@@ -9,11 +9,11 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-class CommonAppBar extends StatelessWidget {
+class CommonDashboardAppBar extends StatelessWidget {
   final String title;
   final String? subtitle;
 
-  const CommonAppBar({Key? key, required this.title, this.subtitle}) : super(key: key);
+  const CommonDashboardAppBar({Key? key, required this.title, this.subtitle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class CommonAppBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: Platform.isIOS ? CrossAxisAlignment.center : CrossAxisAlignment.start,
               children: [
-                Text(title, style: mediumTextStyle()),
+                Text(title, style: mediumTextStyle(fontSize: AppSize.s16.rSp, color: AppColors.neutralB700)),
                 if (subtitle != null)
                   Text(subtitle!, style: regularTextStyle(fontSize: 12, color: AppColors.neutralB500)).setVisibilityWithSpace(
                     direction: Axis.vertical,
