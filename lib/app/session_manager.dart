@@ -97,9 +97,13 @@ class SessionManager {
 
   bool isSunmiDevice() => _appPreferences.sunmiDevice();
 
+  int getActiveDevice() => _appPreferences.activeDevice();
+
   int country() => _user?.countryIds.first ?? 0;
 
   String userDisplayRole() => _user?.displayRoles.first ?? EMPTY;
+
+  String printerIpAddress() => _appPreferences.getPrinterIpAddress() ?? '';
 
   Future<void> logout() async {
     CartManager().clear();

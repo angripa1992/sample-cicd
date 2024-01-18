@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/session_manager.dart';
@@ -25,13 +26,15 @@ class DeviceSettingScreen extends StatefulWidget {
 }
 
 class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
-  final _devices = [Device.android, Device.sunmi];
+  final _devices = [Device.android, Device.sunmi, Device.imin];
+  final Map _devicesDetail = {Device.android: 'Android',Device.sunmi: 'Sunmi',Device.imin: 'Imin'};
   int? _device;
 
   @override
   void initState() {
-    final isSunmiDevice = SessionManager().isSunmiDevice();
-    _device = isSunmiDevice ? Device.sunmi : Device.android;
+    // final isSunmiDevice = SessionManager().isSunmiDevice();
+    // _device = isSunmiDevice ? Device.sunmi : Device.android;
+    _device = SessionManager().getActiveDevice();
     super.initState();
   }
 
@@ -64,7 +67,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                   return ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
-                      device == Device.android ? 'Android' : 'Sunmi',
+                      _devicesDetail[device],
                       style: mediumTextStyle(
                         color: AppColors.black,
                         fontSize: AppFontSize.s14.rSp,
@@ -101,6 +104,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                     textColor: AppColors.white,
                     onTap: () {
                       context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
+                      getIt<AppPreferences>().setActiveDevice(_device!);
                     },
                   );
                 },

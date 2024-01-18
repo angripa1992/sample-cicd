@@ -12,6 +12,7 @@ import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/set_docket_type.dart';
 import 'package:klikit/printer/presentation/set_font_size_dropdown.dart';
 import 'package:klikit/printer/presentation/set_paper_size.dart';
+import 'package:klikit/printer/presentation/set_printer_address.dart';
 import 'package:klikit/printer/presentation/set_printer_connection_type.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
@@ -42,6 +43,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   late int _kitchenCopyCount;
   late int _printerFontId;
   late ValueNotifier<int> _connectionStateListener;
+  late String _printerIpAddress;
 
   @override
   void initState() {
@@ -66,9 +68,11 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     _kitchenCopyCount = printerSetting.kitchenCopyCount;
     _printerFontId = printerSetting.fontId;
     _connectionStateListener = ValueNotifier(_connectionType);
+    _printerIpAddress=_appPreferences.getPrinterIpAddress()??'';
   }
 
   void _savePrinterSettingLocally({PrinterSetting? savingData}) async {
+    // await _appPreferences.setPrinterIpAddress(_printerIpAddress);
     await _appPreferences.savePrinterSettings(
       printerSetting:
           savingData ?? _createPrinterSettingFromLocalVariables(false),
@@ -81,6 +85,8 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   }
 
   void _updatePrinterSetting() {
+    print('_printerIpAddress on update $_printerIpAddress');
+    _appPreferences.setPrinterIpAddress(_printerIpAddress);
     context.read<UpdatePrinterSettingCubit>().updatePrintSetting(
           printerSetting: _createPrinterSettingFromLocalVariables(true),
         );
@@ -145,6 +151,12 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                         _connectionStateListener.value = type;
                       },
                     ),
+                    SetPrinterAddressText(
+                      address: _printerIpAddress,
+                      onSaved: (txt){
+                        _printerIpAddress = txt;
+                      },
+                    ),
                     SetPaperSize(
                       initSize: _paperSize,
                       onChanged: (size) {
@@ -156,7 +168,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                       initCustomerCopyCount: _customerCopyCount,
                       initKitchenCopyEnabled: _kitchenCopyEnabled,
                       initKitchenCopyCount: _kitchenCopyCount,
-                      changeCustomerCopyCount: (count) {
+                        changeCustomerCopyCount: (count) {
                         _customerCopyCount = count;
                       },
                       changeKitchenCopyCount: (count) {

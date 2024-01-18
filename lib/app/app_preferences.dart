@@ -20,7 +20,9 @@ class AppPreferences {
   final String _kLanguage = "language";
   final String _kNotificationSetting = "notification_setting";
   final String _kSunmiDevice = "sunmi_device";
-
+  final String _activeDevice = "active_device";
+  final String _printerAddress = "printer_address";
+  final String _printerIpAddress = "printer_ip_address";
   AppPreferences(this._preferences);
 
   void insertAccessToken(String? token) {
@@ -74,6 +76,15 @@ class AppPreferences {
     return _preferences.setInt(_kLanguage, languageId);
   }
 
+  Future<void> savePrinterAddress(String device) {
+    return _preferences.setString(_printerAddress, device);
+  }
+
+  Map getPrinterAddress() {
+    final preferenceData = _preferences.getString(_printerAddress);
+    return jsonDecode(preferenceData!);
+  }
+
   int language() {
     return _preferences.getInt(_kLanguage) ?? AppLanguage.ENGLISH;
   }
@@ -117,13 +128,19 @@ class AppPreferences {
   Future<void> setSunmiDevice(bool isSunmiDevice) async {
     await _preferences.setBool(_kSunmiDevice, isSunmiDevice);
   }
-
+  Future<void> setActiveDevice(int deviceId) async {
+    await _preferences.setInt(_activeDevice, deviceId);
+  }
   bool notificationEnable() {
     return _preferences.getBool(_kNotificationSetting) ?? true;
   }
 
   bool sunmiDevice() {
     return _preferences.getBool(_kSunmiDevice) ?? false;
+  }
+
+  int activeDevice() {
+    return _preferences.getInt(_activeDevice) ?? 0;
   }
 
   Future<void> reload() async {
@@ -136,5 +153,12 @@ class AppPreferences {
     await _preferences.remove(_kUser);
     await _preferences.remove(_kPrinterSetting);
     await _preferences.remove(_kNotificationSetting);
+  }
+
+  Future<void> setPrinterIpAddress(String ip) async {
+    await _preferences.setString(_printerIpAddress, ip);
+  }
+  String? getPrinterIpAddress() {
+    return _preferences.getString(_printerIpAddress);
   }
 }

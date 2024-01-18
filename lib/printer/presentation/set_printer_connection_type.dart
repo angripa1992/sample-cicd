@@ -37,6 +37,8 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -67,7 +69,7 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
               groupValue: _connectionType!,
               onChanged: _changePrinterConnectionType,
               name: widget.willUsbEnabled ? AppStrings.usb.tr() : AppStrings.disable.tr(),
-            ),
+            )
           ],
         ),
       ),
