@@ -82,11 +82,11 @@ class _MenuSectionItemState extends State<MenuSectionItem> {
           ),
           AppSize.s12.horizontalSpacer(),
           widget.controller.isExpanded
-              ? ImageResourceResolver.downArrowSVG.getImageWidget(
+              ? ImageResourceResolver.upArrowSVG.getImageWidget(
                   width: AppSize.s20.rw,
                   height: AppSize.s20.rh,
                 )
-              : ImageResourceResolver.upArrowSVG.getImageWidget(
+              : ImageResourceResolver.downArrowSVG.getImageWidget(
                   width: AppSize.s20.rw,
                   height: AppSize.s20.rh,
                 ),
