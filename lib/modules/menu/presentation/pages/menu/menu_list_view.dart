@@ -97,7 +97,7 @@ class _MenuListViewState extends State<MenuListView> {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return AppSize.s12.verticalSpacer();
+                return AppSize.s8.verticalSpacer();
               },
             ),
           ),

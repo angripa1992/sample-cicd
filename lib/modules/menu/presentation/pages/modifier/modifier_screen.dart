@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/menu/presentation/cubit/fetch_modifier_groups_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_groups_list_view.dart';
 import 'package:klikit/resources/colors.dart';
@@ -43,63 +44,61 @@ class _ModifierScreenState extends State<ModifierScreen> {
       context.read<FetchModifierGroupsCubit>().fetchModifierGroups(widget.brand!.id, widget.providerId);
     }
     return Expanded(
-      child: widget.brand == null
-          ? Center(
-              child: Text(
-                AppStrings.please_select_a_brand.tr(),
-                style: regularTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
-              ),
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: AppSize.s4.rh,
-                    horizontal: AppSize.s4.rw,
+      child: Container(
+        color: AppColors.white,
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s12.rh),
+        child: widget.brand == null
+            ? Center(
+                child: Text(
+                  AppStrings.please_select_a_brand.tr(),
+                  style: regularTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s16.rSp,
                   ),
-                  child: Text(
-                    AppStrings.modifiers_group.tr().toUpperCase(),
-                    style: regularTextStyle(
-                      color: AppColors.black,
+                ),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.modifiers_group.tr(),
+                    style: mediumTextStyle(
+                      color: AppColors.neutralB500,
                       fontSize: AppFontSize.s16.rSp,
                     ),
                   ),
-                ),
-                Expanded(
-                  child: BlocBuilder<FetchModifierGroupsCubit, ResponseState>(
-                    builder: (context, state) {
-                      if (state is Success<List<ModifierGroup>>) {
-                        if (state.data.isEmpty) {
+                  Expanded(
+                    child: BlocBuilder<FetchModifierGroupsCubit, ResponseState>(
+                      builder: (context, state) {
+                        if (state is Success<List<ModifierGroup>>) {
+                          if (state.data.isEmpty) {
+                            return Center(
+                              child: Text(
+                                AppStrings.no_modifiers_group_found.tr(),
+                              ),
+                            );
+                          }
+                          return ModifierGroupsListView(
+                            modifierGroups: state.data,
+                            brandId: widget.brand!.id,
+                            providerId: widget.providerId.orZero(),
+                          );
+                        } else if (state is Failed) {
                           return Center(
-                            child: Text(
-                              AppStrings.no_modifiers_group_found.tr(),
-                            ),
+                            child: Text(state.failure.message),
                           );
                         }
-                        return ModifierGroupsListView(
-                          modifierGroups: state.data,
-                          brandId: widget.brand!.id,
-                          providerId: widget.providerId.orZero(),
-                        );
-                      } else if (state is Failed) {
                         return Center(
-                          child: Text(state.failure.message),
+                          child: CircularProgress(
+                            primaryColor: AppColors.primary,
+                          ),
                         );
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primary,
-                        ),
-                      );
-                    },
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+      ),
     );
   }
 }
