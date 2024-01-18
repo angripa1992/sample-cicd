@@ -338,5 +338,8 @@
   "you_will_receive_notification": "您將收到即將到來的訂單的通知。",
   "you_wont_receive_notification": "您將不會收到即將到來的訂單的通知。",
   "docket": "收據",
-  "sticker": "貼紙"
+  "sticker": "貼紙",
+  "set_paper_size": "設置出單紙大小",
+  "gross_order_value": "總訂單價值",
+  "discount_value": "折扣價值"
 }

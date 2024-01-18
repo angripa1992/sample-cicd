@@ -338,5 +338,8 @@
   "you_will_receive_notification": "คุณจะได้รับการแจ้งเตือนเกี่ยวกับคำสั่งที่กำลังจะมาถึง",
   "you_wont_receive_notification": "คุณจะไม่ได้รับการแจ้งเตือนเกี่ยวกับคำสั่งที่กำลังจะมาถึง",
   "docket": "ใบเสร็จ",
-  "sticker": "สติกเกอร์"
+  "sticker": "สติกเกอร์",
+  "set_paper_size": "ตั้งขนาดกระดาษ",
+  "gross_order_value": "รายได้ขั้นต้น",
+  "discount_value": "มูลค่าส่วนลด"
 }

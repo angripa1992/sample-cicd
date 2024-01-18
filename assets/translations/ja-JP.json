@@ -337,9 +337,11 @@
   "brand": "Brand",
   "select_all": "Select All",
   "order_details": "Order Details",
-  "set_paper_size": "Set Paper Size",
+  "set_paper_size": "用紙サイズを設定",
   "kitchen ": "Kitchen ",
   "customer ": "Customer ",
   "for": "For",
-  "select_brand_name": "Select a brand name"
+  "select_brand_name": "Select a brand name",
+  "gross_order_value": "総額",
+  "discount_value": "割引額"
 }
