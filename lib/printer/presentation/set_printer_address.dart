@@ -59,9 +59,15 @@ class _SetPrinterAddressText extends State<SetPrinterAddressText> {
             SizedBox(height: AppSize.s8.rh),
             TextFormField(
               initialValue: _address,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 icon: Icon(Icons.network_wifi),
                 hintText: 'Printer Address',
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent)),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent)),
+                border: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent)),
               ),
               onChanged: _setIpAddress,
 
