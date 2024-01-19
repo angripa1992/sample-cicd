@@ -48,11 +48,11 @@ class MenuCategoryListView extends StatelessWidget {
           ),
           AppSize.s12.verticalSpacer(),
           Divider(thickness: AppSize.s1.rh, color: AppColors.greyLight),
-          AppSize.s16.verticalSpacer(),
           ListView.separated(
             itemCount: categories.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s8.rh),
             itemBuilder: (_, index) {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
@@ -105,7 +105,7 @@ class MenuCategoryListView extends StatelessWidget {
                         ),
                       ),
                       AppSize.s12.horizontalSpacer(),
-                      ImageResourceResolver.rightArrowSVG.getImageWidget(
+                      ImageResourceResolver.rightArrowSmSVG.getImageWidget(
                         width: AppSize.s16.rw,
                         height: AppSize.s16.rh,
                         color: AppColors.neutralB600,
