@@ -64,39 +64,43 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const BaseScreenAppBar(),
-              2.rh.verticalSpacer(),
-              if (!UserPermissionManager().isBizOwner())
-                Container(
-                  color: AppColors.white,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSize.s16.rw,
-                    vertical: AppSize.s16.rh,
-                  ),
-                  child: const PauseStoreHeaderView(),
-                ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8),
-              Container(
-                color: AppColors.white,
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s16.rw,
+        body: Column(
+          children: [
+            const BaseScreenAppBar(),
+            2.rh.verticalSpacer(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (!UserPermissionManager().isBizOwner())
+                      Container(
+                        color: AppColors.white,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSize.s16.rw,
+                          vertical: AppSize.s16.rh,
+                        ),
+                        child: const PauseStoreHeaderView(),
+                      ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8),
+                    Container(
+                      color: AppColors.white,
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s12.rh),
+                      child: const OrderSummaryView(),
+                    ),
+                    8.rh.verticalSpacer(),
+                    const HomeQuickActions(),
+                    if (!UserPermissionManager().isBizOwner())
+                      const ZReportView().setVisibilityWithSpace(
+                        direction: Axis.vertical,
+                        startSpace: 8,
+                        endSpace: 8,
+                      ),
+                  ],
                 ),
-                child: const OrderSummaryView(),
               ),
-              8.rh.verticalSpacer(),
-              const HomeQuickActions(),
-              if (!UserPermissionManager().isBizOwner())
-                const ZReportView().setVisibilityWithSpace(
-                  direction: Axis.vertical,
-                  startSpace: 8,
-                  endSpace: 8,
-                ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

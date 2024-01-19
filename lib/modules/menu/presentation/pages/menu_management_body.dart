@@ -36,15 +36,13 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.only(top: 12.rh, bottom: 8.rh, left: 12.rw, right: 12.rw),
-          child: MenuTabBarView(
-            onChanged: (index) {
-              _tabChangeListener.value = index;
-            },
-          ),
+        MenuTabBarView(
+          onChanged: (index) {
+            _tabChangeListener.value = index;
+          },
         ),
-        Padding(
+        Container(
+          color: AppColors.white,
           padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 16.rw),
           child: Row(
             children: [
@@ -85,7 +83,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
             ],
           ),
         ),
-        Divider(color: AppColors.neutralB40),
+        Divider(thickness: 0.5, height: 0, color: AppColors.neutralB40),
         ValueListenableBuilder<int>(
           valueListenable: _tabChangeListener,
           builder: (_, index, __) {
@@ -120,14 +118,14 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ImageResourceResolver.emptyMenuPNG.getImageWidget(width: 100.rSp, height: 100.rSp),
+          ImageResourceResolver.emptyMenuPNG.getImageWidget(width: 131.rSp, height: 131.rSp),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.rw),
             child: Text(
-              ' Select a brand and branch to seamlessly manage menus and modifiers',
+              'Select a brand and branch to seamlessly manage menus and modifiers',
               textAlign: TextAlign.center,
               style: mediumTextStyle(
-                color: AppColors.black,
+                color: AppColors.neutralB600,
                 fontSize: 14.rSp,
               ),
             ),

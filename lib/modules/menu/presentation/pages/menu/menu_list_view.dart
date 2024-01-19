@@ -4,7 +4,6 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_list.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_section_item.dart';
-import 'package:klikit/resources/styles.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/values.dart';
@@ -35,74 +34,65 @@ class _MenuListViewState extends State<MenuListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.white,
-      padding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s28.rh, bottom: AppSize.s12.rh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Menu List', style: mediumTextStyle(fontSize: AppSize.s16.rSp, color: AppColors.neutralB700)),
-          Expanded(
-            child: ExpandedTileList.separated(
-              itemCount: widget.sections.length,
-              itemBuilder: (context, index, controller) {
-                controller.addListener(_listen);
-                return ExpandedTile(
-                  theme: ExpandedTileThemeData(
-                    headerColor: AppColors.greyLight,
-                    headerRadius: AppSize.s8.rSp,
-                    headerPadding: EdgeInsets.all(AppSize.s12.rSp),
-                    titlePadding: EdgeInsets.zero,
-                    trailingPadding: EdgeInsets.zero,
-                    leadingPadding: EdgeInsets.zero,
-                    headerSplashColor: AppColors.white,
-                    contentBackgroundColor: AppColors.white,
-                    contentPadding: EdgeInsets.zero,
-                    contentRadius: AppSize.s8.rSp,
-                  ),
-                  controller: controller,
-                  trailing: const SizedBox(),
-                  title: MenuSectionItem(
-                    controller: controller,
-                    index: index,
-                    branchId: widget.branchID,
-                    section: widget.sections[index],
-                    onChanged: (enabled) {
-                      setState(() {
-                        widget.sections[index].enabled = enabled;
-                      });
-                      SegmentManager().track(
-                        event: SegmentEvents.MENUE_TOGGLE,
-                        properties: {
-                          'id': widget.sections[index].id,
-                          'name': widget.sections[index].title,
-                          'enabled': enabled ? 'Yes' : 'No',
-                        },
-                      );
-                    },
-                    brandId: widget.brandID,
-                  ),
-                  content: MenuCategoryListView(
-                    key: UniqueKey(),
-                    categories: widget.sections[index].categories,
-                    parentEnabled: widget.sections[index].enabled,
-                    onChanged: (modifiedSubSections) {
-                      setState(() {
-                        widget.sections[index].categories = modifiedSubSections;
-                      });
-                    },
-                    brandID: widget.brandID,
-                    branchID: widget.branchID,
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return AppSize.s8.verticalSpacer();
-              },
-            ),
+    return ExpandedTileList.separated(
+      itemCount: widget.sections.length,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index, controller) {
+        controller.addListener(_listen);
+
+        return ExpandedTile(
+          theme: ExpandedTileThemeData(
+            headerColor: AppColors.greyLight,
+            headerRadius: AppSize.s8.rSp,
+            headerPadding: EdgeInsets.all(AppSize.s12.rSp),
+            titlePadding: EdgeInsets.zero,
+            trailingPadding: EdgeInsets.zero,
+            leadingPadding: EdgeInsets.zero,
+            headerSplashColor: AppColors.white,
+            contentBackgroundColor: AppColors.white,
+            contentPadding: EdgeInsets.zero,
+            contentRadius: AppSize.s8.rSp,
           ),
-        ],
-      ),
+          contentseparator: 0,
+          controller: controller,
+          trailing: const SizedBox(),
+          title: MenuSectionItem(
+            controller: controller,
+            index: index,
+            branchId: widget.branchID,
+            section: widget.sections[index],
+            onChanged: (enabled) {
+              setState(() {
+                widget.sections[index].enabled = enabled;
+              });
+              SegmentManager().track(
+                event: SegmentEvents.MENUE_TOGGLE,
+                properties: {
+                  'id': widget.sections[index].id,
+                  'name': widget.sections[index].title,
+                  'enabled': enabled ? 'Yes' : 'No',
+                },
+              );
+            },
+            brandId: widget.brandID,
+          ),
+          content: MenuCategoryListView(
+            key: UniqueKey(),
+            categories: widget.sections[index].categories,
+            parentEnabled: widget.sections[index].enabled,
+            onChanged: (modifiedSubSections) {
+              setState(() {
+                widget.sections[index].categories = modifiedSubSections;
+              });
+            },
+            brandID: widget.brandID,
+            branchID: widget.branchID,
+          ),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return AppSize.s8.verticalSpacer();
+      },
     );
   }
 }

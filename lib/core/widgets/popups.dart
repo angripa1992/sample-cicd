@@ -22,7 +22,7 @@ void showNotifierDialog(BuildContext context, String message, bool isSuccess, {S
       onDismiss: onDismiss,
     ),
   ).then(
-        (value) {
+    (value) {
       if (onDismiss != null) {
         onDismiss();
       }
@@ -37,6 +37,7 @@ void showActionablePopup({
   String? description,
   String? negativeText,
   String? positiveText,
+  bool isPositiveAction = true,
   required VoidCallback onAction,
 }) {
   showDialog(
@@ -47,22 +48,22 @@ void showActionablePopup({
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
         title: (titleIcon != null || title != null)
             ? Row(
-          children: [
-            titleIcon.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
-            Visibility(
-              visible: title != null,
-              child: Expanded(
-                child: Text(
-                  title!,
-                  style: mediumTextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s16.rSp,
-                  ),
-                ),
-              ),
-            )
-          ],
-        )
+                children: [
+                  titleIcon.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
+                  Visibility(
+                    visible: title != null,
+                    child: Expanded(
+                      child: Text(
+                        title!,
+                        style: mediumTextStyle(
+                          color: AppColors.black,
+                          fontSize: AppFontSize.s16.rSp,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )
             : null,
         content: description != null ? Text(description, style: regularTextStyle(color: AppColors.black, fontSize: AppFontSize.s14.rSp)) : null,
         actionsPadding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s24.rh, bottom: AppSize.s16.rh),
@@ -85,10 +86,13 @@ void showActionablePopup({
               Expanded(
                 child: KTButton(
                   controller: KTButtonController(label: positiveText ?? AppStrings.ok.tr()),
-                  backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.successG300),
+                  backgroundDecoration: regularRoundedDecoration(backgroundColor: isPositiveAction ? AppColors.successG300 : AppColors.errorR300),
                   labelStyle: mediumTextStyle(color: AppColors.white),
                   progressPrimaryColor: AppColors.white,
-                  onTap: onAction,
+                  onTap: () {
+                    onAction();
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
             ],

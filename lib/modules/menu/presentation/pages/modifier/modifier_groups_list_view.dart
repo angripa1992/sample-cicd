@@ -45,6 +45,7 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
       key: UniqueKey(),
       itemCount: _modifiableModifierGroups.length,
       shrinkWrap: true,
+      padding: EdgeInsets.zero,
       itemBuilder: (context, index) {
         final group = _modifiableModifierGroups[index];
         return InkWell(

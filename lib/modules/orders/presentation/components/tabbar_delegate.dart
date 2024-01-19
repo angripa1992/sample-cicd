@@ -17,7 +17,7 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
   ) {
     return Align(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw, vertical: 2.rh),
         color: AppColors.white,
         child: tabBar,
       ),

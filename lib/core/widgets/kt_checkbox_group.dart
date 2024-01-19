@@ -120,6 +120,7 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
         return value.logo != null
             ? CheckboxListTile(
                 activeColor: AppColors.primary,
+                contentPadding: EdgeInsets.zero,
                 title: _title(value),
                 value: value.isSelected,
                 secondary: SizedBox(
@@ -136,7 +137,8 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
                 },
               )
             : CheckboxListTile(
-                activeColor: AppColors.primary,
+          activeColor: AppColors.primary,
+                contentPadding: EdgeInsets.zero,
                 title: _title(value),
                 value: value.isSelected,
                 onChanged: (isSelected) {
@@ -151,7 +153,7 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
     return Text(
       value.title,
       style: mediumTextStyle(
-        color: AppColors.black,
+        color: AppColors.neutralB500,
         fontSize: 14.rSp,
       ),
     );

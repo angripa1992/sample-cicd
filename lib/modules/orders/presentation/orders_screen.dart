@@ -94,6 +94,13 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                 SliverToBoxAdapter(
                   child: OrderHeaderView(oniFilterManager: _filterManager, tabController: _tabController!),
                 ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    color: AppColors.white,
+                    padding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, bottom: AppSize.s12.rh),
+                    child: const Divider(height: 2, thickness: 0.5),
+                  ),
+                ),
                 SliverPersistentHeader(
                   delegate: MyDelegate(
                     TabBar(
@@ -142,7 +149,7 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
                         OrderTabItem(title: AppStrings.history.tr(), tabIndex: 4, tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex), count: 0),
                         OrderTabItem(title: AppStrings.other.tr(), tabIndex: 5, tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex), count: 0),
                       ],
-                      labelPadding: EdgeInsets.all(AppSize.s8.rSp),
+                      labelPadding: EdgeInsets.all(8.rSp),
                       indicatorColor: Colors.transparent,
                       indicatorWeight: 0.01,
                       isScrollable: true,
@@ -154,12 +161,8 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
               ];
             },
             body: Container(
-              padding: EdgeInsets.only(
-                left: AppSize.s12.rw,
-                right: AppSize.s12.rw,
-                top: AppSize.s12.rh,
-              ),
               color: AppColors.white,
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
               child: TabBarView(
                 controller: _tabController,
                 children: [
