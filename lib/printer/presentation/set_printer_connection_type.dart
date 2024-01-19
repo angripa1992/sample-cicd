@@ -15,7 +15,12 @@ class SetPrinterConnectionType extends StatefulWidget {
   final bool willUsbEnabled;
   final Function(int) onChanged;
 
-  const SetPrinterConnectionType({Key? key, required this.onChanged, required this.initType, required this.willUsbEnabled}) : super(key: key);
+  const SetPrinterConnectionType({
+    Key? key,
+    required this.onChanged,
+    required this.initType,
+    required this.willUsbEnabled,
+  }) : super(key: key);
 
   @override
   State<SetPrinterConnectionType> createState() => _SetPrinterConnectionTypeState();
@@ -37,41 +42,37 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.only(
-          right: AppSize.s12.rw,
-          left: AppSize.s12.rw,
-          top: AppSize.s8.rh,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              AppStrings.set_printer_connection_type.tr(),
-              style: mediumTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s16.rSp,
-              ),
+    return Container(
+      color: AppColors.white,
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s16.rw,
+        vertical: AppSize.s12.rh,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            AppStrings.set_printer_connection_type.tr(),
+            style: mediumTextStyle(
+              color: AppColors.black,
+              fontSize: AppFontSize.s16.rSp,
             ),
-            PrinterSettingRadioItem(
-              value: CType.BLE,
-              groupValue: _connectionType!,
-              onChanged: _changePrinterConnectionType,
-              name: AppStrings.bluetooth.tr(),
-            ),
-            PrinterSettingRadioItem(
-              value: CType.USB,
-              groupValue: _connectionType!,
-              onChanged: _changePrinterConnectionType,
-              name: widget.willUsbEnabled ? AppStrings.usb.tr() : AppStrings.disable.tr(),
-            )
-          ],
-        ),
+          ),
+          PrinterSettingRadioItem(
+            value: CType.BLE,
+            groupValue: _connectionType!,
+            onChanged: _changePrinterConnectionType,
+            name: AppStrings.bluetooth.tr(),
+          ),
+          PrinterSettingRadioItem(
+            value: CType.USB,
+            groupValue: _connectionType!,
+            onChanged: _changePrinterConnectionType,
+            name: widget.willUsbEnabled ? AppStrings.usb.tr() : AppStrings.disable.tr(),
+          ),
+        ],
       ),
     );
   }

@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/set_printer_connection_type.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
+import 'package:klikit/resources/decorations.dart';
+import 'package:klikit/resources/styles.dart';
 
 import '../../app/app_preferences.dart';
 import '../../app/constants.dart';
 import '../../core/utils/response_state.dart';
 import '../../modules/orders/data/models/action_success_model.dart';
-import '../../modules/widgets/app_button.dart';
-import '../../modules/widgets/loading_button.dart';
 import '../../modules/widgets/snackbars.dart';
 import '../../resources/colors.dart';
 import '../../resources/strings.dart';
@@ -32,6 +33,8 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
   final _printingHandler = getIt.get<PrintingHandler>();
   late bool _stickerPrinterEnabled;
   late ValueNotifier<bool> _stickerPrinterStateListener;
+  final showDevicesController = KTButtonController(label: AppStrings.show_devices.tr());
+  final _saveButtonController = KTButtonController(label: AppStrings.save.tr());
 
   @override
   void initState() {
@@ -99,67 +102,71 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
     );
   }
 
-  Widget _body() => Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: AppSize.s10.rh,
-          horizontal: AppSize.s8.rw,
-        ),
-        child: Column(
-          children: [
-            SetPrinterConnectionType(
-              willUsbEnabled: false,
-              initType: _stickerPrinterEnabled ? CType.BLE : CType.USB,
-              onChanged: (type) {
-                _stickerPrinterEnabled = type == CType.BLE;
-                _stickerPrinterStateListener.value = _stickerPrinterEnabled;
-              },
-            ),
-            const Spacer(),
-            _buttons(),
-          ],
-        ),
+  Widget _body() => Column(
+        children: [
+          SetPrinterConnectionType(
+            willUsbEnabled: false,
+            initType: _stickerPrinterEnabled ? CType.BLE : CType.USB,
+            onChanged: (type) {
+              _stickerPrinterEnabled = type == CType.BLE;
+              _stickerPrinterStateListener.value = _stickerPrinterEnabled;
+            },
+          ),
+          const Spacer(),
+          _buttons(),
+        ],
       );
 
-  Widget _buttons() => Row(
-        children: [
-          Expanded(
-            child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
-              listener: (context, state) {
-                if (state is Failed) {
-                  showApiErrorSnackBar(context, state.failure);
-                } else if (state is Success<ActionSuccess>) {
-                  _savePrinterSettingLocally();
-                  showSuccessSnackBar(context, state.data.message ?? '');
-                }
-              },
-              builder: (context, state) {
-                return LoadingButton(
-                  isLoading: state is Loading,
-                  onTap: _updatePrinterSetting,
-                  text: AppStrings.save.tr(),
-                );
-              },
+  Widget _buttons() => Container(
+        color: AppColors.white,
+        padding: EdgeInsets.all(16.rSp),
+        child: Row(
+          children: [
+            Expanded(
+              child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
+                listener: (context, state) {
+                  _saveButtonController.setLoaded(state is! Loading);
+
+                  if (state is Failed) {
+                    showApiErrorSnackBar(context, state.failure);
+                  } else if (state is Success<ActionSuccess>) {
+                    _savePrinterSettingLocally();
+                    showSuccessSnackBar(context, state.data.message ?? '');
+                  }
+                },
+                builder: (context, state) {
+                  return KTButton(
+                    controller: _saveButtonController,
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
+                    labelStyle: mediumTextStyle(color: AppColors.white),
+                    progressPrimaryColor: AppColors.white,
+                    verticalContentPadding: 10.rh,
+                    onTap: _updatePrinterSetting,
+                  );
+                },
+              ),
             ),
-          ),
-          SizedBox(width: AppSize.s8.rw),
-          Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: _stickerPrinterStateListener,
-              builder: (_, value, __) {
-                return AppButton(
-                  enable: _appPreferences.printerSetting().stickerPrinterEnabled,
-                  onTap: () {
-                    _printingHandler.showDevices(initialIndex: PrinterSelectIndex.sticker);
-                  },
-                  text: AppStrings.show_devices.tr(),
-                  color: AppColors.white,
-                  borderColor: AppColors.black,
-                  textColor: AppColors.black,
-                  icon: _appPreferences.printerSetting().stickerPrinterEnabled ? Icons.bluetooth : Icons.bluetooth_disabled,
-                );
-              },
+            SizedBox(width: AppSize.s8.rw),
+            Expanded(
+              child: ValueListenableBuilder(
+                valueListenable: _stickerPrinterStateListener,
+                builder: (_, value, __) {
+                  showDevicesController.setEnabled(_appPreferences.printerSetting().stickerPrinterEnabled);
+
+                  return KTButton(
+                    controller: showDevicesController,
+                    prefixWidget: Icon(_appPreferences.printerSetting().stickerPrinterEnabled ? Icons.bluetooth : Icons.bluetooth_disabled),
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
+                    labelStyle: mediumTextStyle(),
+                    splashColor: AppColors.greyBright,
+                    onTap: () {
+                      _printingHandler.showDevices(initialIndex: PrinterSelectIndex.sticker);
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
 }

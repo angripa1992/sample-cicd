@@ -13,7 +13,7 @@ import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../app/constants.dart';
 import '../../../app/session_manager.dart';
-import '../../menu/domain/entities/menu/menu_item_price.dart';
+import '../../menu/domain/entities/item_price.dart';
 import '../../menu/domain/entities/menu/menu_out_of_stock.dart';
 import '../../menu/domain/entities/menu/menu_visibility.dart';
 import '../data/models/applied_promo.dart';
@@ -61,6 +61,7 @@ class OrderEntityProvider {
       numberOfSeniorCitizen: orderPromoInfo?.numberOfSeniorCitizen,
       numberOfCustomer: orderPromoInfo?.numberOfCustomer,
       items: await _cartsToBillingItemsForCalculateBill(cartsItems: cartItems),
+      roundOffApplicable: CartManager().roundOffApplicable,
     );
   }
 
@@ -207,7 +208,7 @@ class OrderEntityProvider {
         hidden: visibility.visible,
       );
 
-  MenuItemPriceModel _priceModel(MenuItemPrice price) => MenuItemPriceModel(
+  MenuItemPriceModel _priceModel(ItemPrice price) => MenuItemPriceModel(
         providerId: price.providerId,
         currencyId: price.currencyId,
         code: price.currencyCode,
@@ -246,7 +247,7 @@ class OrderEntityProvider {
       user.phone = info.phone.notEmptyOrNull();
     }
     final updateInfo = CartManager().updateCartInfo;
-    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     return PlaceOrderDataRequestModel(
       id: updateInfo?.orderID,
       externalId: updateInfo?.externalId,
@@ -282,6 +283,8 @@ class OrderEntityProvider {
       orderPromoDiscount: bill.orderPromoDiscountCent,
       appliedPromoModel: bill.appliedPromo,
       manualOrderAutoAcceptEnabled: branchInfo?.manualOrderAutoAcceptEnabled,
+      roundOffApplicable: CartManager().roundOffApplicable,
+      roundOffAmount: bill.roundOffAmountCent != 0 ? bill.roundOffAmountCent : null,
     );
   }
 }

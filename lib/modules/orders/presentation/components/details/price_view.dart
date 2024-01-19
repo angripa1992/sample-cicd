@@ -1,12 +1,13 @@
-import 'package:docket_design_template/utils/extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
-import 'package:klikit/modules/common/entities/branch_info.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/strings.dart';
 
@@ -42,11 +43,12 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: AppColors.white,
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
         children: [
-          const Divider(),
+          AppSize.s16.verticalSpacer(),
           ExpandedTile(
             theme: ExpandedTileThemeData(
               headerColor: Colors.transparent,
@@ -60,10 +62,9 @@ class _PriceViewState extends State<PriceView> {
             ),
             trailing: Text(
               PriceCalculator.calculateSubtotal(widget.order),
-              style: TextStyle(
-                color: AppColors.black,
+              style: mediumTextStyle(
+                color: AppColors.neutralB500,
                 fontSize: AppFontSize.s14.rSp,
-                fontWeight: AppFontWeight.bold,
               ),
             ),
             trailingRotation: 0,
@@ -96,8 +97,8 @@ class _PriceViewState extends State<PriceView> {
                       AppStrings.delivery_fee.tr(),
                       widget.order.deliveryFee,
                     ),
-                  FutureBuilder<BusinessBranchInfo?>(
-                    future: getIt.get<BusinessInformationProvider>().branchInfo(),
+                  FutureBuilder<Branch?>(
+                    future: getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data != null) {
                         return _showBranchDependentFee(snapshot.data!);
@@ -117,6 +118,12 @@ class _PriceViewState extends State<PriceView> {
                       widget.order.rewardDiscount,
                       showNegative: true,
                     ),
+                  if (widget.order.isManualOrder && widget.order.roundOffAmount != 0)
+                    _priceBreakdownItem(
+                      'Rounding Off',
+                      widget.order.roundOffAmount,
+                      isRoundOff: true,
+                    ),
                 ],
               ),
             ),
@@ -125,34 +132,14 @@ class _PriceViewState extends State<PriceView> {
           const Divider(),
           Padding(
             padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppStrings.total.tr(),
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s18.rSp,
-                    fontWeight: AppFontWeight.bold,
-                  ),
-                ),
-                Text(
-                  PriceCalculator.convertPrice(widget.order, widget.order.finalPrice),
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s18.rSp,
-                    fontWeight: AppFontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            child: TotalPrice(order: widget.order),
           ),
         ],
       ),
     );
   }
 
-  Widget _showBranchDependentFee(BusinessBranchInfo branch) {
+  Widget _showBranchDependentFee(Branch branch) {
     return Column(
       children: [
         if (widget.order.customFee > 0.0)
@@ -202,24 +189,56 @@ class _PriceViewState extends State<PriceView> {
     String name,
     num price, {
     bool showNegative = false,
+    bool isRoundOff = false,
   }) {
-    final textStyle = TextStyle(
-      color: showNegative ? AppColors.red : AppColors.black,
-      fontSize: AppFontSize.s14.rSp,
-      fontWeight: AppFontWeight.regular,
+    final textStyle = mediumTextStyle(
+      color: showNegative ? AppColors.red : AppColors.neutralB200,
+      fontSize: AppFontSize.s12.rSp,
     );
     return Padding(
       padding: EdgeInsets.only(top: AppSize.s2.rh),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(name, style: textStyle),
+          Text(name, style: regularTextStyle(fontSize: AppSize.s12.rSp, color: showNegative ? AppColors.red : AppColors.neutralB600)),
           Text(
-            '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
+            isRoundOff ? '${widget.order.currencySymbol} ${price.isNegative ? '' : '+'}${price / 100}' : '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
             style: textStyle,
           ),
         ],
       ),
+    );
+  }
+}
+
+class TotalPrice extends StatelessWidget {
+  final Order order;
+  final TextStyle? textStyle;
+
+  const TotalPrice({Key? key, required this.order, this.textStyle}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          AppStrings.total.tr(),
+          style: textStyle ??
+              mediumTextStyle(
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+        ),
+        Text(
+          PriceCalculator.convertPrice(order, order.finalPrice),
+          style: textStyle ??
+              mediumTextStyle(
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+        ),
+      ],
     );
   }
 }
@@ -234,7 +253,7 @@ class SubtotalExpandHeader extends StatefulWidget {
 }
 
 class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
-  bool? _isExpanded;
+  late bool _isExpanded;
 
   @override
   void initState() {
@@ -255,15 +274,15 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
       children: [
         Text(
           AppStrings.sub_total.tr(),
-          style: boldTextStyle(
-            color: AppColors.black,
+          style: mediumTextStyle(
+            color: AppColors.neutralB500,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
         Icon(
-          _isExpanded! ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-          color: AppColors.black,
-          size: AppSize.s24.rSp,
+          _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+          color: AppColors.neutralB500,
+          size: AppSize.s18.rSp,
         ),
       ],
     );

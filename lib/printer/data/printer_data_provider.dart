@@ -24,7 +24,7 @@ class PrinterDataProvider {
     required Brand? brand,
     required Order order,
   }) async {
-    final branchInfo = await getIt.get<BusinessInformationProvider>().branchInfo();
+    final branchInfo = await getIt.get<BusinessInformationProvider>().branchByID(SessionManager().branchId());
     return TemplateOrder(
       id: order.id,
       externalId: order.externalId,
@@ -79,6 +79,7 @@ class PrinterDataProvider {
       customFeeTitle: branchInfo?.webshopCustomFeesTitle ?? 'Packaging Fee',
       mergeFeeTitle: branchInfo?.mergeFeeTitle ?? EMPTY,
       mergeFeeEnabled: branchInfo?.mergeFeeEnabled ?? false,
+      // roundOffAmount: order.roundOffAmount,
       fulfillmentRider: order.fulfillmentRider != null
           ? RiderInfo(
               name: order.fulfillmentRider?.name,

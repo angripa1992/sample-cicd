@@ -33,7 +33,6 @@ class KTButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextStyle style = labelStyle ?? regularTextStyle();
-
     return AnimatedBuilder(
       animation: controller,
       builder: (BuildContext context, Widget? child) => Material(

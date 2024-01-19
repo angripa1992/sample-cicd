@@ -1,26 +1,27 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/extensions.dart';
-import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
-import 'package:klikit/modules/common/entities/brand.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/menu/presentation/cubit/menus_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_list_view.dart';
-import 'package:klikit/resources/colors.dart';
-import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
-import 'package:klikit/resources/styles.dart';
 
 import '../../../../../segments/event_manager.dart';
 import '../../../../../segments/segemnt_data_provider.dart';
 import '../../../domain/entities/menu/menu_data.dart';
 
 class MenuScreen extends StatefulWidget {
-  final Brand? brand;
-  final int? providerId;
+  final int brand;
+  final int branch;
+  final List<int> providers;
 
-  const MenuScreen({Key? key, required this.brand, this.providerId}) : super(key: key);
+  const MenuScreen({
+    Key? key,
+    required this.brand,
+    required this.branch,
+    required this.providers,
+  }) : super(key: key);
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
@@ -33,41 +34,33 @@ class _MenuScreenState extends State<MenuScreen> {
     super.initState();
   }
 
+  void _fetchMenu() {
+    context.read<MenusCubit>().fetchMenu(branchID: widget.branch, brandId: widget.brand, providers: widget.providers);
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (widget.brand != null) {
-      context.read<MenusCubit>().fetchMenu(widget.brand!.id, widget.providerId);
-    }
+    _fetchMenu();
     return Expanded(
-      child: widget.brand == null
-          ? Center(
-              child: Text(
-                AppStrings.please_select_a_brand.tr(),
-                style: regularTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
-              ),
-            )
-          : BlocBuilder<MenusCubit, ResponseState>(
-              builder: (context, state) {
-                if (state is Success<MenuData>) {
-                  if (state.data.sections.isEmpty) {
-                    return Center(
-                      child: Text(AppStrings.no_menus_found.tr()),
-                    );
-                  }
-                  return MenuListView(
-                    sections: state.data.sections,
-                    brandID: widget.brand!.id,
-                    providerID: widget.providerId.orZero(),
-                  );
-                } else if (state is Failed) {
-                  return Center(child: Text(state.failure.message));
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
+      child: BlocBuilder<MenusCubit, ResponseState>(
+        builder: (context, state) {
+          if (state is Success<MenuData>) {
+            if (state.data.sections.isEmpty) {
+              return Center(
+                child: Text(AppStrings.no_menus_found.tr()),
+              );
+            }
+            return MenuListView(
+              sections: state.data.sections,
+              brandID: widget.brand,
+              branchID: widget.branch,
+            );
+          } else if (state is Failed) {
+            return Center(child: Text(state.failure.message));
+          }
+          return const Center(child: CircularProgress());
+        },
+      ),
     );
   }
 }

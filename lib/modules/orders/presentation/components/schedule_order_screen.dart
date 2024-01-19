@@ -2,23 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:klikit/modules/common/order_parameter_provider.dart';
+import 'package:klikit/app/extensions.dart';
+import 'package:klikit/core/widgets/filter/filter_data.dart';
+import 'package:klikit/modules/common/oni_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
 import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
-import '../filter_observer.dart';
-import '../filter_subject.dart';
+import '../oni_filter_manager.dart';
 import 'details/order_details_bottom_sheet.dart';
 import 'order_item/order_item_view.dart';
 
 class ScheduleOrderScreen extends StatefulWidget {
-  final FilterSubject subject;
+  final OniFilterManager oniFilterManager;
 
-  const ScheduleOrderScreen({Key? key, required this.subject}) : super(key: key);
+  const ScheduleOrderScreen({Key? key, required this.oniFilterManager}) : super(key: key);
 
   @override
   State<ScheduleOrderScreen> createState() => _ScheduleOrderScreenState();
@@ -26,24 +28,19 @@ class ScheduleOrderScreen extends StatefulWidget {
 
 class _ScheduleOrderScreenState extends State<ScheduleOrderScreen> with FilterObserver {
   final _orderRepository = getIt.get<OrderRepository>();
-  final _orderParamProvider = getIt.get<OrderParameterProvider>();
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   final _sourceTab = 'Schedule Order';
   static const _pageSize = 10;
   static const _firstPageKey = 1;
   Timer? _timer;
-  List<int>? _providers;
-  List<int>? _brands;
-
   PagingController<int, Order>? _pagingController;
+  OniFilteredData? _filteredData;
 
   @override
   void initState() {
     _pagingController = PagingController(firstPageKey: _firstPageKey);
-    filterSubject = widget.subject;
-    filterSubject?.addObserver(this, ObserverTag.SCHEDULE_ORDER);
-    _providers = filterSubject?.getProviders();
-    _brands = filterSubject?.getBrands();
+    widget.oniFilterManager.addObserver(this, ObserverTag.SCHEDULE_ORDER);
+    _filteredData = widget.oniFilterManager.filteredData();
     _startTimer();
     _pagingController?.addPageRequestListener((pageKey) {
       _fetchScheduleOrder(pageKey);
@@ -52,12 +49,7 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen> with FilterOb
   }
 
   void _fetchScheduleOrder(int pageKey) async {
-    final params = await _orderParamProvider.getScheduleOrderParams(
-      _brands,
-      _providers,
-      page: pageKey,
-      pageSize: _pageSize,
-    );
+    final params = await OniParameterProvider().scheduleOrder(filteredData: _filteredData, page: pageKey, pageSize: _pageSize);
     final response = await _orderRepository.fetchOrder(params);
     response.fold(
       (failure) {
@@ -85,7 +77,7 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen> with FilterOb
   }
 
   void _refresh({bool willBackground = false}) {
-    KlikitOrderResolver().refreshOrderCounts(context, providers: _providers, brands: _brands);
+    KlikitOrderResolver().refreshOrderCounts(context, filteredData: _filteredData);
     if (willBackground) {
       _pagingController?.itemList?.clear();
       _pagingController?.notifyPageRequestListeners(_firstPageKey);
@@ -141,7 +133,7 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen> with FilterOb
         newPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
         firstPageErrorIndicatorBuilder: (_) => getPageErrorIndicator(() => _refresh()),
       ),
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      separatorBuilder: (BuildContext context, int index) => AppSize.s8.verticalSpacer(),
     );
   }
 
@@ -149,22 +141,13 @@ class _ScheduleOrderScreenState extends State<ScheduleOrderScreen> with FilterOb
   void dispose() {
     _timer?.cancel();
     _pagingController?.dispose();
-    filterSubject?.removeObserver(ObserverTag.ONGOING_ORDER);
+    widget.oniFilterManager.removeObserver(ObserverTag.SCHEDULE_ORDER);
     super.dispose();
   }
 
   @override
-  void applyBrandsFilter(List<int> brandsID) {
-    _brands = brandsID;
+  void applyFilter(OniFilteredData? filteredData) {
+    _filteredData = filteredData;
     _refresh();
   }
-
-  @override
-  void applyProviderFilter(List<int> providersID) {
-    _providers = providersID;
-    _refresh();
-  }
-
-  @override
-  void applyStatusFilter(List<int> status) {}
 }

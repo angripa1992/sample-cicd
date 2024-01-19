@@ -50,16 +50,16 @@ class DeliveryAddressView extends StatelessWidget {
           Text(
             title,
             style: semiBoldTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s15.rSp,
+              color: AppColors.neutralB500,
+              fontSize: AppFontSize.s16.rSp,
             ),
           ),
           SizedBox(height: AppSize.s4.rh),
           Text(
             description,
             style: regularTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s14.rSp,
+              color: AppColors.neutralB500,
+              fontSize: AppFontSize.s12.rSp,
             ),
           ),
         ],

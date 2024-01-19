@@ -26,27 +26,16 @@ class MenuTab extends StatelessWidget {
       child: InkWell(
         onTap: onTabChanged,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          decoration: BoxDecoration(
-            borderRadius: borderRadius,
-            color: isSelected ? AppColors.primary : AppColors.grey,
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.greyLight,
-                blurRadius: 2.0,
-                offset:
-                    const Offset(2.0, 2.0), // shadow direction: bottom right
-              )
-            ],
-          ),
+          duration: const Duration(milliseconds: 300),
+          decoration: isSelected ? BoxDecoration(borderRadius: borderRadius, color: AppColors.white) : null,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
             child: Center(
               child: Text(
                 name,
-                style: regularTextStyle(
-                  color: isSelected ? AppColors.white : AppColors.black,
-                  fontSize: AppFontSize.s15.rSp,
+                style: mediumTextStyle(
+                  color: isSelected ? AppColors.neutralB700 : AppColors.neutralB300,
+                  fontSize: AppFontSize.s14.rSp,
                 ),
               ),
             ),

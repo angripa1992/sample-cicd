@@ -1,8 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
-import '../../../../app/extensions.dart';
+import '../../../../app/constants.dart';
+import '../../../../app/di.dart';
 import '../../../../app/session_manager.dart';
+import '../../../../app/user_permission_manager.dart';
+import '../../../common/business_information_provider.dart';
 import '../../domain/entities/modifier/grouped_modifier_item.dart';
 import '../../domain/entities/modifier/modifier_group.dart';
 import '../../domain/usecase/ftech_modifier_groups.dart';
@@ -12,15 +15,19 @@ class FetchModifierGroupsCubit extends Cubit<ResponseState> {
 
   FetchModifierGroupsCubit(this._fetchModifierGroups) : super(Empty());
 
-  void fetchModifierGroups(
-    int brandId,
-    int? providerId,
-  ) async {
+  void fetchModifierGroups({
+    required int brandId,
+    required int branchID,
+    required List<int> providers,
+  }) async {
     emit(Loading());
+    final branch = await getIt.get<BusinessInformationProvider>().branchByID(branchID);
+    final menuV2Enabled = UserPermissionManager().isBizOwner() ? (branch?.menuVersion ?? MenuVersion.v2) == MenuVersion.v2 : SessionManager().menuV2Enabled();
     final params = FetchModifierGroupParams(
       brandID: brandId,
-      providerID: providerId,
-      branchID: SessionManager().branchId(),
+      providers: providers,
+      branchID: branchID,
+      menuV2Enabled: menuV2Enabled,
       businessID: SessionManager().businessID(),
     );
     final response = await _fetchModifierGroups(params);
@@ -29,43 +36,33 @@ class FetchModifierGroupsCubit extends Cubit<ResponseState> {
         emit(Failed(failure));
       },
       (data) async {
-        final filteredData = await _filterData(providerId, data);
+        final filteredData = await _filterData(data);
         emit(Success<List<ModifierGroup>>(filteredData));
       },
     );
   }
 
-  Future<List<ModifierGroup>> _filterData(
-      int? providerId, List<ModifierGroup> data) async {
+  Future<List<ModifierGroup>> _filterData(List<ModifierGroup> data) async {
     List<ModifierGroup> tempData = data;
-    if (providerId == null) return tempData;
-    _filterHiddenModifierGroups(providerId, tempData);
+    _filterHiddenModifierGroups(tempData);
     await Future.forEach<ModifierGroup>(tempData, (modifierGroup) {
-      _filterHiddenModifiers(providerId, modifierGroup.modifiers);
+      _filterHiddenModifiers(modifierGroup.modifiers);
     });
     return tempData;
   }
 
-  void _filterHiddenModifierGroups(int? providerId, List<ModifierGroup> data) {
+  void _filterHiddenModifierGroups(List<ModifierGroup> data) {
     data.removeWhere((modifierGroup) {
       return modifierGroup.visibilities.any((visibility) {
-        if (providerId == ZERO) {
-          return !visibility.isVisible;
-        } else {
-          return providerId == visibility.providerID && !visibility.isVisible;
-        }
+        return !visibility.isVisible;
       });
     });
   }
 
-  void _filterHiddenModifiers(int? providerId, List<GroupedModifierItem> data) {
+  void _filterHiddenModifiers(List<GroupedModifierItem> data) {
     data.removeWhere((modifier) {
       return modifier.visibilities.any((visibility) {
-        if (providerId == ZERO) {
-          return !visibility.isVisible;
-        } else {
-          return providerId == visibility.providerID && !visibility.isVisible;
-        }
+        return !visibility.isVisible;
       });
     });
   }

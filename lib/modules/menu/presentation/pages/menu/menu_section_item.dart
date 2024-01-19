@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -16,7 +18,7 @@ class MenuSectionItem extends StatefulWidget {
   final ExpandedTileController controller;
   final int index;
   final int brandId;
-  final int providerID;
+  final int branchId;
   final MenuSection section;
   final Function(bool) onChanged;
 
@@ -27,7 +29,7 @@ class MenuSectionItem extends StatefulWidget {
     required this.section,
     required this.onChanged,
     required this.brandId,
-    required this.providerID,
+    required this.branchId,
   }) : super(key: key);
 
   @override
@@ -51,80 +53,44 @@ class _MenuSectionItemState extends State<MenuSectionItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            if (widget.controller.isExpanded)
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(AppSize.s8.rSp),
-                    bottomLeft: Radius.circular(AppSize.s8.rSp),
-                  ),
-                  color: AppColors.primary,
-                ),
-                width: AppSize.s4.rw,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSize.s12.rw,
+        vertical: AppSize.s6.rh,
+      ),
+      child: Row(
+        children: [
+          MenuSwitchView(
+            menuVersion: widget.section.menuVersion,
+            enabled: widget.section.enabled,
+            parentEnabled: true,
+            branchId: widget.branchId,
+            id: widget.section.id,
+            brandId: widget.brandId,
+            type: MenuType.SECTION,
+            onMenuEnableChanged: widget.onChanged,
+          ),
+          AppSize.s12.horizontalSpacer(),
+          Expanded(
+            child: Text(
+              widget.section.title.trim(),
+              style: mediumTextStyle(
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s14.rSp,
               ),
-            Flexible(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s12.rw,
-                  vertical: AppSize.s6.rh,
+            ),
+          ),
+          AppSize.s12.horizontalSpacer(),
+          widget.controller.isExpanded
+              ? ImageResourceResolver.upArrowSVG.getImageWidget(
+                  width: AppSize.s20.rw,
+                  height: AppSize.s20.rh,
+                )
+              : ImageResourceResolver.downArrowSVG.getImageWidget(
+                  width: AppSize.s20.rw,
+                  height: AppSize.s20.rh,
                 ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: AppSize.s12.rw),
-                      child: Icon(
-                        widget.controller.isExpanded
-                            ? Icons.arrow_drop_up
-                            : Icons.arrow_drop_down,
-                        color: AppColors.primary,
-                        size: AppSize.s18.rSp,
-                      ),
-                    ),
-                    SizedBox(width: AppSize.s24.rw),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          if (!widget.controller.isExpanded)
-                            Text(
-                              '${widget.index + 1}. ',
-                              style: regularTextStyle(
-                                color: AppColors.black,
-                                fontSize: AppFontSize.s17.rSp,
-                              ),
-                            ),
-                          SizedBox(width: AppSize.s4.rw),
-                          Expanded(
-                            child: Text(
-                              '${widget.section.title} ${widget.controller.isExpanded ? '(${widget.section.categories.length})' : ''}',
-                              style: regularTextStyle(
-                                color: AppColors.black,
-                                fontSize: AppFontSize.s16.rSp,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MenuSwitchView(
-                      menuVersion: widget.section.menuVersion,
-                      enabled: widget.section.enabled,
-                      parentEnabled: true,
-                      providerId: widget.providerID,
-                      id: widget.section.id,
-                      brandId: widget.brandId,
-                      type: MenuType.SECTION,
-                      onMenuEnableChanged: widget.onChanged,
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+        ],
       ),
     );
   }

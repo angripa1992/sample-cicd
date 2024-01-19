@@ -20,7 +20,8 @@ class RiderInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: order.isThreePlOrder && order.fulfillmentRider != null,
-      child: Padding(
+      child: Container(
+        color: AppColors.white,
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s16.rw,
           vertical: AppSize.s8.rh,
@@ -57,14 +58,14 @@ class RiderInfoView extends StatelessWidget {
                   Expanded(
                     child: _infoItem(
                       AppStrings.estimated_pickup_time.tr(),
-                      DateTimeProvider.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime),
+                      DateTimeFormatter.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime),
                     ),
                   ),
               ],
             ),
           ],
         ),
-      ),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8),
     );
   }
 

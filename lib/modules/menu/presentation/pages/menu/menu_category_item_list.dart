@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
+import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_switch_view.dart';
-import 'package:klikit/modules/widgets/image_view.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
@@ -24,7 +25,7 @@ class MenuCategoryItemListView extends StatefulWidget {
   final MenuCategory menuCategory;
   final bool parentEnabled;
   final int brandID;
-  final int providerID;
+  final int branchID;
   final Function(List<MenuCategoryItem>) onChanged;
 
   const MenuCategoryItemListView({
@@ -33,7 +34,7 @@ class MenuCategoryItemListView extends StatefulWidget {
     required this.onChanged,
     required this.parentEnabled,
     required this.brandID,
-    required this.providerID,
+    required this.branchID,
   }) : super(key: key);
 
   @override
@@ -93,8 +94,7 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
             menuCategoryItem: _menuCategoryItems[index],
             parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
             brandID: widget.brandID,
-            providerID: widget.providerID,
-            brandId: widget.brandID,
+            branchID: widget.branchID,
             onMenuItemSnoozeChanged: (oos) {
               _onItemSnoozeChanged(index, oos);
             },
@@ -111,109 +111,93 @@ class _MenuCategoryItemListViewState extends State<MenuCategoryItemListView> {
   Widget build(BuildContext context) {
     return Expanded(
       child: _menuCategoryItems.isNotEmpty
-          ? ListView.builder(
+          ? ListView.separated(
               key: UniqueKey(),
               itemCount: _menuCategoryItems.length,
               itemBuilder: (_, index) {
-                return Card(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSize.s12.rh,
-                      horizontal: AppSize.s10.rw,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        _showItemDetails(index);
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
+                final categoryItem = _menuCategoryItems[index];
+
+                return Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s6.rh),
+                  child: InkWell(
+                    onTap: () {
+                      _showItemDetails(index);
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Opacity(
+                          opacity: (UserPermissionManager().canOosMenu() && !categoryItem.enabled) ? 0.5 : 1.0,
+                          child: KTNetworkImage(
+                            imageUrl: categoryItem.image,
+                            width: AppSize.s48.rSp,
+                            height: AppSize.s48.rSp,
+                            boxFit: BoxFit.cover,
+                            boxShape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                            imageBorderWidth: 0,
+                          ),
+                        ),
+                        SizedBox(width: AppSize.s16.rw),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ImageView(
-                                path: _menuCategoryItems[index].image,
-                                width: AppSize.s48.rw,
-                                height: AppSize.s40.rh,
+                              Text(
+                                categoryItem.title.trim(),
+                                style: mediumTextStyle(fontSize: AppSize.s14.rSp, color: AppColors.neutralB500),
                               ),
-                              SizedBox(width: AppSize.s16.rw),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            _menuCategoryItems[index].title.trim(),
-                                            style: mediumTextStyle(
-                                              color: AppColors.black,
-                                              fontSize: AppFontSize.s16.rSp,
-                                            ),
-                                          ),
-                                        ),
-                                        MenuSwitchView(
-                                          menuVersion: widget.menuCategory.menuVersion,
-                                          id: _menuCategoryItems[index].id,
-                                          brandId: widget.brandID,
-                                          providerId: widget.providerID,
-                                          type: MenuType.ITEM,
-                                          enabled: _menuCategoryItems[index].enabled,
-                                          parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
-                                          onMenuEnableChanged: (enabled) {
-                                            _onMenuEnabledChanged(index, enabled);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Flexible(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-                                              border: Border.all(color: AppColors.greyDarker),
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                              vertical: AppSize.s4.rh,
-                                              horizontal: AppSize.s8.rw,
-                                            ),
-                                            child: Text(
-                                              PriceCalculator.formatPrice(
-                                                price: _menuCategoryItems[index].klikitPrice().price(),
-                                                code: _menuCategoryItems[index].klikitPrice().currencyCode,
-                                                symbol: _menuCategoryItems[index].klikitPrice().currencySymbol,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ),
-                                        if (UserPermissionManager().canOosMenu()) SizedBox(width: AppSize.s12.rw),
-                                        if (UserPermissionManager().canOosMenu())
-                                          Flexible(
-                                            child: MenuSnoozeView(
-                                              menuCategoryItem: _menuCategoryItems[index],
-                                              providerId: widget.providerID,
-                                              parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
-                                              brandId: widget.brandID,
-                                              onMenuItemSnoozeChanged: (oos) {
-                                                _onItemSnoozeChanged(index, oos);
-                                              },
-                                              onMenuEnabledChanged: (enabled) {
-                                                _onMenuEnabledChanged(index, enabled);
-                                              },
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  ],
+                              AppSize.s4.verticalSpacer(),
+                              Text(
+                                PriceCalculator.formatPrice(
+                                  price: categoryItem.klikitPrice().price(),
+                                  code: categoryItem.klikitPrice().currencyCode,
+                                  symbol: categoryItem.klikitPrice().currencySymbol,
                                 ),
+                                textAlign: TextAlign.center,
+                                style: regularTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB400),
                               ),
+                              if (UserPermissionManager().canOosMenu() && !categoryItem.enabled)
+                                MenuSnoozeView(
+                                  menuCategoryItem: categoryItem,
+                                  branchID: widget.branchID,
+                                  parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+                                  brandId: widget.brandID,
+                                  onMenuItemSnoozeChanged: (oos) {
+                                    _onItemSnoozeChanged(index, oos);
+                                  },
+                                  onMenuEnabledChanged: (enabled) {
+                                    _onMenuEnabledChanged(index, enabled);
+                                  },
+                                ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s6.rh),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                        AppSize.s12.horizontalSpacer(),
+                        MenuSwitchView(
+                          menuVersion: widget.menuCategory.menuVersion,
+                          id: categoryItem.id,
+                          brandId: widget.brandID,
+                          branchId: widget.branchID,
+                          type: MenuType.ITEM,
+                          enabled: categoryItem.enabled,
+                          parentEnabled: widget.parentEnabled && widget.menuCategory.enabled,
+                          onMenuEnableChanged: (enabled) {
+                            _onMenuEnabledChanged(index, enabled);
+                          },
+                        ),
+                      ],
                     ),
                   ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rh),
+                  child: Divider(height: AppSize.s1.rh),
                 );
               },
             )

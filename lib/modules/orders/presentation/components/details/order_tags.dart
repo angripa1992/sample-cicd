@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
 import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
@@ -88,12 +89,18 @@ class OrderTagsView extends StatelessWidget {
               _orderTypeTagView(_getType()),
               if (order.providerId == ProviderID.KLIKIT) _tagView(order.isManualOrder ? AppStrings.manual.tr() : AppStrings.webshop.tr()),
               if (order.providerId == ProviderID.KLIKIT && order.tableNo.isNotEmpty) _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
-              _tagView(_getStatus()),
+              KTChip(
+                text: _getStatus(),
+                textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB500),
+                strokeColor: order.status == OrderStatus.CANCELLED ? AppColors.errorR300 : AppColors.primaryP300,
+                backgroundColor: AppColors.white,
+                padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
+              ),
               if (order.orderAppliedPromo != null && order.orderAppliedPromo!.isSeniorCitizenPromo!) _tagView('SC/PWD'),
             ],
           ),
         ),
-        SizedBox(height: AppSize.s8.rh),
+        AppSize.s10.verticalSpacer(),
         Row(
           children: [
             OrderPaymentInfoView(order: order),
@@ -105,42 +112,22 @@ class OrderTagsView extends StatelessWidget {
   }
 
   Widget _tagView(String tagName) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: AppSize.s4.rh,
-        horizontal: AppSize.s8.rw,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-        border: Border.all(color: AppColors.greyDarker),
-      ),
-      child: Text(
-        tagName,
-        style: regularTextStyle(
-          color: AppColors.black,
-          fontSize: AppFontSize.s14.rSp,
-        ),
-      ),
+    return KTChip(
+      text: tagName,
+      textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB500),
+      strokeColor: AppColors.neutralB40,
+      backgroundColor: AppColors.white,
+      padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
     );
   }
 
   Widget _orderTypeTagView(Map<String, dynamic> typeMap) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: AppSize.s4.rh,
-        horizontal: AppSize.s8.rw,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s24.rSp),
-        color: Color(typeMap[_typeColor]!),
-      ),
-      child: Text(
-        typeMap[_type]!,
-        style: regularTextStyle(
-          color: AppColors.white,
-          fontSize: AppFontSize.s14.rSp,
-        ),
-      ),
+    return KTChip(
+      text: typeMap[_type]!,
+      textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.white),
+      strokeColor: Color(typeMap[_typeColor]!),
+      backgroundColor: Color(typeMap[_typeColor]!),
+      padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
     );
   }
 }

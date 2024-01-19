@@ -74,15 +74,16 @@ class _PauseStoreTimerViewState extends State<PauseStoreTimerView> {
         vertical: AppSize.s4.rh,
       ),
       decoration: BoxDecoration(
+        border: Border.all(color: AppColors.neutralB40),
         borderRadius: BorderRadius.circular(AppSize.s18.rSp),
-        color: AppColors.redLighter,
+        color: AppColors.white,
       ),
       child: Row(
         children: [
           Icon(
             Icons.access_time,
             color: AppColors.redDark,
-            size: AppSize.s16.rSp,
+            size: AppSize.s12.rSp,
           ),
           SizedBox(width: AppSize.s4.rw),
           ValueListenableBuilder<int>(
@@ -91,8 +92,7 @@ class _PauseStoreTimerViewState extends State<PauseStoreTimerView> {
               return Text(
                 '$time m',
                 style: mediumTextStyle(
-                  color: AppColors.redDark,
-                  fontSize: AppFontSize.s12.rSp,
+                  fontSize: AppFontSize.s10.rSp,
                 ),
               );
             },

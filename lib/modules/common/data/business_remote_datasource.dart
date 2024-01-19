@@ -1,18 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:klikit/modules/common/model/branch_info_model.dart';
+import 'package:klikit/modules/common/model/branch_model.dart';
 
 import '../../../app/enums.dart';
 import '../../../app/session_manager.dart';
 import '../../../core/network/rest_client.dart';
 import '../../../core/network/urls.dart';
-import '../model/brand_request_model.dart';
 import '../model/brand_model.dart';
 import '../model/payment_info.dart';
 import '../model/provider_model.dart';
 import '../model/source_model.dart';
 
 abstract class BusinessRemoteDataSource {
-  Future<BrandModel> fetchBrand(BrandRequestModel requestModel);
+  Future<BrandModel> fetchBrand(Map<String, dynamic> param);
 
   Future<List<ProviderModel>> fetchProvider(Map<String, dynamic> param);
 
@@ -22,7 +21,7 @@ abstract class BusinessRemoteDataSource {
 
   Future<List<PaymentStatusModel>> fetchPaymentStatus();
 
-  Future<BusinessBranchInfoModel> fetchBranchDetails(int branchID);
+  Future<BranchDataModel> fetchBranches(Map<String, dynamic> params);
 }
 
 class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
@@ -31,9 +30,9 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   BusinessRemoteDataSourceImpl(this._restClient);
 
   @override
-  Future<BrandModel> fetchBrand(BrandRequestModel requestModel) async {
+  Future<BrandModel> fetchBrand(Map<String, dynamic> param) async {
     try {
-      final response = await _restClient.request(Urls.brand, Method.GET, requestModel.toJson());
+      final response = await _restClient.request(Urls.brand, Method.GET, param);
       return BrandModel.fromJson(response);
     } on DioException {
       rethrow;
@@ -91,10 +90,10 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
   }
 
   @override
-  Future<BusinessBranchInfoModel> fetchBranchDetails(int branchID) async {
+  Future<BranchDataModel> fetchBranches(Map<String, dynamic> params) async {
     try {
-      final response = await _restClient.request(Urls.branch(branchID), Method.GET, null);
-      return BusinessBranchInfoModel.fromJson(response);
+      final response = await _restClient.request(Urls.branch, Method.GET, params);
+      return BranchDataModel.fromJson(response);
     } on DioException {
       rethrow;
     }
