@@ -227,7 +227,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
           child: ScrollableListTabScroller(
             itemScrollController: _itemScrollController,
             itemCount: widget.categories.length,
-            earlyChangePositionOffset: -50,
+          //  earlyChangePositionOffset: -50,
             headerContainerBuilder: (context, widget) {
               return Padding(
                 padding: EdgeInsets.only(

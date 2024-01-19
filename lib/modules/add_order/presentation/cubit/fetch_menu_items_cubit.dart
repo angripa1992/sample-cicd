@@ -4,12 +4,11 @@ import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
-import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
-
 import 'package:klikit/modules/menu/domain/entities/menu/menu_categories.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_sections.dart';
 import 'package:klikit/modules/menu/domain/repository/menu_repository.dart';
+import 'package:klikit/modules/menu/domain/usecase/fetch_menus.dart';
 
 class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
   final MenuRepository _repository;
@@ -30,60 +29,69 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
     response.fold(
       (failure) => emit(Failed(failure)),
       (successResponse) {
-        final categories = _filterMenuCategory(successResponse.sections);
-        categories.sort((a, b) => a.sequence.compareTo(b.sequence));
+        final categories = _sortMenu(successResponse.sections);
         emit(Success<List<MenuCategory>>(categories));
       },
     );
   }
 
-  void _filterSection(List<MenuSection> sections){
+  List<MenuCategory> _sortMenu(List<MenuSection> sections) {
+    ///sort sections
+
     final availableSections = <MenuSection>[];
     final unavailableSections = <MenuSection>[];
     final sortedSections = <MenuSection>[];
     for (var section in sections) {
       final currentDaya = MenuAvailableTimeProvider().findCurrentDay(section.availableTimes);
       final haveAvailableTime = MenuAvailableTimeProvider().haveAvailableTime(currentDaya) != null;
-      if(haveAvailableTime){
+      if (haveAvailableTime) {
         availableSections.add(section);
-      }else{
+      } else {
         unavailableSections.add(section);
       }
     }
+    availableSections.sort((a, b) => a.sequence.compareTo(b.sequence));
+    unavailableSections.sort((a, b) => a.sequence.compareTo(b.sequence));
     sortedSections.addAll(availableSections);
     sortedSections.addAll(unavailableSections);
-    sortedSections.sort((a,b) => a.sequence.compareTo(b.sequence));
+
+    /// sort categories
+
     final filteredCategories = <MenuCategory>[];
     for (var section in sortedSections) {
-      if(section.enabled && section.visible(ProviderID.KLIKIT)){
-        final tempSubSections =  <MenuCategory>[];
-        tempSubSections.addAll(section.categories);
-        tempSubSections.sort((a,b) => a.sequence.compareTo(b.sequence));
-        for (var element in tempSubSections) {
-
-        }
-      }
-    }
-  }
-
-  List<MenuCategory> _filterMenuCategory(List<MenuSection> sections) {
-    final List<MenuCategory> categories = [];
-    for (var section in sections) {
       if (section.enabled && section.visible(ProviderID.KLIKIT)) {
-        for (var category in section.categories) {
-          if (category.enabled && category.visible(ProviderID.KLIKIT) && category.items.isNotEmpty) {
-            final categoryItems = <MenuCategoryItem>[];
-            for (var item in category.items) {
-              if (item.visible(ProviderID.KLIKIT)) {
-                categoryItems.add(item);
-              }
-            }
-            category.items = categoryItems;
-            categories.add(category);
+        final tempCategories = <MenuCategory>[];
+        tempCategories.addAll(section.categories);
+        tempCategories.sort((a, b) => a.sequence.compareTo(b.sequence));
+        for (var category in tempCategories) {
+          if (category.enabled && category.visible(ProviderID.KLIKIT)) {
+            filteredCategories.add(category);
           }
         }
       }
     }
-    return categories;
+
+    ///sort items
+
+    for (var category in filteredCategories) {
+      final tempAvailableItems = <MenuCategoryItem>[];
+      final tempOosItems = <MenuCategoryItem>[];
+      for (var item in category.items) {
+        if (item.visible(ProviderID.KLIKIT)) {
+          if (item.outOfStock.available) {
+            tempAvailableItems.add(item);
+          } else {
+            tempOosItems.add(item);
+          }
+        }
+      }
+      tempAvailableItems.sort((a, b) => a.sequence.compareTo(b.sequence));
+      tempOosItems.sort((a, b) => a.sequence.compareTo(b.sequence));
+      category.items.clear();
+      category.items.addAll(tempAvailableItems);
+      category.items.addAll(tempOosItems);
+    }
+
+    return filteredCategories;
   }
 }
