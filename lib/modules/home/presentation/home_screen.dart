@@ -85,9 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8),
                     Container(
                       color: AppColors.white,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: AppSize.s16.rw,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s12.rh),
                       child: const OrderSummaryView(),
                     ),
                     8.rh.verticalSpacer(),

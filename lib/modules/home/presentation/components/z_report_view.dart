@@ -133,11 +133,8 @@ class _ZReportViewState extends State<ZReportView> {
                   builder: (ct, state) {
                     return KTButton(
                       controller: generateButtonController,
-                      prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(
-                        width: 18.rw,
-                        height: 18.rh,
-                        color: AppColors.neutralB700,
-                      ),
+                      prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(width: 18.rw, height: 18.rh, color: AppColors.neutralB700),
+                      verticalContentPadding: AppSize.s10.rh,
                       backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                       labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                       splashColor: AppColors.greyBright,
