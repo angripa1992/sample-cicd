@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 
-import '../../../../app/di.dart';
-import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
+import 'package:klikit/app/di.dart';
+import 'package:klikit/modules/menu/presentation/cubit/menu_brands_cubit.dart';
+import 'package:klikit/resources/colors.dart';
 import 'add_order_body.dart';
 
 class AddOrderScreen extends StatelessWidget {
@@ -33,6 +34,7 @@ class AddOrderScreen extends StatelessWidget {
         ],
         child: SafeArea(
           child: Scaffold(
+            backgroundColor: AppColors.white,
             body: AddOrderBody(
               onBack: () {
                 _pop(context);

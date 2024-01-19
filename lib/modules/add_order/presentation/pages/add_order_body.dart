@@ -17,7 +17,7 @@ import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../../widgets/snackbars.dart';
 import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
-import 'components/brand_selector_app_bar.dart';
+import 'components/add_order_app_bar.dart';
 import 'components/cart/cart_screen.dart';
 import 'components/empty_brand_view.dart';
 import 'components/go_to_cart_button.dart';
@@ -43,53 +43,34 @@ class _AddOrderBodyState extends State<AddOrderBody> {
 
   @override
   void initState() {
+    if (CartManager().items.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _gotoCart();
+      });
+    }
     context.read<MenuBrandsCubit>().fetchMenuBrands();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MenuBrandsCubit, ResponseState>(
-      listener: (context, state) {
-        if (state is Success<List<Brand>> && CartManager().items.isNotEmpty) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _gotoCart();
-          });
-        }
-      },
-      builder: (context, state) {
-        if (state is Loading) {
-          EasyLoading.show();
-        } else if (state is Success<List<Brand>>) {
-          EasyLoading.dismiss();
-          return _body(state.data);
-        } else if (state is Failed) {
-          EasyLoading.dismiss();
-          return Center(child: Text(state.failure.message));
-        }
-        return const SizedBox();
-      },
-    );
-  }
-
-  Widget _body(List<Brand> brands) {
     return Column(
       children: [
         ValueListenableBuilder<Brand?>(
           valueListenable: _changeBrandNotifier,
           builder: (_, initialBrand, __) {
-            return BrandSelectorAppBar(
-              brands: brands,
+            return AddOrderAppBar(
+              onBack: widget.onBack,
+              onCartTap: _gotoCart,
+              initialBrand: initialBrand,
               onChanged: (brand) {
                 _selectedBrand = brand;
                 _fetchMenus(brand);
               },
-              onBack: widget.onBack,
-              onCartTap: _gotoCart,
-              initialBrand: initialBrand,
             );
           },
         ),
+        Divider(color: AppColors.grey, thickness: 2.rh),
         Expanded(
           child: BlocBuilder<FetchAddOrderMenuItemsCubit, ResponseState>(
             builder: (context, state) {
@@ -130,7 +111,6 @@ class _AddOrderBodyState extends State<AddOrderBody> {
       ],
     );
   }
-
   void _gotoCart() {
     Navigator.of(context).push(
       MaterialPageRoute(

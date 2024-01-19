@@ -137,7 +137,7 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
                 },
               )
             : CheckboxListTile(
-          activeColor: AppColors.primary,
+                activeColor: AppColors.primary,
                 contentPadding: EdgeInsets.zero,
                 title: _title(value),
                 value: value.isSelected,
