@@ -19,6 +19,7 @@ import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/presentation/account/component/device_setting_view.dart';
 import 'package:klikit/modules/user/presentation/account/component/notification_setting_dialog.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
+import 'package:klikit/modules/widgets/negative_button.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
@@ -143,15 +144,7 @@ class _AccountScreenState extends State<AccountScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Expanded(
-                  child: KTButton(
-                    controller: KTButtonController(label: AppStrings.cancel.tr()),
-                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
-                    labelStyle: mediumTextStyle(),
-                    splashColor: AppColors.greyBright,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                  child: NegativeButton(negativeText: AppStrings.cancel.tr()),
                 ),
                 SizedBox(width: AppSize.s12.rw),
                 Expanded(

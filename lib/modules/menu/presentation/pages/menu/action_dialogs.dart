@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/modules/menu/presentation/cubit/update_menu_enabled_cubit.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
+import 'package:klikit/modules/widgets/negative_button.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 
@@ -70,15 +71,7 @@ void showMenuActionDialog({
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: KTButton(
-                    controller: KTButtonController(label: AppStrings.discard.tr()),
-                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
-                    labelStyle: mediumTextStyle(),
-                    splashColor: AppColors.greyBright,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                  child: NegativeButton(negativeText: AppStrings.discard.tr()),
                 ),
                 SizedBox(width: AppSize.s8.rw),
                 Expanded(
