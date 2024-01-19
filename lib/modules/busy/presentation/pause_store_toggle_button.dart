@@ -8,11 +8,7 @@ import 'package:klikit/core/widgets/kt_switch.dart';
 import 'package:klikit/core/widgets/popups.dart';
 
 import '../../../resources/colors.dart';
-import '../../../resources/fonts.dart';
 import '../../../resources/strings.dart';
-import '../../../resources/styles.dart';
-import '../../../resources/values.dart';
-import '../../widgets/app_button.dart';
 import '../domain/repository/pause_store_repository.dart';
 
 class PauseStoreToggleButton extends StatelessWidget {
@@ -59,84 +55,15 @@ class PauseStoreToggleButton extends StatelessWidget {
       controller: ValueNotifier<bool>(isBusy),
       activeColor: AppColors.errorR300,
       onChanged: (isBusy) {
-        _showPauseStoreConfirmDialog(
-          context,
-          isBusy,
-          () {
+        showActionablePopup(
+          context: context,
+          title: isBusy ? AppStrings.offline_title.tr() : AppStrings.online_title.tr(),
+          description: isBusy ? AppStrings.offline_message.tr() : AppStrings.online_message.tr(),
+          positiveText: isBusy ? AppStrings.go_offline.tr() : AppStrings.go_online.tr(),
+          isPositiveAction: !isBusy,
+          onAction: () {
             _updatePauseStore(context, isBusy);
           },
-        );
-      },
-    );
-  }
-
-  void _showPauseStoreConfirmDialog(BuildContext context, bool isBusy, VoidCallback onAction) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(AppSize.s16.rSp),
-            ),
-          ),
-          title: Text(
-            isBusy ? AppStrings.offline_title.tr() : AppStrings.online_title.tr(),
-            textAlign: TextAlign.center,
-            style: mediumTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s17.rSp,
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                isBusy ? AppStrings.offline_message.tr() : AppStrings.online_message.tr(),
-                textAlign: TextAlign.center,
-                style: regularTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
-            ],
-          ),
-          actionsPadding: EdgeInsets.only(
-            left: AppSize.s16.rw,
-            right: AppSize.s16.rw,
-            bottom: AppSize.s8.rh,
-          ),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: AppButton(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      onAction();
-                    },
-                    text: isBusy ? AppStrings.go_offline.tr() : AppStrings.go_online.tr(),
-                    color: isBusy ? AppColors.redDark : AppColors.green,
-                    borderColor: isBusy ? AppColors.redDark : AppColors.green,
-                  ),
-                ),
-                SizedBox(width: AppSize.s8.rw),
-                Expanded(
-                  child: AppButton(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    text: AppStrings.not_now.tr(),
-                    borderColor: AppColors.black,
-                    textColor: AppColors.black,
-                    color: AppColors.white,
-                  ),
-                ),
-              ],
-            ),
-          ],
         );
       },
     );

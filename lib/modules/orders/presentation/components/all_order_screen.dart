@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/common/oni_parameter_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
@@ -131,6 +132,7 @@ class _AllOrderScreenState extends State<AllOrderScreen> with FilterObserver {
   Widget build(BuildContext context) {
     return PagedListView<int, Order>.separated(
       pagingController: _pagingController!,
+      padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
       builderDelegate: PagedChildBuilderDelegate<Order>(
         itemBuilder: (context, item, index) {
           return OrderItemView(

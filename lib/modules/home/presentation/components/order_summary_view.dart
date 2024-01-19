@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/home/domain/entities/order_summary_overview.dart';
 import 'package:klikit/modules/home/presentation/cubit/order_summary_cubit.dart';
 import 'package:klikit/modules/orders/presentation/components/order_summary_card.dart';
@@ -36,45 +37,42 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.rh),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Order Summary',
-                style: boldTextStyle(color: AppColors.black, fontSize: 16.rSp),
-              ),
-              StatefulBuilder(
-                builder: (_, setState) {
-                  return FilterIconView(
-                    applied: _filterAppliedData != null,
-                    openFilterScreen: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => HomeFilterScreen(
-                            initData: _filterAppliedData,
-                            onApplyFilterCallback: (filteredData) {
-                              setState(() {
-                                _filterAppliedData = filteredData;
-                              });
-                              _fetchSummary();
-                            },
-                          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Order Summary',
+              style: boldTextStyle(color: AppColors.black, fontSize: 16.rSp),
+            ),
+            StatefulBuilder(
+              builder: (_, setState) {
+                return FilterIconView(
+                  applied: _filterAppliedData != null,
+                  openFilterScreen: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => HomeFilterScreen(
+                          initData: _filterAppliedData,
+                          onApplyFilterCallback: (filteredData) {
+                            setState(() {
+                              _filterAppliedData = filteredData;
+                            });
+                            _fetchSummary();
+                          },
                         ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         ),
         const Divider(),
         BlocBuilder<OrderSummaryCubit, ResponseState>(
           builder: (_, state) {
             if (state is Loading) {
-              return CircularProgressIndicator(color: AppColors.primary);
+              return const CircularProgress();
             } else if (state is Success<List<OrderSummaryOverview>>) {
               return Container(
                 color: AppColors.greyLight,
