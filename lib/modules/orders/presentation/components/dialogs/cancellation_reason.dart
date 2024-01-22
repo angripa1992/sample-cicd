@@ -10,6 +10,7 @@ import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/orders/presentation/components/dialogs/action_dialogs.dart';
+import 'package:klikit/modules/widgets/negative_button.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 
@@ -191,15 +192,7 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
         Row(
           children: [
             Expanded(
-              child: KTButton(
-                controller: KTButtonController(label: AppStrings.dismiss.tr()),
-                backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
-                labelStyle: mediumTextStyle(),
-                splashColor: AppColors.greyBright,
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+              child: NegativeButton(negativeText: AppStrings.dismiss.tr()),
             ),
             SizedBox(width: AppSize.s8.rw),
             Expanded(

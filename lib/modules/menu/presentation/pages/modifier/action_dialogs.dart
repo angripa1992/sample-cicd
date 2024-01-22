@@ -5,6 +5,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/modules/widgets/negative_button.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
@@ -90,15 +91,7 @@ void showUpdateModifierEnabledConfirmationDialog({
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: KTButton(
-                    controller: KTButtonController(label: AppStrings.discard.tr()),
-                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
-                    labelStyle: mediumTextStyle(),
-                    splashColor: AppColors.greyBright,
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                  child: NegativeButton(negativeText: AppStrings.discard.tr()),
                 ),
                 SizedBox(width: AppSize.s8.rw),
                 Expanded(
