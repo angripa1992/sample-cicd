@@ -24,7 +24,7 @@ class _DateFilterState extends State<DateFilter> {
 
   List<KTRadioValue> _filterItems() {
     final items = [
-      KTRadioValue(DateType.today, AppStrings.today.tr(), subTitle: AppStrings.braced_default.tr()),
+      KTRadioValue(DateType.today, AppStrings.today.tr(), subTitle: '(${AppStrings.default_label.tr()})'),
       KTRadioValue(DateType.yesterday, AppStrings.yesterday.tr()),
       KTRadioValue(DateType.lastWeek, AppStrings.last_week.tr()),
       KTRadioValue(DateType.lastMonth, AppStrings.last_month.tr()),
@@ -74,7 +74,7 @@ class _DateFilterState extends State<DateFilter> {
   void _setInitialValue() {
     if (widget.initialData == null) {
       _appliedDateFilterData = DateFilteredData(
-        selectedItem: KTRadioValue(DateType.today, AppStrings.today.tr(), subTitle: AppStrings.braced_default.tr()),
+        selectedItem: KTRadioValue(DateType.today, AppStrings.today.tr(), subTitle: '(${AppStrings.default_label.tr()})'),
         dateTimeRange: DateTimeRange(start: DateTime.now(), end: DateTime.now()),
       );
     } else {
