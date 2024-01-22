@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/core/widgets/filter/oni_filter_screen.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -60,7 +62,7 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Orders history',
+                AppStrings.order_history.tr(),
                 style: semiBoldTextStyle(
                   fontSize: 16.rSp,
                   color: AppColors.neutralB500,

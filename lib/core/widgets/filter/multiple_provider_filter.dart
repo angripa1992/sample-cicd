@@ -1,7 +1,9 @@
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/common/entities/provider.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../app/di.dart';
 import '../../../modules/common/business_information_provider.dart';
@@ -58,7 +60,7 @@ class _MultipleProviderFilterState extends State<MultipleProviderFilter> {
   @override
   Widget build(BuildContext context) {
     return CustomExpansionTile(
-      title: 'Providers',
+      title: AppStrings.providers.tr(),
       trailingIcon: Icons.add,
       expandedTrailingIcon: Icons.remove,
       color: AppColors.black,

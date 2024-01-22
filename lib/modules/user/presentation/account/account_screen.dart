@@ -223,7 +223,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       },
                     ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     Text(
-                      'Preferences',
+                      AppStrings.preferences.tr(),
                       style: semiBoldTextStyle(
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,
@@ -255,7 +255,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onTap: _onLanguageChange,
                     ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     Text(
-                      'Devices',
+                      AppStrings.devices.tr(),
                       style: semiBoldTextStyle(
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,

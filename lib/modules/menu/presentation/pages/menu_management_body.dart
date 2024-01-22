@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/session_manager.dart';
@@ -9,6 +10,7 @@ import 'package:klikit/core/widgets/filter/menu_filter_screen.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_screen.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/resource_resolver.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
 import 'menu_tabbar_view.dart';
@@ -51,7 +53,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
                   valueListenable: _tabChangeListener,
                   builder: (_, index, __) {
                     return Text(
-                      index == MenuTabIndex.MODIFIER ? 'Modifier List' : 'Menu List',
+                      index == MenuTabIndex.MODIFIER ? AppStrings.modifier_list.tr() : AppStrings.menu_list.tr(),
                       style: semiBoldTextStyle(
                         color: AppColors.black,
                         fontSize: 16.rSp,
@@ -122,7 +124,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.rw),
             child: Text(
-              'Select a brand and branch to seamlessly manage menus and modifiers',
+              AppStrings.brand_branch_empty_message.tr(),
               textAlign: TextAlign.center,
               style: mediumTextStyle(
                 color: AppColors.neutralB600,
