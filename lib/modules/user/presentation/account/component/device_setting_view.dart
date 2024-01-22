@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
@@ -118,6 +119,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                   context
                       .read<DeviceSettingCubit>()
                       .changeSunmiDeviceSetting(_device == Device.sunmi);
+                  getIt<AppPreferences>().setActiveDevice(_device!);
                 },
               );
             },
