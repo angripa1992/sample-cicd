@@ -4,6 +4,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/core/widgets/message_notifier.dart';
+import 'package:klikit/modules/widgets/negative_button.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -72,15 +73,7 @@ void showActionablePopup({
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: KTButton(
-                  controller: KTButtonController(label: negativeText ?? AppStrings.cancel.tr()),
-                  backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
-                  labelStyle: mediumTextStyle(),
-                  splashColor: AppColors.greyBright,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
+                child: NegativeButton(negativeText: negativeText),
               ),
               SizedBox(width: AppSize.s12.rw),
               Expanded(
