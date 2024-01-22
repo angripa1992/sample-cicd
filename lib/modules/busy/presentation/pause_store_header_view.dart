@@ -116,7 +116,7 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
                 onFinished: _fetchData,
               )
             : KTChip(
-                text: noOfPausedStore > 0 ? '$noOfPausedStore ${AppStrings.paused.tr()}' : 'Enabled',
+                text: noOfPausedStore > 0 ? '$noOfPausedStore ${AppStrings.paused.tr()}' : AppStrings.enabled.tr(),
                 textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
                 strokeColor: noOfPausedStore > 0 ? AppColors.errorR300 : AppColors.neutralB40,
                 backgroundColor: AppColors.white,

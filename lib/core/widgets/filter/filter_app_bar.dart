@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/base/kt_app_bar.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -14,7 +16,7 @@ class FilterAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return KTAppBar(
-      title: 'Filter',
+      title: AppStrings.filter.tr(),
       centerTitle: true,
       height: kToolbarHeight + AppSize.s6.rh,
       bottom: PreferredSize(
@@ -28,7 +30,7 @@ class FilterAppBar extends StatelessWidget implements PreferredSizeWidget {
         TextButton(
           onPressed: clearAll,
           child: Text(
-            'Clear all',
+            AppStrings.clear_all.tr(),
             style: semiBoldTextStyle(color: AppColors.primary),
           ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s16.rw),
         )

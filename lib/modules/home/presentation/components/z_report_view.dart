@@ -74,7 +74,7 @@ class _ZReportViewState extends State<ZReportView> {
           ),
           SizedBox(height: AppSize.s8.rh),
           Text(
-            'Select and download the Z Report for a detailed breakdown of your transactions.',
+            AppStrings.z_report_action_description.tr(),
             style: regularTextStyle(
               color: AppColors.neutralB300,
               fontSize: AppFontSize.s14.rSp,
