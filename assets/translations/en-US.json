@@ -354,7 +354,7 @@
   "z_report_action_description": "Select and download the Z Report for a detailed breakdown of your transactions.",
   "clear_all": "Clear all",
   "filter": "Filter",
-  "braced_default": "(Default)",
+  "default_label": "Default",
   "last_week": "Last Week",
   "last_month": "Last Month",
   "date": "Date",
