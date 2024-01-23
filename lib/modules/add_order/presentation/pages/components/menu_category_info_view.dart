@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
-
-import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
-import '../../../../../resources/styles.dart';
-import '../../../../../resources/values.dart';
-import '../../../../menu/domain/entities/menu/menu_categories.dart';
-import '../../../utils/available_time_provider.dart';
-import '../../../utils/color_provider.dart';
+import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
+import 'package:klikit/modules/add_order/utils/color_provider.dart';
+import 'package:klikit/modules/menu/domain/entities/menu/menu_categories.dart';
+import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/styles.dart';
 
 class MenuCategoryInfoView extends StatelessWidget {
   final MenuCategory category;
@@ -18,16 +15,13 @@ class MenuCategoryInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
+      margin: EdgeInsets.symmetric(horizontal: 8.rw),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+        borderRadius: BorderRadius.circular(8.rSp),
         color: CategoriesColorProvider().color(index),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: AppSize.s10.rh,
-          horizontal: AppSize.s12.rw,
-        ),
+        padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 12.rw),
         child: Row(
           children: [
             Expanded(
@@ -35,7 +29,7 @@ class MenuCategoryInfoView extends StatelessWidget {
                 category.title,
                 style: mediumTextStyle(
                   color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
+                  fontSize: 14.rSp,
                 ),
               ),
             ),
@@ -43,13 +37,13 @@ class MenuCategoryInfoView extends StatelessWidget {
               children: [
                 Icon(
                   Icons.access_time,
-                  size: AppSize.s16.rSp,
-                  color: AppColors.primary,
+                  size: 16.rSp,
+                  color: AppColors.black,
                 ),
-                SizedBox(width: AppSize.s4.rw),
+                SizedBox(width: 4.rw),
                 Text(
                   MenuAvailableTimeProvider().availableTime(category.availableTimes),
-                  style: regularTextStyle(color: AppColors.primary),
+                  style: regularTextStyle(color: AppColors.black, fontSize: 14.rSp),
                 ),
               ],
             ),

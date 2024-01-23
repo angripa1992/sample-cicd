@@ -3,32 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/cart/tag_title.dart';
+import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/widgets/app_button.dart';
 import 'package:klikit/resources/assets.dart';
 
-import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
-import '../../../../../../resources/strings.dart';
-import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
-import '../../../../utils/cart_manager.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
+import '../../../../../resources/styles.dart';
+import '../../../../../resources/values.dart';
 
-class TypeSelector extends StatefulWidget {
+class OrderTypeSelector extends StatefulWidget {
   final int initialType;
   final Function(int) onTypeChange;
 
-  const TypeSelector({
+  const OrderTypeSelector({
     Key? key,
     required this.initialType,
     required this.onTypeChange,
   }) : super(key: key);
 
   @override
-  State<TypeSelector> createState() => _TypeSelectorState();
+  State<OrderTypeSelector> createState() => _OrderTypeSelectorState();
 }
 
-class _TypeSelectorState extends State<TypeSelector> {
+class _OrderTypeSelectorState extends State<OrderTypeSelector> {
   final _types = [OrderType.DINE_IN, OrderType.PICKUP, OrderType.DELIVERY];
   int? _currentType;
 
@@ -39,7 +38,7 @@ class _TypeSelectorState extends State<TypeSelector> {
   }
 
   @override
-  void didUpdateWidget(covariant TypeSelector oldWidget) {
+  void didUpdateWidget(covariant OrderTypeSelector oldWidget) {
     setState(() {
       _currentType = widget.initialType;
     });
@@ -115,54 +114,83 @@ class _TypeSelectorState extends State<TypeSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        bottom: AppSize.s8.rh,
-        left: AppSize.s16.rw,
-        right: AppSize.s16.rw,
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s8.rw,
-        vertical: AppSize.s8.rh,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.white,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TagTitleView(title: AppStrings.order_type.tr(), required: true),
-          SizedBox(height: AppSize.s4.rh),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: AppSize.s8.rw,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          AppStrings.order_type.tr(),
+          style: semiBoldTextStyle(
+            color: AppColors.neutralB700,
+            fontSize: 16.rSp,
+          ),
+        ),
+        SizedBox(height: 16.rh),
+        Container(
+          padding: EdgeInsets.all(AppSize.s4.rSp),
+          decoration: BoxDecoration(
+            color: AppColors.greyLight,
+            borderRadius: BorderRadius.circular(AppSize.s12.rSp),
+          ),
+          child: Row(
             children: _types.map((type) {
-              return ChoiceChip(
-                label: Text(_typeName(type)),
-                avatar: Icon(
-                  _typeIcon(type),
-                  size: AppSize.s16.rSp,
-                  color: _currentType == type ? AppColors.white : AppColors.greyDarker,
-                ),
-                selected: _currentType == type,
-                selectedColor: AppColors.primary,
-                backgroundColor: AppColors.grey,
-                labelStyle: mediumTextStyle(
-                  color: _currentType == type ? AppColors.white : AppColors.greyDarker,
-                  fontSize: AppFontSize.s12.rSp,
-                ),
-                onSelected: (bool selected) {
+              return _typeItem(
+                name: _typeName(type),
+                type: type,
+                isSelected: _currentType == type,
+                onChanged: (type) {
+                  setState(() {
+                    _currentType = type;
+                  });
                   if (CartManager().items.isNotEmpty) {
-                    _showConfirmDialog(selected, type);
+                    _showConfirmDialog(_currentType == type, type);
                   } else {
-                    _changeOrderType(selected, type);
+                    _changeOrderType(_currentType == type, type);
                   }
                 },
               );
             }).toList(),
           ),
-        ],
+        ),
+      ],
+    );
+  }
+
+  Widget _typeItem({
+    required String name,
+    required int type,
+    required bool isSelected,
+    required Function(int) onChanged,
+  }) {
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          onChanged(type);
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          decoration: isSelected ? BoxDecoration(borderRadius: BorderRadius.circular(AppSize.s8.rSp), color: AppColors.white) : null,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  _typeIcon(type),
+                  size: AppSize.s16.rSp,
+                  color: isSelected ? AppColors.primary : AppColors.neutralB300,
+                ),
+                SizedBox(width: 4.rw),
+                Text(
+                  name,
+                  style: mediumTextStyle(
+                    color: isSelected ? AppColors.neutralB700 : AppColors.neutralB300,
+                    fontSize: AppFontSize.s14.rSp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

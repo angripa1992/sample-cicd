@@ -29,8 +29,8 @@ class CategoriesDropDown extends StatefulWidget {
 class _CategoriesDropDownState extends State<CategoriesDropDown> {
   MenuCategory? _dropDownValue;
   final _textStyle = mediumTextStyle(
-    color: AppColors.black,
-    fontSize: AppFontSize.s15.rSp,
+    color: AppColors.neutralB700,
+    fontSize: AppFontSize.s14.rSp,
   );
 
   int _getIndex(MenuCategory category) {
@@ -53,12 +53,10 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
   Widget build(BuildContext context) {
     return DropdownButton<MenuCategory>(
       value: _dropDownValue,
+      isDense: true,
       underline: const SizedBox(),
       borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-      icon: Icon(
-        Icons.arrow_drop_down,
-        color: AppColors.black,
-      ),
+      icon: Icon(Icons.arrow_drop_down,color: AppColors.neutralB700),
       hint: Center(
         child: Text(AppStrings.categories.tr(), style: _textStyle),
       ),
@@ -68,7 +66,10 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
             alignment: Alignment.centerLeft,
             child: Text(
               AppStrings.categories.tr(),
-              style: _textStyle,
+              style: semiBoldTextStyle(
+                color: AppColors.neutralB700,
+                fontSize: AppFontSize.s16.rSp,
+              ),
             ),
           );
         }).toList();
@@ -90,8 +91,7 @@ class _CategoriesDropDownState extends State<CategoriesDropDown> {
                 child: Row(
                   children: [
                     Expanded(child: Text(category.title, style: _textStyle)),
-                    if (_dropDownValue?.id == category.id)
-                      const Icon(Icons.check),
+                    if (_dropDownValue?.id == category.id) const Icon(Icons.check),
                   ],
                 ),
               ),

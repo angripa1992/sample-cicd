@@ -10,7 +10,7 @@ import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/cart/type_selector.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/order_type_selector.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
@@ -124,7 +124,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 Visibility(
                   visible: !CartManager().willUpdateOrder,
-                  child: TypeSelector(
+                  child: OrderTypeSelector(
                     initialType: _currentOrderType,
                     onTypeChange: (type) {
                       _currentOrderType = type;

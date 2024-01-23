@@ -38,7 +38,7 @@ dependencies:
   package_info_plus: ^3.0.2
   audioplayers: ^2.0.0
   permission_handler: ^10.3.0
-  flutter_pos_printer_platform: ^1.1.0
+  flutter_pos_printer_platform: 1.1.0
   percent_indicator: ^4.2.2
   device_info_plus: ^4.0.0
   geolocator: ^9.0.2
@@ -46,12 +46,12 @@ dependencies:
   badges: ^3.1.1
   flutter_expanded_tile: ^0.3.7
   flutter_easyloading: ^3.0.5
-  scrollable_list_tab_scroller: ^1.1.0
-  flutter_blue_plus: ^1.5.2
+  flutter_blue_plus: 1.5.2
   slack_logger: ^1.0.6
   crypto: ^3.0.2
   wakelock: ^0.6.2
   salesiq_mobilisten: ^3.1.1
+  scrollable_list_tab_scroller: 1.1.0
   # firebase
   firebase_core: ^2.11.0
   firebase_messaging: ^14.5.0

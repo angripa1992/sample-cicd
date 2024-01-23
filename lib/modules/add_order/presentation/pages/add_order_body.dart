@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
@@ -13,7 +14,6 @@ import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
 import '../../../../resources/strings.dart';
 import '../../../menu/domain/entities/menu/menu_categories.dart';
-import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../../widgets/snackbars.dart';
 import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
@@ -48,7 +48,6 @@ class _AddOrderBodyState extends State<AddOrderBody> {
         _gotoCart();
       });
     }
-    context.read<MenuBrandsCubit>().fetchMenuBrands();
     super.initState();
   }
 
@@ -70,13 +69,12 @@ class _AddOrderBodyState extends State<AddOrderBody> {
             );
           },
         ),
-        Divider(color: AppColors.grey, thickness: 2.rh),
+        Divider(color: AppColors.grey, thickness: 4.rh),
         Expanded(
           child: BlocBuilder<FetchAddOrderMenuItemsCubit, ResponseState>(
             builder: (context, state) {
               if (state is Loading) {
-                EasyLoading.show();
-                return const SizedBox();
+                return const Center(child: CircularProgress());
               } else if (state is Success<List<MenuCategory>>) {
                 EasyLoading.dismiss();
                 if (state.data.isEmpty) {
@@ -97,7 +95,6 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                   },
                 );
               }
-              EasyLoading.dismiss();
               return const EmptyBrandView();
             },
           ),
@@ -111,6 +108,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
       ],
     );
   }
+
   void _gotoCart() {
     Navigator.of(context).push(
       MaterialPageRoute(
