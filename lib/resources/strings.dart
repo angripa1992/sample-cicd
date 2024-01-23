@@ -382,7 +382,7 @@ class AppStrings {
   static const String order_summary = 'order_summary';
   static const String enabled = 'enabled';
   static const String gross_order_value = 'gross_order_value';
-  static const String discount_value = 'discount_value';
+  static const String discount_value = 'disount_value';
   static const String quick_actions = 'quick_actions';
   static const String z_report_action_description = 'z_report_action_description';
   static const String clear_all = 'clear_all';

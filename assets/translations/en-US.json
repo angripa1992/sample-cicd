@@ -349,7 +349,7 @@
   "order_summary": "Order Summary",
   "enabled": "Enabled",
   "gross_order_value": "Gross Order Value",
-  "discount_value": "Discount Value",
+  "disount_value": "Discount Value",
   "quick_actions": "Quick Actions",
   "z_report_action_description": "Select and download the Z Report for a detailed breakdown of your transactions.",
   "clear_all": "Clear all",
