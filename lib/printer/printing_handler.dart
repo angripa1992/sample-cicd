@@ -144,7 +144,7 @@ class PrintingHandler {
           final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
             roll: rollSize,
             printingType: PrintingType.manual,
-            isConsumerCopy: true,);
+            isConsumerCopy: type == DocketType.customer);
           await BluetoothPrinterHandler().print(printingData!,printerAddress);
         } else {
           final printingData = await _generateDocketTicket(
@@ -283,10 +283,8 @@ class PrintingHandler {
     if (SessionManager().getActiveDevice() == Device.imin) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
       final printerAddress = _preferences.getPrinterAddress();
-      print('print z-report on imin');
       final data = await ZReportDataProvider().generateTemplateData(model, reportDate);
       var printingData = await CommonZReportTemplate().generateZTicket( data: data,roll:rollSize );
-      print('printingData : $printingData');
       await BluetoothPrinterHandler().print(printingData,printerAddress);
     }
     else if (SessionManager().isSunmiDevice()) {
