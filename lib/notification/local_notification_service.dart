@@ -88,7 +88,6 @@ class LocalNotificationService {
     final notificationData =
         NotificationDataHandler().getNotificationData(payload);
 
-    _handleDocketPrinting(notificationData);
     final notificationType = int.parse(notificationData.type);
     final providerByteArrayAndroidBitmap =
         await getByteArrayAndroidBitmap(notificationData.providerUrl);
@@ -136,19 +135,5 @@ class LocalNotificationService {
     } else {
       return Int32List.fromList(<int>[32]);
     }
-  }
-  void _handleDocketPrinting(NotificationData notificationData) async {
-    final isNewOrder = notificationData.type.toInt() == NotificationOrderType.NEW;
-    if (!isNewOrder) {
-      return;
-    }
-    Future.delayed(const Duration(seconds: 2), () async {
-      final order = await NotificationDataHandler().getOrderById(
-        notificationData.orderId.toInt(),
-      );
-      if (order != null && order.status == OrderStatus.ACCEPTED) {
-        _printingHandler.printDocket(order: order, isAutoPrint: true);
-      }
-    });
   }
 }
