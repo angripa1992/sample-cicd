@@ -15,7 +15,6 @@ class MenuCategoryInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8.rw),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.rSp),
         color: CategoriesColorProvider().color(index),

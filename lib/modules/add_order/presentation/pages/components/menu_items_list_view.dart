@@ -81,7 +81,8 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
           ModifierManager().removeDisabledModifier(data);
           widget.onAddModifier(data, item, widget.brand!);
         } else {
-          _showItemDetails(context, item);
+          _addNonModifierItem(item, 1, '');
+          // _showItemDetails(context, item);
         }
       },
     );
@@ -193,12 +194,12 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
               ),
             ),
           ),
-          Divider(thickness: 8.rh, color: AppColors.grey),
+          Divider(thickness: 6.rh, color: AppColors.grey),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 8.rh),
+            padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 4.rh),
             child: SearchActionButtonView(onTap: _search),
           ),
-          Divider(thickness: 8.rh, color: AppColors.grey),
+          Divider(thickness: 6.rh, color: AppColors.grey),
         ],
       );
 
@@ -224,9 +225,15 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
         physics: const ClampingScrollPhysics(),
         itemCount: widget.categories.length,
         headerContainerBuilder: (context, widget) {
-          return Padding(
-            padding: EdgeInsets.only(bottom: 16.rh, left: 8.rw, right: 8.rw,top: 8.rh),
-            child: widget,
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.rw),
+                child: widget,
+              ),
+              SizedBox(height: 8.rh),
+              Divider(thickness: 6.rh, color: AppColors.grey),
+            ],
           );
         },
         tabBuilder: (BuildContext context, int index, bool active) {
@@ -242,16 +249,19 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
 
   Widget _menuItemList(int index, MenuCategory category) => Column(
         children: [
-          MenuCategoryInfoView(index: index, category: category),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 8.rw),
+            padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 8.rh),
+            child: MenuCategoryInfoView(index: index, category: category),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 12.rw),
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 mainAxisSpacing: AppSize.s10.rh,
-                childAspectRatio: ScreenSizes.isTablet ? 0.85 : 0.63,
+                childAspectRatio: ScreenSizes.isTablet ? 0.80 : 0.63,
               ),
               itemCount: category.items.length,
               itemBuilder: (BuildContext context, int index) {
@@ -261,6 +271,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
                   onAddItem: () {
                     _fetchModifier(category.items[index]);
                   },
+                  onRemoveItem: () {},
                 );
               },
             ),

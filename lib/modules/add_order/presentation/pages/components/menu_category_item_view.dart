@@ -1,12 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/menu_item_add_button.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/styles.dart';
 
 import '../../../../../app/enums.dart';
 import '../../../../../core/utils/price_calculator.dart';
-import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
-import '../../../../../resources/values.dart';
 import '../../../../menu/domain/entities/menu/menu_available_times.dart';
 import '../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../utils/available_time_provider.dart';
@@ -16,12 +18,14 @@ class MenuCategoryItemView extends StatelessWidget {
   final MenuCategoryItem menuItem;
   final MenuDay dayInfo;
   final VoidCallback onAddItem;
+  final VoidCallback onRemoveItem;
 
   const MenuCategoryItemView({
     Key? key,
     required this.menuItem,
     required this.dayInfo,
     required this.onAddItem,
+    required this.onRemoveItem,
   }) : super(key: key);
 
   MenuAvailability _checkAvailability() {
@@ -34,100 +38,74 @@ class MenuCategoryItemView extends StatelessWidget {
     }
   }
 
+  // onTap: availability == MenuAvailability.OUT_OF_STOCK ? null : onAddItem,
+
   @override
   Widget build(BuildContext context) {
     final availability = _checkAvailability();
-    final menuItemPrice = menuItem.klikitPrice();
-    return SizedBox(
-      width: AppSize.s100.rw,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        ),
-        child: Column(
-          children: [
-            InkWell(
-              onTap: availability == MenuAvailability.OUT_OF_STOCK ? null : onAddItem,
-              child: SizedBox(
-                height: AppSize.s100.rh,
-                child: Stack(
-                  alignment: AlignmentDirectional.center,
-                  clipBehavior: Clip.none,
-                  children: [
-                    MenuItemImageView(
-                      image: menuItem.image,
-                      availability: availability,
-                    ),
-                    Positioned(
-                      bottom: 8,
-                      child: Container(
-                        width: AppSize.s90.rw,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: AppColors.primary,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
-                          child: Text(
-                            PriceCalculator.formatPrice(
-                              price: menuItemPrice.advancePrice(CartManager().orderType),
-                              code: menuItemPrice.currencyCode,
-                              symbol: menuItemPrice.currencySymbol,
-                            ),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: AppFontSize.s12.rSp,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: -8,
-                      right: -4,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-                          color: AppColors.white,
-                        ),
-                        child: Icon(
-                          Icons.add_circle,
-                          size: AppSize.s28.rSp,
-                          color: availability == MenuAvailability.OUT_OF_STOCK ? AppColors.greyLight : AppColors.primary,
-                        ),
-                      ),
-                    )
-                  ],
+    return Container(
+      width: 100.rw,
+      padding: EdgeInsets.symmetric(horizontal: 4.rw),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 90.rh,
+            child: Stack(
+              alignment: AlignmentDirectional.center,
+              clipBehavior: Clip.none,
+              children: [
+                MenuItemImageView(
+                  image: menuItem.image,
+                  availability: availability,
                 ),
-              ),
+                if (availability == MenuAvailability.AVAILABLE)
+                  Positioned(
+                    bottom: 8,
+                    child: MenuItemAddCounterButton(
+                      menuItem: menuItem,
+                      onAdd: onAddItem,
+                      onRemove: onRemoveItem,
+                    ),
+                  ),
+              ],
             ),
-            InkWell(
-              onTap: availability == MenuAvailability.OUT_OF_STOCK ? null : onAddItem,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s4.rw,
-                  vertical: AppSize.s8.rh,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        menuItem.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    SizedBox(width: AppSize.s4.rw),
-                    Icon(Icons.info_outline, size: AppSize.s16.rSp),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+          _nameAndPrice(availability),
+        ],
       ),
+    );
+  }
+
+  Widget _nameAndPrice(MenuAvailability menuAvailability) {
+    final menuItemPrice = menuItem.klikitPrice();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.rh),
+          child: Text(
+            '${menuItem.title} ${menuItem.title} ${menuItem.title}',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: mediumTextStyle(
+              color: menuAvailability == MenuAvailability.AVAILABLE ? AppColors.neutralB700 : AppColors.blur,
+              fontSize: 14.rSp,
+            ),
+          ),
+        ),
+        Text(
+          PriceCalculator.formatPrice(
+            price: menuItemPrice.advancePrice(CartManager().orderType),
+            code: menuItemPrice.currencyCode,
+            symbol: menuItemPrice.currencySymbol,
+          ),
+          style: TextStyle(
+            color: menuAvailability == MenuAvailability.AVAILABLE ? AppColors.neutralB200 : AppColors.blur,
+            fontWeight: FontWeight.normal,
+            fontSize: 14.rSp,
+          ),
+        )
+      ],
     );
   }
 }

@@ -176,6 +176,7 @@ class _MenuSearchViewState extends State<MenuSearchView> {
                           onAddItem: () {
                             widget.onItemSelected(items[index]);
                           },
+                          onRemoveItem: () {},
                         );
                       },
                     );

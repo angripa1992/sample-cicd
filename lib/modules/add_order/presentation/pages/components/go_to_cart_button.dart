@@ -27,60 +27,39 @@ class GoToCartButton extends StatelessWidget {
             return InkWell(
               onTap: onGotoCart,
               child: Container(
-                margin: EdgeInsets.only(
-                  left: AppSize.s8.rw,
-                  right: AppSize.s8.rw,
-                  bottom: AppSize.s4.rh,
-                  top: AppSize.s4.rh,
-                ),
+                margin: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
+                padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                   color: AppColors.primary,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSize.s12.rw,
-                    vertical: AppSize.s8.rh,
-                  ),
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${value.noOfItem} ${AppStrings.items.tr()}',
-                            style: regularTextStyle(color: AppColors.white),
-                          ),
-                          SizedBox(height: AppSize.s2.rh),
-                          Text(
-                            PriceCalculator.formatPrice(
-                              price: value.totalPrice,
-                              code: value.code,
-                              symbol: value.currencySymbol,
-                            ),
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.w500,
-                              fontSize: AppFontSize.s16.rSp,
-                            ),
-                          ),
-                        ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${value.noOfItem} ${AppStrings.items.tr()}',
+                      style: regularTextStyle(color: AppColors.white,fontSize: 12.rSp),
+                    ),
+                    Text(
+                      'View Cart',
+                      style: mediumTextStyle(
+                        color: AppColors.white,
+                        fontSize: AppFontSize.s14.rSp,
                       ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          Text(
-                            AppStrings.go_to_cart.tr(),
-                            style: mediumTextStyle(
-                              color: AppColors.white,
-                              fontSize: AppFontSize.s14.rSp,
-                            ),
-                          ),
-                          Icon(Icons.arrow_right, color: AppColors.white),
-                        ],
+                    ),
+                    Text(
+                      PriceCalculator.formatPrice(
+                        price: value.totalPrice,
+                        code: value.code,
+                        symbol: value.currencySymbol,
                       ),
-                    ],
-                  ),
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.rSp,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );

@@ -167,6 +167,16 @@ class CartManager {
     return null;
   }
 
+  int numberOfAddedItem(int itemID) {
+    int nofOfItem = 0;
+    for (var item in _carts) {
+      if (item.item.id == itemID) {
+        nofOfItem += item.quantity;
+      }
+    }
+    return nofOfItem;
+  }
+
   int _noOfCartItem() {
     int nofOfItem = 0;
     for (var item in _carts) {
