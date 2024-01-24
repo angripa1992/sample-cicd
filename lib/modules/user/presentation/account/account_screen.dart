@@ -186,7 +186,7 @@ class _AccountScreenState extends State<AccountScreen> {
         BlocProvider(lazy: false, create: (_) => getIt.get<ConsumerProtectionCubit>()),
       ],
       child: Scaffold(
-        appBar: AppBar(title: Text(AppStrings.settings.tr()), elevation: 0, shadowColor: AppColors.greyBright),
+        appBar: AppBar(title: Text(AppStrings.account.tr()), elevation: 0, shadowColor: AppColors.greyBright),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
