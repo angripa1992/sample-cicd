@@ -17,15 +17,17 @@ import 'menu_item_image_view.dart';
 class MenuCategoryItemView extends StatelessWidget {
   final MenuCategoryItem menuItem;
   final MenuDay dayInfo;
-  final VoidCallback onAddItem;
-  final VoidCallback onRemoveItem;
+  final VoidCallback onAddNonModifierItem;
+  final VoidCallback onAddModifierItem;
+  final VoidCallback onRemoveNonModifierItem;
 
   const MenuCategoryItemView({
     Key? key,
     required this.menuItem,
     required this.dayInfo,
-    required this.onAddItem,
-    required this.onRemoveItem,
+    required this.onAddModifierItem,
+    required this.onAddNonModifierItem,
+    required this.onRemoveNonModifierItem,
   }) : super(key: key);
 
   MenuAvailability _checkAvailability() {
@@ -63,8 +65,9 @@ class MenuCategoryItemView extends StatelessWidget {
                     bottom: 8,
                     child: MenuItemAddCounterButton(
                       menuItem: menuItem,
-                      onAdd: onAddItem,
-                      onRemove: onRemoveItem,
+                      onAddModifierItem: onAddModifierItem,
+                      onAddNonModifierItem: onAddNonModifierItem,
+                      onRemoveNonModifierItem: onRemoveNonModifierItem,
                     ),
                   ),
               ],

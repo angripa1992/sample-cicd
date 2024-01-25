@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/modules/menu/data/mapper/modifierv2_to_modifier.dart';
 import 'package:klikit/modules/menu/data/mapper/price_mapper.dart';
 import 'package:klikit/modules/menu/data/models/menu/menu_v2_data.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
-import 'package:klikit/modules/menu/domain/entities/item_price.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_visibility.dart';
 
 import '../../domain/entities/menu/menu_available_times.dart';
@@ -133,6 +133,7 @@ MenuCategoryItem _v2ToMenuCategoryItem(
     outOfStock: _v2ToMenuOutOfStock(data.oos!),
     resources: data.resources?.map((e) => _v2ToMenuResource(e)).toList() ?? [],
     availableTimes: availableTimes,
+    groups: mapModifierV2ToModifier(data.groups, branchInfo),
   );
 }
 

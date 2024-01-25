@@ -1,9 +1,10 @@
-import 'package:klikit/app/constants.dart';
 import 'package:collection/collection.dart';
+import 'package:klikit/app/constants.dart';
+import 'package:klikit/modules/menu/domain/entities/modifier/modifier_group.dart';
 
+import '../item_price.dart';
 import 'menu_available_times.dart';
 import 'menu_branch_info.dart';
-import '../item_price.dart';
 import 'menu_out_of_stock.dart';
 import 'menu_resources.dart';
 import 'menu_visibility.dart';
@@ -26,6 +27,7 @@ class MenuCategoryItem {
   final List<MenuVisibility> visibilities;
   final MenuAvailableTimes availableTimes;
   final List<MenuResource>? resources;
+  final List<ModifierGroup> groups;
   final MenuBranchInfo branchInfo;
   bool enabled;
   MenuOutOfStock outOfStock;
@@ -50,6 +52,7 @@ class MenuCategoryItem {
     required this.outOfStock,
     required this.availableTimes,
     required this.branchInfo,
+    required this.groups,
     this.resources,
   });
 
@@ -57,9 +60,11 @@ class MenuCategoryItem {
 
   bool visible(int providerID) {
     final visibility = visibilities.firstWhereOrNull((element) => element.providerID == providerID);
-    if(visibility == null){
+    if (visibility == null) {
       return true;
     }
     return visibility.visible;
   }
+
+  bool haveModifier() => groups.isNotEmpty;
 }

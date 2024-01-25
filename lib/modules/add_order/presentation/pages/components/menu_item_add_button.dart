@@ -7,14 +7,16 @@ import 'package:klikit/resources/styles.dart';
 
 class MenuItemAddCounterButton extends StatelessWidget {
   final MenuCategoryItem menuItem;
-  final VoidCallback onAdd;
-  final VoidCallback onRemove;
+  final VoidCallback onAddNonModifierItem;
+  final VoidCallback onAddModifierItem;
+  final VoidCallback onRemoveNonModifierItem;
 
   const MenuItemAddCounterButton({
     super.key,
     required this.menuItem,
-    required this.onAdd,
-    required this.onRemove,
+    required this.onAddModifierItem,
+    required this.onAddNonModifierItem,
+    required this.onRemoveNonModifierItem,
   });
 
   @override
@@ -28,46 +30,66 @@ class MenuItemAddCounterButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.rSp),
             color: AppColors.white,
           ),
-          child: numberOfAddedItem > 0
-              ? Row(
-                  children: [
-                    IconButton(
-                      onPressed: onRemove,
-                      padding: EdgeInsets.symmetric(horizontal: 8.rw),
-                      constraints: const BoxConstraints(),
-                      icon: Icon(
-                        Icons.remove,
-                        color: AppColors.neutralB600,
-                      ),
-                    ),
-                    Text(
-                      '$numberOfAddedItem',
-                      style: semiBoldTextStyle(
-                        color: AppColors.neutralB500,
-                        fontSize: 14.rSp,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: onAdd,
-                      padding: EdgeInsets.symmetric(horizontal: 8.rw),
-                      constraints: const BoxConstraints(),
-                      icon: Icon(
-                        Icons.add,
-                        color: AppColors.neutralB600,
-                      ),
-                    ),
-                  ],
-                )
-              : IconButton(
-                  onPressed: onAdd,
-                  constraints: const BoxConstraints(),
-                  icon: Icon(
-                    Icons.add,
-                    color: AppColors.neutralB600,
-                  ),
-                ),
+          child: _getButtons(numberOfAddedItem),
         );
       },
     );
   }
+
+  Widget _getButtons(int count) {
+    if (count > 0 && menuItem.haveModifier()) {
+      return _modifierItemButton(count);
+    } else if (count > 0 && !menuItem.haveModifier()) {
+      return _nonModifierItemAddButton(count);
+    } else {
+      return _addButton();
+    }
+  }
+
+  Widget _addButton() => IconButton(
+        onPressed: () {
+          if (menuItem.haveModifier()) {
+            onAddModifierItem();
+          } else {
+            onAddNonModifierItem();
+          }
+        },
+        constraints: const BoxConstraints(),
+        icon: Icon(
+          Icons.add,
+          color: AppColors.neutralB600,
+        ),
+      );
+
+  Widget _modifierItemButton(int count) => TextButton(onPressed: onAddModifierItem, child: Text('$count'));
+
+  Widget _nonModifierItemAddButton(int count) => Row(
+        children: [
+          IconButton(
+            onPressed: onRemoveNonModifierItem,
+            padding: EdgeInsets.symmetric(horizontal: 8.rw),
+            constraints: const BoxConstraints(),
+            icon: Icon(
+              Icons.remove,
+              color: AppColors.neutralB600,
+            ),
+          ),
+          Text(
+            '$count',
+            style: semiBoldTextStyle(
+              color: AppColors.neutralB500,
+              fontSize: 14.rSp,
+            ),
+          ),
+          IconButton(
+            onPressed: onAddNonModifierItem,
+            padding: EdgeInsets.symmetric(horizontal: 8.rw),
+            constraints: const BoxConstraints(),
+            icon: Icon(
+              Icons.add,
+              color: AppColors.neutralB600,
+            ),
+          ),
+        ],
+      );
 }

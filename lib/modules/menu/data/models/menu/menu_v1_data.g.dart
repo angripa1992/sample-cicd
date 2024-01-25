@@ -154,78 +154,6 @@ Map<String, dynamic> _$MenuV1SnoozeModelToJson(MenuV1SnoozeModel instance) =>
       'duration': instance.duration,
     };
 
-MenuV1ItemsModel _$MenuV1ItemsModelFromJson(Map<String, dynamic> json) =>
-    MenuV1ItemsModel(
-      id: json['id'] as int?,
-      title: json['title'] as String?,
-      prices: (json['prices'] as List<dynamic>?)
-          ?.map((e) => V1PricesModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vat: json['vat'] as int?,
-      description: json['description'] as String?,
-      image: json['image'] as String?,
-      enabled: json['enabled'] as bool?,
-      hidden: json['hidden'] as bool?,
-      statuses: (json['statuses'] as List<dynamic>?)
-          ?.map((e) => MenuV1StatusesModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      sequence: json['sequence'] as int?,
-      defaultItemId: json['default_item_id'] as int?,
-      stock: json['stock'] == null
-          ? null
-          : MenuV1StockModel.fromJson(json['stock'] as Map<String, dynamic>),
-      skuID: json['sku_id'] as String?,
-    );
-
-Map<String, dynamic> _$MenuV1ItemsModelToJson(MenuV1ItemsModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'prices': instance.prices,
-      'vat': instance.vat,
-      'description': instance.description,
-      'image': instance.image,
-      'enabled': instance.enabled,
-      'hidden': instance.hidden,
-      'statuses': instance.statuses,
-      'sequence': instance.sequence,
-      'stock': instance.stock,
-      'default_item_id': instance.defaultItemId,
-      'sku_id': instance.skuID,
-    };
-
-MenuV1SubSectionsModel _$MenuV1SubSectionsModelFromJson(
-        Map<String, dynamic> json) =>
-    MenuV1SubSectionsModel(
-      id: json['id'] as int?,
-      title: json['title'] as String?,
-      description: json['description'] as String?,
-      enabled: json['enabled'] as bool?,
-      hidden: json['hidden'] as bool?,
-      alcBeverages: json['alc_beverages'] as bool?,
-      statuses: (json['statuses'] as List<dynamic>?)
-          ?.map((e) => MenuV1StatusesModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      sequence: json['sequence'] as int?,
-      items: (json['items'] as List<dynamic>?)
-          ?.map((e) => MenuV1ItemsModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$MenuV1SubSectionsModelToJson(
-        MenuV1SubSectionsModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'description': instance.description,
-      'enabled': instance.enabled,
-      'hidden': instance.hidden,
-      'alc_beverages': instance.alcBeverages,
-      'statuses': instance.statuses,
-      'sequence': instance.sequence,
-      'items': instance.items,
-    };
-
 MenuV1SectionsModel _$MenuV1SectionsModelFromJson(Map<String, dynamic> json) =>
     MenuV1SectionsModel(
       id: json['id'] as int?,
@@ -263,4 +191,80 @@ Map<String, dynamic> _$MenuV1SectionsModelToJson(
       'statuses': instance.statuses,
       'sequence': instance.sequence,
       'sub-sections': instance.subSections,
+    };
+
+MenuV1SubSectionsModel _$MenuV1SubSectionsModelFromJson(
+        Map<String, dynamic> json) =>
+    MenuV1SubSectionsModel(
+      id: json['id'] as int?,
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      enabled: json['enabled'] as bool?,
+      hidden: json['hidden'] as bool?,
+      alcBeverages: json['alc_beverages'] as bool?,
+      statuses: (json['statuses'] as List<dynamic>?)
+          ?.map((e) => MenuV1StatusesModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sequence: json['sequence'] as int?,
+      items: (json['items'] as List<dynamic>?)
+          ?.map((e) => MenuV1ItemsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$MenuV1SubSectionsModelToJson(
+        MenuV1SubSectionsModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'description': instance.description,
+      'enabled': instance.enabled,
+      'hidden': instance.hidden,
+      'alc_beverages': instance.alcBeverages,
+      'statuses': instance.statuses,
+      'sequence': instance.sequence,
+      'items': instance.items,
+    };
+
+MenuV1ItemsModel _$MenuV1ItemsModelFromJson(Map<String, dynamic> json) =>
+    MenuV1ItemsModel(
+      id: json['id'] as int?,
+      title: json['title'] as String?,
+      prices: (json['prices'] as List<dynamic>?)
+          ?.map((e) => V1PricesModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vat: json['vat'] as int?,
+      description: json['description'] as String?,
+      image: json['image'] as String?,
+      enabled: json['enabled'] as bool?,
+      hidden: json['hidden'] as bool?,
+      statuses: (json['statuses'] as List<dynamic>?)
+          ?.map((e) => MenuV1StatusesModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sequence: json['sequence'] as int?,
+      defaultItemId: json['default_item_id'] as int?,
+      stock: json['stock'] == null
+          ? null
+          : MenuV1StockModel.fromJson(json['stock'] as Map<String, dynamic>),
+      skuID: json['sku_id'] as String?,
+      groups: (json['groups'] as List<dynamic>?)
+          ?.map((e) => V1ModifierGroupModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$MenuV1ItemsModelToJson(MenuV1ItemsModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'prices': instance.prices,
+      'vat': instance.vat,
+      'description': instance.description,
+      'image': instance.image,
+      'enabled': instance.enabled,
+      'hidden': instance.hidden,
+      'statuses': instance.statuses,
+      'sequence': instance.sequence,
+      'stock': instance.stock,
+      'default_item_id': instance.defaultItemId,
+      'sku_id': instance.skuID,
+      'groups': instance.groups,
     };

@@ -1,6 +1,7 @@
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
+import 'package:klikit/modules/menu/data/mapper/modifierv1_to_modifier.dart';
 import 'package:klikit/modules/menu/data/mapper/price_mapper.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_available_times.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_branch_info.dart';
@@ -126,6 +127,7 @@ MenuCategoryItem _menuV1ItemToMenuItem(
     sequence: data.sequence.orZero(),
     outOfStock: _menuV1StockModelToMenuOutOfStock(data.stock!),
     availableTimes: availableTimes,
+    groups: mapModifierV1ToModifier(data.groups),
   );
 }
 

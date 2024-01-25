@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dropdown/select_categories_dropdown.dart';
@@ -77,13 +78,8 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
       },
       (data) {
         EasyLoading.dismiss();
-        if (data.isNotEmpty) {
-          ModifierManager().removeDisabledModifier(data);
-          widget.onAddModifier(data, item, widget.brand!);
-        } else {
-          _addNonModifierItem(item, 1, '');
-          // _showItemDetails(context, item);
-        }
+        ModifierManager().removeDisabledModifier(data);
+        widget.onAddModifier(data, item, widget.brand!);
       },
     );
   }
@@ -144,8 +140,14 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
             Navigator.pop(context);
             widget.onCartTap();
           },
-          onItemSelected: (selectedMenuItem) {
+          onAddModifierItem: (selectedMenuItem) {
             _fetchModifier(selectedMenuItem);
+          },
+          onAddNonModifierItem: (selectedMenuItem) {
+            _addNonModifierItem(selectedMenuItem, 1, EMPTY);
+          },
+          onRemoveNonModifierItem: (selectedMenuItem) {
+            CartManager().removeNonModifierItemFromCart(selectedMenuItem.id);
           },
         ),
       ),
@@ -268,10 +270,15 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
                 return MenuCategoryItemView(
                   menuItem: category.items[index],
                   dayInfo: MenuAvailableTimeProvider().findCurrentDay(category.availableTimes),
-                  onAddItem: () {
+                  onAddNonModifierItem: () {
+                    _addNonModifierItem(category.items[index], 1, EMPTY);
+                  },
+                  onAddModifierItem: () {
                     _fetchModifier(category.items[index]);
                   },
-                  onRemoveItem: () {},
+                  onRemoveNonModifierItem: () {
+                    CartManager().removeNonModifierItemFromCart(category.items[index].id);
+                  },
                 );
               },
             ),

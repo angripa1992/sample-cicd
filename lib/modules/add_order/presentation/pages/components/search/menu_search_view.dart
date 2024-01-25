@@ -20,7 +20,9 @@ class MenuSearchView extends StatefulWidget {
   final VoidCallback goToCart;
   final List<MenuCategory> categories;
   final Function(int) onCategorySelected;
-  final Function(MenuCategoryItem) onItemSelected;
+  final Function(MenuCategoryItem) onAddNonModifierItem;
+  final Function(MenuCategoryItem) onAddModifierItem;
+  final Function(MenuCategoryItem) onRemoveNonModifierItem;
 
   const MenuSearchView({
     Key? key,
@@ -28,7 +30,9 @@ class MenuSearchView extends StatefulWidget {
     required this.onBack,
     required this.onCategorySelected,
     required this.goToCart,
-    required this.onItemSelected,
+    required this.onAddModifierItem,
+    required this.onAddNonModifierItem,
+    required this.onRemoveNonModifierItem,
   }) : super(key: key);
 
   @override
@@ -173,10 +177,15 @@ class _MenuSearchViewState extends State<MenuSearchView> {
                         return MenuCategoryItemView(
                           menuItem: items[index],
                           dayInfo: MenuAvailableTimeProvider().findCurrentDay(items[index].availableTimes),
-                          onAddItem: () {
-                            widget.onItemSelected(items[index]);
+                          onAddNonModifierItem: () {
+                            widget.onAddNonModifierItem(items[index]);
                           },
-                          onRemoveItem: () {},
+                          onAddModifierItem: () {
+                            widget.onAddModifierItem(items[index]);
+                          },
+                          onRemoveNonModifierItem: () {
+                            widget.onRemoveNonModifierItem(items[index]);
+                          },
                         );
                       },
                     );
