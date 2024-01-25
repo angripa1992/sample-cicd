@@ -140,13 +140,4 @@ class LocalNotificationService {
       return Int32List.fromList(<int>[32]);
     }
   }
-
-  void handlePrintingOnBackground({required Map<String, dynamic> payload}) async {
-
-    final notificationData =
-    NotificationDataHandler().getNotificationData(payload);
-    List<int>? data = await CommonDesignTemplate().generateSample(roll: Roll.mm58, id: notificationData.orderId.toInt());
-    await BluetoothPrinterHandler().printDocketWithAutoConnect(data!);
-
-  }
 }

@@ -22,7 +22,6 @@ class AppPreferences {
   final String _kSunmiDevice = "sunmi_device";
   final String _activeDevice = "active_device";
   final String _printerAddress = "printer_address";
-  final String _printerIpAddress = "printer_ip_address";
   AppPreferences(this._preferences);
 
   void insertAccessToken(String? token) {
@@ -153,12 +152,5 @@ class AppPreferences {
     await _preferences.remove(_kUser);
     await _preferences.remove(_kPrinterSetting);
     await _preferences.remove(_kNotificationSetting);
-  }
-
-  Future<void> setPrinterIpAddress(String ip) async {
-    await _preferences.setString(_printerIpAddress, ip);
-  }
-  String? getPrinterIpAddress() {
-    return _preferences.getString(_printerIpAddress);
   }
 }

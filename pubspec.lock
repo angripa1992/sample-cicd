@@ -354,9 +354,11 @@ packages:
   docket_design_template:
     dependency: "direct main"
     description:
-      path: "/Users/user/workspace/klikit/projects/docket_design_template"
-      relative: false
-    source: path
+      path: "."
+      ref: "feature/printer-setting"
+      resolved-ref: "4d33de13b55ad970b7d9ed6d9ed3cace452052d3"
+      url: "https://github.com/klikit/docket_design_template.git"
+    source: git
     version: "0.0.1"
   easy_debounce:
     dependency: transitive

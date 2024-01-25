@@ -79,7 +79,7 @@ class PrinterDataProvider {
       customFeeTitle: branchInfo?.webshopCustomFeesTitle ?? 'Packaging Fee',
       mergeFeeTitle: branchInfo?.mergeFeeTitle ?? EMPTY,
       mergeFeeEnabled: branchInfo?.mergeFeeEnabled ?? false,
-      // roundOffAmount: order.roundOffAmount,
+      roundOffAmount: order.roundOffAmount,
       fulfillmentRider: order.fulfillmentRider != null
           ? RiderInfo(
               name: order.fulfillmentRider?.name,

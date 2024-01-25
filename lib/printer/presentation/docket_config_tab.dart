@@ -49,7 +49,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   late ValueNotifier<int> _connectionStateListener;
   final _showDevicesController = KTButtonController(label: AppStrings.show_devices.tr());
   final _saveButtonController = KTButtonController(label: AppStrings.save.tr());
-  late String _printerIpAddress;
 
   @override
   void initState() {
@@ -74,7 +73,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     _kitchenCopyCount = printerSetting.kitchenCopyCount;
     _printerFontId = printerSetting.fontId;
     _connectionStateListener = ValueNotifier(_connectionType);
-    _printerIpAddress=_appPreferences.getPrinterIpAddress()??'';
   }
 
   void _savePrinterSettingLocally({PrinterSetting? savingData}) async {
@@ -88,7 +86,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   }
 
   void _updatePrinterSetting() {
-    _appPreferences.setPrinterIpAddress(_printerIpAddress);
     context.read<UpdatePrinterSettingCubit>().updatePrintSetting(
           printerSetting: _createPrinterSettingFromLocalVariables(true),
         );
@@ -194,12 +191,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                     onChanged: (type) {
                       _connectionType = type;
                       _connectionStateListener.value = type;
-                    },
-                  ),
-                  SetPrinterAddressText(
-                    address: _printerIpAddress,
-                    onSaved: (txt){
-                      _printerIpAddress = txt;
                     },
                   ),
                   SizedBox(height: 4.rh),
