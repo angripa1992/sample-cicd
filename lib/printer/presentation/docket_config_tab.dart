@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -18,8 +17,6 @@ import 'package:klikit/printer/presentation/set_printer_connection_type.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
 import 'package:klikit/resources/decorations.dart';
-import 'package:klikit/resources/fonts.dart';
-import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -130,61 +127,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    color: AppColors.white,
-                    padding: EdgeInsets.all(13.rSp),
-                    child: Row(
-                      children: [
-                        DecoratedImageView(
-                          iconWidget: ImageResourceResolver.printerSVG.getImageWidget(
-                            height: 20.rh,
-                            width: 20.rw,
-                            color: AppColors.primaryP300,
-                          ),
-                          padding: EdgeInsets.all(6.rSp),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryLighter,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(200.rSp),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 12.rw),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Test Print',
-                                style: semiBoldTextStyle(fontSize: AppFontSize.s14.rSp, color: AppColors.black),
-                              ),
-                              Text(
-                                'Test your printing connectivity',
-                                style: regularTextStyle(
-                                  color: AppColors.neutralB100,
-                                  fontSize: AppFontSize.s12.rSp,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        KTButton(
-                          controller: KTButtonController(label: 'Test Print'),
-                          backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP50),
-                          prefixWidget: SizedBox(
-                            width: 20.rw,
-                          ),
-                          labelStyle: mediumTextStyle(color: AppColors.primaryP300),
-                          suffixWidget: SizedBox(
-                            width: 20.rw,
-                          ),
-                          onTap: () {},
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 4.rh),
                   SetPrinterConnectionType(
                     initType: _connectionType,
                     willUsbEnabled: true,

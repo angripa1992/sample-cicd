@@ -74,7 +74,7 @@ class _ZReportViewState extends State<ZReportView> {
           ),
           SizedBox(height: AppSize.s8.rh),
           Text(
-            'Select and download the Z Report for a detailed breakdown of your transactions.',
+            AppStrings.z_report_action_description.tr(),
             style: regularTextStyle(
               color: AppColors.neutralB300,
               fontSize: AppFontSize.s14.rSp,
@@ -133,11 +133,8 @@ class _ZReportViewState extends State<ZReportView> {
                   builder: (ct, state) {
                     return KTButton(
                       controller: generateButtonController,
-                      prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(
-                        width: 18.rw,
-                        height: 18.rh,
-                        color: AppColors.neutralB700,
-                      ),
+                      prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(width: 18.rw, height: 18.rh, color: AppColors.neutralB700),
+                      verticalContentPadding: AppSize.s10.rh,
                       backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                       labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                       splashColor: AppColors.greyBright,

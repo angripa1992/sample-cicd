@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../resources/styles.dart';
 
@@ -43,9 +45,13 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         initiallyExpanded: widget.initiallyExpanded,
+        backgroundColor: AppColors.white,
+        collapsedBackgroundColor: AppColors.white,
+        childrenPadding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, bottom: AppSize.s4.rh),
+        tilePadding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, bottom: AppSize.s4.rh),
         title: Text(
           widget.title,
-          style: mediumTextStyle(
+          style: semiBoldTextStyle(
             color: _isExpanded ? widget.expandedColor : widget.color,
             fontSize: AppFontSize.s16.rSp,
           ),

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/provider_advanced_price.dart';
 
@@ -99,6 +100,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                       ),
                     ),
                   ),
+                  AppSize.s8.horizontalSpacer(),
                   if (UserPermissionManager().canOosMenu())
                     MenuSnoozeView(
                       menuCategoryItem: widget.menuCategoryItem,
@@ -107,7 +109,7 @@ class _MenuItemDetailsState extends State<MenuItemDetails> {
                       parentEnabled: widget.parentEnabled,
                       onMenuItemSnoozeChanged: _onItemSnoozeChanged,
                       onMenuEnabledChanged: _onEnabledChanged,
-                    ),
+                    ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
                   MenuSwitchView(
                     menuVersion: widget.menuCategoryItem.menuVersion,
                     id: widget.menuCategoryItem.id,

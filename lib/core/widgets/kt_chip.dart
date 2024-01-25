@@ -41,12 +41,16 @@ class KTChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius ?? AppSize.s60.rSp),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           if (leadingIcon != null) (leadingIcon!),
           if (leadingIcon != null) SizedBox(width: AppSize.s4.rw),
           Flexible(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
@@ -54,7 +58,7 @@ class KTChip extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: textStyle,
                 ),
-                textHelperTrailingWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s4),
+                textHelperTrailingWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
               ],
             ),
           ),

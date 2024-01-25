@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/session_manager.dart';
@@ -9,6 +10,7 @@ import 'package:klikit/core/widgets/filter/menu_filter_screen.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_screen.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/resource_resolver.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
 import 'menu_tabbar_view.dart';
@@ -36,15 +38,13 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.only(top: 12.rh, bottom: 8.rh, left: 12.rw, right: 12.rw),
-          child: MenuTabBarView(
-            onChanged: (index) {
-              _tabChangeListener.value = index;
-            },
-          ),
+        MenuTabBarView(
+          onChanged: (index) {
+            _tabChangeListener.value = index;
+          },
         ),
-        Padding(
+        Container(
+          color: AppColors.white,
           padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 16.rw),
           child: Row(
             children: [
@@ -53,7 +53,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
                   valueListenable: _tabChangeListener,
                   builder: (_, index, __) {
                     return Text(
-                      index == MenuTabIndex.MODIFIER ? 'Modifier List' : 'Menu List',
+                      index == MenuTabIndex.MODIFIER ? AppStrings.modifier_list.tr() : AppStrings.menu_list.tr(),
                       style: semiBoldTextStyle(
                         color: AppColors.black,
                         fontSize: 16.rSp,
@@ -85,7 +85,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
             ],
           ),
         ),
-        Divider(color: AppColors.neutralB40),
+        Divider(thickness: 0.5, height: 0, color: AppColors.neutralB40),
         ValueListenableBuilder<int>(
           valueListenable: _tabChangeListener,
           builder: (_, index, __) {
@@ -120,14 +120,14 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ImageResourceResolver.emptyMenuPNG.getImageWidget(width: 100.rSp, height: 100.rSp),
+          ImageResourceResolver.emptyMenuPNG.getImageWidget(width: 131.rSp, height: 131.rSp),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.rw),
             child: Text(
-              ' Select a brand and branch to seamlessly manage menus and modifiers',
+              AppStrings.brand_branch_empty_message.tr(),
               textAlign: TextAlign.center,
               style: mediumTextStyle(
-                color: AppColors.black,
+                color: AppColors.neutralB600,
                 fontSize: 14.rSp,
               ),
             ),

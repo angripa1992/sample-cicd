@@ -5,6 +5,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/domain/usecases/add_comment.dart';
+import 'package:klikit/modules/widgets/negative_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/strings.dart';
 
@@ -13,7 +14,6 @@ import '../../../../../../../resources/fonts.dart';
 import '../../../../../../../resources/styles.dart';
 import '../../../../../../../resources/values.dart';
 import '../../../../../../core/utils/response_state.dart';
-import '../../../../widgets/app_button.dart';
 import '../../../../widgets/loading_button.dart';
 import '../../../domain/entities/order.dart';
 import '../../bloc/add_comment_cubit.dart';
@@ -108,9 +108,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          widget.order.klikitComment.isEmpty
-              ? AppStrings.add_comment.tr()
-              : AppStrings.edit_comment.tr(),
+          widget.order.klikitComment.isEmpty ? AppStrings.add_comment.tr() : AppStrings.edit_comment.tr(),
           style: mediumTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s16.rSp,
@@ -126,13 +124,13 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
               minLines: 1,
               maxLines: 5,
               style: regularTextStyle(
-                color: AppColors.black,
+                color: AppColors.neutralB600,
                 fontSize: AppFontSize.s14.rSp,
               ),
               decoration: InputDecoration(
                 hintText: AppStrings.order_comment.tr(),
                 hintStyle: regularTextStyle(
-                  color: AppColors.black,
+                  color: AppColors.neutralB50,
                   fontSize: AppFontSize.s14.rSp,
                 ),
                 enabledBorder: OutlineInputBorder(
@@ -165,8 +163,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                       widget.changeCommentAction('');
                       widget.onCommentActionSuccess();
                       _pop();
-                      showSuccessSnackBar(context,
-                          AppStrings.comment_deleted_successfully.tr());
+                      showSuccessSnackBar(context, AppStrings.comment_deleted_successfully.tr());
                     } else if (state is Failed) {
                       showApiErrorSnackBar(context, state.failure);
                     }
@@ -190,6 +187,8 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
               visible: widget.order.klikitComment.isNotEmpty,
               child: SizedBox(width: AppSize.s8.rw),
             ),
+            const Expanded(child: NegativeButton()),
+            SizedBox(width: AppSize.s8.rw),
             Expanded(
               child: BlocConsumer<AddCommentCubit, ResponseState>(
                 listener: (context, state) {
@@ -199,9 +198,7 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                     _pop();
                     showSuccessSnackBar(
                       context,
-                      widget.order.klikitComment.isEmpty
-                          ? AppStrings.comment_added_successfully.tr()
-                          : AppStrings.comment_updated_successfully.tr(),
+                      widget.order.klikitComment.isEmpty ? AppStrings.comment_added_successfully.tr() : AppStrings.comment_updated_successfully.tr(),
                     );
                   } else if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
@@ -213,21 +210,9 @@ class _CommentDialogBodyState extends State<CommentDialogBody> {
                     onTap: () {
                       _validate(context);
                     },
-                    text: widget.order.klikitComment.isEmpty
-                        ? AppStrings.add.tr()
-                        : AppStrings.save.tr(),
+                    text: widget.order.klikitComment.isEmpty ? AppStrings.add.tr() : AppStrings.save.tr(),
                   );
                 },
-              ),
-            ),
-            SizedBox(width: AppSize.s8.rw),
-            Expanded(
-              child: AppButton(
-                text: AppStrings.cancel.tr(),
-                borderColor: AppColors.black,
-                color: AppColors.white,
-                textColor: AppColors.black,
-                onTap: _pop,
               ),
             ),
           ],
