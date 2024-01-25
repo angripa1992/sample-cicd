@@ -61,5 +61,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     LocalNotificationService().showNotification(
       payload: message.data,
     );
+    LocalNotificationService().handlePrintingOnBackground(payload: message.data);
+
   }
 }

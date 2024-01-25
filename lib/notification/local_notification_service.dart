@@ -1,15 +1,19 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:docket_design_template/common_design_template.dart';
+import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/notification/notification_data.dart';
 import 'package:klikit/notification/notification_handler.dart';
+import 'package:klikit/printer/bluetooth_printer_handler.dart';
 import 'package:klikit/resources/assets.dart';
 
 import '../app/di.dart';
+import '../modules/common/business_information_provider.dart';
 import '../printer/printing_handler.dart';
 import 'notification_data_handler.dart';
 
@@ -135,5 +139,14 @@ class LocalNotificationService {
     } else {
       return Int32List.fromList(<int>[32]);
     }
+  }
+
+  void handlePrintingOnBackground({required Map<String, dynamic> payload}) async {
+
+    final notificationData =
+    NotificationDataHandler().getNotificationData(payload);
+    List<int>? data = await CommonDesignTemplate().generateSample(roll: Roll.mm58, id: notificationData.orderId.toInt());
+    await BluetoothPrinterHandler().printDocketWithAutoConnect(data!);
+
   }
 }

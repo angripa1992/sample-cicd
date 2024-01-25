@@ -45,18 +45,26 @@ class BluetoothPrinterHandler {
       return false;
     }
   }
-
   Future<void> printDocket(List<int> data) async {
     try {
-      if(!isConnected()){
+      await PrinterManager.instance
+          .send(type: PrinterType.bluetooth, bytes: data);
+    } on PlatformException {
+      //ignored
+    }
 
+  }
+  Future<void> printDocketWithAutoConnect(List<int> data) async {
+    try {
+      if(!isConnected()){
+        connect(PrinterDevice(name: 'InnerPrinter',address: '00:11:22:33:44:55'));
       }
       await PrinterManager.instance
           .send(type: PrinterType.bluetooth, bytes: data);
     } on PlatformException catch (e){
       debugPrint(e.stacktrace);
       //ignored
-    }
+    } finally {}
 
   }
 

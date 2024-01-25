@@ -77,15 +77,17 @@ class PrintingHandler {
   }
 
   void printDocket({required Order order, bool isAutoPrint = false, bool willPrintSticker = true}) async {
-
-    if (await _isPermissionGranted()) {
-      if (SessionManager().printerIpAddress().isNotEmpty) {
-        if (isAutoPrint) {
-          await _ipAutoPrint(order);
-        } else {
-          _ipManualPrint(order);
-        }
+    // print('ip address : ${SessionManager().printerIpAddress()}');
+    if (SessionManager().printerIpAddress().isNotEmpty) {
+      if (isAutoPrint) {
+        await _ipAutoPrint(order);
+      } else {
+        _ipManualPrint(order);
       }
+      return;
+    }
+    if (await _isPermissionGranted()) {
+
       if (SessionManager().isSunmiDevice()) {
         if (isAutoPrint) {
           await _sunmiAutoPrint(order);
@@ -375,44 +377,52 @@ class PrintingHandler {
   }
 
   Future<void> _ipAutoPrint(Order order) async {
+
     final printerSetting = _preferences.printerSetting();
     final printerIpAddress = _preferences.getPrinterIpAddress();
-    final templateOrder = await _generateTemplateOrder(order);
-    final rollSize = _preferences.printerSetting().paperSize.toRollSize();
+    final customerCopy = await _generateDocketTicket(
+      order: order,
+      docketType: DocketType.customer,
+      printingType: PrintingType.auto,
+    );
+    final kitchenCopy = await _generateDocketTicket(
+      order: order,
+      docketType: DocketType.kitchen,
+      printingType: PrintingType.auto,
+    );
     if (printerSetting.customerCopyEnabled) {
-      for (int i = 0; i < printerSetting.customerCopyCount; i++) {
-        final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-        // final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-
-        final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
-          roll: rollSize,
-          printingType: PrintingType.auto,
-          isConsumerCopy: true,);
-        await NetworkPrinterHandler().doPrint(printingData!,printerIpAddress!);
+      if (customerCopy != null) {
+        for (int i = 0; i < printerSetting.customerCopyCount; i++) {
+          await NetworkPrinterHandler().doPrint(customerCopy,printerIpAddress!);
+        }
       }
     }
     if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
-      final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
-        roll: rollSize,
-        printingType: PrintingType.auto,
-        isConsumerCopy: false,);
-      await NetworkPrinterHandler().doPrint(printingData!,printerIpAddress!);
+      if (kitchenCopy != null) {
+        for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
+          await NetworkPrinterHandler().doPrint(kitchenCopy,printerIpAddress!);
+        }
+      }
     }
   }
   void _ipManualPrint(Order order) {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
-        final templateOrder = await _generateTemplateOrder(order);
-
-          final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-          final printerIpAddress = _preferences.getPrinterIpAddress();
-        final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
-          roll: rollSize,
+        final printingData = await _generateDocketTicket(
+          order: order,
+          docketType: type,
           printingType: PrintingType.manual,
-          isConsumerCopy: false,);
+        );
+
+          final printerIpAddress = _preferences.getPrinterIpAddress();
+        // final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
+        //   roll: rollSize,
+        //   printingType: PrintingType.manual,
+        //   isConsumerCopy: type == DocketType.customer,);
         await NetworkPrinterHandler().doPrint(printingData!,printerIpAddress!);
 
       },
     );
   }
+
 }
