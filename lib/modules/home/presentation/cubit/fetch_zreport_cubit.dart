@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:klikit/app/date_time_patterns.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/utils/response_state.dart';
 
 import '../../../../app/session_manager.dart';
@@ -11,15 +14,29 @@ class FetchZReportCubit extends Cubit<ResponseState> {
 
   FetchZReportCubit(this._repository) : super(Empty());
 
-  void fetchZReportData(DateTime dateTime) async {
+  void fetchZReportData({required DateTime startDateTime, DateTime? endDateTime}) async {
     emit(Loading());
-    final date = DateFormat('yyyy-MM-dd').format(dateTime).toString();
-    const startTime = '00:00:00';
-    const endTime = '23:59:59';
+    final startDate = DateFormat('yyyy-MM-dd').format(startDateTime).toString();
+    String endDate = startDate;
+    String startTime = '00:00:00';
+    String endTime = '23:59:59';
+
+    if (endDateTime != null) {
+      endDate = DateFormat('yyyy-MM-dd').format(endDateTime).toString();
+      startTime = startDateTime.format(DTPatterns.HHmmss);
+      endTime = endDateTime.format(DTPatterns.HHmmss);
+    }
+
+    debugPrint('Params: ${{
+      'period_start': '$startDate $startTime',
+      'period_end': '$endDate $endTime',
+      'branch_id': SessionManager().branchId(),
+    }}');
+
     final response = await _repository.fetchZReportData(
       {
-        'period_start': '$date $startTime',
-        'period_end': '$date $endTime',
+        'period_start': '$startDate $startTime',
+        'period_end': '$endDate $endTime',
         'branch_id': SessionManager().branchId(),
       },
     );
@@ -27,7 +44,7 @@ class FetchZReportCubit extends Cubit<ResponseState> {
       (failure) {
         emit(Failed(failure));
       },
-      (data) {
+          (data) {
         emit(Success<ZReportData>(data));
       },
     );

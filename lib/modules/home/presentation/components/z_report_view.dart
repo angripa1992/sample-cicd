@@ -154,7 +154,10 @@ class _ZReportViewState extends State<ZReportView> {
                       labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                       splashColor: AppColors.greyBright,
                       onTap: () async {
-                        context.read<FetchZReportCubit>().fetchZReportData(reportInfo.dateTime);
+                        context.read<FetchZReportCubit>().fetchZReportData(
+                              startDateTime: reportInfo.dateTime,
+                              endDateTime: reportInfo.dateType == DateType.timeRange ? reportInfo.endDateTime : null,
+                            );
                         SegmentManager().track(
                           event: SegmentEvents.GENERATE_ZREPORT,
                           properties: {

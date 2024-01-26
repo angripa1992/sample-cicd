@@ -16,5 +16,5 @@ class DTPatterns {
   static String hh_mm_ss_a = 'hh:mm:ss a';
   static String hh_mm_a = 'hh:mm a';
   static String yyyymmdd_hh_mm_a = "yyyy-MM-dd hh:mm a";
-  static String hhmmss = 'hh:mm:ss';
+  static String HHmmss = 'HH:mm:ss';
 }
