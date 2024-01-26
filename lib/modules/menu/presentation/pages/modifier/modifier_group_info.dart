@@ -34,27 +34,28 @@ class ModifierGroupInfoView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  modifiersGroup.title.trim(),
-                  style: mediumTextStyle(
-                    color: AppColors.neutralB600,
-                    fontSize: AppFontSize.s16.rSp,
-                  ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                modifiersGroup.title.trim(),
+                style: mediumTextStyle(
+                  color: AppColors.neutralB600,
+                  fontSize: AppFontSize.s16.rSp,
                 ),
-                Text(
-                  '${modifiersGroup.modifiers.length} ${modifiersGroup.modifiers.length > 1 ? AppStrings.modifiers.tr() : AppStrings.modifier.tr()}',
-                  style: regularTextStyle(
-                    color: AppColors.neutralB300,
-                    fontSize: AppFontSize.s12.rSp,
-                  ),
+              ),
+              Text(
+                '${modifiersGroup.modifiers.length} ${modifiersGroup.modifiers.length > 1 ? AppStrings.modifiers.tr() : AppStrings.modifier.tr()}',
+                style: regularTextStyle(
+                  color: AppColors.neutralB300,
+                  fontSize: AppFontSize.s12.rSp,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+          const Spacer(),
           ModifierSwitchView(
             menuVersion: modifiersGroup.menuVersion,
             branchID: branchID,
