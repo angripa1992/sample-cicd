@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
-
+import 'package:image/image.dart' as img;
+import 'package:path_provider/path_provider.dart';
 class BluetoothPrinterHandler {
   static final BluetoothPrinterHandler _instance =
       BluetoothPrinterHandler._internal();
@@ -41,7 +45,6 @@ class BluetoothPrinterHandler {
       return false;
     }
   }
-
   Future<void> printDocket(List<int> data) async {
     try {
       await PrinterManager.instance
@@ -49,5 +52,26 @@ class BluetoothPrinterHandler {
     } on PlatformException {
       //ignored
     }
+
   }
+
+  Future<void> print(List<int> data, Map printerAddress) async {
+    try {
+
+      if (isConnected()) {
+        await PrinterManager.instance.disconnect(type: PrinterType.bluetooth);
+      }
+
+      await connect(PrinterDevice(name: printerAddress['name'], address: printerAddress['address']));
+
+      await PrinterManager.instance
+          .send(type: PrinterType.bluetooth, bytes: data);
+    } on PlatformException catch (e){
+      debugPrint(e.stacktrace);
+      //ignored
+    }
+
+  }
+
+
 }

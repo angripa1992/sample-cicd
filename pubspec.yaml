@@ -11,7 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.2
   get_it: ^7.2.0
   easy_localization: ^3.0.1
@@ -60,9 +59,10 @@ dependencies:
   firebase_crashlytics: ^3.0.11
 
   docket_design_template:
+#    path: /Users/user/workspace/klikit/projects/docket_design_template
     git:
       url: https://github.com/klikit/docket_design_template.git
-      ref: master
+      ref: feature/printer-setting
 
 dev_dependencies:
   flutter_test:

@@ -153,6 +153,7 @@ class NotificationType {
 class CType {
   static const BLE = 1;
   static const USB = 2;
+  static const LAN = 2;
 }
 
 class RollId {
@@ -193,6 +194,7 @@ class DiscountType {
 class Device {
   static const android = 0;
   static const sunmi = 1;
+  static const imin = 2;
 }
 
 class PrinterSelectIndex {

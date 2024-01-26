@@ -14,6 +14,8 @@ class NotificationHandler {
 
   NotificationHandler._internal();
 
+
+
   void handleBackgroundNotification(String? payload) {
     if (payload == null) return;
     final notificationData = NotificationDataHandler().getNotificationData(NotificationDataHandler().convertStringToMap(payload));
