@@ -120,6 +120,43 @@ class InAppNotificationHandler {
     _orderBadgeNotifier.value = false;
   }
 
+  Widget overlapped(NotificationCounter counter) {
+    const overlap = 16.0;
+    final items = [
+      if (counter.ongoing > 0)
+        Container(
+          padding: EdgeInsets.all(AppSize.s4.rSp),
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(color: AppColors.primaryP50, shape: BoxShape.circle),
+          child: ImageResourceResolver.notificationAlertSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.primaryP300),
+        ),
+      if (counter.scheduled > 0)
+        Container(
+          padding: EdgeInsets.all(AppSize.s4.rSp),
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(color: AppColors.warningY50, shape: BoxShape.circle),
+          alignment: Alignment.center,
+          child: ImageResourceResolver.timeSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.warningY300),
+        ),
+      if (counter.cancelled > 0)
+        Container(
+          padding: EdgeInsets.all(AppSize.s4.rSp),
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(color: AppColors.errorR50, shape: BoxShape.circle),
+          child: ImageResourceResolver.cancelNotificationSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.errorR300),
+        ),
+    ];
+
+    List<Widget> stackLayers = List<Widget>.generate(items.length, (index) {
+      return Padding(
+        padding: EdgeInsets.fromLTRB(index.toDouble() * overlap, 0, 0, 0),
+        child: items[index],
+      );
+    });
+
+    return Stack(children: stackLayers);
+  }
+
   void _showDialog(NotificationData data) {
     _isShowing = true;
 
@@ -136,60 +173,7 @@ class InAppNotificationHandler {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
               title: Row(
                 children: [
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        SizedBox(
-                          width: 24.rw,
-                          height: 24.rh,
-                        ),
-                        Visibility(
-                          visible: counter.ongoing > 0,
-                          child: Positioned(
-                            left: childSize.rw,
-                            child: Container(
-                              padding: EdgeInsets.all(AppSize.s4.rSp),
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(color: AppColors.primaryP50, shape: BoxShape.circle),
-                              child: ImageResourceResolver.notificationAlertSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.primaryP300),
-                            ),
-                          ),
-                        ),
-                        Visibility(
-                          visible: counter.scheduled > 0,
-                          child: Positioned(
-                            left: (childSize * (counter.ongoing > 0 ? 2 : 1)).rw,
-                            child: Container(
-                              padding: EdgeInsets.all(AppSize.s4.rSp),
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(color: AppColors.warningY50, shape: BoxShape.circle),
-                              alignment: Alignment.center,
-                              child: ImageResourceResolver.timeSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.warningY300),
-                            ),
-                          ),
-                        ),
-                        Visibility(
-                          visible: counter.cancelled > 0,
-                          child: Positioned(
-                            left: (childSize *
-                                    ((counter.ongoing > 0 && counter.scheduled > 0)
-                                        ? 3
-                                        : ((counter.ongoing > 0 || counter.scheduled > 0))
-                                            ? 2
-                                            : 1))
-                                .rw,
-                            child: Container(
-                              padding: EdgeInsets.all(AppSize.s4.rSp),
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(color: AppColors.errorR50, shape: BoxShape.circle),
-                              child: ImageResourceResolver.cancelNotificationSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.errorR300),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  overlapped(counter),
                   AppSize.s8.horizontalSpacer(),
                   Text(
                     'New ${counter.totalCount() > 1 ? 'Orders' : 'Order'}!',
@@ -198,7 +182,7 @@ class InAppNotificationHandler {
                       fontSize: AppFontSize.s18.rSp,
                     ),
                   ),
-                  // const Spacer(),
+                  const Spacer(),
                   AppSize.s8.horizontalSpacer(),
                   InkWell(
                     onTap: () {
