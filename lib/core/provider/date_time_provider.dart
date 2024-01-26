@@ -27,8 +27,8 @@ class DateTimeFormatter {
     return formatted;
   }
 
-  static String getDate(DateTime dateTime) {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  static String getDate(DateTime dateTime, [String pattern = 'yyyy-MM-dd']) {
+    final DateFormat formatter = DateFormat(pattern);
     final String formatted = formatter.format(dateTime);
     return formatted;
   }
