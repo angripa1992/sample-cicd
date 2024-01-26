@@ -95,30 +95,26 @@ Future<DateTimeRange?> showKTTimeRangePicker(BuildContext context, DateTime sele
         content: SizedBox(
           height: ScreenSizes.screenHeight * 0.4,
           width: ScreenSizes.screenWidth * 0.9,
-          child: Expanded(
-            child: TimeRangePicker(
-              selectedDate: DateTime(selectedDateTime.year, selectedDateTime.month, selectedDateTime.day),
-              onStartDateTimeSelected: (DateTime? start) {
-                startDateTime = start;
-              },
-              onEndDateTimeSelected: (DateTime? end) {
-                endDateTime = end;
-              },
-            ),
+          child: TimeRangePicker(
+            selectedDate: DateTime(selectedDateTime.year, selectedDateTime.month, selectedDateTime.day),
+            onStartDateTimeSelected: (DateTime? start) {
+              startDateTime = start;
+            },
+            onEndDateTimeSelected: (DateTime? end) {
+              endDateTime = end;
+            },
           ),
         ),
         actionsPadding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s8.rh, bottom: AppSize.s16.rh),
         actions: <Widget>[
-          Expanded(
-            child: KTButton(
-              controller: KTButtonController(label: 'Generate Report'),
-              backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
-              labelStyle: mediumTextStyle(color: AppColors.white),
-              progressPrimaryColor: AppColors.white,
-              onTap: () {
-                Navigator.pop(context, (startDateTime != null && endDateTime != null) ? DateTimeRange(start: startDateTime!, end: endDateTime!) : null);
-              },
-            ),
+          KTButton(
+            controller: KTButtonController(label: 'Generate Report'),
+            backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
+            labelStyle: mediumTextStyle(color: AppColors.white),
+            progressPrimaryColor: AppColors.white,
+            onTap: () {
+              Navigator.pop(context, (startDateTime != null && endDateTime != null) ? DateTimeRange(start: startDateTime!, end: endDateTime!) : null);
+            },
           ),
         ],
       );
