@@ -1,8 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/core/widgets/filter/filtered_data_mapper.dart';
-import 'package:klikit/resources/strings.dart';
 
 import '../../../resources/colors.dart';
 import '../kt_checkbox_group.dart';
@@ -56,7 +54,7 @@ class _MultipleStatusFilterState extends State<MultipleStatusFilter> {
   @override
   Widget build(BuildContext context) {
     return CustomExpansionTile(
-      title: AppStrings.status.tr(),
+      title: 'Status',
       trailingIcon: Icons.add,
       expandedTrailingIcon: Icons.remove,
       color: AppColors.black,

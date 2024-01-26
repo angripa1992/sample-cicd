@@ -51,15 +51,19 @@ class _ModifierScreenState extends State<ModifierScreen> {
   @override
   Widget build(BuildContext context) {
     _fetchModifier();
-    return Expanded(
-      child: Container(
-        color: AppColors.white,
-        padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s12.rh),
+    return Container(
+      color: AppColors.white,
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s12.rh),
+      child: Expanded(
         child: BlocBuilder<FetchModifierGroupsCubit, ResponseState>(
           builder: (context, state) {
             if (state is Success<List<ModifierGroup>>) {
               if (state.data.isEmpty) {
-                return Center(child: Text(AppStrings.no_modifiers_group_found.tr()));
+                return Center(
+                  child: Text(
+                    AppStrings.no_modifiers_group_found.tr(),
+                  ),
+                );
               }
               return ModifierGroupsListView(
                 modifierGroups: state.data,
@@ -67,9 +71,15 @@ class _ModifierScreenState extends State<ModifierScreen> {
                 branchId: widget.branch,
               );
             } else if (state is Failed) {
-              return Center(child: Text(state.failure.message));
+              return Center(
+                child: Text(state.failure.message),
+              );
             }
-            return Center(child: CircularProgress(primaryColor: AppColors.primary));
+            return Center(
+              child: CircularProgress(
+                primaryColor: AppColors.primary,
+              ),
+            );
           },
         ),
       ),

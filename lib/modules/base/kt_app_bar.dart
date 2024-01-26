@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
@@ -8,7 +10,6 @@ import 'package:klikit/resources/values.dart';
 class KTAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? height;
   final String title;
-  final bool centerTitle;
   final String? subtitle;
   final double? elevation;
   final PreferredSizeWidget? bottom;
@@ -19,7 +20,6 @@ class KTAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     this.height,
     required this.title,
-    this.centerTitle = false,
     this.subtitle,
     this.elevation,
     this.bottom,
@@ -37,7 +37,6 @@ class KTAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: height,
       elevation: elevation ?? 0,
-      centerTitle: centerTitle,
       bottom: bottom,
       leading: IconButton(
         onPressed: () {
@@ -47,7 +46,7 @@ class KTAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: centerTitle ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        crossAxisAlignment: Platform.isIOS ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           Text(title, style: mediumTextStyle(fontSize: AppSize.s16.rSp, color: AppColors.neutralB700)),
           if (subtitle != null)

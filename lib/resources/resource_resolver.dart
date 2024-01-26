@@ -95,6 +95,4 @@ class ImageResourceResolver {
   static PNGImageResource get menuBrandPNG => const PNGImageResource(AppImages.menuBrandPNG);
 
   static SVGImageResource get upArrowSVG => SVGImageResource('$iconBasePath/ic_up_arrow.svg');
-
-  static SVGImageResource get rightArrowSmSVG => SVGImageResource('$iconBasePath/ic_sm_right_arrow.svg');
 }

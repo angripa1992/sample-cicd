@@ -1,12 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/core/widgets/kt_radio_group.dart';
 import 'package:klikit/modules/common/entities/branch.dart';
-import 'package:klikit/resources/strings.dart';
 
 import '../../../app/di.dart';
 import '../../../modules/common/business_information_provider.dart';
+import '../../../modules/common/entities/brand.dart';
 import '../../../resources/colors.dart';
 import 'custom_expansion_tile.dart';
 
@@ -52,7 +51,7 @@ class _SingleBranchFilterState extends State<SingleBranchFilter> {
   @override
   Widget build(BuildContext context) {
     return CustomExpansionTile(
-      title: AppStrings.branch.tr(),
+      title: 'Branch',
       trailingIcon: Icons.add,
       expandedTrailingIcon: Icons.remove,
       color: AppColors.black,

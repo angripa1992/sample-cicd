@@ -45,8 +45,6 @@ class AppIcons {
   static const String seniorCitizen = "$ICON_PATH/ic_sc.svg";
   static const String totalCustomer = "$ICON_PATH/ic_total_customer.svg";
   static const String notificationIcon = '@mipmap/ic_launcher';
-  static const String addOrder = "$ICON_PATH/ic_add_order.svg";
-  static const String menu = "$ICON_PATH/ic_menu.svg";
 }
 
 class AppSounds {

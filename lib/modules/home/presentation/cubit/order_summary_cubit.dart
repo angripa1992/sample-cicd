@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/core/utils/response_state.dart';
@@ -7,7 +6,6 @@ import 'package:klikit/core/widgets/filter/filtered_data_mapper.dart';
 import 'package:klikit/modules/home/domain/entities/order_summary_overview.dart';
 import 'package:klikit/modules/home/domain/entities/summary_data.dart';
 import 'package:klikit/modules/home/domain/repository/home_repository.dart';
-import 'package:klikit/resources/strings.dart';
 
 class OrderSummaryCubit extends Cubit<ResponseState> {
   final HomeRepository _repository;
@@ -19,10 +17,10 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
     final params = await FilteredDataMapper().homeFilterDataMap(data);
     final response = await _repository.fetchSummary(params);
     response.fold(
-          (failure) {
+      (failure) {
         emit(Failed(failure));
       },
-          (data) {
+      (data) {
         final overviewData = _summaryOverview(data);
         emit(Success<List<OrderSummaryOverview>>(overviewData));
       },
@@ -46,19 +44,19 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
     }
     return [
       OrderSummaryOverview(
-        label: AppStrings.completed_orders.tr(),
+        label: 'Completed Orders',
         value: completed.toString(),
       ),
       OrderSummaryOverview(
-        label: AppStrings.cancelled_orders.tr(),
+        label: 'Cancelled Orders',
         value: cancelled.toString(),
       ),
       OrderSummaryOverview(
-        label: AppStrings.gross_order_value.tr(),
+        label: 'Gross order Value',
         value: PriceCalculator.formatCompactPrice(price: grossValues / 100, code: currency, symbol: currencySymbol),
       ),
       OrderSummaryOverview(
-        label: AppStrings.discount_value.tr(),
+        label: 'Discount Value',
         value: PriceCalculator.formatCompactPrice(price: discount / 100, code: currency, symbol: currencySymbol),
       )
     ];

@@ -9,7 +9,6 @@ import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/orders/domain/entities/order_action_model.dart';
-import 'package:klikit/modules/widgets/negative_button.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
@@ -106,7 +105,15 @@ void showOrderActionDialog({required BuildContext context, required String title
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: NegativeButton(negativeText: AppStrings.go_back.tr()),
+                  child: KTButton(
+                    controller: KTButtonController(label: AppStrings.go_back.tr()),
+                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
+                    labelStyle: mediumTextStyle(),
+                    splashColor: AppColors.greyBright,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
                 ),
                 SizedBox(width: AppSize.s8.rw),
                 Expanded(

@@ -77,10 +77,6 @@ class _KTRadioGroupState extends State<KTRadioGroup> {
       children: widget.values.map((value) {
         return value.logo != null
             ? ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  onRadioChange(value);
-                },
                 leading: SizedBox(
                   width: 32.rSp,
                   height: 32.rSp,
@@ -94,22 +90,11 @@ class _KTRadioGroupState extends State<KTRadioGroup> {
                 trailing: _radioButton(value),
               )
             : ListTile(
-                contentPadding: EdgeInsets.zero,
-                onTap: () {
-                  onRadioChange(value);
-                },
                 title: _title(value),
                 trailing: _radioButton(value),
               );
       }).toList(),
     );
-  }
-
-  void onRadioChange(KTRadioValue value) {
-    setState(() {
-      _selectedButtonID = value.id;
-      widget.onChangedCallback(value);
-    });
   }
 
   Widget _title(KTRadioValue value) {
@@ -160,7 +145,10 @@ class _KTRadioGroupState extends State<KTRadioGroup> {
       value: value.id,
       groupValue: _selectedButtonID,
       onChanged: (id) {
-        onRadioChange(value);
+        setState(() {
+          _selectedButtonID = id;
+          widget.onChangedCallback(value);
+        });
       },
     );
   }

@@ -32,7 +32,7 @@ class HomeQuickActions extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppStrings.quick_actions.tr(), style: semiBoldTextStyle()),
+          Text("Quick Actions", style: semiBoldTextStyle()),
           SizedBox(height: AppSize.s16.rh),
           BlocConsumer<OngoingOrderCubit, ResponseState>(
             listener: (context, state) {

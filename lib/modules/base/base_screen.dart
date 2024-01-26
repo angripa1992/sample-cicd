@@ -26,7 +26,6 @@ import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
-import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/segments/event_manager.dart';
 import 'package:klikit/segments/segemnt_data_provider.dart';
@@ -230,28 +229,28 @@ class _BaseScreenState extends State<BaseScreen> {
                   onTabSelected: _selectedTab,
                   items: [
                     FABBottomAppBarItem(
-                      svgResourcePath: AppIcons.home,
+                      iconData: Icons.home_outlined,
                       text: AppStrings.home.tr(),
                       index: BottomNavItem.HOME,
                     ),
                     FABBottomAppBarItem(
-                      svgResourcePath: AppIcons.order,
+                      iconData: Icons.list_alt,
                       text: AppStrings.orders.tr(),
                       index: BottomNavItem.ORDER,
                     ),
                     if (!UserPermissionManager().isBizOwner())
                       FABBottomAppBarItem(
-                        svgResourcePath: AppIcons.addOrder,
+                        iconData: Icons.add_circle_outline_sharp,
                         text: AppStrings.add_order.tr(),
                         index: BottomNavItem.ADD_ORDER,
                       ),
                     FABBottomAppBarItem(
-                      svgResourcePath: AppIcons.menu,
+                      iconData: Icons.dashboard,
                       text: AppStrings.menu.tr(),
                       index: BottomNavItem.MENU,
                     ),
                     FABBottomAppBarItem(
-                      svgResourcePath: AppIcons.account,
+                      iconData: Icons.account_circle_outlined,
                       text: AppStrings.account.tr(),
                       index: BottomNavItem.ACCOUNT,
                     ),

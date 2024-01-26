@@ -1,7 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
-import 'package:klikit/resources/strings.dart';
 
 import '../../../resources/colors.dart';
 import '../../functions/pickers.dart';
@@ -24,21 +22,21 @@ class _DateFilterState extends State<DateFilter> {
 
   List<KTRadioValue> _filterItems() {
     final items = [
-      KTRadioValue(DateType.today, AppStrings.today.tr(), subTitle: '(${AppStrings.default_label.tr()})'),
-      KTRadioValue(DateType.yesterday, AppStrings.yesterday.tr()),
-      KTRadioValue(DateType.lastWeek, AppStrings.last_week.tr()),
-      KTRadioValue(DateType.lastMonth, AppStrings.last_month.tr()),
+      KTRadioValue(DateType.today, 'Today', subTitle: '( Default )'),
+      KTRadioValue(DateType.yesterday, 'Yesterday'),
+      KTRadioValue(DateType.lastWeek, 'Last Week'),
+      KTRadioValue(DateType.lastMonth, 'Last Month'),
     ];
     if (_appliedDateFilterData?.selectedItem?.id == DateType.custom) {
       final customItem = KTRadioValue(
         DateType.custom,
-        AppStrings.custom.tr(),
+        'Custom',
         subTitle: '( ${DateTimeFormatter.dateRangeString(_appliedDateFilterData!.dateTimeRange!)} )',
         editableIcon: Icons.edit_calendar,
       );
       items.add(customItem);
     } else {
-      items.add(KTRadioValue(DateType.custom, AppStrings.custom.tr()));
+      items.add(KTRadioValue(DateType.custom, 'Custom'));
     }
     return items;
   }
@@ -74,7 +72,7 @@ class _DateFilterState extends State<DateFilter> {
   void _setInitialValue() {
     if (widget.initialData == null) {
       _appliedDateFilterData = DateFilteredData(
-        selectedItem: KTRadioValue(DateType.today, AppStrings.today.tr(), subTitle: '(${AppStrings.default_label.tr()})'),
+        selectedItem: KTRadioValue(DateType.today, 'Today', subTitle: '(Default)'),
         dateTimeRange: DateTimeRange(start: DateTime.now(), end: DateTime.now()),
       );
     } else {
@@ -97,7 +95,7 @@ class _DateFilterState extends State<DateFilter> {
   @override
   Widget build(BuildContext context) {
     return CustomExpansionTile(
-      title: AppStrings.date.tr(),
+      title: 'Date',
       trailingIcon: Icons.add,
       expandedTrailingIcon: Icons.remove,
       color: AppColors.black,

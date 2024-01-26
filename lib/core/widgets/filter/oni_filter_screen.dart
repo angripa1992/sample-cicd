@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
-import 'package:klikit/core/widgets/filter/apply_filter_button.dart';
-import 'package:klikit/core/widgets/filter/filter_app_bar.dart';
 import 'package:klikit/core/widgets/filter/multiple_branch_filter.dart';
 import 'package:klikit/core/widgets/filter/multiple_status_filter.dart';
-import 'package:klikit/resources/values.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/resources/colors.dart';
 
+import '../../../resources/styles.dart';
 import '../kt_checkbox_group.dart';
 import 'date_filter.dart';
 import 'filter_data.dart';
@@ -81,8 +81,18 @@ class _OniFilterScreenState extends State<OniFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FilterAppBar(
-        clearAll: _clearAll,
+      appBar: AppBar(
+        title: const Text('Filter'),
+        centerTitle: true,
+        actions: [
+          TextButton(
+            onPressed: _clearAll,
+            child: Text(
+              'Clear all',
+              style: semiBoldTextStyle(color: AppColors.primary),
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -97,7 +107,7 @@ class _OniFilterScreenState extends State<OniFilterScreen> {
                         _dateFilteredData = dateFilteredData;
                       },
                     ),
-                  if (widget.isHistory) AppSize.s8.verticalSpacer(),
+                  if (widget.isHistory) Divider(color: AppColors.grey, thickness: 8.rh),
                   if (UserPermissionManager().isBizOwner())
                     MultipleBranchFilter(
                       initialSelectedValues: _selectedBranches,
@@ -106,7 +116,7 @@ class _OniFilterScreenState extends State<OniFilterScreen> {
                         _selectedBranches.addAll(selectedBranches);
                       },
                     ),
-                  if (UserPermissionManager().isBizOwner()) AppSize.s8.verticalSpacer(),
+                  if (UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
                   MultipleBrandFilter(
                     initialSelectedValues: _selectedBrands,
                     onChangedCallback: (values) {
@@ -114,7 +124,7 @@ class _OniFilterScreenState extends State<OniFilterScreen> {
                       _selectedBrands.addAll(values);
                     },
                   ),
-                  AppSize.s8.verticalSpacer(),
+                  Divider(color: AppColors.grey, thickness: 8.rh),
                   MultipleProviderFilter(
                     initialSelectedValues: _selectedProviders,
                     onChangedCallback: (values) {
@@ -122,7 +132,7 @@ class _OniFilterScreenState extends State<OniFilterScreen> {
                       _selectedProviders.addAll(values);
                     },
                   ),
-                  if (widget.isHistory) AppSize.s8.verticalSpacer(),
+                  if (widget.isHistory) Divider(color: AppColors.grey, thickness: 8.rh),
                   if (widget.isHistory)
                     MultipleStatusFilter(
                       initialSelectedValues: _selectedStatues,
@@ -135,7 +145,18 @@ class _OniFilterScreenState extends State<OniFilterScreen> {
               ),
             ),
           ),
-          ApplyFilterButton(applyFilter: _applyFilter),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
+            child: KTButton(
+              controller: KTButtonController(label: 'Apply Filter', enabled: true),
+              backgroundDecoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(8.rSp),
+              ),
+              labelStyle: mediumTextStyle(color: AppColors.white, fontSize: 14.rSp),
+              onTap: _applyFilter,
+            ),
+          ),
         ],
       ),
     );

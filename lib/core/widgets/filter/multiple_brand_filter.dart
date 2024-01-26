@@ -1,9 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
-import 'package:klikit/resources/strings.dart';
 
 import '../../../app/di.dart';
 import '../../../modules/common/business_information_provider.dart';
@@ -61,7 +58,7 @@ class _MultipleBrandFilterState extends State<MultipleBrandFilter> {
   @override
   Widget build(BuildContext context) {
     return CustomExpansionTile(
-      title: AppStrings.brands.tr(),
+      title: 'Brands',
       trailingIcon: Icons.add,
       expandedTrailingIcon: Icons.remove,
       color: AppColors.black,
@@ -81,7 +78,7 @@ class _MultipleBrandFilterState extends State<MultipleBrandFilter> {
             );
           }
           return Center(
-            child: CircularProgress(primaryColor: AppColors.primary),
+            child: CircularProgressIndicator(color: AppColors.primary),
           ).setVisibilityWithSpace(
             startSpace: 8,
             endSpace: 8,

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/constants.dart';
@@ -6,7 +5,6 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/modules/base/kt_app_bar.dart';
 import 'package:klikit/modules/menu/presentation/cubit/check_affected_cubit.dart';
-import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/values.dart';
 import '../../../domain/entities/modifier/modifier_group.dart';
@@ -31,7 +29,7 @@ class ManageModifiersScreen extends StatelessWidget {
         create: (_) => getIt.get<CheckAffectedCubit>(),
         child: Scaffold(
           appBar: KTAppBar(
-            title: AppStrings.manage_modifiers.tr(),
+            title: 'Manage Modifiers',
             onNavBack: () {
               Navigator.pop(context, modifierGroup);
             },

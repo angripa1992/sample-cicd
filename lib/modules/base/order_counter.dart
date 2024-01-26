@@ -24,10 +24,10 @@ class OrderCounter extends StatelessWidget {
             alignment: Alignment.topRight,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSize.s4.rw),
+                padding: EdgeInsets.all(AppSize.s4.rSp),
                 child: DecoratedImageView(
-                  iconWidget: ImageResourceResolver.cartSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh),
-                  padding: EdgeInsets.all(AppSize.s6.rSp),
+                  iconWidget: ImageResourceResolver.cartSVG.getImageWidget(width: AppSize.s28.rw, height: AppSize.s28.rh),
+                  padding: EdgeInsets.all(6.rSp),
                   decoration: BoxDecoration(
                     color: AppColors.neutralB20,
                     borderRadius: BorderRadius.all(
@@ -39,10 +39,10 @@ class OrderCounter extends StatelessWidget {
               if (unreadCount > 0)
                 KTChip(
                   text: '$unreadCount',
-                  textStyle: boldTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.white),
+                  textStyle: boldTextStyle(fontSize: 10, color: AppColors.white),
                   backgroundColor: AppColors.primaryP300,
                   strokeColor: AppColors.white,
-                  strokeWidth: AppSize.s2.rSp,
+                  strokeWidth: 2.rSp,
                   padding: EdgeInsets.fromLTRB(
                     unreadCount < 10 ? AppSize.s8.rw : AppSize.s6.rw,
                     AppSize.s4.rh,

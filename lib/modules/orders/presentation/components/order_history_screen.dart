@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/modules/common/oni_parameter_provider.dart';
 import 'package:klikit/modules/orders/presentation/components/progress_indicator.dart';
 import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
-import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
@@ -91,7 +89,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> with FilterObse
   Widget build(BuildContext context) {
     return PagedListView<int, Order>.separated(
       pagingController: _pagingController!,
-      padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
       builderDelegate: PagedChildBuilderDelegate<Order>(
         itemBuilder: (context, item, index) {
           return OrderItemView(

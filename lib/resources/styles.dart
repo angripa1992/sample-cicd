@@ -15,7 +15,7 @@ TextStyle _getTextStyle(
     color: color ?? AppColors.black,
     fontWeight: fontWeight,
     letterSpacing: -0.5,
-    // height: 1.30,
+    height: 1.30,
   );
 }
 

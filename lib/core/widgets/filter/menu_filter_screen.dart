@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
-import 'package:klikit/core/widgets/filter/apply_filter_button.dart';
-import 'package:klikit/core/widgets/filter/filter_app_bar.dart';
 import 'package:klikit/core/widgets/filter/multiple_provider_filter.dart';
 import 'package:klikit/core/widgets/filter/single_branch_filter.dart';
 import 'package:klikit/core/widgets/filter/single_brand_filter.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/core/widgets/kt_radio_group.dart';
-import 'package:klikit/resources/values.dart';
+import 'package:klikit/resources/colors.dart';
 
+import '../../../resources/styles.dart';
 import '../kt_checkbox_group.dart';
 import 'filter_data.dart';
 
@@ -61,8 +61,18 @@ class _MenuFilterScreenState extends State<MenuFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FilterAppBar(
-        clearAll: _clearAll,
+      appBar: AppBar(
+        title: const Text('Filter'),
+        centerTitle: true,
+        actions: [
+          TextButton(
+            onPressed: _clearAll,
+            child: Text(
+              'Clear all',
+              style: semiBoldTextStyle(color: AppColors.primary),
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -76,7 +86,7 @@ class _MenuFilterScreenState extends State<MenuFilterScreen> {
                       _selectedBrand = selectedBrand;
                     },
                   ),
-                  AppSize.s8.verticalSpacer(),
+                  Divider(color: AppColors.grey, thickness: 8.rh),
                   if (UserPermissionManager().isBizOwner())
                     SingleBranchFilter(
                       initialValue: _selectedBranch,
@@ -84,7 +94,7 @@ class _MenuFilterScreenState extends State<MenuFilterScreen> {
                         _selectedBranch = selectedBranch;
                       },
                     ),
-                  if (UserPermissionManager().isBizOwner()) AppSize.s8.verticalSpacer(),
+                  if (UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
                   MultipleProviderFilter(
                     initialSelectedValues: _selectedProviders,
                     onChangedCallback: (selectedBrands) {
@@ -96,7 +106,18 @@ class _MenuFilterScreenState extends State<MenuFilterScreen> {
               ),
             ),
           ),
-          ApplyFilterButton(applyFilter: _applyFilter),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
+            child: KTButton(
+              controller: KTButtonController(label: 'Apply Filter', enabled: true),
+              backgroundDecoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(8.rSp),
+              ),
+              labelStyle: mediumTextStyle(color: AppColors.white, fontSize: 14.rSp),
+              onTap: _applyFilter,
+            ),
+          ),
         ],
       ),
     );
