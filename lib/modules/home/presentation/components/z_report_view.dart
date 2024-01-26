@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/functions/pickers.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/core/widgets/kt_dropdown.dart';
@@ -48,7 +49,8 @@ class _ZReportViewState extends State<ZReportView> {
     DateTime today = DateTime.now();
     list.add(ReportInfo(name: AppStrings.today.tr(), dateType: DateType.today, dateTime: today));
     list.add(ReportInfo(name: AppStrings.yesterday.tr(), dateType: DateType.yesterday, dateTime: today.subtract(const Duration(days: 1))));
-    list.add(ReportInfo(name: AppStrings.custom.tr(), dateType: DateType.range, dateTime: today));
+    list.add(ReportInfo(name: AppStrings.custom_date.tr(), dateType: DateType.range, dateTime: today));
+    list.add(ReportInfo(name: AppStrings.custom_time.tr(), dateType: DateType.timeRange, dateTime: today));
 
     return list;
   }
@@ -93,17 +95,30 @@ class _ZReportViewState extends State<ZReportView> {
                   textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   hintTextStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   selectedItemBuilder: (ReportInfo item, bool isSelected) {
-                    return reportInfo.dateType == DateType.range ? item.prepareSelectedItemData() : item.name;
+                    return item.prepareSelectedItemData();
                   },
                   selectedItem: reportInfo,
                   onSelected: (ReportInfo selectedItem) async {
                     if (selectedItem.dateType == DateType.range) {
-                      DateTime dateTime = await showKTDatePicker(selectedItem.dateTime) ?? selectedItem.dateTime;
+                      DateTime dateTime = await showKTDatePicker(context, initialDate: selectedItem.dateTime) ?? selectedItem.dateTime;
 
                       setState(() {
-                        days.removeWhere((element) => element.dateType == DateType.range);
-                        days.add(reportInfo = selectedItem.copyWith(dateTime: dateTime));
+                        days[days.indexOf(selectedItem)] = reportInfo = selectedItem.copyWith(dateTime: dateTime);
                       });
+                    } else if (selectedItem.dateType == DateType.timeRange) {
+                      final DateTime? dateTime = await showKTDatePicker(context, initialDate: selectedItem.dateTime, positiveText: 'Select Time');
+                      if (dateTime != null && mounted) {
+                        final DateTimeRange? result = await showKTTimeRangePicker(context, dateTime);
+                        if (result != null) {
+                          setState(() {
+                            days[days.indexOf(selectedItem)] = reportInfo = selectedItem.copyWith(dateTime: result.start, endDateTime: result.end);
+                          });
+                        } else {
+                          setState(() {});
+                        }
+                      } else {
+                        setState(() {});
+                      }
                     } else {
                       reportInfo = selectedItem;
                     }
@@ -155,32 +170,6 @@ class _ZReportViewState extends State<ZReportView> {
           ),
         ],
       ),
-    );
-  }
-
-  Future<DateTime?> showKTDatePicker(DateTime? selectedOne) async {
-    return await showDatePicker(
-      context: context,
-      initialDate: selectedOne ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: AppColors.primaryP300,
-              onPrimary: AppColors.white,
-              onSurface: AppColors.black,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: AppColors.primary,
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
   }
 

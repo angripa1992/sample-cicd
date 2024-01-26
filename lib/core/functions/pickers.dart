@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/modules/home/presentation/components/time_range_picker.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/decorations.dart';
+import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-Future<DateTime?> showKTDatePicker({
-  required BuildContext context,
+Future<DateTime?> showKTDatePicker(
+  BuildContext context, {
   DateTime? initialDate,
   DateTime? firstDate,
   DateTime? lastDate,
+  String? positiveText,
 }) async {
   return await showDatePicker(
     context: context,
     initialDate: initialDate ?? DateTime.now(),
     firstDate: firstDate ?? DateTime(2000),
     lastDate: lastDate ?? DateTime.now(),
+    confirmText: positiveText,
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(
@@ -69,6 +75,52 @@ Future<DateTimeRange?> showKTDateRangePicker({
           ),
           child: child!,
         ),
+      );
+    },
+  );
+}
+
+Future<DateTimeRange?> showKTTimeRangePicker(BuildContext context, DateTime selectedDateTime) async {
+  return await showDialog(
+    context: context,
+    builder: (c) {
+      DateTime? startDateTime;
+      DateTime? endDateTime;
+
+      return AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+        title: const Text('Time Selection'),
+        titlePadding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s16.rh, bottom: AppSize.s6.rh),
+        contentPadding: EdgeInsets.zero,
+        content: SizedBox(
+          height: ScreenSizes.screenHeight * 0.4,
+          width: ScreenSizes.screenWidth * 0.9,
+          child: Expanded(
+            child: TimeRangePicker(
+              selectedDate: DateTime(selectedDateTime.year, selectedDateTime.month, selectedDateTime.day),
+              onStartDateTimeSelected: (DateTime? start) {
+                startDateTime = start;
+              },
+              onEndDateTimeSelected: (DateTime? end) {
+                endDateTime = end;
+              },
+            ),
+          ),
+        ),
+        actionsPadding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s8.rh, bottom: AppSize.s16.rh),
+        actions: <Widget>[
+          Expanded(
+            child: KTButton(
+              controller: KTButtonController(label: 'Generate Report'),
+              backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
+              labelStyle: mediumTextStyle(color: AppColors.white),
+              progressPrimaryColor: AppColors.white,
+              onTap: () {
+                Navigator.pop(context, (startDateTime != null && endDateTime != null) ? DateTimeRange(start: startDateTime!, end: endDateTime!) : null);
+              },
+            ),
+          ),
+        ],
       );
     },
   );
