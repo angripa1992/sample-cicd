@@ -400,4 +400,6 @@ class AppStrings {
   static const String brand_branch_empty_message = 'brand_branch_empty_message';
   static const String branch = 'branch';
   static const String manage_modifiers = 'manage_modifiers';
+  static const String custom_date = 'custom_date';
+  static const String custom_time = 'custom_time';
 }

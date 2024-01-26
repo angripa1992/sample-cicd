@@ -366,5 +366,7 @@
   "menu_list": "Menu List",
   "brand_branch_empty_message": "Select a brand and branch to seamlessly manage menus and modifiers",
   "branch": "Branch",
-  "manage_modifiers": "Manage Modifiers"
+  "manage_modifiers": "Manage Modifiers",
+  "custom_date": "Custom Date",
+  "custom_time": "Custom Time"
 }
