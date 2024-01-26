@@ -1,16 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_chip.dart';
+import 'package:klikit/core/widgets/labeled_textfield.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
-import '../cart/tag_title.dart';
-import 'customer_into_field.dart';
 
 class CustomerInfoView extends StatefulWidget {
   final CustomerInfo? initInfo;
@@ -74,25 +76,13 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: AppSize.s10.rw,
-        vertical: AppSize.s10.rh,
-      ),
+      color: AppColors.white,
       padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s8.rw,
-        vertical: AppSize.s8.rh,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.white,
+        horizontal: AppSize.s16.rw,
+        vertical: AppSize.s16.rh,
       ),
       child: Column(
         children: [
-          TagTitleView(
-            title: AppStrings.customer_info.tr(),
-            required: false,
-          ),
-          const Divider(),
           ExpandedTile(
             theme: ExpandedTileThemeData(
               headerColor: AppColors.white,
@@ -109,49 +99,75 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
               color: AppColors.black,
             ),
             trailingRotation: 180,
-            title: Text(
-              AppStrings.add_customer_info.tr(),
-              style: regularTextStyle(
-                color: AppColors.black,
-              ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  AppStrings.customer_info.tr(),
+                  style: semiBoldTextStyle(
+                    fontSize: AppSize.s16.rSp,
+                    color: AppColors.neutralB700,
+                  ),
+                ),
+                AppSize.s12.horizontalSpacer(),
+                KTChip(
+                  text: AppStrings.optional.tr(),
+                  textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
+                  strokeColor: AppColors.neutralB40,
+                  backgroundColor: AppColors.white,
+                  padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+                )
+              ],
             ),
             content: Column(
               children: [
-                CustomerInfoField(
-                  title: AppStrings.first_name.tr(),
+                LabeledTextField(
+                  label: AppStrings.first_name.tr(),
+                  textInputAction: TextInputAction.next,
                   controller: _firstNameController,
+                  inputType: TextInputType.name,
+                  inBetweenGap: AppSize.s6.rh,
                 ),
-                CustomerInfoField(
-                  title: AppStrings.last_name.tr(),
+                AppSize.s16.verticalSpacer(),
+                LabeledTextField(
+                  label: AppStrings.last_name.tr(),
+                  textInputAction: TextInputAction.next,
                   controller: _lastNameController,
+                  inputType: TextInputType.name,
+                  inBetweenGap: AppSize.s6.rh,
                 ),
-                CustomerInfoField(
-                  title: AppStrings.email.tr(),
+                AppSize.s16.verticalSpacer(),
+                LabeledTextField(
+                  label: AppStrings.email.tr(),
+                  textInputAction: TextInputAction.next,
                   controller: _emailController,
+                  inputType: TextInputType.emailAddress,
+                  inBetweenGap: AppSize.s6.rh,
                 ),
-                CustomerInfoField(
-                  title: AppStrings.phone.tr(),
+                AppSize.s16.verticalSpacer(),
+                LabeledTextField(
+                  label: AppStrings.phone.tr(),
+                  textInputAction: TextInputAction.next,
                   controller: _phoneController,
+                  inputType: TextInputType.phone,
+                  inBetweenGap: AppSize.s6.rh,
                 ),
-                CustomerInfoField(
-                  title: AppStrings.table_no.tr(),
+                AppSize.s16.verticalSpacer(),
+                LabeledTextField(
+                  label: AppStrings.table_no.tr(),
+                  textInputAction: TextInputAction.done,
                   controller: _tableNoController,
+                  inBetweenGap: AppSize.s6.rh,
                 ),
-                ElevatedButton(
-                  onPressed: _onSave,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
-                    child: Text(
-                      AppStrings.submit.tr(),
-                      style: mediumTextStyle(
-                        color: AppColors.white,
-                        fontSize: AppFontSize.s12.rSp,
-                      ),
-                    ),
-                  ),
+                AppSize.s16.verticalSpacer(),
+                KTButton(
+                  controller: KTButtonController(label: AppStrings.submit.tr()),
+                  backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
+                  labelStyle: mediumTextStyle(color: AppColors.white),
+                  progressPrimaryColor: AppColors.white,
+                  verticalContentPadding: 10.rh,
+                  onTap: _onSave,
                 ),
               ],
             ),
