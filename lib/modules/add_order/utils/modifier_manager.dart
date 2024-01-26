@@ -92,11 +92,11 @@ class ModifierManager {
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          modifiers.add('${modifierLevelOne.quantity}x ${modifierLevelOne.title}');
+          modifiers.add(modifierLevelOne.title);
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                modifiers.add('${modifierLevelTwo.quantity}x ${modifierLevelTwo.title}');
+                modifiers.add(modifierLevelTwo.title);
               }
             }
           }

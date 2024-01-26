@@ -74,6 +74,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(AppStrings.cart.tr())),
+      backgroundColor: AppColors.white,
       body: ValueListenableBuilder<int>(
         valueListenable: CartManager().cartItemNotifier,
         builder: (_, value, __) {
@@ -122,18 +123,23 @@ class _CartScreenState extends State<CartScreen> {
                     },
                   ),
                 ),
+                Divider(color: AppColors.grey,thickness: 8.rh),
                 Visibility(
                   visible: !CartManager().willUpdateOrder,
-                  child: OrderTypeSelector(
-                    initialType: _currentOrderType,
-                    onTypeChange: (type) {
-                      _currentOrderType = type;
-                      CartManager().removePromoForOrderType(_currentOrderType);
-                      CartManager().clearCart();
-                      CartManager().orderType = _currentOrderType;
-                    },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.rw,vertical: 8.rh),
+                    child: OrderTypeSelector(
+                      initialType: _currentOrderType,
+                      onTypeChange: (type) {
+                        _currentOrderType = type;
+                        CartManager().removePromoForOrderType(_currentOrderType);
+                        CartManager().clearCart();
+                        CartManager().orderType = _currentOrderType;
+                      },
+                    ),
                   ),
                 ),
+                Divider(color: AppColors.grey,thickness: 8.rh),
                 CartItemsListView(
                   cartBill: _cartBill!,
                   onEdit: (item) {

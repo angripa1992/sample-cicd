@@ -58,8 +58,6 @@ class CartItemsListView extends StatelessWidget {
             final cartItems = cartsItemByBrands[index];
             return Container(
               margin: EdgeInsets.only(
-                left: AppSize.s16.rw,
-                right: AppSize.s16.rw,
                 bottom: AppSize.s8.rw,
               ),
               decoration: BoxDecoration(
@@ -76,7 +74,7 @@ class CartItemsListView extends StatelessWidget {
                     removeAll: removeAll,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                    padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
                     child: Column(
                       children: cartItems.map(
                         (cartItem) {
@@ -96,7 +94,7 @@ class CartItemsListView extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: AppSize.s12.rw,
+                      horizontal: AppSize.s16.rw,
                     ),
                     child: TextButton(
                       onPressed: () {
@@ -104,8 +102,9 @@ class CartItemsListView extends StatelessWidget {
                       },
                       child: Text(
                         '+ ${AppStrings.add_more_items.tr()}',
-                        style: mediumTextStyle(
+                        style: semiBoldTextStyle(
                           color: AppColors.primary,
+                          fontSize: 14.rSp,
                         ),
                       ),
                     ),
@@ -115,7 +114,9 @@ class CartItemsListView extends StatelessWidget {
             );
           },
         ),
+        Divider(color: AppColors.grey,thickness: 8.rh),
         SpecialInstructionField(controller: textController),
+        Divider(color: AppColors.grey,thickness: 8.rh),
         CartPriceView(
           cartBill: cartBill,
           onDeliveryFee: onDeliveryFee,

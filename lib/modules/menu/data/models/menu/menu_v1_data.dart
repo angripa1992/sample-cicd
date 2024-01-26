@@ -235,6 +235,8 @@ class MenuV1ItemsModel {
   @JsonKey(name: 'sku_id')
   String? skuID;
   List<V1ModifierGroupModel>? groups;
+  @JsonKey(name: 'item_modifier_group_exists')
+  bool? haveModifier;
 
   MenuV1ItemsModel({
     this.id,
@@ -251,6 +253,7 @@ class MenuV1ItemsModel {
     this.stock,
     this.skuID,
     this.groups,
+    this.haveModifier,
   });
 
   factory MenuV1ItemsModel.fromJson(Map<String, dynamic> json) => _$MenuV1ItemsModelFromJson(json);

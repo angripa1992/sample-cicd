@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/tag_title.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/widgets/app_button.dart';
 import 'package:klikit/resources/assets.dart';
@@ -117,13 +118,7 @@ class _OrderTypeSelectorState extends State<OrderTypeSelector> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          AppStrings.order_type.tr(),
-          style: semiBoldTextStyle(
-            color: AppColors.neutralB700,
-            fontSize: 16.rSp,
-          ),
-        ),
+        TagTitleView(title: AppStrings.order_type.tr(),willShowReqTag: false,required: false),
         SizedBox(height: 16.rh),
         Container(
           padding: EdgeInsets.all(AppSize.s4.rSp),

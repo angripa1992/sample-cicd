@@ -27,7 +27,7 @@ class MenuCategoryItem {
   final List<MenuVisibility> visibilities;
   final MenuAvailableTimes availableTimes;
   final List<MenuResource>? resources;
-  final List<ModifierGroup> groups;
+  final bool haveModifier;
   final MenuBranchInfo branchInfo;
   bool enabled;
   MenuOutOfStock outOfStock;
@@ -52,7 +52,7 @@ class MenuCategoryItem {
     required this.outOfStock,
     required this.availableTimes,
     required this.branchInfo,
-    required this.groups,
+    required this.haveModifier,
     this.resources,
   });
 
@@ -65,6 +65,4 @@ class MenuCategoryItem {
     }
     return visibility.visible;
   }
-
-  bool haveModifier() => groups.isNotEmpty;
 }

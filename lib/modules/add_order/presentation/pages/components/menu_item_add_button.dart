@@ -29,6 +29,9 @@ class MenuItemAddCounterButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.rSp),
             color: AppColors.white,
+            border: Border.all(
+              color: (numberOfAddedItem > 0 && !menuItem.haveModifier) ? AppColors.primary : AppColors.white,
+            ),
           ),
           child: _getButtons(numberOfAddedItem),
         );
@@ -37,9 +40,9 @@ class MenuItemAddCounterButton extends StatelessWidget {
   }
 
   Widget _getButtons(int count) {
-    if (count > 0 && menuItem.haveModifier()) {
+    if (count > 0 && menuItem.haveModifier) {
       return _modifierItemButton(count);
-    } else if (count > 0 && !menuItem.haveModifier()) {
+    } else if (count > 0 && !menuItem.haveModifier) {
       return _nonModifierItemAddButton(count);
     } else {
       return _addButton();
@@ -48,20 +51,30 @@ class MenuItemAddCounterButton extends StatelessWidget {
 
   Widget _addButton() => IconButton(
         onPressed: () {
-          if (menuItem.haveModifier()) {
+          if (menuItem.haveModifier) {
             onAddModifierItem();
           } else {
             onAddNonModifierItem();
           }
         },
+        padding: EdgeInsets.zero,
         constraints: const BoxConstraints(),
-        icon: Icon(
-          Icons.add,
-          color: AppColors.neutralB600,
-        ),
+        icon: Icon(Icons.add, color: AppColors.primary),
       );
 
-  Widget _modifierItemButton(int count) => TextButton(onPressed: onAddModifierItem, child: Text('$count'));
+  Widget _modifierItemButton(int count) => InkWell(
+        onTap: onAddModifierItem,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.rSp, vertical: 4.rSp),
+          child: Text(
+            '$count',
+            style: mediumTextStyle(
+              color: AppColors.neutralB600,
+              fontSize: 14.rSp,
+            ),
+          ),
+        ),
+      );
 
   Widget _nonModifierItemAddButton(int count) => Row(
         children: [

@@ -20,6 +20,7 @@ class MenuCategoryItemView extends StatelessWidget {
   final VoidCallback onAddNonModifierItem;
   final VoidCallback onAddModifierItem;
   final VoidCallback onRemoveNonModifierItem;
+  final VoidCallback onShowDetails;
 
   const MenuCategoryItemView({
     Key? key,
@@ -28,6 +29,7 @@ class MenuCategoryItemView extends StatelessWidget {
     required this.onAddModifierItem,
     required this.onAddNonModifierItem,
     required this.onRemoveNonModifierItem,
+    required this.onShowDetails,
   }) : super(key: key);
 
   MenuAvailability _checkAvailability() {
@@ -45,36 +47,40 @@ class MenuCategoryItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final availability = _checkAvailability();
-    return Container(
-      width: 100.rw,
-      padding: EdgeInsets.symmetric(horizontal: 4.rw),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 90.rh,
-            child: Stack(
-              alignment: AlignmentDirectional.center,
-              clipBehavior: Clip.none,
-              children: [
-                MenuItemImageView(
-                  image: menuItem.image,
-                  availability: availability,
-                ),
-                if (availability == MenuAvailability.AVAILABLE)
-                  Positioned(
-                    bottom: 8,
-                    child: MenuItemAddCounterButton(
-                      menuItem: menuItem,
-                      onAddModifierItem: onAddModifierItem,
-                      onAddNonModifierItem: onAddNonModifierItem,
-                      onRemoveNonModifierItem: onRemoveNonModifierItem,
-                    ),
+    return InkWell(
+      onTap: availability == MenuAvailability.AVAILABLE ? onShowDetails : null,
+      child: Container(
+        width: 100.rw,
+        padding: EdgeInsets.symmetric(horizontal: 4.rw),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 90.rh,
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                clipBehavior: Clip.none,
+                children: [
+                  MenuItemImageView(
+                    image: menuItem.image,
+                    availability: availability,
                   ),
-              ],
+                  if (availability == MenuAvailability.AVAILABLE)
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: MenuItemAddCounterButton(
+                        menuItem: menuItem,
+                        onAddModifierItem: onAddModifierItem,
+                        onAddNonModifierItem: onAddNonModifierItem,
+                        onRemoveNonModifierItem: onRemoveNonModifierItem,
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
-          _nameAndPrice(availability),
-        ],
+            _nameAndPrice(availability),
+          ],
+        ),
       ),
     );
   }

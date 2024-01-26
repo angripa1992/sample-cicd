@@ -2,20 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
+import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/cart_item_counter.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
+import 'package:klikit/resources/assets.dart';
+import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/styles.dart';
 
-import '../../../../../../core/utils/price_calculator.dart';
-import '../../../../../../resources/assets.dart';
-import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
-import '../../../../../../resources/strings.dart';
-import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
-import '../../../../../widgets/counter_view.dart';
-import '../../../../../widgets/menu_item_image_view.dart';
-import '../../../../domain/entities/cart_bill.dart';
 import 'cart_item_note_view.dart';
 
 class CartItemView extends StatelessWidget {
@@ -38,18 +35,15 @@ class CartItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(itemBill == null) return const SizedBox();
-    final haveDiscount = itemBill!.discountedItemPrice != itemBill!.itemPrice;
+    if (itemBill == null) return const SizedBox();
     return Column(
       children: [
         InkWell(
           onTap: cartItem.modifiers.isEmpty ? null : onEdit,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+            padding: EdgeInsets.symmetric(vertical: 8.rh),
             child: Row(
               children: [
-                MenuItemImageView(url: cartItem.item.image),
-                SizedBox(width: AppSize.s16.rw),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,77 +52,29 @@ class CartItemView extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              '${itemBill!.quantity}x ${cartItem.item.title}',
+                              cartItem.item.title,
                               style: mediumTextStyle(
                                 color: AppColors.black,
-                                fontSize: AppFontSize.s16.rSp,
+                                fontSize: 16.rSp,
                               ),
                             ),
                           ),
-                          SizedBox(width: AppSize.s16.rw),
+                          SizedBox(width: 24.rw),
                           IconButton(
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
                             onPressed: () => onDelete(cartItem),
                             icon: SvgPicture.asset(
                               AppIcons.delete,
-                              height: AppSize.s18.rh,
-                              width: AppSize.s18.rw,
+                              height: 18.rh,
+                              width: 18.rw,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: AppSize.s2.rh),
-                      Row(
-                        children: [
-                          if (haveDiscount)
-                            Text(
-                              PriceCalculator.formatPrice(
-                                price: itemBill!.discountedItemPrice * itemBill!.quantity,
-                                code: cartItem.itemPrice.currencyCode,
-                                symbol: cartItem.itemPrice.currencySymbol,
-                              ),
-                              style: TextStyle(
-                                color: AppColors.black,
-                                fontSize: AppFontSize.s14.rSp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          if (haveDiscount) SizedBox(width: AppSize.s8.rw),
-                          Text(
-                            PriceCalculator.formatPrice(
-                              price: itemBill!.itemPrice * itemBill!.quantity,
-                              code: cartItem.itemPrice.currencyCode,
-                              symbol: cartItem.itemPrice.currencySymbol,
-                            ),
-                            style: TextStyle(
-                              color: haveDiscount ? AppColors.red : AppColors.black,
-                              fontSize: AppFontSize.s14.rSp,
-                              fontWeight: FontWeight.w400,
-                              decoration: haveDiscount ? TextDecoration.lineThrough : TextDecoration.none,
-                            ),
-                          ),
-                        ],
-                      ),
-                      FutureBuilder<String>(
-                        future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
-                        builder: (context, snapShot) {
-                          if (snapShot.hasData) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                top: snapShot.data!.isNotEmpty ? AppSize.s8.rh : 0,
-                              ),
-                              child: Text(
-                                snapShot.data!,
-                                style: regularTextStyle(
-                                  color: AppColors.greyDarker,
-                                ),
-                              ),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
+                      SizedBox(height: 6.rh),
+                      _itemPriceView(),
+                      _modifierNames(),
                       CartItemNoteView(cartItem: cartItem),
                     ],
                   ),
@@ -137,34 +83,94 @@ class CartItemView extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(height: 8.rh),
         _actionButtons(),
         if (cartItem.promoInfo != null) _appliedPromoView(),
-        const Divider(),
+        Padding(
+          padding: EdgeInsets.only( top: 8.rh),
+          child: const Divider(),
+        ),
       ],
+    );
+  }
+
+  Widget _itemPriceView() {
+    final haveDiscount = itemBill!.discountedItemPrice != itemBill!.itemPrice;
+    return Row(
+      children: [
+        if (haveDiscount)
+          Text(
+            PriceCalculator.formatPrice(
+              price: itemBill!.discountedItemPrice * itemBill!.quantity,
+              code: cartItem.itemPrice.currencyCode,
+              symbol: cartItem.itemPrice.currencySymbol,
+            ),
+            style: TextStyle(
+              color: AppColors.neutralB700,
+              fontSize: 15.rSp,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        if (haveDiscount) SizedBox(width: 8.rw),
+        Text(
+          PriceCalculator.formatPrice(
+            price: itemBill!.itemPrice * itemBill!.quantity,
+            code: cartItem.itemPrice.currencyCode,
+            symbol: cartItem.itemPrice.currencySymbol,
+          ),
+          style: TextStyle(
+            color: haveDiscount ? AppColors.red : AppColors.neutralB700,
+            fontSize: 15.rSp,
+            fontWeight: FontWeight.w400,
+            decoration: haveDiscount ? TextDecoration.lineThrough : TextDecoration.none,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _modifierNames() {
+    return FutureBuilder<String>(
+      future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
+      builder: (context, snapShot) {
+        if (snapShot.hasData) {
+          return Padding(
+            padding: EdgeInsets.only(top: snapShot.data!.isNotEmpty ? 10.rh : 0),
+            child: Text(
+              snapShot.data!,
+              style: regularTextStyle(
+                color: AppColors.neutralB100,
+                fontSize: 13.rSp,
+              ),
+            ),
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 
   Widget _appliedPromoView() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+      margin: EdgeInsets.only(top: 16.rh),
       padding: EdgeInsets.symmetric(
-        vertical: AppSize.s8.rh,
-        horizontal: AppSize.s8.rw,
+        vertical: 8.rh,
+        horizontal: 8.rw,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+        borderRadius: BorderRadius.circular(8.rSp),
         color: AppColors.grey,
       ),
       child: Row(
         children: [
           SvgPicture.asset(AppIcons.discount),
-          SizedBox(width: AppSize.s8.rw),
+          SizedBox(width: 8.rw),
           Expanded(
             child: Text(
               cartItem.promoInfo?.promo?.code ?? '',
               style: mediumTextStyle(
                 color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
+                fontSize: 14.rSp,
               ),
             ),
           ),
@@ -173,7 +179,7 @@ class CartItemView extends StatelessWidget {
               '${cartItem.promoInfo?.numberOfSeniorCitizen} ${AppStrings.pieces.tr()}',
               style: mediumTextStyle(
                 color: AppColors.black,
-                fontSize: AppFontSize.s14.rSp,
+                fontSize: 14.rSp,
               ),
             ),
         ],
@@ -184,31 +190,25 @@ class CartItemView extends StatelessWidget {
   Widget _actionButtons() {
     return Row(
       children: [
-        _outlineButton(
-          onPressed: onEdit,
-          text: AppStrings.edit.tr(),
-          enabled: cartItem.modifiers.isNotEmpty,
-        ),
-        SizedBox(width: AppSize.s8.rw),
+        if (cartItem.modifiers.isNotEmpty) _outlineButton(onPressed: onEdit, text: AppStrings.edit.tr()),
+        if (cartItem.modifiers.isNotEmpty) SizedBox(width: 8.rw),
         Visibility(
           visible: !CartManager().isWebShopOrder,
           child: _outlineButton(
             text: AppStrings.discount.tr(),
             icon: itemBill!.discount > 0 ? Icons.edit : Icons.add,
-            enabled: true,
             onPressed: () {
               addDiscount(cartItem);
             },
           ),
         ),
         const Spacer(),
-        CounterView(
+        CartItemCounterView(
           count: cartItem.quantity,
           minCount: 1,
           onChanged: (quantity) {
             onQuantityChanged(cartItem, quantity);
           },
-          enabled: true,
         ),
       ],
     );
@@ -218,40 +218,34 @@ class CartItemView extends StatelessWidget {
     IconData? icon,
     required String text,
     required VoidCallback onPressed,
-    required bool enabled,
   }) {
-    return OutlinedButton(
-      style: OutlinedButton.styleFrom(
-        minimumSize: Size.zero,
-        padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s8.rw,
-          vertical: AppSize.s4.rh,
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 4.rh),
+        decoration: BoxDecoration(
+          color: AppColors.neutralB20,
+          borderRadius: BorderRadius.circular(16.rSp),
+          border: Border.all(color: AppColors.neutralB40),
         ),
-        side: BorderSide(
-          color: enabled ? AppColors.primary : AppColors.greyDarker,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        ),
-      ),
-      onPressed: enabled ? onPressed : null,
-      child: Row(
-        children: [
-          if (icon != null)
-            Icon(
-              icon,
-              color: enabled ? AppColors.primary : AppColors.greyDarker,
-              size: AppSize.s14.rSp,
+        child: Row(
+          children: [
+            if (icon != null)
+              Icon(
+                icon,
+                color: AppColors.neutralB700,
+                size: 18.rSp,
+              ),
+            if (icon != null) SizedBox(width: 4.rw),
+            Text(
+              text,
+              style: mediumTextStyle(
+                color: AppColors.neutralB700,
+                fontSize: 14.rSp,
+              ),
             ),
-          if (icon != null) SizedBox(width: AppSize.s4.rw),
-          Text(
-            text,
-            style: mediumTextStyle(
-              color: enabled ? AppColors.primary : AppColors.greyDarker,
-              fontSize: AppFontSize.s14.rSp,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

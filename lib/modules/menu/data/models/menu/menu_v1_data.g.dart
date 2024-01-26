@@ -249,6 +249,7 @@ MenuV1ItemsModel _$MenuV1ItemsModelFromJson(Map<String, dynamic> json) =>
       groups: (json['groups'] as List<dynamic>?)
           ?.map((e) => V1ModifierGroupModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      haveModifier: json['item_modifier_group_exists'] as bool?,
     );
 
 Map<String, dynamic> _$MenuV1ItemsModelToJson(MenuV1ItemsModel instance) =>
@@ -267,4 +268,5 @@ Map<String, dynamic> _$MenuV1ItemsModelToJson(MenuV1ItemsModel instance) =>
       'default_item_id': instance.defaultItemId,
       'sku_id': instance.skuID,
       'groups': instance.groups,
+      'item_modifier_group_exists': instance.haveModifier,
     };

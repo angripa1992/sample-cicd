@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../../../../../../resources/colors.dart';
@@ -23,12 +24,14 @@ class CartItemBrand extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
           child: Row(
             children: [
+              KTNetworkImage(imageUrl: menuBrand.logo,height: 32.rSp,width: 32.rSp,imageBorderWidth: 1),
+              SizedBox(width: 12.rw),
               Expanded(
                 child: Text(
                   menuBrand.title,
-                  style: boldTextStyle(
+                  style: mediumTextStyle(
                     color: AppColors.black,
-                    fontSize: AppFontSize.s15.rSp,
+                    fontSize: AppFontSize.s14.rSp,
                   ),
                 ),
               ),

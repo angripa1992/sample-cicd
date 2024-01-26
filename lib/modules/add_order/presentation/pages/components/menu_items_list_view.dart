@@ -149,6 +149,13 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
           onRemoveNonModifierItem: (selectedMenuItem) {
             CartManager().removeNonModifierItemFromCart(selectedMenuItem.id);
           },
+          onShowDetails: (item) {
+            if (item.haveModifier) {
+              _fetchModifier(item);
+            } else {
+              _showItemDetails(context, item);
+            }
+          },
         ),
       ),
     );
@@ -278,6 +285,14 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
                   },
                   onRemoveNonModifierItem: () {
                     CartManager().removeNonModifierItemFromCart(category.items[index].id);
+                  },
+                  onShowDetails: () {
+                    final item = category.items[index];
+                    if (item.haveModifier) {
+                      _fetchModifier(item);
+                    } else {
+                      _showItemDetails(context, item);
+                    }
                   },
                 );
               },

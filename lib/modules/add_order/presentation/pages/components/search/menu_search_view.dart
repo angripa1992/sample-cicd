@@ -23,6 +23,7 @@ class MenuSearchView extends StatefulWidget {
   final Function(MenuCategoryItem) onAddNonModifierItem;
   final Function(MenuCategoryItem) onAddModifierItem;
   final Function(MenuCategoryItem) onRemoveNonModifierItem;
+  final Function(MenuCategoryItem) onShowDetails;
 
   const MenuSearchView({
     Key? key,
@@ -33,6 +34,7 @@ class MenuSearchView extends StatefulWidget {
     required this.onAddModifierItem,
     required this.onAddNonModifierItem,
     required this.onRemoveNonModifierItem,
+    required this.onShowDetails,
   }) : super(key: key);
 
   @override
@@ -185,6 +187,9 @@ class _MenuSearchViewState extends State<MenuSearchView> {
                           },
                           onRemoveNonModifierItem: () {
                             widget.onRemoveNonModifierItem(items[index]);
+                          },
+                          onShowDetails: () {
+                            widget.onShowDetails(items[index]);
                           },
                         );
                       },
