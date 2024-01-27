@@ -368,5 +368,9 @@
   "branch": "Branch",
   "manage_modifiers": "Manage Modifiers",
   "custom_date": "Custom Date",
-  "custom_time": "Custom Time"
+  "custom_time": "Custom Time",
+  "start_time": "Start time",
+  "end_time": "End time",
+  "time_range_selection_message": "Time range selected \nin between two dates",
+  "time_selection": "Time Selection"
 }
