@@ -179,7 +179,7 @@ class InAppNotificationHandler {
                     'New ${counter.totalCount() > 1 ? 'Orders' : 'Order'}!',
                     style: semiBoldTextStyle(
                       color: AppColors.neutralB700,
-                      fontSize: AppFontSize.s18.rSp,
+                      fontSize: AppFontSize.s16.rSp,
                     ),
                   ),
                   const Spacer(),
