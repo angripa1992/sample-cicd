@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/date_time_patterns.dart';
 import 'package:klikit/app/enums.dart';
@@ -10,6 +11,7 @@ import 'package:klikit/modules/home/presentation/components/time_picker.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/resource_resolver.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -59,7 +61,7 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
                   ),
                   if (!isSingle)
                     Tooltip(
-                      message: 'Time range selected \nin between two dates',
+                      message: AppStrings.time_range_selection_message.tr(),
                       child: ImageResourceResolver.infoSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.warningY300),
                     ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),
                   const Spacer(),
@@ -81,9 +83,9 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
 
                   return Expanded(
                     child: LabeledView(
-                      label: 'Start time',
+                      label: AppStrings.start_time.tr(),
                       widget: KTButton(
-                        controller: KTButtonController(label: dateTime?.format(DTPatterns.hh_mm_a) ?? 'Select'),
+                        controller: KTButtonController(label: dateTime?.format(DTPatterns.hh_mm_a) ?? AppStrings.select.tr()),
                         backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                         labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                         splashColor: AppColors.greyBright,
@@ -105,11 +107,11 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
 
                   return Expanded(
                     child: LabeledView(
-                      label: 'End time',
+                      label: AppStrings.end_time.tr(),
                       widget: ValueListenableBuilder<DateTime?>(
                         valueListenable: startDateTime,
                         builder: (_, startDT, __) => KTButton(
-                          controller: KTButtonController(label: dateTime?.format(DTPatterns.hh_mm_a) ?? 'Select', enabled: startDT != null),
+                          controller: KTButtonController(label: dateTime?.format(DTPatterns.hh_mm_a) ?? AppStrings.select.tr(), enabled: startDT != null),
                           backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                           labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                           splashColor: AppColors.greyBright,

@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/modules/home/presentation/components/time_range_picker.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/decorations.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-Future<DateTime?> showKTDatePicker(
-  BuildContext context, {
+Future<DateTime?> showKTDatePicker(BuildContext context, {
   DateTime? initialDate,
   DateTime? firstDate,
   DateTime? lastDate,
@@ -89,7 +90,7 @@ Future<DateTimeRange?> showKTTimeRangePicker(BuildContext context, DateTime sele
 
       return AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
-        title: const Text('Time Selection'),
+        title: Text(AppStrings.time_selection.tr()),
         titlePadding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s16.rh, bottom: AppSize.s6.rh),
         contentPadding: EdgeInsets.zero,
         content: SizedBox(
@@ -108,7 +109,7 @@ Future<DateTimeRange?> showKTTimeRangePicker(BuildContext context, DateTime sele
         actionsPadding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s8.rh, bottom: AppSize.s16.rh),
         actions: <Widget>[
           KTButton(
-            controller: KTButtonController(label: 'Generate Report'),
+            controller: KTButtonController(label: AppStrings.ok.tr()),
             backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
             labelStyle: mediumTextStyle(color: AppColors.white),
             progressPrimaryColor: AppColors.white,
