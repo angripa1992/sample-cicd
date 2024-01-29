@@ -4,13 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/network/error_handler.dart';
+import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/cart_price_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/checkout/checkout_actions_buttons.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/checkout/customer_info.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/checkout/pament_method.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/order_type_selector.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
@@ -46,6 +54,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final _textController = TextEditingController();
   final _calculateBillNotifier = ValueNotifier<CartBill?>(null);
+  late ValueNotifier<int?> _paymentChanelNotifier;
   CartBill? _cartBill;
   int _currentDiscountType = DiscountType.flat;
   int _currentOrderType = OrderType.DINE_IN;
@@ -53,6 +62,9 @@ class _CartScreenState extends State<CartScreen> {
   num _globalDiscount = 0;
   num _globalAdditionalFee = 0;
   num _globalDeliveryFee = 0;
+  int? _paymentMethod;
+  int? _paymentChannel;
+  CustomerInfo? _customerInfo;
 
   @override
   void initState() {
@@ -66,6 +78,13 @@ class _CartScreenState extends State<CartScreen> {
     _currentOrderType = CartManager().orderType;
     _currentSource = CartManager().orderSource;
     _textController.text = CartManager().orderComment;
+    final paymentInfo = CartManager().paymentInfo;
+    if (paymentInfo != null) {
+      _paymentMethod = paymentInfo.paymentMethod;
+      _paymentChannel = paymentInfo.paymentChannel;
+    }
+    _customerInfo = CartManager().customerInfo;
+    _paymentChanelNotifier = ValueNotifier(_paymentChannel);
     _calculateBill();
     super.initState();
   }
@@ -104,42 +123,8 @@ class _CartScreenState extends State<CartScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Visibility(
-                  visible: !CartManager().isWebShopOrder,
-                  child: FutureBuilder<List<AddOrderSourceType>>(
-                    future: getIt.get<AddOrderRepository>().fetchSources(),
-                    builder: (_, snap) {
-                      if (snap.hasData && snap.data != null) {
-                        return SourceSelector(
-                          sources: snap.data!,
-                          initialSource: _currentSource,
-                          onChangeSource: (source) {
-                            _currentSource = source.id;
-                            CartManager().orderSource = _currentSource;
-                          },
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                ),
-                Divider(color: AppColors.grey,thickness: 8.rh),
-                Visibility(
-                  visible: !CartManager().willUpdateOrder,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.rw,vertical: 8.rh),
-                    child: OrderTypeSelector(
-                      initialType: _currentOrderType,
-                      onTypeChange: (type) {
-                        _currentOrderType = type;
-                        CartManager().removePromoForOrderType(_currentOrderType);
-                        CartManager().clearCart();
-                        CartManager().orderType = _currentOrderType;
-                      },
-                    ),
-                  ),
-                ),
-                Divider(color: AppColors.grey,thickness: 8.rh),
+                if (!CartManager().isWebShopOrder) _orderTypeSelectorView(),
+                if (!CartManager().willUpdateOrder) _orderSourceSelectorView(),
                 CartItemsListView(
                   cartBill: _cartBill!,
                   onEdit: (item) {
@@ -156,58 +141,167 @@ class _CartScreenState extends State<CartScreen> {
                   onDelete: _remove,
                   onQuantityChanged: _quantityChanged,
                   removeAll: _removeAll,
-                  onDeliveryFee: () {
-                    _showGlobalFeeDialog(
-                      value: _cartBill!.deliveryFee,
-                      feeType: FeeType.delivery,
-                    );
-                  },
-                  onDiscount: () {
-                    _addDiscount(
-                      isItemDiscount: false,
-                      discountType: _currentDiscountType,
-                      discountValue: _cartBill!.manualDiscount,
-                    );
-                  },
-                  onAdditionalFee: () {
-                    _showGlobalFeeDialog(
-                      value: _cartBill!.additionalFee,
-                      feeType: FeeType.additional,
-                    );
-                  },
-                  onApplyRoundOff: (roundOffApplicable) {
-                    CartManager().setRoundOffApplicable = roundOffApplicable;
-                    _calculateBill();
-                  },
-                  textController: _textController,
                 ),
+                Divider(color: AppColors.grey, thickness: 8.rh),
+                SpecialInstructionField(controller: _textController),
+                Divider(color: AppColors.grey, thickness: 8.rh),
+                if (!CartManager().isWebShopOrder) _customerInfoView(),
+                if (!CartManager().willUpdateOrder) _paymentMethodView(),
+                _cartPriceView(),
               ],
             ),
           ),
         ),
-        CartManager().isWebShopOrder
-            ? //if webshop update order and fee paid by customer is false then merchant total price will show else totalPrice will show
-            OrderActionButton(
-                buttonText: AppStrings.update_order.tr(),
-                enable: true,
-                loading: false,
-                totalPrice: _cartBill!.feePaidByCustomer ? _cartBill!.totalPrice : _cartBill!.merchantTotalPrice,
-                onProceed: _updateWebShopOrder,
-              )
-            : OrderActionButton(
-                buttonText: AppStrings.procees_to_checkout.tr(),
-                enable: true,
-                loading: false,
-                totalPrice: _cartBill!.totalPrice,
-                onProceed: _onCheckout,
-              ),
+        _actionButton(),
       ],
     );
+  }
+
+  Widget _orderSourceSelectorView() {
+    return Column(
+      children: [
+        FutureBuilder<List<AddOrderSourceType>>(
+          future: getIt.get<AddOrderRepository>().fetchSources(),
+          builder: (_, snap) {
+            if (snap.hasData && snap.data != null) {
+              return SourceSelector(
+                sources: snap.data!,
+                initialSource: _currentSource,
+                onChangeSource: (source) {
+                  _currentSource = source.id;
+                  CartManager().orderSource = _currentSource;
+                },
+              );
+            }
+            return const SizedBox();
+          },
+        ),
+        Divider(color: AppColors.grey, thickness: 8.rh),
+      ],
+    );
+  }
+
+  Widget _orderTypeSelectorView() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 8.rh),
+          child: OrderTypeSelector(
+            initialType: _currentOrderType,
+            onTypeChange: (type) {
+              _currentOrderType = type;
+              CartManager().removePromoForOrderType(_currentOrderType);
+              CartManager().clearCart();
+              CartManager().orderType = _currentOrderType;
+            },
+          ),
+        ),
+        Divider(color: AppColors.grey, thickness: 8.rh),
+      ],
+    );
+  }
+
+  Widget _customerInfoView() {
+    return Column(
+      children: [
+        CustomerInfoView(
+          initInfo: _customerInfo,
+          onCustomerInfoSave: (customerInfoData) {
+            _customerInfo = customerInfoData;
+          },
+        ),
+        Divider(color: AppColors.grey, thickness: 8.rh),
+      ],
+    );
+  }
+
+  Widget _paymentMethodView() {
+    return Column(
+      children: [
+        PaymentMethodView(
+          initMethod: _paymentMethod,
+          initChannel: _paymentChannel,
+          onChanged: (paymentMethod, paymentChannel) {
+            _paymentMethod = paymentMethod;
+            _paymentChannel = paymentChannel;
+            _paymentChanelNotifier.value = _paymentChannel;
+          },
+        ),
+        Divider(color: AppColors.grey, thickness: 8.rh),
+      ],
+    );
+  }
+
+  Widget _cartPriceView() {
+    return Column(
+      children: [
+        CartPriceView(
+          cartBill: _cartBill!,
+          onDeliveryFee: () {
+            _showGlobalFeeDialog(
+              value: _cartBill!.deliveryFee,
+              feeType: FeeType.delivery,
+            );
+          },
+          onDiscount: () {
+            _addDiscount(
+              isItemDiscount: false,
+              discountType: _currentDiscountType,
+              discountValue: _cartBill!.manualDiscount,
+            );
+          },
+          onAdditionalFee: () {
+            _showGlobalFeeDialog(
+              value: _cartBill!.additionalFee,
+              feeType: FeeType.additional,
+            );
+          },
+          onApplyRoundOff: (roundOffApplicable) {
+            CartManager().setRoundOffApplicable = roundOffApplicable;
+            _calculateBill();
+          },
+        ),
+        Divider(color: AppColors.grey, thickness: 8.rh),
+      ],
+    );
+  }
+
+  Widget _actionButton() {
+    if (CartManager().isWebShopOrder) {
+      return OrderActionButton(
+        buttonText: AppStrings.update_order.tr(),
+        enable: true,
+        loading: false,
+        totalPrice: _cartBill!.feePaidByCustomer ? _cartBill!.totalPrice : _cartBill!.merchantTotalPrice,
+        onProceed: _updateWebShopOrder,
+      );
+    } else if (CartManager().willUpdateOrder) {
+      return OrderActionButton(
+        buttonText: AppStrings.update_order.tr(),
+        enable: true,
+        loading: false,
+        totalPrice: _cartBill!.totalPrice,
+        onProceed: () => _placeOrder(CheckoutState.PLACE_ORDER),
+      );
+    } else {
+      return ValueListenableBuilder<int?>(
+        valueListenable: _paymentChanelNotifier,
+        builder: (_, chanelID, __) {
+          return CheckoutActionButton(
+            willShowPlaceOrder: chanelID != PaymentChannelID.CREATE_QRIS,
+            totalPrice: _cartBill!.totalPrice,
+            onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
+            onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+          );
+        },
+      );
+    }
   }
 
   @override
   void dispose() {
     //_calculateBillNotifier.dispose();
+    _paymentChanelNotifier.dispose();
     _textController.dispose();
     super.dispose();
   }
@@ -428,5 +522,70 @@ class _CartScreenState extends State<CartScreen> {
         CartManager().clearAndNavigateToOrderScreen(context);
       },
     );
+  }
+
+  void _placeOrder(CheckoutState checkoutState) async {
+    if (checkoutState == CheckoutState.PAY_NOW && (_paymentMethod == null || _paymentChannel == null)) {
+      showErrorSnackBar(context, 'Please select payment method');
+      return;
+    }
+    EasyLoading.show();
+    final checkoutData = CheckoutData(
+      items: CartManager().items,
+      type: _currentOrderType,
+      source: _currentSource,
+      cartBill: _cartBill!,
+      discountType: _currentDiscountType,
+      discountValue: _globalDiscount,
+      instruction: _textController.text,
+    );
+    final body = await OrderEntityProvider().placeOrderRequestData(
+      checkoutData: checkoutData,
+      paymentStatus: _paymentStatus(checkoutState),
+      paymentMethod: _paymentMethod,
+      paymentChannel: _paymentChannel,
+      info: _customerInfo,
+    );
+    final response = await getIt.get<AddOrderRepository>().placeOrder(body: body);
+    EasyLoading.dismiss();
+    response.fold(
+      (failure) => showApiErrorSnackBar(context, failure),
+      (successResponse) => _handlePlacedOrderResponse(checkoutState, successResponse),
+    );
+  }
+
+  int _paymentStatus(CheckoutState checkoutState) {
+    late int paymentStatus;
+    if (CartManager().willUpdateOrder) {
+      paymentStatus = CartManager().paymentInfo?.paymentStatus ?? PaymentStatusId.pending;
+    } else if (checkoutState == CheckoutState.PAY_NOW) {
+      paymentStatus = PaymentStatusId.paid;
+    } else {
+      paymentStatus = PaymentStatusId.pending;
+    }
+    return paymentStatus;
+  }
+
+  void _handlePlacedOrderResponse(CheckoutState checkoutState, PlacedOrderResponse response) {
+    if (checkoutState == CheckoutState.PAY_NOW && response.checkoutLink != null) {
+      _payThroughQrisNow(response);
+      return;
+    }
+    showSuccessSnackBar(context, response.message ?? '');
+    if (CartManager().willUpdateOrder) {
+      CartManager().clearAndNavigateToOrderScreen(context);
+    } else {
+      CartManager().clearAndNavigateToAddOrderScreen(context);
+    }
+  }
+
+  void _payThroughQrisNow(PlacedOrderResponse response) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => QrisPaymentPage(
+        paymentLink: response.checkoutLink!,
+        orderID: response.orderId!,
+        paymentState: PaymentState.PRE_PAYMENT,
+      ),
+    ));
   }
 }

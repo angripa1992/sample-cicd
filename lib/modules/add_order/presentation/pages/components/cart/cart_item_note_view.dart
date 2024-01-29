@@ -47,46 +47,45 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
     return _instruction.isEmpty
         ? const SizedBox()
         : InkWell(
-          onTap: () {
-            _openNote();
-          },
-          child: Container(
-            margin: EdgeInsets.only(top: 10.rh),
-            padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.rSp),
-              border: Border.all(color: AppColors.neutralB40),
-              color: AppColors.neutralB20,
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.note_rounded,
-                  size: 18.rSp,
-                  color: AppColors.neutralB200,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.rw),
-                    child: Text(
-                      widget.cartItem.itemInstruction,
-                      overflow: TextOverflow.ellipsis,
-                      style: mediumTextStyle(
-                        color: AppColors.neutralB200,
-                        fontSize: 13.rSp,
+            onTap: () {
+              _openNote();
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 10.rh),
+              padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.rSp),
+                border: Border.all(color: AppColors.neutralB40),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.note_rounded,
+                    size: 18.rSp,
+                    color: AppColors.neutralB200,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.rw),
+                      child: Text(
+                        widget.cartItem.itemInstruction,
+                        overflow: TextOverflow.ellipsis,
+                        style: mediumTextStyle(
+                          color: AppColors.neutralB200,
+                          fontSize: 13.rSp,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Icon(
-                  Icons.edit,
-                  size: 18.rSp,
-                  color: AppColors.neutralB200,
-                ),
-              ],
+                  Icon(
+                    Icons.edit,
+                    size: 18.rSp,
+                    color: AppColors.neutralB200,
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
+          );
   }
 
   void _openNote() {
@@ -106,32 +105,18 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
             children: [
               Row(
                 children: [
+                  Icon(Icons.note_rounded, color: AppColors.neutralB100,size: 20.rSp),
+                  SizedBox(width: 8.rw),
                   Expanded(
                     child: Text(
                       AppStrings.note.tr(),
                       style: boldTextStyle(
-                        color: AppColors.black,
+                        color: AppColors.neutralB600,
                         fontSize: 16.rSp,
                       ),
                     ),
                   ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.clear),
-                  ),
                 ],
-              ),
-              SizedBox(height: 12.rh),
-              Text(
-                AppStrings.add_note_for_item.tr(),
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: 14.rSp,
-                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 12.rh),
@@ -141,21 +126,44 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
                   minLines: 2,
                 ),
               ),
-              ElevatedButton(
-                onPressed: _save,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.rh),
-                  child: Text(
-                    AppStrings.save.tr(),
-                    style: mediumTextStyle(
-                      color: AppColors.white,
-                      fontSize: 14.rSp,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: _save,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.rh),
+                        child: Text(
+                          AppStrings.dismiss.tr(),
+                          style: mediumTextStyle(
+                            color: AppColors.black,
+                            fontSize: 14.rSp,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(width: 16.rw),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _save,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.rh),
+                        child: Text(
+                          AppStrings.save.tr(),
+                          style: mediumTextStyle(
+                            color: AppColors.white,
+                            fontSize: 14.rSp,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

@@ -31,7 +31,7 @@ class CartItemBrand extends StatelessWidget {
                   menuBrand.title,
                   style: mediumTextStyle(
                     color: AppColors.black,
-                    fontSize: AppFontSize.s14.rSp,
+                    fontSize: 14.rSp,
                   ),
                 ),
               ),

@@ -55,7 +55,7 @@ class CartItemView extends StatelessWidget {
                               cartItem.item.title,
                               style: mediumTextStyle(
                                 color: AppColors.black,
-                                fontSize: 16.rSp,
+                                fontSize: 14.rSp,
                               ),
                             ),
                           ),
@@ -64,11 +64,7 @@ class CartItemView extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(),
                             onPressed: () => onDelete(cartItem),
-                            icon: SvgPicture.asset(
-                              AppIcons.delete,
-                              height: 18.rh,
-                              width: 18.rw,
-                            ),
+                            icon: SvgPicture.asset(AppIcons.delete, height: 18.rh, width: 18.rw),
                           ),
                         ],
                       ),
@@ -76,6 +72,7 @@ class CartItemView extends StatelessWidget {
                       _itemPriceView(),
                       _modifierNames(),
                       CartItemNoteView(cartItem: cartItem),
+                      if (cartItem.promoInfo != null) _appliedPromoView(),
                     ],
                   ),
                 ),
@@ -85,9 +82,8 @@ class CartItemView extends StatelessWidget {
         ),
         SizedBox(height: 8.rh),
         _actionButtons(),
-        if (cartItem.promoInfo != null) _appliedPromoView(),
         Padding(
-          padding: EdgeInsets.only( top: 8.rh),
+          padding: EdgeInsets.only(top: 8.rh),
           child: const Divider(),
         ),
       ],
@@ -107,7 +103,7 @@ class CartItemView extends StatelessWidget {
             ),
             style: TextStyle(
               color: AppColors.neutralB700,
-              fontSize: 15.rSp,
+              fontSize: 14.rSp,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -120,7 +116,7 @@ class CartItemView extends StatelessWidget {
           ),
           style: TextStyle(
             color: haveDiscount ? AppColors.red : AppColors.neutralB700,
-            fontSize: 15.rSp,
+            fontSize: 14.rSp,
             fontWeight: FontWeight.w400,
             decoration: haveDiscount ? TextDecoration.lineThrough : TextDecoration.none,
           ),
@@ -135,13 +131,10 @@ class CartItemView extends StatelessWidget {
       builder: (context, snapShot) {
         if (snapShot.hasData) {
           return Padding(
-            padding: EdgeInsets.only(top: snapShot.data!.isNotEmpty ? 10.rh : 0),
+            padding: EdgeInsets.only(top: snapShot.data!.isNotEmpty ? 8.rh : 0),
             child: Text(
               snapShot.data!,
-              style: regularTextStyle(
-                color: AppColors.neutralB100,
-                fontSize: 13.rSp,
-              ),
+              style: regularTextStyle(color: AppColors.neutralB100, fontSize: 13.rSp),
             ),
           );
         }
@@ -152,14 +145,11 @@ class CartItemView extends StatelessWidget {
 
   Widget _appliedPromoView() {
     return Container(
-      margin: EdgeInsets.only(top: 16.rh),
-      padding: EdgeInsets.symmetric(
-        vertical: 8.rh,
-        horizontal: 8.rw,
-      ),
+      margin: EdgeInsets.only(top: 10.rh),
+      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.rSp),
-        color: AppColors.grey,
+        borderRadius: BorderRadius.circular(16.rSp),
+        border: Border.all(color: AppColors.neutralB40),
       ),
       child: Row(
         children: [
@@ -168,19 +158,13 @@ class CartItemView extends StatelessWidget {
           Expanded(
             child: Text(
               cartItem.promoInfo?.promo?.code ?? '',
-              style: mediumTextStyle(
-                color: AppColors.black,
-                fontSize: 14.rSp,
-              ),
+              style: mediumTextStyle(color: AppColors.black, fontSize: 14.rSp),
             ),
           ),
           if (cartItem.promoInfo?.promo?.isSeniorCitizenPromo ?? false)
             Text(
               '${cartItem.promoInfo?.numberOfSeniorCitizen} ${AppStrings.pieces.tr()}',
-              style: mediumTextStyle(
-                color: AppColors.black,
-                fontSize: 14.rSp,
-              ),
+              style: mediumTextStyle(color: AppColors.black, fontSize: 14.rSp),
             ),
         ],
       ),
@@ -230,19 +214,11 @@ class CartItemView extends StatelessWidget {
         ),
         child: Row(
           children: [
-            if (icon != null)
-              Icon(
-                icon,
-                color: AppColors.neutralB700,
-                size: 18.rSp,
-              ),
+            if (icon != null) Icon(icon, color: AppColors.neutralB700, size: 18.rSp),
             if (icon != null) SizedBox(width: 4.rw),
             Text(
               text,
-              style: mediumTextStyle(
-                color: AppColors.neutralB700,
-                fontSize: 14.rSp,
-              ),
+              style: mediumTextStyle(color: AppColors.neutralB700, fontSize: 14.rSp),
             ),
           ],
         ),

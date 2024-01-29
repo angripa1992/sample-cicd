@@ -9,7 +9,6 @@ import 'package:klikit/core/widgets/labeled_textfield.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/styles.dart';
-import 'package:klikit/resources/values.dart';
 
 import '../../../../../../resources/strings.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
@@ -77,10 +76,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.white,
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s16.rw,
-        vertical: AppSize.s16.rh,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
       child: Column(
         children: [
           ExpandedTile(
@@ -90,7 +86,7 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
               headerPadding: EdgeInsets.zero,
               headerSplashColor: AppColors.greyDarker,
               contentBackgroundColor: AppColors.white,
-              contentPadding: EdgeInsets.only(top: AppSize.s8.rh),
+              contentPadding: EdgeInsets.only(top: 8.rh),
               contentRadius: 0,
               titlePadding: EdgeInsets.zero,
             ),
@@ -106,17 +102,17 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
                 Text(
                   AppStrings.customer_info.tr(),
                   style: semiBoldTextStyle(
-                    fontSize: AppSize.s16.rSp,
+                    fontSize: 14.rSp,
                     color: AppColors.neutralB700,
                   ),
                 ),
-                AppSize.s12.horizontalSpacer(),
+                12.horizontalSpacer(),
                 KTChip(
                   text: AppStrings.optional.tr(),
-                  textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
+                  textStyle: mediumTextStyle(fontSize: 10.rSp, color: AppColors.neutralB700),
                   strokeColor: AppColors.neutralB40,
                   backgroundColor: AppColors.white,
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+                  padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 2.rh),
                 )
               ],
             ),
@@ -127,40 +123,40 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
                   textInputAction: TextInputAction.next,
                   controller: _firstNameController,
                   inputType: TextInputType.name,
-                  inBetweenGap: AppSize.s6.rh,
+                  inBetweenGap: 6.rh,
                 ),
-                AppSize.s16.verticalSpacer(),
+                16.verticalSpacer(),
                 LabeledTextField(
                   label: AppStrings.last_name.tr(),
                   textInputAction: TextInputAction.next,
                   controller: _lastNameController,
                   inputType: TextInputType.name,
-                  inBetweenGap: AppSize.s6.rh,
+                  inBetweenGap: 6.rh,
                 ),
-                AppSize.s16.verticalSpacer(),
+                16.verticalSpacer(),
                 LabeledTextField(
                   label: AppStrings.email.tr(),
                   textInputAction: TextInputAction.next,
                   controller: _emailController,
                   inputType: TextInputType.emailAddress,
-                  inBetweenGap: AppSize.s6.rh,
+                  inBetweenGap: 6.rh,
                 ),
-                AppSize.s16.verticalSpacer(),
+                16.verticalSpacer(),
                 LabeledTextField(
                   label: AppStrings.phone.tr(),
                   textInputAction: TextInputAction.next,
                   controller: _phoneController,
                   inputType: TextInputType.phone,
-                  inBetweenGap: AppSize.s6.rh,
+                  inBetweenGap: 6.rh,
                 ),
-                AppSize.s16.verticalSpacer(),
+                16.verticalSpacer(),
                 LabeledTextField(
                   label: AppStrings.table_no.tr(),
                   textInputAction: TextInputAction.done,
                   controller: _tableNoController,
-                  inBetweenGap: AppSize.s6.rh,
+                  inBetweenGap: 6.rh,
                 ),
-                AppSize.s16.verticalSpacer(),
+                16.verticalSpacer(),
                 KTButton(
                   controller: KTButtonController(label: AppStrings.submit.tr()),
                   backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.neutralB30),

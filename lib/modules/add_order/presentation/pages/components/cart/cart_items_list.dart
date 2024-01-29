@@ -10,39 +10,27 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../utils/cart_manager.dart';
-import '../modifier/speacial_instruction.dart';
 import 'cart_item.dart';
 import 'cart_item_brand.dart';
-import 'cart_price_view.dart';
 
 class CartItemsListView extends StatelessWidget {
   final CartBill cartBill;
-  final TextEditingController textController;
-  final VoidCallback onDeliveryFee;
-  final VoidCallback onDiscount;
-  final VoidCallback onAdditionalFee;
   final Function(AddToCartItem) onEdit;
   final Function(Brand) addMore;
   final Function(AddToCartItem) addDiscount;
   final Function(AddToCartItem) onDelete;
   final Function(AddToCartItem, int) onQuantityChanged;
-  final Function(bool roundOffApplicable) onApplyRoundOff;
   final Function(int) removeAll;
 
   const CartItemsListView({
     Key? key,
     required this.cartBill,
-    required this.onDeliveryFee,
-    required this.onDiscount,
-    required this.onAdditionalFee,
     required this.onEdit,
     required this.addMore,
     required this.addDiscount,
     required this.onDelete,
     required this.onQuantityChanged,
     required this.removeAll,
-    required this.textController,
-    required this.onApplyRoundOff,
   }) : super(key: key);
 
   @override
@@ -113,16 +101,6 @@ class CartItemsListView extends StatelessWidget {
               ),
             );
           },
-        ),
-        Divider(color: AppColors.grey,thickness: 8.rh),
-        SpecialInstructionField(controller: textController),
-        Divider(color: AppColors.grey,thickness: 8.rh),
-        CartPriceView(
-          cartBill: cartBill,
-          onDeliveryFee: onDeliveryFee,
-          onAdditionalFee: onAdditionalFee,
-          onDiscount: onDiscount,
-          onApplyRoundOff: onApplyRoundOff,
         ),
       ],
     );

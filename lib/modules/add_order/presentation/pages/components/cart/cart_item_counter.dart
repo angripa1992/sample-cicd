@@ -82,7 +82,7 @@ class _CartItemCounterViewState extends State<CartItemCounterView> {
             _count.toString(),
             style: mediumTextStyle(
               color: AppColors.neutralB700,
-              fontSize: 16.rSp,
+              fontSize: 14.rSp,
             ),
           ),
         ),
