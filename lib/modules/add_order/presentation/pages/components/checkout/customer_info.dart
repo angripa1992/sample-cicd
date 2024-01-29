@@ -163,9 +163,8 @@ class _CustomerInfoViewState extends State<CustomerInfoView> {
                 AppSize.s16.verticalSpacer(),
                 KTButton(
                   controller: KTButtonController(label: AppStrings.submit.tr()),
-                  backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
-                  labelStyle: mediumTextStyle(color: AppColors.white),
-                  progressPrimaryColor: AppColors.white,
+                  backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.neutralB30),
+                  labelStyle: mediumTextStyle(color: AppColors.neutralB700),
                   verticalContentPadding: 10.rh,
                   onTap: _onSave,
                 ),
