@@ -52,6 +52,8 @@ class AppIcons {
   static const String cashSVG = "$ICON_PATH/ic_cash.svg";
   static const String digitalWalletSVG = "$ICON_PATH/ic_digital_wallet.svg";
   static const String qrCodeSVG = "$ICON_PATH/ic_qr_code.svg";
+  static const String customPaymentSVG = "$ICON_PATH/ic_custom_payment.svg";
+  static const String otherPaymentSVG = "$ICON_PATH/ic_other_payment.svg";
 }
 
 class AppSounds {
