@@ -134,19 +134,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     child: FutureBuilder<List<PaymentMethod>>(
                       future: getIt.get<BusinessInformationProvider>().fetchPaymentMethods(),
                       builder: (_, snapshot) {
-                        if (snapshot.hasData && snapshot.data?.isNotEmpty == true) {
-                          return PaymentMethodSelector(
-                            methods: snapshot.data!,
-                            initMethod: _paymentMethod,
-                            initChannel: _paymentChannel,
-                            onChanged: (paymentMethod, paymentChannel) {
-                              _paymentMethod = paymentMethod;
-                              _paymentChannel = paymentChannel;
-                              _paymentChanelNotifier.value = _paymentChannel;
-                            },
-                          );
-                        }
-                        return const SizedBox();
+                        return PaymentMethodSelector(
+                          methods: snapshot.hasData ? snapshot.data ?? [] : [],
+                          initMethod: _paymentMethod,
+                          initChannel: _paymentChannel,
+                          onChanged: (paymentMethod, paymentChannel) {
+                            _paymentMethod = paymentMethod;
+                            _paymentChannel = paymentChannel;
+                            _paymentChanelNotifier.value = _paymentChannel;
+                          },
+                        );
                       },
                     ),
                   ),
