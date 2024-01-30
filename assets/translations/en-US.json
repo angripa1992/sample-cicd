@@ -372,5 +372,6 @@
   "start_time": "Start time",
   "end_time": "End time",
   "time_range_selection_message": "Time range selected \nin between two dates",
-  "time_selection": "Time Selection"
+  "time_selection": "Time Selection",
+  "select_time": "Select Time"
 }

@@ -106,7 +106,7 @@ class _ZReportViewState extends State<ZReportView> {
                         days[days.indexOf(selectedItem)] = reportInfo = selectedItem.copyWith(dateTime: dateTime);
                       });
                     } else if (selectedItem.dateType == DateType.timeRange) {
-                      final DateTime? dateTime = await showKTDatePicker(context, initialDate: selectedItem.dateTime, positiveText: 'Select Time');
+                      final DateTime? dateTime = await showKTDatePicker(context, initialDate: selectedItem.dateTime, positiveText: AppStrings.select_time.tr());
                       if (dateTime != null && mounted) {
                         final DateTimeRange? result = await showKTTimeRangePicker(context, dateTime);
                         if (result != null) {

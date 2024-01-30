@@ -372,5 +372,6 @@
   "start_time": "เวลาเริ่มต้น",
   "end_time": "เวลาสิ้นสุด",
   "time_range_selection_message": "ช่วงเวลาที่เลือกอยู่ระหว่างวันทั้งสองวัน",
-  "time_selection": "เลือกเวลา"
+  "time_selection": "เลือกเวลา",
+  "select_time": "Select Time"
 }

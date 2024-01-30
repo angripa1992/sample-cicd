@@ -406,4 +406,5 @@ class AppStrings {
   static const String end_time = 'end_time';
   static const String time_range_selection_message = 'time_range_selection_message';
   static const String time_selection = 'time_selection';
+  static const String select_time = 'select_time';
 }

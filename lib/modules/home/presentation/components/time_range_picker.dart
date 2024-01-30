@@ -138,6 +138,7 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
                   fontColor: AppColors.neutralB700,
                   initialDateTime: initialDateTime,
                   maximumDateTime: selectedType == SelectionType.start ? initialDateTime.add(const Duration(days: 1)) : initialDateTime.add(const Duration(hours: 24)),
+                  minuteInterval: widget.selectedDate.isAfter(DateTime.now().subtract(const Duration(hours: 24, seconds: 1))) ? 30 : 60,
                   onDateTimeChanged: (dt) {
                     if (selectedType == SelectionType.start) {
                       startDateTime.value = dt;

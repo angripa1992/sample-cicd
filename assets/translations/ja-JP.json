@@ -372,5 +372,6 @@
   "start_time": "開店じかん",
   "end_time": "閉店時間",
   "time_range_selection_message": "時間の範囲を選択",
-  "time_selection": "時間を選択"
+  "time_selection": "時間を選択",
+  "select_time": "Select Time"
 }
