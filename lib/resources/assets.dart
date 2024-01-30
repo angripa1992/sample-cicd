@@ -47,6 +47,11 @@ class AppIcons {
   static const String notificationIcon = '@mipmap/ic_launcher';
   static const String addOrder = "$ICON_PATH/ic_add_order.svg";
   static const String menu = "$ICON_PATH/ic_menu.svg";
+  static const String bankSVG = "$ICON_PATH/ic_bank.svg";
+  static const String cardSVG = "$ICON_PATH/ic_card.svg";
+  static const String cashSVG = "$ICON_PATH/ic_cash.svg";
+  static const String digitalWalletSVG = "$ICON_PATH/ic_digital_wallet.svg";
+  static const String qrCodeSVG = "$ICON_PATH/ic_qr_code.svg";
 }
 
 class AppSounds {
