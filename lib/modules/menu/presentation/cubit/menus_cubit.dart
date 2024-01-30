@@ -32,6 +32,7 @@ class MenusCubit extends Cubit<ResponseState> {
         brandId: brandId,
         providers: providers,
         businessId: SessionManager().businessID(),
+        isMgt: true,
       ),
     );
     response.fold(
