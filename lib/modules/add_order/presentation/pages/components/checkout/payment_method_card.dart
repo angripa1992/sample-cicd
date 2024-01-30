@@ -40,7 +40,7 @@ class PaymentMethodCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppSize.s8.rSp),
       splashColor: splashColor,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh, horizontal: AppSize.s12.rw),
+        padding: EdgeInsets.only(top: AppSize.s8.rh, bottom: AppSize.s8.rh, left: AppSize.s12.rw),
         decoration: BoxDecoration(
           color: Colors.transparent,
           border: Border.all(width: 0.5.rSp, color: selectedMethodId == method.id ? AppColors.primaryP300 : AppColors.neutralB40),
@@ -53,8 +53,14 @@ class PaymentMethodCard extends StatelessWidget {
             Row(
               children: [
                 prepareActionDecoration(
-                  SVGImageResource(AppIcons.digitalWalletSVG)
-                      .getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: selectedMethodId == method.id ? AppColors.primaryP300 : AppColors.neutralB100),
+                  SizedBox(
+                      width: AppSize.s16.rSp,
+                      height: AppSize.s16.rSp,
+                      child: SVGImageResource(svgImagePath()).getImageWidget(
+                        width: AppSize.s16.rSp,
+                        height: AppSize.s16.rSp,
+                        color: selectedMethodId == method.id ? AppColors.primaryP300 : AppColors.neutralB100,
+                      )),
                   selectedMethodId == method.id ? AppColors.primaryP50 : AppColors.neutralB20,
                 ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s12),
                 Expanded(
@@ -88,7 +94,7 @@ class PaymentMethodCard extends StatelessWidget {
                     onChange(method.id, channel);
                   }
                 },
-              )
+              ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 12.rw)
           ],
         ),
       ),
@@ -97,5 +103,26 @@ class PaymentMethodCard extends StatelessWidget {
 
   void onChange(int? methodId, PaymentChannel? channel) {
     onChanged(method, channel);
+  }
+
+  String svgImagePath() {
+    switch (method.id) {
+      case 1:
+        return AppIcons.cardSVG;
+      case 2:
+        return AppIcons.cashSVG;
+      case 5:
+        return AppIcons.otherPaymentSVG;
+      case 14:
+        return AppIcons.digitalWalletSVG;
+      case 15:
+        return AppIcons.bankSVG;
+      case 16:
+        return AppIcons.customPaymentSVG;
+      case 17:
+        return AppIcons.qrCodeSVG;
+      default:
+        return AppIcons.otherPaymentSVG;
+    }
   }
 }

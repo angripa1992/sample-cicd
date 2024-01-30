@@ -47,7 +47,6 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Selection ${_method?.id}, ${_channel?.id}');
     return Container(
       color: AppColors.white,
       padding: EdgeInsets.all(AppSize.s16.rSp),
