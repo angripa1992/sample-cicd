@@ -42,6 +42,7 @@ class AddOrderBody extends StatefulWidget {
 
 class _AddOrderBodyState extends State<AddOrderBody> {
   final _changeBrandNotifier = ValueNotifier<Brand?>(null);
+  final _gotoCartButtonSize = ValueNotifier<Size?>(null);
   Brand? _selectedBrand;
 
   @override
@@ -114,6 +115,9 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           color: AppColors.greyLight,
           child: GoToCartButton(
             onGotoCart: _gotoCart,
+            onSizeCalculated: (size) {
+              _gotoCartButtonSize.value = size;
+            },
           ),
         ),
       ],
@@ -138,7 +142,11 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   void _addToCart(AddToCartItem? item) {
     if (item != null) {
       CartManager().addToCart(item);
-      showSuccessSnackBar(null, AppStrings.successfully_added_to_cart.tr());
+      showSuccessSnackBar(
+        null,
+        AppStrings.successfully_added_to_cart.tr(),
+        toastMargin: EdgeInsets.only(bottom: (_gotoCartButtonSize.value?.height ?? 70) + 4.rh),
+      );
     }
   }
 
