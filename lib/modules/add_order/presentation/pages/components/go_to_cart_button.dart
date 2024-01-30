@@ -28,7 +28,7 @@ class GoToCartButton extends StatelessWidget {
               onTap: onGotoCart,
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
-                padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
+                padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 12.rh),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(AppSize.s8.rSp),
                   color: AppColors.primary,
