@@ -366,5 +366,11 @@
   "menu_list": "รายการเมนู",
   "brand_branch_empty_message": "เลือกแบรนด์และสาขาเพื่อจัดการเมนูและตัวเลือกได้อย่างราบรื่น",
   "branch": "สาขา",
-  "manage_modifiers": "จัดการตัวเลือกต่างๆ"
+  "manage_modifiers": "จัดการตัวเลือกต่างๆ",
+  "custom_date": "วันที่กำหนดเอง",
+  "custom_time": "เวลาที่กำหนดเอง",
+  "start_time": "เวลาเริ่มต้น",
+  "end_time": "เวลาสิ้นสุด",
+  "time_range_selection_message": "ช่วงเวลาที่เลือกอยู่ระหว่างวันทั้งสองวัน",
+  "time_selection": "เลือกเวลา"
 }

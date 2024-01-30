@@ -366,5 +366,11 @@
   "menu_list": "菜單列表",
   "brand_branch_empty_message": "選擇品牌和分店以管理菜單與客製化群組",
   "branch": "分店",
-  "manage_modifiers": "管理客製化群組"
+  "manage_modifiers": "管理客製化群組",
+  "custom_date": "自訂日期",
+  "custom_time": "自訂時間",
+  "start_time": "開始時間",
+  "end_time": "結束時間",
+  "time_range_selection_message": "所選時間範圍在兩個日期之間",
+  "time_selection": "時間選擇"
 }
