@@ -36,8 +36,8 @@ class FetchModifierGroupsCubit extends Cubit<ResponseState> {
         emit(Failed(failure));
       },
       (data) async {
-        final filteredData = await _filterData(data);
-        emit(Success<List<ModifierGroup>>(filteredData));
+        //final filteredData = await _filterData(data);
+        emit(Success<List<ModifierGroup>>(data));
       },
     );
   }
