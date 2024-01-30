@@ -39,8 +39,8 @@ class MenusCubit extends Cubit<ResponseState> {
         emit(Failed(failure));
       },
       (data) async {
-        final filteredData = await _filterHiddenMenu(data);
-        emit(Success<MenuData>(filteredData));
+       // final filteredData = await _filterHiddenMenu(data);
+        emit(Success<MenuData>(data));
       },
     );
   }
@@ -50,9 +50,9 @@ class MenusCubit extends Cubit<ResponseState> {
     _filterHiddenSections(tempData.sections);
     await Future.forEach<MenuSection>(tempData.sections, (sections) async {
       _filterHiddenSubSections(sections.categories);
-      await Future.forEach<MenuCategory>(sections.categories, (category) async {
-        _filterHiddenSubSectionsItems(category.items);
-      });
+      // await Future.forEach<MenuCategory>(sections.categories, (category) async {
+      //   _filterHiddenSubSectionsItems(category.items);
+      // });
     });
     return tempData;
   }
