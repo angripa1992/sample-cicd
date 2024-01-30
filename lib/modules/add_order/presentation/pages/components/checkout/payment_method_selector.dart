@@ -47,9 +47,10 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Selection ${_method?.id}, ${_channel?.id}');
     return Container(
       color: AppColors.white,
-      padding: EdgeInsets.all(AppSize.s16.rSp),
+      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
       child: Column(
         children: [
           ExpandedTile(
@@ -75,7 +76,7 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                 Text(
                   AppStrings.add_payment_method.tr(),
                   style: semiBoldTextStyle(
-                    fontSize: AppSize.s16.rSp,
+                    fontSize: AppSize.s14.rSp,
                     color: AppColors.neutralB700,
                   ),
                 ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dropdown/select_categories_dropdown.dart';
@@ -23,10 +22,8 @@ import '../../../../../resources/colors.dart';
 import '../../../../menu/domain/entities/menu/menu_categories.dart';
 import '../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../widgets/snackbars.dart';
-import '../../../domain/entities/add_to_cart_item.dart';
 import '../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../utils/modifier_manager.dart';
-import 'menu_item_description.dart';
 import 'order_type_selector.dart';
 
 class MenuCategoryItemsListView extends StatefulWidget {
@@ -34,15 +31,17 @@ class MenuCategoryItemsListView extends StatefulWidget {
   final List<MenuCategory> categories;
   final VoidCallback onCartTap;
   final VoidCallback refreshMenu;
-  final Function(AddToCartItem?) onAddToCart;
-  final Function(List<MenuItemModifierGroup>, MenuCategoryItem, Brand) onAddModifier;
+  final Function(MenuCategoryItem,Brand) onAddNonModifierItem;
+  final Function(MenuCategoryItem, Brand) onNavigateItemDetails;
+  final Function(List<MenuItemModifierGroup>, MenuCategoryItem, Brand) onNavigateAddModifier;
 
   const MenuCategoryItemsListView({
     Key? key,
     required this.categories,
     required this.onCartTap,
-    required this.onAddToCart,
-    required this.onAddModifier,
+    required this.onAddNonModifierItem,
+    required this.onNavigateItemDetails,
+    required this.onNavigateAddModifier,
     required this.refreshMenu,
     this.brand,
   }) : super(key: key);
@@ -79,47 +78,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
       (data) {
         EasyLoading.dismiss();
         ModifierManager().removeDisabledModifier(data);
-        widget.onAddModifier(data, item, widget.brand!);
-      },
-    );
-  }
-
-  void _addNonModifierItem(MenuCategoryItem item, int quantity, String instruction) {
-    widget.onAddToCart(
-      AddToCartItem(
-        modifiers: [],
-        item: item,
-        quantity: quantity,
-        itemInstruction: instruction,
-        modifiersPrice: 0,
-        itemPrice: item.klikitPrice(),
-        brand: widget.brand!,
-        discountType: DiscountType.flat,
-        discountValue: 0,
-      ),
-    );
-  }
-
-  void _showItemDetails(BuildContext context, MenuCategoryItem item) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Container(
-            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-            decoration: BoxDecoration(color: AppColors.grey),
-            child: MenuItemDescription(
-              menuCategoryItem: item,
-              addToCart: (quantity, instruction) {
-                Navigator.pop(context);
-                _addNonModifierItem(item, quantity, instruction);
-              },
-            ),
-          ),
-        );
+        widget.onNavigateAddModifier(data, item, widget.brand!);
       },
     );
   }
@@ -144,7 +103,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
             _fetchModifier(selectedMenuItem);
           },
           onAddNonModifierItem: (selectedMenuItem) {
-            _addNonModifierItem(selectedMenuItem, 1, EMPTY);
+            widget.onAddNonModifierItem(selectedMenuItem,widget.brand!);
           },
           onRemoveNonModifierItem: (selectedMenuItem) {
             CartManager().removeNonModifierItemFromCart(selectedMenuItem.id);
@@ -153,7 +112,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
             if (item.haveModifier) {
               _fetchModifier(item);
             } else {
-              _showItemDetails(context, item);
+              widget.onNavigateItemDetails(item, widget.brand!);
             }
           },
         ),
@@ -278,7 +237,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
                   menuItem: category.items[index],
                   dayInfo: MenuAvailableTimeProvider().findCurrentDay(category.availableTimes),
                   onAddNonModifierItem: () {
-                    _addNonModifierItem(category.items[index], 1, EMPTY);
+                    widget.onAddNonModifierItem(category.items[index],widget.brand!);
                   },
                   onAddModifierItem: () {
                     _fetchModifier(category.items[index]);
@@ -291,7 +250,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
                     if (item.haveModifier) {
                       _fetchModifier(item);
                     } else {
-                      _showItemDetails(context, item);
+                      widget.onNavigateItemDetails(item, widget.brand!);
                     }
                   },
                 );

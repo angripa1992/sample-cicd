@@ -26,7 +26,7 @@ class PaymentChannelSelector extends StatelessWidget {
             onChannelChanged(value);
           },
           child: Container(
-              padding: EdgeInsets.all(AppSize.s12.rSp),
+              padding: EdgeInsets.symmetric(horizontal: 8.rw,vertical: 8.rh),
               margin: EdgeInsets.all(AppSize.s4.rSp),
               decoration: regularRoundedDecoration(
                 radius: AppSize.s8.rSp,

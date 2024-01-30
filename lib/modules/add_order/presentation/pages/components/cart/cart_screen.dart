@@ -15,13 +15,15 @@ import 'package:klikit/modules/add_order/presentation/pages/components/cart/cart
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/checkout/checkout_actions_buttons.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/checkout/customer_info.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/pament_method.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/checkout/payment_method_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/order_type_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
+import 'package:klikit/modules/common/entities/payment_info.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/strings.dart';
@@ -143,10 +145,13 @@ class _CartScreenState extends State<CartScreen> {
                   removeAll: _removeAll,
                 ),
                 Divider(color: AppColors.grey, thickness: 8.rh),
-                SpecialInstructionField(controller: _textController),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.rw,vertical: 8.rh),
+                  child: SpecialInstructionField(controller: _textController),
+                ),
                 Divider(color: AppColors.grey, thickness: 8.rh),
                 if (!CartManager().isWebShopOrder) _customerInfoView(),
-                if (!CartManager().willUpdateOrder) _paymentMethodView(),
+                if (!CartManager().willUpdateOrder) _paymentMethodSelectorView(),
                 _cartPriceView(),
               ],
             ),
@@ -215,20 +220,29 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _paymentMethodView() {
-    return Column(
-      children: [
-        PaymentMethodView(
-          initMethod: _paymentMethod,
-          initChannel: _paymentChannel,
-          onChanged: (paymentMethod, paymentChannel) {
-            _paymentMethod = paymentMethod;
-            _paymentChannel = paymentChannel;
-            _paymentChanelNotifier.value = _paymentChannel;
-          },
-        ),
-        Divider(color: AppColors.grey, thickness: 8.rh),
-      ],
+  Widget _paymentMethodSelectorView() {
+    return FutureBuilder<List<PaymentMethod>>(
+      future: getIt<BusinessInformationProvider>().fetchPaymentMethods(),
+      builder: (_,snap){
+        if(snap.hasData && snap.data != null){
+          return Column(
+            children: [
+              PaymentMethodSelector(
+                methods: snap.data!,
+                initMethod: _paymentMethod,
+                initChannel: _paymentChannel,
+                onChanged: (paymentMethod, paymentChannel) {
+                  _paymentMethod = paymentMethod;
+                  _paymentChannel = paymentChannel;
+                  _paymentChanelNotifier.value = _paymentChannel;
+                },
+              ),
+              Divider(color: AppColors.grey, thickness: 8.rh),
+            ],
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 

@@ -20,26 +20,23 @@ class SpecialInstructionField extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.rSp),
         color: AppColors.white,
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 8.rh),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppStrings.special_instruction.tr(),
-              style: semiBoldTextStyle(
-                color: AppColors.neutralB600,
-                fontSize: 14.rSp,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppStrings.special_instruction.tr(),
+            style: semiBoldTextStyle(
+              color: AppColors.neutralB600,
+              fontSize: 14.rSp,
             ),
-            SizedBox(height: 8.rh),
-            NoteTextField(
-              controller: controller,
-              hint: AppStrings.add_instruction.tr(),
-              minLines: 2,
-            ),
-          ],
-        ),
+          ),
+          SizedBox(height: 8.rh),
+          NoteTextField(
+            controller: controller,
+            hint: AppStrings.add_instruction.tr(),
+            minLines: 2,
+          ),
+        ],
       ),
     );
   }
