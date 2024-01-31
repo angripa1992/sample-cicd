@@ -27,11 +27,11 @@ class ReportInfo {
 
   String prepareSelectedItemData() {
     return (dateType == DateType.range)
-        ? DateFormat(DTPatterns.dMMMyyyy).format(dateTime)
+        ? DateFormat(DTPatterns.dMMMyy).format(dateTime)
         : dateType == DateType.timeRange
             ? endDateTime != null
-                ? '${dateTime.format(DTPatterns.dmmmhhmma)} - ${endDateTime!.format(DTPatterns.dmmmhhmma)}'
-                : dateTime.format(DTPatterns.dmmmhhmma)
+                ? '${dateTime.format(DTPatterns.dmmmyyhhmma)} - ${endDateTime!.format(DTPatterns.dmmmyyhhmma)}'
+                : dateTime.format(DTPatterns.dmmmyyhhmma)
             : name;
   }
 }

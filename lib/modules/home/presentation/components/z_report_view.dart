@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/functions/pickers.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/core/widgets/kt_dropdown.dart';
 import 'package:klikit/modules/home/data/model/report_info.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -64,7 +65,7 @@ class _ZReportViewState extends State<ZReportView> {
         vertical: AppSize.s16.rh,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
@@ -95,7 +96,7 @@ class _ZReportViewState extends State<ZReportView> {
                   textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   hintTextStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   selectedItemBuilder: (ReportInfo item, bool isSelected) {
-                    return item.prepareSelectedItemData();
+                    return item.name;
                   },
                   selectedItem: reportInfo,
                   onSelected: (ReportInfo selectedItem) async {
@@ -120,7 +121,9 @@ class _ZReportViewState extends State<ZReportView> {
                         setState(() {});
                       }
                     } else {
-                      reportInfo = selectedItem;
+                      setState(() {
+                        reportInfo = selectedItem;
+                      });
                     }
                   },
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw),
@@ -170,6 +173,17 @@ class _ZReportViewState extends State<ZReportView> {
                 ),
               ),
             ],
+          ),
+          Visibility(
+            visible: (reportInfo.dateType == DateType.range || reportInfo.dateType == DateType.timeRange),
+            child: KTChip(
+              text: reportInfo.prepareSelectedItemData(),
+              leadingIcon: ImageResourceResolver.calendarSVG.getImageWidget(width: 12.rw, height: 12.rh, color: AppColors.neutralB100),
+              backgroundColor: AppColors.neutralB20,
+              strokeColor: AppColors.neutralB40,
+              textStyle: mediumTextStyle(fontSize: 10.rSp, color: AppColors.neutralB600),
+              padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 4.rh),
+            ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: 4),
           ),
         ],
       ),
