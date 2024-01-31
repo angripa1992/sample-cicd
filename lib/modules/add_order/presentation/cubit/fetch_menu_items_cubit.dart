@@ -24,6 +24,7 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
         brandId: brand.id,
         businessId: SessionManager().businessID(),
         providers: [],
+        isMgt: false,
       ),
     );
     response.fold(

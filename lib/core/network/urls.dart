@@ -45,7 +45,8 @@ class Urls {
   static String comment(int orderID) => '/v1/oni/order/$orderID/comment';
 
   static String menuV1(int branchId) => '/v2/menu/branch/$branchId/menus';
-  static String menuV2 = '/v1/menu-v2/nma/store/menus';
+  static String addOrderMenuV2 = '/v1/menu-v2/nma/store/menus';
+  static String mgtMenuV2 = '/v1/menu-v2/nma/mgt/store/menus';
   static const String menuBrands = '/v1/brand';
 
   static String menuBrand(int brandId) => '/v1/brand/$brandId';
@@ -61,12 +62,12 @@ class Urls {
 
   static String updateV2Menu(String type) => '/v1/menu-v2/$type/enable';
   static const String v1ModifiersGroup = '/v1/menu/groups/modifiers';
-  static const String v2ModifiersGroup = '/v1/menu-v2/nma/store/modifier-groups';
+  static const String v2ModifiersGroup = '/v1/menu-v2/nma/mgt/store/modifier-groups';
   static const String itmModifiers = '/v1/menu/item-modifiers';
   static const String itmModifiersV2 = '/v1/menu-v2/nma/store/items/modifier-groups';
 
   static String checkAffect(int id, int type) => '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/verify/disabled';
-  static String checkAffectV2 = '/v1/menu-v2/nma/store/groups/verify/disabled';
+  static String checkAffectV2 = '/v1/menu-v2/nma/mgt/store/groups/verify/disabled';
 
   static String updateModifierEnabled(int id, int type) => '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/enabled';
 

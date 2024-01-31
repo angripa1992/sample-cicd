@@ -31,6 +31,7 @@ class OrderMenuItemProvider {
               branchId: branchId,
               brandId: brandId,
               providers: [providerId],
+              isMgt: false,
             ),
           );
       for (var section in menusItemsResponse.sections) {
