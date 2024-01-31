@@ -36,7 +36,11 @@ class _HomeScreenState extends State<HomeScreen> {
     getIt.get<DeviceInfoProvider>().getOsVersion();
     _fetchOrder(true);
     _startTimer();
-    SegmentManager().screen(event: SegmentEvents.HOME_TAB, name: 'Home Tab');
+    SegmentManager().screen(
+      event: SegmentEvents.HOME_TAB,
+      name: 'Home Tab',
+      properties: {'device_type': ScreenSizes.isTablet ? 'Tab' : 'Mobile'},
+    );
     super.initState();
   }
 
