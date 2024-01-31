@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -13,8 +12,8 @@ class KTChip extends StatelessWidget {
   final double? strokeWidth;
   final Color backgroundColor;
   final EdgeInsets? padding;
-  final DecoratedImageView? leadingIcon;
-  final DecoratedImageView? trailingIcon;
+  final Widget? leadingIcon;
+  final Widget? trailingIcon;
   final TextStyle? textStyle;
 
   const KTChip({

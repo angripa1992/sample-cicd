@@ -71,8 +71,8 @@ android {
         dev {
             dimension "app"
             applicationId "io.klikit.enterprise.dev"
-            versionCode 100100114
-            versionName "100.100.114"
+            versionCode 100100116
+            versionName "100.100.116"
         }
         live {
             dimension "app"

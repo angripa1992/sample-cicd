@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/functions/pickers.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/core/widgets/kt_dropdown.dart';
 import 'package:klikit/modules/home/data/model/report_info.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -35,6 +37,7 @@ class _ZReportViewState extends State<ZReportView> {
   late final generateButtonController = KTButtonController(label: AppStrings.generate.tr());
   late ReportInfo reportInfo;
   List<ReportInfo> days = [];
+  final ValueNotifier<Size?> _dropdownSize = ValueNotifier<Size?>(null);
 
   @override
   void initState() {
@@ -48,7 +51,8 @@ class _ZReportViewState extends State<ZReportView> {
     DateTime today = DateTime.now();
     list.add(ReportInfo(name: AppStrings.today.tr(), dateType: DateType.today, dateTime: today));
     list.add(ReportInfo(name: AppStrings.yesterday.tr(), dateType: DateType.yesterday, dateTime: today.subtract(const Duration(days: 1))));
-    list.add(ReportInfo(name: AppStrings.custom.tr(), dateType: DateType.range, dateTime: today));
+    list.add(ReportInfo(name: AppStrings.custom_date.tr(), dateType: DateType.range, dateTime: today));
+    list.add(ReportInfo(name: AppStrings.custom_time.tr(), dateType: DateType.timeRange, dateTime: today));
 
     return list;
   }
@@ -62,7 +66,7 @@ class _ZReportViewState extends State<ZReportView> {
         vertical: AppSize.s16.rh,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
@@ -86,6 +90,11 @@ class _ZReportViewState extends State<ZReportView> {
             children: [
               Expanded(
                 child: KTDropdown(
+                  onSizeCalculated: (calculatedSize) {
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      _dropdownSize.value = calculatedSize;
+                    });
+                  },
                   items: days,
                   titleBuilder: (ReportInfo item) {
                     return item.name;
@@ -93,19 +102,34 @@ class _ZReportViewState extends State<ZReportView> {
                   textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   hintTextStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   selectedItemBuilder: (ReportInfo item, bool isSelected) {
-                    return reportInfo.dateType == DateType.range ? item.prepareSelectedItemData() : item.name;
+                    return item.name;
                   },
                   selectedItem: reportInfo,
                   onSelected: (ReportInfo selectedItem) async {
                     if (selectedItem.dateType == DateType.range) {
-                      DateTime dateTime = await showKTDatePicker(selectedItem.dateTime) ?? selectedItem.dateTime;
+                      DateTime dateTime = await showKTDatePicker(context, initialDate: selectedItem.dateTime) ?? selectedItem.dateTime;
 
                       setState(() {
-                        days.removeWhere((element) => element.dateType == DateType.range);
-                        days.add(reportInfo = selectedItem.copyWith(dateTime: dateTime));
+                        days[days.indexOf(selectedItem)] = reportInfo = selectedItem.copyWith(dateTime: dateTime);
                       });
+                    } else if (selectedItem.dateType == DateType.timeRange) {
+                      final DateTime? dateTime = await showKTDatePicker(context, initialDate: selectedItem.dateTime, positiveText: AppStrings.select_time.tr());
+                      if (dateTime != null && mounted) {
+                        final DateTimeRange? result = await showKTTimeRangePicker(context, dateTime);
+                        if (result != null) {
+                          setState(() {
+                            days[days.indexOf(selectedItem)] = reportInfo = selectedItem.copyWith(dateTime: result.start, endDateTime: result.end);
+                          });
+                        } else {
+                          setState(() {});
+                        }
+                      } else {
+                        setState(() {});
+                      }
                     } else {
-                      reportInfo = selectedItem;
+                      setState(() {
+                        reportInfo = selectedItem;
+                      });
                     }
                   },
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw),
@@ -119,68 +143,60 @@ class _ZReportViewState extends State<ZReportView> {
                 ),
               ),
               AppSize.s12.horizontalSpacer(),
-              Expanded(
-                child: BlocConsumer<FetchZReportCubit, ResponseState>(
-                  listener: (ct, state) {
-                    generateButtonController.setLoaded(state is! Loading);
+              BlocConsumer<FetchZReportCubit, ResponseState>(
+                listener: (ct, state) {
+                  generateButtonController.setLoaded(state is! Loading);
 
-                    if (state is Failed) {
-                      showApiErrorSnackBar(context, state.failure);
-                    } else if (state is Success<ZReportData>) {
-                      getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime);
-                    }
-                  },
-                  builder: (ct, state) {
-                    return KTButton(
-                      controller: generateButtonController,
-                      prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(width: 18.rw, height: 18.rh, color: AppColors.neutralB700),
-                      verticalContentPadding: AppSize.s10.rh,
-                      backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
-                      labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
-                      splashColor: AppColors.greyBright,
-                      onTap: () async {
-                        context.read<FetchZReportCubit>().fetchZReportData(reportInfo.dateTime);
-                        SegmentManager().track(
-                          event: SegmentEvents.GENERATE_ZREPORT,
-                          properties: {
-                            'date_type': reportInfo.name,
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
+                  if (state is Failed) {
+                    showApiErrorSnackBar(context, state.failure);
+                  } else if (state is Success<ZReportData>) {
+                    getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime);
+                  }
+                },
+                builder: (ct, state) {
+                  return ValueListenableBuilder<Size?>(
+                    valueListenable: _dropdownSize,
+                    builder: (_, size, __) => SizedBox(
+                      height: (size?.height ?? 0) > 0 ? size?.height : null,
+                      child: KTButton(
+                        controller: generateButtonController,
+                        prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(width: 12.rw, height: 12.rh, color: AppColors.primaryP300),
+                        backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP50),
+                        labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.primaryP300),
+                        splashColor: AppColors.greyBright,
+                        horizontalContentPadding: 20.rw,
+                        onTap: () async {
+                          context.read<FetchZReportCubit>().fetchZReportData(
+                                startDateTime: reportInfo.dateTime,
+                                endDateTime: reportInfo.dateType == DateType.timeRange ? reportInfo.endDateTime : null,
+                              );
+                          SegmentManager().track(
+                            event: SegmentEvents.GENERATE_ZREPORT,
+                            properties: {
+                              'date_type': reportInfo.name,
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
+          Visibility(
+            visible: (reportInfo.dateType == DateType.range || reportInfo.dateType == DateType.timeRange),
+            child: KTChip(
+              text: reportInfo.prepareSelectedItemData(),
+              leadingIcon: ImageResourceResolver.calendarSVG.getImageWidget(width: 12.rw, height: 12.rh, color: AppColors.neutralB100),
+              backgroundColor: AppColors.neutralB20,
+              strokeColor: AppColors.neutralB40,
+              textStyle: mediumTextStyle(fontSize: 10.rSp, color: AppColors.neutralB600),
+              padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 4.rh),
+            ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: 8),
+          ),
         ],
       ),
-    );
-  }
-
-  Future<DateTime?> showKTDatePicker(DateTime? selectedOne) async {
-    return await showDatePicker(
-      context: context,
-      initialDate: selectedOne ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: AppColors.primaryP300,
-              onPrimary: AppColors.white,
-              onSurface: AppColors.black,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: AppColors.primary,
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
     );
   }
 

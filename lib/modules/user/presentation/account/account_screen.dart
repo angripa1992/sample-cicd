@@ -302,7 +302,8 @@ class _AccountScreenState extends State<AccountScreen> {
                         logoutButtonController.label = AppStrings.logout.tr();
                         return KTButton(
                           controller: logoutButtonController,
-                          prefixWidget: ImageResourceResolver.logoutSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          // prefixWidget: ImageResourceResolver.logoutSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          prefixWidget: Icon(Icons.logout, color: AppColors.redDark, size: AppSize.s24.rSp),
                           backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                           labelStyle: mediumTextStyle(),
                           splashColor: AppColors.greyBright,

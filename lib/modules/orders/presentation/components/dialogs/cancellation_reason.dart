@@ -45,11 +45,13 @@ void showCancellationReasonDialog({
             children: [
               prepareActionDecoration(ImageResourceResolver.closeSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.errorR300), AppColors.errorR50),
               AppSize.s8.horizontalSpacer(),
-              Text(
-                title,
-                style: boldTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s18.rSp,
+              Expanded(
+                child: Text(
+                  title,
+                  style: boldTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s16.rSp,
+                  ),
                 ),
               ),
             ],
@@ -211,6 +213,7 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
                     valueListenable: _valueNotifier,
                     builder: (_, value, __) {
                       positiveButtonController.setLoaded(state is! Loading);
+                      positiveButtonController.setEnabled(value != null);
 
                       return KTButton(
                         controller: positiveButtonController,
