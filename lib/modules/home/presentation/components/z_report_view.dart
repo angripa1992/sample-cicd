@@ -37,6 +37,7 @@ class _ZReportViewState extends State<ZReportView> {
   late final generateButtonController = KTButtonController(label: AppStrings.generate.tr());
   late ReportInfo reportInfo;
   List<ReportInfo> days = [];
+  final ValueNotifier<Size?> _dropdownSize = ValueNotifier<Size?>(null);
 
   @override
   void initState() {
@@ -89,6 +90,11 @@ class _ZReportViewState extends State<ZReportView> {
             children: [
               Expanded(
                 child: KTDropdown(
+                  onSizeCalculated: (calculatedSize) {
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      _dropdownSize.value = calculatedSize;
+                    });
+                  },
                   items: days,
                   titleBuilder: (ReportInfo item) {
                     return item.name;
@@ -137,40 +143,44 @@ class _ZReportViewState extends State<ZReportView> {
                 ),
               ),
               AppSize.s12.horizontalSpacer(),
-              Expanded(
-                child: BlocConsumer<FetchZReportCubit, ResponseState>(
-                  listener: (ct, state) {
-                    generateButtonController.setLoaded(state is! Loading);
+              BlocConsumer<FetchZReportCubit, ResponseState>(
+                listener: (ct, state) {
+                  generateButtonController.setLoaded(state is! Loading);
 
-                    if (state is Failed) {
-                      showApiErrorSnackBar(context, state.failure);
-                    } else if (state is Success<ZReportData>) {
-                      getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime);
-                    }
-                  },
-                  builder: (ct, state) {
-                    return KTButton(
-                      controller: generateButtonController,
-                      prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(width: 18.rw, height: 18.rh, color: AppColors.neutralB700),
-                      verticalContentPadding: AppSize.s10.rh,
-                      backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
-                      labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
-                      splashColor: AppColors.greyBright,
-                      onTap: () async {
-                        context.read<FetchZReportCubit>().fetchZReportData(
-                              startDateTime: reportInfo.dateTime,
-                              endDateTime: reportInfo.dateType == DateType.timeRange ? reportInfo.endDateTime : null,
-                            );
-                        SegmentManager().track(
-                          event: SegmentEvents.GENERATE_ZREPORT,
-                          properties: {
-                            'date_type': reportInfo.name,
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
+                  if (state is Failed) {
+                    showApiErrorSnackBar(context, state.failure);
+                  } else if (state is Success<ZReportData>) {
+                    getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime);
+                  }
+                },
+                builder: (ct, state) {
+                  return ValueListenableBuilder<Size?>(
+                    valueListenable: _dropdownSize,
+                    builder: (_, size, __) => SizedBox(
+                      height: (size?.height ?? 0) > 0 ? size?.height : null,
+                      child: KTButton(
+                        controller: generateButtonController,
+                        prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(width: 12.rw, height: 12.rh, color: AppColors.primaryP300),
+                        backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP50),
+                        labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.primaryP300),
+                        splashColor: AppColors.greyBright,
+                        horizontalContentPadding: 20.rw,
+                        onTap: () async {
+                          context.read<FetchZReportCubit>().fetchZReportData(
+                                startDateTime: reportInfo.dateTime,
+                                endDateTime: reportInfo.dateType == DateType.timeRange ? reportInfo.endDateTime : null,
+                              );
+                          SegmentManager().track(
+                            event: SegmentEvents.GENERATE_ZREPORT,
+                            properties: {
+                              'date_type': reportInfo.name,
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -183,7 +193,7 @@ class _ZReportViewState extends State<ZReportView> {
               strokeColor: AppColors.neutralB40,
               textStyle: mediumTextStyle(fontSize: 10.rSp, color: AppColors.neutralB600),
               padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 4.rh),
-            ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: 4),
+            ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: 8),
           ),
         ],
       ),
