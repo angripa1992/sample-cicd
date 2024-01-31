@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/menu/presentation/pages/tab_item.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
@@ -7,14 +8,14 @@ import 'package:klikit/resources/values.dart';
 import '../../../../resources/colors.dart';
 
 class MenuTab extends StatelessWidget {
-  final String name;
+  final TabItem tabItem;
   final bool isSelected;
-  final VoidCallback onTabChanged;
+  final Function(TabItem) onTabChanged;
   final BorderRadius borderRadius;
 
   const MenuTab({
     Key? key,
-    required this.name,
+    required this.tabItem,
     required this.isSelected,
     required this.onTabChanged,
     required this.borderRadius,
@@ -24,7 +25,9 @@ class MenuTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-        onTap: onTabChanged,
+        onTap: () {
+          onTabChanged(tabItem);
+        },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           decoration: isSelected ? BoxDecoration(borderRadius: borderRadius, color: AppColors.white) : null,
@@ -32,7 +35,7 @@ class MenuTab extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
             child: Center(
               child: Text(
-                name,
+                tabItem.tabName,
                 style: mediumTextStyle(
                   color: isSelected ? AppColors.neutralB700 : AppColors.neutralB300,
                   fontSize: AppFontSize.s14.rSp,
