@@ -17,11 +17,11 @@ class ModifierManager {
   void removeDisabledModifier(List<MenuItemModifierGroup> groups) {
     groups.removeWhere((element) => !element.enabled);
     for (var firstGroups in groups) {
-      firstGroups.modifiers.removeWhere((element) => !element.enabled);
+      firstGroups.modifiers.removeWhere((element) => !element.enabled && !element.visible());
       for (var firstModifier in firstGroups.modifiers) {
-        firstModifier.groups.removeWhere((element) => !element.enabled);
+        firstModifier.groups.removeWhere((element) => !element.enabled && !element.visible());
         for (var secondGroup in firstModifier.groups) {
-          secondGroup.modifiers.removeWhere((element) => !element.enabled);
+          secondGroup.modifiers.removeWhere((element) => !element.enabled && !element.visible());
         }
       }
     }
