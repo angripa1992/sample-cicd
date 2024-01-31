@@ -34,6 +34,9 @@ class _PosPrinterDevicesViewState extends State<PosPrinterDevicesView> {
 
   @override
   void initState() {
+    if (AppConfig.connectedDeviceAddress.isNotEmpty && !BluetoothPrinterHandler().isConnected()) {
+      AppConfig.connectedDeviceAddress = '';
+    }
     subscription = PrinterManager.instance.stateBluetooth.listen((event) {
       if (event == BTStatus.connected || event == BTStatus.none) {
         setState(() {});
