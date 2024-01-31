@@ -93,7 +93,7 @@ class MenuCategoryItemView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(vertical: 8.rh),
           child: Text(
-            '${menuItem.title} ${menuItem.title} ${menuItem.title}',
+            menuItem.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: mediumTextStyle(
