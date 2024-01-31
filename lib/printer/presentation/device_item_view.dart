@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/widgets/negative_button.dart';
+import 'package:klikit/modules/widgets/positive_button.dart';
 
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
@@ -12,12 +13,14 @@ import '../../resources/values.dart';
 class DeviceItemView extends StatelessWidget {
   final IconData icon;
   final String name;
+  final bool isConnected;
   final VoidCallback onConnect;
 
   const DeviceItemView({
     Key? key,
     required this.icon,
     required this.name,
+    this.isConnected = false,
     required this.onConnect,
   }) : super(key: key);
 
@@ -46,12 +49,14 @@ class DeviceItemView extends StatelessWidget {
                   ),
                 ),
               ),
-              NegativeButton(
-                negativeText: AppStrings.connect.tr(),
-                buttonRadius: AppSize.s200.rSp,
-                horizontalPadding: AppSize.s16.rw,
-                onTap: onConnect,
-              ),
+              if (isConnected) PositiveButton(positiveText: 'Reconnect', buttonRadius: 200.rSp, onTap: onConnect),
+              if (!isConnected)
+                NegativeButton(
+                  negativeText: AppStrings.connect.tr(),
+                  buttonRadius: AppSize.s200.rSp,
+                  horizontalPadding: AppSize.s16.rw,
+                  onTap: onConnect,
+                ),
             ],
           ),
         ),

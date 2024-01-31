@@ -1,14 +1,17 @@
+import 'dart:io' as io;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
+import 'package:klikit/app/app_config.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/resources/themes.dart';
 import 'package:salesiq_mobilisten/salesiq_mobilisten.dart';
+
 import '../core/route/routes.dart';
 import '../core/route/routes_generator.dart';
 import '../core/route/routes_observer.dart';
-import 'dart:io' as io;
-
 import '../env/environment_variables.dart';
 
 class Klikit extends StatefulWidget {
@@ -42,6 +45,11 @@ class _KlikitState extends State<Klikit> {
         ZohoSalesIQ.showLauncher(true);
       }).catchError((error) {});
       ZohoSalesIQ.setThemeColorForiOS("#6d85fc");
+      PrinterManager.instance.stateBluetooth.listen((event) {
+        if (event == BTStatus.none) {
+          AppConfig.connectedDeviceAddress = '';
+        }
+      });
     }
   }
 
