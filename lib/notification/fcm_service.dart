@@ -7,6 +7,7 @@ import 'package:klikit/notification/local_notification_service.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
 
 import '../app/app_preferences.dart';
+import '../app/constants.dart';
 import '../app/session_manager.dart';
 import 'fcm_token_manager.dart';
 
@@ -61,5 +62,13 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     LocalNotificationService().showNotification(
       payload: message.data,
     );
+    Future.delayed(const Duration(seconds: 2), () async {
+      final order = await NotificationDataHandler().getOrderById(
+          NotificationDataHandler().getNotificationData(message.data).orderId.toInt(),
+      );
+      if (order != null && order.status == OrderStatus.ACCEPTED) {
+        // _printingHandler.printDocket(order: order, isAutoPrint: true);
+      }
+    });
   }
 }
