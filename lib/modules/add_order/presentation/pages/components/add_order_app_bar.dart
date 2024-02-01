@@ -85,7 +85,7 @@ class _AddOrderAppBarState extends State<AddOrderAppBar> {
           ),
         ),
         Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 16.rw),
+          padding:  EdgeInsets.symmetric(horizontal: 16.rw,vertical: 6.rh),
           child: OrderCounter(onCartTap: widget.onCartTap),
         ),
       ],
