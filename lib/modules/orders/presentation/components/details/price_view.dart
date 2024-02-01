@@ -148,7 +148,7 @@ class _PriceViewState extends State<PriceView> {
             branch.webshopCustomFeesTitle,
             widget.order.customFee,
           ),
-        if (branch.mergeFeeEnabled && widget.order.mergeFee > 0 && !widget.order.feePaidByCustomer && widget.order.providerId == ProviderID.KLIKIT)
+        /*if (branch.mergeFeeEnabled && widget.order.mergeFee > 0 && !widget.order.feePaidByCustomer && widget.order.providerId == ProviderID.KLIKIT)
           _priceBreakdownItem(
             branch.mergeFeeTitle,
             widget.order.mergeFee,
@@ -165,7 +165,7 @@ class _PriceViewState extends State<PriceView> {
             AppStrings.processing_fee.tr(),
             widget.order.gatewayFee,
             showNegative: true,
-          ),
+          ),*/
       ],
     );
   }
