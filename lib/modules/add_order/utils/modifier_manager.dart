@@ -14,17 +14,19 @@ class ModifierManager {
 
   ModifierManager._internal();
 
-  void removeDisabledModifier(List<MenuItemModifierGroup> groups) {
-    groups.removeWhere((element) => !element.enabled);
-    for (var firstGroups in groups) {
-      firstGroups.modifiers.removeWhere((element) => !element.enabled && !element.visible());
+  List<MenuItemModifierGroup> removeDisabledModifier(List<MenuItemModifierGroup> groups) {
+    final tempGroups = groups;
+    tempGroups.removeWhere((element) => !element.enabled || !element.visible());
+    for (var firstGroups in tempGroups) {
+      firstGroups.modifiers.removeWhere((element) => !element.enabled || !element.visible());
       for (var firstModifier in firstGroups.modifiers) {
-        firstModifier.groups.removeWhere((element) => !element.enabled && !element.visible());
+        firstModifier.groups.removeWhere((element) => !element.enabled || !element.visible());
         for (var secondGroup in firstModifier.groups) {
-          secondGroup.modifiers.removeWhere((element) => !element.enabled && !element.visible());
+          secondGroup.modifiers.removeWhere((element) => !element.enabled || !element.visible());
         }
       }
     }
+    return tempGroups;
   }
 
   Future<bool> verifyRules(List<MenuItemModifierGroup> groups) async {

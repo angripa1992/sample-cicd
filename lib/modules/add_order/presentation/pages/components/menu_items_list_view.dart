@@ -77,8 +77,8 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
       },
       (data) {
         EasyLoading.dismiss();
-        ModifierManager().removeDisabledModifier(data);
-        widget.onNavigateAddModifier(data, item, widget.brand!);
+        final filteredModifierGroups = ModifierManager().removeDisabledModifier(data);
+        widget.onNavigateAddModifier(filteredModifierGroups, item, widget.brand!);
       },
     );
   }
