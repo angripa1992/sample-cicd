@@ -38,57 +38,67 @@ class _AddOrderAppBarState extends State<AddOrderAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          onPressed: widget.onBack,
-          icon: Icon(
-            Icons.arrow_back,
-            color: AppColors.neutralB700,
-          ),
-        ),
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              ModalSheetManager.openBottomSheet(
-                context,
-                BrandSelectionView(
-                  onBrandSelected: (brand){
-                    widget.onChanged(brand);
-                    setState(() {
-                      _brandName = brand.title;
-                    });
-                  },
-                ),
-                title: AppStrings.select_brand.tr(),
-                subTitle: 'Choose your preferred brand',
-                isScrollControlled: false,
-              );
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  _brandName!,
-                  style: semiBoldTextStyle(
-                    color: AppColors.neutralB700,
-                    fontSize: 18.rSp,
-                  ),
-                ),
-                Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  color: AppColors.neutralB700,
-                  size: 28.rSp,
-                ),
-              ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 6.rh),
+      child: Row(
+        children: [
+          IconButton(
+            onPressed: widget.onBack,
+            icon: Icon(
+              Icons.arrow_back,
+              color: AppColors.neutralB700,
             ),
           ),
-        ),
-        Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 16.rw,vertical: 6.rh),
-          child: OrderCounter(onCartTap: widget.onCartTap),
-        ),
-      ],
+          Expanded(
+            child: InkWell(
+              onTap: () {
+                ModalSheetManager.openBottomSheet(
+                  context,
+                  BrandSelectionView(
+                    onBrandSelected: (brand){
+                      widget.onChanged(brand);
+                      setState(() {
+                        _brandName = brand.title;
+                      });
+                    },
+                  ),
+                  title: AppStrings.select_brand.tr(),
+                  subTitle: 'Choose your preferred brand',
+                  isScrollControlled: false,
+                );
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.rw),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        _brandName!.trim(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: semiBoldTextStyle(
+                          color: AppColors.neutralB700,
+                          fontSize: 18.rSp,
+                        ),
+                      ),
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: AppColors.neutralB700,
+                      size: 28.rSp,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 16.rw),
+            child: OrderCounter(onCartTap: widget.onCartTap),
+          ),
+        ],
+      ),
     );
   }
 }
