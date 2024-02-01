@@ -20,7 +20,10 @@ class MenuSearchView extends StatefulWidget {
   final VoidCallback goToCart;
   final List<MenuCategory> categories;
   final Function(int) onCategorySelected;
-  final Function(MenuCategoryItem) onItemSelected;
+  final Function(MenuCategoryItem) onAddNonModifierItem;
+  final Function(MenuCategoryItem) onAddModifierItem;
+  final Function(MenuCategoryItem) onRemoveNonModifierItem;
+  final Function(MenuCategoryItem) onShowDetails;
 
   const MenuSearchView({
     Key? key,
@@ -28,7 +31,10 @@ class MenuSearchView extends StatefulWidget {
     required this.onBack,
     required this.onCategorySelected,
     required this.goToCart,
-    required this.onItemSelected,
+    required this.onAddModifierItem,
+    required this.onAddNonModifierItem,
+    required this.onRemoveNonModifierItem,
+    required this.onShowDetails,
   }) : super(key: key);
 
   @override
@@ -76,121 +82,130 @@ class _MenuSearchViewState extends State<MenuSearchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.grey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SearchAppBar(
-            onBack: widget.onBack,
-            onTextChanged: _applySearchQuery,
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: AppSize.s12.rw,
-              top: AppSize.s16.rh,
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SearchAppBar(
+              onBack: widget.onBack,
+              onTextChanged: _applySearchQuery,
             ),
-            child: Text(
-              AppStrings.categories.tr(),
-              style: mediumTextStyle(
-                color: AppColors.greyDarker,
-                fontSize: AppFontSize.s14.rSp,
+            Padding(
+              padding: EdgeInsets.only(
+                left: AppSize.s12.rw,
+                top: AppSize.s16.rh,
+              ),
+              child: Text(
+                AppStrings.categories.tr(),
+                style: mediumTextStyle(
+                  color: AppColors.greyDarker,
+                  fontSize: AppFontSize.s14.rSp,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSize.s16.rh,
-              horizontal: AppSize.s12.rw,
-            ),
-            child: ValueListenableBuilder<List<MenuCategory>>(
-              valueListenable: _categoriesNotifier,
-              builder: (_, sections, __) {
-                if (sections.isEmpty) {
-                  return Center(
-                    child: Text(AppStrings.no_categories_found.tr()),
-                  );
-                }
-                return Wrap(
-                  alignment: WrapAlignment.start,
-                  spacing: AppSize.s8.rw,
-                  runSpacing: AppSize.s8.rh,
-                  children: List.generate(
-                    sections.length > 4 ? 4 : sections.length,
-                    (index) {
-                      return InkWell(
-                        onTap: () {
-                          widget.onCategorySelected(sections[index].id);
-                        },
-                        child: TabItemView(
-                          index: index,
-                          title: sections[index].title,
-                          active: false,
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: AppSize.s12.rw,
-              bottom: AppSize.s12.rh,
-            ),
-            child: Text(
-              AppStrings.Items.tr(),
-              style: mediumTextStyle(
-                color: AppColors.greyDarker,
-                fontSize: AppFontSize.s14.rSp,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
+            Padding(
               padding: EdgeInsets.symmetric(
+                vertical: AppSize.s16.rh,
                 horizontal: AppSize.s12.rw,
               ),
-              child: ValueListenableBuilder<List<MenuCategoryItem>>(
-                valueListenable: _itemNotifier,
-                builder: (_, items, __) {
-                  if (items.isEmpty) {
+              child: ValueListenableBuilder<List<MenuCategory>>(
+                valueListenable: _categoriesNotifier,
+                builder: (_, sections, __) {
+                  if (sections.isEmpty) {
                     return Center(
-                        child: Text(
-                      AppStrings.no_item_found.tr(),
-                    ));
+                      child: Text(AppStrings.no_categories_found.tr()),
+                    );
                   }
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: AppSize.s10.rh,
-                      childAspectRatio: ScreenSizes.isTablet ? 0.85 : 0.63,
+                  return Wrap(
+                    alignment: WrapAlignment.start,
+                    spacing: AppSize.s8.rw,
+                    runSpacing: AppSize.s8.rh,
+                    children: List.generate(
+                      sections.length > 4 ? 4 : sections.length,
+                      (index) {
+                        return InkWell(
+                          onTap: () {
+                            widget.onCategorySelected(sections[index].id);
+                          },
+                          child: TabItemView(
+                            index: index,
+                            title: sections[index].title,
+                            active: false,
+                          ),
+                        );
+                      },
                     ),
-                    itemCount: items.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return MenuCategoryItemView(
-                        menuItem: items[index],
-                        dayInfo: AvailableTimeProvider()
-                            .todayInfo(items[index].availableTimes),
-                        onAddItem: () {
-                          widget.onItemSelected(items[index]);
-                        },
-                      );
-                    },
                   );
                 },
               ),
             ),
-          ),
-          Container(
-            color: AppColors.greyLight,
-            child: GoToCartButton(
-              onGotoCart: widget.goToCart,
+            Padding(
+              padding: EdgeInsets.only(
+                left: AppSize.s12.rw,
+                bottom: AppSize.s12.rh,
+              ),
+              child: Text(
+                AppStrings.Items.tr(),
+                style: mediumTextStyle(
+                  color: AppColors.greyDarker,
+                  fontSize: AppFontSize.s14.rSp,
+                ),
+              ),
             ),
-          )
-        ],
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s12.rw,
+                ),
+                child: ValueListenableBuilder<List<MenuCategoryItem>>(
+                  valueListenable: _itemNotifier,
+                  builder: (_, items, __) {
+                    if (items.isEmpty) {
+                      return Center(
+                          child: Text(
+                        AppStrings.no_item_found.tr(),
+                      ));
+                    }
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: AppSize.s10.rh,
+                        childAspectRatio: ScreenSizes.isTablet ? 0.85 : 0.63,
+                      ),
+                      itemCount: items.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return MenuCategoryItemView(
+                          menuItem: items[index],
+                          dayInfo: MenuAvailableTimeProvider().findCurrentDay(items[index].availableTimes),
+                          onAddNonModifierItem: () {
+                            widget.onAddNonModifierItem(items[index]);
+                          },
+                          onAddModifierItem: () {
+                            widget.onAddModifierItem(items[index]);
+                          },
+                          onRemoveNonModifierItem: () {
+                            widget.onRemoveNonModifierItem(items[index]);
+                          },
+                          onShowDetails: () {
+                            widget.onShowDetails(items[index]);
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+            Container(
+              color: AppColors.greyLight,
+              child: GoToCartButton(
+                onGotoCart: widget.goToCart,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

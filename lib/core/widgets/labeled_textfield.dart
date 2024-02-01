@@ -16,6 +16,7 @@ class LabeledTextField extends StatelessWidget {
   final bool? passwordField;
   final TextInputType? inputType;
   final TextInputAction? textInputAction;
+  final double? inBetweenGap;
   final Function? validation;
 
   const LabeledTextField({
@@ -29,6 +30,7 @@ class LabeledTextField extends StatelessWidget {
     this.passwordField,
     this.inputType,
     this.textInputAction,
+    this.inBetweenGap,
     this.validation,
   }) : super(key: key);
 
@@ -44,7 +46,7 @@ class LabeledTextField extends StatelessWidget {
             fontSize: AppSize.s14.rSp,
           ),
         ),
-        SizedBox(height: AppSize.s12.rh),
+        SizedBox(height: inBetweenGap ?? AppSize.s12.rh),
         KTTextField(
           controller: controller,
           hintText: hintText,

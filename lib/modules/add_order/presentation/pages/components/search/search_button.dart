@@ -24,21 +24,21 @@ class SearchActionButtonView extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-          color: AppColors.grey,
+          border: Border.all(color: AppColors.neutralB40)
         ),
         child: Row(
           children: [
             Icon(
               Icons.search,
               color: AppColors.greyDarker,
-              size: AppSize.s16.rSp,
+              size: 24.rSp,
             ),
-            SizedBox(width: AppSize.s8.rw),
+            SizedBox(width: 8.rw),
             Text(
               AppStrings.search_for_items.tr(),
               style: regularTextStyle(
-                color: AppColors.greyDarker,
-                fontSize: AppSize.s14.rSp,
+                color: AppColors.neutralB100,
+                fontSize: 14.rSp,
               ),
             ),
           ],

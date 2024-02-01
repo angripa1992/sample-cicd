@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/base/order_counter.dart';
 
 import '../../../../../../resources/colors.dart';
 import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../cart_badge.dart';
 
 class ModifierHeaderView extends StatelessWidget {
   final VoidCallback onBack;
@@ -53,7 +53,7 @@ class ModifierHeaderView extends StatelessWidget {
                 ),
               ),
             ),
-            CartBadge(onCartTap: onCartTap),
+            OrderCounter(onCartTap: onCartTap),
           ],
         ),
       ),

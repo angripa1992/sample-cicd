@@ -150,7 +150,7 @@ class _ZReportViewState extends State<ZReportView> {
                   if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
                   } else if (state is Success<ZReportData>) {
-                    getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime);
+                    getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime, reportEndDate: reportInfo.endDateTime);
                   }
                 },
                 builder: (ct, state) {

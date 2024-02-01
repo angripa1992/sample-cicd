@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/colors.dart';
-import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
-import 'package:klikit/resources/values.dart';
 
 class ItemCounter extends StatefulWidget {
   final int count;
   final Function(int) onChanged;
 
-  const ItemCounter({Key? key, required this.count, required this.onChanged})
-      : super(key: key);
+  const ItemCounter({Key? key, required this.count, required this.onChanged}) : super(key: key);
 
   @override
   State<ItemCounter> createState() => _ItemCounterState();
@@ -49,58 +46,35 @@ class _ItemCounterState extends State<ItemCounter> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSize.s8.rw,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 4.rh),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        border: Border.all(
-          color: AppColors.black,
-        ),
+        borderRadius: BorderRadius.circular(24.rSp),
+        border: Border.all(color: AppColors.primary),
       ),
-      child: IntrinsicHeight(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              onPressed: _decrement,
-              icon: Icon(
-                Icons.remove,
-                color: AppColors.black,
-              ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: _decrement,
+            icon: Icon(Icons.remove, color: AppColors.black),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.rw),
+            child: Text(
+              count.toString(),
+              style: mediumTextStyle(color: AppColors.black, fontSize: 16.rSp),
             ),
-            VerticalDivider(
-              color: AppColors.black,
-              thickness: 1,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
-              child: Text(
-                count.toString(),
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
-                ),
-              ),
-            ),
-            VerticalDivider(
-              color: AppColors.black,
-              thickness: 1,
-            ),
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              enableFeedback: false,
-              onPressed: _increment,
-              icon: Icon(
-                Icons.add,
-                color: AppColors.black,
-              ),
-            ),
-          ],
-        ),
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            enableFeedback: false,
+            onPressed: _increment,
+            icon: Icon(Icons.add, color: AppColors.black),
+          ),
+        ],
       ),
     );
   }
