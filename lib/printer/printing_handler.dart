@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:docket_design_template/common_design_template.dart';
 import 'package:docket_design_template/common_zreport_template.dart';
 import 'package:docket_design_template/docket_design_template.dart';
@@ -267,15 +265,14 @@ class PrintingHandler {
     }
   }
 
-  void printZReport(ZReportData model, DateTime reportDate) async {
+  void printZReport(ZReportData model, DateTime reportDate, {DateTime? reportEndDate}) async {
     if (SessionManager().getActiveDevice() == Device.imin) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
       final printerAddress = _preferences.getPrinterAddress();
       final data = await ZReportDataProvider().generateTemplateData(model, reportDate);
-      var printingData = await CommonZReportTemplate().generateZTicket( data: data,roll:rollSize );
-      await BluetoothPrinterHandler().print(printingData,printerAddress);
-    }
-    else if (SessionManager().isSunmiDevice()) {
+      var printingData = await CommonZReportTemplate().generateZTicket(data: data, roll: rollSize);
+      await BluetoothPrinterHandler().print(printingData, printerAddress);
+    } else if (SessionManager().isSunmiDevice()) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
       final data = await ZReportDataProvider().generateTemplateData(model, reportDate, reportEndTime: reportEndDate);
       await SunmiZReportPrinter().printZReport(data, rollSize);
