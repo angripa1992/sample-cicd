@@ -17,17 +17,13 @@ class LevelOneSelectMultipleView extends StatefulWidget {
   final List<MenuItemModifier> modifiers;
   final VoidCallback onChanged;
 
-  const LevelOneSelectMultipleView(
-      {Key? key, required this.modifiers, required this.onChanged})
-      : super(key: key);
+  const LevelOneSelectMultipleView({Key? key, required this.modifiers, required this.onChanged}) : super(key: key);
 
   @override
-  State<LevelOneSelectMultipleView> createState() =>
-      _LevelOneSelectMultipleViewState();
+  State<LevelOneSelectMultipleView> createState() => _LevelOneSelectMultipleViewState();
 }
 
-class _LevelOneSelectMultipleViewState
-    extends State<LevelOneSelectMultipleView> {
+class _LevelOneSelectMultipleViewState extends State<LevelOneSelectMultipleView> {
   final Map<int, bool> _values = {};
   final Map<int, int> _counter = {};
   final List<MenuItemModifier> _currentModifierList = [];
@@ -54,8 +50,7 @@ class _LevelOneSelectMultipleViewState
         } else {
           modifier.isSelected = false;
           modifier.quantity = 0;
-          _currentModifierList
-              .removeWhere((element) => element.id == modifier.id);
+          _currentModifierList.removeWhere((element) => element.id == modifier.id);
           _changeLevelTwoModifier(modifier.groups);
         }
       });
@@ -106,8 +101,7 @@ class _LevelOneSelectMultipleViewState
                     ),
                     if (_values[modifier.id] == true)
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: AppSize.s32.rw),
+                        padding: EdgeInsets.symmetric(horizontal: AppSize.s32.rw),
                         child: ItemCounter(
                           count: modifier.quantity,
                           onChanged: (quantity) {
@@ -135,9 +129,9 @@ class _LevelOneSelectMultipleViewState
                   ),
                   child: Column(
                     children: [
+                      Divider(thickness: 8.rh, color: AppColors.grey),
                       ModifierGroupInfo(
-                        title:
-                            '${group.title} ${AppStrings.for_.tr()} ${modifier.title}',
+                        title: '${group.title} ${AppStrings.for_.tr()} ${modifier.title}',
                         rule: group.rule,
                       ),
                       ((group.rule.min == group.rule.max) && group.rule.max == 1)

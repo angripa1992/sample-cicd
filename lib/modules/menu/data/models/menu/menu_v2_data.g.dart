@@ -214,6 +214,9 @@ MenuV2CategoryItem _$MenuV2CategoryItemFromJson(Map<String, dynamic> json) =>
       oos: json['oos'] == null
           ? null
           : V2OosModel.fromJson(json['oos'] as Map<String, dynamic>),
+      groups: (json['groups'] as List<dynamic>?)
+          ?.map((e) => V2ModifierGroupModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$MenuV2CategoryItemToJson(MenuV2CategoryItem instance) =>
@@ -230,4 +233,5 @@ Map<String, dynamic> _$MenuV2CategoryItemToJson(MenuV2CategoryItem instance) =>
       'resources': instance.resources,
       'sequence': instance.sequence,
       'oos': instance.oos,
+      'groups': instance.groups,
     };

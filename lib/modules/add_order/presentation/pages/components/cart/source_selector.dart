@@ -70,12 +70,8 @@ class _SourceSelectorState extends State<SourceSelector> {
         );
       },
       child: Container(
-        margin: EdgeInsets.symmetric(
-          vertical: AppSize.s8.rh,
-          horizontal: AppSize.s16.rw,
-        ),
         padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s8.rw,
+          horizontal: AppSize.s12.rw,
           vertical: AppSize.s8.rh,
         ),
         decoration: BoxDecoration(
@@ -84,7 +80,7 @@ class _SourceSelectorState extends State<SourceSelector> {
         ),
         child: Column(
           children: [
-            TagTitleView(title: AppStrings.order_source.tr(), required: true),
+            TagTitleView(title: AppStrings.order_source.tr(),willShowReqTag: false,required: false),
             Container(
               margin: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
               padding: EdgeInsets.symmetric(
@@ -93,7 +89,8 @@ class _SourceSelectorState extends State<SourceSelector> {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                color: AppColors.grey,
+                color: AppColors.white,
+                border: Border.all(color: AppColors.neutralB40)
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

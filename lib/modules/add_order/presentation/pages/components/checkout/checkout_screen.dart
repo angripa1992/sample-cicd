@@ -6,9 +6,10 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/pament_method.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/entities/payment_info.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../../app/constants.dart';
@@ -19,6 +20,7 @@ import '../../../../utils/order_entity_provider.dart';
 import '../cart/order_action_button.dart';
 import 'checkout_actions_buttons.dart';
 import 'customer_info.dart';
+import 'payment_method_selector.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final CheckoutData checkoutData;
@@ -129,13 +131,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   Visibility(
                     visible: !widget.willUpdateOrder,
-                    child: PaymentMethodView(
-                      initMethod: _paymentMethod,
-                      initChannel: _paymentChannel,
-                      onChanged: (paymentMethod, paymentChannel) {
-                        _paymentMethod = paymentMethod;
-                        _paymentChannel = paymentChannel;
-                        _paymentChanelNotifier.value = _paymentChannel;
+                    child: FutureBuilder<List<PaymentMethod>>(
+                      future: getIt.get<BusinessInformationProvider>().fetchPaymentMethods(),
+                      builder: (_, snapshot) {
+                        return PaymentMethodSelector(
+                          methods: snapshot.hasData ? snapshot.data ?? [] : [],
+                          initMethod: _paymentMethod,
+                          initChannel: _paymentChannel,
+                          onChanged: (paymentMethod, paymentChannel) {
+                            _paymentMethod = paymentMethod;
+                            _paymentChannel = paymentChannel;
+                            _paymentChanelNotifier.value = _paymentChannel;
+                          },
+                        );
                       },
                     ),
                   ),

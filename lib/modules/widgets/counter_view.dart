@@ -85,8 +85,7 @@ class _CounterViewState extends State<CounterView> {
                 onPressed: _decrement,
                 icon: Icon(
                   Icons.remove,
-                  color:
-                      widget.enabled ? AppColors.black : AppColors.greyDarker,
+                  color: widget.enabled ? AppColors.black : AppColors.greyDarker,
                 ),
               ),
               VerticalDivider(
@@ -98,8 +97,7 @@ class _CounterViewState extends State<CounterView> {
                 child: Text(
                   _count.toString(),
                   style: mediumTextStyle(
-                    color:
-                        widget.enabled ? AppColors.black : AppColors.greyDarker,
+                    color: widget.enabled ? AppColors.black : AppColors.greyDarker,
                     fontSize: AppFontSize.s16.rSp,
                   ),
                 ),
@@ -115,8 +113,7 @@ class _CounterViewState extends State<CounterView> {
                 onPressed: _increment,
                 icon: Icon(
                   Icons.add,
-                  color:
-                      widget.enabled ? AppColors.black : AppColors.greyDarker,
+                  color: widget.enabled ? AppColors.black : AppColors.greyDarker,
                 ),
               ),
             ],

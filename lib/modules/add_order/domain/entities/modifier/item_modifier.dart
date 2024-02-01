@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+
 import '../../../../../app/constants.dart';
 import 'item_modifier_group.dart';
 import 'item_price.dart';
@@ -53,7 +55,11 @@ class MenuItemModifier {
         quantity: quantity,
       );
 
-  MenuItemModifierPrice klikitPrice() => prices.firstWhere(
-        (element) => element.providerId == ProviderID.KLIKIT,
-      );
+  MenuItemModifierPrice klikitPrice() => prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
+
+  bool visible() {
+    if (visibilities.isEmpty) return true;
+    final itemVisibility = visibilities.firstWhereOrNull((element) => element.providerId == ProviderID.KLIKIT);
+    return itemVisibility?.visibility ?? true;
+  }
 }
