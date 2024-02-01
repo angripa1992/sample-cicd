@@ -219,15 +219,15 @@ class PrintingHandler {
     }
   }
 
-  void printZReport(ZReportData model, DateTime reportDate) async {
+  void printZReport(ZReportData model, DateTime reportDate, {DateTime? reportEndDate}) async {
     if (SessionManager().isSunmiDevice()) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-      final data = await ZReportDataProvider().generateTemplateData(model, reportDate);
+      final data = await ZReportDataProvider().generateTemplateData(model, reportDate, reportEndTime: reportEndDate);
       await SunmiZReportPrinter().printZReport(data, rollSize);
     } else if (await _isPermissionGranted()) {
       if (_preferences.printerSetting().type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
-          final printingData = await _generateZReportTicket(model, reportDate);
+          final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
           if (printingData != null) {
             await BluetoothPrinterHandler().printDocket(printingData);
           }
@@ -236,7 +236,7 @@ class PrintingHandler {
         }
       } else {
         if (UsbPrinterHandler().isConnected()) {
-          final printingData = await _generateZReportTicket(model, reportDate);
+          final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
           if (printingData != null) {
             await UsbPrinterHandler().printDocket(printingData);
           }
@@ -279,9 +279,10 @@ class PrintingHandler {
 
   Future<List<int>?> _generateZReportTicket(
     ZReportData dataModel,
-    DateTime reportTime,
-  ) async {
-    final data = await ZReportDataProvider().generateTemplateData(dataModel, reportTime);
+    DateTime reportTime, {
+    DateTime? reportEndDate,
+  }) async {
+    final data = await ZReportDataProvider().generateTemplateData(dataModel, reportTime, reportEndTime: reportEndDate);
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     final printingData = await ZReportDesignTemplate().generateTicket(
       data,
