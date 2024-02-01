@@ -6,6 +6,7 @@ import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/styles.dart';
 
 class BrandSelectionView extends StatelessWidget {
   final Function(Brand) onBrandSelected;
@@ -59,7 +60,16 @@ class BrandSelectionView extends StatelessWidget {
               height: 42.rSp,
             ),
             SizedBox(height: 8.rh),
-            Text(brand.title),
+            Text(
+              brand.title,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: mediumTextStyle(
+                color: AppColors.neutralB300,
+                fontSize: 14.rSp,
+              ),
+            ),
           ],
         ),
       ),

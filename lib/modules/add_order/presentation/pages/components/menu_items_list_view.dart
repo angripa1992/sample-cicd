@@ -31,7 +31,7 @@ class MenuCategoryItemsListView extends StatefulWidget {
   final List<MenuCategory> categories;
   final VoidCallback onCartTap;
   final VoidCallback refreshMenu;
-  final Function(MenuCategoryItem,Brand) onAddNonModifierItem;
+  final Function(MenuCategoryItem, Brand) onAddNonModifierItem;
   final Function(MenuCategoryItem, Brand) onNavigateItemDetails;
   final Function(List<MenuItemModifierGroup>, MenuCategoryItem, Brand) onNavigateAddModifier;
 
@@ -103,7 +103,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
             _fetchModifier(selectedMenuItem);
           },
           onAddNonModifierItem: (selectedMenuItem) {
-            widget.onAddNonModifierItem(selectedMenuItem,widget.brand!);
+            widget.onAddNonModifierItem(selectedMenuItem, widget.brand!);
           },
           onRemoveNonModifierItem: (selectedMenuItem) {
             CartManager().removeNonModifierItemFromCart(selectedMenuItem.id);
@@ -229,7 +229,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 mainAxisSpacing: AppSize.s10.rh,
-                childAspectRatio: ScreenSizes.isTablet ? 0.80 : 0.63,
+                childAspectRatio: ScreenSizes.isTablet ? 0.75 : 0.63,
               ),
               itemCount: category.items.length,
               itemBuilder: (BuildContext context, int index) {
@@ -237,7 +237,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
                   menuItem: category.items[index],
                   dayInfo: MenuAvailableTimeProvider().findCurrentDay(category.availableTimes),
                   onAddNonModifierItem: () {
-                    widget.onAddNonModifierItem(category.items[index],widget.brand!);
+                    widget.onAddNonModifierItem(category.items[index], widget.brand!);
                   },
                   onAddModifierItem: () {
                     _fetchModifier(category.items[index]);
