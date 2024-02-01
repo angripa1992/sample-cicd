@@ -185,7 +185,7 @@ class _EditModifierViewState extends State<EditModifierView> {
                         );
                       }).toList(),
                     ),
-                    Divider(thickness: 8.rh, color: AppColors.grey),
+                    if (_groups.isNotEmpty) Divider(thickness: 8.rh, color: AppColors.grey),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 12.rw),
                       child: SpecialInstructionField(controller: _textEditingController),
