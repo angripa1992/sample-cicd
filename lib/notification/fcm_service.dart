@@ -75,8 +75,9 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   );
 
   final environmentVariables = await EnvManager().fetchEnv(env);
-  final printingHandler = getIt.get<PrintingHandler>();
-  await initAppModule(environmentVariables);  if (SessionManager().notificationEnable()) {
+  await initAppModule(environmentVariables);
+  if (SessionManager().notificationEnable()) {
+    var printingHandler = getIt.get<PrintingHandler>();
     LocalNotificationService().showNotification(
       payload: message.data,
     );

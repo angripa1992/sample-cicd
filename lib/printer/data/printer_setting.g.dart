@@ -19,6 +19,7 @@ PrinterSettingModel _$PrinterSettingModelFromJson(Map<String, dynamic> json) =>
           ? null
           : PrinterFontsModel.fromJson(json['fonts'] as Map<String, dynamic>),
       fontId: json['font_id'] as int?,
+      deviceId: json['device_id'] as String?,
     )..stickerPrinterEnabled = json['sticker_printer_enabled'] as bool?;
 
 Map<String, dynamic> _$PrinterSettingModelToJson(
@@ -33,6 +34,7 @@ Map<String, dynamic> _$PrinterSettingModelToJson(
       'docket_customer_copy_count': instance.customerCopyCount,
       'docket_kitchen_copy_count': instance.kitchenCopyCount,
       'font_id': instance.fontId,
+      'device_id': instance.deviceId,
       'fonts': instance.fonts,
     };
 
@@ -82,6 +84,7 @@ Map<String, dynamic> _$PrinterSettingToJson(PrinterSetting instance) =>
       'docket_customer_copy_count': instance.customerCopyCount,
       'docket_kitchen_copy_count': instance.kitchenCopyCount,
       'font_id': instance.fontId,
+      'device_id': instance.deviceId,
       'fonts': instance.fonts,
     };
 

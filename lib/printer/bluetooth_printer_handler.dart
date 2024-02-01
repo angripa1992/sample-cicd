@@ -73,6 +73,24 @@ class BluetoothPrinterHandler {
     }
   }
 
+  Future<bool> autoConnectDevice() async {
+    PrinterSetting printerSetting = _createPrinterSettingFromLocalVariables();
+    if (isConnected()) {
+      await PrinterManager.instance.disconnect(type: PrinterType.bluetooth);
+    }
+    try {
+      await PrinterManager.instance.connect(
+        type: PrinterType.bluetooth,
+        model: BluetoothPrinterInput(address: printerSetting.deviceId!),
+      );
+      return true;
+    } catch (e) {
+      //ignored
+      return false;
+    }
+  }
+
+
   Future<void> printDocket(List<int> data) async {
     try {
       await PrinterManager.instance

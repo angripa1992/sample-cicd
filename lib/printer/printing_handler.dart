@@ -6,6 +6,7 @@ import 'package:docket_design_template/sunmi_zreport_design_template.dart';
 import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:docket_design_template/zreport_design_template.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
@@ -84,7 +85,9 @@ class PrintingHandler {
             _doManualPrint(order);
           }
         } else {
-          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
+          await BluetoothPrinterHandler().autoConnectDevice();
+          printDocket(order: order, isAutoPrint: true);
+          // showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
         }
       } else {
         if (UsbPrinterHandler().isConnected()) {
