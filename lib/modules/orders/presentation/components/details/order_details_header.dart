@@ -7,8 +7,8 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/core/route/routes_generator.dart';
-import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -60,15 +60,13 @@ class OrderDetailsHeaderView extends StatelessWidget {
         children: [
           Row(
             children: [
-              DecoratedImageView(
-                iconWidget: ImageResourceResolver.appLogoSVG.getImageWidget(width: AppSize.s28.rw, height: AppSize.s28.rh),
-                padding: EdgeInsets.all(AppSize.s12.rSp),
-                decoration: BoxDecoration(
-                  color: AppColors.neutralB20,
-                  border: Border.all(color: AppColors.neutralB50),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(200.rSp),
-                  ),
+              KTNetworkImage(
+                width: 56.rw,
+                height: 56.rh,
+                imageUrl: order.orderSource.logo,
+                widgetPadding: AppSize.s8.rSp,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(200.rSp),
                 ),
               ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
               Expanded(

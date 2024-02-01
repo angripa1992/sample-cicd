@@ -1,3 +1,6 @@
+import 'package:collection/collection.dart';
+import 'package:docket_design_template/utils/constants.dart';
+
 import 'item_modifier.dart';
 import 'item_visibility.dart';
 import 'modifier_rule.dart';
@@ -36,4 +39,10 @@ class MenuItemModifierGroup {
         rule: rule.copy(),
         modifiers: modifiers.map((e) => e.copy()).toList(),
       );
+
+  bool visible() {
+    if (visibilities.isEmpty) return true;
+    final itemVisibility = visibilities.firstWhereOrNull((element) => element.providerId == ProviderID.KLIKIT);
+    return itemVisibility?.visibility ?? true;
+  }
 }

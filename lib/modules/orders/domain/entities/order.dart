@@ -117,6 +117,8 @@ class Order {
   final num mergeFee;
   final num rewardDiscount;
   final num roundOffAmount;
+  final bool gatewayFeePaidByCustomer;
+  final bool serviceFeePaidByCustomer;
   bool canUpdate;
   num preparationTime;
   String klikitComment;
@@ -226,6 +228,8 @@ class Order {
     required this.mergeFee,
     required this.rewardDiscount,
     required this.roundOffAmount,
+    required this.gatewayFeePaidByCustomer,
+    required this.serviceFeePaidByCustomer,
   });
 
   Order copy() => Order(
@@ -330,5 +334,7 @@ class Order {
         mergeFee: mergeFee,
         rewardDiscount: rewardDiscount,
         roundOffAmount: roundOffAmount,
+        gatewayFeePaidByCustomer: gatewayFeePaidByCustomer,
+        serviceFeePaidByCustomer: serviceFeePaidByCustomer,
       );
 }

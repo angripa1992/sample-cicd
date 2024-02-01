@@ -193,6 +193,7 @@ class DiscountType {
 class Device {
   static const android = 0;
   static const sunmi = 1;
+  static const imin = 2;
 }
 
 class PrinterSelectIndex {

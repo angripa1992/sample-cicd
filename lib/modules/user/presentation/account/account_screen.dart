@@ -65,7 +65,10 @@ class _AccountScreenState extends State<AccountScreen> {
   void _onLanguageChange() {
     ModalSheetManager.openBottomSheet(
       context,
-      const LanguageSettingPage(),
+      Padding(
+        padding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, bottom: 20.rh),
+        child: const LanguageSettingPage(),
+      ),
       title: AppStrings.select_language.tr(),
       dismissible: false,
     ).then(
@@ -84,7 +87,10 @@ class _AccountScreenState extends State<AccountScreen> {
   void _onDeviceChange() {
     ModalSheetManager.openBottomSheet(
       context,
-      const DeviceSettingScreen(),
+      Padding(
+        padding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, bottom: 20.rh),
+        child: const DeviceSettingScreen(),
+      ),
       title: AppStrings.device_setting.tr(),
       dismissible: false,
     ).then(
@@ -101,7 +107,10 @@ class _AccountScreenState extends State<AccountScreen> {
   void _onContactSupport() {
     ModalSheetManager.openBottomSheet(
       context,
-      const ContactSupportScreen(),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+        child: const ContactSupportScreen(),
+      ),
       title: AppStrings.contact_support.tr(),
       dismissible: false,
     ).then(
@@ -302,7 +311,8 @@ class _AccountScreenState extends State<AccountScreen> {
                         logoutButtonController.label = AppStrings.logout.tr();
                         return KTButton(
                           controller: logoutButtonController,
-                          prefixWidget: ImageResourceResolver.logoutSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          // prefixWidget: ImageResourceResolver.logoutSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          prefixWidget: Icon(Icons.logout, color: AppColors.redDark, size: AppSize.s24.rSp),
                           backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                           labelStyle: mediumTextStyle(),
                           splashColor: AppColors.greyBright,

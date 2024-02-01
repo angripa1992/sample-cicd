@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/core/widgets/child_size_notifier.dart';
 import 'package:klikit/resources/strings.dart';
 
 class KTDropdown<T> extends StatefulWidget {
@@ -15,6 +16,7 @@ class KTDropdown<T> extends StatefulWidget {
   final String? hintText;
   final TextStyle? textStyle;
   final TextStyle? hintTextStyle;
+  final Function(Size)? onSizeCalculated;
 
   const KTDropdown(
       {super.key,
@@ -29,7 +31,8 @@ class KTDropdown<T> extends StatefulWidget {
       this.trailingWidget,
       this.hintText,
       this.textStyle,
-      this.hintTextStyle});
+      this.hintTextStyle,
+      this.onSizeCalculated});
 
   @override
   State<KTDropdown<T>> createState() => _KTDropdownState<T>();
@@ -52,63 +55,71 @@ class _KTDropdownState<T> extends State<KTDropdown<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: widget.padding,
-      decoration: widget.backgroundDecoration,
-      child: DropdownButton<T>(
-        isExpanded: true,
-        menuMaxHeight: 384,
-        underline: const SizedBox(
-          width: 0,
-          height: 0,
-        ),
-        icon: widget.trailingWidget,
-        borderRadius: widget.borderRadius,
-        alignment: Alignment.centerLeft,
-        hint: DropdownMenuItem(
-          value: widget.hintText ?? AppStrings.select.tr(),
-          child: Text(
-            widget.hintText ?? AppStrings.select.tr(),
-            style: widget.hintTextStyle,
-          ),
-        ),
-        items: widget.items.map<DropdownMenuItem<T>>(
-          (currentData) {
-            return DropdownMenuItem(
-              value: currentData,
-              child: Text(
-                widget.titleBuilder(currentData),
-                style: widget.textStyle,
-              ),
-            );
-          },
-        ).toList(),
-        selectedItemBuilder: widget.selectedItemBuilder != null
-            ? (context) => List.generate(
-                  widget.items.length,
-                  (position) {
-                    final currentData = widget.items[position];
-                    return DropdownMenuItem(
-                      value: currentData,
-                      child: Text(
-                        widget.selectedItemBuilder!(currentData, selectedItemIndex == position),
-                        style: widget.textStyle,
-                      ),
-                    );
-                  },
-                )
-            : null,
-        onChanged: (T? value) {
-          if (value != null) {
-            widget.onSelected(value);
+    return ChildSizeNotifier(
+      builder: (_, size, __) {
+        if (size.height > 0 && widget.onSizeCalculated != null) {
+          widget.onSizeCalculated!(size);
+        }
 
-            setState(() {
-              selectedItemIndex = findItemIndex(value);
-            });
-          }
-        },
-        value: selectedItemIndex != null ? widget.items[selectedItemIndex!] : null,
-      ),
+        return Container(
+          padding: widget.padding,
+          decoration: widget.backgroundDecoration,
+          child: DropdownButton<T>(
+            isExpanded: true,
+            menuMaxHeight: 384,
+            underline: const SizedBox(
+              width: 0,
+              height: 0,
+            ),
+            icon: widget.trailingWidget,
+            borderRadius: widget.borderRadius,
+            alignment: Alignment.centerLeft,
+            hint: DropdownMenuItem(
+              value: widget.hintText ?? AppStrings.select.tr(),
+              child: Text(
+                widget.hintText ?? AppStrings.select.tr(),
+                style: widget.hintTextStyle,
+              ),
+            ),
+            items: widget.items.map<DropdownMenuItem<T>>(
+              (currentData) {
+                return DropdownMenuItem(
+                  value: currentData,
+                  child: Text(
+                    widget.titleBuilder(currentData),
+                    style: widget.textStyle,
+                  ),
+                );
+              },
+            ).toList(),
+            selectedItemBuilder: widget.selectedItemBuilder != null
+                ? (context) => List.generate(
+                      widget.items.length,
+                      (position) {
+                        final currentData = widget.items[position];
+                        return DropdownMenuItem(
+                          value: currentData,
+                          child: Text(
+                            widget.selectedItemBuilder!(currentData, selectedItemIndex == position),
+                            style: widget.textStyle,
+                          ),
+                        );
+                      },
+                    )
+                : null,
+            onChanged: (T? value) {
+              if (value != null) {
+                widget.onSelected(value);
+
+                setState(() {
+                  selectedItemIndex = findItemIndex(value);
+                });
+              }
+            },
+            value: selectedItemIndex != null ? widget.items[selectedItemIndex!] : null,
+          ),
+        );
+      },
     );
   }
 

@@ -5,13 +5,13 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/styles.dart';
-import 'package:klikit/resources/values.dart';
 
 class ModalSheetManager {
   static Future<dynamic> openBottomSheet(
     BuildContext context,
     Widget widget, {
     String? title,
+    String? subTitle,
     bool showCloseButton = true,
     dismissible = true,
     isScrollControlled = true,
@@ -31,25 +31,38 @@ class ModalSheetManager {
         ),
       ),
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(top: 24.rh, bottom: 20.rh),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (title != null || showCloseButton)
-                Row(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (title != null || showCloseButton)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.rh, horizontal: 16.rw),
+                child: Row(
                   children: [
-                    16.horizontalSpacer(),
                     if (title != null)
-                      Text(
-                        title,
-                        style: semiBoldTextStyle(
-                          color: AppColors.black,
-                          fontSize: AppFontSize.s16.rSp,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              title,
+                              style: semiBoldTextStyle(
+                                color: AppColors.black,
+                                fontSize: AppFontSize.s16.rSp,
+                              ),
+                            ),
+                            if (subTitle != null)
+                              Text(
+                                subTitle,
+                                style: regularTextStyle(
+                                  color: AppColors.neutralB300,
+                                  fontSize: 14.rSp,
+                                ),
+                              ).setVisibilityWithSpace(direction: Axis.vertical,startSpace: 4),
+                          ],
                         ),
                       ),
-                    const Spacer(),
                     if (showCloseButton)
                       InkWell(
                         child: ImageResourceResolver.closeSVG.getImageWidget(width: 20.rw, height: 20.rh),
@@ -57,16 +70,12 @@ class ModalSheetManager {
                           Navigator.of(context).pop();
                         },
                       ),
-                    16.horizontalSpacer(),
                   ],
                 ),
-              if (title != null || showCloseButton) const Divider().setVisibilityWithSpace(direction: Axis.vertical, startSpace: 12, endSpace: 12),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-                child: widget,
-              )
-            ],
-          ),
+              ),
+            if (title != null || showCloseButton) const Divider(),
+            widget
+          ],
         );
       },
     );

@@ -54,7 +54,7 @@ void showMenuActionDialog({
             children: [
               Expanded(
                 child: Text('${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this ${typeName()}?',
-                    style: mediumTextStyle(color: AppColors.neutralB700, fontSize: AppFontSize.s18.rSp)),
+                    style: mediumTextStyle(color: AppColors.neutralB700, fontSize: AppFontSize.s16.rSp)),
               ),
               AppSize.s8.horizontalSpacer(),
               InkWell(

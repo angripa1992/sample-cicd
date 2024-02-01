@@ -10,39 +10,27 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../utils/cart_manager.dart';
-import '../modifier/speacial_instruction.dart';
 import 'cart_item.dart';
 import 'cart_item_brand.dart';
-import 'cart_price_view.dart';
 
 class CartItemsListView extends StatelessWidget {
   final CartBill cartBill;
-  final TextEditingController textController;
-  final VoidCallback onDeliveryFee;
-  final VoidCallback onDiscount;
-  final VoidCallback onAdditionalFee;
   final Function(AddToCartItem) onEdit;
   final Function(Brand) addMore;
   final Function(AddToCartItem) addDiscount;
   final Function(AddToCartItem) onDelete;
   final Function(AddToCartItem, int) onQuantityChanged;
-  final Function(bool roundOffApplicable) onApplyRoundOff;
   final Function(int) removeAll;
 
   const CartItemsListView({
     Key? key,
     required this.cartBill,
-    required this.onDeliveryFee,
-    required this.onDiscount,
-    required this.onAdditionalFee,
     required this.onEdit,
     required this.addMore,
     required this.addDiscount,
     required this.onDelete,
     required this.onQuantityChanged,
     required this.removeAll,
-    required this.textController,
-    required this.onApplyRoundOff,
   }) : super(key: key);
 
   @override
@@ -58,8 +46,6 @@ class CartItemsListView extends StatelessWidget {
             final cartItems = cartsItemByBrands[index];
             return Container(
               margin: EdgeInsets.only(
-                left: AppSize.s16.rw,
-                right: AppSize.s16.rw,
                 bottom: AppSize.s8.rw,
               ),
               decoration: BoxDecoration(
@@ -76,7 +62,7 @@ class CartItemsListView extends StatelessWidget {
                     removeAll: removeAll,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
+                    padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
                     child: Column(
                       children: cartItems.map(
                         (cartItem) {
@@ -96,7 +82,7 @@ class CartItemsListView extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: AppSize.s12.rw,
+                      horizontal: AppSize.s16.rw,
                     ),
                     child: TextButton(
                       onPressed: () {
@@ -104,8 +90,9 @@ class CartItemsListView extends StatelessWidget {
                       },
                       child: Text(
                         '+ ${AppStrings.add_more_items.tr()}',
-                        style: mediumTextStyle(
+                        style: semiBoldTextStyle(
                           color: AppColors.primary,
+                          fontSize: 14.rSp,
                         ),
                       ),
                     ),
@@ -114,14 +101,6 @@ class CartItemsListView extends StatelessWidget {
               ),
             );
           },
-        ),
-        SpecialInstructionField(controller: textController),
-        CartPriceView(
-          cartBill: cartBill,
-          onDeliveryFee: onDeliveryFee,
-          onAdditionalFee: onAdditionalFee,
-          onDiscount: onDiscount,
-          onApplyRoundOff: onApplyRoundOff,
         ),
       ],
     );

@@ -9,6 +9,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../core/utils/price_calculator.dart';
@@ -220,7 +221,6 @@ class TotalPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           AppStrings.total.tr(),
@@ -230,6 +230,17 @@ class TotalPrice extends StatelessWidget {
                 fontSize: AppFontSize.s16.rSp,
               ),
         ),
+        FutureBuilder<Branch?>(
+          future: getIt<BusinessInformationProvider>().branchByID(order.branchId),
+          builder: (_, snapshot) {
+            if (snapshot.hasData) {
+              return webshopTooltip(order, snapshot.data?.mergeFeeEnabled ?? false);
+            }
+            return const SizedBox();
+          },
+        ),
+        const Spacer(),
+        8.horizontalSpacer(),
         Text(
           PriceCalculator.convertPrice(order, order.finalPrice),
           style: textStyle ??
@@ -240,6 +251,28 @@ class TotalPrice extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget webshopTooltip(Order order, bool mergeFeesEnabled) {
+    if (order.providerId == ProviderID.KLIKIT &&
+        !order.isManualOrder &&
+        ((!order.gatewayFeePaidByCustomer && order.gatewayFee == 1) ||
+            (!order.serviceFeePaidByCustomer && order.serviceFee == 1) ||
+            (!order.feePaidByCustomer && (order.serviceFee == 1 || order.gatewayFee == 1 || mergeFeesEnabled)))) {
+      String msg = 'Total fee includes processing fee and service fee';
+
+      if ((!order.gatewayFeePaidByCustomer && order.serviceFeePaidByCustomer) || (order.gatewayFee == 1 && order.serviceFee != 1)) {
+        msg = 'Total fee includes processing fee';
+      } else if ((order.gatewayFeePaidByCustomer && !order.serviceFeePaidByCustomer) || (order.gatewayFee != 1 && order.serviceFee == 1)) {
+        msg = 'Total fee includes service fee';
+      }
+
+      return Tooltip(
+        message: msg,
+        child: ImageResourceResolver.infoSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh),
+      ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 8.rw);
+    }
+    return const SizedBox();
   }
 }
 

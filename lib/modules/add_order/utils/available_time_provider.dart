@@ -2,12 +2,12 @@ import 'package:intl/intl.dart';
 
 import '../../menu/domain/entities/menu/menu_available_times.dart';
 
-class AvailableTimeProvider {
-  static final _instance = AvailableTimeProvider._internal();
+class MenuAvailableTimeProvider {
+  static final _instance = MenuAvailableTimeProvider._internal();
 
-  factory AvailableTimeProvider() => _instance;
+  factory MenuAvailableTimeProvider() => _instance;
 
-  AvailableTimeProvider._internal();
+  MenuAvailableTimeProvider._internal();
 
   String _convertMilitaryTimeToNormalTime(int militaryTime) {
     final mins = militaryTime % 100;
@@ -17,7 +17,7 @@ class AvailableTimeProvider {
     return '$hoursStr:$minStr';
   }
 
-  MenuDay todayInfo(MenuAvailableTimes availableTimes) {
+  MenuDay findCurrentDay(MenuAvailableTimes availableTimes) {
     final today = DateTime.now().weekday;
     switch (today) {
       case DateTime.monday:
@@ -43,8 +43,7 @@ class AvailableTimeProvider {
         DateFormat('HH:mm').format(DateTime.now()).replaceAll(":", ""),
         radix: 10,
       );
-      if (currentMilitaryTime! >= slot.startTime &&
-          currentMilitaryTime <= slot.endTime) {
+      if (currentMilitaryTime! >= slot.startTime && currentMilitaryTime <= slot.endTime) {
         return slot;
       }
     }
@@ -52,14 +51,12 @@ class AvailableTimeProvider {
   }
 
   String availableTime(MenuAvailableTimes availableTimes) {
-    final slot = haveAvailableTime(todayInfo(availableTimes));
+    final slot = haveAvailableTime(findCurrentDay(availableTimes));
     String availableTime = 'Unavailable';
     if (slot != null) {
-      final startDateTime = DateFormat('HH:mm')
-          .parse(_convertMilitaryTimeToNormalTime(slot.startTime));
+      final startDateTime = DateFormat('HH:mm').parse(_convertMilitaryTimeToNormalTime(slot.startTime));
       final startDateTimeStr = DateFormat('hh:mm a').format(startDateTime);
-      final endDateTime = DateFormat('HH:mm')
-          .parse(_convertMilitaryTimeToNormalTime(slot.endTime));
+      final endDateTime = DateFormat('HH:mm').parse(_convertMilitaryTimeToNormalTime(slot.endTime));
       final endDateTimeStr = DateFormat('hh:mm a').format(endDateTime);
       availableTime = '$startDateTimeStr - $endDateTimeStr';
     }

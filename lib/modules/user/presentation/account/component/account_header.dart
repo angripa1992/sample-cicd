@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
-import 'package:klikit/core/provider/image_url_provider.dart';
 import 'package:klikit/core/widgets/kt_network_image.dart';
 
 import '../../../../../resources/colors.dart';
@@ -23,7 +22,7 @@ class AccountHeader extends StatelessWidget {
         KTNetworkImage(
           width: 48.rSp,
           height: 48.rSp,
-          imageUrl: ImageUrlProvider.getUrl(userInfo?.profilePic ?? ""),
+          imageUrl: userInfo?.profilePic ?? "",
           boxShape: BoxShape.circle,
           widgetPadding: 16.rSp,
         ),

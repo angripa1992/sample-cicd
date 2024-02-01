@@ -1,5 +1,7 @@
 import 'package:docket_design_template/model/z_report_data.dart';
 import 'package:intl/intl.dart';
+import 'package:klikit/app/date_time_patterns.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 
@@ -49,7 +51,7 @@ class ZReportDataProvider {
     return ZReportCurrency('USD', '\$');
   }
 
-  Future<TemplateZReport> generateTemplateData(ZReportData dataModel, DateTime reportTime) async {
+  Future<TemplateZReport> generateTemplateData(ZReportData dataModel, DateTime reportTime, {DateTime? reportEndTime}) async {
     final currency = await _currency(dataModel.orderSummary);
     final salesSummary = await _templateSalesSummary(dataModel.orderSummary, currency);
     final brandSummary = await _templateBrandSummary(dataModel.orderSummary, currency);
@@ -59,7 +61,7 @@ class ZReportDataProvider {
     final paymentChannelSummary = await _templatePaymentChannelSummary(dataModel.paymentSummary!, currency);
     return TemplateZReport(
       generatedDate: DateFormat('MMMM dd yyyy, hh:mm aaa').format(DateTime.now().toLocal()).toString(),
-      reportDate: DateFormat('MMMM dd, yyyy').format(reportTime).toString(),
+      reportDate: reportEndTime == null ? DateFormat('MMMM dd, yyyy').format(reportTime).toString() : '${reportTime.format(DTPatterns.dmmmyyhhmma)} - ${reportEndTime.format(DTPatterns.dmmmyyhhmma)}',
       salesSummary: salesSummary,
       itemSummary: itemSummary,
       modifierItemSummary: itemModifierSummary,

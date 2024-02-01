@@ -366,5 +366,12 @@
   "menu_list": "Daftar Menu",
   "brand_branch_empty_message": "Pilih brand dan cabang untuk mengelola menu dan modifier dengan lancar.",
   "branch": "Cabang",
-  "manage_modifiers": "Mengelola Modifier"
+  "manage_modifiers": "Mengelola Modifier",
+  "custom_date": "Tanggal Kustom",
+  "custom_time": "Waktu Kustom",
+  "start_time": "Waktu mulai",
+  "end_time": "Waktu akhir",
+  "time_range_selection_message": "Waktu yang dipilih di antara dua tanggal",
+  "time_selection": "Pemilihan Waktu",
+  "select_time": "Pilih Waktu"
 }

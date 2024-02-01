@@ -53,5 +53,23 @@ class BluetoothPrinterHandler {
     } on PlatformException {
       //ignored
     }
+
+  }
+
+  Future<void> print(List<int> data, Map printerAddress) async {
+    try {
+
+      if (isConnected()) {
+        await PrinterManager.instance.disconnect(type: PrinterType.bluetooth);
+      }
+
+      await connect(PrinterDevice(name: printerAddress['name'], address: printerAddress['address']));
+
+      await PrinterManager.instance
+          .send(type: PrinterType.bluetooth, bytes: data);
+    } on PlatformException {
+      //ignored
+    }
+
   }
 }

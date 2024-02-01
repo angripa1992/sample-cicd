@@ -13,8 +13,7 @@ class ModifierGroupInfo extends StatelessWidget {
   final String title;
   final MenuItemModifierRule rule;
 
-  const ModifierGroupInfo({Key? key, required this.title, required this.rule})
-      : super(key: key);
+  const ModifierGroupInfo({Key? key, required this.title, required this.rule}) : super(key: key);
 
   String _ruleTitle() {
     final optional = rule.min == 0;
@@ -61,9 +60,7 @@ class ModifierGroupInfo extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppSize.s16.rSp),
-                      color: isOptional
-                          ? AppColors.greyLight
-                          : AppColors.primaryLighter,
+                      color: isOptional ? AppColors.greyLight : AppColors.primaryLighter,
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -71,13 +68,10 @@ class ModifierGroupInfo extends StatelessWidget {
                         horizontal: AppSize.s8.rw,
                       ),
                       child: Text(
-                        isOptional
-                            ? AppStrings.optional.tr()
-                            : AppStrings.required.tr(),
+                        isOptional ? AppStrings.optional.tr() : AppStrings.required.tr(),
                         style: regularTextStyle(
-                          color: isOptional
-                              ? AppColors.greyDarker
-                              : AppColors.primary,
+                          color: isOptional ? AppColors.greyDarker : AppColors.primary,
+                          fontSize: 12.rSp,
                         ),
                       ),
                     ),
@@ -88,9 +82,7 @@ class ModifierGroupInfo extends StatelessWidget {
             SizedBox(height: AppSize.s2.rh),
             Text(
               _ruleTitle(),
-              style: regularTextStyle(
-                color: AppColors.greyDarker,
-              ),
+              style: regularTextStyle(color: AppColors.greyDarker, fontSize: 14.rSp),
             ),
           ],
         ),

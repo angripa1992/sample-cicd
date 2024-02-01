@@ -39,10 +39,7 @@ MenuBranchInfo _menuV1dataToMenuBranchInfo(MenuV1BranchInfo data) {
   );
 }
 
-MenuSection _menuV1SectionsToMenuSections(
-  MenuV1SectionsModel data,
-  MenuBranchInfo branchInfo,
-) {
+MenuSection _menuV1SectionsToMenuSections(MenuV1SectionsModel data, MenuBranchInfo branchInfo) {
   final menuAvailableTimes = _menuV1AvailableTimesModelToMenuAvailableTimes(data.availableTimes!);
   return MenuSection(
     branchInfo: branchInfo,
@@ -129,6 +126,7 @@ MenuCategoryItem _menuV1ItemToMenuItem(
     sequence: data.sequence.orZero(),
     outOfStock: _menuV1StockModelToMenuOutOfStock(data.stock!),
     availableTimes: availableTimes,
+    haveModifier: data.haveModifier ?? false,
   );
 }
 
@@ -152,9 +150,7 @@ MenuOutOfStock _menuV1StockModelToMenuOutOfStock(MenuV1StockModel data) {
   );
 }
 
-MenuAvailableTimes _menuV1AvailableTimesModelToMenuAvailableTimes(
-  MenuV1AvailableTimesModel data,
-) {
+MenuAvailableTimes _menuV1AvailableTimesModelToMenuAvailableTimes(MenuV1AvailableTimesModel data) {
   return MenuAvailableTimes(
     monday: _v1MenuDayToMenuDay(data.monday ?? MenuV1DayInfoModel()),
     tuesday: _v1MenuDayToMenuDay(data.tuesday ?? MenuV1DayInfoModel()),
