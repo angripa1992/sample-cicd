@@ -117,7 +117,7 @@ void showAccessDeniedDialog({
                 style: regularStyle,
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'currently only available to Branch Managers, Staffs and Cashiers',
+                    text: 'currently only available to Brand Managers, Branch Managers, Staffs and Cashiers',
                     style: boldStyle,
                   ),
                 ],

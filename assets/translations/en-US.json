@@ -366,5 +366,12 @@
   "menu_list": "Menu List",
   "brand_branch_empty_message": "Select a brand and branch to seamlessly manage menus and modifiers",
   "branch": "Branch",
-  "manage_modifiers": "Manage Modifiers"
+  "manage_modifiers": "Manage Modifiers",
+  "custom_date": "Custom Date",
+  "custom_time": "Custom Time",
+  "start_time": "Start time",
+  "end_time": "End time",
+  "time_range_selection_message": "Time range selected \nin between two dates",
+  "time_selection": "Time Selection",
+  "select_time": "Select Time"
 }

@@ -1,25 +1,21 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu_tab.dart';
+import 'package:klikit/modules/menu/presentation/pages/tab_item.dart';
 import 'package:klikit/resources/colors.dart';
-import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/values.dart';
 
-class MenuTabBarView extends StatefulWidget {
+class MenuTabBarView extends StatelessWidget {
+  final int selectedIndex;
+  final List<TabItem> tabItems;
   final Function(int) onChanged;
 
-  const MenuTabBarView({Key? key, required this.onChanged}) : super(key: key);
-
-  @override
-  State<MenuTabBarView> createState() => _MenuTabBarViewState();
-}
-
-class _MenuTabBarViewState extends State<MenuTabBarView> {
-  int selectedTab = MenuTabIndex.MENU;
-
-  void changeIndex(int index) => widget.onChanged(index);
+  const MenuTabBarView({
+    Key? key,
+    required this.onChanged,
+    required this.selectedIndex,
+    required this.tabItems,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,30 +29,18 @@ class _MenuTabBarViewState extends State<MenuTabBarView> {
           borderRadius: BorderRadius.circular(AppSize.s12.rSp),
         ),
         child: Row(
-          children: [
-            MenuTab(
-              name: AppStrings.menu.tr(),
-              isSelected: selectedTab == MenuTabIndex.MENU,
-              onTabChanged: () {
-                setState(() {
-                  selectedTab = MenuTabIndex.MENU;
-                  changeIndex(selectedTab);
-                });
-              },
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            ),
-            MenuTab(
-              name: AppStrings.modifiers.tr(),
-              isSelected: selectedTab == MenuTabIndex.MODIFIER,
-              onTabChanged: () {
-                setState(() {
-                  selectedTab = MenuTabIndex.MODIFIER;
-                  changeIndex(selectedTab);
-                });
-              },
-              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-            ),
-          ],
+          children: tabItems
+              .map(
+                (e) => MenuTab(
+                  tabItem: e,
+                  isSelected: e.tabIndex == selectedIndex,
+                  onTabChanged: (tabItem) {
+                    onChanged(tabItem.tabIndex);
+                  },
+                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
+                ),
+              )
+              .toList(),
         ),
       ),
     );

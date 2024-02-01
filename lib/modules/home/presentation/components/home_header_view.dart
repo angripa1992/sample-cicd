@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
+import 'package:klikit/modules/base/order_counter.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../resources/values.dart';
-import '../../../add_order/presentation/pages/components/cart_badge.dart';
 
 class HomeHeaderView extends StatelessWidget {
   final VoidCallback onCartTap;
@@ -33,11 +33,7 @@ class HomeHeaderView extends StatelessWidget {
                   ),
                 ),
               ),
-              if (!UserPermissionManager().isBizOwner())
-                CartBadge(
-                  iconColor: AppColors.white,
-                  onCartTap: onCartTap,
-                ),
+              if (!UserPermissionManager().isBizOwner()) OrderCounter(onCartTap: onCartTap),
             ],
           ),
           Container(

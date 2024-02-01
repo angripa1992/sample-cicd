@@ -34,6 +34,8 @@ class AppColors {
 
   static Color white = const Color(0xFFFFFFFF);
 
+  static Color blur = const Color(0x42000000);
+
   static Color black = const Color(0xFF262626);
   static Color neutralB500 = const Color(0xFF3B3B3B);
   static Color neutralB100 = const Color(0xFF757575);

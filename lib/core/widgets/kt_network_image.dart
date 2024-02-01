@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/provider/image_url_provider.dart';
 import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
-import 'package:klikit/env/environment_variables.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 
@@ -35,7 +34,7 @@ class KTNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: '${getIt.get<EnvironmentVariables>().cdnUrl}/$imageUrl',
+      imageUrl: ImageUrlProvider.getUrl(imageUrl),
       imageBuilder: (context, imageProvider) => Container(
           width: width,
           height: height,

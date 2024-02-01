@@ -68,10 +68,10 @@ class _ModifierListViewState extends State<ModifierListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-      child: Expanded(
+    return Expanded(
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
         child: ListView.separated(
           key: UniqueKey(),
           itemCount: widget.modifierGroup.modifiers.length,
@@ -82,34 +82,33 @@ class _ModifierListViewState extends State<ModifierListView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        if (widget.modifierGroup.menuVersion == MenuVersion.v2) {
-                          _showItemDetails(index);
-                        }
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.modifierGroup.modifiers[index].title.trim(),
-                            style: regularTextStyle(
-                              color: AppColors.black,
-                              fontSize: AppFontSize.s14.rSp,
-                            ),
+                  InkWell(
+                    onTap: () {
+                      if (widget.modifierGroup.menuVersion == MenuVersion.v2) {
+                        _showItemDetails(index);
+                      }
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.modifierGroup.modifiers[index].title.trim(),
+                          style: regularTextStyle(
+                            color: AppColors.black,
+                            fontSize: AppFontSize.s14.rSp,
                           ),
-                          Text(
-                            widget.modifierGroup.modifiers[index].klikitPrice(),
-                            style: regularTextStyle(
-                              color: AppColors.black,
-                              fontSize: AppFontSize.s14.rSp,
-                            ),
+                        ),
+                        Text(
+                          widget.modifierGroup.modifiers[index].klikitPrice(),
+                          style: regularTextStyle(
+                            color: AppColors.black,
+                            fontSize: AppFontSize.s14.rSp,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
+                  const Spacer(),
                   ModifierSwitchView(
                     menuVersion: widget.modifierGroup.menuVersion,
                     branchID: widget.branchID,

@@ -23,7 +23,7 @@ class NoteTextField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-        color: AppColors.greyLighter,
+        border: Border.all(color: AppColors.neutralB40)
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
