@@ -104,6 +104,7 @@ class AppPreferences {
         ),
         fontId: PrinterFontSize.normal,
         stickerPrinterEnabled: false,
+        deviceId: EMPTY
       );
     }
     final data = json.decode(preferenceData);

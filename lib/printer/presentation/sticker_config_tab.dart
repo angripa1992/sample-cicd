@@ -83,6 +83,7 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
       fonts: PrinterFonts.fromId(printerSetting.fontId),
       fontId: printerSetting.fontId,
       stickerPrinterEnabled: _stickerPrinterEnabled,
+      deviceId: printerSetting.deviceId,
     );
   }
 

@@ -64,6 +64,7 @@ PrinterSetting _$PrinterSettingFromJson(Map<String, dynamic> json) =>
       kitchenCopyEnabled: json['docket_kitchen_copy_enabled'] as bool,
       customerCopyCount: json['docket_customer_copy_count'] as int,
       kitchenCopyCount: json['docket_kitchen_copy_count'] as int,
+      deviceId: json['device_id'] as String?,
       fontId: json['font_id'] as int,
       fonts: json['fonts'] == null
           ? null
