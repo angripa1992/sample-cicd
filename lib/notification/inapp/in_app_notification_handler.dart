@@ -186,6 +186,7 @@ class InAppNotificationHandler {
                   AppSize.s8.horizontalSpacer(),
                   InkWell(
                     onTap: () {
+                      _notifyOrderBadgeListener();
                       Navigator.pop(RoutesGenerator.navigatorKey.currentState!.context);
                     },
                     child: ImageResourceResolver.closeSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
