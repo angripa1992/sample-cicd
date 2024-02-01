@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifer_switch_view.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../resources/colors.dart';
@@ -39,78 +41,82 @@ class _ModifierGroupsListViewState extends State<ModifierGroupsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: AppSize.s8.rh),
-      child: ListView.separated(
-        key: UniqueKey(),
-        itemCount: _modifiableModifierGroups.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final group = _modifiableModifierGroups[index];
-          return InkWell(
-            onTap: () async {
-              SegmentManager().track(
-                event: SegmentEvents.MODIFIER_CLICK,
-                properties: {
-                  'id': group.id,
-                  'group_name': group.title,
-                },
-              );
-              final modifiedModifierGroup = await Navigator.pushNamed(
-                context,
-                Routes.manageModifiers,
-                arguments: {
-                  ArgumentKey.kGROUP: group,
-                  ArgumentKey.kBRAND_ID: widget.brandId,
-                  ArgumentKey.kBRANCH_ID: widget.branchId,
-                },
-              ) as ModifierGroup;
-              setState(() {
-                _modifiableModifierGroups.removeAt(index);
-                _modifiableModifierGroups.insert(index, modifiedModifierGroup);
-              });
-            },
-            child: Card(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: AppSize.s12.rw),
-                        child: Text(
-                          group.title,
-                          style: regularTextStyle(
-                            color: AppColors.black,
-                            fontSize: AppFontSize.s16.rSp,
-                          ),
-                        ),
-                      ),
-                    ),
-                    ModifierSwitchView(
-                      menuVersion: group.menuVersion,
-                      brandId: widget.brandId,
-                      branchID: widget.branchId,
-                      groupId: group.id,
-                      enabled: group.isEnabled,
-                      type: ModifierType.GROUP,
-                      onSuccess: (enabled) {
-                        setState(() {
-                          _modifiableModifierGroups[index].isEnabled = enabled;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
+    return ListView.separated(
+      key: UniqueKey(),
+      itemCount: _modifiableModifierGroups.length,
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      itemBuilder: (context, index) {
+        final group = _modifiableModifierGroups[index];
+        return InkWell(
+          onTap: () async {
+            SegmentManager().track(
+              event: SegmentEvents.MODIFIER_CLICK,
+              properties: {
+                'id': group.id,
+                'group_name': group.title,
+              },
+            );
+            final modifiedModifierGroup = await Navigator.pushNamed(
+              context,
+              Routes.manageModifiers,
+              arguments: {
+                ArgumentKey.kGROUP: group,
+                ArgumentKey.kBRAND_ID: widget.brandId,
+                ArgumentKey.kBRANCH_ID: widget.branchId,
+              },
+            ) as ModifierGroup;
+            setState(() {
+              _modifiableModifierGroups.removeAt(index);
+              _modifiableModifierGroups.insert(index, modifiedModifierGroup);
+            });
+          },
+          child: Container(
+            padding: EdgeInsets.all(AppSize.s12.rSp),
+            decoration: BoxDecoration(
+              color: AppColors.greyLight,
+              borderRadius: BorderRadius.circular(AppSize.s8.rSp),
             ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return SizedBox(height: 8.rh);
-        },
-      ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ModifierSwitchView(
+                  menuVersion: group.menuVersion,
+                  brandId: widget.brandId,
+                  branchID: widget.branchId,
+                  groupId: group.id,
+                  enabled: group.isEnabled,
+                  type: ModifierType.GROUP,
+                  onSuccess: (enabled) {
+                    setState(() {
+                      _modifiableModifierGroups[index].isEnabled = enabled;
+                    });
+                  },
+                ),
+                AppSize.s12.horizontalSpacer(),
+                Expanded(
+                  child: Text(
+                    group.title.trim(),
+                    style: mediumTextStyle(
+                      color: AppColors.neutralB500,
+                      fontSize: AppFontSize.s14.rSp,
+                    ),
+                  ),
+                ),
+                AppSize.s12.horizontalSpacer(),
+                ImageResourceResolver.rightArrowSVG.getImageWidget(
+                  width: AppSize.s16.rw,
+                  height: AppSize.s16.rh,
+                  color: AppColors.neutralB600,
+                )
+              ],
+            ),
+          ),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return AppSize.s8.verticalSpacer();
+      },
     );
   }
 }

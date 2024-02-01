@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:klikit/modules/menu/data/models/modifier/modifier_v1_data.dart';
 
 import '../v1_common_data_model.dart';
 
@@ -153,71 +154,6 @@ class MenuV1SnoozeModel {
 }
 
 @JsonSerializable()
-class MenuV1ItemsModel {
-  int? id;
-  String? title;
-  List<V1PricesModel>? prices;
-  int? vat;
-  String? description;
-  String? image;
-  bool? enabled;
-  bool? hidden;
-  List<MenuV1StatusesModel>? statuses;
-  int? sequence;
-  MenuV1StockModel? stock;
-  @JsonKey(name: 'default_item_id')
-  int? defaultItemId;
-  @JsonKey(name: 'sku_id')
-  String? skuID;
-
-  MenuV1ItemsModel({
-    this.id,
-    this.title,
-    this.prices,
-    this.vat,
-    this.description,
-    this.image,
-    this.enabled,
-    this.hidden,
-    this.statuses,
-    this.sequence,
-    this.defaultItemId,
-    this.stock,
-    this.skuID,
-  });
-
-  factory MenuV1ItemsModel.fromJson(Map<String, dynamic> json) => _$MenuV1ItemsModelFromJson(json);
-}
-
-@JsonSerializable()
-class MenuV1SubSectionsModel {
-  int? id;
-  String? title;
-  String? description;
-  bool? enabled;
-  bool? hidden;
-  @JsonKey(name: 'alc_beverages')
-  bool? alcBeverages;
-  List<MenuV1StatusesModel>? statuses;
-  int? sequence;
-  List<MenuV1ItemsModel>? items;
-
-  MenuV1SubSectionsModel({
-    this.id,
-    this.title,
-    this.description,
-    this.enabled,
-    this.hidden,
-    this.alcBeverages,
-    this.statuses,
-    this.sequence,
-    this.items,
-  });
-
-  factory MenuV1SubSectionsModel.fromJson(Map<String, dynamic> json) => _$MenuV1SubSectionsModelFromJson(json);
-}
-
-@JsonSerializable()
 class MenuV1SectionsModel {
   int? id;
   String? title;
@@ -250,4 +186,75 @@ class MenuV1SectionsModel {
   });
 
   factory MenuV1SectionsModel.fromJson(Map<String, dynamic> json) => _$MenuV1SectionsModelFromJson(json);
+}
+
+@JsonSerializable()
+class MenuV1SubSectionsModel {
+  int? id;
+  String? title;
+  String? description;
+  bool? enabled;
+  bool? hidden;
+  @JsonKey(name: 'alc_beverages')
+  bool? alcBeverages;
+  List<MenuV1StatusesModel>? statuses;
+  int? sequence;
+  List<MenuV1ItemsModel>? items;
+
+  MenuV1SubSectionsModel({
+    this.id,
+    this.title,
+    this.description,
+    this.enabled,
+    this.hidden,
+    this.alcBeverages,
+    this.statuses,
+    this.sequence,
+    this.items,
+  });
+
+  factory MenuV1SubSectionsModel.fromJson(Map<String, dynamic> json) => _$MenuV1SubSectionsModelFromJson(json);
+}
+
+
+@JsonSerializable()
+class MenuV1ItemsModel {
+  int? id;
+  String? title;
+  List<V1PricesModel>? prices;
+  int? vat;
+  String? description;
+  String? image;
+  bool? enabled;
+  bool? hidden;
+  List<MenuV1StatusesModel>? statuses;
+  int? sequence;
+  MenuV1StockModel? stock;
+  @JsonKey(name: 'default_item_id')
+  int? defaultItemId;
+  @JsonKey(name: 'sku_id')
+  String? skuID;
+  List<V1ModifierGroupModel>? groups;
+  @JsonKey(name: 'item_modifier_group_exists')
+  bool? haveModifier;
+
+  MenuV1ItemsModel({
+    this.id,
+    this.title,
+    this.prices,
+    this.vat,
+    this.description,
+    this.image,
+    this.enabled,
+    this.hidden,
+    this.statuses,
+    this.sequence,
+    this.defaultItemId,
+    this.stock,
+    this.skuID,
+    this.groups,
+    this.haveModifier,
+  });
+
+  factory MenuV1ItemsModel.fromJson(Map<String, dynamic> json) => _$MenuV1ItemsModelFromJson(json);
 }

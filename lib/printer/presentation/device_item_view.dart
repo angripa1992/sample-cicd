@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/modules/widgets/negative_button.dart';
 
-import '../../modules/widgets/app_button.dart';
 import '../../resources/colors.dart';
 import '../../resources/fonts.dart';
 import '../../resources/strings.dart';
@@ -46,16 +46,11 @@ class DeviceItemView extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: AppButton(
-                  color: AppColors.white,
-                  textColor: AppColors.black,
-                  borderColor: AppColors.black,
-                  onTap: () {
-                    onConnect();
-                  },
-                  text: AppStrings.connect.tr(),
-                ),
+              NegativeButton(
+                negativeText: AppStrings.connect.tr(),
+                buttonRadius: AppSize.s200.rSp,
+                horizontalPadding: AppSize.s16.rw,
+                onTap: onConnect,
               ),
             ],
           ),

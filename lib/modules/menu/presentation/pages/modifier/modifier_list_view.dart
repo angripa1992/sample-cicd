@@ -4,6 +4,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/menu/presentation/pages/modifier/modifier_item_details.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
+import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../app/di.dart';
@@ -67,37 +68,36 @@ class _ModifierListViewState extends State<ModifierListView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      key: UniqueKey(),
-      separatorBuilder: (_, __) => const Divider(),
-      itemCount: widget.modifierGroup.modifiers.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0.rh),
-          child: Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () {
-                    if (widget.modifierGroup.menuVersion == MenuVersion.v2) {
-                      _showItemDetails(index);
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0.rw),
+    return Expanded(
+      child: Container(
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+        child: ListView.separated(
+          key: UniqueKey(),
+          itemCount: widget.modifierGroup.modifiers.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      if (widget.modifierGroup.menuVersion == MenuVersion.v2) {
+                        _showItemDetails(index);
+                      }
+                    },
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.modifierGroup.modifiers[index].title.trim(),
-                          style: mediumTextStyle(
+                          style: regularTextStyle(
                             color: AppColors.black,
-                            fontSize: AppFontSize.s16.rSp,
+                            fontSize: AppFontSize.s14.rSp,
                           ),
                         ),
-                        SizedBox(height: 4.rh),
                         Text(
                           widget.modifierGroup.modifiers[index].klikitPrice(),
                           style: regularTextStyle(
@@ -108,27 +108,31 @@ class _ModifierListViewState extends State<ModifierListView> {
                       ],
                     ),
                   ),
-                ),
+                  const Spacer(),
+                  ModifierSwitchView(
+                    menuVersion: widget.modifierGroup.menuVersion,
+                    branchID: widget.branchID,
+                    brandId: widget.brandId,
+                    groupId: widget.modifierGroup.id,
+                    modifierId: widget.modifierGroup.modifiers[index].id,
+                    enabled: widget.modifierGroup.modifiers[index].isEnabled,
+                    type: ModifierType.MODIFIER,
+                    onSuccess: (enabled) {
+                      setState(() {
+                        widget.modifierGroup.modifiers[index].isEnabled = enabled;
+                        widget.onChanged(widget.modifierGroup.modifiers);
+                      });
+                    },
+                  ),
+                ],
               ),
-              ModifierSwitchView(
-                menuVersion: widget.modifierGroup.menuVersion,
-                branchID: widget.branchID,
-                brandId: widget.brandId,
-                groupId: widget.modifierGroup.id,
-                modifierId: widget.modifierGroup.modifiers[index].id,
-                enabled: widget.modifierGroup.modifiers[index].isEnabled,
-                type: ModifierType.MODIFIER,
-                onSuccess: (enabled) {
-                  setState(() {
-                    widget.modifierGroup.modifiers[index].isEnabled = enabled;
-                    widget.onChanged(widget.modifierGroup.modifiers);
-                  });
-                },
-              ),
-            ],
-          ),
-        );
-      },
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Divider(thickness: AppSize.s1.rh);
+          },
+        ),
+      ),
     );
   }
 }

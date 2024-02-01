@@ -4,8 +4,15 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/network/error_handler.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
+import 'package:klikit/modules/orders/presentation/components/dialogs/action_dialogs.dart';
+import 'package:klikit/modules/widgets/negative_button.dart';
+import 'package:klikit/resources/decorations.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 
 import '../../../../../app/constants.dart';
 import '../../../../../core/utils/response_state.dart';
@@ -14,8 +21,6 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../../widgets/app_button.dart';
-import '../../../../widgets/loading_button.dart';
 import '../../../../widgets/snackbars.dart';
 import '../../../data/models/action_success_model.dart';
 import '../../../domain/entities/cancellation_reason.dart';
@@ -35,16 +40,21 @@ void showCancellationReasonDialog({
       return BlocProvider<OrderActionCubit>(
         create: (_) => getIt.get<OrderActionCubit>(),
         child: AlertDialog(
-          icon: Icon(
-            Icons.warning_amber,
-            color: AppColors.redDark,
-          ),
-          title: Text(
-            title,
-            style: boldTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s18.rSp,
-            ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(AppSize.s16.rSp))),
+          title: Row(
+            children: [
+              prepareActionDecoration(ImageResourceResolver.closeSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh, color: AppColors.errorR300), AppColors.errorR50),
+              AppSize.s8.horizontalSpacer(),
+              Expanded(
+                child: Text(
+                  title,
+                  style: boldTextStyle(
+                    color: AppColors.black,
+                    fontSize: AppFontSize.s16.rSp,
+                  ),
+                ),
+              ),
+            ],
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -68,8 +78,8 @@ void showCancellationReasonDialog({
                       );
                     } else {
                       return Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primary,
+                        child: CircularProgress(
+                          primaryColor: AppColors.primary,
                         ),
                       );
                     }
@@ -104,6 +114,7 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
   final _valueNotifier = ValueNotifier<int?>(null);
   final _textController = TextEditingController();
   int? _cancellationReasonId;
+  final KTButtonController positiveButtonController = KTButtonController(label: AppStrings.reject.tr());
 
   void _cancelOrder() {
     final params = {
@@ -183,15 +194,7 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
         Row(
           children: [
             Expanded(
-              child: AppButton(
-                text: AppStrings.dismiss.tr(),
-                borderColor: AppColors.greyDarker,
-                color: AppColors.white,
-                textColor: AppColors.black,
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
+              child: NegativeButton(negativeText: AppStrings.dismiss.tr()),
             ),
             SizedBox(width: AppSize.s8.rw),
             Expanded(
@@ -209,13 +212,14 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
                   return ValueListenableBuilder<int?>(
                     valueListenable: _valueNotifier,
                     builder: (_, value, __) {
-                      return LoadingButton(
-                        enabled: value != null,
-                        isLoading: state is Loading,
-                        color: AppColors.redDark,
-                        textColor: AppColors.white,
-                        borderColor: AppColors.redDark,
-                        text: AppStrings.reject.tr(),
+                      positiveButtonController.setLoaded(state is! Loading);
+                      positiveButtonController.setEnabled(value != null);
+
+                      return KTButton(
+                        controller: positiveButtonController,
+                        backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.errorR300),
+                        labelStyle: mediumTextStyle(color: AppColors.white),
+                        progressPrimaryColor: AppColors.white,
                         onTap: _cancelOrder,
                       );
                     },

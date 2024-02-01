@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
+import 'package:klikit/resources/asset_resolver/svg_image_resource.dart';
 
 import '../../resources/colors.dart';
 import '../../resources/values.dart';
 
 class FABBottomAppBarItem {
   FABBottomAppBarItem({
-    required this.iconData,
+    required this.svgResourcePath,
     required this.text,
     required this.index,
   });
 
-  final IconData iconData;
+  final String svgResourcePath;
   final String text;
   final int index;
 }
@@ -81,10 +82,10 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
         onPressed: _updateIndex,
       );
     });
-   // items.insert(items.length >> 1, _buildMiddleTabItem());
+    // items.insert(items.length >> 1, _buildMiddleTabItem());
 
     return BottomAppBar(
-   //   shape: widget.notchedShape,
+      //   shape: widget.notchedShape,
       color: widget.backgroundColor,
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -113,12 +114,13 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     );
   }
 
-  Widget _buildTabItem({
-    required FABBottomAppBarItem item,
-    required ValueChanged<int> onPressed,
-  }) {
+  Widget _buildTabItem({required FABBottomAppBarItem item, required ValueChanged<int> onPressed}) {
     Color color = _selectedIndex == item.index ? widget.selectedColor : widget.color;
-    final icon = Icon(item.iconData, color: color, size: widget.iconSize);
+    final icon = SVGImageResource(item.svgResourcePath).getImageWidget(
+      width: widget.iconSize,
+      height: widget.iconSize,
+      color: color,
+    );
     return Expanded(
       child: SizedBox(
         height: widget.height,

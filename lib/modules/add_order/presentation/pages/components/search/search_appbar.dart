@@ -14,9 +14,7 @@ class SearchAppBar extends StatefulWidget {
   final VoidCallback onBack;
   final Function(String) onTextChanged;
 
-  const SearchAppBar(
-      {Key? key, required this.onBack, required this.onTextChanged})
-      : super(key: key);
+  const SearchAppBar({Key? key, required this.onBack, required this.onTextChanged}) : super(key: key);
 
   @override
   State<SearchAppBar> createState() => _SearchAppBarState();
@@ -63,38 +61,29 @@ class _SearchAppBarState extends State<SearchAppBar> {
               onPressed: widget.onBack,
               icon: Icon(
                 Icons.arrow_back,
-                color: AppColors.primary,
+                color: AppColors.black,
               ),
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(
-                  top: AppSize.s8.rh,
-                  bottom: AppSize.s8.rh,
-                  right: AppSize.s16.rw,
-                ),
+                margin: EdgeInsets.only(right: 16.rw,top: 4.rh,bottom: 4.rh),
+                padding: EdgeInsets.symmetric(horizontal: 10.rw),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                  color: AppColors.greyLighter,
+                  borderRadius: BorderRadius.circular(8.rSp),
+                  color: AppColors.grey,
                 ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s10.rw),
-                  child: TextField(
-                    autofocus: true,
-                    onChanged: _onSearchChanged,
-                    decoration: InputDecoration(
-                      hintText: AppStrings.search_for_items.tr(),
-                      hintStyle: regularTextStyle(
-                        color: AppColors.greyDarker,
-                        fontSize: AppFontSize.s12.rSp,
-                      ),
-                      enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent)),
-                      focusedBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent)),
-                      border: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent)),
+                child: TextField(
+                  autofocus: true,
+                  onChanged: _onSearchChanged,
+                  decoration: InputDecoration(
+                    hintText: AppStrings.search_for_items.tr(),
+                    hintStyle: regularTextStyle(
+                      color: AppColors.greyDarker,
+                      fontSize: 14.rSp,
                     ),
+                    enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                    focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+                    border: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
                   ),
                 ),
               ),

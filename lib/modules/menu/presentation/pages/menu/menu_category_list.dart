@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_switch_view.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
@@ -32,97 +34,82 @@ class MenuCategoryListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: AppSize.s4,
-      color: AppColors.white,
+    return Padding(
+      padding: EdgeInsets.all(AppSize.s12.rSp),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: AppSize.s10.rh, left: AppSize.s10.rw),
-            child: Text(
-              AppStrings.categories_list.tr(),
-              style: regularTextStyle(
-                color: AppColors.greyDarker,
-                fontSize: AppFontSize.s14.rSp,
-              ),
+          Text(
+            AppStrings.categories_list.tr(),
+            style: mediumTextStyle(
+              color: AppColors.neutralB600,
+              fontSize: AppFontSize.s14.rSp,
             ),
           ),
+          AppSize.s12.verticalSpacer(),
+          Divider(thickness: AppSize.s1.rh, color: AppColors.greyLight),
           ListView.separated(
             itemCount: categories.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw, vertical: AppSize.s8.rh),
             itemBuilder: (_, index) {
-              return InkWell(
-                onTap: () async {
-                  final modifiedCategory = await Navigator.pushNamed(
-                    context,
-                    Routes.manageItems,
-                    arguments: {
-                      ArgumentKey.kMENU_CATEGORY: categories[index],
-                      ArgumentKey.kENABLED: parentEnabled,
-                      ArgumentKey.kBRAND_ID: brandID,
-                      ArgumentKey.kBRANCH_ID: branchID,
-                    },
-                  ) as MenuCategory;
-                  categories[index] = modifiedCategory;
-                  onChanged(categories);
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSize.s4.rh),
+              return Padding(
+                padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
+                child: InkWell(
+                  onTap: () async {
+                    final modifiedCategory = await Navigator.pushNamed(
+                      context,
+                      Routes.manageItems,
+                      arguments: {
+                        ArgumentKey.kMENU_CATEGORY: categories[index],
+                        ArgumentKey.kENABLED: parentEnabled,
+                        ArgumentKey.kBRAND_ID: brandID,
+                        ArgumentKey.kBRANCH_ID: branchID,
+                      },
+                    ) as MenuCategory;
+                    categories[index] = modifiedCategory;
+                    onChanged(categories);
+                  },
                   child: Row(
                     children: [
+                      MenuSwitchView(
+                        menuVersion: categories[index].menuVersion,
+                        enabled: categories[index].enabled,
+                        parentEnabled: parentEnabled,
+                        id: categories[index].id,
+                        brandId: brandID,
+                        branchId: branchID,
+                        type: MenuType.CATEGORY,
+                        onMenuEnableChanged: (enabled) {
+                          categories[index].enabled = enabled;
+                          onChanged(categories);
+                          SegmentManager().track(
+                            event: SegmentEvents.CATEGORY_TOGGLE,
+                            properties: {
+                              'id': categories[index].id,
+                              'name': categories[index].title,
+                              'enabled': enabled ? 'Yes' : 'No',
+                            },
+                          );
+                        },
+                      ),
+                      AppSize.s12.horizontalSpacer(),
                       Expanded(
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: AppSize.s20.rw, right: AppSize.s4.rw),
-                              child: Text(
-                                '${index + 1}.',
-                                style: regularTextStyle(
-                                  color: AppColors.black,
-                                  fontSize: AppFontSize.s14.rSp,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                categories[index].title,
-                                style: regularTextStyle(
-                                  color: AppColors.black,
-                                  fontSize: AppFontSize.s14.rSp,
-                                ),
-                              ),
-                            ),
-                          ],
+                        child: Text(
+                          categories[index].title.trim(),
+                          style: regularTextStyle(
+                            color: AppColors.neutralB500,
+                            fontSize: AppFontSize.s14.rSp,
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: AppSize.s10.rw,
-                        ),
-                        child: MenuSwitchView(
-                          menuVersion: categories[index].menuVersion,
-                          enabled: categories[index].enabled,
-                          parentEnabled: parentEnabled,
-                          id: categories[index].id,
-                          brandId: brandID,
-                          branchId: branchID,
-                          type: MenuType.CATEGORY,
-                          onMenuEnableChanged: (enabled) {
-                            categories[index].enabled = enabled;
-                            onChanged(categories);
-                            SegmentManager().track(
-                              event: SegmentEvents.CATEGORY_TOGGLE,
-                              properties: {
-                                'id': categories[index].id,
-                                'name': categories[index].title,
-                                'enabled': enabled ? 'Yes' : 'No',
-                              },
-                            );
-                          },
-                        ),
-                      ),
+                      AppSize.s12.horizontalSpacer(),
+                      ImageResourceResolver.rightArrowSmSVG.getImageWidget(
+                        width: AppSize.s16.rw,
+                        height: AppSize.s16.rh,
+                        color: AppColors.neutralB600,
+                      )
                     ],
                   ),
                 ),

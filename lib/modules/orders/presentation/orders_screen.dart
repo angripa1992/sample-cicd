@@ -1,15 +1,17 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
+import 'package:klikit/modules/base/common_dashboard_app_bar.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/modules/orders/presentation/components/schedule_order_screen.dart';
 import 'package:klikit/modules/orders/utils/klikit_order_resolver.dart';
 import 'package:klikit/resources/colors.dart';
-import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/values.dart';
 import 'package:klikit/segments/event_manager.dart';
 
 import '../../../../app/constants.dart';
@@ -46,10 +48,15 @@ class OrdersScreen extends StatefulWidget {
 class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderStateMixin, FilterObserver {
   final _filterManager = OniFilterManager();
   TabController? _tabController;
+  ValueNotifier<int>? tabIndexChangeListener;
 
   @override
   void initState() {
     _tabController = TabController(length: 6, vsync: this);
+    tabIndexChangeListener = ValueNotifier(widget.tabIndex);
+    _tabController?.addListener(() {
+      tabIndexChangeListener?.value = _tabController?.index ?? widget.tabIndex;
+    });
     OrderScreenNavigateDataHandler().setData(widget.data);
     _tabController!.index = widget.tabIndex;
     _filterManager.addObserver(this, ObserverTag.ORDER_SCREEN);
@@ -61,117 +68,116 @@ class _OrdersScreenState extends State<OrdersScreen> with SingleTickerProviderSt
   @override
   void dispose() {
     _tabController?.dispose();
+    tabIndexChangeListener?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
-        title: Text(AppStrings.order_dashboard.tr()),
-      ),
       body: _body(),
-      // body: FutureBuilder<OniFilteredData>(
-      //   future: FilteredDataMapper().initialOniFilteredData(),
-      //   builder: (_, snap) {
-      //     if (snap.hasData && snap.data != null) {
-      //       _filterManager.setFilterData(snap.data);
-      //       KlikitOrderResolver().refreshOrderCounts(context, filteredData: snap.data);
-      //       return _body();
-      //     } else {
-      //       return Center(child: CircularProgressIndicator(color: AppColors.primary));
-      //     }
-      //   },
-      // ),
     );
   }
 
   Widget _body() {
-    return NestedScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      headerSliverBuilder: (context, isScrolled) {
-        return [
-          SliverToBoxAdapter(
-            child: OrderHeaderView(oniFilterManager: _filterManager, tabController: _tabController!),
-          ),
-          SliverPersistentHeader(
-            delegate: MyDelegate(
-              TabBar(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CommonDashboardAppBar(title: AppStrings.orders.tr()),
+        AppSize.s1.verticalSpacer(),
+        Expanded(
+          child: NestedScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            headerSliverBuilder: (context, isScrolled) {
+              return [
+                SliverToBoxAdapter(
+                  child: OrderHeaderView(oniFilterManager: _filterManager, tabController: _tabController!),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    color: AppColors.white,
+                    padding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, bottom: AppSize.s12.rh),
+                    child: const Divider(height: 2, thickness: 0.5),
+                  ),
+                ),
+                SliverPersistentHeader(
+                  delegate: MyDelegate(
+                    TabBar(
+                      controller: _tabController,
+                      tabs: [
+                        BlocBuilder<NewOrderCubit, ResponseState>(
+                          builder: (context, state) {
+                            return OrderTabItem(
+                              title: AppStrings.new_str.tr(),
+                              tabIndex: 0,
+                              tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                              count: state is Success<Orders> ? state.data.total : 0,
+                            );
+                          },
+                        ),
+                        BlocBuilder<OngoingOrderCubit, ResponseState>(
+                          builder: (context, state) {
+                            return OrderTabItem(
+                              title: AppStrings.ready.tr(),
+                              tabIndex: 1,
+                              tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                              count: state is Success<Orders> ? state.data.total : 0,
+                            );
+                          },
+                        ),
+                        BlocBuilder<AllOrderCubit, ResponseState>(
+                          builder: (context, state) {
+                            return OrderTabItem(
+                              title: AppStrings.all.tr(),
+                              tabIndex: 2,
+                              tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                              count: state is Success<Orders> ? state.data.total : 0,
+                            );
+                          },
+                        ),
+                        BlocBuilder<ScheduleOrderCubit, ResponseState>(
+                          builder: (context, state) {
+                            return OrderTabItem(
+                              title: AppStrings.schedule.tr(),
+                              tabIndex: 3,
+                              tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex),
+                              count: state is Success<Orders> ? state.data.total : 0,
+                            );
+                          },
+                        ),
+                        OrderTabItem(title: AppStrings.history.tr(), tabIndex: 4, tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex), count: 0),
+                        OrderTabItem(title: AppStrings.other.tr(), tabIndex: 5, tabIndexChangeListener: tabIndexChangeListener ?? ValueNotifier(widget.tabIndex), count: 0),
+                      ],
+                      labelPadding: EdgeInsets.all(8.rSp),
+                      indicatorColor: Colors.transparent,
+                      indicatorWeight: 0.01,
+                      isScrollable: true,
+                    ),
+                  ),
+                  pinned: true,
+                  floating: true,
+                ),
+              ];
+            },
+            body: Container(
+              color: AppColors.white,
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+              child: TabBarView(
                 controller: _tabController,
-                tabs: [
-                  BlocBuilder<NewOrderCubit, ResponseState>(
-                    builder: (context, state) {
-                      return OrderTabItem(
-                        title: AppStrings.new_str.tr(),
-                        count: state is Success<Orders> ? state.data.total : 0,
-                      );
-                    },
-                  ),
-                  BlocBuilder<OngoingOrderCubit, ResponseState>(
-                    builder: (context, state) {
-                      return OrderTabItem(
-                        title: AppStrings.ready.tr(),
-                        count: state is Success<Orders> ? state.data.total : 0,
-                      );
-                    },
-                  ),
-                  BlocBuilder<AllOrderCubit, ResponseState>(
-                    builder: (context, state) {
-                      return OrderTabItem(
-                        title: AppStrings.all.tr(),
-                        count: state is Success<Orders> ? state.data.total : 0,
-                      );
-                    },
-                  ),
-                  BlocBuilder<ScheduleOrderCubit, ResponseState>(
-                    builder: (context, state) {
-                      return OrderTabItem(
-                        title: AppStrings.schedule.tr(),
-                        count: state is Success<Orders> ? state.data.total : 0,
-                      );
-                    },
-                  ),
-                  OrderTabItem(title: AppStrings.history.tr(), count: 0),
-                  OrderTabItem(title: AppStrings.other.tr(), count: 0),
+                children: [
+                  NewOrderScreen(oniFilterManager: _filterManager),
+                  OngoingOrderScreen(oniFilterManager: _filterManager),
+                  AllOrderScreen(oniFilterManager: _filterManager),
+                  ScheduleOrderScreen(oniFilterManager: _filterManager),
+                  OrderHistoryScreen(oniFilterManager: _filterManager),
+                  OthersOrderScreen(oniFilterManager: _filterManager),
                 ],
-                labelPadding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 10.rw),
-                unselectedLabelColor: AppColors.black,
-                labelColor: AppColors.primary,
-                indicatorColor: AppColors.primary,
-                labelStyle: TextStyle(
-                  fontSize: 14.rSp,
-                  fontFamily: AppFonts.Inter,
-                  fontWeight: AppFontWeight.medium,
-                ),
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 14.rSp,
-                  fontFamily: AppFonts.Inter,
-                  fontWeight: AppFontWeight.medium,
-                ),
-                isScrollable: true,
               ),
             ),
-            pinned: true,
-            floating: true,
           ),
-        ];
-      },
-      body: Container(
-        padding: EdgeInsets.only(left: 12.rw, right: 12.rw, top: 12.rh),
-        color: AppColors.white,
-        child: TabBarView(
-          controller: _tabController,
-          children: [
-            NewOrderScreen(oniFilterManager: _filterManager),
-            OngoingOrderScreen(oniFilterManager: _filterManager),
-            AllOrderScreen(oniFilterManager: _filterManager),
-            ScheduleOrderScreen(oniFilterManager: _filterManager),
-            OrderHistoryScreen(oniFilterManager: _filterManager),
-            OthersOrderScreen(oniFilterManager: _filterManager),
-          ],
         ),
-      ),
+      ],
     );
   }
 

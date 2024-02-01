@@ -1,14 +1,15 @@
-import 'package:docket_design_template/utils/extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../../../../../../core/utils/price_calculator.dart';
@@ -43,11 +44,12 @@ class _PriceViewState extends State<PriceView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: AppColors.white,
       padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
       child: Column(
         children: [
-          const Divider(),
+          AppSize.s16.verticalSpacer(),
           ExpandedTile(
             theme: ExpandedTileThemeData(
               headerColor: Colors.transparent,
@@ -61,10 +63,9 @@ class _PriceViewState extends State<PriceView> {
             ),
             trailing: Text(
               PriceCalculator.calculateSubtotal(widget.order),
-              style: TextStyle(
-                color: AppColors.black,
+              style: mediumTextStyle(
+                color: AppColors.neutralB500,
                 fontSize: AppFontSize.s14.rSp,
-                fontWeight: AppFontWeight.bold,
               ),
             ),
             trailingRotation: 0,
@@ -132,27 +133,7 @@ class _PriceViewState extends State<PriceView> {
           const Divider(),
           Padding(
             padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppStrings.total.tr(),
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s18.rSp,
-                    fontWeight: AppFontWeight.bold,
-                  ),
-                ),
-                Text(
-                  PriceCalculator.convertPrice(widget.order, widget.order.finalPrice),
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: AppFontSize.s18.rSp,
-                    fontWeight: AppFontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+            child: TotalPrice(order: widget.order),
           ),
         ],
       ),
@@ -167,7 +148,7 @@ class _PriceViewState extends State<PriceView> {
             branch.webshopCustomFeesTitle,
             widget.order.customFee,
           ),
-        if (branch.mergeFeeEnabled && widget.order.mergeFee > 0 && !widget.order.feePaidByCustomer && widget.order.providerId == ProviderID.KLIKIT)
+        /*if (branch.mergeFeeEnabled && widget.order.mergeFee > 0 && !widget.order.feePaidByCustomer && widget.order.providerId == ProviderID.KLIKIT)
           _priceBreakdownItem(
             branch.mergeFeeTitle,
             widget.order.mergeFee,
@@ -184,7 +165,7 @@ class _PriceViewState extends State<PriceView> {
             AppStrings.processing_fee.tr(),
             widget.order.gatewayFee,
             showNegative: true,
-          ),
+          ),*/
       ],
     );
   }
@@ -211,17 +192,16 @@ class _PriceViewState extends State<PriceView> {
     bool showNegative = false,
     bool isRoundOff = false,
   }) {
-    final textStyle = TextStyle(
-      color: showNegative ? AppColors.red : AppColors.black,
-      fontSize: AppFontSize.s14.rSp,
-      fontWeight: AppFontWeight.regular,
+    final textStyle = mediumTextStyle(
+      color: showNegative ? AppColors.red : AppColors.neutralB200,
+      fontSize: AppFontSize.s12.rSp,
     );
     return Padding(
       padding: EdgeInsets.only(top: AppSize.s2.rh),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(name, style: textStyle),
+          Text(name, style: regularTextStyle(fontSize: AppSize.s12.rSp, color: showNegative ? AppColors.red : AppColors.neutralB600)),
           Text(
             isRoundOff ? '${widget.order.currencySymbol} ${price.isNegative ? '' : '+'}${price / 100}' : '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
             style: textStyle,
@@ -229,6 +209,70 @@ class _PriceViewState extends State<PriceView> {
         ],
       ),
     );
+  }
+}
+
+class TotalPrice extends StatelessWidget {
+  final Order order;
+  final TextStyle? textStyle;
+
+  const TotalPrice({Key? key, required this.order, this.textStyle}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          AppStrings.total.tr(),
+          style: textStyle ??
+              mediumTextStyle(
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+        ),
+        FutureBuilder<Branch?>(
+          future: getIt<BusinessInformationProvider>().branchByID(order.branchId),
+          builder: (_, snapshot) {
+            if (snapshot.hasData) {
+              return webshopTooltip(order, snapshot.data?.mergeFeeEnabled ?? false);
+            }
+            return const SizedBox();
+          },
+        ),
+        const Spacer(),
+        8.horizontalSpacer(),
+        Text(
+          PriceCalculator.convertPrice(order, order.finalPrice),
+          style: textStyle ??
+              mediumTextStyle(
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s16.rSp,
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget webshopTooltip(Order order, bool mergeFeesEnabled) {
+    if (order.providerId == ProviderID.KLIKIT &&
+        !order.isManualOrder &&
+        ((!order.gatewayFeePaidByCustomer && order.gatewayFee == 1) ||
+            (!order.serviceFeePaidByCustomer && order.serviceFee == 1) ||
+            (!order.feePaidByCustomer && (order.serviceFee == 1 || order.gatewayFee == 1 || mergeFeesEnabled)))) {
+      String msg = 'Total fee includes processing fee and service fee';
+
+      if ((!order.gatewayFeePaidByCustomer && order.serviceFeePaidByCustomer) || (order.gatewayFee == 1 && order.serviceFee != 1)) {
+        msg = 'Total fee includes processing fee';
+      } else if ((order.gatewayFeePaidByCustomer && !order.serviceFeePaidByCustomer) || (order.gatewayFee != 1 && order.serviceFee == 1)) {
+        msg = 'Total fee includes service fee';
+      }
+
+      return Tooltip(
+        message: msg,
+        child: ImageResourceResolver.infoSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh),
+      ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 8.rw);
+    }
+    return const SizedBox();
   }
 }
 
@@ -242,7 +286,7 @@ class SubtotalExpandHeader extends StatefulWidget {
 }
 
 class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
-  bool? _isExpanded;
+  late bool _isExpanded;
 
   @override
   void initState() {
@@ -263,15 +307,15 @@ class _SubtotalExpandHeaderState extends State<SubtotalExpandHeader> {
       children: [
         Text(
           AppStrings.sub_total.tr(),
-          style: boldTextStyle(
-            color: AppColors.black,
+          style: mediumTextStyle(
+            color: AppColors.neutralB500,
             fontSize: AppFontSize.s14.rSp,
           ),
         ),
         Icon(
-          _isExpanded! ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-          color: AppColors.black,
-          size: AppSize.s24.rSp,
+          _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+          color: AppColors.neutralB500,
+          size: AppSize.s18.rSp,
         ),
       ],
     );

@@ -80,6 +80,8 @@ class PrinterDataProvider {
       mergeFeeTitle: branchInfo?.mergeFeeTitle ?? EMPTY,
       mergeFeeEnabled: branchInfo?.mergeFeeEnabled ?? false,
       roundOffAmount: order.roundOffAmount,
+      gatewayFeePaidByCustomer: order.gatewayFeePaidByCustomer,
+      serviceFeePaidByCustomer: order.serviceFeePaidByCustomer,
       fulfillmentRider: order.fulfillmentRider != null
           ? RiderInfo(
               name: order.fulfillmentRider?.name,

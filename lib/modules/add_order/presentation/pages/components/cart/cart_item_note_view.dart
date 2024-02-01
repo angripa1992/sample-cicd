@@ -4,10 +4,8 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 
 import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
 import '../note_text_field.dart';
 
 class CartItemNoteView extends StatefulWidget {
@@ -48,41 +46,43 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
   Widget build(BuildContext context) {
     return _instruction.isEmpty
         ? const SizedBox()
-        : Padding(
-            padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-            child: InkWell(
-              onTap: () {
-                _openNote();
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s8.rw,
-                  vertical: AppSize.s8.rh,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSize.s8.rSp),
-                  border: Border.all(color: AppColors.greyDarker),
-                  color: AppColors.grey,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
+        : InkWell(
+            onTap: () {
+              _openNote();
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 10.rh),
+              padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 8.rh),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.rSp),
+                border: Border.all(color: AppColors.neutralB40),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.note_rounded,
+                    size: 18.rSp,
+                    color: AppColors.neutralB200,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.rw),
                       child: Text(
                         widget.cartItem.itemInstruction,
                         overflow: TextOverflow.ellipsis,
-                        style: regularTextStyle(
-                          color: AppColors.greyDarker,
-                          fontSize: AppFontSize.s12.rSp,
+                        style: mediumTextStyle(
+                          color: AppColors.neutralB200,
+                          fontSize: 13.rSp,
                         ),
                       ),
                     ),
-                    Icon(
-                      Icons.edit_outlined,
-                      size: AppSize.s18.rSp,
-                      color: AppColors.greyDarker,
-                    ),
-                  ],
-                ),
+                  ),
+                  Icon(
+                    Icons.edit,
+                    size: 18.rSp,
+                    color: AppColors.neutralB200,
+                  ),
+                ],
               ),
             ),
           );
@@ -95,7 +95,7 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(AppSize.s16.rSp),
+              Radius.circular(16.rSp),
             ),
           ),
           //contentPadding: EdgeInsets.zero,
@@ -105,56 +105,65 @@ class _CartItemNoteViewState extends State<CartItemNoteView> {
             children: [
               Row(
                 children: [
+                  Icon(Icons.note_rounded, color: AppColors.neutralB100,size: 20.rSp),
+                  SizedBox(width: 8.rw),
                   Expanded(
                     child: Text(
                       AppStrings.note.tr(),
                       style: boldTextStyle(
-                        color: AppColors.black,
-                        fontSize: AppFontSize.s16.rSp,
+                        color: AppColors.neutralB600,
+                        fontSize: 16.rSp,
                       ),
                     ),
                   ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.clear),
-                  ),
                 ],
               ),
-              SizedBox(height: AppSize.s12.rh),
-              Text(
-                AppStrings.add_note_for_item.tr(),
-                style: mediumTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s14.rSp,
-                ),
-              ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSize.s12.rh),
+                padding: EdgeInsets.symmetric(vertical: 12.rh),
                 child: NoteTextField(
                   controller: _controller,
                   hint: AppStrings.add_instruction.tr(),
                   minLines: 2,
                 ),
               ),
-              ElevatedButton(
-                onPressed: _save,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: AppSize.s10.rh),
-                  child: Text(
-                    AppStrings.save.tr(),
-                    style: mediumTextStyle(
-                      color: AppColors.white,
-                      fontSize: AppFontSize.s14.rSp,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: _save,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.rh),
+                        child: Text(
+                          AppStrings.dismiss.tr(),
+                          style: mediumTextStyle(
+                            color: AppColors.black,
+                            fontSize: 14.rSp,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(width: 16.rw),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _save,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.rh),
+                        child: Text(
+                          AppStrings.save.tr(),
+                          style: mediumTextStyle(
+                            color: AppColors.white,
+                            fontSize: 14.rSp,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

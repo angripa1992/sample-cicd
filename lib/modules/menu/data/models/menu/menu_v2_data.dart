@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:klikit/modules/menu/data/models/modifier/modifier_v2_data.dart';
 
 import '../v2_common_data_model.dart';
 
@@ -179,6 +180,7 @@ class MenuV2CategoryItem {
   List<V2ResourcesModel>? resources;
   int? sequence;
   V2OosModel? oos;
+  List<V2ModifierGroupModel>? groups;
 
   MenuV2CategoryItem({
     this.id,
@@ -193,6 +195,7 @@ class MenuV2CategoryItem {
     this.resources,
     this.sequence,
     this.oos,
+    this.groups,
   });
 
   factory MenuV2CategoryItem.fromJson(Map<String, dynamic> json) =>

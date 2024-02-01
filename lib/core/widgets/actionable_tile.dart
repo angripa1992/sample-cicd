@@ -40,13 +40,13 @@ class ActionableTile extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 10.rh, horizontal: 12.rw),
         decoration: BoxDecoration(
           color: decoration?.color ?? Colors.transparent,
-          border: decoration?.border ?? Border.all(width: 0.5.rSp, color: AppColors.greyDarker),
+          border: decoration?.border ?? Border.all(width: 0.5.rSp, color: AppColors.neutralB40),
           borderRadius: decoration?.borderRadius?.resolve(null) ?? BorderRadius.circular(AppSize.s8.rSp),
           boxShadow: decoration?.boxShadow,
         ),
         child: Row(
           children: [
-            prefixWidget.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 12.rw),
+            prefixWidget.setVisibilityWithSpace(direction: Axis.horizontal, endSpace: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class ActionableTile extends StatelessWidget {
                               fontSize: AppFontSize.s16.rSp,
                             ),
                       ),
-                      titleHelper.setVisibilityWithSpace(startSpace: AppSize.s12.rw, direction: Axis.horizontal)
+                      titleHelper.setVisibilityWithSpace(startSpace: AppSize.s12, direction: Axis.horizontal)
                     ],
                   ),
                   if (subtitle.isNotNullOrEmpty())
@@ -73,11 +73,11 @@ class ActionableTile extends StatelessWidget {
                         color: AppColors.neutralB500,
                         fontSize: AppFontSize.s12.rSp,
                       ),
-                    ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: 4.rh),
+                    ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s4),
                 ],
               ),
             ),
-            suffixWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 12.rw),
+            suffixWidget.setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s12),
           ],
         ),
       ),

@@ -19,6 +19,7 @@ class AppImages {
   static const String paymentFailed = "$IMAGE_PATH/payment_failed.png";
   static const String paymentSuccess = "$IMAGE_PATH/payment_success.png";
   static const String selectBrand = "$IMAGE_PATH/select_brand.png";
+  static const String menuBrandPNG = "$IMAGE_PATH/menu_brand.png";
 }
 
 class AppIcons {
@@ -44,6 +45,15 @@ class AppIcons {
   static const String seniorCitizen = "$ICON_PATH/ic_sc.svg";
   static const String totalCustomer = "$ICON_PATH/ic_total_customer.svg";
   static const String notificationIcon = '@mipmap/ic_launcher';
+  static const String addOrder = "$ICON_PATH/ic_add_order.svg";
+  static const String menu = "$ICON_PATH/ic_menu.svg";
+  static const String bankSVG = "$ICON_PATH/ic_bank.svg";
+  static const String cardSVG = "$ICON_PATH/ic_card.svg";
+  static const String cashSVG = "$ICON_PATH/ic_cash.svg";
+  static const String digitalWalletSVG = "$ICON_PATH/ic_digital_wallet.svg";
+  static const String qrCodeSVG = "$ICON_PATH/ic_qr_code.svg";
+  static const String customPaymentSVG = "$ICON_PATH/ic_custom_payment.svg";
+  static const String otherPaymentSVG = "$ICON_PATH/ic_other_payment.svg";
 }
 
 class AppSounds {

@@ -2,6 +2,7 @@ import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/provider/date_time_provider.dart';
 
 const String EMPTY = '';
 const int ZERO = 0;
@@ -115,6 +116,10 @@ extension PaperSizeToRollSize on int {
 extension DateOnlyCompare on DateTime {
   bool isSameDate(DateTime other) {
     return year == other.year && month == other.month && day == other.day;
+  }
+
+  String format(String pattern) {
+    return DateTimeFormatter.getDate(this, pattern);
   }
 }
 

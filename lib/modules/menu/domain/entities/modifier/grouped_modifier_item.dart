@@ -1,6 +1,8 @@
-import '../../../../../app/constants.dart';
-import '../../../../../core/utils/price_calculator.dart';
-import '../item_price.dart';
+import 'package:collection/collection.dart';
+import 'package:klikit/app/constants.dart';
+import 'package:klikit/core/utils/price_calculator.dart';
+import 'package:klikit/modules/menu/domain/entities/item_price.dart';
+
 import 'modifier_visibility.dart';
 
 class GroupedModifierItem {
@@ -27,11 +29,17 @@ class GroupedModifierItem {
   });
 
   String klikitPrice() {
-    final itemPrice = prices.firstWhere((element) => element.providerId == ProviderID.KLIKIT);
+    final itemPrice = prices.firstWhereOrNull((element) => element.providerId == ProviderID.KLIKIT);
     return PriceCalculator.formatPrice(
-      price: itemPrice.price(),
-      code: itemPrice.currencyCode,
-      symbol: itemPrice.currencySymbol,
+      price: itemPrice?.price() ?? 0,
+      code: itemPrice?.currencyCode ?? '',
+      symbol: itemPrice?.currencySymbol ?? '',
     );
+  }
+
+  bool visible() {
+    if (visibilities.isEmpty) return true;
+    final itemVisibility = visibilities.firstWhereOrNull((element) => element.providerID == ProviderID.KLIKIT);
+    return itemVisibility?.isVisible ?? true;
   }
 }

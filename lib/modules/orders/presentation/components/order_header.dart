@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/core/widgets/filter/oni_filter_screen.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -41,29 +43,29 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (!UserPermissionManager().isBizOwner())
-          Padding(
-            padding: EdgeInsets.only(
-              right: AppSize.s12.rw,
-              left: AppSize.s12.rw,
-              top: AppSize.s12.rh,
+          Container(
+            color: AppColors.white,
+            padding: EdgeInsets.symmetric(
+              horizontal: AppSize.s16.rw,
+              vertical: AppSize.s16.rh,
             ),
             child: const PauseStoreHeaderView(),
           ),
-        if (!UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 8.rh),
-        Padding(
-          padding: EdgeInsets.only(
-            top: 8.rh,
-            left: 12.rw,
-            right: 12.rw,
+        if (!UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 6.rh, height: 0),
+        Container(
+          color: AppColors.white,
+          padding: EdgeInsets.symmetric(
+            vertical: 8.rh,
+            horizontal: 12.rw,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Orders',
+                AppStrings.order_history.tr(),
                 style: semiBoldTextStyle(
                   fontSize: 16.rSp,
-                  color: AppColors.black,
+                  color: AppColors.neutralB500,
                 ),
               ),
               StatefulBuilder(
@@ -92,7 +94,6 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
             ],
           ),
         ),
-        Divider(color: AppColors.grey),
       ],
     );
   }

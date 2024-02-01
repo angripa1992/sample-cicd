@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
+import 'package:klikit/core/widgets/kt_switch.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/action_dialogs.dart';
 
 import '../../../../../resources/colors.dart';
@@ -17,6 +18,8 @@ class MenuSwitchView extends StatefulWidget {
   final int id;
   final int type;
   final bool willShowBg;
+  final double? switchWidth;
+  final double? switchHeight;
 
   const MenuSwitchView({
     Key? key,
@@ -29,6 +32,8 @@ class MenuSwitchView extends StatefulWidget {
     required this.type,
     required this.branchId,
     this.willShowBg = true,
+    this.switchWidth,
+    this.switchHeight,
   }) : super(key: key);
 
   @override
@@ -79,21 +84,16 @@ class _MenuSwitchViewState extends State<MenuSwitchView> {
   @override
   Widget build(BuildContext context) {
     return UserPermissionManager().canOosMenu()
-        ? Container(
-            decoration: const BoxDecoration(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: AppSize.s8.rh),
-              child: Transform.scale(
-                scale: 0.7,
-                child: CupertinoSwitch(
-                  key: UniqueKey(),
-                  value: _enabled,
-                  activeColor: AppColors.primary,
-                  trackColor: AppColors.black,
-                  onChanged: !widget.parentEnabled ? null : _handleMenu,
-                ),
-              ),
-            ),
+        ? KTSwitch(
+            width: widget.switchWidth ?? 36.rw,
+            height: widget.switchHeight ?? 18.rh,
+            controller: ValueNotifier<bool>(_enabled),
+            activeColor: AppColors.primaryP300,
+            onChanged: (enabled) {
+              if (widget.parentEnabled) {
+                _handleMenu(enabled);
+              }
+            },
           )
         : SizedBox(height: AppSize.s40.rh);
   }

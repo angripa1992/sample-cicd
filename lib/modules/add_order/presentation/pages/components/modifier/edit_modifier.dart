@@ -4,15 +4,14 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/modules/base/order_counter.dart';
 
 import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
 import '../../../../../common/entities/brand.dart';
-import '../../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../../menu/domain/entities/item_price.dart';
+import '../../../../../menu/domain/entities/menu/menu_item.dart';
 import '../../../../domain/entities/add_to_cart_item.dart';
 import '../../../../domain/entities/modifier/item_modifier_group.dart';
 import '../../../../utils/modifier_manager.dart';
@@ -21,7 +20,6 @@ import 'item_description_view.dart';
 import 'level_one_select_multiple_view.dart';
 import 'level_one_select_one_view.dart';
 import 'modifier_group_info.dart';
-import 'modifier_header_view.dart';
 
 class EditModifierView extends StatefulWidget {
   final AddToCartItem cartItem;
@@ -111,56 +109,64 @@ class _EditModifierViewState extends State<EditModifierView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.grey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          ModifierHeaderView(
-            onBack: () => widget.onClose(null),
-            itemName: _item.title,
-            onCartTap: widget.onCartTap,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.white,
+        appBar: AppBar(
+          title: const Text('Item Details'),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+              widget.onClose(null);
+            },
+            icon: const Icon(Icons.arrow_back),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ItemDescriptionView(item: _item),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: AppSize.s8.rh,
-                      left: AppSize.s10.rw,
-                      right: AppSize.s10.rw,
-                    ),
-                    child: OutlinedButton(
-                      onPressed: widget.onAddAsNew,
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: AppColors.primary),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add, color: AppColors.primary),
-                          Text(
-                            AppStrings.add_as_new.tr(),
-                            style: mediumTextStyle(
-                              color: AppColors.primary,
-                              fontSize: AppFontSize.s14.rSp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: _groups.map((group) {
-                      return Container(
-                        margin: EdgeInsets.only(
-                          top: AppSize.s8.rh,
-                          left: AppSize.s10.rw,
-                          right: AppSize.s10.rw,
+          actions: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.rSp, vertical: 10.rSp),
+              child: OrderCounter(
+                onCartTap: () {
+                  Navigator.pop(context);
+                  widget.onCartTap();
+                },
+              ),
+            ),
+          ],
+        ),
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ItemDescriptionView(item: _item),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 12.rw),
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          widget.onAddAsNew();
+                        },
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: AppColors.primary),
                         ),
-                        child: Column(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add, color: AppColors.primary),
+                            Text(
+                              AppStrings.add_as_new.tr(),
+                              style: mediumTextStyle(color: AppColors.primary, fontSize: 14.rSp),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Divider(thickness: 8.rh, color: AppColors.grey),
+                    Column(
+                      children: _groups.map((group) {
+                        return Column(
                           children: [
                             ModifierGroupInfo(
                               title: group.title,
@@ -176,25 +182,33 @@ class _EditModifierViewState extends State<EditModifierView> {
                                     onChanged: _onChanged,
                                   ),
                           ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  SpecialInstructionField(controller: _textEditingController),
-                ],
+                        );
+                      }).toList(),
+                    ),
+                    if (_groups.isNotEmpty) Divider(thickness: 8.rh, color: AppColors.grey),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 12.rw),
+                      child: SpecialInstructionField(controller: _textEditingController),
+                    ),
+                    Divider(thickness: 8.rh, color: AppColors.grey),
+                  ],
+                ),
               ),
             ),
-          ),
-          AddToCartButtonView(
-            enabled: _enabled,
-            price: _price,
-            quantity: _quantity,
-            currencyCode: _itemPrice.currencyCode,
-            currencySymbol: _itemPrice.currencySymbol,
-            onQuantityChanged: _onQuantityChanged,
-            onAddToCart: () => widget.onClose(_createCartItem()),
-          ),
-        ],
+            AddToCartButtonView(
+              enabled: _enabled,
+              price: _price,
+              quantity: _quantity,
+              currencyCode: _itemPrice.currencyCode,
+              currencySymbol: _itemPrice.currencySymbol,
+              onQuantityChanged: _onQuantityChanged,
+              onAddToCart: () {
+                Navigator.of(context).pop();
+                widget.onClose(_createCartItem());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

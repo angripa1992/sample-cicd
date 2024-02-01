@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/strings.dart';
@@ -22,7 +24,8 @@ class OrderCustomerInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: order.status != OrderStatus.CANCELLED && order.status != OrderStatus.DELIVERED && order.status != OrderStatus.PICKED_UP,
-      child: Padding(
+      child: Container(
+        color: AppColors.white,
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.s16.rw,
           vertical: AppSize.s8.rh,
@@ -30,20 +33,18 @@ class OrderCustomerInfoView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Divider(),
             Text(
               AppStrings.customer_info.tr(),
               style: semiBoldTextStyle(
-                color: AppColors.black,
-                fontSize: AppFontSize.s17.rSp,
+                color: AppColors.neutralB500,
+                fontSize: AppFontSize.s16.rSp,
               ),
             ),
             if (order.orderAppliedPromo != null && order.orderAppliedPromo!.isSeniorCitizenPromo!)
               Padding(
-                padding: EdgeInsets.only(top: AppSize.s8.rh),
+                padding: EdgeInsets.only(top: AppSize.s12.rh),
                 child: _tagView(),
               ),
-            SizedBox(height: AppSize.s8.rh),
             Row(
               children: [
                 Expanded(
@@ -59,29 +60,29 @@ class OrderCustomerInfoView extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-            SizedBox(height: AppSize.s8.rh),
+            ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: (order.userFirstName.isNotEmpty || order.userPhone.isNotEmpty) ? AppSize.s12 : 0),
             Row(
               children: [
-                Expanded(
-                  child: Visibility(
-                    visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null,
-                    child: _infoItem(AppStrings.vehicle_registration.tr(), '${order.additionalInfo?.vehicleInfo?.regNo}'),
-                  ),
+                Visibility(
+                  visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null,
+                  child: Expanded(child: _infoItem(AppStrings.vehicle_registration.tr(), '${order.additionalInfo?.vehicleInfo?.regNo}')),
                 ),
-                Expanded(
-                  child: Visibility(
-                    visible:
-                        order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null && order.additionalInfo!.vehicleInfo!.additionalDetails.isNotEmpty,
-                    child: _infoItem('Additional Information', '${order.additionalInfo?.vehicleInfo?.additionalDetails}'),
-                  ),
-                ),
+                if (order.estimatedPickUpAt.isNotEmpty)
+                  Expanded(
+                    child: _infoItem(AppStrings.estimated_pickup_time.tr(), DateTimeFormatter.parseOrderCreatedDate(order.estimatedPickUpAt)),
+                  )
               ],
+            ).setVisibilityWithSpace(
+                direction: Axis.vertical,
+                startSpace: ((order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null) || order.estimatedPickUpAt.isNotEmpty) ? AppSize.s12 : 0),
+            Visibility(
+              visible: order.type == OrderType.PICKUP && order.pickupType == PickupType.DRIVE_THRU && order.additionalInfo != null && order.additionalInfo!.vehicleInfo!.additionalDetails.isNotEmpty,
+              child: _infoItem('Additional Information', '${order.additionalInfo?.vehicleInfo?.additionalDetails}').setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s12),
             ),
             if (!order.isManualOrder && order.orderAppliedPromo != null && order.orderAppliedPromo!.isSeniorCitizenPromo!) AttachmentView(order: order),
           ],
         ),
-      ),
+      ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s8),
     );
   }
 
@@ -132,17 +133,17 @@ class OrderCustomerInfoView extends StatelessWidget {
       children: [
         Text(
           title,
-          style: semiBoldTextStyle(
-            color: AppColors.black,
-            fontSize: AppFontSize.s14.rSp,
+          style: mediumTextStyle(
+            color: AppColors.neutralB300,
+            fontSize: AppFontSize.s12.rSp,
           ),
         ),
         SizedBox(height: AppSize.s2.rh),
         Text(
           description,
           style: regularTextStyle(
-            color: AppColors.black,
-            fontSize: AppFontSize.s14.rSp,
+            color: AppColors.neutralB500,
+            fontSize: AppFontSize.s12.rSp,
           ),
         ),
       ],

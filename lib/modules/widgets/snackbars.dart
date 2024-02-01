@@ -78,7 +78,7 @@ void showApiErrorSnackBar(BuildContext context, Failure failure) {
   );
 }
 
-void showSuccessSnackBar(BuildContext? context, String message) {
+void showSuccessSnackBar(BuildContext? context, String message, {EdgeInsets? toastMargin}) {
   ScaffoldMessenger.of(context ?? RoutesGenerator.navigatorKey.currentState!.context).showSnackBar(
     SnackBar(
       content: Text(
@@ -88,7 +88,9 @@ void showSuccessSnackBar(BuildContext? context, String message) {
           fontSize: AppFontSize.s15.rSp,
         ),
       ),
-      duration: const Duration(seconds: 1),
+      margin: toastMargin,
+      behavior: toastMargin != null ? SnackBarBehavior.floating : null,
+      duration: Duration(milliseconds: toastMargin != null ? 500 : 1000),
       backgroundColor: AppColors.green,
     ),
   );
