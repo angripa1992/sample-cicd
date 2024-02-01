@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_network_image.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../resources/colors.dart';
 import '../../resources/styles.dart';
@@ -11,12 +13,11 @@ class KTCheckboxValue {
   final String? logo;
   bool? isSelected;
 
-  KTCheckboxValue(
-    this.id,
-    this.title, {
-    this.logo,
-    this.isSelected = false,
-  });
+  KTCheckboxValue(this.id,
+      this.title, {
+        this.logo,
+        this.isSelected = false,
+      });
 
   @override
   String toString() {
@@ -55,7 +56,7 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
     final numberOfSelectedItems = widget.values.where((element) => element.isSelected ?? false).length;
     final isAllSelected = (numberOfSelectedItems > 0) && (totalItems == numberOfSelectedItems);
     _modifiedValues.clear();
-    _modifiedValues.add(KTCheckboxValue(_selectAllItemID, 'Select All', isSelected: isAllSelected));
+    _modifiedValues.add(KTCheckboxValue(_selectAllItemID, AppStrings.select_all.tr(), isSelected: isAllSelected));
     _modifiedValues.addAll(widget.values);
   }
 
@@ -119,23 +120,23 @@ class _KTCheckboxGroupState extends State<KTCheckboxGroup> {
       children: _modifiedValues.map((value) {
         return value.logo != null
             ? CheckboxListTile(
-                activeColor: AppColors.primary,
-                contentPadding: EdgeInsets.zero,
-                title: _title(value),
-                value: value.isSelected,
-                secondary: SizedBox(
-                  width: 32.rSp,
-                  height: 32.rSp,
-                  child: KTNetworkImage(
-                    imageUrl: value.logo!,
-                    width: 32.rSp,
-                    height: 32.rSp,
-                  ),
-                ),
-                onChanged: (isSelected) {
-                  _onChanged(value, isSelected!);
-                },
-              )
+          activeColor: AppColors.primary,
+          contentPadding: EdgeInsets.zero,
+          title: _title(value),
+          value: value.isSelected,
+          secondary: SizedBox(
+            width: 32.rSp,
+            height: 32.rSp,
+            child: KTNetworkImage(
+              imageUrl: value.logo!,
+              width: 32.rSp,
+              height: 32.rSp,
+            ),
+          ),
+          onChanged: (isSelected) {
+            _onChanged(value, isSelected!);
+          },
+        )
             : CheckboxListTile(
                 activeColor: AppColors.primary,
                 contentPadding: EdgeInsets.zero,

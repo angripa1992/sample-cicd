@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/session_manager.dart';
@@ -7,8 +8,10 @@ import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/core/widgets/filter/filter_icon_view.dart';
 import 'package:klikit/core/widgets/filter/menu_filter_screen.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_screen.dart';
+import 'package:klikit/modules/menu/presentation/pages/tab_item.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/resource_resolver.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 
 import 'menu_tabbar_view.dart';
@@ -22,7 +25,7 @@ class MenuManagementBody extends StatefulWidget {
 }
 
 class _MenuManagementBodyState extends State<MenuManagementBody> {
-  final _tabChangeListener = ValueNotifier(MenuTabIndex.MENU);
+  final _tabChangeListener = ValueNotifier(TabIndex.MENU);
   final _filterDataChangeListener = ValueNotifier<MenuFilteredData?>(null);
 
   @override
@@ -36,10 +39,18 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        MenuTabBarView(
-          onChanged: (index) {
-            _tabChangeListener.value = index;
-          },
+        ValueListenableBuilder<int>(
+          valueListenable: _tabChangeListener,
+          builder: (_, index, __) => MenuTabBarView(
+            selectedIndex: index,
+            tabItems: [
+              TabItem(AppStrings.menu.tr(), TabIndex.MENU),
+              TabItem(AppStrings.modifier.tr(), TabIndex.MODIFIER),
+            ],
+            onChanged: (index) {
+              _tabChangeListener.value = index;
+            },
+          ),
         ),
         Container(
           color: AppColors.white,
@@ -51,7 +62,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
                   valueListenable: _tabChangeListener,
                   builder: (_, index, __) {
                     return Text(
-                      index == MenuTabIndex.MODIFIER ? 'Modifier List' : 'Menu List',
+                      index == TabIndex.MODIFIER ? AppStrings.modifier_list.tr() : AppStrings.menu_list.tr(),
                       style: semiBoldTextStyle(
                         color: AppColors.black,
                         fontSize: 16.rSp,
@@ -104,9 +115,9 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
     final brandID = data?.brand?.id;
     final selected = (data != null && brandID != null && branchID != null);
     final providers = data?.providers?.map((e) => e.id).toList() ?? [];
-    if (selected && index == MenuTabIndex.MENU) {
+    if (selected && index == TabIndex.MENU) {
       return MenuScreen(branch: branchID, brand: brandID, providers: providers);
-    } else if (selected && index == MenuTabIndex.MODIFIER) {
+    } else if (selected && index == TabIndex.MODIFIER) {
       return ModifierScreen(branch: branchID, brand: brandID, providers: providers);
     } else {
       return _emptyView();
@@ -122,7 +133,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.rw),
             child: Text(
-              'Select a brand and branch to seamlessly manage menus and modifiers',
+              AppStrings.brand_branch_empty_message.tr(),
               textAlign: TextAlign.center,
               style: mediumTextStyle(
                 color: AppColors.neutralB600,

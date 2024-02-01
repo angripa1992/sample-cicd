@@ -186,7 +186,7 @@ class _AccountScreenState extends State<AccountScreen> {
         BlocProvider(lazy: false, create: (_) => getIt.get<ConsumerProtectionCubit>()),
       ],
       child: Scaffold(
-        appBar: AppBar(title: Text(AppStrings.settings.tr()), elevation: 0, shadowColor: AppColors.greyBright),
+        appBar: AppBar(title: Text(AppStrings.account.tr()), elevation: 0, shadowColor: AppColors.greyBright),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -223,7 +223,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       },
                     ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     Text(
-                      'Preferences',
+                      AppStrings.preferences.tr(),
                       style: semiBoldTextStyle(
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,
@@ -255,7 +255,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onTap: _onLanguageChange,
                     ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
                     Text(
-                      'Devices',
+                      AppStrings.devices.tr(),
                       style: semiBoldTextStyle(
                         color: AppColors.neutralB500,
                         fontSize: AppSize.s16.rSp,
@@ -302,7 +302,8 @@ class _AccountScreenState extends State<AccountScreen> {
                         logoutButtonController.label = AppStrings.logout.tr();
                         return KTButton(
                           controller: logoutButtonController,
-                          prefixWidget: ImageResourceResolver.logoutSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          // prefixWidget: ImageResourceResolver.logoutSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                          prefixWidget: Icon(Icons.logout, color: AppColors.redDark, size: AppSize.s24.rSp),
                           backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                           labelStyle: mediumTextStyle(),
                           splashColor: AppColors.greyBright,

@@ -97,4 +97,6 @@ class ImageResourceResolver {
   static SVGImageResource get upArrowSVG => SVGImageResource('$iconBasePath/ic_up_arrow.svg');
 
   static SVGImageResource get rightArrowSmSVG => SVGImageResource('$iconBasePath/ic_sm_right_arrow.svg');
+
+  static SVGImageResource get calendarSVG => SVGImageResource('$iconBasePath/ic_calendar.svg');
 }

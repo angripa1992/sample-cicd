@@ -120,9 +120,11 @@ class OrderStatus {
   static const PICKED_UP = 9;
 }
 
-class MenuTabIndex {
+class TabIndex {
   static const MENU = 1;
   static const MODIFIER = 2;
+  static const DOCKET = 3;
+  static const STICKER = 4;
 }
 
 class MenuType {
