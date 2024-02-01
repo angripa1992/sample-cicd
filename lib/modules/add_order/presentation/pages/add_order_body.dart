@@ -2,9 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/presentation/cubit/fetch_menu_items_cubit.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/non_modifier_item_details.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/menu/domain/entities/menu/menu_item.dart';
@@ -13,11 +17,10 @@ import '../../../../core/utils/response_state.dart';
 import '../../../../resources/colors.dart';
 import '../../../../resources/strings.dart';
 import '../../../menu/domain/entities/menu/menu_categories.dart';
-import '../../../menu/presentation/cubit/menu_brands_cubit.dart';
 import '../../../widgets/snackbars.dart';
 import '../../domain/entities/modifier/item_modifier_group.dart';
 import '../../utils/cart_manager.dart';
-import 'components/brand_selector_app_bar.dart';
+import 'components/add_order_app_bar.dart';
 import 'components/cart/cart_screen.dart';
 import 'components/empty_brand_view.dart';
 import 'components/go_to_cart_button.dart';
@@ -39,63 +42,43 @@ class AddOrderBody extends StatefulWidget {
 
 class _AddOrderBodyState extends State<AddOrderBody> {
   final _changeBrandNotifier = ValueNotifier<Brand?>(null);
+  final _gotoCartButtonSize = ValueNotifier<Size?>(null);
   Brand? _selectedBrand;
 
   @override
   void initState() {
-    context.read<MenuBrandsCubit>().fetchMenuBrands();
+    if (CartManager().items.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _gotoCart();
+      });
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MenuBrandsCubit, ResponseState>(
-      listener: (context, state) {
-        if (state is Success<List<Brand>> && CartManager().items.isNotEmpty) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _gotoCart();
-          });
-        }
-      },
-      builder: (context, state) {
-        if (state is Loading) {
-          EasyLoading.show();
-        } else if (state is Success<List<Brand>>) {
-          EasyLoading.dismiss();
-          return _body(state.data);
-        } else if (state is Failed) {
-          EasyLoading.dismiss();
-          return Center(child: Text(state.failure.message));
-        }
-        return const SizedBox();
-      },
-    );
-  }
-
-  Widget _body(List<Brand> brands) {
     return Column(
       children: [
         ValueListenableBuilder<Brand?>(
           valueListenable: _changeBrandNotifier,
           builder: (_, initialBrand, __) {
-            return BrandSelectorAppBar(
-              brands: brands,
+            return AddOrderAppBar(
+              onBack: widget.onBack,
+              onCartTap: _gotoCart,
+              initialBrand: initialBrand,
               onChanged: (brand) {
                 _selectedBrand = brand;
                 _fetchMenus(brand);
               },
-              onBack: widget.onBack,
-              onCartTap: _gotoCart,
-              initialBrand: initialBrand,
             );
           },
         ),
+        Divider(color: AppColors.grey, thickness: 4.rh),
         Expanded(
           child: BlocBuilder<FetchAddOrderMenuItemsCubit, ResponseState>(
             builder: (context, state) {
               if (state is Loading) {
-                EasyLoading.show();
-                return const SizedBox();
+                return const Center(child: CircularProgress());
               } else if (state is Success<List<MenuCategory>>) {
                 EasyLoading.dismiss();
                 if (state.data.isEmpty) {
@@ -107,16 +90,23 @@ class _AddOrderBodyState extends State<AddOrderBody> {
                   categories: state.data,
                   brand: _selectedBrand,
                   onCartTap: _gotoCart,
-                  onAddToCart: _addToCart,
-                  onAddModifier: (groups, item, brand) {
+                  onNavigateItemDetails: _navigateToItemDetails,
+                  onNavigateAddModifier: (groups, item, brand) {
                     _addModifier(groups: groups, item: item, brand: brand);
                   },
                   refreshMenu: () {
                     _fetchMenus(_selectedBrand);
                   },
+                  onAddNonModifierItem: (item, brand) {
+                    _addNonModifierItem(
+                      item: item,
+                      brand: brand,
+                      quantity: 1,
+                      instruction: EMPTY,
+                    );
+                  },
                 );
               }
-              EasyLoading.dismiss();
               return const EmptyBrandView();
             },
           ),
@@ -125,6 +115,9 @@ class _AddOrderBodyState extends State<AddOrderBody> {
           color: AppColors.greyLight,
           child: GoToCartButton(
             onGotoCart: _gotoCart,
+            onSizeCalculated: (size) {
+              _gotoCartButtonSize.value = size;
+            },
           ),
         ),
       ],
@@ -136,7 +129,7 @@ class _AddOrderBodyState extends State<AddOrderBody> {
       MaterialPageRoute(
         builder: (context) {
           return CartScreen(
-            onEdit: _editModifier,
+            onEdit: _navigateToEditModifier,
             addMore: (brand) {
               _changeBrandNotifier.value = brand;
             },
@@ -149,7 +142,11 @@ class _AddOrderBodyState extends State<AddOrderBody> {
   void _addToCart(AddToCartItem? item) {
     if (item != null) {
       CartManager().addToCart(item);
-      showSuccessSnackBar(null, AppStrings.successfully_added_to_cart.tr());
+      showSuccessSnackBar(
+        null,
+        AppStrings.successfully_added_to_cart.tr(),
+        toastMargin: EdgeInsets.only(bottom: (_gotoCartButtonSize.value?.height ?? 70) + 4.rh),
+      );
     }
   }
 
@@ -160,34 +157,22 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     _gotoCart();
   }
 
-  void _editModifier(AddToCartItem item) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Container(
-            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-            child: EditModifierView(
-              cartItem: item.copy(),
-              onClose: (cartItem) {
-                Navigator.pop(context);
-                _editCart(cartItem, item);
-              },
-              onCartTap: () {
-                Navigator.pop(context);
-                _gotoCart();
-              },
-              onAddAsNew: () {
-                Navigator.pop(context);
-                _addAsNew(item);
-              },
-            ),
-          ),
-        );
-      },
+  void _navigateToEditModifier(AddToCartItem item) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => EditModifierView(
+          cartItem: item.copy(),
+          onClose: (cartItem) {
+            _editCart(cartItem, item);
+          },
+          onCartTap: () {
+            _gotoCart();
+          },
+          onAddAsNew: () {
+            _addAsNew(item);
+          },
+        ),
+      ),
     );
   }
 
@@ -206,31 +191,56 @@ class _AddOrderBodyState extends State<AddOrderBody> {
     required MenuCategoryItem item,
     required Brand brand,
   }) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Container(
-            margin: EdgeInsets.only(top: ScreenSizes.statusBarHeight),
-            child: AddModifierView(
-              groups: groups,
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => AddModifierView(
+          groups: groups,
+          item: item,
+          brand: brand,
+          onClose: _addToCart,
+          onCartTap: _gotoCart,
+        ),
+      ),
+    );
+  }
+
+  void _addNonModifierItem({
+    required MenuCategoryItem item,
+    required Brand brand,
+    required int quantity,
+    required String instruction,
+  }) {
+    _addToCart(
+      AddToCartItem(
+        modifiers: [],
+        item: item,
+        quantity: quantity,
+        itemInstruction: instruction,
+        modifiersPrice: 0,
+        itemPrice: item.klikitPrice(),
+        brand: brand,
+        discountType: DiscountType.flat,
+        discountValue: 0,
+      ),
+    );
+  }
+
+  void _navigateToItemDetails(MenuCategoryItem item, Brand brand) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => NonModifierItemDetails(
+          menuCategoryItem: item,
+          addToCart: (quantity, instruction) {
+            _addNonModifierItem(
               item: item,
               brand: brand,
-              onClose: (cartItem) {
-                Navigator.pop(context);
-                _addToCart(cartItem);
-              },
-              onCartTap: () {
-                Navigator.pop(context);
-                _gotoCart();
-              },
-            ),
-          ),
-        );
-      },
+              quantity: quantity,
+              instruction: instruction,
+            );
+          },
+          gotoCart: _gotoCart,
+        ),
+      ),
     );
   }
 

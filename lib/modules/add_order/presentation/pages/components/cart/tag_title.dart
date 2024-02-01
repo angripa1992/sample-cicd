@@ -27,7 +27,7 @@ class TagTitleView extends StatelessWidget {
       children: [
         Text(
           title,
-          style: mediumTextStyle(
+          style: semiBoldTextStyle(
             color: AppColors.black,
             fontSize: AppFontSize.s14.rSp,
           ),
