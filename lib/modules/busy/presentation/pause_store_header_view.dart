@@ -46,7 +46,7 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
       BlocProvider(
         create: (_) => getIt.get<FetchPauseStoreDataCubit>(),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+          padding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: 10.rh, bottom: 20.rh),
           child: const PauseStoreBreakdownView(),
         ),
       ),

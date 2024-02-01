@@ -62,7 +62,7 @@ dependencies:
   docket_design_template:
     git:
       url: https://github.com/klikit/docket_design_template.git
-      ref: develop
+      ref: master
 
 dev_dependencies:
   flutter_test:
