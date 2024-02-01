@@ -78,15 +78,13 @@ class PrintingHandler {
         } else {
           _doManualPrint(order);
         }
-      }
-      else if (SessionManager().getActiveDevice() == Device.imin) {
+      } else if (SessionManager().getActiveDevice() == Device.imin) {
         if (isAutoPrint) {
           await _iminAutoPrint(order);
         } else {
           _doManualPrint(order);
         }
-      }
-      else if (_preferences.printerSetting().type == CType.BLE) {
+      } else if (_preferences.printerSetting().type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _bluetoothAutoPrint(order);
@@ -124,20 +122,13 @@ class PrintingHandler {
             roll: rollSize,
             printingType: PrintingType.manual,
           );
-        }else if(SessionManager().getActiveDevice() == Device.imin){
+        } else if (SessionManager().getActiveDevice() == Device.imin) {
           final rollSize = _preferences.printerSetting().paperSize.toRollSize();
           var printerAddress = _preferences.getPrinterAddress();
-          final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
-            roll: rollSize,
-            printingType: PrintingType.manual,
-            isConsumerCopy: type == DocketType.customer);
-          await BluetoothPrinterHandler().print(printingData!,printerAddress);
+          final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder, roll: rollSize, printingType: PrintingType.manual, isConsumerCopy: type == DocketType.customer);
+          await BluetoothPrinterHandler().print(printingData!, printerAddress);
         } else {
-          final printingData = await _generateDocketTicket(
-            order: order,
-            docketType: type,
-            printingType: PrintingType.manual,
-          );
+          final printingData = await _generateDocketTicket(order: order, docketType: type, printingType: PrintingType.manual);
           if (printingData != null) {
             if (_preferences.printerSetting().type == CType.BLE) {
               await BluetoothPrinterHandler().printDocket(printingData);
@@ -240,19 +231,23 @@ class PrintingHandler {
         final rollSize = _preferences.printerSetting().paperSize.toRollSize();
         // final rollSize = _preferences.printerSetting().paperSize.toRollSize();
 
-        final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
+        final printingData = await CommonDesignTemplate().generateTicket(
+          order: templateOrder,
           roll: rollSize,
           printingType: PrintingType.auto,
-          isConsumerCopy: true,);
-        await BluetoothPrinterHandler().print(printingData!,printerAddress);
+          isConsumerCopy: true,
+        );
+        await BluetoothPrinterHandler().print(printingData!, printerAddress);
       }
     }
     if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
-      final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
+      final printingData = await CommonDesignTemplate().generateTicket(
+        order: templateOrder,
         roll: rollSize,
         printingType: PrintingType.auto,
-        isConsumerCopy: false,);
-      await BluetoothPrinterHandler().print(printingData!,printerAddress);
+        isConsumerCopy: false,
+      );
+      await BluetoothPrinterHandler().print(printingData!, printerAddress);
     }
   }
 
@@ -276,8 +271,7 @@ class PrintingHandler {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
       final data = await ZReportDataProvider().generateTemplateData(model, reportDate, reportEndTime: reportEndDate);
       await SunmiZReportPrinter().printZReport(data, rollSize);
-    }
-    else if (await _isPermissionGranted()) {
+    } else if (await _isPermissionGranted()) {
       if (_preferences.printerSetting().type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
           final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
