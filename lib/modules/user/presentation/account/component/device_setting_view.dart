@@ -9,6 +9,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/resources/decorations.dart';
 
+import '../../../../../app/app_preferences.dart';
 import '../../../../../core/utils/response_state.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -26,14 +27,20 @@ class DeviceSettingScreen extends StatefulWidget {
 }
 
 class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
-  final _devices = [Device.android, Device.sunmi];
+  final _devices = [Device.android, Device.sunmi,Device.imin];
   int? _device;
+  final Map _devicesDetail = {
+    Device.android: 'Android',
+    Device.sunmi: 'Sunmi',
+    Device.imin: 'Imin'
+  };
   final _updateButtonController = KTButtonController(label: AppStrings.update.tr());
 
   @override
   void initState() {
-    final isSunmiDevice = SessionManager().isSunmiDevice();
-    _device = isSunmiDevice ? Device.sunmi : Device.android;
+    // final isSunmiDevice = SessionManager().isSunmiDevice();
+    // _device = isSunmiDevice ? Device.sunmi : Device.android;
+    _device = SessionManager().getActiveDevice();
     super.initState();
   }
 
@@ -63,7 +70,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                 selectedTileColor: AppColors.neutralB20,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.rSp)),
                 title: Text(
-                  device == Device.android ? 'Android' : 'Sunmi',
+                  _devicesDetail[device],
                   style: mediumTextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s14.rSp,
@@ -107,6 +114,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                 verticalContentPadding: 10.rh,
                 onTap: () {
                   context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
+                  getIt<AppPreferences>().setActiveDevice(_device!);
                 },
               );
             },
