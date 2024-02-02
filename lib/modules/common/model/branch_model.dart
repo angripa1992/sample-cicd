@@ -71,6 +71,8 @@ class BranchModel {
   bool? webshopCustomFeesEnabled;
   String? webshopCustomFeesTitle;
   String? countryCode;
+  bool? prePaymentEnabled;
+  bool? postPaymentEnabled;
 
   BranchModel({
     this.id,
@@ -115,6 +117,8 @@ class BranchModel {
     this.webshopCustomFeesEnabled,
     this.webshopCustomFeesTitle,
     this.countryCode,
+    this.prePaymentEnabled,
+    this.postPaymentEnabled,
   });
 
   BranchModel.fromJson(Map<String, dynamic> json) {
@@ -160,6 +164,8 @@ class BranchModel {
     webshopCustomFeesEnabled = json['webshop_custom_fees_enabled'];
     webshopCustomFeesTitle = json['webshop_custom_fees_title'];
     countryCode = json['country_code'];
+    prePaymentEnabled = json['pre_payment_enabled'];
+    postPaymentEnabled = json['post_payment_enabled'];
   }
 
   Branch toEntity() => Branch(
@@ -201,5 +207,7 @@ class BranchModel {
         webshopCustomFeesTitle: webshopCustomFeesTitle.orEmpty(),
         mergeFeeEnabled: mergeFeesEnabled.orFalse(),
         mergeFeeTitle: mergeFeesTitle.orEmpty(),
+        prePaymentEnabled: prePaymentEnabled.orFalse(),
+        postPaymentEnabled: postPaymentEnabled.orFalse(),
       );
 }

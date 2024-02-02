@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
+import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
 
 import '../../../../../../app/extensions.dart';
 import '../../../../../../resources/colors.dart';
@@ -10,25 +13,35 @@ import '../../../../../../resources/fonts.dart';
 import '../../../../../../resources/strings.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
-import '../../../../../widgets/app_button.dart';
 
-class CheckoutActionButton extends StatelessWidget {
+class PlaceOrderButton extends StatelessWidget {
+  final int? channelID;
+  final Branch branch;
   final num totalPrice;
+  final bool isWebShopOrder;
+  final bool willUpdateOrder;
   final VoidCallback onPlaceOrder;
   final VoidCallback onPayNow;
-  final bool willShowPlaceOrder;
+  final VoidCallback onUpdateWebshopOrder;
+  final VoidCallback onUpdateOrder;
 
-  const CheckoutActionButton({
+  const PlaceOrderButton({
     Key? key,
+    required this.channelID,
+    required this.branch,
     required this.totalPrice,
+    required this.isWebShopOrder,
+    required this.willUpdateOrder,
     required this.onPayNow,
     required this.onPlaceOrder,
-    required this.willShowPlaceOrder,
+    required this.onUpdateOrder,
+    required this.onUpdateWebshopOrder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final currency = CartManager().currency;
+
     return Container(
       color: AppColors.white,
       padding: EdgeInsets.symmetric(
@@ -72,21 +85,41 @@ class CheckoutActionButton extends StatelessWidget {
           SizedBox(height: AppSize.s8.rh),
           Row(
             children: [
-              Expanded(
-                child: AppButton(
-                  onTap: onPayNow,
-                  text: 'Pay Now',
-                  textColor: AppColors.black,
-                  color: AppColors.greyDark,
-                  borderColor: AppColors.greyDark,
-                ),
-              ),
-              if (willShowPlaceOrder) SizedBox(width: AppSize.s8.rw),
-              if (willShowPlaceOrder)
+              if (isWebShopOrder && willUpdateOrder)
                 Expanded(
-                  child: AppButton(
+                  child: KTButton(
+                    backgroundDecoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(8.rSp)),
+                    labelStyle: mediumTextStyle(color: AppColors.white, fontSize: 14.rSp),
+                    onTap: onUpdateWebshopOrder,
+                    controller: KTButtonController(label: AppStrings.update_order.tr()),
+                  ),
+                ),
+              if (!isWebShopOrder && willUpdateOrder)
+                Expanded(
+                  child: KTButton(
+                    backgroundDecoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(8.rSp)),
+                    labelStyle: mediumTextStyle(color: AppColors.white, fontSize: 14.rSp),
                     onTap: onPlaceOrder,
-                    text: 'Place Order',
+                    controller: KTButtonController(label: AppStrings.update_order.tr()),
+                  ),
+                ),
+              if (!willUpdateOrder && branch.prePaymentEnabled)
+                Expanded(
+                  child: KTButton(
+                    backgroundDecoration: BoxDecoration(color: AppColors.neutralB30, borderRadius: BorderRadius.circular(8.rSp)),
+                    labelStyle: mediumTextStyle(color: AppColors.neutralB700, fontSize: 14.rSp),
+                    onTap: onPayNow,
+                    controller: KTButtonController(label: 'Pay Now'),
+                  ),
+                ),
+              if (!willUpdateOrder && branch.prePaymentEnabled && branch.postPaymentEnabled && channelID != PaymentChannelID.CREATE_QRIS) SizedBox(width: 16.rw),
+              if (!willUpdateOrder && branch.postPaymentEnabled && channelID != PaymentChannelID.CREATE_QRIS)
+                Expanded(
+                  child: KTButton(
+                    backgroundDecoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(8.rSp)),
+                    labelStyle: mediumTextStyle(color: AppColors.white, fontSize: 14.rSp),
+                    onTap: onPlaceOrder,
+                    controller: KTButtonController(label: 'Place Order'),
                   ),
                 ),
             ],

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_radio_group.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/payment_channel_selector.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/payment_channel_selector.dart';
 import 'package:klikit/modules/common/entities/payment_info.dart';
 import 'package:klikit/modules/orders/presentation/components/dialogs/action_dialogs.dart';
 import 'package:klikit/resources/asset_resolver/svg_image_resource.dart';
