@@ -62,7 +62,6 @@ class FcmService {
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await registerLocalDB();
   await getIt.get<AppPreferences>().reload();
-  await Firebase.initializeApp();
 
   final env = EnvironmentVariables(
     baseUrl: 'https://api.dev.shadowchef.co',
@@ -75,9 +74,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   );
 
   final environmentVariables = await EnvManager().fetchEnv(env);
-  await initAppModule(environmentVariables);
+  await registerBackground(environmentVariables);
   if (SessionManager().notificationEnable()) {
-    var printingHandler = getIt.get<PrintingHandler>();
     LocalNotificationService().showNotification(
       payload: message.data,
     );
@@ -86,6 +84,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
           NotificationDataHandler().getNotificationData(message.data).orderId.toInt(),
       );
       if (order != null && order.status == OrderStatus.ACCEPTED) {
+        var printingHandler = getIt.get<PrintingHandler>();
         printingHandler.printDocket(order: order, isAutoPrint: true);
       }
     });

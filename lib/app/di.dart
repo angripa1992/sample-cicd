@@ -228,3 +228,71 @@ Future<void> registerLocalDB() async {
     getIt.registerSingleton<AppPreferences>(AppPreferences(getIt()));
   }
 }
+
+Future<void> registerBackground(EnvironmentVariables environmentVariables) async {
+  if (!getIt.isRegistered<EnvironmentVariables>()) {
+    getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
+  }
+  await registerLocalDB();
+
+  if (!getIt.isRegistered<DeviceInfoProvider>()) {
+    getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());
+  }
+
+  if (!getIt.isRegistered<TokenProvider>()) {
+    getIt.registerSingleton<TokenProvider>(TokenProvider());
+  }
+
+  if (!getIt.isRegistered<RestClient>()) {
+    getIt.registerSingleton<RestClient>(RestClient(getIt()));
+  }
+
+  if (!getIt.isRegistered<NetworkConnectivity>()) {
+    getIt.registerSingleton<NetworkConnectivity>(NetworkConnectivity());
+  }
+
+
+  ///order
+  if (!getIt.isRegistered<OrderRemoteDatasource>()) {
+    getIt.registerLazySingleton<OrderRemoteDatasource>(() =>
+        OrderRemoteDatasourceImpl(getIt()));
+  }
+  if (!getIt.isRegistered<BusinessRemoteDataSource>()) {
+    getIt.registerLazySingleton<BusinessRemoteDataSource>(() =>
+        BusinessRemoteDataSourceImpl(getIt()));
+  }
+  if (!getIt.isRegistered<BusinessInfoProviderRepo>()) {
+    getIt.registerLazySingleton<BusinessInfoProviderRepo>(() =>
+        BusinessInfoProviderRepoImpl(getIt(), getIt()));
+  }
+  if (!getIt.isRegistered<BusinessInformationProvider>()) {
+    getIt.registerLazySingleton(() => BusinessInformationProvider(getIt()));
+  }
+  if (!getIt.isRegistered<OrderRepository>()) {
+    getIt.registerLazySingleton<OrderRepository>(() =>
+        OrderRepositoryImpl(getIt(), getIt(), getIt()));
+  }
+
+  ///printer
+  if (!getIt.isRegistered<BluetoothPrinterHandler>()) {
+    getIt.registerLazySingleton(() => BluetoothPrinterHandler());
+  }
+  if (!getIt.isRegistered<UsbPrinterHandler>()) {
+    getIt.registerLazySingleton(() => UsbPrinterHandler());
+  }
+  if (!getIt.isRegistered<PrintingHandler>()) {
+    getIt.registerLazySingleton(() =>
+        PrintingHandler(getIt.get(), getIt.get()));
+  }
+  if (!getIt.isRegistered<PrinterSettingRepository>()) {
+    getIt.registerLazySingleton<PrinterSettingRepository>(() =>
+        PrinterSettingRepositoryImpl(getIt.get(), getIt.get()));
+  }
+  if (!getIt.isRegistered<PrinterSettingCubit>()) {
+    getIt.registerFactory(() => PrinterSettingCubit(getIt.get()));
+  }
+  if (!getIt.isRegistered<UpdatePrinterSettingCubit>()) {
+    getIt.registerFactory(() => UpdatePrinterSettingCubit(getIt.get()));
+  }
+
+}
