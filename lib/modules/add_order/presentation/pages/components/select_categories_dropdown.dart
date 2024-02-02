@@ -4,11 +4,11 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/styles.dart';
 
-import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/strings.dart';
-import '../../../../../../resources/values.dart';
-import '../../../../../menu/domain/entities/menu/menu_categories.dart';
-import '../../../../utils/color_provider.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/strings.dart';
+import '../../../../../resources/values.dart';
+import '../../../../menu/domain/entities/menu/menu_categories.dart';
+import '../../../utils/color_provider.dart';
 
 class CategoriesDropDown extends StatefulWidget {
   final List<MenuCategory> categories;
