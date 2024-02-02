@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:docket_design_template/common_design_template.dart';
 import 'package:docket_design_template/common_zreport_template.dart';
 import 'package:docket_design_template/docket_design_template.dart';
@@ -50,6 +52,7 @@ class PrintingHandler {
         onPOSConnect: (device) async {
           final isSuccessfullyConnected = type == CType.BLE ? await BluetoothPrinterHandler().connect(device) : await UsbPrinterHandler().connect(device);
           if (isSuccessfullyConnected) {
+            await _preferences.savePrinterAddress(jsonEncode({'address': device.address, 'name': device.name}));
             showSuccessSnackBar(RoutesGenerator.navigatorKey.currentState!.context, type == CType.BLE ? AppStrings.bluetooth_successfully_connected.tr() : AppStrings.usb_successfully_connected.tr());
             if (order != null) {
               printDocket(order: order, willPrintSticker: false);
