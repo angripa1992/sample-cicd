@@ -407,4 +407,7 @@ class AppStrings {
   static const String time_range_selection_message = 'time_range_selection_message';
   static const String time_selection = 'time_selection';
   static const String select_time = 'select_time';
+  static const String total_of_processing_and_service_fee = 'total_of_processing_and_service_fee';
+  static const String total_fee_of_processing_fee = 'total_fee_of_processing_fee';
+  static const String total_fee_of_service_fee = 'total_fee_of_service_fee';
 }

@@ -373,5 +373,8 @@
   "end_time": "เวลาสิ้นสุด",
   "time_range_selection_message": "ช่วงเวลาที่เลือกอยู่ระหว่างวันทั้งสองวัน",
   "time_selection": "เลือกเวลา",
-  "select_time": "เลือกเวลา"
+  "select_time": "เลือกเวลา",
+  "total_of_processing_and_service_fee": "ค่าธรรมเนียมรวมทั้งค่าธรรมเนียมการประมวลผลและค่าบริการ",
+  "total_fee_of_processing_fee": "Total fee includes processing fee",
+  "total_fee_of_service_fee": "Total fee includes service fee"
 }

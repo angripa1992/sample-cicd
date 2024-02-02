@@ -373,5 +373,8 @@
   "end_time": "结束时间",
   "time_range_selection_message": "所选时间范围在两个日期之间。",
   "time_selection": "时间选择",
-  "select_time": "选择时间"
+  "select_time": "选择时间",
+  "total_of_processing_and_service_fee": "总费用包括处理费和服务费。",
+  "total_fee_of_processing_fee": "Total fee includes processing fee",
+  "total_fee_of_service_fee": "Total fee includes service fee"
 }
