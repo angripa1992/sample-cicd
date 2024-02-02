@@ -59,10 +59,9 @@ dependencies:
   firebase_crashlytics: ^3.0.11
 
   docket_design_template:
-#    path: /Users/user/workspace/klikit/projects/docket_design_template
     git:
       url: https://github.com/klikit/docket_design_template.git
-      ref: feature/printer-setting
+      ref: master
 
 dev_dependencies:
   flutter_test:
