@@ -259,12 +259,12 @@ class TotalPrice extends StatelessWidget {
         ((!order.gatewayFeePaidByCustomer && order.gatewayFee > 0) ||
             (!order.serviceFeePaidByCustomer && order.serviceFee > 0) ||
             (!order.feePaidByCustomer && (order.serviceFee > 0 || order.gatewayFee > 0 || mergeFeesEnabled)))) {
-      String msg = 'Total fee includes processing fee and service fee';
+      String msg = AppStrings.total_of_processing_and_service_fee.tr();
 
       if ((!order.gatewayFeePaidByCustomer && order.serviceFeePaidByCustomer) || (order.gatewayFee > 0 && order.serviceFee == 0)) {
-        msg = 'Total fee includes processing fee';
+        msg = AppStrings.total_fee_of_processing_fee.tr();
       } else if ((order.gatewayFeePaidByCustomer && !order.serviceFeePaidByCustomer) || (order.gatewayFee == 0 && order.serviceFee > 0)) {
-        msg = 'Total fee includes service fee';
+        msg = AppStrings.total_fee_of_service_fee.tr();
       }
 
       return Tooltip(
