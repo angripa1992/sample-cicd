@@ -14,17 +14,19 @@ class ModifierManager {
 
   ModifierManager._internal();
 
-  void removeDisabledModifier(List<MenuItemModifierGroup> groups) {
-    groups.removeWhere((element) => !element.enabled);
-    for (var firstGroups in groups) {
-      firstGroups.modifiers.removeWhere((element) => !element.enabled);
+  List<MenuItemModifierGroup> removeDisabledModifier(List<MenuItemModifierGroup> groups) {
+    final tempGroups = groups;
+    tempGroups.removeWhere((element) => !element.enabled || !element.visible());
+    for (var firstGroups in tempGroups) {
+      firstGroups.modifiers.removeWhere((element) => !element.enabled || !element.visible());
       for (var firstModifier in firstGroups.modifiers) {
-        firstModifier.groups.removeWhere((element) => !element.enabled);
+        firstModifier.groups.removeWhere((element) => !element.enabled || !element.visible());
         for (var secondGroup in firstModifier.groups) {
-          secondGroup.modifiers.removeWhere((element) => !element.enabled);
+          secondGroup.modifiers.removeWhere((element) => !element.enabled || !element.visible());
         }
       }
     }
+    return tempGroups;
   }
 
   Future<bool> verifyRules(List<MenuItemModifierGroup> groups) async {
@@ -92,11 +94,11 @@ class ModifierManager {
     for (var groupLevelOne in groups) {
       for (var modifierLevelOne in groupLevelOne.modifiers) {
         if (modifierLevelOne.isSelected) {
-          modifiers.add('${modifierLevelOne.quantity}x ${modifierLevelOne.title}');
+          modifiers.add(modifierLevelOne.title);
           for (var groupLevelTwo in modifierLevelOne.groups) {
             for (var modifierLevelTwo in groupLevelTwo.modifiers) {
               if (modifierLevelTwo.isSelected) {
-                modifiers.add('${modifierLevelTwo.quantity}x ${modifierLevelTwo.title}');
+                modifiers.add(modifierLevelTwo.title);
               }
             }
           }

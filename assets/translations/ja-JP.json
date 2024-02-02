@@ -337,7 +337,7 @@
   "brand": "Brand",
   "select_all": "Select All",
   "order_details": "Order Details",
-  "set_paper_size": "Set Paper Size",
+  "set_paper_size": "用紙サイズを設定",
   "kitchen ": "Kitchen ",
   "customer ": "Customer ",
   "for": "For",
@@ -372,5 +372,6 @@
   "start_time": "開店じかん",
   "end_time": "閉店時間",
   "time_range_selection_message": "時間の範囲を選択",
-  "time_selection": "時間を選択"
+  "time_selection": "時間を選択",
+  "select_time": "時間"
 }

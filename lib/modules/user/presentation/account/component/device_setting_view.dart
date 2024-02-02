@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
@@ -10,6 +9,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/resources/decorations.dart';
 
+import '../../../../../app/app_preferences.dart';
 import '../../../../../core/utils/response_state.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
@@ -27,15 +27,14 @@ class DeviceSettingScreen extends StatefulWidget {
 }
 
 class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
-  final _devices = [Device.android, Device.sunmi, Device.imin];
+  final _devices = [Device.android, Device.sunmi,Device.imin];
   int? _device;
   final Map _devicesDetail = {
     Device.android: 'Android',
     Device.sunmi: 'Sunmi',
     Device.imin: 'Imin'
   };
-  final _updateButtonController =
-      KTButtonController(label: AppStrings.update.tr());
+  final _updateButtonController = KTButtonController(label: AppStrings.update.tr());
 
   @override
   void initState() {
@@ -69,8 +68,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                 contentPadding: EdgeInsets.fromLTRB(12.rw, 0, 8.rw, 0),
                 selected: _device == device,
                 selectedTileColor: AppColors.neutralB20,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.rSp)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.rSp)),
                 title: Text(
                   _devicesDetail[device],
                   style: mediumTextStyle(
@@ -110,15 +108,12 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
             builder: (context, state) {
               return KTButton(
                 controller: _updateButtonController,
-                backgroundDecoration: regularRoundedDecoration(
-                    backgroundColor: AppColors.primaryP300),
+                backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP300),
                 labelStyle: mediumTextStyle(color: AppColors.white),
                 progressPrimaryColor: AppColors.white,
                 verticalContentPadding: 10.rh,
                 onTap: () {
-                  context
-                      .read<DeviceSettingCubit>()
-                      .changeSunmiDeviceSetting(_device == Device.sunmi);
+                  context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
                   getIt<AppPreferences>().setActiveDevice(_device!);
                 },
               );

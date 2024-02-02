@@ -1,4 +1,5 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 
 import '../../resources/colors.dart';
 
@@ -9,12 +10,13 @@ void configLoading() {
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
     ..radius = 10.0
-    ..progressColor = AppColors.white
-    ..backgroundColor = AppColors.primary
-    ..indicatorColor = AppColors.white
-    ..textColor = AppColors.white
+    ..progressColor = AppColors.primary
+    ..backgroundColor = AppColors.white
+    ..indicatorColor = AppColors.primary
+    ..textColor = AppColors.primary
     ..maskColor = AppColors.primary.withOpacity(0.5)
     ..userInteractions = true
+    ..indicatorWidget = CircularProgress()
     ..dismissOnTap = false;
 }
 

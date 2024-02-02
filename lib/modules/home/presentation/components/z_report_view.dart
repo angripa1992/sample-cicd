@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/functions/pickers.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/core/widgets/kt_dropdown.dart';
 import 'package:klikit/modules/home/data/model/report_info.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
@@ -36,6 +37,7 @@ class _ZReportViewState extends State<ZReportView> {
   late final generateButtonController = KTButtonController(label: AppStrings.generate.tr());
   late ReportInfo reportInfo;
   List<ReportInfo> days = [];
+  final ValueNotifier<Size?> _dropdownSize = ValueNotifier<Size?>(null);
 
   @override
   void initState() {
@@ -64,7 +66,7 @@ class _ZReportViewState extends State<ZReportView> {
         vertical: AppSize.s16.rh,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
@@ -88,6 +90,11 @@ class _ZReportViewState extends State<ZReportView> {
             children: [
               Expanded(
                 child: KTDropdown(
+                  onSizeCalculated: (calculatedSize) {
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      _dropdownSize.value = calculatedSize;
+                    });
+                  },
                   items: days,
                   titleBuilder: (ReportInfo item) {
                     return item.name;
@@ -95,7 +102,7 @@ class _ZReportViewState extends State<ZReportView> {
                   textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   hintTextStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                   selectedItemBuilder: (ReportInfo item, bool isSelected) {
-                    return item.prepareSelectedItemData();
+                    return item.name;
                   },
                   selectedItem: reportInfo,
                   onSelected: (ReportInfo selectedItem) async {
@@ -106,7 +113,7 @@ class _ZReportViewState extends State<ZReportView> {
                         days[days.indexOf(selectedItem)] = reportInfo = selectedItem.copyWith(dateTime: dateTime);
                       });
                     } else if (selectedItem.dateType == DateType.timeRange) {
-                      final DateTime? dateTime = await showKTDatePicker(context, initialDate: selectedItem.dateTime, positiveText: 'Select Time');
+                      final DateTime? dateTime = await showKTDatePicker(context, initialDate: selectedItem.dateTime, positiveText: AppStrings.select_time.tr());
                       if (dateTime != null && mounted) {
                         final DateTimeRange? result = await showKTTimeRangePicker(context, dateTime);
                         if (result != null) {
@@ -120,7 +127,9 @@ class _ZReportViewState extends State<ZReportView> {
                         setState(() {});
                       }
                     } else {
-                      reportInfo = selectedItem;
+                      setState(() {
+                        reportInfo = selectedItem;
+                      });
                     }
                   },
                   padding: EdgeInsets.symmetric(horizontal: AppSize.s20.rw),
@@ -134,42 +143,57 @@ class _ZReportViewState extends State<ZReportView> {
                 ),
               ),
               AppSize.s12.horizontalSpacer(),
-              Expanded(
-                child: BlocConsumer<FetchZReportCubit, ResponseState>(
-                  listener: (ct, state) {
-                    generateButtonController.setLoaded(state is! Loading);
+              BlocConsumer<FetchZReportCubit, ResponseState>(
+                listener: (ct, state) {
+                  generateButtonController.setLoaded(state is! Loading);
 
-                    if (state is Failed) {
-                      showApiErrorSnackBar(context, state.failure);
-                    } else if (state is Success<ZReportData>) {
-                      getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime);
-                    }
-                  },
-                  builder: (ct, state) {
-                    return KTButton(
-                      controller: generateButtonController,
-                      prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(width: 18.rw, height: 18.rh, color: AppColors.neutralB700),
-                      verticalContentPadding: AppSize.s10.rh,
-                      backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
-                      labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
-                      splashColor: AppColors.greyBright,
-                      onTap: () async {
-                        context.read<FetchZReportCubit>().fetchZReportData(
-                              startDateTime: reportInfo.dateTime,
-                              endDateTime: reportInfo.dateType == DateType.timeRange ? reportInfo.endDateTime : null,
-                            );
-                        SegmentManager().track(
-                          event: SegmentEvents.GENERATE_ZREPORT,
-                          properties: {
-                            'date_type': reportInfo.name,
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
+                  if (state is Failed) {
+                    showApiErrorSnackBar(context, state.failure);
+                  } else if (state is Success<ZReportData>) {
+                    getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime, reportEndDate: reportInfo.endDateTime);
+                  }
+                },
+                builder: (ct, state) {
+                  return ValueListenableBuilder<Size?>(
+                    valueListenable: _dropdownSize,
+                    builder: (_, size, __) => SizedBox(
+                      height: (size?.height ?? 0) > 0 ? size?.height : null,
+                      child: KTButton(
+                        controller: generateButtonController,
+                        prefixWidget: ImageResourceResolver.downloadSVG.getImageWidget(width: 12.rw, height: 12.rh, color: AppColors.primaryP300),
+                        backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.primaryP50),
+                        labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.primaryP300),
+                        splashColor: AppColors.greyBright,
+                        horizontalContentPadding: 20.rw,
+                        onTap: () async {
+                          context.read<FetchZReportCubit>().fetchZReportData(
+                                startDateTime: reportInfo.dateTime,
+                                endDateTime: reportInfo.dateType == DateType.timeRange ? reportInfo.endDateTime : null,
+                              );
+                          SegmentManager().track(
+                            event: SegmentEvents.GENERATE_ZREPORT,
+                            properties: {
+                              'date_type': reportInfo.name,
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
+          ),
+          Visibility(
+            visible: (reportInfo.dateType == DateType.range || reportInfo.dateType == DateType.timeRange),
+            child: KTChip(
+              text: reportInfo.prepareSelectedItemData(),
+              leadingIcon: ImageResourceResolver.calendarSVG.getImageWidget(width: 12.rw, height: 12.rh, color: AppColors.neutralB100),
+              backgroundColor: AppColors.neutralB20,
+              strokeColor: AppColors.neutralB40,
+              textStyle: mediumTextStyle(fontSize: 10.rSp, color: AppColors.neutralB600),
+              padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 4.rh),
+            ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: 8),
           ),
         ],
       ),

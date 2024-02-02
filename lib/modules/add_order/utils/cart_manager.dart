@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:collection/collection.dart';
 
 import '../../../app/constants.dart';
 import '../../../core/route/routes.dart';
@@ -120,6 +121,14 @@ class CartManager {
     _notifyListener();
   }
 
+  Future<void> removeNonModifierItemFromCart(int itemID) async {
+    final deleteItem = _carts.firstWhereOrNull((element) => element.item.id == itemID);
+    if(deleteItem != null){
+      deleteItem.quantity -= 1;
+      _notifyListener();
+    }
+  }
+
   void removeAllByBrand(int brandId) {
     _carts.removeWhere((element) => element.brand.id == brandId);
     _notifyListener();
@@ -165,6 +174,16 @@ class CartManager {
       if (uniqueId == itemUniqueId && item.quantity == cartItem.quantity) return item;
     }
     return null;
+  }
+
+  int numberOfAddedItem(int itemID) {
+    int nofOfItem = 0;
+    for (var item in _carts) {
+      if (item.item.id == itemID) {
+        nofOfItem += item.quantity;
+      }
+    }
+    return nofOfItem;
   }
 
   int _noOfCartItem() {

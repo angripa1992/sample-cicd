@@ -22,6 +22,7 @@ class FetchMenuParams {
   final int branchId;
   final int brandId;
   final List<int> providers;
+  final bool isMgt;
 
   FetchMenuParams({
     required this.menuV2Enabled,
@@ -29,5 +30,6 @@ class FetchMenuParams {
     required this.branchId,
     required this.brandId,
     required this.providers,
+    required this.isMgt,
   });
 }

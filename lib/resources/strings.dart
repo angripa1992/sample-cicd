@@ -387,7 +387,7 @@ class AppStrings {
   static const String z_report_action_description = 'z_report_action_description';
   static const String clear_all = 'clear_all';
   static const String filter = 'filter';
-  static const String default_label = 'braced_default';
+  static const String default_label = 'default_label';
   static const String last_week = 'last_week';
   static const String last_month = 'last_month';
   static const String date = 'date';
@@ -406,4 +406,5 @@ class AppStrings {
   static const String end_time = 'end_time';
   static const String time_range_selection_message = 'time_range_selection_message';
   static const String time_selection = 'time_selection';
+  static const String select_time = 'select_time';
 }

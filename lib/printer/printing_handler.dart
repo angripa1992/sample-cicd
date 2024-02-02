@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:docket_design_template/common_design_template.dart';
 import 'package:docket_design_template/common_zreport_template.dart';
 import 'package:docket_design_template/docket_design_template.dart';
@@ -33,7 +31,6 @@ import '../modules/orders/domain/entities/cart.dart';
 import '../modules/orders/domain/entities/order.dart';
 import 'data/z_report_data_mapper.dart';
 
-
 class PrintingHandler {
   final AppPreferences _preferences;
   final BusinessInformationProvider _infoProvider;
@@ -52,9 +49,7 @@ class PrintingHandler {
         type: type,
         onPOSConnect: (device) async {
           final isSuccessfullyConnected = type == CType.BLE ? await BluetoothPrinterHandler().connect(device) : await UsbPrinterHandler().connect(device);
-
           if (isSuccessfullyConnected) {
-            await _preferences.savePrinterAddress(jsonEncode({'address': device.address, 'name': device.name}));
             showSuccessSnackBar(RoutesGenerator.navigatorKey.currentState!.context, type == CType.BLE ? AppStrings.bluetooth_successfully_connected.tr() : AppStrings.usb_successfully_connected.tr());
             if (order != null) {
               printDocket(order: order, willPrintSticker: false);
@@ -77,22 +72,19 @@ class PrintingHandler {
 
   void printDocket({required Order order, bool isAutoPrint = false, bool willPrintSticker = true}) async {
     if (await _isPermissionGranted()) {
-
       if (SessionManager().isSunmiDevice()) {
         if (isAutoPrint) {
           await _sunmiAutoPrint(order);
         } else {
           _doManualPrint(order);
         }
-      }
-      else if (SessionManager().getActiveDevice() == Device.imin) {
+      } else if (SessionManager().getActiveDevice() == Device.imin) {
         if (isAutoPrint) {
           await _iminAutoPrint(order);
         } else {
           _doManualPrint(order);
         }
-      }
-      else if (_preferences.printerSetting().type == CType.BLE) {
+      } else if (_preferences.printerSetting().type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _bluetoothAutoPrint(order);
@@ -123,27 +115,20 @@ class PrintingHandler {
 
         if (SessionManager().isSunmiDevice()) {
           final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-          // final templateOrder = await _generateTemplateOrder(order);
+          final templateOrder = await _generateTemplateOrder(order);
           await SunmiDesignTemplate().printSunmi(
             order: templateOrder,
             isCustomerCopy: type == DocketType.customer,
             roll: rollSize,
             printingType: PrintingType.manual,
           );
-        }else if(SessionManager().getActiveDevice() == Device.imin){
+        } else if (SessionManager().getActiveDevice() == Device.imin) {
           final rollSize = _preferences.printerSetting().paperSize.toRollSize();
           var printerAddress = _preferences.getPrinterAddress();
-          final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
-            roll: rollSize,
-            printingType: PrintingType.manual,
-            isConsumerCopy: type == DocketType.customer);
-          await BluetoothPrinterHandler().print(printingData!,printerAddress);
+          final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder, roll: rollSize, printingType: PrintingType.manual, isConsumerCopy: type == DocketType.customer);
+          await BluetoothPrinterHandler().print(printingData!, printerAddress);
         } else {
-          final printingData = await _generateDocketTicket(
-            order: order,
-            docketType: type,
-            printingType: PrintingType.manual,
-          );
+          final printingData = await _generateDocketTicket(order: order, docketType: type, printingType: PrintingType.manual);
           if (printingData != null) {
             if (_preferences.printerSetting().type == CType.BLE) {
               await BluetoothPrinterHandler().printDocket(printingData);
@@ -246,19 +231,23 @@ class PrintingHandler {
         final rollSize = _preferences.printerSetting().paperSize.toRollSize();
         // final rollSize = _preferences.printerSetting().paperSize.toRollSize();
 
-        final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
+        final printingData = await CommonDesignTemplate().generateTicket(
+          order: templateOrder,
           roll: rollSize,
           printingType: PrintingType.auto,
-          isConsumerCopy: true,);
-        await BluetoothPrinterHandler().print(printingData!,printerAddress);
+          isConsumerCopy: true,
+        );
+        await BluetoothPrinterHandler().print(printingData!, printerAddress);
       }
     }
     if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
-      final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
+      final printingData = await CommonDesignTemplate().generateTicket(
+        order: templateOrder,
         roll: rollSize,
         printingType: PrintingType.auto,
-        isConsumerCopy: false,);
-      await BluetoothPrinterHandler().print(printingData!,printerAddress);
+        isConsumerCopy: false,
+      );
+      await BluetoothPrinterHandler().print(printingData!, printerAddress);
     }
   }
 
@@ -271,23 +260,21 @@ class PrintingHandler {
     }
   }
 
-  void printZReport(ZReportData model, DateTime reportDate) async {
+  void printZReport(ZReportData model, DateTime reportDate, {DateTime? reportEndDate}) async {
     if (SessionManager().getActiveDevice() == Device.imin) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
       final printerAddress = _preferences.getPrinterAddress();
       final data = await ZReportDataProvider().generateTemplateData(model, reportDate);
-      var printingData = await CommonZReportTemplate().generateZTicket( data: data,roll:rollSize );
-      await BluetoothPrinterHandler().print(printingData,printerAddress);
-    }
-    else if (SessionManager().isSunmiDevice()) {
+      var printingData = await CommonZReportTemplate().generateZTicket(data: data, roll: rollSize);
+      await BluetoothPrinterHandler().print(printingData, printerAddress);
+    } else if (SessionManager().isSunmiDevice()) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-      final data = await ZReportDataProvider().generateTemplateData(model, reportDate);
+      final data = await ZReportDataProvider().generateTemplateData(model, reportDate, reportEndTime: reportEndDate);
       await SunmiZReportPrinter().printZReport(data, rollSize);
-    }
-    else if (await _isPermissionGranted()) {
+    } else if (await _isPermissionGranted()) {
       if (_preferences.printerSetting().type == CType.BLE) {
         if (BluetoothPrinterHandler().isConnected()) {
-          final printingData = await _generateZReportTicket(model, reportDate);
+          final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
           if (printingData != null) {
             await BluetoothPrinterHandler().printDocket(printingData);
           }
@@ -296,7 +283,7 @@ class PrintingHandler {
         }
       } else {
         if (UsbPrinterHandler().isConnected()) {
-          final printingData = await _generateZReportTicket(model, reportDate);
+          final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
           if (printingData != null) {
             await UsbPrinterHandler().printDocket(printingData);
           }
@@ -339,9 +326,10 @@ class PrintingHandler {
 
   Future<List<int>?> _generateZReportTicket(
     ZReportData dataModel,
-    DateTime reportTime,
-  ) async {
-    final data = await ZReportDataProvider().generateTemplateData(dataModel, reportTime);
+    DateTime reportTime, {
+    DateTime? reportEndDate,
+  }) async {
+    final data = await ZReportDataProvider().generateTemplateData(dataModel, reportTime, reportEndTime: reportEndDate);
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     final printingData = await ZReportDesignTemplate().generateTicket(
       data,

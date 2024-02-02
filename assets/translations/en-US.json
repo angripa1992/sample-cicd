@@ -339,7 +339,7 @@
   "resume_notification_alert_msg": "Are you sure to resume notifications?",
   "pause_notification_alert_msg": "Are you sure to pause notifications?",
   "you_will_receive_notification": "You will be receiving any notifications of upcoming orders.",
-  "you_wont_receive_notification": "You won\\'t be receiving any notifications of upcoming orders.",
+  "you_wont_receive_notification": "You won't be receiving any notifications of upcoming orders.",
   "docket": "Docket",
   "sticker": "Sticker",
   "preferences": "Preferences",
@@ -372,5 +372,6 @@
   "start_time": "Start time",
   "end_time": "End time",
   "time_range_selection_message": "Time range selected \nin between two dates",
-  "time_selection": "Time Selection"
+  "time_selection": "Time Selection",
+  "select_time": "Select Time"
 }

@@ -71,60 +71,69 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
           },
         ),
         const Divider().setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s6.rh),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ValueListenableBuilder<DateTime?>(
-                valueListenable: startDateTime,
-                builder: (_, dateTime, __) {
-                  widget.onStartDateTimeSelected(dateTime);
+        ValueListenableBuilder<SelectionType>(
+          valueListenable: selectionChangeListener,
+          builder: (_, selectedType, ___) => Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSize.s16.rw),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ValueListenableBuilder<DateTime?>(
+                  valueListenable: startDateTime,
+                  builder: (_, dateTime, __) {
+                    widget.onStartDateTimeSelected(dateTime);
 
-                  return Expanded(
-                    child: LabeledView(
-                      label: AppStrings.start_time.tr(),
-                      widget: KTButton(
-                        controller: KTButtonController(label: dateTime?.format(DTPatterns.hh_mm_a) ?? AppStrings.select.tr()),
-                        backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
-                        labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
-                        splashColor: AppColors.greyBright,
-                        onTap: () {
-                          startDateTime.value = null;
-                          endDateTime.value = null;
-                          selectionChangeListener.value = SelectionType.start;
-                        },
-                      ),
-                    ),
-                  );
-                },
-              ),
-              AppSize.s20.horizontalSpacer(),
-              ValueListenableBuilder<DateTime?>(
-                valueListenable: endDateTime,
-                builder: (_, dateTime, __) {
-                  widget.onEndDateTimeSelected(dateTime);
-
-                  return Expanded(
-                    child: LabeledView(
-                      label: AppStrings.end_time.tr(),
-                      widget: ValueListenableBuilder<DateTime?>(
-                        valueListenable: startDateTime,
-                        builder: (_, startDT, __) => KTButton(
-                          controller: KTButtonController(label: dateTime?.format(DTPatterns.hh_mm_a) ?? AppStrings.select.tr(), enabled: startDT != null),
-                          backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
+                    return Expanded(
+                      child: LabeledView(
+                        label: AppStrings.start_time.tr(),
+                        widget: KTButton(
+                          controller: KTButtonController(label: dateTime?.format(DTPatterns.hh_mm_a) ?? AppStrings.select.tr()),
+                          backgroundDecoration: regularRoundedDecoration(
+                            backgroundColor: AppColors.greyBright,
+                            strokeColor: selectedType == SelectionType.start ? AppColors.primaryP300 : null,
+                          ),
                           labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
                           splashColor: AppColors.greyBright,
                           onTap: () {
-                            selectionChangeListener.value = SelectionType.end;
+                            startDateTime.value = null;
+                            endDateTime.value = null;
+                            selectionChangeListener.value = SelectionType.start;
                           },
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ],
+                    );
+                  },
+                ),
+                AppSize.s20.horizontalSpacer(),
+                ValueListenableBuilder<DateTime?>(
+                  valueListenable: endDateTime,
+                  builder: (_, dateTime, __) {
+                    widget.onEndDateTimeSelected(dateTime);
+
+                    return Expanded(
+                      child: LabeledView(
+                        label: AppStrings.end_time.tr(),
+                        widget: ValueListenableBuilder<DateTime?>(
+                          valueListenable: startDateTime,
+                          builder: (_, startDT, __) => KTButton(
+                            controller: KTButtonController(label: dateTime?.format(DTPatterns.hh_mm_a) ?? AppStrings.select.tr(), enabled: startDT != null),
+                            backgroundDecoration: regularRoundedDecoration(
+                              backgroundColor: AppColors.greyBright,
+                              strokeColor: selectedType == SelectionType.end ? AppColors.primaryP300 : null,
+                            ),
+                            labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp),
+                            splashColor: AppColors.greyBright,
+                            onTap: () {
+                              selectionChangeListener.value = SelectionType.end;
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
         ValueListenableBuilder<SelectionType>(
@@ -138,6 +147,7 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
                   fontColor: AppColors.neutralB700,
                   initialDateTime: initialDateTime,
                   maximumDateTime: selectedType == SelectionType.start ? initialDateTime.add(const Duration(days: 1)) : initialDateTime.add(const Duration(hours: 24)),
+                  minuteInterval: widget.selectedDate.isAfter(DateTime.now().subtract(const Duration(hours: 24, seconds: 1))) ? 30 : 60,
                   onDateTimeChanged: (dt) {
                     if (selectedType == SelectionType.start) {
                       startDateTime.value = dt;

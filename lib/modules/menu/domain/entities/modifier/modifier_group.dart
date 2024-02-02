@@ -1,3 +1,6 @@
+import 'package:collection/collection.dart';
+import 'package:docket_design_template/utils/constants.dart';
+
 import 'grouped_modifier_item.dart';
 import 'modifier_visibility.dart';
 
@@ -21,4 +24,10 @@ class ModifierGroup {
     required this.modifiers,
     required this.visibilities,
   });
+
+  bool visible() {
+    if (visibilities.isEmpty) return true;
+    final itemVisibility = visibilities.firstWhereOrNull((element) => element.providerID == ProviderID.KLIKIT);
+    return itemVisibility?.isVisible ?? true;
+  }
 }

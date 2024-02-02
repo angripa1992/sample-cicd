@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/base/order_counter.dart';
 import 'package:klikit/resources/colors.dart';
@@ -29,7 +30,7 @@ class CommonDashboardAppBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: Platform.isIOS ? CrossAxisAlignment.center : CrossAxisAlignment.start,
               children: [
-                Text(title, style: mediumTextStyle(fontSize: AppSize.s16.rSp, color: AppColors.neutralB700)),
+                Text(title, style: semiBoldTextStyle(fontSize: AppSize.s18.rSp, color: AppColors.neutralB700)),
                 if (subtitle != null)
                   Text(subtitle!, style: regularTextStyle(fontSize: 12, color: AppColors.neutralB500)).setVisibilityWithSpace(
                     direction: Axis.vertical,
@@ -39,9 +40,10 @@ class CommonDashboardAppBar extends StatelessWidget {
             ),
             const Spacer(),
             AppSize.s8.horizontalSpacer(),
-            OrderCounter(onCartTap: () {
-              Navigator.of(context).pushNamed(Routes.addOrder);
-            }),
+            if (!UserPermissionManager().isBizOwner())
+              OrderCounter(onCartTap: () {
+                Navigator.of(context).pushNamed(Routes.addOrder);
+              }),
           ],
         ),
       ),
