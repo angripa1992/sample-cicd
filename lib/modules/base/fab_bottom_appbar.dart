@@ -114,12 +114,13 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     );
   }
 
-  Widget _buildTabItem({
-    required FABBottomAppBarItem item,
-    required ValueChanged<int> onPressed,
-  }) {
+  Widget _buildTabItem({required FABBottomAppBarItem item, required ValueChanged<int> onPressed}) {
     Color color = _selectedIndex == item.index ? widget.selectedColor : widget.color;
-    final icon = SVGImageResource(item.svgResourcePath).getImageWidget(width: widget.iconSize, height: widget.iconSize, color: color);
+    final icon = SVGImageResource(item.svgResourcePath).getImageWidget(
+      width: widget.iconSize,
+      height: widget.iconSize,
+      color: color,
+    );
     return Expanded(
       child: SizedBox(
         height: widget.height,

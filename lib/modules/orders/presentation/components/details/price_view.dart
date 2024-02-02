@@ -148,7 +148,7 @@ class _PriceViewState extends State<PriceView> {
             branch.webshopCustomFeesTitle,
             widget.order.customFee,
           ),
-        if (branch.mergeFeeEnabled && widget.order.mergeFee > 0 && !widget.order.feePaidByCustomer && widget.order.providerId == ProviderID.KLIKIT)
+        /*if (branch.mergeFeeEnabled && widget.order.mergeFee > 0 && !widget.order.feePaidByCustomer && widget.order.providerId == ProviderID.KLIKIT)
           _priceBreakdownItem(
             branch.mergeFeeTitle,
             widget.order.mergeFee,
@@ -165,7 +165,7 @@ class _PriceViewState extends State<PriceView> {
             AppStrings.processing_fee.tr(),
             widget.order.gatewayFee,
             showNegative: true,
-          ),
+          ),*/
       ],
     );
   }
@@ -256,14 +256,14 @@ class TotalPrice extends StatelessWidget {
   Widget webshopTooltip(Order order, bool mergeFeesEnabled) {
     if (order.providerId == ProviderID.KLIKIT &&
         !order.isManualOrder &&
-        ((!order.gatewayFeePaidByCustomer && order.gatewayFee == 1) ||
-            (!order.serviceFeePaidByCustomer && order.serviceFee == 1) ||
-            (!order.feePaidByCustomer && (order.serviceFee == 1 || order.gatewayFee == 1 || mergeFeesEnabled)))) {
+        ((!order.gatewayFeePaidByCustomer && order.gatewayFee > 0) ||
+            (!order.serviceFeePaidByCustomer && order.serviceFee > 0) ||
+            (!order.feePaidByCustomer && (order.serviceFee > 0 || order.gatewayFee > 0 || mergeFeesEnabled)))) {
       String msg = 'Total fee includes processing fee and service fee';
 
-      if ((!order.gatewayFeePaidByCustomer && order.serviceFeePaidByCustomer) || (order.gatewayFee == 1 && order.serviceFee != 1)) {
+      if ((!order.gatewayFeePaidByCustomer && order.serviceFeePaidByCustomer) || (order.gatewayFee > 0 && order.serviceFee == 0)) {
         msg = 'Total fee includes processing fee';
-      } else if ((order.gatewayFeePaidByCustomer && !order.serviceFeePaidByCustomer) || (order.gatewayFee != 1 && order.serviceFee == 1)) {
+      } else if ((order.gatewayFeePaidByCustomer && !order.serviceFeePaidByCustomer) || (order.gatewayFee == 0 && order.serviceFee > 0)) {
         msg = 'Total fee includes service fee';
       }
 
