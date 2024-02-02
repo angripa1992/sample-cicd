@@ -5,39 +5,38 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/enums.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
+import 'package:klikit/modules/add_order/domain/entities/order_source.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/cart_items_list.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/cart_price_view.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/customer_info.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/empty_cart_view.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/place_order_button.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/checkout_actions_buttons.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/customer_info.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/payment_method_selector.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/delete_item_dialog.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/fee_dialogs.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/promo_and_discount_modal.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/order_type_selector.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/payment_method_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/modules/add_order/utils/order_entity_provider.dart';
 import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/common/entities/payment_info.dart';
-
-import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/strings.dart';
-import '../../../../../../resources/values.dart';
-import '../../../../../widgets/snackbars.dart';
-import '../../../../domain/entities/order_source.dart';
-import '../../../../utils/order_entity_provider.dart';
-import '../checkout/checkout_screen.dart';
-import '../dialogs/delete_item_dialog.dart';
-import '../dialogs/fee_dialogs.dart';
-import '../dialogs/promo_and_discount_modal.dart';
-import 'cart_items_list.dart';
-import 'empty_cart_view.dart';
-import 'order_action_button.dart';
+import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/values.dart';
 
 class CartScreen extends StatefulWidget {
   final Function(AddToCartItem) onEdit;
@@ -146,7 +145,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 Divider(color: AppColors.grey, thickness: 8.rh),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.rw,vertical: 8.rh),
+                  padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 8.rh),
                   child: SpecialInstructionField(controller: _textController),
                 ),
                 Divider(color: AppColors.grey, thickness: 8.rh),
@@ -157,7 +156,30 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ),
-        _actionButton(),
+       FutureBuilder<Branch?>(
+         future: getIt<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
+         builder: (_,snap){
+           if(snap.hasData && snap.data != null){
+             return  ValueListenableBuilder<int?>(
+               valueListenable: _paymentChanelNotifier,
+               builder: (_, chanelID, __) {
+                 return PlaceOrderButton(
+                   channelID: chanelID,
+                   branch: snap.data!,
+                   totalPrice: _cartBill!.totalPrice,
+                   isWebShopOrder: CartManager().isWebShopOrder,
+                   willUpdateOrder: CartManager().willUpdateOrder,
+                   onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
+                   onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+                   onUpdateWebshopOrder: () => _updateWebShopOrder(),
+                   onUpdateOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+                 );
+               },
+             );
+           }
+           return const SizedBox();
+         },
+       ),
       ],
     );
   }
@@ -223,8 +245,8 @@ class _CartScreenState extends State<CartScreen> {
   Widget _paymentMethodSelectorView() {
     return FutureBuilder<List<PaymentMethod>>(
       future: getIt<BusinessInformationProvider>().fetchPaymentMethods(),
-      builder: (_,snap){
-        if(snap.hasData && snap.data != null){
+      builder: (_, snap) {
+        if (snap.hasData && snap.data != null) {
           return Column(
             children: [
               PaymentMethodSelector(
@@ -278,38 +300,6 @@ class _CartScreenState extends State<CartScreen> {
         Divider(color: AppColors.grey, thickness: 8.rh),
       ],
     );
-  }
-
-  Widget _actionButton() {
-    if (CartManager().isWebShopOrder) {
-      return OrderActionButton(
-        buttonText: AppStrings.update_order.tr(),
-        enable: true,
-        loading: false,
-        totalPrice: _cartBill!.feePaidByCustomer ? _cartBill!.totalPrice : _cartBill!.merchantTotalPrice,
-        onProceed: _updateWebShopOrder,
-      );
-    } else if (CartManager().willUpdateOrder) {
-      return OrderActionButton(
-        buttonText: AppStrings.update_order.tr(),
-        enable: true,
-        loading: false,
-        totalPrice: _cartBill!.totalPrice,
-        onProceed: () => _placeOrder(CheckoutState.PLACE_ORDER),
-      );
-    } else {
-      return ValueListenableBuilder<int?>(
-        valueListenable: _paymentChanelNotifier,
-        builder: (_, chanelID, __) {
-          return CheckoutActionButton(
-            willShowPlaceOrder: chanelID != PaymentChannelID.CREATE_QRIS,
-            totalPrice: _cartBill!.totalPrice,
-            onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
-            onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
-          );
-        },
-      );
-    }
   }
 
   @override
@@ -410,29 +400,6 @@ class _CartScreenState extends State<CartScreen> {
           ),
         );
       },
-    );
-  }
-
-  void _onCheckout() {
-    final checkoutData = CheckoutData(
-      items: CartManager().items,
-      type: _currentOrderType,
-      source: _currentSource,
-      cartBill: _cartBill!,
-      discountType: _currentDiscountType,
-      discountValue: _globalDiscount,
-      instruction: _textController.text,
-    );
-    _saveCurrentEditInfo();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return CheckoutScreen(
-            checkoutData: checkoutData,
-            willUpdateOrder: CartManager().willUpdateOrder,
-          );
-        },
-      ),
     );
   }
 

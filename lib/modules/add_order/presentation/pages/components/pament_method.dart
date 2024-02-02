@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 
-import '../../../../../../resources/colors.dart';
-import '../../../../../../resources/fonts.dart';
-import '../../../../../../resources/strings.dart';
-import '../../../../../../resources/styles.dart';
-import '../../../../../../resources/values.dart';
-import '../../../../../common/entities/payment_info.dart';
-import '../../../../../common/business_information_provider.dart';
-import '../cart/tag_title.dart';
+import '../../../../../resources/colors.dart';
+import '../../../../../resources/fonts.dart';
+import '../../../../../resources/strings.dart';
+import '../../../../../resources/styles.dart';
+import '../../../../../resources/values.dart';
+import '../../../../common/entities/payment_info.dart';
+import '../../../../common/business_information_provider.dart';
+import 'cart/tag_title.dart';
 
 class PaymentMethodView extends StatefulWidget {
   final Function(int?, int?) onChanged;
