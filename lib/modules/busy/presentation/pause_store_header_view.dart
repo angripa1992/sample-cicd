@@ -7,6 +7,7 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/core/widgets/modal_sheet_manager.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_breakdowns.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_timer_view.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_toggle_button.dart';
@@ -44,7 +45,10 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
       context,
       BlocProvider(
         create: (_) => getIt.get<FetchPauseStoreDataCubit>(),
-        child: const PauseStoreBreakdownView(),
+        child: Padding(
+          padding: EdgeInsets.only(left: AppSize.s16.rw, right: AppSize.s16.rw, top: 10.rh, bottom: 20.rh),
+          child: const PauseStoreBreakdownView(),
+        ),
       ),
       title: AppStrings.pause_store.tr(),
       dismissible: false,
@@ -67,11 +71,7 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
         } else if (state is Success<PauseStoresData>) {
           return _body(state.data);
         }
-        return Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primary,
-          ),
-        );
+        return const Center(child: CircularProgress());
       },
     );
   }

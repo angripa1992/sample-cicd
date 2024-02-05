@@ -90,7 +90,7 @@ void showSuccessSnackBar(BuildContext? context, String message, {EdgeInsets? toa
       ),
       margin: toastMargin,
       behavior: toastMargin != null ? SnackBarBehavior.floating : null,
-      duration: const Duration(seconds: 1),
+      duration: Duration(milliseconds: toastMargin != null ? 500 : 1000),
       backgroundColor: AppColors.green,
     ),
   );
