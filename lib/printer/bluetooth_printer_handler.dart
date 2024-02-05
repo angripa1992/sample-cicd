@@ -64,6 +64,7 @@ class BluetoothPrinterHandler {
 
       PrinterSetting printerSetting = _createPrinterSettingFromLocalVariables();
       printerSetting.deviceId = device.address!;
+      printerSetting.deviceNane = device.name;
 
       await _appPreferences.savePrinterSettings(
         printerSetting: printerSetting,
