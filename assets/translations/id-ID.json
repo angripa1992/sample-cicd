@@ -373,5 +373,7 @@
   "end_time": "Waktu akhir",
   "time_range_selection_message": "Waktu yang dipilih di antara dua tanggal",
   "time_selection": "Pemilihan Waktu",
-  "select_time": "Pilih Waktu"
+  "select_time": "Pilih Waktu",
+  "net_order_value": "Net Order Value",
+  "lost_revenue": "Lost Revenue"
 }

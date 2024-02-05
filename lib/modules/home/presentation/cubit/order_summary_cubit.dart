@@ -19,7 +19,7 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
     final params = await FilteredDataMapper().homeFilterDataMap(data);
     final response = await _repository.fetchSummary(params);
     response.fold(
-          (failure) {
+      (failure) {
         emit(Failed(failure));
       },
           (data) {
@@ -34,6 +34,8 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
     int cancelled = 0;
     num grossValues = 0;
     num discount = 0;
+    num netRevenue = 0;
+    num lostRevenue = 0;
     String currency = '';
     String currencySymbol = '';
     for (var summary in data.summary) {
@@ -41,6 +43,8 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
       cancelled += summary.cancelledOrders;
       grossValues += summary.realizedRevenue;
       discount += summary.discount;
+      netRevenue += summary.netRevenue;
+      lostRevenue += summary.lostRevenue;
       currency = summary.currency;
       currencySymbol = summary.currencySymbol;
     }
@@ -60,6 +64,14 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
       OrderSummaryOverview(
         label: AppStrings.discount_value.tr(),
         value: PriceCalculator.formatCompactPrice(price: discount / 100, code: currency, symbol: currencySymbol),
+      ),
+      OrderSummaryOverview(
+        label: AppStrings.net_order_value.tr(),
+        value: PriceCalculator.formatCompactPrice(price: netRevenue / 100, code: currency, symbol: currencySymbol),
+      ),
+      OrderSummaryOverview(
+        label: AppStrings.lost_revenue.tr(),
+        value: PriceCalculator.formatCompactPrice(price: lostRevenue / 100, code: currency, symbol: currencySymbol),
       )
     ];
   }

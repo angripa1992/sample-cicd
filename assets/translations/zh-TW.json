@@ -373,5 +373,7 @@
   "end_time": "結束時間",
   "time_range_selection_message": "所選時間範圍在兩個日期之間",
   "time_selection": "時間選擇",
-  "select_time": "選擇時間"
+  "select_time": "選擇時間",
+  "net_order_value": "Net Order Value",
+  "lost_revenue": "Lost Revenue"
 }
