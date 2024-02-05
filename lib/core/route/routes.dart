@@ -12,4 +12,5 @@ class Routes {
   static const String editProfile = '/edit_profile';
   static const String deviceSetting = '/device_setting';
   static const String addOrder = '/add_order';
+  static const String cimbPayment = '/cimb_payment';
 }

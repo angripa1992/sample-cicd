@@ -8,6 +8,7 @@ import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/network/error_handler.dart';
+import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
@@ -156,30 +157,31 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ),
-       FutureBuilder<Branch?>(
-         future: getIt<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
-         builder: (_,snap){
-           if(snap.hasData && snap.data != null){
-             return  ValueListenableBuilder<int?>(
-               valueListenable: _paymentChanelNotifier,
-               builder: (_, chanelID, __) {
-                 return PlaceOrderButton(
-                   channelID: chanelID,
-                   branch: snap.data!,
-                   totalPrice: _cartBill!.totalPrice,
-                   isWebShopOrder: CartManager().isWebShopOrder,
-                   willUpdateOrder: CartManager().willUpdateOrder,
-                   onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
-                   onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
-                   onUpdateWebshopOrder: () => _updateWebShopOrder(),
-                   onUpdateOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
-                 );
-               },
-             );
-           }
-           return const SizedBox();
-         },
-       ),
+        FutureBuilder<Branch?>(
+          future: getIt<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
+          builder: (_, snap) {
+            if (snap.hasData && snap.data != null) {
+              return ValueListenableBuilder<int?>(
+                valueListenable: _paymentChanelNotifier,
+                builder: (_, chanelID, __) {
+                  return PlaceOrderButton(
+                    channelID: chanelID,
+                    branch: snap.data!,
+                    totalPrice: _cartBill!.totalPrice,
+                    isWebShopOrder: CartManager().isWebShopOrder,
+                    willUpdateOrder: CartManager().willUpdateOrder,
+                    // onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
+                    onPayNow: () => Navigator.of(context).pushNamed(Routes.cimbPayment),
+                    onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+                    onUpdateWebshopOrder: () => _updateWebShopOrder(),
+                    onUpdateOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+                  );
+                },
+              );
+            }
+            return const SizedBox();
+          },
+        ),
       ],
     );
   }

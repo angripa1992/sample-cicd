@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/core/route/routes.dart';
 import 'package:klikit/modules/add_order/presentation/pages/add_order_screen.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/cart/cimb_qr_payment_screen.dart';
 import 'package:klikit/modules/base/base_screen.dart';
 import 'package:klikit/modules/base/base_screen_cubit.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_category_items_screen.dart';
@@ -91,6 +92,11 @@ class RoutesGenerator {
       case Routes.addOrder:
         return MaterialPageRoute(
           builder: (_) => const AddOrderScreen(),
+          settings: routeSettings,
+        );
+      case Routes.cimbPayment:
+        return MaterialPageRoute(
+          builder: (_) => const CimbQrPaymentScreen(),
           settings: routeSettings,
         );
       case Routes.printerSettings:
