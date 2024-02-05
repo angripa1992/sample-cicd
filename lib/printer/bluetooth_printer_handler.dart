@@ -79,7 +79,7 @@ class BluetoothPrinterHandler {
   Future<bool> autoConnectDevice() async {
     PrinterSetting printerSetting = _createPrinterSettingFromLocalVariables();
     if (isConnected()) {
-      await PrinterManager.instance.disconnect(type: PrinterType.bluetooth);
+      return true;
     }
     try {
       await PrinterManager.instance.connect(

@@ -78,11 +78,12 @@ class UsbPrinterHandler {
   }
 
   Future<bool> autoConnectDevice() async {
-    PrinterSetting printerSetting = _createPrinterSettingFromLocalVariables();
-    if (PrinterManager.instance.currentStatusUSB == USBStatus.connected) {
-      await PrinterManager.instance.disconnect(type: PrinterType.usb);
+    if (isConnected()) {
+      return true;
     }
     try {
+      PrinterSetting printerSetting = _createPrinterSettingFromLocalVariables();
+      print(printerSetting.toJson());
       await PrinterManager.instance.connect(
         type: PrinterType.usb,
         model: UsbPrinterInput(
