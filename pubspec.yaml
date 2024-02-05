@@ -84,6 +84,7 @@ flutter:
     - assets/images/3.0x/
     - assets/images/4.0x/
     - assets/docket_fonts/
+    - assets/env/
 
   fonts:
     - family: Inter
