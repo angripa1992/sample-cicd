@@ -83,7 +83,6 @@ class UsbPrinterHandler {
     }
     try {
       PrinterSetting printerSetting = _createPrinterSettingFromLocalVariables();
-      print(printerSetting.toJson());
       await PrinterManager.instance.connect(
         type: PrinterType.usb,
         model: UsbPrinterInput(
