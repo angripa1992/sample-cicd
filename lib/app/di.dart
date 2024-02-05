@@ -234,6 +234,7 @@ Future<void> registerBackground(EnvironmentVariables environmentVariables) async
     getIt.registerSingleton<EnvironmentVariables>(environmentVariables);
   }
   await registerLocalDB();
+  await getIt.get<AppPreferences>().reload();
 
   if (!getIt.isRegistered<DeviceInfoProvider>()) {
     getIt.registerSingleton<DeviceInfoProvider>(DeviceInfoProvider());

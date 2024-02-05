@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
 import 'package:klikit/notification/local_notification_service.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../app/app_preferences.dart';
 import '../app/constants.dart';
@@ -60,21 +64,9 @@ class FcmService {
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await registerLocalDB();
-  await getIt.get<AppPreferences>().reload();
+  var localEnv = await getLocalEnv();
+  await registerBackground(localEnv);
 
-  final env = EnvironmentVariables(
-    baseUrl: 'https://api.dev.shadowchef.co',
-    cdnUrl: 'https://cdn.dev.shadowchef.co',
-    consumerUrl: 'https://consumer.dev.shadowchef.co',
-    segmentWriteKey: 'alQxTlFDYkl3TklCS2NiTll2UlNmTUhDTGs2dmxoRDQ=',
-    slackUrl: 'https://hooks.slack.com/services/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',
-    zohoAppKey: 'FlIXMZG3VUtYzlN8MUemAXC8RKrBKQds1Er4rWZQvv5GPkjAZYzxQ9OtSvBx7ai6',
-    zohoAppAccessKey: 'Bb4BMRwMkXxb0xiK51IrfVDBXngyqVP07gWLRP54XhSACzcKVaDd47isUNyi6L456fRkg%2BQnMmmgACtXYjw61SCASk1cMZAB7xW4NBovvWUIRxvXqHdYyyxtI%2FrBT97g',
-  );
-
-  final environmentVariables = await EnvManager().fetchEnv(env);
-  await registerBackground(environmentVariables);
   if (SessionManager().notificationEnable()) {
     LocalNotificationService().showNotification(
       payload: message.data,
@@ -89,4 +81,32 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       }
     });
   }
+}
+
+Future <EnvironmentVariables> getLocalEnv() async {
+  String? envResp;
+
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  switch (packageInfo.packageName) {
+    case AppConstant.devAppId:
+      envResp = await rootBundle.loadString('assets/env/env-dev.json');
+      break;
+
+    case AppConstant.stagingAppId:
+      envResp = await rootBundle.loadString('assets/env/env-staging.json');
+      break;
+
+    case AppConstant.prodAppId:
+      envResp = await rootBundle.loadString('assets/env/env-prod.json');
+      break;
+    default:
+      envResp = await rootBundle.loadString('assets/env/env-prod.json');
+      break;
+  }
+
+  final data = await json.decode(envResp);
+
+  EnvironmentVariables env = EnvironmentVariablesModel.fromJson(data).toEntity();
+  final localEnv = await EnvManager().fetchEnv(env);
+  return localEnv;
 }

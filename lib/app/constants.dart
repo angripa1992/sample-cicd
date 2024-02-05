@@ -7,6 +7,9 @@ class AppConstant {
   static const String supportMail = "help@klikit.io";
   static const int refreshTime = 30;
   static const int busyTimeInMin = 60;
+  static const String devAppId = "io.klikit.enterprise.dev";
+  static const String stagingAppId = "io.klikit.enterprise.staging";
+  static const String prodAppId = "io.klikit.cloud";
 }
 
 class UserRole {
