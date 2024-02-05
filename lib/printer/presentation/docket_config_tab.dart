@@ -132,7 +132,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                 children: [
                   SetPrinterConnectionType(
                     initType: _connectionType,
-                    willUsbEnabled: true,
+                    isDocket: true,
                     onChanged: (type) {
                       _connectionType = type;
                       _connectionStateListener.value = type;
@@ -193,7 +193,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
               child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
                 listener: (context, state) {
                   _saveButtonController.setLoaded(state is! Loading);
-
                   if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
                   } else if (state is Success<ActionSuccess>) {
@@ -219,7 +218,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                 valueListenable: _connectionStateListener,
                 builder: (_, value, __) {
                   _showDevicesController.setEnabled(_appPreferences.printerSetting().type == value);
-
                   return KTButton(
                     controller: _showDevicesController,
                     prefixWidget: Icon(_appPreferences.printerSetting().type == CType.BLE ? Icons.bluetooth : Icons.usb),

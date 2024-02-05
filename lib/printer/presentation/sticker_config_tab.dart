@@ -105,7 +105,7 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
   Widget _body() => Column(
         children: [
           SetPrinterConnectionType(
-            willUsbEnabled: false,
+            isDocket: false,
             initType: _stickerPrinterEnabled ? CType.BLE : CType.USB,
             onChanged: (type) {
               _stickerPrinterEnabled = type == CType.BLE;
