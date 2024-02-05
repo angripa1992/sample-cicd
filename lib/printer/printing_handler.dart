@@ -74,7 +74,7 @@ class PrintingHandler {
     }
   }
 
-  void printDocket({required Order order, bool isAutoPrint = false, bool willPrintSticker = true}) async {
+  void printDocket({required Order order, bool isAutoPrint = false, bool willPrintSticker = true, bool fromBackground = false}) async {
     if (await _isPermissionGranted()) {
       if (SessionManager().isSunmiDevice()) {
         if (isAutoPrint) {
@@ -96,9 +96,14 @@ class PrintingHandler {
             _doManualPrint(order);
           }
         } else {
-          await BluetoothPrinterHandler().autoConnectDevice();
-          printDocket(order: order, isAutoPrint: true);
-          // showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
+          if(fromBackground && isAutoPrint) {
+            await BluetoothPrinterHandler().autoConnectDevice();
+            _bluetoothAutoPrint(order);
+          } else {
+            showErrorSnackBar(
+                RoutesGenerator.navigatorKey.currentState!.context,
+                AppStrings.bluetooth_not_connected.tr());
+          }
         }
       } else {
         if (UsbPrinterHandler().isConnected()) {
@@ -108,7 +113,14 @@ class PrintingHandler {
             _doManualPrint(order);
           }
         } else {
-          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.usb_not_connected.tr());
+          if (fromBackground && isAutoPrint) {
+            await UsbPrinterHandler().autoConnectDevice();
+            _usbAutoPrint(order);
+          } else {
+            showErrorSnackBar(
+                RoutesGenerator.navigatorKey.currentState!.context,
+                AppStrings.usb_not_connected.tr());
+          }
         }
       }
     }

@@ -114,7 +114,10 @@ class AppPreferences {
         ),
         fontId: PrinterFontSize.normal,
         stickerPrinterEnabled: false,
-        deviceId: EMPTY
+        deviceId: EMPTY,
+        deviceNane: EMPTY,
+        productId: EMPTY,
+        vendorId: EMPTY,
       );
     }
     final data = json.decode(preferenceData);

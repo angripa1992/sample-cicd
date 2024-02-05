@@ -46,6 +46,9 @@ class BluetoothPrinterHandler {
       fontId: printerSetting.fontId,
       stickerPrinterEnabled: printerSetting.stickerPrinterEnabled,
       deviceId: printerSetting.deviceId,
+      deviceNane: printerSetting.deviceNane,
+      productId: printerSetting.productId,
+      vendorId: printerSetting.vendorId,
     );
   }
 

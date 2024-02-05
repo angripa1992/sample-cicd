@@ -100,6 +100,9 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
       fontId: _printerFontId,
       stickerPrinterEnabled: _appPreferences.printerSetting().stickerPrinterEnabled,
       deviceId: _appPreferences.printerSetting().deviceId,
+      deviceNane: _appPreferences.printerSetting().deviceNane,
+      productId: _appPreferences.printerSetting().productId,
+      vendorId: _appPreferences.printerSetting().vendorId,
     );
   }
 

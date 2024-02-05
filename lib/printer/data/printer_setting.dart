@@ -28,6 +28,13 @@ class PrinterSettingModel {
   int? fontId;
   @JsonKey(name: 'device_id')
   String? deviceId;
+  @JsonKey(name: 'device_name')
+  String? deviceName;
+  @JsonKey(name: 'product_id')
+  String? productId;
+  @JsonKey(name: 'vendor_id')
+  String? vendorId;
+
   PrinterFontsModel? fonts;
 
   PrinterSettingModel({
@@ -41,6 +48,9 @@ class PrinterSettingModel {
     this.fonts,
     this.fontId,
     this.deviceId,
+    this.deviceName,
+    this.productId,
+    this.vendorId,
   });
 
   factory PrinterSettingModel.fromJson(Map<String, dynamic> json) =>
@@ -59,6 +69,9 @@ class PrinterSettingModel {
       customerCopyCount: customerCopyCount.orZero(),
       kitchenCopyCount: kitchenCopyCount.orZero(),
       deviceId: deviceId.orEmpty(),
+      deviceNane: deviceName.orEmpty(),
+      productId: productId.orEmpty(),
+      vendorId: vendorId.orEmpty(),
       fonts: fonts?.toEntity() ??
           PrinterFonts(
             smallFontSize: NormalFontSize.small,
@@ -131,6 +144,13 @@ class PrinterSetting {
   int fontId;
   @JsonKey(name: 'device_id')
   String? deviceId;
+  @JsonKey(name: 'device_name')
+  String? deviceNane;
+  @JsonKey(name: 'product_id')
+  String? productId;
+  @JsonKey(name: 'vendor_id')
+  String? vendorId;
+
   PrinterFonts? fonts;
 
   PrinterSetting({
@@ -144,6 +164,9 @@ class PrinterSetting {
     required this.kitchenCopyCount,
     required this.fontId,
     required this.deviceId,
+    required this.deviceNane,
+    required this.productId,
+    required this.vendorId,
     required this.fonts,
   });
 

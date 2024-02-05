@@ -77,7 +77,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       );
       if (order != null && order.status == OrderStatus.ACCEPTED) {
         var printingHandler = getIt.get<PrintingHandler>();
-        printingHandler.printDocket(order: order, isAutoPrint: true);
+        printingHandler.printDocket(order: order, isAutoPrint: true, fromBackground: true);
       }
     });
   }
