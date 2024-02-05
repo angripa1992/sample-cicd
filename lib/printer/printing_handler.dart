@@ -21,6 +21,7 @@ import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
 import 'package:klikit/printer/data/printer_data_provider.dart';
 import 'package:klikit/printer/data/sticker_docket_generator.dart';
+import 'package:klikit/printer/network_printer_handler.dart';
 import 'package:klikit/printer/presentation/device_list_bottom_sheet.dart';
 import 'package:klikit/printer/presentation/select_docket_type_dialog.dart';
 import 'package:klikit/printer/sticker_printer_handler.dart';
@@ -74,6 +75,15 @@ class PrintingHandler {
   }
 
   void printDocket({required Order order, bool isAutoPrint = false, bool willPrintSticker = true}) async {
+    // print('ip address : ${SessionManager().printerIpAddress()}');
+    if (SessionManager().printerIpAddress().isNotEmpty) {
+      if (isAutoPrint) {
+        await _ipAutoPrint(order);
+      } else {
+        _ipManualPrint(order);
+      }
+      return;
+    }
     if (await _isPermissionGranted()) {
       if (SessionManager().isSunmiDevice()) {
         if (isAutoPrint) {
@@ -356,4 +366,54 @@ class PrintingHandler {
       extraLargeFontSize: font.extraLargeFontSize.toDouble(),
     );
   }
+
+  Future<void> _ipAutoPrint(Order order) async {
+
+    final printerSetting = _preferences.printerSetting();
+    final printerIpAddress = _preferences.getPrinterIpAddress();
+    final customerCopy = await _generateDocketTicket(
+      order: order,
+      docketType: DocketType.customer,
+      printingType: PrintingType.auto,
+    );
+    final kitchenCopy = await _generateDocketTicket(
+      order: order,
+      docketType: DocketType.kitchen,
+      printingType: PrintingType.auto,
+    );
+    if (printerSetting.customerCopyEnabled) {
+      if (customerCopy != null) {
+        for (int i = 0; i < printerSetting.customerCopyCount; i++) {
+          await NetworkPrinterHandler().doPrint(customerCopy,printerIpAddress!);
+        }
+      }
+    }
+    if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
+      if (kitchenCopy != null) {
+        for (int i = 0; i < printerSetting.kitchenCopyCount; i++) {
+          await NetworkPrinterHandler().doPrint(kitchenCopy,printerIpAddress!);
+        }
+      }
+    }
+  }
+  void _ipManualPrint(Order order) {
+    showSelectDocketTypeDialog(
+      onSelect: (type) async {
+        final printingData = await _generateDocketTicket(
+          order: order,
+          docketType: type,
+          printingType: PrintingType.manual,
+        );
+
+          final printerIpAddress = _preferences.getPrinterIpAddress();
+        // final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder,
+        //   roll: rollSize,
+        //   printingType: PrintingType.manual,
+        //   isConsumerCopy: type == DocketType.customer,);
+        await NetworkPrinterHandler().doPrint(printingData!,printerIpAddress!);
+
+      },
+    );
+  }
+
 }

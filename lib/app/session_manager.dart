@@ -113,6 +113,8 @@ class SessionManager {
 
   String userDisplayRole() => _user?.displayRoles.first ?? EMPTY;
 
+  String printerIpAddress() => _appPreferences.getPrinterIpAddress() ?? '';
+
   Future<void> logout() async {
     CartManager().clear();
     await setLoginState(isLoggedIn: false);
