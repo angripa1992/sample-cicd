@@ -66,6 +66,13 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
             onChanged: _changePrinterConnectionType,
             name: AppStrings.bluetooth.tr(),
           ),
+          if (!widget.isDocket)
+            PrinterSettingRadioItem(
+              value: CType.DISABLED,
+              groupValue: _connectionType!,
+              onChanged: _changePrinterConnectionType,
+              name: AppStrings.disable.tr(),
+            ),
           if (widget.isDocket)
             PrinterSettingRadioItem(
               value: CType.USB,

@@ -151,6 +151,7 @@ class NotificationType {
 }
 
 class CType {
+  static const DISABLED = 0;
   static const BLE = 1;
   static const USB = 2;
   static const WIFI = 3;

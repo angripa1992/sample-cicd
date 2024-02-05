@@ -71,7 +71,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     _kitchenCopyCount = printerSetting.kitchenCopyCount;
     _printerFontId = printerSetting.fontId;
     _connectionStateListener = ValueNotifier(_connectionType);
-    _printerIpAddress=_appPreferences.getPrinterIpAddress()??'';
+    _printerIpAddress = _appPreferences.getPrinterIpAddress() ?? '';
   }
 
   void _savePrinterSettingLocally({PrinterSetting? savingData}) async {
@@ -140,7 +140,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                   ),
                   SetPrinterAddressText(
                     address: _printerIpAddress,
-                    onSaved: (txt){
+                    onSaved: (txt) {
                       _printerIpAddress = txt;
                     },
                   ),
@@ -220,7 +220,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                   _showDevicesController.setEnabled(_appPreferences.printerSetting().type == value);
                   return KTButton(
                     controller: _showDevicesController,
-                    prefixWidget: Icon(_appPreferences.printerSetting().type == CType.BLE ? Icons.bluetooth : Icons.usb),
+                    prefixWidget: Icon(_buttonIcon(), size: 20.rSp),
                     backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
                     labelStyle: mediumTextStyle(),
                     splashColor: AppColors.greyBright,
@@ -234,4 +234,16 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
           ],
         ),
       );
+
+  IconData _buttonIcon() {
+    final type = _appPreferences.printerSetting().type;
+    switch (type) {
+      case CType.BLE:
+        return Icons.bluetooth;
+      case CType.USB:
+        return Icons.usb;
+      default:
+        return Icons.wifi;
+    }
+  }
 }

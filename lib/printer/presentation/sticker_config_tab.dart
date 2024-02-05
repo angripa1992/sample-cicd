@@ -106,9 +106,9 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
         children: [
           SetPrinterConnectionType(
             isDocket: false,
-            initType: _stickerPrinterEnabled ? CType.BLE : CType.USB,
+            initType: _stickerPrinterEnabled ? CType.BLE : CType.DISABLED,
             onChanged: (type) {
-              _stickerPrinterEnabled = type == CType.BLE;
+              _stickerPrinterEnabled = (type == CType.BLE);
               _stickerPrinterStateListener.value = _stickerPrinterEnabled;
             },
           ),
@@ -126,7 +126,6 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
               child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
                 listener: (context, state) {
                   _saveButtonController.setLoaded(state is! Loading);
-
                   if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
                   } else if (state is Success<ActionSuccess>) {
@@ -152,10 +151,12 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
                 valueListenable: _stickerPrinterStateListener,
                 builder: (_, value, __) {
                   showDevicesController.setEnabled(_appPreferences.printerSetting().stickerPrinterEnabled);
-
                   return KTButton(
                     controller: showDevicesController,
-                    prefixWidget: Icon(_appPreferences.printerSetting().stickerPrinterEnabled ? Icons.bluetooth : Icons.bluetooth_disabled),
+                    prefixWidget: Icon(
+                      _appPreferences.printerSetting().stickerPrinterEnabled ? Icons.bluetooth : Icons.bluetooth_disabled,
+                      size: 20.rSp,
+                    ),
                     backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
                     labelStyle: mediumTextStyle(),
                     splashColor: AppColors.greyBright,

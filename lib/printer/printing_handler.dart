@@ -70,6 +70,9 @@ class PrintingHandler {
             showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.can_not_connect_device.tr());
           }
         },
+        onConnectIP: (ip) {
+
+        },
       );
     }
   }
@@ -143,8 +146,8 @@ class PrintingHandler {
               await BluetoothPrinterHandler().printDocket(printingData);
             } else if (_preferences.printerSetting().type == CType.WIFI) {
               final printerIpAddress = _preferences.getPrinterIpAddress();
-             // await NetworkPrinterHandler().doPrint(printingData, '192.168.20.43');
-              await NetworkPrinterHandler().doPrint(printingData,printerIpAddress!);
+              // await NetworkPrinterHandler().doPrint(printingData, '192.168.20.43');
+              await NetworkPrinterHandler().doPrint(printingData, printerIpAddress!);
             } else {
               await UsbPrinterHandler().printDocket(printingData);
             }
