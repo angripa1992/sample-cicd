@@ -99,4 +99,10 @@ class ImageResourceResolver {
   static SVGImageResource get rightArrowSmSVG => SVGImageResource('$iconBasePath/ic_sm_right_arrow.svg');
 
   static SVGImageResource get calendarSVG => SVGImageResource('$iconBasePath/ic_calendar.svg');
+
+  static SVGImageResource get qrisSloganSVG => SVGImageResource('$imageBasePath/qris_slogan.svg');
+
+  static SVGImageResource get gpnLogoSVG => SVGImageResource('$iconBasePath/ic_gpn_logo.svg');
+
+  static SVGImageResource get cimbPaymentBgSVG => SVGImageResource('$imageBasePath/cimb_payment_bg.svg');
 }
