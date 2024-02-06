@@ -119,12 +119,20 @@ class PrintingHandler {
         if (SessionManager().isSunmiDevice()) {
           final rollSize = _preferences.printerSetting().paperSize.toRollSize();
           final templateOrder = await _generateTemplateOrder(order);
-          await SunmiDesignTemplate().printSunmi(
-            order: templateOrder,
-            isCustomerCopy: type == DocketType.customer,
-            roll: rollSize,
-            printingType: PrintingType.manual,
-          );
+          // await SunmiDesignTemplate().printSunmi(
+          //   order: templateOrder,
+          //   printerConfiguration: PrinterConfiguration(
+          //     docket: Docket.customer,
+          //     roll: rollSize,
+          //     fontSize: _printerFonts(),
+          //     printingType: PrintingType.manual,
+          //   ),
+          //   fontId: _preferences.printerSetting().fontId,
+          // );
+
+          var printerAddress = _preferences.getPrinterAddress();
+          final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder, roll: rollSize, printingType: PrintingType.manual, isConsumerCopy: type == DocketType.customer);
+          await BluetoothPrinterHandler().print(printingData!, printerAddress);
         } else if (SessionManager().getActiveDevice() == Device.imin) {
           final rollSize = _preferences.printerSetting().paperSize.toRollSize();
           var printerAddress = _preferences.getPrinterAddress();
@@ -208,18 +216,26 @@ class PrintingHandler {
       for (int i = 0; i < printerSetting.customerCopyCount; i++) {
         await SunmiDesignTemplate().printSunmi(
           order: templateOrder,
-          isCustomerCopy: true,
-          roll: rollSize,
-          printingType: PrintingType.auto,
+          printerConfiguration: PrinterConfiguration(
+            docket: Docket.customer,
+            roll: rollSize,
+            fontSize: _printerFonts(),
+            printingType: PrintingType.auto,
+          ),
+          fontId: printerSetting.fontId,
         );
       }
     }
     if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
       await SunmiDesignTemplate().printSunmi(
         order: templateOrder,
-        isCustomerCopy: false,
-        roll: rollSize,
-        printingType: PrintingType.auto,
+        printerConfiguration: PrinterConfiguration(
+          docket: Docket.kitchen,
+          roll: rollSize,
+          fontSize: _printerFonts(),
+          printingType: PrintingType.auto,
+        ),
+        fontId: printerSetting.fontId,
       );
     }
   }
