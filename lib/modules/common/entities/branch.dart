@@ -37,6 +37,8 @@ class Branch {
   final String webshopCustomFeesTitle;
   final bool mergeFeeEnabled;
   final String mergeFeeTitle;
+  final bool prePaymentEnabled;
+  final bool postPaymentEnabled;
 
   Branch({
     required this.id,
@@ -77,6 +79,8 @@ class Branch {
     required this.webshopCustomFeesTitle,
     required this.mergeFeeEnabled,
     required this.mergeFeeTitle,
+    required this.prePaymentEnabled,
+    required this.postPaymentEnabled,
   });
 
   Map<String, dynamic> toJson() {
@@ -119,6 +123,8 @@ class Branch {
     map['webshop_custom_fees_title'] = webshopCustomFeesTitle;
     map['merge_fees_enabled'] = mergeFeeEnabled;
     map['merge_fees_title'] = mergeFeeTitle;
+    map['pre_payment_enabled'] = prePaymentEnabled;
+    map['post_payment_enabled'] = postPaymentEnabled;
     return map;
   }
 }

@@ -5,7 +5,7 @@ import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/checkout/payment_method_card.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/payment_method_card.dart';
 import 'package:klikit/modules/common/entities/payment_info.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
