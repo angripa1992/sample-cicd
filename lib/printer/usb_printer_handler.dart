@@ -1,5 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
+import 'package:klikit/core/network/error_handler.dart';
+import 'package:klikit/core/route/routes_generator.dart';
+import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/resources/strings.dart';
 
 class UsbPrinterHandler {
   static final UsbPrinterHandler _instance = UsbPrinterHandler._internal();
@@ -44,10 +49,14 @@ class UsbPrinterHandler {
   }
 
   Future<void> printDocket(List<int> data) async {
-    try {
-      await PrinterManager.instance.send(type: PrinterType.usb, bytes: data);
-    } on PlatformException {
-      //ignored
+    if (isConnected()) {
+      try {
+        await PrinterManager.instance.send(type: PrinterType.usb, bytes: data);
+      } on PlatformException {
+        showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, ResponseMessage.DEFAULT);
+      }
+    } else {
+      showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.usb_not_connected.tr());
     }
   }
 }

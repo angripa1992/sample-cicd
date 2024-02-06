@@ -70,44 +70,41 @@ class PrintingHandler {
             showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.can_not_connect_device.tr());
           }
         },
-        onConnectIP: (ip) {
-
-        },
+        onConnectIP: (ip) {},
       );
     }
   }
 
-  void printDocket({required Order order, bool isAutoPrint = false, bool willPrintSticker = true}) async {
+  void printDocket({
+    required Order order,
+    bool isAutoPrint = false,
+    bool willPrintSticker = true,
+  }) async {
     if (await _isPermissionGranted()) {
-      if (SessionManager().isSunmiDevice()) {
+      if (SessionManager().activeDevice() == Device.sunmi) {
         if (isAutoPrint) {
           await _sunmiAutoPrint(order);
         } else {
           _doManualPrint(order);
         }
-      } else if (SessionManager().getActiveDevice() == Device.imin) {
+      } else if (SessionManager().activeDevice() == Device.imin) {
         if (isAutoPrint) {
           await _iminAutoPrint(order);
         } else {
           _doManualPrint(order);
         }
-      } else if (_preferences.printerSetting().type == CType.BLE) {
-        if (BluetoothPrinterHandler().isConnected()) {
-          if (isAutoPrint) {
-            _bluetoothAutoPrint(order);
-          } else {
-            _doManualPrint(order);
-          }
-        } else {
-          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
-        }
-      } else if (_preferences.printerSetting().type == CType.WIFI) {
-        if (isAutoPrint) {
-          _ipAutoPrint(order);
-        } else {
-          _doManualPrint(order);
-        }
       } else {
+        _handleAndroidDevicePrint(order: order, isAutoPrint: isAutoPrint);
+      }
+    }
+  }
+
+  void _handleAndroidDevicePrint({
+    required Order order,
+    bool isAutoPrint = false,
+  }) {
+    switch (_preferences.printerSetting().type) {
+      case CType.USB:
         if (UsbPrinterHandler().isConnected()) {
           if (isAutoPrint) {
             _usbAutoPrint(order);
@@ -117,7 +114,24 @@ class PrintingHandler {
         } else {
           showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.usb_not_connected.tr());
         }
-      }
+        break;
+      case CType.WIFI:
+        if (isAutoPrint) {
+          _ipAutoPrint(order);
+        } else {
+          _doManualPrint(order);
+        }
+        break;
+      default:
+        if (BluetoothPrinterHandler().isConnected()) {
+          if (isAutoPrint) {
+            _bluetoothAutoPrint(order);
+          } else {
+            _doManualPrint(order);
+          }
+        } else {
+          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
+        }
     }
   }
 
@@ -125,7 +139,7 @@ class PrintingHandler {
     showSelectDocketTypeDialog(
       onSelect: (type) async {
         final templateOrder = await _generateTemplateOrder(order);
-        if (SessionManager().isSunmiDevice()) {
+        if (SessionManager().activeDevice() == Device.sunmi) {
           final rollSize = _preferences.printerSetting().paperSize.toRollSize();
           final templateOrder = await _generateTemplateOrder(order);
           await SunmiDesignTemplate().printSunmi(
@@ -134,10 +148,15 @@ class PrintingHandler {
             roll: rollSize,
             printingType: PrintingType.manual,
           );
-        } else if (SessionManager().getActiveDevice() == Device.imin) {
+        } else if (SessionManager().activeDevice() == Device.imin) {
           final rollSize = _preferences.printerSetting().paperSize.toRollSize();
           var printerAddress = _preferences.getPrinterAddress();
-          final printingData = await CommonDesignTemplate().generateTicket(order: templateOrder, roll: rollSize, printingType: PrintingType.manual, isConsumerCopy: type == DocketType.customer);
+          final printingData = await CommonDesignTemplate().generateTicket(
+            order: templateOrder,
+            roll: rollSize,
+            printingType: PrintingType.manual,
+            isConsumerCopy: type == DocketType.customer,
+          );
           await BluetoothPrinterHandler().print(printingData!, printerAddress);
         } else {
           final printingData = await _generateDocketTicket(order: order, docketType: type, printingType: PrintingType.manual);
@@ -145,9 +164,7 @@ class PrintingHandler {
             if (_preferences.printerSetting().type == CType.BLE) {
               await BluetoothPrinterHandler().printDocket(printingData);
             } else if (_preferences.printerSetting().type == CType.WIFI) {
-              final printerIpAddress = _preferences.getPrinterIpAddress();
-              // await NetworkPrinterHandler().doPrint(printingData, '192.168.20.43');
-              await NetworkPrinterHandler().doPrint(printingData, printerIpAddress!);
+              await NetworkPrinterHandler().doPrint(printingData, SessionManager().wifiPrinterIPAddress());
             } else {
               await UsbPrinterHandler().printDocket(printingData);
             }
@@ -245,8 +262,6 @@ class PrintingHandler {
     if (printerSetting.customerCopyEnabled) {
       for (int i = 0; i < printerSetting.customerCopyCount; i++) {
         final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-        // final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-
         final printingData = await CommonDesignTemplate().generateTicket(
           order: templateOrder,
           roll: rollSize,
@@ -306,35 +321,36 @@ class PrintingHandler {
   }
 
   void printZReport(ZReportData model, DateTime reportDate, {DateTime? reportEndDate}) async {
-    if (SessionManager().getActiveDevice() == Device.imin) {
+    if (SessionManager().activeDevice() == Device.imin) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
       final printerAddress = _preferences.getPrinterAddress();
       final data = await ZReportDataProvider().generateTemplateData(model, reportDate);
       var printingData = await CommonZReportTemplate().generateZTicket(data: data, roll: rollSize);
       await BluetoothPrinterHandler().print(printingData, printerAddress);
-    } else if (SessionManager().isSunmiDevice()) {
+    } else if (SessionManager().activeDevice() == Device.sunmi) {
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
       final data = await ZReportDataProvider().generateTemplateData(model, reportDate, reportEndTime: reportEndDate);
       await SunmiZReportPrinter().printZReport(data, rollSize);
     } else if (await _isPermissionGranted()) {
-      if (_preferences.printerSetting().type == CType.BLE) {
-        if (BluetoothPrinterHandler().isConnected()) {
-          final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
-          if (printingData != null) {
-            await BluetoothPrinterHandler().printDocket(printingData);
-          }
-        } else {
-          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
-        }
-      } else {
-        if (UsbPrinterHandler().isConnected()) {
-          final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
-          if (printingData != null) {
+      final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
+      if (printingData == null) return;
+      switch (_preferences.printerSetting().type) {
+        case CType.WIFI:
+          await NetworkPrinterHandler().doPrint(printingData, SessionManager().wifiPrinterIPAddress());
+          break;
+        case CType.USB:
+          if (UsbPrinterHandler().isConnected()) {
             await UsbPrinterHandler().printDocket(printingData);
+          } else {
+            showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.usb_not_connected.tr());
           }
-        } else {
-          showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.usb_not_connected.tr());
-        }
+          break;
+        default:
+          if (BluetoothPrinterHandler().isConnected()) {
+            await BluetoothPrinterHandler().printDocket(printingData);
+          } else {
+            showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.bluetooth_not_connected.tr());
+          }
       }
     }
   }

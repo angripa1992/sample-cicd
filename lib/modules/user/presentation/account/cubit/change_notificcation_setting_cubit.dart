@@ -16,7 +16,7 @@ class ChangeNotificationSettingCubit extends Cubit<ResponseState> {
       "user_id": SessionManager().user()!.id,
       "order_notification_enabled": enable,
     };
-    final response = await _repository.changeSettings(params);
+    final response = await _repository.changeUserSettings(params);
     response.fold(
       (error) {
         emit(Failed(error));

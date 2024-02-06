@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/set_printer_connection_type.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
@@ -91,7 +92,7 @@ class _StickerConfigTabState extends State<StickerConfigTab> {
     return BlocBuilder<PrinterSettingCubit, ResponseState>(
       builder: (_, state) {
         if (state is Loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgress());
         } else if (state is Success<PrinterSetting>) {
           _savePrinterSettingLocally(savingData: state.data);
           _initPrinterSetting();

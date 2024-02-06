@@ -2,20 +2,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 
 class BluetoothPrinterHandler {
-  static final BluetoothPrinterHandler _instance =
-      BluetoothPrinterHandler._internal();
+  static final BluetoothPrinterHandler _instance = BluetoothPrinterHandler._internal();
 
   factory BluetoothPrinterHandler() => _instance;
 
   BluetoothPrinterHandler._internal();
 
-  bool isConnected() =>
-      PrinterManager.instance.currentStatusBT == BTStatus.connected;
+  bool isConnected() => PrinterManager.instance.currentStatusBT == BTStatus.connected;
 
   Future<List<PrinterDevice>> getDevices() async {
     final scanResults = <PrinterDevice>[];
-    final subscription =
-        PrinterManager.instance.discovery(type: PrinterType.bluetooth).listen(
+    final subscription = PrinterManager.instance.discovery(type: PrinterType.bluetooth).listen(
       (event) {
         scanResults.add(event);
       },
@@ -44,28 +41,21 @@ class BluetoothPrinterHandler {
 
   Future<void> printDocket(List<int> data) async {
     try {
-      await PrinterManager.instance
-          .send(type: PrinterType.bluetooth, bytes: data);
+      await PrinterManager.instance.send(type: PrinterType.bluetooth, bytes: data);
     } on PlatformException {
       //ignored
     }
-
   }
 
   Future<void> print(List<int> data, Map printerAddress) async {
     try {
-
       if (isConnected()) {
         await PrinterManager.instance.disconnect(type: PrinterType.bluetooth);
       }
-
       await connect(PrinterDevice(name: printerAddress['name'], address: printerAddress['address']));
-
-      await PrinterManager.instance
-          .send(type: PrinterType.bluetooth, bytes: data);
+      await PrinterManager.instance.send(type: PrinterType.bluetooth, bytes: data);
     } on PlatformException {
       //ignored
     }
-
   }
 }

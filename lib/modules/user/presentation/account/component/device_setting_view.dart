@@ -9,13 +9,11 @@ import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/resources/decorations.dart';
 
-import '../../../../../app/app_preferences.dart';
 import '../../../../../core/utils/response_state.dart';
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
-import '../../../../../resources/values.dart';
 import '../../../domain/entities/success_response.dart';
 import '../cubit/device_setting_cubit.dart';
 
@@ -27,20 +25,14 @@ class DeviceSettingScreen extends StatefulWidget {
 }
 
 class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
-  final _devices = [Device.android, Device.sunmi,Device.imin];
-  int? _device;
-  final Map _devicesDetail = {
-    Device.android: 'Android',
-    Device.sunmi: 'Sunmi',
-    Device.imin: 'Imin'
-  };
+  final _devices = [Device.android, Device.sunmi, Device.imin];
+  final Map _devicesDetail = {Device.android: 'Android', Device.sunmi: 'Sunmi', Device.imin: 'Imin'};
   final _updateButtonController = KTButtonController(label: AppStrings.update.tr());
+  int? _activeDevice;
 
   @override
   void initState() {
-    // final isSunmiDevice = SessionManager().isSunmiDevice();
-    // _device = isSunmiDevice ? Device.sunmi : Device.android;
-    _device = SessionManager().getActiveDevice();
+    _activeDevice = SessionManager().activeDevice();
     super.initState();
   }
 
@@ -52,21 +44,23 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            AppStrings.choose_device_type_to_connect_printer.tr(),
-            style: mediumTextStyle(
-              color: AppColors.black,
-              fontSize: AppFontSize.s16.rSp,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.rh),
+            child: Text(
+              AppStrings.choose_device_type_to_connect_printer.tr(),
+              style: mediumTextStyle(
+                color: AppColors.black,
+                fontSize: AppFontSize.s16.rSp,
+              ),
             ),
           ),
-          SizedBox(height: AppSize.s16.rh),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: _devices.map((device) {
               return ListTile(
                 contentPadding: EdgeInsets.fromLTRB(12.rw, 0, 8.rw, 0),
-                selected: _device == device,
+                selected: _activeDevice == device,
                 selectedTileColor: AppColors.neutralB20,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.rSp)),
                 title: Text(
@@ -78,17 +72,17 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                 ),
                 trailing: Radio<int>(
                   value: device,
-                  groupValue: _device,
+                  groupValue: _activeDevice,
                   activeColor: AppColors.primary,
                   onChanged: (value) {
                     setState(() {
-                      _device = device;
+                      _activeDevice = device;
                     });
                   },
                 ),
                 onTap: () {
                   setState(() {
-                    _device = device;
+                    _activeDevice = device;
                   });
                 },
               );
@@ -98,7 +92,6 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
           BlocConsumer<DeviceSettingCubit, ResponseState>(
             listener: (context, state) {
               _updateButtonController.setLoaded(state is! Loading);
-
               if (state is Failed) {
                 Navigator.pop(context, state.failure);
               } else if (state is Success<SuccessResponse>) {
@@ -113,8 +106,7 @@ class _DeviceSettingScreenState extends State<DeviceSettingScreen> {
                 progressPrimaryColor: AppColors.white,
                 verticalContentPadding: 10.rh,
                 onTap: () {
-                  context.read<DeviceSettingCubit>().changeSunmiDeviceSetting(_device == Device.sunmi);
-                  getIt<AppPreferences>().setActiveDevice(_device!);
+                  context.read<DeviceSettingCubit>().changeActiveDevice(_activeDevice ?? Device.android);
                 },
               );
             },

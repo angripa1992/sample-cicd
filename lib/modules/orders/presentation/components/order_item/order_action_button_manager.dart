@@ -1,7 +1,7 @@
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
 
-import '../../../../../app/constants.dart';
+import 'package:klikit/app/constants.dart';
 
 class OrderActionButtonManager {
   static final _instance = OrderActionButtonManager._internal();

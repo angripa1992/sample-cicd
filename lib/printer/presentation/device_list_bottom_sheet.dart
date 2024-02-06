@@ -56,7 +56,6 @@ class DeviceListBottomSheetManager {
     showModalBottomSheet<void>(
       context: RoutesGenerator.navigatorKey.currentState!.context,
       isDismissible: true,
-
       backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

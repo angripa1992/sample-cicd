@@ -90,7 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _saveUserSetting(UserInfo userInfo) async {
     await SessionManager().setNotificationEnabled(userInfo.orderNotificationEnabled);
-    await SessionManager().setSunmiDevice(userInfo.sunmiDevice);
+    //TODO: set device type instead
+    await SessionManager().setActiveDevice(Device.android);
   }
 
   Future _registerFcmTokenAndNavigateNextScreen(User user) async {

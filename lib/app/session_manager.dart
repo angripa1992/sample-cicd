@@ -30,25 +30,19 @@ class SessionManager {
     }
   }
 
+  Future<void> saveLastLoginEmail(String email) async => _appPreferences.saveLoginEmail(email);
+
+  Future<void> setLoginState({required bool isLoggedIn}) async => _appPreferences.setLoginState(isLoggedIn);
+
+  Future<void> setNotificationEnabled(bool enable) async => await _appPreferences.setNotificationEnable(enable);
+
+  Future<void> setWifiPrinterIPAddress(String ip) async => await _appPreferences.setPrinterIpAddress(ip);
+
+  Future<void> setActiveDevice(int device) async => await _appPreferences.setActiveDevice(device);
+
   Future<void> saveUser(UserInfo user) async {
     _appPreferences.saveUser(user);
     _user = _appPreferences.getUser();
-  }
-
-  Future<void> saveLastLoginEmail(String email) async {
-    _appPreferences.saveLoginEmail(email);
-  }
-
-  Future<void> setLoginState({required bool isLoggedIn}) async {
-    _appPreferences.setLoginState(isLoggedIn);
-  }
-
-  Future<void> setNotificationEnabled(bool enable) async {
-    await _appPreferences.setNotificationEnable(enable);
-  }
-
-  Future<void> setSunmiDevice(bool isSunmiDevice) async {
-    await _appPreferences.setSunmiDevice(isSunmiDevice);
   }
 
   Future<void> saveToken({
@@ -105,15 +99,13 @@ class SessionManager {
 
   bool notificationEnable() => _appPreferences.notificationEnable();
 
-  bool isSunmiDevice() => _appPreferences.sunmiDevice();
-
-  int getActiveDevice() => _appPreferences.activeDevice();
+  int activeDevice() => _appPreferences.activeDevice();
 
   int country() => _user?.countryIds.first ?? 0;
 
   String userDisplayRole() => _user?.displayRoles.first ?? EMPTY;
 
-  String printerIpAddress() => _appPreferences.getPrinterIpAddress() ?? '';
+  String wifiPrinterIPAddress() => _appPreferences.getPrinterIpAddress() ?? '';
 
   Future<void> logout() async {
     CartManager().clear();

@@ -5,6 +5,7 @@ import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
@@ -12,7 +13,6 @@ import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
 import 'package:klikit/printer/presentation/set_docket_type.dart';
 import 'package:klikit/printer/presentation/set_font_size.dart';
 import 'package:klikit/printer/presentation/set_paper_size.dart';
-import 'package:klikit/printer/presentation/set_printer_address.dart';
 import 'package:klikit/printer/presentation/set_printer_connection_type.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
 import 'package:klikit/printer/printing_handler.dart';
@@ -46,7 +46,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   late ValueNotifier<int> _connectionStateListener;
   final _showDevicesController = KTButtonController(label: AppStrings.show_devices.tr());
   final _saveButtonController = KTButtonController(label: AppStrings.save.tr());
-  late String _printerIpAddress;
 
   @override
   void initState() {
@@ -71,7 +70,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     _kitchenCopyCount = printerSetting.kitchenCopyCount;
     _printerFontId = printerSetting.fontId;
     _connectionStateListener = ValueNotifier(_connectionType);
-    _printerIpAddress = _appPreferences.getPrinterIpAddress() ?? '';
   }
 
   void _savePrinterSettingLocally({PrinterSetting? savingData}) async {
@@ -85,10 +83,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   }
 
   void _updatePrinterSetting() {
-    _appPreferences.setPrinterIpAddress(_printerIpAddress);
-    context.read<UpdatePrinterSettingCubit>().updatePrintSetting(
-          printerSetting: _createPrinterSettingFromLocalVariables(true),
-        );
+    context.read<UpdatePrinterSettingCubit>().updatePrintSetting(printerSetting: _createPrinterSettingFromLocalVariables(true));
   }
 
   PrinterSetting _createPrinterSettingFromLocalVariables(bool isUpdating) {
@@ -111,7 +106,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     return BlocBuilder<PrinterSettingCubit, ResponseState>(
       builder: (_, state) {
         if (state is Loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgress());
         } else if (state is Success<PrinterSetting>) {
           _savePrinterSettingLocally(savingData: state.data);
           _initPrinterSetting();
@@ -136,12 +131,6 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                     onChanged: (type) {
                       _connectionType = type;
                       _connectionStateListener.value = type;
-                    },
-                  ),
-                  SetPrinterAddressText(
-                    address: _printerIpAddress,
-                    onSaved: (txt) {
-                      _printerIpAddress = txt;
                     },
                   ),
                   SizedBox(height: 4.rh),
