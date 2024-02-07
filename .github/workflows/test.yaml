@@ -15,7 +15,7 @@ jobs:
     - name: 'Checkout Flutter 2.18.5'
       shell: bash
       run: |
-        cd $FLUTTER_ROOT;
+        cd ${{ github.workspace }};
         git fetch --tags;
         git checkout 2.18.5;
         flutter --version;
