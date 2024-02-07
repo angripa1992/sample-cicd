@@ -17,7 +17,7 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '2.18.5'  # Adjust to the Flutter version you're using
-        channel: 'stable'
+        channel: 'b8f7f1f986'
     - name: 'Checkout Flutter 2.18.5'
       shell: bash
       run: |
