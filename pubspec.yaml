@@ -67,7 +67,7 @@ dependencies:
 
 dev_dependencies:
   flutter_test: any
-    sdk: flutter
+#    sdk: flutter
 
   flutter_lints: ^2.0.0
   build_runner: ^2.2.0
