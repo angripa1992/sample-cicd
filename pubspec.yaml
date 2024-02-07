@@ -61,7 +61,7 @@ dependencies:
 
   docket_design_template:
     git:
-      url: https://github.com/klikit/docket_design_template.git
+      url: https://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@github.com/klikit/docket_design_template.git
       ref: master
 
 dev_dependencies:
