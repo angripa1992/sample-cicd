@@ -1,0 +1,39 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.18.5'  # Adjust to the Flutter version you're using
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Build Windows executable
+      run: flutter build windows
+
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-build
+        path: build/windows
+
+    - name: Release on GitHub
+      id: release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/windows/**
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
