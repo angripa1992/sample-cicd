@@ -15,10 +15,12 @@ jobs:
     - name: 'Checkout Flutter 2.18.5'
       shell: bash
       run: |
+        echo $FLUTTER_HOME; 
+        flutter --version;
         cd $FLUTTER_HOME;
         git fetch --tags;
         git checkout 2.18.5;
-        flutter --version;
+        
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
