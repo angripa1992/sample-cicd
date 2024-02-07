@@ -60,7 +60,7 @@ dependencies:
   firebase_crashlytics: ^3.0.11
 
   docket_design_template:
-    path: docket_design_template
+    path: docket_design_template/
 #    git:
 #      url: https://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@github.com/klikit/docket_design_template.git
 #      ref: master
