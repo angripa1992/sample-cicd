@@ -12,6 +12,11 @@ jobs:
     steps:
     - name: Checkout code using action
       uses: actions/checkout@v2
+        
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '2.18.5'  # Adjust to the Flutter version you're using
     - name: 'Checkout Flutter 2.18.5'
       shell: bash
       run: |
@@ -20,11 +25,6 @@ jobs:
         cd $FLUTTER_HOME;
         git fetch --tags;
         git checkout 2.18.5;
-        
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '2.18.5'  # Adjust to the Flutter version you're using
 
     - name: Install dependencies
       run: flutter pub get
