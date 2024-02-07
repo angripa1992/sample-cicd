@@ -61,9 +61,9 @@ dependencies:
 
   docket_design_template:
     # path: docket_design_template
-  git:
-    url: https://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@github.com/klikit/docket_design_template.git
-    ref: master
+    git:
+      url: https://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@github.com/klikit/docket_design_template.git
+      ref: master
 
 dev_dependencies:
   flutter_test:
