@@ -100,3 +100,20 @@ Map<String, dynamic> _$PrinterFontsToJson(PrinterFonts instance) =>
       'large_font_size': instance.largeFontSize,
       'extra_large_font_size': instance.extraLargeFontSize,
     };
+
+LocalPrinter _$LocalPrinterFromJson(Map<String, dynamic> json) => LocalPrinter(
+      deviceType: json['device_type'] as int,
+      deviceAddress: json['device_address'] as String,
+      deviceName: json['device_name'] as String,
+      productId: json['product_id'] as String,
+      vendorId: json['vendor_id'] as String,
+    );
+
+Map<String, dynamic> _$LocalPrinterToJson(LocalPrinter instance) =>
+    <String, dynamic>{
+      'device_type': instance.deviceType,
+      'device_address': instance.deviceAddress,
+      'device_name': instance.deviceName,
+      'product_id': instance.productId,
+      'vendor_id': instance.vendorId,
+    };

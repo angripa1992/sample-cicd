@@ -16,6 +16,7 @@ import 'package:klikit/modules/widgets/url_text_button.dart';
 import 'package:klikit/notification/fcm_service.dart';
 import 'package:klikit/notification/fcm_token_manager.dart';
 import 'package:klikit/notification/notification_handler.dart';
+import 'package:klikit/printer/printer_local_data_manager.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/strings.dart';
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _saveUserSetting(UserInfo userInfo) async {
     await SessionManager().setNotificationEnabled(userInfo.orderNotificationEnabled);
-    await SessionManager().setSunmiDevice(userInfo.sunmiDevice);
+    await LocalPrinterDataManager().setActiveDevice(userInfo.printingDeviceId);
   }
 
   Future _registerFcmTokenAndNavigateNextScreen(User user) async {

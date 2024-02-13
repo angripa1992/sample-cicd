@@ -69,6 +69,8 @@ class BusinessInformationProvider {
 
   Future<MenuBranchInfo> menuBranchInfo(int branchID) => _branchInfoProvider.menuBranchByID(branchID);
 
+  Future<List<PaymentChannel>> fetchAllChannels() => _paymentInfoProvider.fetchAllChannels();
+
   ///clear data after logout
   void clearData() {
     _brandProvider.clear();

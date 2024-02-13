@@ -15,8 +15,7 @@ class MenuV2DataModel {
     this.sections,
   });
 
-  factory MenuV2DataModel.fromJson(Map<String, dynamic> json) =>
-      _$MenuV2DataModelFromJson(json);
+  factory MenuV2DataModel.fromJson(Map<String, dynamic> json) => _$MenuV2DataModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -49,8 +48,7 @@ class MenuV2BranchInfo {
     this.currencySymbol,
   });
 
-  factory MenuV2BranchInfo.fromJson(Map<String, dynamic> json) =>
-      _$MenuV2BranchInfoFromJson(json);
+  factory MenuV2BranchInfo.fromJson(Map<String, dynamic> json) => _$MenuV2BranchInfoFromJson(json);
 }
 
 @JsonSerializable()
@@ -77,8 +75,7 @@ class MenuV2Sections {
     this.categories,
   });
 
-  factory MenuV2Sections.fromJson(Map<String, dynamic> json) =>
-      _$MenuV2SectionsFromJson(json);
+  factory MenuV2Sections.fromJson(Map<String, dynamic> json) => _$MenuV2SectionsFromJson(json);
 }
 
 @JsonSerializable()
@@ -108,8 +105,7 @@ class MenuV2AvailableTimesModel {
     this.saturday,
   });
 
-  factory MenuV2AvailableTimesModel.fromJson(Map<String, dynamic> json) =>
-      _$MenuV2AvailableTimesModelFromJson(json);
+  factory MenuV2AvailableTimesModel.fromJson(Map<String, dynamic> json) => _$MenuV2AvailableTimesModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -122,8 +118,7 @@ class MenuV2DayInfoModel {
     this.slots,
   });
 
-  factory MenuV2DayInfoModel.fromJson(Map<String, dynamic> json) =>
-      _$MenuV2DayInfoModelFromJson(json);
+  factory MenuV2DayInfoModel.fromJson(Map<String, dynamic> json) => _$MenuV2DayInfoModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -136,8 +131,7 @@ class MenuV2SlotsModel {
     this.endTime,
   });
 
-  factory MenuV2SlotsModel.fromJson(Map<String, dynamic> json) =>
-      _$MenuV2SlotsModelFromJson(json);
+  factory MenuV2SlotsModel.fromJson(Map<String, dynamic> json) => _$MenuV2SlotsModelFromJson(json);
 }
 
 @JsonSerializable()
@@ -146,6 +140,7 @@ class MenuV2Category {
   V2TitleModel? title;
   V2TitleModel? description;
   bool? enabled;
+  bool? isPopularCategory;
   bool? alcBeverages;
   List<V2VisibilityModel>? visibilities;
   int? sequence;
@@ -156,14 +151,14 @@ class MenuV2Category {
     this.title,
     this.description,
     this.enabled,
+    this.isPopularCategory,
     this.alcBeverages,
     this.visibilities,
     this.sequence,
     this.items,
   });
 
-  factory MenuV2Category.fromJson(Map<String, dynamic> json) =>
-      _$MenuV2CategoryFromJson(json);
+  factory MenuV2Category.fromJson(Map<String, dynamic> json) => _$MenuV2CategoryFromJson(json);
 }
 
 @JsonSerializable()
@@ -173,6 +168,8 @@ class MenuV2CategoryItem {
   V2TitleModel? description;
   int? vat;
   String? skuID;
+  @JsonKey(name: 'category_id')
+  int? categoryId;
   bool? enabled;
   List<V2VisibilityModel>? visibilities;
   List<V2PriceModel>? prices;
@@ -188,6 +185,7 @@ class MenuV2CategoryItem {
     this.description,
     this.vat,
     this.skuID,
+    this.categoryId,
     this.enabled,
     this.visibilities,
     this.prices,
@@ -198,6 +196,5 @@ class MenuV2CategoryItem {
     this.groups,
   });
 
-  factory MenuV2CategoryItem.fromJson(Map<String, dynamic> json) =>
-      _$MenuV2CategoryItemFromJson(json);
+  factory MenuV2CategoryItem.fromJson(Map<String, dynamic> json) => _$MenuV2CategoryItemFromJson(json);
 }

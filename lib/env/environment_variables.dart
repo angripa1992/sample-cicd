@@ -23,16 +23,30 @@ class EnvironmentVariables {
 class EnvironmentVariablesModel {
   String? baseUrl;
   String? cdnUrl;
+  String? consumerUrl;
   String? segmentWriteKey;
   String? slackUrl;
+  String? zohoAppKey;
+  String? zohoAppAccessKey;
 
-  EnvironmentVariablesModel({this.baseUrl, this.cdnUrl, this.segmentWriteKey});
+  EnvironmentVariablesModel({
+    this.baseUrl,
+    this.cdnUrl,
+    this.consumerUrl,
+    this.slackUrl,
+    this.segmentWriteKey,
+    this.zohoAppKey,
+    this.zohoAppAccessKey,
+  });
 
   EnvironmentVariablesModel.fromJson(Map<String, dynamic> json) {
     baseUrl = json['base_url'];
     cdnUrl = json['cdn_url'];
+    consumerUrl = json['consumer_url'];
     segmentWriteKey = json['segment_write_key'];
     slackUrl = json['slack_url'];
+    zohoAppKey = json['zoho_app_key'];
+    zohoAppAccessKey = json['zoho_app_access_key'];
   }
 
   EnvironmentVariables toEntity() => EnvironmentVariables(
@@ -40,9 +54,9 @@ class EnvironmentVariablesModel {
         cdnUrl: cdnUrl.orEmpty(),
         segmentWriteKey: segmentWriteKey.orEmpty(),
         slackUrl: slackUrl.orEmpty(),
-        zohoAppKey: '',
-        zohoAppAccessKey: '',
-        consumerUrl: '',
+        zohoAppKey: zohoAppKey.orEmpty(),
+        zohoAppAccessKey: zohoAppAccessKey.orEmpty(),
+        consumerUrl: consumerUrl.orEmpty(),
       );
 }
 

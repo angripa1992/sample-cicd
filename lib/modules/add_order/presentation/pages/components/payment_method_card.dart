@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/core/widgets/kt_radio_group.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/payment_channel_selector.dart';
 import 'package:klikit/modules/common/entities/payment_info.dart';
@@ -56,11 +57,20 @@ class PaymentMethodCard extends StatelessWidget {
                   SizedBox(
                       width: AppSize.s16.rSp,
                       height: AppSize.s16.rSp,
-                      child: SVGImageResource(svgImagePath()).getImageWidget(
-                        width: AppSize.s16.rSp,
-                        height: AppSize.s16.rSp,
-                        color: selectedMethodId == method.id ? AppColors.primaryP300 : AppColors.neutralB100,
-                      )),
+                      child: method.logo.isNotEmpty
+                          ? KTNetworkImage(
+                              imageUrl: method.logo,
+                              width: AppSize.s16.rSp,
+                              height: AppSize.s16.rSp,
+                              boxShape: BoxShape.rectangle,
+                              imageBorderWidth: 0,
+                              imageBorderColor: Colors.transparent,
+                            )
+                          : SVGImageResource(svgImagePath()).getImageWidget(
+                              width: AppSize.s16.rSp,
+                              height: AppSize.s16.rSp,
+                              color: selectedMethodId == method.id ? AppColors.primaryP300 : AppColors.neutralB100,
+                            )),
                   selectedMethodId == method.id ? AppColors.primaryP50 : AppColors.neutralB20,
                 ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s12),
                 Expanded(
@@ -86,7 +96,7 @@ class PaymentMethodCard extends StatelessWidget {
             ),
             if (method.channels.isNotEmpty)
               PaymentChannelSelector(
-                values: method.channels.map((e) => KTRadioValue(e.id, e.title)).toList(),
+                values: method.channels.map((e) => KTRadioValue(e.id, e.title, logo: e.logo)).toList(),
                 selectedChannelId: selectedChannelId,
                 onChannelChanged: (value) {
                   final channel = method.channels.firstWhereOrNull((element) => element.id == value.id);

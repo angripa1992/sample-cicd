@@ -6,6 +6,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/kt_tooltip.dart';
 import 'package:klikit/core/widgets/labeled_view.dart';
 import 'package:klikit/modules/home/presentation/components/time_picker.dart';
 import 'package:klikit/resources/colors.dart';
@@ -60,7 +61,7 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
                     style: mediumTextStyle(fontSize: AppSize.s14.rSp, color: AppColors.neutralB500),
                   ),
                   if (!isSingle)
-                    Tooltip(
+                    KTTooltip(
                       message: AppStrings.time_range_selection_message.tr(),
                       child: ImageResourceResolver.infoSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.warningY300),
                     ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8.rw),

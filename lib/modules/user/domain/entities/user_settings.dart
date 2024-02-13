@@ -1,11 +1,11 @@
 class UserSettings {
   final int userId;
   final bool orderNotificationEnabled;
-  final bool sunmiDevice;
+  final int printingDeviceID;
 
   UserSettings({
     required this.userId,
     required this.orderNotificationEnabled,
-    required this.sunmiDevice,
+    required this.printingDeviceID,
   });
 }

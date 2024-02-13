@@ -15,7 +15,6 @@ import 'package:klikit/resources/values.dart';
 
 import '../../../../../app/constants.dart';
 import 'order_action_button_components.dart';
-import 'order_action_button_manager.dart';
 
 Widget getActionButtons({
   required Order order,
@@ -31,7 +30,7 @@ Widget getActionButtons({
     runSpacing: AppSize.s8.rh,
     children: [
       Visibility(
-        visible: OrderActionButtonManager().canPrint(order),
+        visible: order.canPrint(),
         child: DecoratedImageView(
           iconWidget: ImageResourceResolver.printerSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
           padding: EdgeInsets.all(AppSize.s10.rSp),
@@ -45,7 +44,7 @@ Widget getActionButtons({
         ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
       Visibility(
-        visible: OrderActionButtonManager().canReject(order),
+        visible: order.canCancelOrder(),
         child: DecoratedImageView(
           iconWidget: ImageResourceResolver.cancelSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.errorR300),
           padding: EdgeInsets.all(AppSize.s10.rSp),
@@ -61,7 +60,7 @@ Widget getActionButtons({
         ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
       Visibility(
-        visible: OrderActionButtonManager().canAccept(order),
+        visible: order.canAcceptOrder(),
         child: DecoratedImageView(
           iconWidget: ImageResourceResolver.successSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.successG300),
           padding: EdgeInsets.all(AppSize.s10.rSp),
@@ -77,7 +76,7 @@ Widget getActionButtons({
         ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
       Visibility(
-        visible: OrderActionButtonManager().canReady(order),
+        visible: order.canReadyOrder(),
         child: DecoratedImageView(
           iconWidget: ImageResourceResolver.readyFoodSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.successG300),
           padding: EdgeInsets.all(AppSize.s10.rSp),
@@ -93,7 +92,7 @@ Widget getActionButtons({
         ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: AppSize.s8),
       ),
       Visibility(
-        visible: OrderActionButtonManager().canDelivery(order),
+        visible: order.canDeliveryOrder(),
         child: DecoratedImageView(
           iconWidget: ImageResourceResolver.deliveryCardSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.primaryP300),
           padding: EdgeInsets.all(AppSize.s10.rSp),
@@ -113,7 +112,7 @@ Widget getActionButtons({
 }
 
 bool _onlyPrintActionAvailable(Order order) {
-  return !(OrderActionButtonManager().canReject(order) || OrderActionButtonManager().canAccept(order) || OrderActionButtonManager().canReady(order) || OrderActionButtonManager().canDelivery(order));
+  return !(order.canCancelOrder() || order.canAcceptOrder() || order.canReadyOrder() || order.canDeliveryOrder());
 }
 
 Widget getExpandActionButtons({
@@ -124,15 +123,15 @@ Widget getExpandActionButtons({
 }) {
   bool showPrintOnly = _onlyPrintActionAvailable(order);
   List<Widget> children = [
-    if (OrderActionButtonManager().canPrint(order))
+    if (order.canPrint())
       Expanded(
         flex: showPrintOnly ? 1 : 0,
         child: PrintButton(onPrint: onPrint, expanded: showPrintOnly),
       ),
-    if (OrderActionButtonManager().canReject(order))
+    if (order.canCancelOrder())
       Expanded(
         child: KTButton(
-          controller: KTButtonController(label: AppStrings.reject.tr()),
+          controller: KTButtonController(label: order.status == OrderStatus.PLACED ? AppStrings.reject.tr() : AppStrings.cancel.tr()),
           prefixWidget: ImageResourceResolver.closeSVG.getImageWidget(width: AppSize.s18.rw, height: AppSize.s18.rh, color: AppColors.errorR300),
           backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.errorR50),
           labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
@@ -142,7 +141,7 @@ Widget getExpandActionButtons({
           },
         ),
       ),
-    if (OrderActionButtonManager().canAccept(order))
+    if (order.canAcceptOrder())
       Expanded(
         child: KTButton(
           controller: KTButtonController(label: AppStrings.accept.tr()),
@@ -155,7 +154,7 @@ Widget getExpandActionButtons({
           },
         ),
       ),
-    if (OrderActionButtonManager().canReady(order))
+    if (order.canReadyOrder())
       Expanded(
         child: KTButton(
           controller: KTButtonController(label: AppStrings.ready.tr()),
@@ -168,7 +167,7 @@ Widget getExpandActionButtons({
           },
         ),
       ),
-    if (OrderActionButtonManager().canDelivery(order))
+    if (order.canDeliveryOrder())
       Expanded(
         child: KTButton(
           controller: KTButtonController(label: AppStrings.deliver.tr()),

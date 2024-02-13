@@ -20,7 +20,7 @@ User mapUserModelToUser(UserModel userModel) {
       businessName: userModel.user?.business_name?.orEmpty() ?? EMPTY,
       firstLogin: userModel.user?.first_login ?? false,
       orderNotificationEnabled: userModel.user?.order_notification_enabled ?? true,
-      sunmiDevice: userModel.user?.sunmi_device ?? false,
+      printingDeviceId: userModel.user?.printing_device_id ?? Device.android,
       branchIDs: userModel.user?.branch_ids ?? [],
       branchTitles: userModel.user?.branch_titles ?? [],
       roles: userModel.user?.roles ?? [],

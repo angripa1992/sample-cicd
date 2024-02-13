@@ -48,7 +48,9 @@ class FetchAddOrderMenuItemsCubit extends Cubit<ResponseState> {
       if (haveAvailableTime) {
         availableSections.add(section);
       } else {
-        unavailableSections.add(section);
+        final filteredCategories = section.categories.isNotEmpty ? section.categories.where((element) => element.isPopularCategory == false) : null;
+        unavailableSections.add(section.copyWith(categories: filteredCategories?.toList() ?? []));
+        // unavailableSections.add(section);
       }
     }
     availableSections.sort((a, b) => a.sequence.compareTo(b.sequence));

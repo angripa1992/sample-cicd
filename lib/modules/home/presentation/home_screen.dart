@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: [
             const BaseScreenAppBar(),
-            2.rh.verticalSpacer(),
+            1.rh.verticalSpacer(),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.white,
                         padding: EdgeInsets.symmetric(
                           horizontal: AppSize.s16.rw,
-                          vertical: AppSize.s16.rh,
+                          vertical: AppSize.s4.rh,
                         ),
                         child: const PauseStoreHeaderView(),
                       ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8),

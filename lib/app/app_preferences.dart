@@ -17,11 +17,11 @@ class AppPreferences {
   final String _kLoggedIn = "logged_in";
   final String _kLoginEmail = "login_email";
   final String _kPrinterSetting = "printer_setting";
+  final String _kPrinter = "printer";
   final String _kLanguage = "language";
   final String _kNotificationSetting = "notification_setting";
-  final String _kSunmiDevice = "sunmi_device";
   final String _activeDevice = "active_device";
-  final String _printerAddress = "printer_address";
+
   AppPreferences(this._preferences);
 
   void insertAccessToken(String? token) {
@@ -45,12 +45,12 @@ class AppPreferences {
   }
 
   UserInfo? getUser() {
-    try{
+    try {
       final preferenceData = _preferences.getString(_kUser);
       if (preferenceData == null) return null;
       final data = json.decode(preferenceData);
       return UserInfo.fromJson(data);
-    }catch (e){
+    } catch (e) {
       return null;
     }
   }
@@ -75,22 +75,11 @@ class AppPreferences {
     return _preferences.setInt(_kLanguage, languageId);
   }
 
-  Future<void> savePrinterAddress(String device) {
-    return _preferences.setString(_printerAddress, device);
-  }
-
-  Map getPrinterAddress() {
-    final preferenceData = _preferences.getString(_printerAddress);
-    return jsonDecode(preferenceData!);
-  }
-
   int language() {
     return _preferences.getInt(_kLanguage) ?? AppLanguage.ENGLISH;
   }
 
-  Future<void> savePrinterSettings({
-    required PrinterSetting printerSetting,
-  }) async {
+  Future<void> savePrinterSettings(PrinterSetting printerSetting) async {
     _preferences.setString(_kPrinterSetting, jsonEncode(printerSetting));
   }
 
@@ -120,26 +109,37 @@ class AppPreferences {
     return PrinterSetting.fromJson(data);
   }
 
+  Future<void> saveLocalPrinter(LocalPrinter printer) async {
+    _preferences.setString(_kPrinter, jsonEncode(printer));
+  }
+
+  Future<void> clearLocalPrinter() async {
+    _preferences.remove(_kPrinter);
+  }
+
+  LocalPrinter? localPrinter() {
+    final preferenceData = _preferences.getString(_kPrinter);
+    if (preferenceData != null) {
+      final data = json.decode(preferenceData);
+      return LocalPrinter.fromJson(data);
+    }
+    return null;
+  }
+
   Future<void> setNotificationEnable(bool enable) async {
     await _preferences.setBool(_kNotificationSetting, enable);
   }
 
-  Future<void> setSunmiDevice(bool isSunmiDevice) async {
-    await _preferences.setBool(_kSunmiDevice, isSunmiDevice);
-  }
-  Future<void> setActiveDevice(int deviceId) async {
-    await _preferences.setInt(_activeDevice, deviceId);
-  }
   bool notificationEnable() {
     return _preferences.getBool(_kNotificationSetting) ?? true;
   }
 
-  bool sunmiDevice() {
-    return _preferences.getBool(_kSunmiDevice) ?? false;
+  Future<void> setActiveDevice(int deviceId) async {
+    await _preferences.setInt(_activeDevice, deviceId);
   }
 
   int activeDevice() {
-    return _preferences.getInt(_activeDevice) ?? 0;
+    return _preferences.getInt(_activeDevice) ?? Device.android;
   }
 
   Future<void> reload() async {
@@ -151,6 +151,7 @@ class AppPreferences {
     await _preferences.remove(_kRefreshToken);
     await _preferences.remove(_kUser);
     await _preferences.remove(_kPrinterSetting);
+    await _preferences.remove(_kPrinter);
     await _preferences.remove(_kNotificationSetting);
   }
 }

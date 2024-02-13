@@ -19,6 +19,8 @@ abstract class BusinessRemoteDataSource {
 
   Future<List<PaymentMethodModel>> fetchPaymentMethods();
 
+  Future<List<PaymentChannelModel>> fetchAllPaymentChannels();
+
   Future<List<PaymentStatusModel>> fetchPaymentStatus();
 
   Future<BranchDataModel> fetchBranches(Map<String, dynamic> params);
@@ -94,6 +96,17 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
     try {
       final response = await _restClient.request(Urls.branch, Method.GET, params);
       return BranchDataModel.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<PaymentChannelModel>> fetchAllPaymentChannels() async {
+    try {
+      final List<dynamic> response = await _restClient.request(Urls.allPaymentChannels, Method.GET, null);
+      final data = response.map((e) => PaymentChannelModel.fromJson(e)).toList();
+      return data;
     } on DioException {
       rethrow;
     }

@@ -11,10 +11,9 @@ import '../sticker_printer_handler.dart';
 import 'device_item_view.dart';
 
 class StickerPrinterDevices extends StatelessWidget {
-  final Function(BluetoothDevice) onConnect;
+  final Function(BluetoothDevice) onStickerPrinterConnected;
 
-  const StickerPrinterDevices({Key? key, required this.onConnect})
-      : super(key: key);
+  const StickerPrinterDevices({Key? key, required this.onStickerPrinterConnected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +21,9 @@ class StickerPrinterDevices extends StatelessWidget {
       future: StickerPrinterHandler().scanDevices(),
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
-          final data = snapshot.data!;
-          data.removeWhere((element) => element.device.name.isEmpty);
-          return data.isEmpty
+          final devices = snapshot.data!;
+          devices.removeWhere((element) => element.device.name.isEmpty);
+          return devices.isEmpty
               ? Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -38,14 +37,28 @@ class StickerPrinterDevices extends StatelessWidget {
                     ),
                   ),
                 )
-              : ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return DeviceItemView(
-                      icon: Icons.bluetooth,
-                      name: data[index].device.name,
-                      onConnect: () {
-                        onConnect(data[index].device);
+              : StatefulBuilder(
+                  builder: (ct, setState) {
+                    return ListView.builder(
+                      itemCount: devices.length,
+                      itemBuilder: (context, index) {
+                        final device = devices[index];
+                        return PrinterDeviceItemView(
+                          willDisconnect: devices[index].device.id.id == StickerPrinterHandler().connectedDevice()?.id.id,
+                          icon: Icons.bluetooth,
+                          name: device.device.name,
+                          onConnect: () async {
+                            final connected = await StickerPrinterHandler().connect(device.device, true);
+                            if (connected) {
+                              onStickerPrinterConnected(device.device);
+                              setState(() {});
+                            }
+                          },
+                          onDisconnect: () async {
+                            await StickerPrinterHandler().disconnect(device.device);
+                            setState(() {});
+                          },
+                        );
                       },
                     );
                   },

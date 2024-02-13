@@ -17,6 +17,7 @@ class KTNetworkImage extends StatelessWidget {
   final Widget? errorWidget;
   final double? widgetPadding;
   final double? imageBorderWidth;
+  final Color? imageBorderColor;
 
   const KTNetworkImage({
     Key? key,
@@ -29,6 +30,7 @@ class KTNetworkImage extends StatelessWidget {
     this.errorWidget,
     this.widgetPadding,
     this.imageBorderWidth,
+    this.imageBorderColor,
   }) : super(key: key);
 
   @override
@@ -39,7 +41,7 @@ class KTNetworkImage extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-              border: Border.all(width: imageBorderWidth ?? 2.rSp, color: AppColors.greyBright),
+              border: Border.all(width: imageBorderWidth ?? 2.rSp, color: imageBorderColor ?? AppColors.greyBright),
               borderRadius: boxShape != BoxShape.circle ? borderRadius : null,
               shape: boxShape,
               image: DecorationImage(image: imageProvider, fit: boxFit))),

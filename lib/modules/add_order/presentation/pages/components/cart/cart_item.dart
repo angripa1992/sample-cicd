@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
+import 'package:klikit/core/widgets/kt_counter.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/cart/cart_item_counter.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 import 'package:klikit/resources/assets.dart';
@@ -129,7 +130,7 @@ class CartItemView extends StatelessWidget {
     return FutureBuilder<String>(
       future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
       builder: (context, snapShot) {
-        if (snapShot.hasData) {
+        if (snapShot.hasData && snapShot.data.isNotNullOrEmpty()) {
           return Padding(
             padding: EdgeInsets.only(top: snapShot.data!.isNotEmpty ? 8.rh : 0),
             child: Text(
@@ -187,9 +188,10 @@ class CartItemView extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        CartItemCounterView(
+        KTCounter(
           count: cartItem.quantity,
           minCount: 1,
+          activeStrokeColor: AppColors.primaryP300,
           onChanged: (quantity) {
             onQuantityChanged(cartItem, quantity);
           },

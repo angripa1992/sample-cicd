@@ -40,8 +40,7 @@ class PrinterSettingModel {
     this.fontId,
   });
 
-  factory PrinterSettingModel.fromJson(Map<String, dynamic> json) =>
-      _$PrinterSettingModelFromJson(json);
+  factory PrinterSettingModel.fromJson(Map<String, dynamic> json) => _$PrinterSettingModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PrinterSettingModelToJson(this);
 
@@ -89,8 +88,7 @@ class PrinterFontsModel {
     this.extraLargeFontSize,
   });
 
-  factory PrinterFontsModel.fromJson(Map<String, dynamic> json) =>
-      _$PrinterFontsModelFromJson(json);
+  factory PrinterFontsModel.fromJson(Map<String, dynamic> json) => _$PrinterFontsModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PrinterFontsModelToJson(this);
 
@@ -140,8 +138,7 @@ class PrinterSetting {
     required this.fonts,
   });
 
-  factory PrinterSetting.fromJson(Map<String, dynamic> json) =>
-      _$PrinterSettingFromJson(json);
+  factory PrinterSetting.fromJson(Map<String, dynamic> json) => _$PrinterSettingFromJson(json);
 
   Map<String, dynamic> toJson() => _$PrinterSettingToJson(this);
 }
@@ -167,8 +164,7 @@ class PrinterFonts {
     required this.extraLargeFontSize,
   });
 
-  factory PrinterFonts.fromJson(Map<String, dynamic> json) =>
-      _$PrinterFontsFromJson(json);
+  factory PrinterFonts.fromJson(Map<String, dynamic> json) => _$PrinterFontsFromJson(json);
 
   Map<String, dynamic> toJson() => _$PrinterFontsToJson(this);
 
@@ -208,4 +204,30 @@ class PrinterFonts {
         );
     }
   }
+}
+
+@JsonSerializable()
+class LocalPrinter {
+  @JsonKey(name: 'device_type')
+  final int deviceType;
+  @JsonKey(name: 'device_address')
+  final String deviceAddress;
+  @JsonKey(name: 'device_name')
+  final String deviceName;
+  @JsonKey(name: 'product_id')
+  final String productId;
+  @JsonKey(name: 'vendor_id')
+  final String vendorId;
+
+  LocalPrinter({
+    required this.deviceType,
+    required this.deviceAddress,
+    required this.deviceName,
+    required this.productId,
+    required this.vendorId,
+  });
+
+  factory LocalPrinter.fromJson(Map<String, dynamic> json) => _$LocalPrinterFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LocalPrinterToJson(this);
 }

@@ -7,6 +7,7 @@ class PaymentInfoProvider {
   final BusinessInfoProviderRepo _orderRepository;
   final List<PaymentStatus> _statuses = [];
   final List<PaymentMethod> _methods = [];
+  final List<PaymentChannel> _channels = [];
 
   PaymentInfoProvider(this._orderRepository);
 
@@ -61,13 +62,30 @@ class PaymentInfoProvider {
       return PaymentMethod(
         id: ZERO,
         title: EMPTY,
+        logo: EMPTY,
         channels: [],
       );
+    }
+  }
+
+  Future<List<PaymentChannel>> fetchAllChannels() async {
+    if (_channels.isEmpty) {
+      final response = await _orderRepository.fetchAllPaymentChannels();
+      if (response.isRight()) {
+        final methods = response.getOrElse(() => []);
+        _channels.addAll(methods);
+        return _channels;
+      } else {
+        return [];
+      }
+    } else {
+      return _channels;
     }
   }
 
   void clear() {
     _statuses.clear();
     _methods.clear();
+    _channels.clear();
   }
 }

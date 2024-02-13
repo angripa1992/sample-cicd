@@ -79,13 +79,14 @@ MenuCategory _menuV1SubSectionToMenuCategory(
     description: data.description.orEmpty(),
     visibilities: data.statuses?.map((e) => _menuV1StatusToMenuVisibility(e)).toList() ?? [],
     enabled: data.enabled.orFalse(),
+    isPopularCategory: data.isPopularCategory.orFalse(),
     alcBeverages: data.alcBeverages.orFalse(),
     sequence: data.sequence.orZero(),
     items: data.items
             ?.map((item) => _menuV1ItemToMenuItem(
                   sectionID,
                   sectionName,
-                  data.id.orZero(),
+                  (data.isPopularCategory == true && item.categoryId != null) ? item.categoryId! : data.id.orZero(),
                   data.title.orEmpty(),
                   item,
                   availableTimes,

@@ -2,7 +2,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(sample_cicd LANGUAGES CXX)
 set(PDFIUM_VERSION "4634" CACHE STRING "")
-
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
 set(BINARY_NAME "sample_cicd")

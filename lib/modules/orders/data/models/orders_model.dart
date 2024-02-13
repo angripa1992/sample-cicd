@@ -54,12 +54,16 @@ class OrderModel {
   String? brandName;
   @JsonKey(name: 'branch_id')
   int? branchId;
+  @JsonKey(name: 'payment_invoice_id')
+  String? paymentInvoiceId;
   @JsonKey(name: 'item_price')
   int? itemPrice;
   @JsonKey(name: 'final_price')
   int? finalPrice;
   @JsonKey(name: 'merchant_discount')
   int? merchantDiscount;
+  @JsonKey(name: 'customer_discount')
+  int? customerDiscount;
   @JsonKey(name: 'provider_discount')
   int? providerDiscount;
   @JsonKey(name: 'delivery_fee')
@@ -139,8 +143,16 @@ class OrderModel {
   String? tableNo;
   @JsonKey(name: 'can_update')
   bool? canUpdate;
-  @JsonKey(name: 'can_mark_ready')
-  bool? canMarkReady;
+  @JsonKey(name: 'can_accept')
+  bool? canAccept;
+  @JsonKey(name: 'can_ready')
+  bool? canReady;
+  @JsonKey(name: 'can_cancel')
+  bool? canCancel;
+  @JsonKey(name: 'can_deliver')
+  bool? canDelivery;
+  @JsonKey(name: 'can_find_fulfillment_rider')
+  bool? canFindFulfillmentRider;
   @JsonKey(name: 'discount_display')
   String? discountDisplay;
   @JsonKey(name: 'additional_fee_display')
@@ -181,12 +193,6 @@ class OrderModel {
   int? fulfillmentStatusId;
   @JsonKey(name: 'fulfillment_tracking_url')
   String? fulfillmentTrackingUrl;
-  @JsonKey(name: 'can_find_fulfillment_rider')
-  bool? canFindFulfillmentRider;
-  @JsonKey(name: 'can_mark_accept')
-  bool? canMarkAccept;
-  @JsonKey(name: 'can_mark_cancel')
-  bool? canMarkCancel;
   @JsonKey(name: 'three_pl_dispatch_type')
   int? threePlDispatchType;
   @JsonKey(name: 'cancellation_reason_id')
@@ -228,6 +234,8 @@ class OrderModel {
   num? rewardDiscount;
   @JsonKey(name: 'round_off_amount')
   num? roundOffAmount;
+  @JsonKey(name: 'provider_rounded_off_amount')
+  num? providerRoundOffAmount;
   @JsonKey(name: 'gateway_fee_paid_by_customer')
   bool? gatewayFeePaidByCustomer;
   @JsonKey(name: 'service_fee_paid_by_customer')
@@ -244,6 +252,7 @@ class OrderModel {
     this.itemPrice,
     this.finalPrice,
     this.discount,
+    this.customerDiscount,
     this.merchantDiscount,
     this.providerDiscount,
     this.deliveryFee,
@@ -283,12 +292,16 @@ class OrderModel {
     this.paymentMethod,
     this.paymentChannel,
     this.paymentStatus,
+    this.paymentInvoiceId,
     this.autoAccept,
     this.autoPilot,
     this.autoPilotTime,
     this.tableNo,
     this.canUpdate,
-    this.canMarkReady,
+    this.canReady,
+    this.canAccept,
+    this.canDelivery,
+    this.canCancel,
     this.discountDisplay,
     this.additionalFeeDisplay,
     this.deliveryFeeDisplay,
@@ -311,8 +324,6 @@ class OrderModel {
     this.fulfillmentStatusId,
     this.fulfillmentTrackingUrl,
     this.canFindFulfillmentRider,
-    this.canMarkAccept,
-    this.canMarkCancel,
     this.threePlDispatchType,
     this.orderAppliedPromo,
     this.itemAppliedPromos,
@@ -334,6 +345,7 @@ class OrderModel {
     this.mergeFee,
     this.rewardDiscount,
     this.roundOffAmount,
+    this.providerRoundOffAmount,
     this.gatewayFeePaidByCustomer,
     this.serviceFeePaidByCustomer,
   });
@@ -350,10 +362,12 @@ class OrderModel {
       providerId: providerId.orZero(),
       brandName: brandName.orEmpty(),
       branchId: branchId.orZero(),
+      paymentInvoiceId: paymentInvoiceId.orEmpty(),
       status: status.orZero(),
       itemPrice: itemPrice.orZero(),
       finalPrice: finalPrice.orZero(),
       discount: discount.orZero(),
+      customerDiscount: customerDiscount.orZero(),
       merchantDiscount: merchantDiscount.orZero(),
       providerDiscount: providerDiscount.orZero(),
       deliveryFee: deliveryFee.orZero(),
@@ -398,8 +412,6 @@ class OrderModel {
       serviceFee: serviceFee.orZero(),
       customFee: customFee.orZero(),
       tableNo: tableNo.orEmpty(),
-      canMarkReady: canMarkReady.orFalse(),
-      canUpdate: canUpdate.orFalse(),
       discountDisplay: discountDisplay.orEmpty(),
       additionalFeeDisplay: additionalFeeDisplay.orEmpty(),
       deliveryFeeDisplay: deliveryFeeDisplay.orEmpty(),
@@ -422,8 +434,6 @@ class OrderModel {
       fulfillmentStatusId: fulfillmentStatusId.orZero(),
       fulfillmentTrackingUrl: fulfillmentTrackingUrl.orEmpty(),
       canFindFulfillmentRider: canFindFulfillmentRider.orFalse(),
-      canMarkAccept: canMarkAccept.orFalse(),
-      canMarkCancel: canMarkCancel.orFalse(),
       threePlDispatchType: threePlDispatchType.orZero(),
       orderAppliedPromo: orderAppliedPromo,
       itemAppliedPromos: itemAppliedPromos ?? [],
@@ -445,8 +455,14 @@ class OrderModel {
       mergeFee: mergeFee.orZero(),
       rewardDiscount: rewardDiscount.orZero(),
       roundOffAmount: roundOffAmount.orZero(),
+      providerRoundOffAmount: providerRoundOffAmount.orZero(),
       gatewayFeePaidByCustomer: gatewayFeePaidByCustomer.orFalse(),
       serviceFeePaidByCustomer: serviceFeePaidByCustomer.orFalse(),
+      canUpdate: canUpdate.orFalse(),
+      canAccept: canAccept.orFalse(),
+      canReady: canReady.orFalse(),
+      canCancel: canCancel.orFalse(),
+      canDeliver: canDelivery.orFalse(),
     );
   }
 }

@@ -59,7 +59,7 @@ class _CartScreenState extends State<CartScreen> {
   CartBill? _cartBill;
   int _currentDiscountType = DiscountType.flat;
   int _currentOrderType = OrderType.DINE_IN;
-  int _currentSource = OrderSource.IN_STORE;
+  int _currentSource = OrderSourceID.IN_STORE;
   num _globalDiscount = 0;
   num _globalAdditionalFee = 0;
   num _globalDeliveryFee = 0;

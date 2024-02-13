@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
@@ -7,6 +8,7 @@ import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/resource_resolver.dart';
+import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
@@ -46,7 +48,9 @@ class MessageNotifier extends StatelessWidget {
               ),
             ),
           ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
-          Text(title ?? (isSuccess ? 'Success!' : 'Error!'), textAlign: TextAlign.start, style: semiBoldTextStyle(color: AppColors.neutralB700, fontSize: AppFontSize.s18.rSp)),
+          Expanded(
+              child: Text(title ?? (isSuccess ? AppStrings.success.tr() : AppStrings.error.tr()),
+                  textAlign: TextAlign.start, style: semiBoldTextStyle(color: AppColors.neutralB700, fontSize: AppFontSize.s18.rSp))),
           const Spacer(),
           InkWell(
             child: ImageResourceResolver.closeSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh),
@@ -60,7 +64,7 @@ class MessageNotifier extends StatelessWidget {
       actionsPadding: EdgeInsets.all(AppSize.s16.rSp),
       actions: [
         KTButton(
-          controller: KTButtonController(label: 'Okay'),
+          controller: KTButtonController(label: AppStrings.okay.tr()),
           backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.neutralB40),
           labelStyle: mediumTextStyle(color: AppColors.neutralB700),
           onTap: () {

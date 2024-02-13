@@ -10,19 +10,15 @@ import 'package:klikit/resources/assets.dart';
 
 import 'notification_data_handler.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
 
-final DarwinInitializationSettings initializationSettingsDarwin =
-    DarwinInitializationSettings(
+final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings(
   requestAlertPermission: false,
   requestBadgePermission: false,
   requestSoundPermission: false,
-  onDidReceiveLocalNotification:
-      (int id, String? title, String? body, String? payload) async {},
+  onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {},
 );
 
 final InitializationSettings initializationSettings = InitializationSettings(
@@ -30,42 +26,46 @@ final InitializationSettings initializationSettings = InitializationSettings(
   android: initializationSettingsAndroid,
 );
 
-const AndroidNotificationChannel newOrderNotificationChanel =
-    AndroidNotificationChannel(
+const AndroidNotificationChannel newOrderNotificationChanel = AndroidNotificationChannel(
   'high_importance_new_order',
   'High Importance New Order',
   importance: Importance.max,
   playSound: true,
 );
 
-const AndroidNotificationChannel cancelOrderNotificationChanel =
-    AndroidNotificationChannel(
+const AndroidNotificationChannel cancelOrderNotificationChanel = AndroidNotificationChannel(
   'high_importance_cancel_order',
   'High Importance Cancel Order',
   importance: Importance.max,
   playSound: true,
 );
 
+const AndroidNotificationChannel printerNotificationChanel = AndroidNotificationChannel(
+  'high_importance_printer_error',
+  'High Importance Printer Error',
+  importance: Importance.max,
+  playSound: true,
+);
+
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
-  NotificationHandler()
-      .handleBackgroundNotification(notificationResponse.payload);
+  NotificationHandler().handleBackgroundNotification(notificationResponse.payload);
 }
 
 void notificationTap(NotificationResponse notificationResponse) {
-  NotificationHandler()
-      .handleBackgroundNotification(notificationResponse.payload);
+  NotificationHandler().handleBackgroundNotification(notificationResponse.payload);
 }
 
 class LocalNotificationService {
-  static final LocalNotificationService _notificationService =
-      LocalNotificationService._internal();
+  static final LocalNotificationService _notificationService = LocalNotificationService._internal();
 
   factory LocalNotificationService() {
     return _notificationService;
   }
 
   LocalNotificationService._internal();
+
+  String ref()=> ref();
 
   Future<ByteArrayAndroidBitmap?> getByteArrayAndroidBitmap(String url) async {
     if (url.orEmpty().isEmpty) return null;
@@ -79,32 +79,24 @@ class LocalNotificationService {
     }
   }
 
-  void showNotification({required Map<String, dynamic> payload}) async {
-    final notificationData =
-        NotificationDataHandler().getNotificationData(payload);
+  Future<void> showNotification({required Map<String, dynamic> payload}) async {
+    final notificationData = NotificationDataHandler().getNotificationData(payload);
     final notificationType = int.parse(notificationData.type);
-    final providerByteArrayAndroidBitmap =
-        await getByteArrayAndroidBitmap(notificationData.providerUrl);
+    final providerByteArrayAndroidBitmap = await getByteArrayAndroidBitmap(notificationData.providerUrl);
     flutterLocalNotificationsPlugin.show(
       DateTime.now().millisecondsSinceEpoch.remainder(100000),
       notificationData.title,
       notificationData.message,
       NotificationDetails(
         android: AndroidNotificationDetails(
-          notificationType == NotificationOrderType.NEW
-              ? newOrderNotificationChanel.id
-              : cancelOrderNotificationChanel.id,
-          notificationType == NotificationOrderType.NEW
-              ? newOrderNotificationChanel.name
-              : cancelOrderNotificationChanel.name,
+          notificationType == NotificationOrderType.NEW ? newOrderNotificationChanel.id : cancelOrderNotificationChanel.id,
+          notificationType == NotificationOrderType.NEW ? newOrderNotificationChanel.name : cancelOrderNotificationChanel.name,
           importance: Importance.max,
           priority: Priority.high,
           playSound: true,
           enableLights: true,
           sound: RawResourceAndroidNotificationSound(
-            notificationType == NotificationOrderType.NEW
-                ? AppSounds.newOrder
-                : AppSounds.cancelOrder,
+            notificationType == NotificationOrderType.NEW ? AppSounds.newOrder : AppSounds.cancelOrder,
           ),
           icon: AppIcons.notificationIcon,
           largeIcon: providerByteArrayAndroidBitmap,
@@ -120,6 +112,25 @@ class LocalNotificationService {
         ),
       ),
       payload: NotificationDataHandler().convertMapToString(payload),
+    );
+  }
+
+  void showPrinterNotFoundNotification() async {
+    flutterLocalNotificationsPlugin.show(
+      DateTime.now().millisecondsSinceEpoch.remainder(100000),
+      'Printer Error',
+      'Cannot connect to printer. Please follow troubleshoot process',
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          printerNotificationChanel.id,
+          printerNotificationChanel.name,
+          importance: Importance.max,
+          priority: Priority.high,
+          playSound: true,
+          enableLights: true,
+          icon: AppIcons.notificationIcon,
+        ),
+      ),
     );
   }
 

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/select_categories_dropdown.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/menu_category_info_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/menu_category_item_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/search/menu_search_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/search/search_button.dart';
+import 'package:klikit/modules/add_order/presentation/pages/components/select_categories_dropdown.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/tab_item_view.dart';
 import 'package:klikit/modules/add_order/utils/available_time_provider.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
@@ -194,6 +193,7 @@ class _MenuCategoryItemsListViewState extends State<MenuCategoryItemsListView> {
         itemCount: widget.categories.length,
         headerContainerBuilder: (context, widget) {
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.rw),

@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
+import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/orders/data/models/action_success_model.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
@@ -14,7 +14,8 @@ import 'package:klikit/printer/presentation/set_font_size.dart';
 import 'package:klikit/printer/presentation/set_paper_size.dart';
 import 'package:klikit/printer/presentation/set_printer_connection_type.dart';
 import 'package:klikit/printer/presentation/update_printer_setting_cubit.dart';
-import 'package:klikit/printer/printing_handler.dart';
+import 'package:klikit/printer/printer_local_data_manager.dart';
+import 'package:klikit/printer/printer_manager.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
@@ -32,8 +33,7 @@ class DocketConfigTab extends StatefulWidget {
 }
 
 class _DocketConfigTabState extends State<DocketConfigTab> {
-  final _appPreferences = getIt.get<AppPreferences>();
-  final _printingHandler = getIt.get<PrintingHandler>();
+  final _printingHandler = getIt.get<PrinterManager>();
   late int _branchId;
   late int _connectionType;
   late int _paperSize;
@@ -42,6 +42,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   late bool _kitchenCopyEnabled;
   late int _kitchenCopyCount;
   late int _printerFontId;
+  late int _device;
   late ValueNotifier<int> _connectionStateListener;
   final _showDevicesController = KTButtonController(label: AppStrings.show_devices.tr());
   final _saveButtonController = KTButtonController(label: AppStrings.save.tr());
@@ -49,6 +50,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   @override
   void initState() {
     context.read<PrinterSettingCubit>().getPrinterSetting();
+    _device = LocalPrinterDataManager().activeDevice();
     super.initState();
   }
 
@@ -59,7 +61,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
   }
 
   void _initPrinterSetting() {
-    final printerSetting = _appPreferences.printerSetting();
+    final printerSetting = LocalPrinterDataManager().printerSetting();
     _branchId = printerSetting.branchId;
     _connectionType = printerSetting.type;
     _paperSize = printerSetting.paperSize;
@@ -71,20 +73,19 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     _connectionStateListener = ValueNotifier(_connectionType);
   }
 
-  void _savePrinterSettingLocally({PrinterSetting? savingData}) async {
-    await _appPreferences.savePrinterSettings(
-      printerSetting: savingData ?? _createPrinterSettingFromLocalVariables(false),
-    );
+  void _savePrinterSettingLocally({PrinterSetting? savingData, required bool willClearLocalPrinter}) async {
+    await LocalPrinterDataManager().savePrinterSetting(savingData ?? _createPrinterSettingFromLocalVariables(false));
     if (savingData == null) {
       _connectionStateListener.value = 0;
-      _connectionStateListener.value = _appPreferences.printerSetting().type;
+      _connectionStateListener.value = LocalPrinterDataManager().cType();
+    }
+    if (willClearLocalPrinter) {
+      await LocalPrinterDataManager().clearLocalPrinter();
     }
   }
 
   void _updatePrinterSetting() {
-    context.read<UpdatePrinterSettingCubit>().updatePrintSetting(
-          printerSetting: _createPrinterSettingFromLocalVariables(true),
-        );
+    context.read<UpdatePrinterSettingCubit>().updatePrintSetting(printerSetting: _createPrinterSettingFromLocalVariables(true));
   }
 
   PrinterSetting _createPrinterSettingFromLocalVariables(bool isUpdating) {
@@ -98,7 +99,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
       kitchenCopyCount: isUpdating ? (_kitchenCopyEnabled ? (_kitchenCopyCount > 0 ? _kitchenCopyCount : 1) : 0) : _kitchenCopyCount,
       fonts: PrinterFonts.fromId(_printerFontId),
       fontId: _printerFontId,
-      stickerPrinterEnabled: _appPreferences.printerSetting().stickerPrinterEnabled,
+      stickerPrinterEnabled: LocalPrinterDataManager().stickerPrinterEnabled(),
     );
   }
 
@@ -107,9 +108,9 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
     return BlocBuilder<PrinterSettingCubit, ResponseState>(
       builder: (_, state) {
         if (state is Loading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgress());
         } else if (state is Success<PrinterSetting>) {
-          _savePrinterSettingLocally(savingData: state.data);
+          _savePrinterSettingLocally(savingData: state.data, willClearLocalPrinter: false);
           _initPrinterSetting();
           return _body();
         }
@@ -126,14 +127,16 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SetPrinterConnectionType(
-                    initType: _connectionType,
-                    willUsbEnabled: true,
-                    onChanged: (type) {
-                      _connectionType = type;
-                      _connectionStateListener.value = type;
-                    },
-                  ),
+                  if (_device != Device.sunmi)
+                    SetPrinterConnectionType(
+                      initType: _connectionType,
+                      device: _device,
+                      isDocket: true,
+                      onChanged: (type) {
+                        _connectionType = type;
+                        _connectionStateListener.value = type;
+                      },
+                    ),
                   SizedBox(height: 4.rh),
                   SetPaperSize(
                     initSize: _paperSize,
@@ -183,11 +186,10 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
               child: BlocConsumer<UpdatePrinterSettingCubit, ResponseState>(
                 listener: (context, state) {
                   _saveButtonController.setLoaded(state is! Loading);
-
                   if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
                   } else if (state is Success<ActionSuccess>) {
-                    _savePrinterSettingLocally();
+                    _savePrinterSettingLocally(willClearLocalPrinter: true);
                     showSuccessSnackBar(context, state.data.message ?? '');
                   }
                 },
@@ -203,27 +205,38 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                 },
               ),
             ),
-            SizedBox(width: AppSize.s8.rw),
-            Expanded(
-              child: ValueListenableBuilder(
-                valueListenable: _connectionStateListener,
-                builder: (_, value, __) {
-                  _showDevicesController.setEnabled(_appPreferences.printerSetting().type == value);
-
-                  return KTButton(
-                    controller: _showDevicesController,
-                    prefixWidget: Icon(_appPreferences.printerSetting().type == CType.BLE ? Icons.bluetooth : Icons.usb),
-                    backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
-                    labelStyle: mediumTextStyle(),
-                    splashColor: AppColors.greyBright,
-                    onTap: () {
-                      _printingHandler.showDevices(initialIndex: PrinterSelectIndex.docket);
-                    },
-                  );
-                },
+            if (_device != Device.sunmi) SizedBox(width: AppSize.s8.rw),
+            if (_device != Device.sunmi)
+              Expanded(
+                child: ValueListenableBuilder(
+                  valueListenable: _connectionStateListener,
+                  builder: (_, value, __) {
+                    _showDevicesController.setEnabled(LocalPrinterDataManager().cType() == value);
+                    return KTButton(
+                      controller: _showDevicesController,
+                      prefixWidget: Icon(_buttonIcon(), size: 20.rSp),
+                      backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.white, strokeColor: AppColors.neutralB40),
+                      labelStyle: mediumTextStyle(),
+                      splashColor: AppColors.greyBright,
+                      onTap: () {
+                        _printingHandler.showPrinterDevicesForConnect(initialIndex: PrinterTab.DOCKET);
+                      },
+                    );
+                  },
+                ),
               ),
-            ),
           ],
         ),
       );
+
+  IconData _buttonIcon() {
+    switch (LocalPrinterDataManager().cType()) {
+      case CType.BLE:
+        return Icons.bluetooth;
+      case CType.USB:
+        return Icons.usb;
+      default:
+        return Icons.wifi;
+    }
+  }
 }

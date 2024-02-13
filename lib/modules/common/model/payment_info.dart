@@ -5,6 +5,7 @@ import '../entities/payment_info.dart';
 class PaymentMethodModel {
   int? id;
   String? title;
+  String? logo;
   List<PaymentChannelModel>? channels;
 
   PaymentMethodModel({this.id, this.title, this.channels});
@@ -12,6 +13,7 @@ class PaymentMethodModel {
   PaymentMethodModel.fromJson(Map<String, dynamic> json) {
     id = json['group_id'];
     title = json['group_title'];
+    logo = json['group_logo'];
     if (json['channels'] != null) {
       channels = <PaymentChannelModel>[];
       json['channels'].forEach((v) {
@@ -23,6 +25,7 @@ class PaymentMethodModel {
   PaymentMethod toEntity() => PaymentMethod(
         id: id.orZero(),
         title: title.orEmpty(),
+        logo: logo.orEmpty(),
         channels: channels?.map((e) => e.toEntity()).toList() ?? [],
       );
 }
@@ -30,21 +33,27 @@ class PaymentMethodModel {
 class PaymentChannelModel {
   int? id;
   String? title;
+  String? logo;
   int? sequence;
+  int? paymentMethodId;
 
   PaymentChannelModel({this.id, this.title, this.sequence});
 
   PaymentChannelModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
+    logo = json['logo'];
     sequence = json['sequence'];
+    paymentMethodId = json['payment_method_id'];
   }
 
   PaymentChannel toEntity() {
     return PaymentChannel(
       id: id.orZero(),
       title: title.orEmpty(),
+      logo: logo.orEmpty(),
       sequence: sequence.orZero(),
+      paymentMethodId: paymentMethodId.orZero(),
     );
   }
 }

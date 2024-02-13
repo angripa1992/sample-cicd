@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/route/routes.dart';
@@ -21,11 +20,11 @@ import 'package:klikit/modules/orders/presentation/bloc/total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/bloc/yesterday_total_order_cubit.dart';
 import 'package:klikit/modules/orders/presentation/orders_screen.dart';
 import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
-import 'package:klikit/notification/notification_data.dart';
 import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/presentation/printer_setting_cubit.dart';
-import 'package:klikit/printer/printing_handler.dart';
+import 'package:klikit/printer/printer_local_data_manager.dart';
+import 'package:klikit/printer/printer_manager.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/segments/event_manager.dart';
@@ -53,7 +52,7 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreenState extends State<BaseScreen> {
   final _appPreferences = getIt.get<AppPreferences>();
-  final _printingHandler = getIt.get<PrintingHandler>();
+  final _printingHandler = getIt.get<PrinterManager>();
   final _languageManager = getIt.get<LanguageManager>();
   final _businessInfoProvider = getIt.get<BusinessInformationProvider>();
 
@@ -91,19 +90,12 @@ class _BaseScreenState extends State<BaseScreen> {
 
   void _handlePrinterSetting(PrinterSetting setting) async {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-    await _appPreferences.savePrinterSettings(printerSetting: setting);
+    await _appPreferences.savePrinterSettings(setting);
     if (args == null) {
-      _printingHandler.showDevices(initialIndex: PrinterSelectIndex.docket);
-    } else if (args.containsKey(ArgumentKey.kIS_NOTIFICATION)) {
-      if (args[ArgumentKey.kIS_NOTIFICATION]) {
-        if (args[ArgumentKey.kNOTIFICATION_TYPE] == NotificationType.IN_APP) {
-          return;
-        }
-        final NotificationData notificationData = args[ArgumentKey.kNOTIFICATION_DATA];
-        final order = await NotificationDataHandler().getOrderById(notificationData.orderId.toInt());
-        if (order != null && order.status == OrderStatus.ACCEPTED) {
-          _printingHandler.printDocket(order: order, isAutoPrint: true);
-        }
+      final localPrinter = LocalPrinterDataManager().localPrinter();
+      final device = LocalPrinterDataManager().activeDevice();
+      if (localPrinter == null && device != Device.sunmi) {
+        _printingHandler.showPrinterDevicesForConnect(initialIndex: PrinterTab.DOCKET);
       }
     }
   }

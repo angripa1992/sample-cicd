@@ -31,7 +31,7 @@ class UserInfo {
   final String businessName;
   final bool firstLogin;
   final bool orderNotificationEnabled;
-  final bool sunmiDevice;
+  final int printingDeviceId;
   final bool menuV2Enabled;
   final int menuVersion;
   final bool menuV2EnabledForKlikitOrder;
@@ -59,7 +59,7 @@ class UserInfo {
     required this.firstLogin,
     required this.orderNotificationEnabled,
     required this.menuVersionForKlikitOrder,
-    required this.sunmiDevice,
+    required this.printingDeviceId,
     required this.branchIDs,
     required this.branchTitles,
     required this.roles,
@@ -91,7 +91,7 @@ class UserInfo {
       businessName: businessName,
       firstLogin: firstLogin,
       orderNotificationEnabled: orderNotificationEnabled,
-      sunmiDevice: sunmiDevice,
+      printingDeviceId: printingDeviceId,
       branchIDs: branchIDs,
       branchTitles: branchTitles,
       roles: roles,

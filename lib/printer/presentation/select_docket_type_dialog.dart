@@ -50,12 +50,10 @@ void showSelectDocketTypeDialog({
 class DocketTypeSelectionView extends StatefulWidget {
   final Function(int) onChange;
 
-  const DocketTypeSelectionView({Key? key, required this.onChange})
-      : super(key: key);
+  const DocketTypeSelectionView({Key? key, required this.onChange}) : super(key: key);
 
   @override
-  State<DocketTypeSelectionView> createState() =>
-      _DocketTypeSelectionViewState();
+  State<DocketTypeSelectionView> createState() => _DocketTypeSelectionViewState();
 }
 
 class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
@@ -80,8 +78,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
             ),
           ),
           leading: Radio(
-            fillColor:
-                MaterialStateColor.resolveWith((states) => AppColors.primary),
+            fillColor: MaterialStateColor.resolveWith((states) => AppColors.primary),
             value: DocketType.kitchen,
             groupValue: _currentDocketType,
             onChanged: (int? type) => _changeDocketType(type!),
@@ -96,8 +93,7 @@ class _DocketTypeSelectionViewState extends State<DocketTypeSelectionView> {
             ),
           ),
           leading: Radio(
-            fillColor:
-                MaterialStateColor.resolveWith((states) => AppColors.primary),
+            fillColor: MaterialStateColor.resolveWith((states) => AppColors.primary),
             value: DocketType.customer,
             groupValue: _currentDocketType,
             onChanged: (int? type) => _changeDocketType(type!),

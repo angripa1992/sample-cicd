@@ -207,9 +207,7 @@ class BranchModel {
         webshopCustomFeesTitle: webshopCustomFeesTitle.orEmpty(),
         mergeFeeEnabled: mergeFeesEnabled.orFalse(),
         mergeFeeTitle: mergeFeesTitle.orEmpty(),
-
-        /// TODO: add remote data
-        prePaymentEnabled: true,
-        postPaymentEnabled: true,
+        prePaymentEnabled: prePaymentEnabled.orFalse(),
+        postPaymentEnabled: postPaymentEnabled.orFalse(),
       );
 }

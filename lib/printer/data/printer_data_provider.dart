@@ -34,6 +34,7 @@ class PrinterDataProvider {
       itemPrice: order.itemPrice,
       finalPrice: order.finalPrice,
       discount: order.discount,
+      customerDiscount: order.customerDiscount,
       deliveryFee: order.deliveryFee,
       additionalFee: order.additionalFee,
       vat: order.vat,
@@ -80,6 +81,7 @@ class PrinterDataProvider {
       mergeFeeTitle: branchInfo?.mergeFeeTitle ?? EMPTY,
       mergeFeeEnabled: branchInfo?.mergeFeeEnabled ?? false,
       roundOffAmount: order.roundOffAmount,
+      providerRoundOffAmount: order.providerRoundOffAmount,
       gatewayFeePaidByCustomer: order.gatewayFeePaidByCustomer,
       serviceFeePaidByCustomer: order.serviceFeePaidByCustomer,
       fulfillmentRider: order.fulfillmentRider != null

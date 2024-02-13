@@ -194,6 +194,7 @@ class MenuV1SubSectionsModel {
   String? title;
   String? description;
   bool? enabled;
+  bool? isPopularCategory;
   bool? hidden;
   @JsonKey(name: 'alc_beverages')
   bool? alcBeverages;
@@ -206,6 +207,7 @@ class MenuV1SubSectionsModel {
     this.title,
     this.description,
     this.enabled,
+    this.isPopularCategory,
     this.hidden,
     this.alcBeverages,
     this.statuses,
@@ -215,7 +217,6 @@ class MenuV1SubSectionsModel {
 
   factory MenuV1SubSectionsModel.fromJson(Map<String, dynamic> json) => _$MenuV1SubSectionsModelFromJson(json);
 }
-
 
 @JsonSerializable()
 class MenuV1ItemsModel {
@@ -232,6 +233,8 @@ class MenuV1ItemsModel {
   MenuV1StockModel? stock;
   @JsonKey(name: 'default_item_id')
   int? defaultItemId;
+  @JsonKey(name: 'category_id')
+  int? categoryId;
   @JsonKey(name: 'sku_id')
   String? skuID;
   List<V1ModifierGroupModel>? groups;
@@ -250,6 +253,7 @@ class MenuV1ItemsModel {
     this.statuses,
     this.sequence,
     this.defaultItemId,
+    this.categoryId,
     this.stock,
     this.skuID,
     this.groups,

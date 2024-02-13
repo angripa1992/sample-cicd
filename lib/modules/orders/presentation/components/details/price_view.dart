@@ -6,6 +6,7 @@ import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_tooltip.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
 import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
@@ -107,10 +108,10 @@ class _PriceViewState extends State<PriceView> {
                       return Container();
                     },
                   ),
-                  if (widget.order.discount > 0)
+                  if (widget.order.merchantDiscount > 0)
                     _priceBreakdownItem(
                       '${AppStrings.discount.tr()} ${_appliedPromos(widget.order)}',
-                      widget.order.discount,
+                      widget.order.merchantDiscount,
                       showNegative: true,
                     ),
                   if (widget.order.rewardDiscount > 0)
@@ -202,6 +203,8 @@ class _PriceViewState extends State<PriceView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(name, style: regularTextStyle(fontSize: AppSize.s12.rSp, color: showNegative ? AppColors.red : AppColors.neutralB600)),
+          Visibility(visible: isRoundOff, child: KTTooltip(message: AppStrings.round_off_tooltip.tr()).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 8)),
+          const Spacer(),
           Text(
             isRoundOff ? '${widget.order.currencySymbol} ${price.isNegative ? '' : '+'}${price / 100}' : '${showNegative ? '-' : ''}${PriceCalculator.convertPrice(widget.order, price)}',
             style: textStyle,
@@ -259,15 +262,15 @@ class TotalPrice extends StatelessWidget {
         ((!order.gatewayFeePaidByCustomer && order.gatewayFee > 0) ||
             (!order.serviceFeePaidByCustomer && order.serviceFee > 0) ||
             (!order.feePaidByCustomer && (order.serviceFee > 0 || order.gatewayFee > 0 || mergeFeesEnabled)))) {
-      String msg = 'Total fee includes processing fee and service fee';
+      String msg = AppStrings.total_of_processing_and_service_fee.tr();
 
       if ((!order.gatewayFeePaidByCustomer && order.serviceFeePaidByCustomer) || (order.gatewayFee > 0 && order.serviceFee == 0)) {
-        msg = 'Total fee includes processing fee';
+        msg = AppStrings.total_fee_of_processing_fee.tr();
       } else if ((order.gatewayFeePaidByCustomer && !order.serviceFeePaidByCustomer) || (order.gatewayFee == 0 && order.serviceFee > 0)) {
-        msg = 'Total fee includes service fee';
+        msg = AppStrings.total_fee_of_service_fee.tr();
       }
 
-      return Tooltip(
+      return KTTooltip(
         message: msg,
         child: ImageResourceResolver.infoSVG.getImageWidget(width: AppSize.s16.rw, height: AppSize.s16.rh),
       ).setVisibilityWithSpace(direction: Axis.horizontal, startSpace: 8.rw);

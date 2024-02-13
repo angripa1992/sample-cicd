@@ -59,7 +59,7 @@ class CartManager {
 
   int get orderType => _orderType ?? OrderType.DINE_IN;
 
-  int get orderSource => _orderSource ?? OrderSource.IN_STORE;
+  int get orderSource => _orderSource ?? OrderSourceID.IN_STORE;
 
   bool? get roundOffApplicable => _roundOffApplicable;
 

@@ -51,12 +51,10 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, SuccessResponse>> updateUserInfo(
-      UserUpdateRequestModel params, int userID) async {
+  Future<Either<Failure, SuccessResponse>> updateUserInfo(UserUpdateRequestModel params, int userID) async {
     if (await _networkConnectivity.hasConnection()) {
       try {
-        final response =
-            await _userRemoteDataSource.updateUserInfo(params, userID);
+        final response = await _userRemoteDataSource.updateUserInfo(params, userID);
         return Right(mapSuccessResponse(response));
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
@@ -67,12 +65,10 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, SuccessResponse>> sendResetLink(
-      ResetLinkRequestModel requestModel) async {
+  Future<Either<Failure, SuccessResponse>> sendResetLink(ResetLinkRequestModel requestModel) async {
     if (await _networkConnectivity.hasConnection()) {
       try {
-        final response =
-            await _userRemoteDataSource.sendResetLink(requestModel);
+        final response = await _userRemoteDataSource.sendResetLink(requestModel);
         return Right(mapSuccessResponse(response));
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
@@ -83,12 +79,10 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, SuccessResponse>> changePassword(
-      ChangePasswordRequestModel requestModel) async {
+  Future<Either<Failure, SuccessResponse>> changePassword(ChangePasswordRequestModel requestModel) async {
     if (await _networkConnectivity.hasConnection()) {
       try {
-        final response =
-            await _userRemoteDataSource.changePassword(requestModel);
+        final response = await _userRemoteDataSource.changePassword(requestModel);
         return Right(mapSuccessResponse(response));
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
@@ -99,8 +93,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<Failure, SuccessResponse>> changeSettings(
-      Map<String, dynamic> params) async {
+  Future<Either<Failure, SuccessResponse>> changeUserSettings(Map<String, dynamic> params) async {
     if (await _networkConnectivity.hasConnection()) {
       try {
         final response = await _userRemoteDataSource.changeUserSetting(params);

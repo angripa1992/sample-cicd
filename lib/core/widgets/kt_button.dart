@@ -66,7 +66,7 @@ class KTButton extends StatelessWidget {
                     ),
                   ),
                   Visibility(visible: controller.loaded == false, child: 5.horizontalSpacer()),
-                  prefixWidget.setVisibilityWithSpace(endSpace: 2, direction: Axis.horizontal),
+                  Opacity(opacity: controller.enabled ? 1.0 : 0.5, child: prefixWidget).setVisibilityWithSpace(endSpace: 2, direction: Axis.horizontal),
                   Text(
                     controller.label,
                     maxLines: 1,

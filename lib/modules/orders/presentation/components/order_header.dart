@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
@@ -47,11 +48,11 @@ class _OrderHeaderViewState extends State<OrderHeaderView> {
             color: AppColors.white,
             padding: EdgeInsets.symmetric(
               horizontal: AppSize.s16.rw,
-              vertical: AppSize.s16.rh,
+              vertical: AppSize.s4.rh,
             ),
             child: const PauseStoreHeaderView(),
           ),
-        if (!UserPermissionManager().isBizOwner()) Divider(color: AppColors.grey, thickness: 6.rh, height: 0),
+        if (!UserPermissionManager().isBizOwner()) 6.rh.verticalSpacer(),
         Container(
           color: AppColors.white,
           padding: EdgeInsets.symmetric(

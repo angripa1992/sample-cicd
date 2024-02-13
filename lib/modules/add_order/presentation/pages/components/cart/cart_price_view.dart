@@ -4,6 +4,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
+import 'package:klikit/core/widgets/kt_tooltip.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
 
 import '../../../../../../app/di.dart';
@@ -110,15 +111,16 @@ class CartPriceView extends StatelessWidget {
         const Divider(),
         Row(
           children: [
-            Expanded(
-              child: Text(
-                'Rounding Off',
-                style: regularTextStyle(
-                  color: AppColors.black,
-                  fontSize: 14.rSp,
-                ),
+            Text(
+              'Rounding Off',
+              style: regularTextStyle(
+                color: AppColors.black,
+                fontSize: 14.rSp,
               ),
             ),
+            8.horizontalSpacer(),
+            KTTooltip(message: AppStrings.round_off_tooltip.tr()),
+            Spacer(),
             Container(
               padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s4.rh),
               decoration: BoxDecoration(

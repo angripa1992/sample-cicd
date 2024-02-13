@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:klikit/app/constants.dart';
-import 'package:klikit/modules/menu/domain/entities/modifier/modifier_group.dart';
 
 import '../item_price.dart';
 import 'menu_available_times.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/core/widgets/kt_tooltip.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/styles.dart';
@@ -45,7 +46,7 @@ class OrderSummaryCard extends StatelessWidget {
                   label,
                   style: regularTextStyle(),
                 ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
-                Tooltip(
+                KTTooltip(
                   message: tooltipMessage,
                   child: ImageResourceResolver.infoSVG.getImageWidget(
                     width: AppSize.s16.rw,

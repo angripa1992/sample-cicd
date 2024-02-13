@@ -17,7 +17,7 @@ import 'package:klikit/resources/styles.dart';
 
 import '../../app/session_manager.dart';
 import '../../core/route/routes_generator.dart';
-import '../../printer/printing_handler.dart';
+import '../../printer/printer_manager.dart';
 import '../../resources/colors.dart';
 import '../../resources/values.dart';
 import '../notification_data_handler.dart';
@@ -26,7 +26,7 @@ class InAppNotificationHandler {
   static bool _isShowing = false;
   static final _instance = InAppNotificationHandler._internal();
   final _notificationSound = NotificationSound();
-  final _printingHandler = getIt.get<PrintingHandler>();
+  final _printingHandler = getIt.get<PrinterManager>();
   late ValueNotifier<NotificationCounter> _counter;
   final _orderBadgeNotifier = ValueNotifier<bool>(false);
 
@@ -97,7 +97,7 @@ class InAppNotificationHandler {
         notificationData.orderId.toInt(),
       );
       if (order != null && order.status == OrderStatus.ACCEPTED) {
-        _printingHandler.printDocket(order: order, isAutoPrint: true);
+        await _printingHandler.doAutoDocketPrinting(order: order, isFromBackground: false);
       }
     });
   }
@@ -159,13 +159,10 @@ class InAppNotificationHandler {
 
   void _showDialog(NotificationData data) {
     _isShowing = true;
-
     showDialog(
       context: RoutesGenerator.navigatorKey.currentState!.context,
       barrierDismissible: false,
       builder: (context) {
-        const childSize = AppSize.s16;
-
         return ValueListenableBuilder(
           valueListenable: _counter,
           builder: (BuildContext context, NotificationCounter counter, Widget? child) {

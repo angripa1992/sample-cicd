@@ -48,7 +48,8 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
 
   @override
   void initState() {
-    _currentOrder = widget.order.copy();
+    //_currentOrder = widget.order.copy();
+    _currentOrder = widget.order;
     super.initState();
   }
 
@@ -91,7 +92,8 @@ class _EditGrabOrderViewState extends State<EditGrabOrderView> {
 
   void _discard() {
     setState(() {
-      _currentOrder = widget.order.copy();
+      // _currentOrder = widget.order.copy();
+      _currentOrder = widget.order;
       _enableButtonNotifier.value = EditingManager().enabledButton(widget.order, _currentOrder);
       _showPrice = true;
     });

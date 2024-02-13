@@ -87,7 +87,7 @@ class _OrderSummaryViewState extends State<OrderSummaryView> {
                     return OrderSummaryCard(
                       label: orderSummary.label,
                       value: orderSummary.value,
-                      tooltipMessage: orderSummary.label,
+                      tooltipMessage: orderSummary.tooltipMessage,
                       changeInPercentage: 20,
                       labelToCompareWith: '',
                       isPositive: true,

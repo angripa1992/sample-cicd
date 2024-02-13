@@ -6,6 +6,7 @@ import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/response_state.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
+import 'package:klikit/core/widgets/kt_tooltip.dart';
 import 'package:klikit/core/widgets/modal_sheet_manager.dart';
 import 'package:klikit/core/widgets/progress_indicator/circular_progress.dart';
 import 'package:klikit/modules/busy/presentation/pause_store_breakdowns.dart';
@@ -102,8 +103,8 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
             fontSize: AppFontSize.s12.rSp,
           ),
         ).setVisibilityWithSpace(startSpace: AppSize.s8, direction: Axis.horizontal, endSpace: AppSize.s4),
-        Tooltip(
-          message: 'Toggle pause store',
+        KTTooltip(
+          message: AppStrings.toggle_pause_store.tr(),
           child: ImageResourceResolver.infoSVG.getImageWidget(
             width: AppSize.s16.rw,
             height: AppSize.s16.rh,
@@ -127,7 +128,10 @@ class _PauseStoreHeaderViewState extends State<PauseStoreHeaderView> {
           onTap: () {
             _showBreakDowns();
           },
-          child: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh, color: AppColors.neutralB50),
+          child: Padding(
+            padding: EdgeInsets.all(12.rSp),
+            child: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 16.rw, height: 16.rh, color: AppColors.neutralB50),
+          ),
         ),
       ],
     );

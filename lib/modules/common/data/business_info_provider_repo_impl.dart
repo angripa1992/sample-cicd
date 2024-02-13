@@ -105,4 +105,19 @@ class BusinessInfoProviderRepoImpl extends BusinessInfoProviderRepo {
       return Left(ErrorHandler.handleInternetConnection().failure);
     }
   }
+
+  @override
+  Future<Either<Failure, List<PaymentChannel>>> fetchAllPaymentChannels() async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchAllPaymentChannels();
+        final data = response.map((e) => e.toEntity()).toList();
+        return Right(data);
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
 }

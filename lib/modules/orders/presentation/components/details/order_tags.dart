@@ -15,6 +15,7 @@ import 'order_payment_info.dart';
 
 class OrderTagsView extends StatelessWidget {
   final Order order;
+  final bool isCustomBank;
   final VoidCallback onSwitchRider;
   static const _type = 'type';
   static const _typeColor = 'type_color';
@@ -22,6 +23,7 @@ class OrderTagsView extends StatelessWidget {
   const OrderTagsView({
     Key? key,
     required this.order,
+    this.isCustomBank = false,
     required this.onSwitchRider,
   }) : super(key: key);
 
@@ -89,6 +91,7 @@ class OrderTagsView extends StatelessWidget {
               _orderTypeTagView(_getType()),
               if (order.providerId == ProviderID.KLIKIT) _tagView(order.isManualOrder ? AppStrings.manual.tr() : AppStrings.webshop.tr()),
               if (order.providerId == ProviderID.KLIKIT && order.tableNo.isNotEmpty) _tagView('${AppStrings.table_no.tr()} ${order.tableNo}'),
+              if (isCustomBank) _tagView(AppStrings.custom_bank.tr()),
               KTChip(
                 text: _getStatus(),
                 textStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB500),

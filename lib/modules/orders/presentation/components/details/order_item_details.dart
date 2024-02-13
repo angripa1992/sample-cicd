@@ -17,7 +17,7 @@ import 'package:klikit/resources/values.dart';
 import '../../../../../../core/utils/price_calculator.dart';
 import '../../../../../../resources/styles.dart';
 import '../../../../../app/app_preferences.dart';
-import '../../../../../printer/printing_handler.dart';
+import '../../../../../printer/printer_manager.dart';
 import '../../../../common/entities/brand.dart';
 
 class OrderItemDetails extends StatelessWidget {
@@ -220,7 +220,7 @@ class OrderItemDetails extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    getIt.get<PrintingHandler>().printSticker(order, cartV2);
+                    getIt.get<PrinterManager>().printSticker(order, cartV2);
                   },
                 ).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
               ),

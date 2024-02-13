@@ -18,7 +18,7 @@ import 'package:klikit/segments/event_manager.dart';
 import 'package:klikit/segments/segemnt_data_provider.dart';
 
 import '../../../../app/di.dart';
-import '../../../../printer/printing_handler.dart';
+import '../../../../printer/printer_manager.dart';
 import '../../../../resources/colors.dart';
 import '../../../../resources/fonts.dart';
 import '../../../../resources/styles.dart';
@@ -150,7 +150,7 @@ class _ZReportViewState extends State<ZReportView> {
                   if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
                   } else if (state is Success<ZReportData>) {
-                    getIt.get<PrintingHandler>().printZReport(state.data, reportInfo.dateTime, reportEndDate: reportInfo.endDateTime);
+                    getIt.get<PrinterManager>().printZReport(state.data, reportInfo.dateTime, reportEndDate: reportInfo.endDateTime);
                   }
                 },
                 builder: (ct, state) {

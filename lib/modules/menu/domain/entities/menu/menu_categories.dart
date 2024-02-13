@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:klikit/app/extensions.dart';
 
 import 'menu_available_times.dart';
 import 'menu_branch_info.dart';
@@ -15,6 +16,7 @@ class MenuCategory {
   final int sequence;
   final MenuAvailableTimes availableTimes;
   final MenuBranchInfo branchInfo;
+  final bool isPopularCategory;
   bool enabled;
   List<MenuCategoryItem> items;
 
@@ -30,19 +32,22 @@ class MenuCategory {
     required this.items,
     required this.availableTimes,
     required this.branchInfo,
+    required this.isPopularCategory,
   });
 
-  MenuCategory copyWith({int? menuVersion,
-    int? id,
-    String? title,
-    String? description,
-    List<MenuVisibility>? visibilities,
-    bool? alcBeverages,
-    int? sequence,
-    MenuAvailableTimes? availableTimes,
-    MenuBranchInfo? branchInfo,
-    bool? enabled,
-    List<MenuCategoryItem>? items}) {
+  MenuCategory copyWith(
+      {int? menuVersion,
+      int? id,
+      String? title,
+      String? description,
+      List<MenuVisibility>? visibilities,
+      bool? alcBeverages,
+      int? sequence,
+      MenuAvailableTimes? availableTimes,
+      bool? isPopularCategory,
+      MenuBranchInfo? branchInfo,
+      bool? enabled,
+      List<MenuCategoryItem>? items}) {
     return MenuCategory(
         menuVersion: menuVersion ?? this.menuVersion,
         id: id ?? this.id,
@@ -54,6 +59,7 @@ class MenuCategory {
         sequence: sequence ?? this.sequence,
         items: items ?? this.items,
         availableTimes: availableTimes ?? this.availableTimes,
+        isPopularCategory: isPopularCategory.orFalse(),
         branchInfo: branchInfo ?? this.branchInfo);
   }
 

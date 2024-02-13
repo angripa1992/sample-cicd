@@ -25,7 +25,7 @@ class UserInfoModel {
   String? business_name;
   bool? first_login;
   bool? order_notification_enabled;
-  bool? sunmi_device;
+  int? printing_device_id;
   bool? menuv2_enabled;
   int? menu_version;
   bool? menuv2_enabled_for_klikit_order;
@@ -51,7 +51,7 @@ class UserInfoModel {
     this.business_name,
     this.first_login,
     this.order_notification_enabled,
-    this.sunmi_device,
+    this.printing_device_id,
     this.menuv2_enabled,
     this.menu_version,
     this.menuv2_enabled_for_klikit_order,

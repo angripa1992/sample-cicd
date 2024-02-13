@@ -6,12 +6,11 @@ publish_to: 'none'
 version: 1.0.0+100
 
 environment:
-  sdk: ">=2.17.6 <3.0.6"
+  sdk: ">=2.17.6 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.2
   get_it: ^7.2.0
   easy_localization: ^3.0.1
@@ -52,18 +51,17 @@ dependencies:
   crypto: ^3.0.2
   wakelock: ^0.6.2
   salesiq_mobilisten: ^3.1.1
+  scrollable_positioned_list: 0.3.5
   # firebase
   firebase_core: ^2.11.0
   firebase_messaging: ^14.5.0
   firebase_remote_config: ^3.0.9
   firebase_analytics: ^10.1.0
   firebase_crashlytics: ^3.0.11
-  scrollable_positioned_list: 0.3.5
 
   docket_design_template:
-#    path: /Users/user/workspace/local/projects/docket_design_template
     git:
-      url: https://github.com/angripa1992/docket_design_template.git
+      url: https://github.com/klikit/docket_design_template.git
       ref: master
 
 dev_dependencies:
@@ -86,6 +84,7 @@ flutter:
     - assets/images/3.0x/
     - assets/images/4.0x/
     - assets/docket_fonts/
+    - assets/env/
 
   fonts:
     - family: Inter
@@ -102,10 +101,3 @@ flutter:
           weight: 300
         - asset: assets/fonts/Inter-Thin.ttf
           weight: 100
-
-#dependency_overrides:
-#  printing:
-#    git:
-#      url: https://github.com/DavBfr/dart_pdf
-#      ref: master
-#      path: printing

@@ -18,5 +18,7 @@ abstract class BusinessInfoProviderRepo {
 
   Future<Either<Failure, List<PaymentStatus>>> fetchPaymentSources();
 
-  Future<Either<Failure, List<Branch>>> fetchBranches(Map<String,dynamic> params);
+  Future<Either<Failure, List<Branch>>> fetchBranches(Map<String, dynamic> params);
+
+  Future<Either<Failure, List<PaymentChannel>>> fetchAllPaymentChannels();
 }

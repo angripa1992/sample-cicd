@@ -12,14 +12,16 @@ import '../../resources/values.dart';
 
 class SetPrinterConnectionType extends StatefulWidget {
   final int initType;
-  final bool willUsbEnabled;
+  final int device;
+  final bool isDocket;
   final Function(int) onChanged;
 
   const SetPrinterConnectionType({
     Key? key,
     required this.onChanged,
     required this.initType,
-    required this.willUsbEnabled,
+    required this.device,
+    required this.isDocket,
   }) : super(key: key);
 
   @override
@@ -66,12 +68,27 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
             onChanged: _changePrinterConnectionType,
             name: AppStrings.bluetooth.tr(),
           ),
-          PrinterSettingRadioItem(
-            value: CType.USB,
-            groupValue: _connectionType!,
-            onChanged: _changePrinterConnectionType,
-            name: widget.willUsbEnabled ? AppStrings.usb.tr() : AppStrings.disable.tr(),
-          ),
+          if (!widget.isDocket)
+            PrinterSettingRadioItem(
+              value: CType.DISABLED,
+              groupValue: _connectionType!,
+              onChanged: _changePrinterConnectionType,
+              name: AppStrings.disable.tr(),
+            ),
+          if (widget.isDocket && widget.device != Device.imin)
+            PrinterSettingRadioItem(
+              value: CType.USB,
+              groupValue: _connectionType!,
+              onChanged: _changePrinterConnectionType,
+              name: AppStrings.usb.tr(),
+            ),
+          // if (widget.isDocket && widget.device != Device.imin)
+          //   PrinterSettingRadioItem(
+          //     value: CType.WIFI,
+          //     groupValue: _connectionType!,
+          //     onChanged: _changePrinterConnectionType,
+          //     name: 'Wifi',
+          //   ),
         ],
       ),
     );

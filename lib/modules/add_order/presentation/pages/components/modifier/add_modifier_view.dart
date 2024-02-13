@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
@@ -8,9 +9,10 @@ import 'package:klikit/modules/add_order/presentation/pages/components/modifier/
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/modifier_group_info.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
-import 'package:klikit/modules/base/order_counter.dart';
+import 'package:klikit/modules/base/common_dashboard_app_bar.dart';
 import 'package:klikit/modules/menu/domain/entities/item_price.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/strings.dart';
 
 import '../../../../../common/entities/brand.dart';
 import '../../../../../menu/domain/entities/menu/menu_item.dart';
@@ -102,30 +104,21 @@ class _AddModifierViewState extends State<AddModifierView> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.white,
-        appBar: AppBar(
-          title: const Text('Item Details'),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-              widget.onClose(null);
-            },
-            icon: const Icon(Icons.arrow_back),
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.rSp, vertical: 10.rSp),
-              child: OrderCounter(
-                onCartTap: () {
-                  Navigator.pop(context);
-                  widget.onCartTap();
-                },
-              ),
-            ),
-          ],
-        ),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
+            CommonDashboardAppBar(
+              title: AppStrings.item_details.tr(),
+              onNavBack: () {
+                Navigator.pop(context);
+                widget.onClose(null);
+              },
+              onCartTap: () {
+                Navigator.pop(context);
+                widget.onCartTap();
+              },
+            ),
+            Divider(color: AppColors.greyLight, thickness: 1, height: 1),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -145,7 +138,7 @@ class _AddModifierViewState extends State<AddModifierView> {
                         );
                       }).toList(),
                     ),
-                   if(widget.groups.isNotEmpty) Divider(thickness: 8.rh, color: AppColors.grey),
+                    if (widget.groups.isNotEmpty) Divider(thickness: 8.rh, color: AppColors.grey),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 8.rh),
                       child: SpecialInstructionField(controller: _textController),

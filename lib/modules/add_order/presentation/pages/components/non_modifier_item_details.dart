@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/item_description_view.dart';
-import 'package:klikit/modules/base/order_counter.dart';
+import 'package:klikit/modules/base/common_dashboard_app_bar.dart';
 
 import '../../../../../resources/colors.dart';
 import '../../../../../resources/strings.dart';
@@ -37,24 +37,21 @@ class _NonModifierItemDetailsState extends State<NonModifierItemDetails> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.white,
-        appBar: AppBar(
-          title: const Text('Item Details'),
-          actions: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.rSp, vertical: 10.rSp),
-              child: OrderCounter(
-                onCartTap: () {
-                  Navigator.pop(context);
-                  widget.gotoCart();
-                },
-              ),
-            ),
-          ],
-        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            CommonDashboardAppBar(
+              title: AppStrings.item_details.tr(),
+              onNavBack: () {
+                Navigator.pop(context);
+              },
+              onCartTap: () {
+                Navigator.pop(context);
+                widget.gotoCart();
+              },
+            ),
+            Divider(color: AppColors.greyLight, thickness: 1, height: 1),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(

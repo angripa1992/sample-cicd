@@ -407,4 +407,24 @@ class AppStrings {
   static const String time_range_selection_message = 'time_range_selection_message';
   static const String time_selection = 'time_selection';
   static const String select_time = 'select_time';
+  static const String net_order_value = 'net_order_value';
+  static const String lost_revenue = 'lost_revenue';
+  static const String total_of_processing_and_service_fee = 'total_of_processing_and_service_fee';
+  static const String total_fee_of_processing_fee = 'total_fee_of_processing_fee';
+  static const String total_fee_of_service_fee = 'total_fee_of_service_fee';
+  static const String access_denied_message_middle_part_three = "access_denied_message_middle_part_three";
+  static const String toggle_pause_store = 'toggle_pause_store';
+  static const String success = 'success';
+  static const String error = 'error';
+  static const String okay = 'okay';
+  static const String completed_orders_tooltip = 'completed_orders_tooltip';
+  static const String cancelled_orders_tooltip = 'cancelled_orders_tooltip';
+  static const String gross_order_value_tooltip = 'gross_order_value_tooltip';
+  static const String discount_value_tooltip = 'discount_value_tooltip';
+  static const String net_order_value_tooltip = 'net_order_value_tooltip';
+  static const String lost_revenue_tooltip = 'lost_revenue_tooltip';
+  static const String item_details = 'item_details';
+  static const String round_off_tooltip = 'round_off_tooltip';
+  static const String reference_id = 'reference_id';
+  static const String custom_bank = 'custom_bank';
 }

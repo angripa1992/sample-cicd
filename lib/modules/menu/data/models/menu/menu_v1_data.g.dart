@@ -200,6 +200,7 @@ MenuV1SubSectionsModel _$MenuV1SubSectionsModelFromJson(
       title: json['title'] as String?,
       description: json['description'] as String?,
       enabled: json['enabled'] as bool?,
+      isPopularCategory: json['isPopularCategory'] as bool?,
       hidden: json['hidden'] as bool?,
       alcBeverages: json['alc_beverages'] as bool?,
       statuses: (json['statuses'] as List<dynamic>?)
@@ -218,6 +219,7 @@ Map<String, dynamic> _$MenuV1SubSectionsModelToJson(
       'title': instance.title,
       'description': instance.description,
       'enabled': instance.enabled,
+      'isPopularCategory': instance.isPopularCategory,
       'hidden': instance.hidden,
       'alc_beverages': instance.alcBeverages,
       'statuses': instance.statuses,
@@ -237,18 +239,13 @@ MenuV1ItemsModel _$MenuV1ItemsModelFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String?,
       enabled: json['enabled'] as bool?,
       hidden: json['hidden'] as bool?,
-      statuses: (json['statuses'] as List<dynamic>?)
-          ?.map((e) => MenuV1StatusesModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      statuses: (json['statuses'] as List<dynamic>?)?.map((e) => MenuV1StatusesModel.fromJson(e as Map<String, dynamic>)).toList(),
       sequence: json['sequence'] as int?,
       defaultItemId: json['default_item_id'] as int?,
-      stock: json['stock'] == null
-          ? null
-          : MenuV1StockModel.fromJson(json['stock'] as Map<String, dynamic>),
+      categoryId: json['category_id'] as int?,
+      stock: json['stock'] == null ? null : MenuV1StockModel.fromJson(json['stock'] as Map<String, dynamic>),
       skuID: json['sku_id'] as String?,
-      groups: (json['groups'] as List<dynamic>?)
-          ?.map((e) => V1ModifierGroupModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      groups: (json['groups'] as List<dynamic>?)?.map((e) => V1ModifierGroupModel.fromJson(e as Map<String, dynamic>)).toList(),
       haveModifier: json['item_modifier_group_exists'] as bool?,
     );
 
@@ -266,6 +263,7 @@ Map<String, dynamic> _$MenuV1ItemsModelToJson(MenuV1ItemsModel instance) =>
       'sequence': instance.sequence,
       'stock': instance.stock,
       'default_item_id': instance.defaultItemId,
+      'category_id': instance.categoryId,
       'sku_id': instance.skuID,
       'groups': instance.groups,
       'item_modifier_group_exists': instance.haveModifier,

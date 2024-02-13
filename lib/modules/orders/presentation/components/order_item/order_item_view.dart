@@ -8,7 +8,6 @@ import 'package:klikit/core/provider/date_time_provider.dart';
 import 'package:klikit/core/widgets/decorated_image_view.dart';
 import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/presentation/components/order_item/order_action_button_manager.dart';
 import 'package:klikit/modules/orders/presentation/components/order_item/three_pl_status.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
@@ -150,7 +149,7 @@ class OrderItemView extends StatelessWidget {
   Widget _getActionButton() {
     if (order.status == OrderStatus.CANCELLED || order.status == OrderStatus.DELIVERED || order.status == OrderStatus.PICKED_UP) {
       return Visibility(
-        visible: OrderActionButtonManager().canPrint(order),
+        visible: order.canPrint(),
         child: DecoratedImageView(
           iconWidget: ImageResourceResolver.printerSVG.getImageWidget(width: AppSize.s20.rw, height: AppSize.s20.rh, color: AppColors.neutralB600),
           padding: EdgeInsets.all(AppSize.s10.rSp),

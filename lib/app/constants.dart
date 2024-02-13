@@ -7,6 +7,9 @@ class AppConstant {
   static const String supportMail = "help@klikit.io";
   static const int refreshTime = 30;
   static const int busyTimeInMin = 60;
+  static const String devAppId = "io.klikit.enterprise.dev";
+  static const String stagingAppId = "io.klikit.enterprise.staging";
+  static const String prodAppId = "io.klikit.cloud";
 }
 
 class UserRole {
@@ -80,7 +83,7 @@ class PickupType {
   static const int DRIVE_THRU = 2;
 }
 
-class OrderSource {
+class OrderSourceID {
   static const int IN_STORE = 9;
 }
 
@@ -120,11 +123,14 @@ class OrderStatus {
   static const PICKED_UP = 9;
 }
 
-class TabIndex {
+class MenuTab {
   static const MENU = 1;
   static const MODIFIER = 2;
-  static const DOCKET = 3;
-  static const STICKER = 4;
+}
+
+class PrinterTab {
+  static const DOCKET = 0;
+  static const STICKER = 1;
 }
 
 class MenuType {
@@ -151,8 +157,10 @@ class NotificationType {
 }
 
 class CType {
+  static const DISABLED = 0;
   static const BLE = 1;
   static const USB = 2;
+  static const WIFI = 3;
 }
 
 class RollId {
@@ -191,14 +199,9 @@ class DiscountType {
 }
 
 class Device {
-  static const android = 0;
-  static const sunmi = 1;
-  static const imin = 2;
-}
-
-class PrinterSelectIndex {
-  static const docket = 0;
-  static const sticker = 1;
+  static const android = 1;
+  static const sunmi = 2;
+  static const imin = 3;
 }
 
 class MenuVersion {

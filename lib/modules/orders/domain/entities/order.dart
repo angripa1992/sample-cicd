@@ -1,8 +1,10 @@
+import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/user_permission_manager.dart';
+import 'package:klikit/modules/add_order/data/models/applied_promo.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
+import 'package:klikit/modules/common/entities/source.dart';
 import 'package:klikit/modules/orders/domain/entities/rider_info.dart';
 
-import '../../../add_order/data/models/applied_promo.dart';
-import '../../../common/entities/brand.dart';
-import '../../../common/entities/source.dart';
 import 'additional_info.dart';
 import 'cart.dart';
 import 'delicery_info.dart';
@@ -28,10 +30,12 @@ class Order {
   final int providerId;
   final String brandName;
   final int branchId;
+  final String paymentInvoiceId;
   final int status;
   final int itemPrice;
   final int finalPrice;
   final int discount;
+  final int customerDiscount;
   final int merchantDiscount;
   final int providerDiscount;
   final int deliveryFee;
@@ -72,7 +76,6 @@ class Order {
   final int autoPilotTime;
   final OrderSource orderSource;
   final String tableNo;
-  final bool canMarkReady;
   final String discountDisplay;
   final String additionalFeeDisplay;
   final String deliveryFeeDisplay;
@@ -94,12 +97,7 @@ class Order {
   final RiderInfo? fulfillmentRider;
   final int fulfillmentStatusId;
   final String fulfillmentTrackingUrl;
-  final bool canFindFulfillmentRider;
-  final bool canMarkAccept;
-  final bool canMarkCancel;
   final int threePlDispatchType;
-  final int cancellationReasonId;
-  final String cancellationReason;
   final int restaurantServiceFee;
   final String estimatedPickUpAt;
   final OrderDeliveryInfo? deliveryInfo;
@@ -112,13 +110,21 @@ class Order {
   final String queueNo;
   final int pickupType;
   final AdditionalInfo? additionalInfo;
-  final bool canCancelRider;
   final bool feePaidByCustomer;
   final num mergeFee;
   final num rewardDiscount;
   final num roundOffAmount;
+  final num providerRoundOffAmount;
   final bool gatewayFeePaidByCustomer;
   final bool serviceFeePaidByCustomer;
+  final int cancellationReasonId;
+  final String cancellationReason;
+  final bool canFindFulfillmentRider;
+  final bool canCancelRider;
+  final bool canCancel;
+  final bool canAccept;
+  final bool canReady;
+  final bool canDeliver;
   bool canUpdate;
   num preparationTime;
   String klikitComment;
@@ -133,10 +139,12 @@ class Order {
     required this.providerId,
     required this.brandName,
     required this.branchId,
+    required this.paymentInvoiceId,
     required this.status,
     required this.itemPrice,
     required this.finalPrice,
     required this.discount,
+    required this.customerDiscount,
     required this.merchantDiscount,
     required this.providerDiscount,
     required this.deliveryFee,
@@ -181,8 +189,6 @@ class Order {
     required this.autoPilotTime,
     required this.orderSource,
     required this.tableNo,
-    required this.canUpdate,
-    required this.canMarkReady,
     required this.discountDisplay,
     required this.additionalFeeDisplay,
     required this.deliveryFeeDisplay,
@@ -205,8 +211,6 @@ class Order {
     required this.fulfillmentStatusId,
     required this.fulfillmentTrackingUrl,
     required this.canFindFulfillmentRider,
-    required this.canMarkCancel,
-    required this.canMarkAccept,
     required this.threePlDispatchType,
     required this.orderAppliedPromo,
     required this.itemAppliedPromos,
@@ -228,113 +232,49 @@ class Order {
     required this.mergeFee,
     required this.rewardDiscount,
     required this.roundOffAmount,
+    required this.providerRoundOffAmount,
     required this.gatewayFeePaidByCustomer,
     required this.serviceFeePaidByCustomer,
+    required this.canUpdate,
+    required this.canAccept,
+    required this.canReady,
+    required this.canCancel,
+    required this.canDeliver,
   });
 
-  Order copy() => Order(
-        id: id,
-        externalId: externalId,
-        shortId: shortId,
-        providerId: providerId,
-        brandName: brandName,
-        branchId: branchId,
-        status: status,
-        itemPrice: itemPrice,
-        finalPrice: finalPrice,
-        discount: discount,
-        merchantDiscount: merchantDiscount,
-        providerDiscount: providerDiscount,
-        deliveryFee: deliveryFee,
-        additionalFee: additionalFee,
-        gatewayFee: gatewayFee,
-        serviceFee: serviceFee,
-        customFee: customFee,
-        vat: vat,
-        currency: currency,
-        currencySymbol: currencySymbol,
-        itemCount: itemCount,
-        uniqueItemCount: uniqueItemCount,
-        scheduledStatus: scheduledStatus,
-        scheduledTime: scheduledTime,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        userId: userId,
-        userFirstName: userFirstName,
-        userLastName: userLastName,
-        userProfilePic: userProfilePic,
-        userPhone: userPhone,
-        userEmail: userEmail,
-        brands: brands.map((e) => e.copy()).toList(),
-        cartV1: cartV1.map((e) => e.copy()).toList(),
-        cartV2: cartV2.map((e) => e.copy()).toList(),
-        klikitStoreId: klikitStoreId,
-        type: type,
-        isFake: isFake,
-        isFoodpandaApiOrder: isFoodpandaApiOrder,
-        isInterceptorOrder: isInterceptorOrder,
-        orderComment: orderComment,
-        deliveryComment: deliveryComment,
-        foodpandaToken: foodpandaToken,
-        klikitComment: klikitComment,
-        isManualOrder: isManualOrder,
-        source: source,
-        paymentMethod: paymentMethod,
-        paymentChannel: paymentChannel,
-        paymentStatus: paymentStatus,
-        autoAccept: autoAccept,
-        autoPilot: autoPilot,
-        autoPilotTime: autoPilotTime,
-        orderSource: orderSource.copy(),
-        tableNo: tableNo,
-        canUpdate: canUpdate,
-        canMarkReady: canMarkReady,
-        discountDisplay: discountDisplay,
-        additionalFeeDisplay: additionalFeeDisplay,
-        deliveryFeeDisplay: deliveryFeeDisplay,
-        finalPriceDisplay: finalPriceDisplay,
-        itemPriceDisplay: itemPriceDisplay,
-        merchantDiscountDisplay: merchantDiscountDisplay,
-        providerDiscountDisplay: providerDiscountDisplay,
-        vatDisplay: vatDisplay,
-        discountTYpe: discountTYpe,
-        discountValue: discountValue,
-        identity: identity,
-        isMixAndMatchOrder: isMixAndMatchOrder,
-        triggeredTime: triggeredTime,
-        isVatIncluded: isVatIncluded,
-        isThreePlOrder: isThreePlOrder,
-        fulfillmentDeliveredTime: fulfillmentDeliveredTime,
-        fulfillmentExpectedPickupTime: fulfillmentExpectedPickupTime,
-        fulfillmentPickupPin: fulfillmentPickupPin,
-        fulfillmentRider: fulfillmentRider,
-        fulfillmentStatusId: fulfillmentStatusId,
-        fulfillmentTrackingUrl: fulfillmentTrackingUrl,
-        canFindFulfillmentRider: canFindFulfillmentRider,
-        canMarkAccept: canMarkAccept,
-        canMarkCancel: canMarkCancel,
-        threePlDispatchType: threePlDispatchType,
-        orderAppliedPromo: orderAppliedPromo,
-        itemAppliedPromos: itemAppliedPromos,
-        cancellationReasonId: cancellationReasonId,
-        cancellationReason: cancellationReason,
-        restaurantServiceFee: restaurantServiceFee,
-        promos: promos,
-        estimatedPickUpAt: estimatedPickUpAt,
-        deliveryInfo: deliveryInfo,
-        providerSubTotal: providerSubTotal,
-        providerGrandTotal: providerGrandTotal,
-        providerAdditionalFee: providerAdditionalFee,
-        preparationTime: preparationTime,
-        queueNo: queueNo,
-        pickupType: pickupType,
-        additionalInfo: additionalInfo,
-        canCancelRider: canCancelRider,
-        feePaidByCustomer: feePaidByCustomer,
-        mergeFee: mergeFee,
-        rewardDiscount: rewardDiscount,
-        roundOffAmount: roundOffAmount,
-        gatewayFeePaidByCustomer: gatewayFeePaidByCustomer,
-        serviceFeePaidByCustomer: serviceFeePaidByCustomer,
-      );
+  bool canAcceptOrder() => canAccept;
+
+  bool canCancelOrder() => UserPermissionManager().canCancelOrder() && canCancel;
+
+  bool canReadyOrder() => canReady;
+
+  bool canDeliveryOrder() => canDeliver;
+
+  bool canFindRider() {
+    if (isInterceptorOrder) {
+      return false;
+    } else if ((status == OrderStatus.ACCEPTED || status == OrderStatus.READY) && isThreePlOrder && canFindFulfillmentRider) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool canTrackRider() {
+    return (status != OrderStatus.CANCELLED && status != OrderStatus.DELIVERED && status != OrderStatus.PICKED_UP) && fulfillmentTrackingUrl.isNotEmpty;
+  }
+
+  bool canUpdateOrder() {
+    if (UserPermissionManager().isBizOwner()) {
+      return false;
+    } else if (isManualOrder && paymentChannel == PaymentChannelID.CREATE_QRIS && !canUpdate) {
+      return false;
+    } else {
+      return canUpdate;
+    }
+  }
+
+  bool canPrint() {
+    return status != OrderStatus.PLACED && !UserPermissionManager().isBizOwner();
+  }
 }

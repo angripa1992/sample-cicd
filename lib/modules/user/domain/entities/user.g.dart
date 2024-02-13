@@ -30,7 +30,7 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       firstLogin: json['firstLogin'] as bool,
       orderNotificationEnabled: json['orderNotificationEnabled'] as bool,
       menuVersionForKlikitOrder: json['menuVersionForKlikitOrder'] as int,
-      sunmiDevice: json['sunmiDevice'] as bool,
+      printingDeviceId: json['printingDeviceId'] as int,
       branchIDs:
           (json['branchIDs'] as List<dynamic>).map((e) => e as int).toList(),
       branchTitles: (json['branchTitles'] as List<dynamic>)
@@ -70,7 +70,7 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'businessName': instance.businessName,
       'firstLogin': instance.firstLogin,
       'orderNotificationEnabled': instance.orderNotificationEnabled,
-      'sunmiDevice': instance.sunmiDevice,
+      'printingDeviceId': instance.printingDeviceId,
       'menuV2Enabled': instance.menuV2Enabled,
       'menuVersion': instance.menuVersion,
       'menuV2EnabledForKlikitOrder': instance.menuV2EnabledForKlikitOrder,

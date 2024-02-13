@@ -117,7 +117,7 @@ void showAccessDeniedDialog({
                 style: regularStyle,
                 children: <TextSpan>[
                   TextSpan(
-                    text: 'currently only available to Brand Managers, Branch Managers, Staffs and Cashiers',
+                    text: AppStrings.access_denied_message_middle_part_three.tr(),
                     style: boldStyle,
                   ),
                 ],

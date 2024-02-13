@@ -1,15 +1,24 @@
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:klikit/core/route/routes_generator.dart';
+import 'package:klikit/modules/widgets/snackbars.dart';
+import 'package:klikit/resources/strings.dart';
 
 class StickerPrinterHandler {
   static final StickerPrinterHandler _instance = StickerPrinterHandler._internal();
   static final _bluetooth = FlutterBluePlus.instance;
-  BluetoothDevice? _connectedDevice;
+  static BluetoothDevice? _connectedDevice;
 
   factory StickerPrinterHandler() => _instance;
 
   StickerPrinterHandler._internal();
+
+  BluetoothDevice? connectedDevice() => _connectedDevice;
+
+  void _setConnectedDevice(BluetoothDevice? device) => _connectedDevice = device;
 
   Future<List<ScanResult>> scanDevices() async {
     final finalScanResults = <ScanResult>[];
@@ -29,29 +38,30 @@ class StickerPrinterHandler {
     }
   }
 
-  Future<bool> isConnected() async {
+  Future<void> disconnect(BluetoothDevice device) async {
     final connectedDevices = await _bluetooth.connectedDevices;
-    return _connectedDevice != null && connectedDevices.isNotEmpty;
+    final connectedDeviceOrNull = connectedDevices.firstWhereOrNull((element) => element.id.id == device.id.id);
+    await connectedDeviceOrNull?.disconnect();
+    _setConnectedDevice(null);
   }
 
-  Future<bool> connect(BluetoothDevice device) async {
+  Future<bool> connect(BluetoothDevice device, bool showMessage) async {
     try {
-      final connectedDevices = await _bluetooth.connectedDevices;
-      for (var connectedDevice in connectedDevices) {
-        if (connectedDevice.id.id == device.id.id) {
-          await device.disconnect();
-        }
+      await disconnect(device);
+      await device.connect(shouldClearGattCache: true, autoConnect: true);
+      _setConnectedDevice(device);
+      if (showMessage) {
+        showSuccessSnackBar(RoutesGenerator.navigatorKey.currentState!.context, "Sticker Printer Successfully Connected");
       }
-      await device.connect();
-      _connectedDevice = device;
       return true;
     } catch (e) {
+      showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.can_not_connect_device.tr());
       return false;
     }
   }
 
-  Future print(Uint8List command) async {
-    if (await isConnected()) {
+  Future<void> print(Uint8List command) async {
+    if (await connect(_connectedDevice!, false)) {
       try {
         BluetoothCharacteristic? writeCharacteristic;
         List<BluetoothService> services = await _connectedDevice!.discoverServices();
@@ -66,7 +76,7 @@ class StickerPrinterHandler {
           await writeCharacteristic.write(command);
         }
       } catch (e) {
-        //ignore
+        showErrorSnackBar(RoutesGenerator.navigatorKey.currentState!.context, AppStrings.defaultError.tr());
       }
     }
   }

@@ -31,7 +31,7 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       business_name: json['business_name'] as String?,
       first_login: json['first_login'] as bool?,
       order_notification_enabled: json['order_notification_enabled'] as bool?,
-      sunmi_device: json['sunmi_device'] as bool?,
+      printing_device_id: json['printing_device_id'] as int?,
       menuv2_enabled: json['menuv2_enabled'] as bool?,
       menu_version: json['menu_version'] as int?,
       menuv2_enabled_for_klikit_order:
@@ -78,7 +78,7 @@ Map<String, dynamic> _$UserInfoModelToJson(UserInfoModel instance) =>
       'business_name': instance.business_name,
       'first_login': instance.first_login,
       'order_notification_enabled': instance.order_notification_enabled,
-      'sunmi_device': instance.sunmi_device,
+      'printing_device_id': instance.printing_device_id,
       'menuv2_enabled': instance.menuv2_enabled,
       'menu_version': instance.menu_version,
       'menuv2_enabled_for_klikit_order':

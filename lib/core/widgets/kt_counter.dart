@@ -12,15 +12,17 @@ class KTCounter extends StatefulWidget {
   final int minCount;
   final int? maxCount;
   final bool deletable;
+  final Color? activeStrokeColor;
   final Function(int) onChanged;
 
   const KTCounter({
     Key? key,
-    required this.enabled,
+    this.enabled = true,
     required this.count,
     required this.minCount,
     this.maxCount,
     this.deletable = false,
+    this.activeStrokeColor,
     required this.onChanged,
   }) : super(key: key);
 
@@ -76,7 +78,7 @@ class _KTCounterState extends State<KTCounter> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s200.rSp),
         border: Border.all(
-          color: widget.enabled ? AppColors.black : AppColors.greyDarker,
+          color: widget.enabled ? widget.activeStrokeColor ?? AppColors.black : AppColors.greyDarker,
         ),
       ),
       child: Padding(

@@ -17,7 +17,7 @@ class SessionManager {
   factory SessionManager() => _instance;
 
   SessionManager._internal() {
-    _appPreferences = getIt.get();
+    _appPreferences = getIt.get<AppPreferences>();
     _init();
   }
 
@@ -30,25 +30,15 @@ class SessionManager {
     }
   }
 
+  Future<void> saveLastLoginEmail(String email) async => _appPreferences.saveLoginEmail(email);
+
+  Future<void> setLoginState({required bool isLoggedIn}) async => _appPreferences.setLoginState(isLoggedIn);
+
+  Future<void> setNotificationEnabled(bool enable) async => await _appPreferences.setNotificationEnable(enable);
+
   Future<void> saveUser(UserInfo user) async {
     _appPreferences.saveUser(user);
     _user = _appPreferences.getUser();
-  }
-
-  Future<void> saveLastLoginEmail(String email) async {
-    _appPreferences.saveLoginEmail(email);
-  }
-
-  Future<void> setLoginState({required bool isLoggedIn}) async {
-    _appPreferences.setLoginState(isLoggedIn);
-  }
-
-  Future<void> setNotificationEnabled(bool enable) async {
-    await _appPreferences.setNotificationEnable(enable);
-  }
-
-  Future<void> setSunmiDevice(bool isSunmiDevice) async {
-    await _appPreferences.setSunmiDevice(isSunmiDevice);
   }
 
   Future<void> saveToken({
@@ -104,10 +94,6 @@ class SessionManager {
   bool isLoggedIn() => _appPreferences.isLoggedIn();
 
   bool notificationEnable() => _appPreferences.notificationEnable();
-
-  bool isSunmiDevice() => _appPreferences.sunmiDevice();
-
-  int getActiveDevice() => _appPreferences.activeDevice();
 
   int country() => _user?.countryIds.first ?? 0;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
@@ -53,14 +54,14 @@ class ItemDescriptionView extends StatelessWidget {
               ),
             ],
           ),
-          if(item.description.isNotEmpty) SizedBox(height: 10.rh),
-          Text(
-            item.description,
-            style: regularTextStyle(
-              fontSize: 14.rSp,
-              color: AppColors.neutralB100,
-            ),
-          ),
+          if (item.description.isNotEmpty)
+            Text(
+              item.description,
+              style: regularTextStyle(
+                fontSize: 14.rSp,
+                color: AppColors.neutralB100,
+              ),
+            ).setVisibilityWithSpace(direction: Axis.vertical, startSpace: 10),
         ],
       ),
     );

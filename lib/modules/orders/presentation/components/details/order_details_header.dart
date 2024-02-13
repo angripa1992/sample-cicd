@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,9 +11,9 @@ import 'package:klikit/core/route/routes_generator.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/core/widgets/kt_network_image.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/entities/payment_info.dart';
 import 'package:klikit/modules/common/entities/provider.dart';
 import 'package:klikit/modules/orders/domain/entities/order.dart';
-import 'package:klikit/modules/orders/presentation/components/order_item/order_action_button_manager.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/decorations.dart';
 import 'package:klikit/resources/fonts.dart';
@@ -46,8 +47,6 @@ class OrderDetailsHeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canUpdateGrabOrder = (order.providerId == ProviderID.GRAB_FOOD) && order.externalId.isNotEmpty && order.canUpdate;
-    final canUpdateKlikitOrder = OrderActionButtonManager().canUpdateOrder(order);
     return Container(
       color: AppColors.white,
       padding: EdgeInsets.symmetric(
@@ -104,24 +103,42 @@ class OrderDetailsHeaderView extends StatelessWidget {
             ],
           ),
           _externalIdView().setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s12, endSpace: AppSize.s12),
-          OrderTagsView(order: order, onSwitchRider: onSwitchRider).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s12),
+          FutureBuilder<List<PaymentChannel>>(
+            future: getIt.get<BusinessInformationProvider>().fetchAllChannels(),
+            builder: (_, snapshot) {
+              if (snapshot.hasData && snapshot.data != null) {
+                final paymentChannel = snapshot.data!.firstWhereOrNull((element) => (element.paymentMethodId == order.paymentMethod && element.title == 'custom_bank'));
+                if (paymentChannel == null) return OrderTagsView(order: order, onSwitchRider: onSwitchRider).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8);
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    OrderTagsView(order: order, isCustomBank: true, onSwitchRider: onSwitchRider).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
+                    _referenceId().setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s12),
+                  ],
+                );
+              }
+              return OrderTagsView(order: order, onSwitchRider: onSwitchRider).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8);
+            },
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (canUpdateKlikitOrder || canUpdateGrabOrder)
-                Expanded(child: _editOrderButton(canUpdateGrabOrder ? onEditGrabOrder : onEditManualOrder).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8)),
-              if (OrderActionButtonManager().canTrackRider(order) || OrderActionButtonManager().canFindRider(order))
+              if (order.canUpdateOrder())
+                Expanded(
+                  child: _editOrderButton(onEditManualOrder).setVisibilityWithSpace(direction: Axis.horizontal, endSpace: AppSize.s8),
+                ),
+              if (order.canTrackRider() || order.canFindRider())
                 Expanded(
                   child: KTButton(
-                    controller: KTButtonController(label: OrderActionButtonManager().canFindRider(order) ? AppStrings.find_rider.tr() : AppStrings.track_rider.tr()),
+                    controller: KTButtonController(label: order.canFindRider() ? AppStrings.find_rider.tr() : AppStrings.track_rider.tr()),
                     prefixWidget: ImageResourceResolver.riderSVG.getImageWidget(width: AppSize.s14.rw, height: AppSize.s14.rh, color: AppColors.neutralB400),
                     backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                     labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),
                     splashColor: AppColors.greyBright,
                     onTap: () {
-                      if (OrderActionButtonManager().canFindRider(order)) {
+                      if (order.canFindRider()) {
                         onRiderFind();
-                      } else if (OrderActionButtonManager().canTrackRider(order)) {
+                      } else if (order.canTrackRider()) {
                         Navigator.of(context).pushNamed(
                           Routes.webView,
                           arguments: order.fulfillmentTrackingUrl,
@@ -140,6 +157,16 @@ class OrderDetailsHeaderView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _referenceId() {
+    return Row(
+      children: [
+        Text(AppStrings.reference_id.tr(), style: regularTextStyle(color: AppColors.black, fontSize: AppFontSize.s15.rSp)),
+        SizedBox(width: AppSize.s8.rw),
+        Text('#${order.paymentInvoiceId}', style: mediumTextStyle(color: AppColors.black, fontSize: AppFontSize.s14.rSp)),
+      ],
     );
   }
 

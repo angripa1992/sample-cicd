@@ -10,7 +10,7 @@ import 'package:klikit/modules/orders/utils/update_manual_order_data_provider.da
 import '../../../app/constants.dart';
 import '../../../app/di.dart';
 import '../../../core/route/routes.dart';
-import '../../../printer/printing_handler.dart';
+import '../../../printer/printer_manager.dart';
 import '../../../resources/strings.dart';
 import '../../../segments/event_manager.dart';
 import '../../../segments/segemnt_data_provider.dart';
@@ -150,11 +150,12 @@ class KlikitOrderResolver {
     required Order order,
     required bool isFromDetails,
     required String sourceTab,
-  }) {
-    getIt.get<PrintingHandler>().printDocket(
-          order: order,
-          isAutoPrint: order.status == OrderStatus.PLACED,
-        );
+  }) async{
+    if (order.status == OrderStatus.PLACED) {
+      await getIt.get<PrinterManager>().doAutoDocketPrinting(order: order, isFromBackground: false);
+    } else {
+      getIt.get<PrinterManager>().doForegroundManualDocketPrinting(order);
+    }
     SegmentManager().trackOrderSegment(
       sourceTab: sourceTab,
       isFromDetails: isFromDetails,

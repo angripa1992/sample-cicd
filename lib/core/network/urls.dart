@@ -72,4 +72,5 @@ class Urls {
   static String updateModifierEnabled(int id, int type) => '/v1/menu/${type == ModifierType.MODIFIER ? 'modifiers' : 'groups'}/$id/enabled';
 
   static String updateModifierEnabledV2(int type) => '/v1/menu-v2/modifier-groups${type == ModifierType.MODIFIER ? '/modifiers' : ''}/enable';
+  static const String allPaymentChannels = '/v1/oni/payment-channels/all';
 }

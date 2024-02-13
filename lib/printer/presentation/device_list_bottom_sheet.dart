@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:flutter_pos_printer_platform/flutter_pos_printer_platform.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
@@ -10,6 +9,8 @@ import 'package:klikit/modules/menu/presentation/pages/menu_tabbar_view.dart';
 import 'package:klikit/modules/menu/presentation/pages/tab_item.dart';
 import 'package:klikit/printer/presentation/pos_printer_devices.dart';
 import 'package:klikit/printer/presentation/sticker_printer_devices.dart';
+import 'package:klikit/printer/presentation/wifi_printer_device_view.dart';
+import 'package:klikit/printer/printer_handler.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/resource_resolver.dart';
@@ -26,63 +27,44 @@ class DeviceListBottomSheetManager {
 
   bool _isAlreadyShowing = false;
 
-  void showBottomSheet({
-    required int type,
+  void showDeviceListBottomSheet({
     required int initialIndex,
-    required Function(PrinterDevice) onPOSConnect,
-    required Function(BluetoothDevice) onStickerConnect,
+    required PrinterHandler handler,
+    required Function(BluetoothDevice) onStickerPrinterConnected,
   }) {
     if (!_isAlreadyShowing) {
       _isAlreadyShowing = true;
-      _showDeviceListBottomSheet(
-        type: type,
-        initialIndex: initialIndex,
-        onPOSConnect: onPOSConnect,
-        onStickerConnect: onStickerConnect,
-      );
-    }
-  }
-
-  void _showDeviceListBottomSheet({
-    required int type,
-    required int initialIndex,
-    required Function(PrinterDevice) onPOSConnect,
-    required Function(BluetoothDevice) onStickerConnect,
-  }) {
-    showModalBottomSheet<void>(
-      context: RoutesGenerator.navigatorKey.currentState!.context,
-      isDismissible: true,
-      backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16.rSp),
-          topRight: Radius.circular(16.rSp),
-        ),
-      ),
-      builder: (context) => Scaffold(
+      showModalBottomSheet<void>(
+        context: RoutesGenerator.navigatorKey.currentState!.context,
+        isDismissible: true,
         backgroundColor: Colors.transparent,
-        resizeToAvoidBottomInset: false,
-        extendBody: false,
-        body: DeviceListScreen(
-          type: type,
-          onPOSConnect: onPOSConnect,
-          onStickerConnect: onStickerConnect,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16.rSp),
+            topRight: Radius.circular(16.rSp),
+          ),
         ),
-      ),
-    ).then((value) => _isAlreadyShowing = false);
+        builder: (context) => Scaffold(
+          backgroundColor: Colors.transparent,
+          resizeToAvoidBottomInset: false,
+          extendBody: false,
+          body: DeviceListScreen(handler: handler, onStickerPrinterConnected: onStickerPrinterConnected, initialIndex: initialIndex),
+        ),
+      ).then((value) => _isAlreadyShowing = false);
+    }
   }
 }
 
 class DeviceListScreen extends StatefulWidget {
-  final int type;
-  final Function(PrinterDevice) onPOSConnect;
-  final Function(BluetoothDevice) onStickerConnect;
+  final int initialIndex;
+  final PrinterHandler handler;
+  final Function(BluetoothDevice) onStickerPrinterConnected;
 
   const DeviceListScreen({
     Key? key,
-    required this.type,
-    required this.onPOSConnect,
-    required this.onStickerConnect,
+    required this.initialIndex,
+    required this.handler,
+    required this.onStickerPrinterConnected,
   }) : super(key: key);
 
   @override
@@ -91,18 +73,19 @@ class DeviceListScreen extends StatefulWidget {
 
 class _DeviceListScreenState extends State<DeviceListScreen> with SingleTickerProviderStateMixin {
   late List<TabItem> tabItems;
-  final _tabChangeListener = ValueNotifier(TabIndex.DOCKET);
+  late ValueNotifier<int> _tabChangeListener;
   TabController? _tabController;
 
   @override
   void initState() {
+    _tabChangeListener = ValueNotifier(widget.initialIndex);
     tabItems = [
-      TabItem(AppStrings.docket.tr(), TabIndex.DOCKET),
-      TabItem(AppStrings.sticker.tr(), TabIndex.STICKER),
+      TabItem(AppStrings.docket.tr(), PrinterTab.DOCKET),
+      TabItem(AppStrings.sticker.tr(), PrinterTab.STICKER),
     ];
-    _tabController = TabController(length: tabItems.length, vsync: this);
+    _tabController = TabController(length: tabItems.length, vsync: this, initialIndex: widget.initialIndex);
     _tabController?.addListener(() {
-      _tabChangeListener.value = _tabController?.index == 1 ? TabIndex.STICKER : TabIndex.DOCKET;
+      _tabChangeListener.value = _tabController?.index ?? PrinterTab.DOCKET;
     });
     super.initState();
   }
@@ -129,25 +112,27 @@ class _DeviceListScreenState extends State<DeviceListScreen> with SingleTickerPr
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              16.horizontalSpacer(),
-              Text(
-                widget.type == CType.BLE ? AppStrings.bluetooth_devices.tr() : AppStrings.usb_devices.tr(),
-                style: semiBoldTextStyle(
-                  color: AppColors.black,
-                  fontSize: AppFontSize.s16.rSp,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.rw),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Connect to ${widget.handler.title()} printer',
+                    style: semiBoldTextStyle(
+                      color: AppColors.black,
+                      fontSize: AppFontSize.s16.rSp,
+                    ),
+                  ),
                 ),
-              ),
-              const Spacer(),
-              InkWell(
-                child: ImageResourceResolver.closeSVG.getImageWidget(width: 20.rw, height: 20.rh),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              16.horizontalSpacer(),
-            ],
+                InkWell(
+                  child: ImageResourceResolver.closeSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
           ),
           const Divider().setVisibilityWithSpace(direction: Axis.vertical, startSpace: AppSize.s6.rh),
           ValueListenableBuilder<int>(
@@ -156,7 +141,7 @@ class _DeviceListScreenState extends State<DeviceListScreen> with SingleTickerPr
               selectedIndex: index,
               tabItems: tabItems,
               onChanged: (index) {
-                _tabController?.index = findTabBarViewIndex(index);
+                _tabController?.index = index;
               },
             ),
           ),
@@ -164,22 +149,13 @@ class _DeviceListScreenState extends State<DeviceListScreen> with SingleTickerPr
             child: TabBarView(
               controller: _tabController,
               children: [
-                PosPrinterDevicesView(
-                  type: widget.type,
-                  onConnect: widget.onPOSConnect,
-                ),
-                StickerPrinterDevices(
-                  onConnect: widget.onStickerConnect,
-                ),
+                widget.handler.type() != CType.WIFI ? PosPrinterDevicesView(handler: widget.handler) : WifiPrinterDeviceView(handler: widget.handler),
+                StickerPrinterDevices(onStickerPrinterConnected: widget.onStickerPrinterConnected),
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  int findTabBarViewIndex(int index) {
-    return index == TabIndex.DOCKET ? 0 : 1;
   }
 }

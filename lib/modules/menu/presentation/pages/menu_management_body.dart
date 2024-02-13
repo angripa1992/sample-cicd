@@ -25,7 +25,7 @@ class MenuManagementBody extends StatefulWidget {
 }
 
 class _MenuManagementBodyState extends State<MenuManagementBody> {
-  final _tabChangeListener = ValueNotifier(TabIndex.MENU);
+  final _tabChangeListener = ValueNotifier(MenuTab.MENU);
   final _filterDataChangeListener = ValueNotifier<MenuFilteredData?>(null);
 
   @override
@@ -44,8 +44,8 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
           builder: (_, index, __) => MenuTabBarView(
             selectedIndex: index,
             tabItems: [
-              TabItem(AppStrings.menu.tr(), TabIndex.MENU),
-              TabItem(AppStrings.modifier.tr(), TabIndex.MODIFIER),
+              TabItem(AppStrings.menu.tr(), MenuTab.MENU),
+              TabItem(AppStrings.modifier.tr(), MenuTab.MODIFIER),
             ],
             onChanged: (index) {
               _tabChangeListener.value = index;
@@ -62,7 +62,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
                   valueListenable: _tabChangeListener,
                   builder: (_, index, __) {
                     return Text(
-                      index == TabIndex.MODIFIER ? AppStrings.modifier_list.tr() : AppStrings.menu_list.tr(),
+                      index == MenuTab.MODIFIER ? AppStrings.modifier_list.tr() : AppStrings.menu_list.tr(),
                       style: semiBoldTextStyle(
                         color: AppColors.black,
                         fontSize: 16.rSp,
@@ -115,9 +115,9 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
     final brandID = data?.brand?.id;
     final selected = (data != null && brandID != null && branchID != null);
     final providers = data?.providers?.map((e) => e.id).toList() ?? [];
-    if (selected && index == TabIndex.MENU) {
+    if (selected && index == MenuTab.MENU) {
       return MenuScreen(branch: branchID, brand: brandID, providers: providers);
-    } else if (selected && index == TabIndex.MODIFIER) {
+    } else if (selected && index == MenuTab.MODIFIER) {
       return ModifierScreen(branch: branchID, brand: brandID, providers: providers);
     } else {
       return _emptyView();
