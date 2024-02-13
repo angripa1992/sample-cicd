@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.0+100
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: ">=2.17.6 <3.0.6"
 
 dependencies:
   flutter:
@@ -58,8 +58,10 @@ dependencies:
   firebase_remote_config: ^3.0.9
   firebase_analytics: ^10.1.0
   firebase_crashlytics: ^3.0.11
+  scrollable_positioned_list: 0.3.5
 
   docket_design_template:
+#    path: /Users/user/workspace/local/projects/docket_design_template
     git:
       url: https://github.com/angripa1992/docket_design_template.git
       ref: master

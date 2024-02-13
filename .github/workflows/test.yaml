@@ -18,12 +18,12 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         architecture: x64
-        flutter-version: '2.8.0'  # Adjust to the Flutter version you're using
+        flutter-version: '3.3.0'  # Adjust to the Flutter version you're using
         channel: any
-    - name: 'Checkout Flutter 3.0.0'
-      shell: bash
-      run: |
-        echo $FLUTTER_HOME;
+#    - name: 'Checkout Flutter 3.0.0'
+#      shell: bash
+#      run: |
+#        echo $FLUTTER_HOME;
 #         cd $FLUTTER_HOME;
 #         git fetch --tags;
 #         git checkout 3.3.9;
