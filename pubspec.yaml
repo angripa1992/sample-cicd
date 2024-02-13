@@ -105,9 +105,9 @@ flutter:
         - asset: assets/fonts/Inter-Thin.ttf
           weight: 100
 
-dependency_overrides:
-  printing:
-    git:
-      url: https://github.com/DavBfr/dart_pdf
-      ref: master
-      path: printing
+#dependency_overrides:
+#  printing:
+#    git:
+#      url: https://github.com/DavBfr/dart_pdf
+#      ref: master
+#      path: printing
