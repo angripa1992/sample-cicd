@@ -6,6 +6,8 @@ project(sample_cicd LANGUAGES CXX)
 # the on-disk name of your application.
 set(BINARY_NAME "sample_cicd")
 
+set(PDFIUM_VERSION "4634" CACHE STRING "")
+
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
 cmake_policy(SET CMP0063 NEW)
