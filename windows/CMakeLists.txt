@@ -12,6 +12,7 @@ set(PDFIUM_VERSION "4634" CACHE STRING "")
 # versions of CMake.
 cmake_policy(SET CMP0063 NEW)
 
+
 # Define build configuration option.
 get_property(IS_MULTICONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(IS_MULTICONFIG)
