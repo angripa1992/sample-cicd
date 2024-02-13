@@ -60,8 +60,6 @@ dependencies:
   firebase_crashlytics: ^3.0.11
   scrollable_positioned_list: 0.3.5
 
-
-
   docket_design_template:
 #    path: /Users/user/workspace/local/projects/docket_design_template
     git:
