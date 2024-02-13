@@ -46,10 +46,12 @@ jobs:
 #         git fetch --tags;
 #         git checkout 3.3.9;
 #         flutter --version;
+    - name: Flutter clean
+      run: flutter clean
+
     - name: Install dependencies
       run: flutter pub get
-    - name: Flutter doctor
-      run: flutter doctor -v
+
 
     - name: Build Windows executable
       run: flutter build windows
