@@ -51,6 +51,8 @@ jobs:
 
     - name: Build Windows executable
       run: flutter build windows
+    - name: Flutter doctor
+      run: flutter doctor -v
 
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
