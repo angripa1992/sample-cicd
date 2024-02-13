@@ -104,6 +104,7 @@ flutter:
           weight: 300
         - asset: assets/fonts/Inter-Thin.ttf
           weight: 100
+
 dependency_overrides:
   printing:
     git:
