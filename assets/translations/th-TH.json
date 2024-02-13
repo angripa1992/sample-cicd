@@ -373,5 +373,21 @@
   "end_time": "เวลาสิ้นสุด",
   "time_range_selection_message": "ช่วงเวลาที่เลือกอยู่ระหว่างวันทั้งสองวัน",
   "time_selection": "เลือกเวลา",
-  "select_time": "เลือกเวลา"
+  "select_time": "เลือกเวลา",
+  "net_order_value": "Net Order Value",
+  "lost_revenue": "Lost Revenue",
+  "total_of_processing_and_service_fee": "ค่าธรรมเนียมรวมทั้งค่าธรรมเนียมการประมวลผลและค่าบริการ",
+  "total_fee_of_processing_fee": "ค่าธรรมเนียมทั้งหมดรวมค่าดำเนินการแล้ว",
+  "total_fee_of_service_fee": "ค่าธรรมเนียมรวมค่าบริการแล้ว",
+  "access_denied_message_middle_part_three": "ปัจจุบันมีเพียง\nเจ้าของกิจการ (Business owners) \nผู้จัดการสาขา(Branch Managers) \nพนักงานและพนักงานขาย (Staffs and Cashiers) เท่านั้น!\nที่สามารถเข้าถึงสิ่งนี้ได้",
+  "completed_orders_tooltip": "จำนวนคำสั่งซื้อที่เสร็จสมบูรณ์",
+  "cancelled_orders_tooltip": "จำนวนคำสั่งที่ถูกยกเลิก",
+  "gross_order_value_tooltip": "ผลรวมราคาสินค้าทั้งหมดจากคำสั่งซื้อที่เสร็จสมบูรณ์",
+  "discount_value_tooltip": "ส่วนลดรวมที่ใช้กับคำสั่งซื้อที่เสร็จสมบูรณ์",
+  "net_order_value_tooltip": "จำนวนเงินรวมที่ได้รับจากการสั่งซื้อที่เสร็จสมบูรณ์ นั่นคือผลรวมของราคาสินค้าทั้งหมดลบส่วนลดใด ๆ",
+  "lost_revenue_tooltip": "จำนวนเงินรวมที่สูญเสียจากการยกเลิกคำสั่งซื้อ",
+  "item_details": "รายละเอียดสินค้า",
+  "round_off_tooltip": "นี้จะปัดเศษทศนิยมสุดท้ายของยอดสั่งซื้อให้เป็นค่าใกล้เคียงกับการเพิ่ม/ลด 5 เซนต์",
+  "reference_id": "รหัสอ้างอิง",
+  "custom_bank": "ธนาคารที่กำหนดเอง"
 }

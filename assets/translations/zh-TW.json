@@ -373,5 +373,21 @@
   "end_time": "結束時間",
   "time_range_selection_message": "所選時間範圍在兩個日期之間",
   "time_selection": "時間選擇",
-  "select_time": "選擇時間"
+  "select_time": "選擇時間",
+  "net_order_value": "Net Order Value",
+  "lost_revenue": "Lost Revenue",
+  "total_of_processing_and_service_fee": "總額包括處理費和服務費",
+  "total_fee_of_processing_fee": "總額包括處理費",
+  "total_fee_of_service_fee": "總額包括服務費",
+  "access_denied_message_middle_part_three": "目前僅對商店所有人、分店經理、員工與收銀員開放",
+  "completed_orders_tooltip": "完成訂單數量",
+  "cancelled_orders_tooltip": "取消訂單的數量",
+  "gross_order_value_tooltip": "已完成訂單中所有商品價格的總和",
+  "discount_value_tooltip": "已完成訂單所應用的總折扣",
+  "net_order_value_tooltip": "完成訂單所賺取的總訂單金額。它是所有商品價格減去任何折扣的總和",
+  "lost_revenue_tooltip": "取消訂單所損失的總訂單金額",
+  "item_details": "項目詳情",
+  "round_off_tooltip": "此訂單會以四捨五入計算總額",
+  "reference_id": "系統編號",
+  "custom_bank": "傳統銀行"
 }

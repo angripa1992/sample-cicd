@@ -373,5 +373,21 @@
   "end_time": "Waktu akhir",
   "time_range_selection_message": "Waktu yang dipilih di antara dua tanggal",
   "time_selection": "Pemilihan Waktu",
-  "select_time": "Pilih Waktu"
+  "select_time": "Pilih Waktu",
+  "net_order_value": "Net Order Value",
+  "lost_revenue": "Lost Revenue",
+  "total_of_processing_and_service_fee": "Total biaya termasuk biaya pemrosesan dan biaya layanan.",
+  "total_fee_of_processing_fee": "Biaya total termasuk biaya pemrosesan.",
+  "total_fee_of_service_fee": "Total biaya termasuk biaya layanan.",
+  "access_denied_message_middle_part_three": "saat ini akses hanya tersedia untuk Business Owner, Branch Managers, Staff dan Cashier",
+  "completed_orders_tooltip": "Jumlah pesanan yang selesai.",
+  "cancelled_orders_tooltip": "Jumlah pesanan yang dibatalkan.",
+  "gross_order_value_tooltip": "Jumlah harga semua item dari pesanan yang telah selesai.",
+  "discount_value_tooltip": "Diskon total yang diterapkan pada pesanan yang telah selesai.",
+  "net_order_value_tooltip": "Jumlah total pesanan yang diperoleh dari pesanan yang selesai. Ini adalah jumlah dari semua harga barang dikurangi diskon.",
+  "lost_revenue_tooltip": "Jumlah total pesanan yang hilang dari pesanan yang dibatalkan.",
+  "item_details": "Rincian Item",
+  "round_off_tooltip": "Ini membulatkan total pesanan ke peningkatan / penurunan 5 sen terdekat pada desimal terakhir.",
+  "reference_id": "ID Referensi",
+  "custom_bank": "Bank lainnya"
 }

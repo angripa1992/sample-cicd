@@ -373,5 +373,21 @@
   "end_time": "閉店時間",
   "time_range_selection_message": "時間の範囲を選択",
   "time_selection": "時間を選択",
-  "select_time": "時間"
+  "select_time": "時間",
+  "net_order_value": "Net Order Value",
+  "lost_revenue": "Lost Revenue",
+  "total_of_processing_and_service_fee": "合計料金には手数料とサービス料が含まれます。",
+  "total_fee_of_processing_fee": "合計料金にはサービス料が含まれます。",
+  "total_fee_of_service_fee": "合計料金にはサービス料が含まれます。",
+  "access_denied_message_middle_part_three": "現在、ビジネスオーナー、支店マネージャー、スタッフ、キャッシャーのみ利用可能です。",
+  "completed_orders_tooltip": "完了した注文の数",
+  "cancelled_orders_tooltip": "キャンセルされた注文の数",
+  "gross_order_value_tooltip": "完了した注文のすべての合計",
+  "discount_value_tooltip": "完了した注文に適用された総割引額。",
+  "net_order_value_tooltip": "完了した注文からの売り上げです。すべての商品価格の合計から割引額を差し引いたものです。",
+  "lost_revenue_tooltip": "キャンセルされた注文から機会損失した売り上げ金額",
+  "item_details": "商品詳細",
+  "round_off_tooltip": "これにより、注文合計を最後の小数点以下の5セント単位に切り上げ/切り捨てます。",
+  "reference_id": "参照ID",
+  "custom_bank": "銀行口座"
 }

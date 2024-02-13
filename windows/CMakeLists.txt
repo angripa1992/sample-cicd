@@ -8,7 +8,8 @@ set(BINARY_NAME "sample_cicd")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
-cmake_policy(SET CMP0135 NEW)
+cmake_policy(SET CMP0063 NEW)
+#cmake_policy(SET CMP0135 NEW)
 
 # Define build configuration option.
 get_property(IS_MULTICONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)

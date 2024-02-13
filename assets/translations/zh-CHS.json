@@ -373,5 +373,21 @@
   "end_time": "结束时间",
   "time_range_selection_message": "所选时间范围在两个日期之间。",
   "time_selection": "时间选择",
-  "select_time": "选择时间"
+  "select_time": "选择时间",
+  "net_order_value": "Net Order Value",
+  "lost_revenue": "Lost Revenue",
+  "total_of_processing_and_service_fee": "总费用包括处理费和服务费。",
+  "total_fee_of_processing_fee": "总费用包括处理费。",
+  "total_fee_of_service_fee": "总费用包括服务费。",
+  "access_denied_message_middle_part_three": "目前仅对商业所有者、分支经理、员工和收银员开放。",
+  "completed_orders_tooltip": "完成订单的数量。",
+  "cancelled_orders_tooltip": "取消订单的数量。",
+  "gross_order_value_tooltip": "已完成订单中所有商品价格的总和。",
+  "discount_value_tooltip": "已完成订单所应用的总折扣。",
+  "net_order_value_tooltip": "完成订单所赚取的总订单金额。它是所有商品价格减去任何折扣的总和。",
+  "lost_revenue_tooltip": "取消订单导致的总订单金额损失。",
+  "item_details": "物品详情",
+  "round_off_tooltip": "这将订单总额四舍五入到最接近5美分的小数位。",
+  "reference_id": "参考编号",
+  "custom_bank": "风俗银行"
 }
