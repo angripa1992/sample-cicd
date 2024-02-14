@@ -56,14 +56,13 @@ jobs:
       run: flutter doctor -v
 
     - name: Build Windows executable
-      run: flutter build windows
+      run: flutter build apk
 
-
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: windows-build
-        path: build/windows
+#    - name: Archive artifacts
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: windows-build
+#        path: build/windows
 
     - name: Release on GitHub
       id: release
