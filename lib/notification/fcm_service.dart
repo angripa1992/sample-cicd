@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/di.dart';
@@ -28,58 +28,58 @@ class FcmService {
     return _instance;
   }
 
-  late final FirebaseMessaging messaging;
+  // late final FirebaseMessaging messaging;
+  //
+  // Future initApp() async {
+  //   messaging = FirebaseMessaging.instance;
+  // }
 
-  Future initApp() async {
-    messaging = FirebaseMessaging.instance;
-  }
-
-  Future<String> getFcmToken() async {
-    final fcmToken = await messaging.getToken();
-    debugPrint('fcm token => $fcmToken');
-    return fcmToken ?? EMPTY;
-  }
+  // Future<String> getFcmToken() async {
+  //   final fcmToken = await messaging.getToken();
+  //   debugPrint('fcm token => $fcmToken');
+  //   return fcmToken ?? EMPTY;
+  // }
 
   void registerForegroundListener() {
-    FirebaseMessaging.onMessage.listen(
-      (message) {
-        debugPrint('******Notification****** => ${message.data}');
-        if (SessionManager().isLoggedIn()) {
-          InAppNotificationHandler().handleNotification(
-            NotificationDataHandler().getNotificationData(message.data),
-          );
-        }
-      },
-    );
+    // FirebaseMessaging.onMessage.listen(
+    //   (message) {
+    //     debugPrint('******Notification****** => ${message.data}');
+    //     if (SessionManager().isLoggedIn()) {
+    //       InAppNotificationHandler().handleNotification(
+    //         NotificationDataHandler().getNotificationData(message.data),
+    //       );
+    //     }
+    //   },
+    // );
   }
 
   void registerRefreshTokenListener() {
-    messaging.onTokenRefresh.listen((fcmToken) {
-      _fcmTokenManager.registerToken(fcmToken);
-    }).onError((error) {});
+    // messaging.onTokenRefresh.listen((fcmToken) {
+    //   _fcmTokenManager.registerToken(fcmToken);
+    // }).onError((error) {});
   }
 }
 
-@pragma('vm:entry-point')
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  try {
-    var localEnv = await getLocalEnv();
-    await registerBackground(localEnv);
-    if (SessionManager().notificationEnable()) {
-      await LocalNotificationService().showNotification(payload: message.data);
-    }
-    Future.delayed(const Duration(seconds: 2), () async {
-      final order = await NotificationDataHandler().getOrderById(
-        NotificationDataHandler().getNotificationData(message.data).orderId.toInt(),
-      );
-      if (order != null && order.status == OrderStatus.ACCEPTED) {
-        await getIt.get<PrinterManager>().doAutoDocketPrinting(order: order, isFromBackground: true);
-      }
-    });
-  } catch (e) {
-    //ignore
-  }
-}
+// @pragma('vm:entry-point')
+// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   try {
+//     var localEnv = await getLocalEnv();
+//     await registerBackground(localEnv);
+//     if (SessionManager().notificationEnable()) {
+//       await LocalNotificationService().showNotification(payload: message.data);
+//     }
+//     Future.delayed(const Duration(seconds: 2), () async {
+//       final order = await NotificationDataHandler().getOrderById(
+//         NotificationDataHandler().getNotificationData(message.data).orderId.toInt(),
+//       );
+//       if (order != null && order.status == OrderStatus.ACCEPTED) {
+//         await getIt.get<PrinterManager>().doAutoDocketPrinting(order: order, isFromBackground: true);
+//       }
+//     });
+//   } catch (e) {
+//     //ignore
+//   }
+// }
 
 Future<EnvironmentVariables> getLocalEnv() async {
   String? envResp;

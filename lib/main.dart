@@ -4,8 +4,8 @@ import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -30,9 +30,9 @@ import 'notification/local_notification_service.dart';
 void mainCommon(EnvironmentVariables env) async {
   WidgetsFlutterBinding.ensureInitialized();
   Wakelock.enable();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   final environmentVariables = await EnvManager().fetchEnv(env);
-  CrashlyticsConfiguration().initialize();
+  // CrashlyticsConfiguration().initialize();
   await EasyLocalization.ensureInitialized();
   await initAppModule(environmentVariables);
   await flutterLocalNotificationsPlugin.initialize(
@@ -40,11 +40,11 @@ void mainCommon(EnvironmentVariables env) async {
     onDidReceiveNotificationResponse: notificationTap,
     onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
   );
-  await FcmService().initApp();
-  FcmService().registerForegroundListener();
-  FcmService().registerRefreshTokenListener();
-  await FcmService().getFcmToken();
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  // await FcmService().initApp();
+  // FcmService().registerForegroundListener();
+  // FcmService().registerRefreshTokenListener();
+  // await FcmService().getFcmToken();
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   SlackLoggerResolver().initLogger();
 

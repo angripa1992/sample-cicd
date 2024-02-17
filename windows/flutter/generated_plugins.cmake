@@ -5,7 +5,6 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   audioplayers_windows
   connectivity_plus
-  firebase_core
   flutter_pos_printer_platform
   geolocator_windows
   network_info_plus
