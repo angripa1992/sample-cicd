@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:intl/intl.dart';
 
+
 class DateTimeFormatter {
   static String currentDateTime() {
     final formatter = DateFormat('d MMM yyyy • h:mm a');
@@ -90,8 +91,8 @@ class DateTimeFormatter {
   }
 
   static Future<String> timeZone() async {
-    // const String currentTimeZone = "Asia/Jakarta";
-    final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+    const String currentTimeZone = "Asia/Jakarta";
+    // tz.getLocation(locationName)
     return currentTimeZone;
   }
 
