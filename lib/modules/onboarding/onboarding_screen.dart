@@ -56,11 +56,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
   void _gotoNextScreen() {
     Timer(const Duration(seconds: 2), () {
       if (SessionManager().isLoggedIn() && !SessionManager().firstLogin()) {
-        if (UserPermissionManager().isBizOwner()) {
+        // if (UserPermissionManager().isBizOwner()) {
           _navigateBaseScreen();
-        } else {
-          _registerFcmToken();
-        }
+        // } else {
+        //   _registerFcmToken();
+        // }
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);
       }
