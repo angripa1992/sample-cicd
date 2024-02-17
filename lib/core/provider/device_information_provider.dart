@@ -7,6 +7,8 @@ class DeviceInfoProvider {
   String platformName() {
     if (Platform.isIOS) {
       return 'ios';
+    } else if (Platform.isWindows) {
+      return "windows";
     } else {
       return 'android';
     }
