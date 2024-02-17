@@ -40,12 +40,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
       WidgetsBinding.instance.addPostFrameCallback(
         (_) async {
           if (mounted) {
-            final notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-            if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-              NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
-            } else {
+            // final notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+            // if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+            //   NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
+            // } else {
               _gotoNextScreen();
-            }
+            // }
           }
         },
       );
