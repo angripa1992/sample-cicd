@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/di.dart';
@@ -8,8 +9,8 @@ import '../../../../../resources/fonts.dart';
 import '../../../../../resources/strings.dart';
 import '../../../../../resources/styles.dart';
 import '../../../../../resources/values.dart';
-import '../../../../common/entities/payment_info.dart';
 import '../../../../common/business_information_provider.dart';
+import '../../../../common/entities/payment_info.dart';
 import 'cart/tag_title.dart';
 
 class PaymentMethodView extends StatefulWidget {
@@ -50,6 +51,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           TagTitleView(
             title: AppStrings.payment_method.tr(),
@@ -59,7 +61,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
           FutureBuilder<List<PaymentMethod>>(
             future: getIt.get<BusinessInformationProvider>().fetchPaymentMethods(),
             builder: (_, snap) {
-              if (snap.hasData) {
+              if (snap.hasData && snap.data?.isNotEmpty == true) {
                 return PaymentMethodSelector(
                   methods: snap.data!,
                   onChanged: widget.onChanged,
@@ -101,10 +103,8 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
   @override
   void initState() {
     if (widget.initMethod != null && widget.initChannel != null) {
-      _method = widget.methods
-          .firstWhere((element) => element.id == widget.initMethod);
-      _channel = _method!.channels
-          .firstWhere((element) => element.id == widget.initChannel);
+      _method = widget.methods.firstWhereOrNull((element) => element.id == widget.initMethod);
+      _channel = _method?.channels.firstWhereOrNull((element) => element.id == widget.initChannel);
     }
     super.initState();
   }
@@ -151,11 +151,10 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              _channel == null
-                  ? AppStrings.add_payment_method.tr()
-                  : _channel!.title,
+              _channel == null ? AppStrings.add_payment_method.tr() : _channel!.title,
               style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: AppFontSize.s14.rSp,
@@ -254,9 +253,7 @@ class _PaymentMethodDropdownState extends State<PaymentMethodDropdown> {
                                 fontSize: AppFontSize.s14.rSp,
                               ),
                             ),
-                            if (_method?.id == method.id &&
-                                _channel?.id == channel.id)
-                              Icon(Icons.check, color: AppColors.primary),
+                            if (_method?.id == method.id && _channel?.id == channel.id) Icon(Icons.check, color: AppColors.primary),
                           ],
                         ),
                       ),

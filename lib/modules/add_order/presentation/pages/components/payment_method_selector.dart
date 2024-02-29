@@ -2,10 +2,14 @@ import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/widgets/kt_chip.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/payment_method_card.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/common/entities/payment_info.dart';
 import 'package:klikit/resources/colors.dart';
 import 'package:klikit/resources/strings.dart';
@@ -80,13 +84,22 @@ class _PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                   ),
                 ),
                 AppSize.s12.horizontalSpacer(),
-                KTChip(
-                  text: AppStrings.optional.tr(),
-                  textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
-                  strokeColor: AppColors.neutralB40,
-                  backgroundColor: AppColors.white,
-                  padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
-                )
+                FutureBuilder<Branch?>(
+                  future: getIt<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
+                  builder: (_, snap) {
+                    if (snap.hasData && snap.data != null) {
+                      final branch = snap.data!;
+                      return KTChip(
+                        text: branch.prePaymentEnabled && !branch.postPaymentEnabled ? AppStrings.required.tr() : AppStrings.optional.tr(),
+                        textStyle: mediumTextStyle(fontSize: AppSize.s10.rSp, color: AppColors.neutralB700),
+                        strokeColor: AppColors.neutralB40,
+                        backgroundColor: AppColors.white,
+                        padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw, vertical: AppSize.s2.rh),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
               ],
             ),
             content: Visibility(

@@ -73,7 +73,7 @@ class _OrderTypeSelectorState extends State<OrderTypeSelector> {
       context: context,
       builder: (dContext) => AlertDialog(
         icon: SvgPicture.asset(AppIcons.alert),
-        title: const Text('Price Update Alert!'),
+        title: Text(AppStrings.price_update_alert.tr()),
         content: const Text('The price of the item may vary based on the selected order type. Confirm to apply changes.'),
         actions: [
           Row(
@@ -96,7 +96,7 @@ class _OrderTypeSelectorState extends State<OrderTypeSelector> {
                     Navigator.pop(dContext);
                     _changeOrderType(selected, orderType);
                   },
-                  text: 'Confirm',
+                  text: AppStrings.confirm.tr(),
                 ),
               ),
             ],
@@ -118,7 +118,7 @@ class _OrderTypeSelectorState extends State<OrderTypeSelector> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TagTitleView(title: AppStrings.order_type.tr(),willShowReqTag: false,required: false),
+        TagTitleView(title: AppStrings.order_type.tr(), willShowReqTag: false, required: false),
         SizedBox(height: 16.rh),
         Container(
           padding: EdgeInsets.all(AppSize.s4.rSp),

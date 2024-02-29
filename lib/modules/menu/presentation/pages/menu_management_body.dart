@@ -1,12 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/di.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/filter_data.dart';
 import 'package:klikit/core/widgets/filter/filter_icon_view.dart';
 import 'package:klikit/core/widgets/filter/menu_filter_screen.dart';
+import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
+import 'package:klikit/modules/menu/presentation/pages/filter/filter_by_branch.dart';
+import 'package:klikit/modules/menu/presentation/pages/filter/filter_by_brand.dart';
 import 'package:klikit/modules/menu/presentation/pages/menu/menu_screen.dart';
 import 'package:klikit/modules/menu/presentation/pages/tab_item.dart';
 import 'package:klikit/resources/colors.dart';
@@ -39,6 +46,59 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (UserPermissionManager().isBizOwner())
+          FutureBuilder<List<Branch>>(
+            future: getIt.get<BusinessInformationProvider>().fetchBranches(),
+            builder: (_, snap) {
+              if (snap.hasData && snap.data != null) {
+                return FilterByBranchView(
+                  branches: snap.data!,
+                  onChanged: (branch) {
+                    final data = _filterDataChangeListener.value;
+                    final appliedFilterData = MenuFilteredData(
+                      brand: data?.brand,
+                      branch: branch,
+                      providers: data?.providers,
+                    );
+                    _filterDataChangeListener.value = appliedFilterData;
+                  },
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              ).setVisibilityWithSpace(
+                startSpace: 8,
+                endSpace: 8,
+                direction: Axis.vertical,
+              );
+            },
+          ),
+        FutureBuilder<List<Brand>>(
+          future: getIt.get<BusinessInformationProvider>().fetchBrands(),
+          builder: (_, snap) {
+            if (snap.hasData && snap.data != null) {
+              return FilterByBrandsView(
+                brands: snap.data!,
+                onChanged: (brand) {
+                  final data = _filterDataChangeListener.value;
+                  final appliedFilterData = MenuFilteredData(
+                    brand: brand,
+                    branch: data?.branch,
+                    providers: data?.providers,
+                  );
+                  _filterDataChangeListener.value = appliedFilterData;
+                },
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ).setVisibilityWithSpace(
+              startSpace: 8,
+              endSpace: 8,
+              direction: Axis.vertical,
+            );
+          },
+        ),
         ValueListenableBuilder<int>(
           valueListenable: _tabChangeListener,
           builder: (_, index, __) => MenuTabBarView(
@@ -75,7 +135,7 @@ class _MenuManagementBodyState extends State<MenuManagementBody> {
                 valueListenable: _filterDataChangeListener,
                 builder: (_, data, __) {
                   return FilterIconView(
-                    applied: data != null,
+                    applied: data?.providers != null,
                     openFilterScreen: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(

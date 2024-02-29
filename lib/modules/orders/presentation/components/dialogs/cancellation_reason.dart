@@ -202,7 +202,7 @@ class _CancellationReasonDialogContentState extends State<CancellationReasonDial
                 listener: (context, state) {
                   if (state is Success<ActionSuccess>) {
                     Navigator.of(context).pop();
-                    showSuccessSnackBar(context, state.data.message!);
+                    showSuccessSnackBar(context, state.data.message!.orEmpty());
                     widget.successCallback();
                   } else if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);

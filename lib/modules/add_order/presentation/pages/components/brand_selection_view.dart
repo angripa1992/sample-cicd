@@ -54,10 +54,12 @@ class BrandSelectionView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            KTNetworkImage(
-              imageUrl: brand.logo,
+            SizedBox(
               width: 42.rSp,
               height: 42.rSp,
+              child: KTNetworkImage(
+                imageUrl: brand.logo,
+              ),
             ),
             SizedBox(height: 8.rh),
             Text(

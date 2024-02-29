@@ -132,6 +132,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
           ?.map((e) => AppliedPromoItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       pickUpAt: json['estimated_pickup_at'] as String?,
+      estimatedDeliveryAt: json['estimated_delivery_at'] as String?,
       deliveryInfo: json['delivery_info'] == null
           ? null
           : DeliveryInfoModel.fromJson(
@@ -154,6 +155,9 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       providerRoundOffAmount: json['provider_rounded_off_amount'] as num?,
       gatewayFeePaidByCustomer: json['gateway_fee_paid_by_customer'] as bool?,
       serviceFeePaidByCustomer: json['service_fee_paid_by_customer'] as bool?,
+      isMerchantDelivery: json['is_merchant_delivery'] as bool?,
+      deliveryAddress: json['delivery_address'] as String?,
+      rewardPointId: json['reward_point_id'] as int?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -245,6 +249,7 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'cancellation_reason_id': instance.cancellationReasonId,
       'cancellation_reason': instance.cancellationReason,
       'estimated_pickup_at': instance.pickUpAt,
+      'estimated_delivery_at': instance.estimatedDeliveryAt,
       'restaurant_service_fee': instance.restaurantServiceFee,
       'delivery_info': instance.deliveryInfo?.toJson(),
       'provider_sub_total': instance.providerSubTotal,
@@ -266,6 +271,9 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'provider_rounded_off_amount': instance.providerRoundOffAmount,
       'gateway_fee_paid_by_customer': instance.gatewayFeePaidByCustomer,
       'service_fee_paid_by_customer': instance.serviceFeePaidByCustomer,
+      'is_merchant_delivery': instance.isMerchantDelivery,
+      'delivery_address': instance.deliveryAddress,
+      'reward_point_id': instance.rewardPointId,
     };
 
 CartV2Model _$CartV2ModelFromJson(Map<String, dynamic> json) => CartV2Model(

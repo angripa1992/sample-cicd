@@ -52,14 +52,14 @@ class _AddOrderAppBarState extends State<AddOrderAppBar> {
           ),
           Expanded(
             child: Container(
-              decoration: regularRoundedDecoration(strokeColor: AppColors.neutralB50,radius: 8.rSp),
+              decoration: regularRoundedDecoration(strokeColor: AppColors.neutralB50, radius: 8.rSp),
               padding: EdgeInsets.symmetric(vertical: 8.rh),
               child: InkWell(
                 onTap: () {
                   ModalSheetManager.openBottomSheet(
                     context,
                     BrandSelectionView(
-                      onBrandSelected: (brand){
+                      onBrandSelected: (brand) {
                         widget.onChanged(brand);
                         setState(() {
                           _brandName = brand.title;
@@ -67,7 +67,7 @@ class _AddOrderAppBarState extends State<AddOrderAppBar> {
                       },
                     ),
                     title: AppStrings.select_brand.tr(),
-                    subTitle: 'Choose your preferred brand',
+                    subTitle: AppStrings.choose_brand.tr(),
                     isScrollControlled: false,
                   );
                 },
@@ -99,7 +99,7 @@ class _AddOrderAppBarState extends State<AddOrderAppBar> {
             ),
           ),
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 16.rw),
+            padding: EdgeInsets.symmetric(horizontal: 16.rw),
             child: OrderCounter(onCartTap: widget.onCartTap),
           ),
         ],

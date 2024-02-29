@@ -239,13 +239,19 @@ MenuV1ItemsModel _$MenuV1ItemsModelFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String?,
       enabled: json['enabled'] as bool?,
       hidden: json['hidden'] as bool?,
-      statuses: (json['statuses'] as List<dynamic>?)?.map((e) => MenuV1StatusesModel.fromJson(e as Map<String, dynamic>)).toList(),
+      statuses: (json['statuses'] as List<dynamic>?)
+          ?.map((e) => MenuV1StatusesModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sequence: json['sequence'] as int?,
       defaultItemId: json['default_item_id'] as int?,
       categoryId: json['category_id'] as int?,
-      stock: json['stock'] == null ? null : MenuV1StockModel.fromJson(json['stock'] as Map<String, dynamic>),
+      stock: json['stock'] == null
+          ? null
+          : MenuV1StockModel.fromJson(json['stock'] as Map<String, dynamic>),
       skuID: json['sku_id'] as String?,
-      groups: (json['groups'] as List<dynamic>?)?.map((e) => V1ModifierGroupModel.fromJson(e as Map<String, dynamic>)).toList(),
+      groups: (json['groups'] as List<dynamic>?)
+          ?.map((e) => V1ModifierGroupModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       haveModifier: json['item_modifier_group_exists'] as bool?,
     );
 

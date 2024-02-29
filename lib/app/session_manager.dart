@@ -97,6 +97,8 @@ class SessionManager {
 
   int country() => _user?.countryIds.first ?? 0;
 
+  String countryCode() => _user?.countryCodes.first ?? "";
+
   String userDisplayRole() => _user?.displayRoles.first ?? EMPTY;
 
   Future<void> logout() async {

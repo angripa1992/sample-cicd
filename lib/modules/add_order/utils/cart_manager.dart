@@ -1,6 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:collection/collection.dart';
 
 import '../../../app/constants.dart';
 import '../../../core/route/routes.dart';
@@ -22,6 +22,8 @@ class CartManager {
   static AppliedPromoInfo? _promoInfo;
   static int? _orderType;
   static int? _orderSource;
+  static int? _rewardPointId;
+  static int? _orderCreatorUserId;
   static String? _orderComment;
   static bool? _roundOffApplicable;
   static final _cartItemNotifier = ValueNotifier<int>(0);
@@ -61,6 +63,10 @@ class CartManager {
 
   int get orderSource => _orderSource ?? OrderSourceID.IN_STORE;
 
+  int? get rewardPointId => _rewardPointId;
+
+  int? get orderCreatorUserId => _orderCreatorUserId;
+
   bool? get roundOffApplicable => _roundOffApplicable;
 
   String get orderComment => _orderComment ?? EMPTY;
@@ -71,6 +77,10 @@ class CartManager {
   }
 
   set orderSource(int source) => _orderSource = source;
+
+  set setRewardPointId(int? id) => _rewardPointId = id;
+
+  set setOrderCreatorUserId(int? id) => _orderCreatorUserId = id;
 
   set orderComment(String comment) => _orderComment = comment;
 
@@ -123,7 +133,7 @@ class CartManager {
 
   Future<void> removeNonModifierItemFromCart(int itemID) async {
     final deleteItem = _carts.firstWhereOrNull((element) => element.item.id == itemID);
-    if(deleteItem != null){
+    if (deleteItem != null) {
       deleteItem.quantity -= 1;
       _notifyListener();
     }
@@ -376,6 +386,8 @@ class CartManager {
     _orderComment = null;
     _orderTypeNotifier.value = null;
     _roundOffApplicable = null;
+    _rewardPointId = null;
+    _orderCreatorUserId = null;
     _notifyListener();
   }
 }

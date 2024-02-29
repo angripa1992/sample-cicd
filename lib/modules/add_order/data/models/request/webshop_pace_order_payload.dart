@@ -3,7 +3,6 @@ import 'package:klikit/modules/add_order/data/models/request/webshop_calculate_b
 
 import '../../../../common/entities/branch.dart';
 import '../modifier/item_price_model.dart';
-import '../modifier/modifier_rule.dart';
 import '../modifier/title_v2_model.dart';
 import 'billing_request.dart';
 import 'item_brand_request.dart';
@@ -26,6 +25,9 @@ class WebShopPlaceOrderPayload {
   BillingCurrency? currency;
   Promo? appliedPromo;
   String? orderComment;
+  int? numberOfSeniorCitizen;
+  int? numberOfCustomer;
+  int? rewardPointId;
 
   WebShopPlaceOrderPayload({
     this.itemPrice,
@@ -45,6 +47,9 @@ class WebShopPlaceOrderPayload {
     this.currency,
     this.appliedPromo,
     this.orderComment,
+    this.numberOfSeniorCitizen,
+    this.numberOfCustomer,
+    this.rewardPointId,
   });
 
   Map<String, dynamic> toJson() {
@@ -70,6 +75,15 @@ class WebShopPlaceOrderPayload {
     }
     if (appliedPromo != null) {
       data['applied_promo'] = appliedPromo!.toJson();
+    }
+    if (numberOfSeniorCitizen != null) {
+      data['number_of_senior_citizen'] = numberOfSeniorCitizen;
+    }
+    if (numberOfCustomer != null) {
+      data['number_of_customer'] = numberOfCustomer;
+    }
+    if (rewardPointId != null) {
+      data['reward_point_id'] = rewardPointId;
     }
     data['order_comment'] = orderComment;
     return data;

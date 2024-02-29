@@ -49,7 +49,7 @@ class UpdateAvailableView extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Get the latest Klikit app now.',
+                  'Get the latest klikit app now',
                   style: regularTextStyle(
                     color: AppColors.greyDarker,
                     fontSize: AppFontSize.s14.rSp,

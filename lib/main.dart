@@ -1,22 +1,13 @@
-import 'dart:async';
-import 'dart:io';
-import 'dart:ui';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:klikit/app/klikit.dart';
 import 'package:klikit/core/network/slack_logger.dart';
 import 'package:klikit/env/environment_variables.dart';
 import 'package:klikit/language/smart_asset_loader.dart';
+import 'package:klikit/printer/wifi_printer_plugin.dart';
 import 'package:klikit/resources/assets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock/wakelock.dart';
-
 import 'app/crashlytics_config.dart';
 import 'app/di.dart';
 import 'core/utils/permission_handler.dart';
@@ -25,7 +16,6 @@ import 'language/language_manager.dart';
 import 'modules/widgets/loader.dart';
 import 'notification/fcm_service.dart';
 import 'notification/local_notification_service.dart';
-
 
 void mainCommon(EnvironmentVariables env) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +51,7 @@ void mainCommon(EnvironmentVariables env) async {
       DeviceOrientation.portraitDown,
     ],
   ).then(
-    (_) => runApp(
+        (_) => runApp(
       EasyLocalization(
         path: AppAssets.translations,
         supportedLocales: supportedLocale,
@@ -73,4 +63,3 @@ void mainCommon(EnvironmentVariables env) async {
     ),
   );
 }
-

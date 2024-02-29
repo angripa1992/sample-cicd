@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:docket_design_template/common_design_template.dart';
 import 'package:docket_design_template/common_zreport_template.dart';
@@ -11,7 +12,9 @@ import 'package:docket_design_template/utils/printer_configuration.dart';
 import 'package:docket_design_template/zreport_design_template.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/app/constants.dart';
+import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/language/language_manager.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/home/data/model/z_report_data_model.dart';
 import 'package:klikit/printer/bluetooth_printer_handler.dart';
@@ -72,9 +75,10 @@ class PrinterManager {
       showSelectDocketTypeDialog(
         onSelect: (type) async {
           final deviceType = LocalPrinterDataManager().activeDevice();
+          final locale = getIt<LanguageManager>().getCurrentLocale();
           List<int>? printingData;
           if (deviceType == Device.android) {
-            printingData = await _generateDocketTicket(order: order, docketType: type, printingType: PrintingType.manual);
+            printingData = await _generateDocketTicket(order: order, docketType: type, printingType: PrintingType.manual, locale: locale);
           } else if (deviceType == Device.imin) {
             final templateOrder = await _generateTemplateOrder(order);
             final rollSize = _preferences.printerSetting().paperSize.toRollSize();
@@ -83,6 +87,7 @@ class PrinterManager {
               roll: rollSize,
               printingType: PrintingType.manual,
               isConsumerCopy: type == DocketType.customer,
+              locale: locale,
             );
           }
           await _doPrinting(
@@ -107,16 +112,29 @@ class PrinterManager {
     final iminPrinterHandler = BluetoothPrinterHandler();
     final androidPrinterHandler = printerHandler();
     final deviceType = LocalPrinterDataManager().activeDevice();
+    final locale = getIt<LanguageManager>().getCurrentLocale();
     List<int>? customerPrintingData;
     List<int>? kitchenPrintingData;
     if (deviceType == Device.android) {
-      customerPrintingData = await _generateDocketTicket(order: order, docketType: DocketType.customer, printingType: PrintingType.auto);
-      kitchenPrintingData = await _generateDocketTicket(order: order, docketType: DocketType.kitchen, printingType: PrintingType.auto);
+      customerPrintingData = await _generateDocketTicket(order: order, docketType: DocketType.customer, printingType: PrintingType.auto, locale: locale);
+      kitchenPrintingData = await _generateDocketTicket(order: order, docketType: DocketType.kitchen, printingType: PrintingType.auto, locale: locale);
     } else if (deviceType == Device.imin) {
       final templateOrder = await _generateTemplateOrder(order);
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
-      customerPrintingData = await CommonDesignTemplate().generateTicket(order: templateOrder, roll: rollSize, printingType: PrintingType.auto, isConsumerCopy: true);
-      kitchenPrintingData = await CommonDesignTemplate().generateTicket(order: templateOrder, roll: rollSize, printingType: PrintingType.auto, isConsumerCopy: false);
+      customerPrintingData = await CommonDesignTemplate().generateTicket(
+        order: templateOrder,
+        roll: rollSize,
+        printingType: PrintingType.auto,
+        isConsumerCopy: true,
+        locale: locale,
+      );
+      kitchenPrintingData = await CommonDesignTemplate().generateTicket(
+        order: templateOrder,
+        roll: rollSize,
+        printingType: PrintingType.auto,
+        isConsumerCopy: false,
+        locale: locale,
+      );
     }
     if (printerSetting.customerCopyEnabled) {
       for (int i = 0; i < printerSetting.customerCopyCount; i++) {
@@ -130,6 +148,7 @@ class PrinterManager {
           printingData: customerPrintingData,
         );
         if (!succeed) return;
+        await Future.delayed(const Duration(milliseconds: 500));
       }
     }
     if (printerSetting.kitchenCopyEnabled && printerSetting.kitchenCopyCount > ZERO) {
@@ -159,6 +178,7 @@ class PrinterManager {
   }) async {
     final localPrinter = LocalPrinterDataManager().localPrinter();
     final deviceType = LocalPrinterDataManager().activeDevice();
+    final locale = getIt<LanguageManager>().getCurrentLocale();
     if (deviceType == Device.sunmi) {
       final templateOrder = await _generateTemplateOrder(order);
       final rollSize = _preferences.printerSetting().paperSize.toRollSize();
@@ -172,6 +192,7 @@ class PrinterManager {
           printingType: printingType,
         ),
         fontId: fontId,
+        locale: locale,
       );
     } else if (deviceType == Device.imin) {
       if (localPrinter?.deviceType == CType.BLE && printingData != null) {
@@ -195,21 +216,22 @@ class PrinterManager {
     }
   }
 
-  void printZReport(ZReportData model, DateTime reportDate, {DateTime? reportEndDate}) async {
+  void printZReport(ZReportData model, DateTime reportDate, {DateTime? reportEndDate, required Locale locale}) async {
     final localPrinter = LocalPrinterDataManager().localPrinter();
     final deviceType = LocalPrinterDataManager().activeDevice();
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     final cType = LocalPrinterDataManager().cType();
+    final locale = getIt<LanguageManager>().getCurrentLocale();
     final data = await ZReportDataProvider().generateTemplateData(model, reportDate, reportEndTime: reportEndDate);
     if (deviceType == Device.sunmi) {
-      await SunmiZReportPrinter().printZReport(data, rollSize);
+      await SunmiZReportPrinter().printZReport(data, rollSize, locale);
     } else if (deviceType == Device.imin) {
-      var printingData = await CommonZReportTemplate().generateZTicket(data: data, roll: rollSize);
+      var printingData = await CommonZReportTemplate().generateZTicket(data: data, roll: rollSize, locale: locale);
       if (localPrinter?.deviceType == CType.BLE) {
         await BluetoothPrinterHandler().print(data: printingData, localPrinter: localPrinter, isFromBackground: false);
       }
     } else {
-      final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate);
+      final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate, locale: locale);
       if (localPrinter?.deviceType == cType && printingData != null) {
         await printerHandler().print(data: printingData, localPrinter: localPrinter, isFromBackground: false);
       }
@@ -231,6 +253,7 @@ class PrinterManager {
     required Order order,
     required int docketType,
     required PrintingType printingType,
+    required Locale locale,
   }) async {
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
     final templateOrder = await _generateTemplateOrder(order);
@@ -242,6 +265,7 @@ class PrinterManager {
         fontSize: _printerFonts(),
         printingType: printingType,
       ),
+      locale,
     );
     return rawBytes;
   }
@@ -250,6 +274,7 @@ class PrinterManager {
     ZReportData dataModel,
     DateTime reportTime, {
     DateTime? reportEndDate,
+    required Locale locale,
   }) async {
     final data = await ZReportDataProvider().generateTemplateData(dataModel, reportTime, reportEndTime: reportEndDate);
     final rollSize = _preferences.printerSetting().paperSize.toRollSize();
@@ -261,6 +286,7 @@ class PrinterManager {
         fontSize: _printerFonts(),
         printingType: PrintingType.manual,
       ),
+      locale,
     );
     return printingData;
   }

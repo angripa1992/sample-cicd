@@ -19,9 +19,15 @@ class UserPermissionManager {
     return user?.roles.first == UserRole.businessOwner;
   }
 
+  bool isBranchManager() {
+    final user = SessionManager().user();
+    return user?.roles.first == UserRole.branchManger;
+  }
+
   bool canOosMenu() {
     final user = SessionManager().user();
     if (user == null) return false;
     return user.permissions.contains(UserPermission.oosMenu);
   }
+
 }

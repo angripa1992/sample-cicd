@@ -68,6 +68,11 @@ class CartPriceView extends StatelessWidget {
                     price: cartBill.deliveryFee,
                     onTap: onDeliveryFee,
                   ),
+            if (CartManager().isWebShopOrder && cartBill.rewardPrice > 0)
+              _item(
+                title: 'Reward Discount',
+                price: cartBill.rewardPrice,
+              ),
             _editableItem(
               title: AppStrings.discount.tr(),
               price: cartBill.discountAmount,
@@ -112,7 +117,7 @@ class CartPriceView extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Rounding Off',
+              AppStrings.round_off.tr(),
               style: regularTextStyle(
                 color: AppColors.black,
                 fontSize: 14.rSp,

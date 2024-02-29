@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/modules/common/model/branch_model.dart';
+import 'package:klikit/modules/common/model/delivery_time_success_response.dart';
 
 import '../../../app/enums.dart';
 import '../../../app/session_manager.dart';
@@ -24,6 +25,10 @@ abstract class BusinessRemoteDataSource {
   Future<List<PaymentStatusModel>> fetchPaymentStatus();
 
   Future<BranchDataModel> fetchBranches(Map<String, dynamic> params);
+
+  Future<DeliveryTimeDataModel> setDeliveryTime(DeliveryTimeDataModel data);
+
+  Future<DeliveryTimeDataModel> fetchDeliveryTIme(int branchId);
 }
 
 class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
@@ -107,6 +112,36 @@ class BusinessRemoteDataSourceImpl extends BusinessRemoteDataSource {
       final List<dynamic> response = await _restClient.request(Urls.allPaymentChannels, Method.GET, null);
       final data = response.map((e) => PaymentChannelModel.fromJson(e)).toList();
       return data;
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<DeliveryTimeDataModel> fetchDeliveryTIme(int branchId) async {
+    try {
+      final response = await _restClient.request(
+        Urls.deliveryTime,
+        Method.GET,
+        {
+          'branch_id': branchId,
+        },
+      );
+      return DeliveryTimeDataModel.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<DeliveryTimeDataModel> setDeliveryTime(DeliveryTimeDataModel data) async {
+    try {
+      final response = await _restClient.request(
+        Urls.deliveryTime,
+        Method.POST,
+        data.toJson(),
+      );
+      return DeliveryTimeDataModel.fromJson(response);
     } on DioException {
       rethrow;
     }

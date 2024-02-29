@@ -31,13 +31,23 @@ void showMenuActionDialog({
   required bool enabled,
 }) {
   final KTButtonController positiveButtonController = KTButtonController(label: enabled ? AppStrings.enable.tr() : AppStrings.disable.tr());
-  String typeName() {
-    if (type == MenuType.CATEGORY) {
-      return 'category';
-    } else if (type == MenuType.SECTION) {
-      return 'menu';
+  String messageContent() {
+    if (enabled) {
+      if (type == MenuType.CATEGORY) {
+        return AppStrings.enable_category.tr();
+      } else if (type == MenuType.SECTION) {
+        return AppStrings.enable_menu.tr();
+      } else {
+        return AppStrings.enable_item.tr();
+      }
     } else {
-      return 'item';
+      if (type == MenuType.CATEGORY) {
+        return AppStrings.disable_category.tr();
+      } else if (type == MenuType.SECTION) {
+        return AppStrings.disable_menu.tr();
+      } else {
+        return AppStrings.disable_item.tr();
+      }
     }
   }
 
@@ -53,8 +63,7 @@ void showMenuActionDialog({
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Text('${AppStrings.do_you_want_to.tr()} ${enabled ? 'enable' : 'disable'} this ${typeName()}?',
-                    style: mediumTextStyle(color: AppColors.neutralB700, fontSize: AppFontSize.s16.rSp)),
+                child: Text(messageContent(), style: mediumTextStyle(color: AppColors.neutralB700, fontSize: AppFontSize.s16.rSp)),
               ),
               AppSize.s8.horizontalSpacer(),
               InkWell(

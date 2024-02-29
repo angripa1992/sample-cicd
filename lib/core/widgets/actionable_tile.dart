@@ -54,14 +54,17 @@ class ActionableTile extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        title,
-                        style: titleStyle ??
-                            mediumTextStyle(
-                              color: AppColors.black,
-                              fontSize: AppFontSize.s16.rSp,
-                            ),
+                      Flexible(
+                        child: Text(
+                          title,
+                          style: titleStyle ??
+                              mediumTextStyle(
+                                color: AppColors.black,
+                                fontSize: AppFontSize.s16.rSp,
+                              ),
+                        ),
                       ),
                       titleHelper.setVisibilityWithSpace(startSpace: AppSize.s12, direction: Axis.horizontal)
                     ],

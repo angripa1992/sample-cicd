@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/core/network/urls.dart';
+import 'package:klikit/modules/user/data/models/auto_accept_order_model.dart';
 import 'package:klikit/modules/user/data/models/success_response.dart';
 import 'package:klikit/modules/user/data/request_model/change_password_request_model.dart';
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
@@ -25,6 +26,10 @@ abstract class UserRemoteDataSource {
   Future<SuccessResponseModel> changeUserSetting(Map<String, dynamic> params);
 
   Future<UserSettingsModel> getUserSettings(int userId);
+
+  Future<AutoAcceptOrderModel> fetchAutoAcceptStatus(Map<String, dynamic> params);
+
+  Future<AutoAcceptOrderModel> toggleAutoAccept(Map<String, dynamic> params);
 }
 
 class UserRemoteDataSourceImpl extends UserRemoteDataSource {
@@ -97,6 +102,26 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
     try {
       final response = await _restClient.request('${Urls.userSettings}/$userId', Method.GET, null);
       return UserSettingsModel.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AutoAcceptOrderModel> fetchAutoAcceptStatus(Map<String, dynamic> params) async {
+    try {
+      final response = await _restClient.request(Urls.autoAcceptOrder, Method.GET, params);
+      return AutoAcceptOrderModel.fromJson(response);
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<AutoAcceptOrderModel> toggleAutoAccept(Map<String, dynamic> params) async {
+    try {
+      final response = await _restClient.request(Urls.autoAcceptOrder, Method.POST, params);
+      return AutoAcceptOrderModel.fromJson(response);
     } on DioException {
       rethrow;
     }

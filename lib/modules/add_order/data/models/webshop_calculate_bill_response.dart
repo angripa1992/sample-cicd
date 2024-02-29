@@ -28,8 +28,12 @@ class WebShopCalculateBillResponse {
   num? merchantTotalPriceCent;
   num? merchantTotalPrice;
   num? customFee;
+  num? rewardPrice;
+  num? rewardPriceCent;
   bool? feePaidByCustomer;
   Promo? appliedPromo;
+  int? numberOfSeniorCitizen;
+  int? numberOfCustomer;
 
   WebShopCalculateBillResponse({
     this.subTotal,
@@ -59,6 +63,10 @@ class WebShopCalculateBillResponse {
     this.customFee,
     this.feePaidByCustomer,
     this.appliedPromo,
+    this.numberOfSeniorCitizen,
+    this.numberOfCustomer,
+    this.rewardPrice,
+    this.rewardPriceCent,
   });
 
   WebShopCalculateBillResponse.fromJson(Map<String, dynamic> json) {
@@ -93,6 +101,10 @@ class WebShopCalculateBillResponse {
     merchantTotalPrice = json['merchant_total_price'];
     customFee = json['custom_fee'];
     feePaidByCustomer = json['fee_paid_by_customer'];
+    numberOfSeniorCitizen = json['number_of_senior_citizen'];
+    numberOfCustomer = json['number_of_customer'];
+    rewardPrice = json['reward_price'];
+    rewardPriceCent = json['reward_price_cent'];
     appliedPromo = json['applied_promo'] != null ? Promo.fromJson(json['applied_promo']) : null;
   }
 
@@ -118,8 +130,8 @@ class WebShopCalculateBillResponse {
       totalPromoDiscount: totalPromoDiscount.orZero(),
       manualDiscount: 0,
       items: items?.map((item) => item.toItemBill()).toList() ?? [],
-      numberOfSeniorCitizen: 0,
-      numberOfSeniorCustomer: 0,
+      numberOfSeniorCitizen: numberOfSeniorCitizen.orZero(),
+      numberOfSeniorCustomer: numberOfCustomer.orZero(),
       appliedPromo: appliedPromo,
       restaurantServiceFee: restaurantServiceFee.orZero(),
       restaurantServiceFeeCent: restaurantServiceFeeCent.orZero(),
@@ -129,6 +141,8 @@ class WebShopCalculateBillResponse {
       customFee: customFee.orZero(),
       roundOffAmountCent: ZERO,
       roundOffAmount: ZERO,
+      rewardPrice: rewardPrice.orZero(),
+      rewarPriceCent: rewardPriceCent.orZero(),
     );
   }
 }

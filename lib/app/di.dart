@@ -49,6 +49,7 @@ import 'package:klikit/modules/user/domain/usecases/login.dart';
 import 'package:klikit/modules/user/domain/usecases/logout.dart';
 import 'package:klikit/modules/user/domain/usecases/send_reset_link.dart';
 import 'package:klikit/modules/user/domain/usecases/update_user_info.dart';
+import 'package:klikit/modules/user/presentation/account/cubit/auto_accept_order_cubit.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/update_user_info_cubit.dart';
 import 'package:klikit/modules/user/presentation/chnage_password/cubit/change_password_cubit.dart';
@@ -136,6 +137,7 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => ChangePasswordCubit(getIt(), getIt()));
   getIt.registerFactory(() => ChangeNotificationSettingCubit(getIt()));
   getIt.registerFactory(() => DeviceSettingCubit(getIt()));
+  getIt.registerFactory(() => AutoAcceptOrderCubit(getIt()));
 
   ///pause store
   getIt.registerLazySingleton<PauseStoreRemoteDataSource>(() => PauseStoreRemoteDataSourceImpl(getIt()));

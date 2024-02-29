@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:klikit/app/enums.dart';
 import 'package:klikit/core/network/rest_client.dart';
@@ -119,6 +121,7 @@ class OrderRemoteDatasourceImpl extends OrderRemoteDatasource {
   Future<OrderModel> fetchOrderById(int id) async {
     try {
       final response = await _restClient.request('${Urls.order}/$id', Method.GET, null);
+      final str = jsonEncode(response);
       return OrderModel.fromJson(response);
     } on DioException {
       rethrow;

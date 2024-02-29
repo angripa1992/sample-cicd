@@ -73,4 +73,7 @@ class Urls {
 
   static String updateModifierEnabledV2(int type) => '/v1/menu-v2/modifier-groups${type == ModifierType.MODIFIER ? '/modifiers' : ''}/enable';
   static const String allPaymentChannels = '/v1/oni/payment-channels/all';
+
+  static const String deliveryTime = '/v1/brand-provider/uber/delivery-time';
+  static const String autoAcceptOrder = '/v1/brand-provider/auto-accept';
 }

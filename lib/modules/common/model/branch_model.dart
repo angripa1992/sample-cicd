@@ -46,7 +46,7 @@ class BranchModel {
   int? currencyId;
   int? availabilityMask;
   int? subscriptionType;
-  int? serviceChargePercentage;
+  num? serviceChargePercentage;
   bool? isChurned;
   int? menuVersion;
   int? menuVersionForKlikitOrder;

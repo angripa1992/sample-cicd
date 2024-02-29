@@ -50,6 +50,11 @@ class WebShopEntityProvider {
       ),
       cart: cart,
       deliveryLocation: updateCartInfo?.deliveryLocation,
+      numberOfSeniorCitizen: CartManager().promoInfo?.numberOfSeniorCitizen,
+      numberOfCustomer: CartManager().promoInfo?.numberOfCustomer,
+      rewardPointId: CartManager().rewardPointId,
+      userId: CartManager().orderCreatorUserId,
+      businessId: SessionManager().businessID(),
     );
   }
 
@@ -133,6 +138,9 @@ class WebShopEntityProvider {
       currency: currency,
       appliedPromo: bill.appliedPromo,
       cart: cartItems,
+      numberOfSeniorCitizen: CartManager().promoInfo?.numberOfSeniorCitizen,
+      numberOfCustomer: CartManager().promoInfo?.numberOfCustomer,
+      rewardPointId: CartManager().rewardPointId,
     );
   }
 

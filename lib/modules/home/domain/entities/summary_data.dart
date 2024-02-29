@@ -92,10 +92,41 @@ class Metrics {
   final List<int> activeBrandIds;
   final List<int> activeBranchIds;
   final List<int> activeProviderIds;
+  final OrderComparison orderComparison;
 
   Metrics({
     required this.activeBrandIds,
     required this.activeBranchIds,
     required this.activeProviderIds,
+    required this.orderComparison,
   });
+}
+
+class OrderComparison {
+  final TotalOrder totalOrders;
+  final TotalOrder completedOrders;
+  final TotalOrder cancelledOrders;
+  final TotalOrder grossRevenue;
+  final TotalOrder realizedRevenue;
+  final TotalOrder netRevenue;
+  final TotalOrder lostRevenue;
+  final TotalOrder discount;
+
+  OrderComparison({
+    required this.totalOrders,
+    required this.completedOrders,
+    required this.cancelledOrders,
+    required this.grossRevenue,
+    required this.realizedRevenue,
+    required this.netRevenue,
+    required this.lostRevenue,
+    required this.discount,
+  });
+}
+
+class TotalOrder {
+  final num value;
+  final String status;
+
+  TotalOrder({required this.value, required this.status});
 }

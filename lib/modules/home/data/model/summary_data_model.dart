@@ -19,7 +19,22 @@ class OrderSummaryDataModel {
 
   OrderSummaryData toEntity() => OrderSummaryData(
         summary: summary?.map((e) => e.toEntity()).toList() ?? [],
-        metrics: metrics?.toEntity() ?? Metrics(activeBrandIds: [], activeBranchIds: [], activeProviderIds: []),
+        metrics: metrics?.toEntity() ??
+            Metrics(
+              activeBrandIds: [],
+              activeBranchIds: [],
+              activeProviderIds: [],
+              orderComparison: OrderComparison(
+                totalOrders: TotalOrder(value: 0, status: ''),
+                completedOrders: TotalOrder(value: 0, status: ''),
+                cancelledOrders: TotalOrder(value: 0, status: ''),
+                grossRevenue: TotalOrder(value: 0, status: ''),
+                realizedRevenue: TotalOrder(value: 0, status: ''),
+                netRevenue: TotalOrder(value: 0, status: ''),
+                lostRevenue: TotalOrder(value: 0, status: ''),
+                discount: TotalOrder(value: 0, status: ''),
+              ),
+            ),
       );
 }
 
@@ -190,18 +205,89 @@ class MetricsModel {
   List<int>? activeBrandIds;
   List<int>? activeBranchIds;
   List<int>? activeProviderIds;
+  OrderComparisonModel? orderComparisonModel;
 
-  MetricsModel({this.activeBrandIds, this.activeBranchIds, this.activeProviderIds});
+  MetricsModel({this.activeBrandIds, this.activeBranchIds, this.activeProviderIds, this.orderComparisonModel});
 
   MetricsModel.fromJson(Map<String, dynamic> json) {
     activeBrandIds = json['active_brand_ids'].cast<int>();
     activeBranchIds = json['active_branch_ids'].cast<int>();
     activeProviderIds = json['active_provider_ids'].cast<int>();
+    orderComparisonModel = json['order_comparison'] != null ? OrderComparisonModel.fromJson(json['order_comparison']) : null;
   }
 
   Metrics toEntity() => Metrics(
-        activeBrandIds: activeBrandIds?.map((e) => e.orZero()).toList() ?? [],
+    activeBrandIds: activeBrandIds?.map((e) => e.orZero()).toList() ?? [],
         activeBranchIds: activeBranchIds?.map((e) => e.orZero()).toList() ?? [],
         activeProviderIds: activeProviderIds?.map((e) => e.orZero()).toList() ?? [],
+        orderComparison: orderComparisonModel?.toEntity() ??
+            OrderComparison(
+              totalOrders: TotalOrder(value: 0, status: ''),
+              completedOrders: TotalOrder(value: 0, status: ''),
+              cancelledOrders: TotalOrder(value: 0, status: ''),
+              grossRevenue: TotalOrder(value: 0, status: ''),
+              realizedRevenue: TotalOrder(value: 0, status: ''),
+              netRevenue: TotalOrder(value: 0, status: ''),
+              lostRevenue: TotalOrder(value: 0, status: ''),
+              discount: TotalOrder(value: 0, status: ''),
+            ),
       );
+}
+
+class OrderComparisonModel {
+  TotalOrderModel? totalOrders;
+  TotalOrderModel? completedOrders;
+  TotalOrderModel? cancelledOrders;
+  TotalOrderModel? grossRevenue;
+  TotalOrderModel? realizedRevenue;
+  TotalOrderModel? netRevenue;
+  TotalOrderModel? lostRevenue;
+  TotalOrderModel? discount;
+
+  OrderComparisonModel({
+    this.totalOrders,
+    this.completedOrders,
+    this.cancelledOrders,
+    this.grossRevenue,
+    this.realizedRevenue,
+    this.netRevenue,
+    this.lostRevenue,
+    this.discount,
+  });
+
+  OrderComparisonModel.fromJson(Map<String, dynamic> json) {
+    totalOrders = json['total_orders'] != null ? TotalOrderModel.fromJson(json['total_orders']) : null;
+    completedOrders = json['completed_orders'] != null ? TotalOrderModel.fromJson(json['completed_orders']) : null;
+    cancelledOrders = json['cancelled_orders'] != null ? TotalOrderModel.fromJson(json['cancelled_orders']) : null;
+    grossRevenue = json['gross_revenue'] != null ? TotalOrderModel.fromJson(json['gross_revenue']) : null;
+    realizedRevenue = json['realized_revenue'] != null ? TotalOrderModel.fromJson(json['realized_revenue']) : null;
+    netRevenue = json['net_revenue'] != null ? TotalOrderModel.fromJson(json['net_revenue']) : null;
+    lostRevenue = json['lost_revenue'] != null ? TotalOrderModel.fromJson(json['lost_revenue']) : null;
+    discount = json['discount'] != null ? TotalOrderModel.fromJson(json['discount']) : null;
+  }
+
+  OrderComparison toEntity() => OrderComparison(
+        totalOrders: totalOrders?.toEntity() ?? TotalOrder(value: 0, status: ''),
+        completedOrders: completedOrders?.toEntity() ?? TotalOrder(value: 0, status: ''),
+        cancelledOrders: cancelledOrders?.toEntity() ?? TotalOrder(value: 0, status: ''),
+        grossRevenue: grossRevenue?.toEntity() ?? TotalOrder(value: 0, status: ''),
+        realizedRevenue: realizedRevenue?.toEntity() ?? TotalOrder(value: 0, status: ''),
+        netRevenue: netRevenue?.toEntity() ?? TotalOrder(value: 0, status: ''),
+        lostRevenue: lostRevenue?.toEntity() ?? TotalOrder(value: 0, status: ''),
+        discount: discount?.toEntity() ?? TotalOrder(value: 0, status: ''),
+      );
+}
+
+class TotalOrderModel {
+  num? value;
+  String? status;
+
+  TotalOrderModel({this.value, this.status});
+
+  TotalOrderModel.fromJson(Map<String, dynamic> json) {
+    value = json['value'];
+    status = json['status'];
+  }
+
+  TotalOrder toEntity() => TotalOrder(value: value.orZero(), status: status.orEmpty());
 }

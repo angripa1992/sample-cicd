@@ -21,6 +21,8 @@ import '../../printer/printer_manager.dart';
 import '../../resources/colors.dart';
 import '../../resources/values.dart';
 import '../notification_data_handler.dart';
+import '../fcm_service.dart';
+import '../notification_queue.dart';
 
 class InAppNotificationHandler {
   static bool _isShowing = false;
@@ -36,15 +38,22 @@ class InAppNotificationHandler {
 
   ValueNotifier<bool> orderBadgeNotifier() => _orderBadgeNotifier;
 
+  static final notificationQueue = NotificationQueue();
+
+
+  void handleDocketPrintingQueue(NotificationData data, {required bool isFromBackground}) {
+    notificationQueue.add(() => _handleDocketPrinting(data, isFromBackground));
+  }
+
   void handleNotification(NotificationData data) {
     if (!SessionManager().notificationEnable()) {
-      _handleDocketPrinting(data);
+      handleDocketPrintingQueue(data, isFromBackground: false);
       return;
     }
     _initCounter();
     _incrementValue(data.type.toInt());
     _playSoundAndShowDialog(data);
-    _handleDocketPrinting(data);
+    handleDocketPrintingQueue(data, isFromBackground: false);
   }
 
   void _initCounter() {
@@ -87,17 +96,17 @@ class InAppNotificationHandler {
     }
   }
 
-  void _handleDocketPrinting(NotificationData notificationData) async {
+  void _handleDocketPrinting(NotificationData notificationData, bool isFromBackground) async {
     final isNewOrder = notificationData.type.toInt() == NotificationOrderType.NEW;
     if (!isNewOrder) {
       return;
     }
-    Future.delayed(const Duration(seconds: 2), () async {
+    await Future.delayed(const Duration(seconds: 2), () async {
       final order = await NotificationDataHandler().getOrderById(
         notificationData.orderId.toInt(),
       );
       if (order != null && order.status == OrderStatus.ACCEPTED) {
-        await _printingHandler.doAutoDocketPrinting(order: order, isFromBackground: false);
+        await _printingHandler.doAutoDocketPrinting(order: order, isFromBackground: isFromBackground);
       }
     });
   }

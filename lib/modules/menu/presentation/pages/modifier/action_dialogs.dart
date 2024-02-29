@@ -34,6 +34,21 @@ void showUpdateModifierEnabledConfirmationDialog({
   String? items,
 }) {
   final KTButtonController positiveButtonController = KTButtonController(label: isEnable ? AppStrings.enable.tr() : AppStrings.disable.tr());
+  String messageContent() {
+    if (type == ModifierType.GROUP) {
+      if (isEnable) {
+        return AppStrings.enable_modifier_group.tr();
+      } else {
+        return AppStrings.disable_modifier_group.tr();
+      }
+    } else {
+      if (isEnable) {
+        return AppStrings.enable_modifier.tr();
+      } else {
+        return AppStrings.disable_modifier.tr();
+      }
+    }
+  }
 
   showDialog(
     context: context,
@@ -48,11 +63,7 @@ void showUpdateModifierEnabledConfirmationDialog({
             children: [
               Expanded(
                 child: Text(
-                  (!isEnable && affected)
-                      ? AppStrings.modifier_required_msg.tr()
-                      : (isEnable
-                          ? '${AppStrings.enable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()}?'
-                          : '${AppStrings.disable_confirmation.tr()} ${type == ModifierType.GROUP ? AppStrings.modifier_group.tr() : AppStrings.modifier.tr()}?'),
+                  (!isEnable && affected) ? AppStrings.modifier_required_msg.tr() : messageContent(),
                   style: mediumTextStyle(
                     color: AppColors.black,
                     fontSize: AppFontSize.s16.rSp,

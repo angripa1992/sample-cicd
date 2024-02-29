@@ -210,7 +210,7 @@ class _BaseScreenState extends State<BaseScreen> {
                     Expanded(
                       child: _getWidget(data),
                     ),
-                    // const UpdateAvailableView(),
+                    const UpdateAvailableView(),
                   ],
                 ),
                 bottomNavigationBar: FABBottomAppBar(

@@ -6,17 +6,17 @@ import '../../resources/colors.dart';
 void configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..indicatorType = EasyLoadingIndicatorType.circle
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
-    ..radius = 10.0
+    ..radius = 0
     ..progressColor = AppColors.primary
-    ..backgroundColor = AppColors.white
+    ..backgroundColor = AppColors.greyLighter
     ..indicatorColor = AppColors.primary
     ..textColor = AppColors.primary
-    ..maskColor = AppColors.primary.withOpacity(0.5)
+    ..maskColor = AppColors.black.withOpacity(0.7)
     ..userInteractions = true
-    ..indicatorWidget = CircularProgress()
+    ..indicatorWidget = const CircularProgress()
     ..dismissOnTap = false;
 }
 

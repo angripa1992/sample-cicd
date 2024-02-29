@@ -32,6 +32,8 @@ class CartBill {
   final bool feePaidByCustomer;
   final num roundOffAmount;
   final num roundOffAmountCent;
+  final num rewardPrice;
+  final num rewarPriceCent;
 
   CartBill({
     required this.subTotal,
@@ -65,6 +67,8 @@ class CartBill {
     required this.feePaidByCustomer,
     required this.roundOffAmount,
     required this.roundOffAmountCent,
+    required this.rewardPrice,
+    required this.rewarPriceCent,
   });
 }
 

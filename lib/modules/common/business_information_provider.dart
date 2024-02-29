@@ -65,7 +65,7 @@ class BusinessInformationProvider {
   ///branch
   Future<List<Branch>> fetchBranches() => _branchInfoProvider.branches();
 
-  Future<Branch?> branchByID(int branchID) => _branchInfoProvider.branchByID(branchID);
+  Future<Branch?> branchByID(int branchID) async => await _branchInfoProvider.branchByID(branchID);
 
   Future<MenuBranchInfo> menuBranchInfo(int branchID) => _branchInfoProvider.menuBranchByID(branchID);
 

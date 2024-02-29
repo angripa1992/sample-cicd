@@ -100,6 +100,7 @@ class Order {
   final int threePlDispatchType;
   final int restaurantServiceFee;
   final String estimatedPickUpAt;
+  final String estimatedDeliveryAt;
   final OrderDeliveryInfo? deliveryInfo;
   final num providerSubTotal;
   final num providerGrandTotal;
@@ -125,6 +126,9 @@ class Order {
   final bool canAccept;
   final bool canReady;
   final bool canDeliver;
+  final bool isMerchantDelivery;
+  final String deliveryAddress;
+  final int rewardPointId;
   bool canUpdate;
   num preparationTime;
   String klikitComment;
@@ -219,6 +223,7 @@ class Order {
     required this.restaurantServiceFee,
     required this.promos,
     required this.estimatedPickUpAt,
+    required this.estimatedDeliveryAt,
     required this.deliveryInfo,
     required this.providerSubTotal,
     required this.providerGrandTotal,
@@ -240,6 +245,9 @@ class Order {
     required this.canReady,
     required this.canCancel,
     required this.canDeliver,
+    required this.isMerchantDelivery,
+    required this.deliveryAddress,
+    required this.rewardPointId,
   });
 
   bool canAcceptOrder() => canAccept;

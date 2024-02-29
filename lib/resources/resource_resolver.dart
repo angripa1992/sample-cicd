@@ -80,6 +80,8 @@ class ImageResourceResolver {
 
   static SVGImageResource get riderSVG => SVGImageResource('$iconBasePath/ic_rider.svg');
 
+  static SVGImageResource get riderBgSVG => SVGImageResource('$iconBasePath/ic_rider_bg.svg');
+
   static SVGImageResource get writeSVG => SVGImageResource('$iconBasePath/ic_write.svg');
 
   static SVGImageResource get noteSVG => SVGImageResource('$iconBasePath/ic_note.svg');
@@ -99,4 +101,10 @@ class ImageResourceResolver {
   static SVGImageResource get rightArrowSmSVG => SVGImageResource('$iconBasePath/ic_sm_right_arrow.svg');
 
   static SVGImageResource get calendarSVG => SVGImageResource('$iconBasePath/ic_calendar.svg');
+
+  static SVGImageResource get modifierVizSVG => SVGImageResource('$iconBasePath/ic_modifier_viz.svg');
+
+  static SVGImageResource get neutralSVG => SVGImageResource('$iconBasePath/ic_neutral.svg');
+
+  static SVGImageResource get autoAcceptSVG => SVGImageResource('$iconBasePath/ic_auto_accept.svg');
 }

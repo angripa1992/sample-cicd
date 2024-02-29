@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/common/entities/branch.dart';
 import 'package:klikit/modules/common/entities/brand.dart';
+import 'package:klikit/modules/common/entities/delivery_time_data.dart';
+import 'package:klikit/modules/common/model/delivery_time_success_response.dart';
 
 import '../../../core/network/network_connectivity.dart';
 import '../entities/payment_info.dart';
@@ -113,6 +115,34 @@ class BusinessInfoProviderRepoImpl extends BusinessInfoProviderRepo {
         final response = await _datasource.fetchAllPaymentChannels();
         final data = response.map((e) => e.toEntity()).toList();
         return Right(data);
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, DeliveryTimeData>> fetchDeliveryTime(int branchId) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.fetchDeliveryTIme(branchId);
+        return Right(response.toEntity());
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, DeliveryTimeData>> setDeliveryTime(DeliveryTimeDataModel data) async {
+    if (await _connectivity.hasConnection()) {
+      try {
+        final response = await _datasource.setDeliveryTime(data);
+        return Right(response.toEntity());
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:klikit/app/extensions.dart';
-import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/core/widgets/filter/apply_filter_button.dart';
 import 'package:klikit/core/widgets/filter/filter_app_bar.dart';
 import 'package:klikit/core/widgets/filter/multiple_provider_filter.dart';
-import 'package:klikit/core/widgets/filter/single_branch_filter.dart';
-import 'package:klikit/core/widgets/filter/single_brand_filter.dart';
-import 'package:klikit/core/widgets/kt_radio_group.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/resources/values.dart';
 
 import '../kt_checkbox_group.dart';
@@ -28,63 +26,40 @@ class MenuFilterScreen extends StatefulWidget {
 
 class _MenuFilterScreenState extends State<MenuFilterScreen> {
   final List<KTCheckboxValue> _selectedProviders = [];
-  KTRadioValue? _selectedBrand;
-  KTRadioValue? _selectedBranch;
+  Brand? _selectedBrand;
+  Branch? _selectedBranch;
 
   @override
   void initState() {
     _selectedProviders.addAll(widget.initData?.providers ?? []);
-    _selectedBrand = widget.initData?.brand;
     _selectedBranch = widget.initData?.branch;
+    _selectedBrand = widget.initData?.brand;
     super.initState();
   }
 
   void _applyFilter() {
     final providers = _selectedProviders.where((element) => element.isSelected ?? false).toList();
-    MenuFilteredData? appliedFilter;
-    if (providers.isEmpty && _selectedBrand == null && _selectedBranch == null) {
-      appliedFilter = null;
-    } else {
-      appliedFilter = MenuFilteredData(brand: _selectedBrand, branch: _selectedBranch, providers: providers);
-    }
+    final appliedFilter = MenuFilteredData(brand: _selectedBrand, branch: _selectedBranch, providers: providers);
     widget.onApplyFilterCallback(appliedFilter);
     Navigator.pop(context);
   }
 
   void _clearAll() {
     _selectedProviders.clear();
-    _selectedBranch = null;
-    _selectedBrand = null;
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FilterAppBar(
-        clearAll: _clearAll,
-      ),
+      appBar: FilterAppBar(clearAll: _clearAll),
       body: Column(
         children: [
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SingleBrandFilter(
-                    initialValue: _selectedBrand,
-                    onChangedCallback: (selectedBrand) {
-                      _selectedBrand = selectedBrand;
-                    },
-                  ),
                   AppSize.s8.verticalSpacer(),
-                  if (UserPermissionManager().isBizOwner())
-                    SingleBranchFilter(
-                      initialValue: _selectedBranch,
-                      onChangedCallback: (selectedBranch) {
-                        _selectedBranch = selectedBranch;
-                      },
-                    ),
-                  if (UserPermissionManager().isBizOwner()) AppSize.s8.verticalSpacer(),
                   MultipleProviderFilter(
                     initialSelectedValues: _selectedProviders,
                     onChangedCallback: (selectedBrands) {

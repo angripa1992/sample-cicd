@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
@@ -11,13 +13,17 @@ import 'package:klikit/core/widgets/actionable_tile.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
 import 'package:klikit/core/widgets/kt_switch.dart';
 import 'package:klikit/core/widgets/modal_sheet_manager.dart';
+import 'package:klikit/core/widgets/popups.dart';
 import 'package:klikit/language/selected_locale.dart';
 import 'package:klikit/modules/base/chnage_language_cubit.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
+import 'package:klikit/modules/common/data/business_info_provider_repo.dart';
 import 'package:klikit/modules/support/contact_support.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
+import 'package:klikit/modules/user/presentation/account/component/add_delivery_time_view.dart';
 import 'package:klikit/modules/user/presentation/account/component/device_setting_view.dart';
 import 'package:klikit/modules/user/presentation/account/component/notification_setting_dialog.dart';
+import 'package:klikit/modules/user/presentation/account/cubit/auto_accept_order_cubit.dart';
 import 'package:klikit/modules/user/presentation/account/cubit/logout_cubit.dart';
 import 'package:klikit/modules/widgets/negative_button.dart';
 import 'package:klikit/resources/colors.dart';
@@ -50,10 +56,17 @@ class _AccountScreenState extends State<AccountScreen> {
   final _businessInfoProvider = getIt.get<BusinessInformationProvider>();
   late final logoutButtonController = KTButtonController(label: AppStrings.logout.tr());
   final _controller = ValueNotifier<bool>(false);
+  final _autoAcceptController = ValueNotifier<bool>(false);
+  final _autoAcceptCubit = getIt.get<AutoAcceptOrderCubit>();
 
   @override
   void initState() {
     _controller.value = SessionManager().notificationEnable();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (!UserPermissionManager().isBizOwner()) {
+        _autoAcceptCubit.fetchPreference();
+      }
+    });
 
     SegmentManager().screen(
       event: SegmentEvents.ACCOUNT_TAB,
@@ -100,6 +113,26 @@ class _AccountScreenState extends State<AccountScreen> {
         } else if (value is String) {
           showSuccessSnackBar(context, value);
         }
+      },
+    );
+  }
+
+  Future<void> _onAddDeliveryTime() async {
+    EasyLoading.show();
+    final response = await getIt.get<BusinessInfoProviderRepo>().fetchDeliveryTime(SessionManager().branchId());
+    EasyLoading.dismiss();
+    response.fold(
+      (error) {
+        showErrorSnackBar(context, error.message);
+      },
+      (data) {
+        showDialog(
+          context: context,
+          builder: (ct) => AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.rSp))),
+            content: AddDeliveryTimeView(initialDeliveryTime: data.deliveryTimeMinute),
+          ),
+        );
       },
     );
   }
@@ -263,6 +296,47 @@ class _AccountScreenState extends State<AccountScreen> {
                       suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
                       onTap: _onLanguageChange,
                     ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
+
+                    if (!UserPermissionManager().isBizOwner())
+                      BlocProvider(
+                        create: (context) => _autoAcceptCubit,
+                        child: BlocBuilder<AutoAcceptOrderCubit, AutoAcceptState>(
+                          builder: (context, state) {
+                            if (state is FetchedState) {
+                              _autoAcceptController.value = state.success.autoAccept;
+                            }
+
+                            return ActionableTile(
+                              title: AppStrings.auto_accept_orders.tr(),
+                              subtitle: AppStrings.auto_accept_aggregator_orders.tr(),
+                              prefixWidget: ImageResourceResolver.autoAcceptSVG.getImageWidget(width: 20.rw, height: 20.rh, color: AppColors.neutralB600),
+                              suffixWidget: KTSwitch(
+                                controller: _autoAcceptController,
+                                onChanged: (enabled) {
+                                  autoAcceptDialog(context, enabled, onSuccess: () {
+                                    _autoAcceptController.value = enabled;
+                                  });
+                                },
+                                height: 18.rh,
+                                width: 36.rw,
+                              ),
+                            ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: 8.rh);
+                          },
+                        ),
+                      ),
+
+                    //delivery time config only enabled for japan branch manager
+                    if (!UserPermissionManager().isBizOwner() && (SessionManager().countryCode() == CountryCode.japan || SessionManager().countryCode() == CountryCode.japan.toISO()))
+                      ActionableTile(
+                        title: 'Average Delivery Time',
+                        subtitle: 'Average time required to deliver food',
+                        prefixWidget: ImageResourceResolver.riderSVG.getImageWidget(width: 20.rSp, height: 20.rSp, color: AppColors.neutralB600),
+                        suffixWidget: ImageResourceResolver.rightArrowSVG.getImageWidget(width: 20.rw, height: 20.rh),
+                        onTap: () {
+                          _onAddDeliveryTime();
+                        },
+                      ).setVisibilityWithSpace(direction: Axis.vertical, endSpace: AppSize.s8),
+
                     Text(
                       AppStrings.devices.tr(),
                       style: semiBoldTextStyle(
@@ -322,9 +396,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         );
                       },
                     ),
-                    const ConsumerProtectionView(
-                      loggedIn: true,
-                    ),
+                    const ConsumerProtectionView(loggedIn: true),
                   ],
                 ),
               ),

@@ -16,7 +16,7 @@ class Branch {
   final int currencyId;
   final int availabilityMask;
   final int subscriptionType;
-  final int serviceChargePercentage;
+  final num serviceChargePercentage;
   final bool isChurned;
   final int menuVersion;
   final int menuVersionForKlikitOrder;

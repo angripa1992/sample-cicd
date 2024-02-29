@@ -29,37 +29,37 @@ class RiderInfoView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Divider(),
             Text(
               AppStrings.rider_info.tr(),
               style: boldTextStyle(
                 color: AppColors.black,
-                fontSize: AppFontSize.s15.rSp,
+                fontSize: AppFontSize.s14.rSp,
               ),
             ),
             SizedBox(height: AppSize.s4.rh),
-            Row(
+            Wrap(
+              spacing: 16.0.rw,
+              runSpacing: 8.0.rh,
               children: [
-                Expanded(
-                  child: _infoItem(AppStrings.name.tr(), order.fulfillmentRider?.name ?? EMPTY),
-                ),
-                Expanded(
-                  child: _infoItem(AppStrings.vehicle_registration.tr(), order.fulfillmentRider?.licensePlate ?? EMPTY),
-                ),
-              ],
-            ),
-            SizedBox(height: AppSize.s4.rh),
-            Row(
-              children: [
-                Expanded(
-                  child: _infoItem(AppStrings.contact.tr(), order.fulfillmentRider?.phone ?? EMPTY),
-                ),
+                if ((order.fulfillmentRider?.name ?? EMPTY).isNotEmpty)
+                  _infoItem(
+                    AppStrings.name.tr(),
+                    order.fulfillmentRider!.name!,
+                  ),
+                if ((order.fulfillmentRider?.phone ?? EMPTY).isNotEmpty)
+                  _infoItem(
+                    AppStrings.contact.tr(),
+                    order.fulfillmentRider!.phone!,
+                  ),
+                if ((order.fulfillmentRider?.licensePlate ?? EMPTY).isNotEmpty)
+                  _infoItem(
+                    AppStrings.vehicle_registration.tr(),
+                    order.fulfillmentRider!.licensePlate!,
+                  ),
                 if (order.fulfillmentExpectedPickupTime.isNotEmpty)
-                  Expanded(
-                    child: _infoItem(
-                      AppStrings.estimated_pickup_time.tr(),
-                      DateTimeFormatter.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime),
-                    ),
+                  _infoItem(
+                    AppStrings.estimated_pickup_time.tr(),
+                    DateTimeFormatter.parseOrderCreatedDate(order.fulfillmentExpectedPickupTime),
                   ),
               ],
             ),
@@ -70,23 +70,25 @@ class RiderInfoView extends StatelessWidget {
   }
 
   Widget _infoItem(String title, String description) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Wrap(
+      direction: Axis.vertical,
       children: [
         Text(
           title,
           style: mediumTextStyle(
-            color: AppColors.black,
-            fontSize: AppFontSize.s14.rSp,
+            color: AppColors.neutralB300,
+            fontSize: AppFontSize.s12.rSp,
           ),
         ),
-        SizedBox(height: AppSize.s2.rh),
-        Text(
-          description,
-          style: regularTextStyle(
-            color: AppColors.black,
-            fontSize: AppFontSize.s14.rSp,
+        SizedBox(height: 2.rh),
+        SizedBox(
+          width: ScreenSizes.screenWidth/3,
+          child: Text(
+            description,
+            style: regularTextStyle(
+              color: AppColors.neutralB500,
+              fontSize: AppFontSize.s12.rSp,
+            ),
           ),
         ),
       ],

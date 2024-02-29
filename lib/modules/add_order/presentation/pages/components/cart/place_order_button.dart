@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/utils/price_calculator.dart';
 import 'package:klikit/core/widgets/kt_button.dart';
@@ -15,7 +14,6 @@ import '../../../../../../resources/styles.dart';
 import '../../../../../../resources/values.dart';
 
 class PlaceOrderButton extends StatelessWidget {
-  final int? channelID;
   final Branch branch;
   final num totalPrice;
   final bool isWebShopOrder;
@@ -27,7 +25,6 @@ class PlaceOrderButton extends StatelessWidget {
 
   const PlaceOrderButton({
     Key? key,
-    required this.channelID,
     required this.branch,
     required this.totalPrice,
     required this.isWebShopOrder,
@@ -41,7 +38,6 @@ class PlaceOrderButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currency = CartManager().currency;
-
     return Container(
       color: AppColors.white,
       padding: EdgeInsets.symmetric(
@@ -109,11 +105,11 @@ class PlaceOrderButton extends StatelessWidget {
                     backgroundDecoration: BoxDecoration(color: AppColors.neutralB30, borderRadius: BorderRadius.circular(8.rSp)),
                     labelStyle: mediumTextStyle(color: AppColors.neutralB700, fontSize: 14.rSp),
                     onTap: onPayNow,
-                    controller: KTButtonController(label: 'Pay Now'),
+                    controller: KTButtonController(label: AppStrings.pay_now.tr()),
                   ),
                 ),
-              if (!willUpdateOrder && branch.prePaymentEnabled && branch.postPaymentEnabled && channelID != PaymentChannelID.CREATE_QRIS) SizedBox(width: 16.rw),
-              if (!willUpdateOrder && branch.postPaymentEnabled && channelID != PaymentChannelID.CREATE_QRIS)
+              if (!willUpdateOrder && branch.prePaymentEnabled && branch.postPaymentEnabled) SizedBox(width: 16.rw),
+              if (!willUpdateOrder && branch.postPaymentEnabled)
                 Expanded(
                   child: KTButton(
                     backgroundDecoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(8.rSp)),

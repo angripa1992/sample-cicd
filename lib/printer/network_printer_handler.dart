@@ -1,3 +1,7 @@
+import 'dart:io';
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,9 +13,11 @@ import 'package:klikit/notification/local_notification_service.dart';
 import 'package:klikit/printer/data/printer_setting.dart';
 import 'package:klikit/printer/printer_handler.dart';
 import 'package:klikit/printer/printer_local_data_manager.dart';
+import 'package:klikit/printer/wifi_printer_plugin.dart';
 import 'package:klikit/resources/strings.dart';
 
 class NetworkPrinterHandler extends PrinterHandler {
+  static const MethodChannel _channel = MethodChannel('wifi_pos_printer');
   @override
   Future<bool> connect({
     LocalPrinter? localPrinter,
@@ -58,17 +64,29 @@ class NetworkPrinterHandler extends PrinterHandler {
     required LocalPrinter? localPrinter,
     required bool isFromBackground,
   }) async {
-    final connected = await connect(localPrinter: localPrinter, isFromBackground: isFromBackground, showMessage: false);
-    if (connected) {
-      try {
-        await PrinterManager.instance.send(type: PrinterType.network, bytes: data);
-      } on PlatformException {
-        _showMessage(isFromBackground, true, AppStrings.defaultError.tr(), true);
-        return false;
-      }
-    } else {
-      return false;
-    }
+    // final connected = await connect(localPrinter: localPrinter, isFromBackground: isFromBackground, showMessage: false);
+    // if (connected) {
+    //   try {
+    //     await PrinterManager.instance.send(type: PrinterType.network, bytes: data);
+    //   } on PlatformException {
+    //     _showMessage(isFromBackground, true, AppStrings.defaultError.tr(), true);
+    //     return false;
+    //   }
+    // } else {
+    //   return false;
+    // }
+
+    // try {
+    //   await _channel.invokeMethod('printData', {
+    //     'ip': localPrinter?.deviceAddress,
+    //     'data': data,
+    //   },);
+    // } on PlatformException catch (e) {
+    //   _showMessage(isFromBackground, true, AppStrings.defaultError.tr(), true);
+    //   return false;
+    // }
+    await WifiPrinterPlugin.printData(localPrinter?.deviceAddress, data);
+
     return true;
   }
 
@@ -98,5 +116,9 @@ class NetworkPrinterHandler extends PrinterHandler {
   @override
   int type() {
     return CType.WIFI;
+  }
+
+  void callbackDispatcher() {
+    WidgetsFlutterBinding.ensureInitialized();
   }
 }

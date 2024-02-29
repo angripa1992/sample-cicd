@@ -197,6 +197,7 @@ class _AddPaymentMethodAndStatusViewState extends State<AddPaymentMethodAndStatu
                 } else if (state is Success<QrisUpdatePaymentResponse>) {
                   _navigateToQrisPaymentPage(state.data);
                 } else if (state is Failed) {
+                  Navigator.of(context).pop();
                   showApiErrorSnackBar(context, state.failure);
                 }
               },

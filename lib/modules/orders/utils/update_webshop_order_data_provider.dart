@@ -132,6 +132,8 @@ class UpdateWebShopOrderDataProvider {
       CartManager().setPaymentInfo = paymentInfo;
       CartManager().setUpdateCartInfo = updateCartInfo;
       CartManager().setRoundOffApplicable = null;
+      CartManager().setRewardPointId = order.rewardPointId.notZeroOrNull();
+      CartManager().setOrderCreatorUserId = order.userId;
     } catch (error) {
       rethrow;
     }

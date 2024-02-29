@@ -69,6 +69,7 @@ class PrinterDataProvider {
       fulfillmentPickupPin: order.fulfillmentPickupPin,
       fulfillmentTrackingUrl: order.fulfillmentTrackingUrl,
       pickupAt: order.estimatedPickUpAt.isNotEmpty ? DateTimeProvider.pickupTime(order.estimatedPickUpAt) : order.estimatedPickUpAt,
+      deliveryTime: order.estimatedDeliveryAt.isNotEmpty ? DateTimeProvider.pickupTime(order.estimatedDeliveryAt) : order.estimatedDeliveryAt,
       providerSubTotal: order.providerSubTotal,
       providerGrandTotal: order.providerGrandTotal,
       providerAdditionalFee: order.providerAdditionalFee,
@@ -84,6 +85,8 @@ class PrinterDataProvider {
       providerRoundOffAmount: order.providerRoundOffAmount,
       gatewayFeePaidByCustomer: order.gatewayFeePaidByCustomer,
       serviceFeePaidByCustomer: order.serviceFeePaidByCustomer,
+      isMerchantDelivery: order.isMerchantDelivery,
+      deliveryAddress: order.deliveryAddress,
       fulfillmentRider: order.fulfillmentRider != null
           ? RiderInfo(
               name: order.fulfillmentRider?.name,

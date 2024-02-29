@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:klikit/modules/common/entities/branch.dart';
+import 'package:klikit/modules/common/entities/brand.dart';
 
 import '../kt_checkbox_group.dart';
 import '../kt_radio_group.dart';
@@ -32,8 +34,8 @@ class OniFilteredData {
 }
 
 class MenuFilteredData {
-  final KTRadioValue? brand;
-  final KTRadioValue? branch;
+  final Brand? brand;
+  final Branch? branch;
   final List<KTCheckboxValue>? providers;
 
   MenuFilteredData({

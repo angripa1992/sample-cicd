@@ -9,7 +9,8 @@ import 'package:klikit/resources/strings.dart';
 import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
-Future<DateTime?> showKTDatePicker(BuildContext context, {
+Future<DateTime?> showKTDatePicker(
+  BuildContext context, {
   DateTime? initialDate,
   DateTime? firstDate,
   DateTime? lastDate,
@@ -57,21 +58,20 @@ Future<DateTimeRange?> showKTDateRangePicker({
     initialDateRange: initialDateRange,
     firstDate: firstDate ?? DateTime.now().subtract(const Duration(days: (336 * 10))),
     lastDate: lastDate ?? DateTime.now(),
+    saveText: AppStrings.apply.tr().toUpperCase(),
+    helpText: AppStrings.select_date_range.tr(),
     builder: (context, child) {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: AppSize.s60.rh, horizontal: AppSize.s12.rw),
+      return SafeArea(
+        top: true,
         child: Theme(
           data: ThemeData.light().copyWith(
-            dialogTheme: DialogTheme(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppSize.s12.rSp), // this is the border radius of the picker
-              ),
-            ),
             primaryColor: AppColors.primaryP300,
-            dividerColor: AppColors.white,
+            dividerColor: AppColors.greyLight,
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: AppColors.primaryP300,
-              onSurface: AppColors.primaryP300,
+              onSurface: AppColors.black,
+              brightness: Brightness.dark,
             ),
           ),
           child: child!,

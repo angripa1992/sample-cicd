@@ -15,6 +15,11 @@ class WebShopCalculateBillPayload {
   List<WebShopCartItemPayload>? cart;
   Promo? appliedPromo;
   OrderDeliveryLocation? deliveryLocation;
+  int? numberOfSeniorCitizen;
+  int? numberOfCustomer;
+  int? rewardPointId;
+  int? userId;
+  int? businessId;
 
   WebShopCalculateBillPayload({
     this.branchId,
@@ -24,6 +29,11 @@ class WebShopCalculateBillPayload {
     this.appliedPromo,
     this.orderType,
     this.deliveryLocation,
+    this.numberOfSeniorCitizen,
+    this.numberOfCustomer,
+    this.rewardPointId,
+    this.userId,
+    this.businessId,
   });
 
   Map<String, dynamic> toJson() {
@@ -44,6 +54,21 @@ class WebShopCalculateBillPayload {
     }
     if (deliveryLocation != null) {
       data['delivery_location'] = deliveryLocation!.toJson();
+    }
+    if (numberOfSeniorCitizen != null) {
+      data['number_of_senior_citizen'] = numberOfSeniorCitizen;
+    }
+    if (numberOfCustomer != null) {
+      data['number_of_customer'] = numberOfCustomer;
+    }
+    if (rewardPointId != null) {
+      data['reward_point_id'] = rewardPointId;
+    }
+    if (userId != null) {
+      data['user_id'] = userId;
+    }
+    if (businessId != null) {
+      data['business_id'] = businessId;
     }
     return data;
   }

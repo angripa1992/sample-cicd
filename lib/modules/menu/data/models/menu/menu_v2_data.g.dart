@@ -193,16 +193,26 @@ Map<String, dynamic> _$MenuV2CategoryToJson(MenuV2Category instance) =>
 MenuV2CategoryItem _$MenuV2CategoryItemFromJson(Map<String, dynamic> json) =>
     MenuV2CategoryItem(
       id: json['id'] as int?,
-      title: json['title'] == null ? null : V2TitleModel.fromJson(json['title'] as Map<String, dynamic>),
-      description: json['description'] == null ? null : V2TitleModel.fromJson(json['description'] as Map<String, dynamic>),
+      title: json['title'] == null
+          ? null
+          : V2TitleModel.fromJson(json['title'] as Map<String, dynamic>),
+      description: json['description'] == null
+          ? null
+          : V2TitleModel.fromJson(json['description'] as Map<String, dynamic>),
       vat: json['vat'] as int?,
       skuID: json['skuID'] as String?,
       categoryId: json['category_id'] as int?,
       enabled: json['enabled'] as bool?,
-      visibilities: (json['visibilities'] as List<dynamic>?)?.map((e) => V2VisibilityModel.fromJson(e as Map<String, dynamic>)).toList(),
-      prices: (json['prices'] as List<dynamic>?)?.map((e) => V2PriceModel.fromJson(e as Map<String, dynamic>)).toList(),
+      visibilities: (json['visibilities'] as List<dynamic>?)
+          ?.map((e) => V2VisibilityModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      prices: (json['prices'] as List<dynamic>?)
+          ?.map((e) => V2PriceModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       itemIsEnabled: json['itemIsEnabled'] as bool?,
-      resources: (json['resources'] as List<dynamic>?)?.map((e) => V2ResourcesModel.fromJson(e as Map<String, dynamic>)).toList(),
+      resources: (json['resources'] as List<dynamic>?)
+          ?.map((e) => V2ResourcesModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sequence: json['sequence'] as int?,
       oos: json['oos'] == null
           ? null

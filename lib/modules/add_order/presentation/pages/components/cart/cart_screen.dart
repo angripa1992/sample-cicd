@@ -8,6 +8,9 @@ import 'package:klikit/app/enums.dart';
 import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/network/error_handler.dart';
+import 'package:klikit/core/utils/price_calculator.dart';
+import 'package:klikit/core/widgets/kt_network_image.dart';
+import 'package:klikit/core/widgets/popups.dart';
 import 'package:klikit/modules/add_order/data/models/placed_order_response.dart';
 import 'package:klikit/modules/add_order/domain/entities/add_to_cart_item.dart';
 import 'package:klikit/modules/add_order/domain/entities/cart_bill.dart';
@@ -19,7 +22,6 @@ import 'package:klikit/modules/add_order/presentation/pages/components/cart/cust
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/empty_cart_view.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/place_order_button.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/cart/source_selector.dart';
-import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/delete_item_dialog.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/fee_dialogs.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/dialogs/promo_and_discount_modal.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/modifier/speacial_instruction.dart';
@@ -27,6 +29,7 @@ import 'package:klikit/modules/add_order/presentation/pages/components/order_typ
 import 'package:klikit/modules/add_order/presentation/pages/components/payment_method_selector.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/qris/qris_payment_page.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
+import 'package:klikit/modules/add_order/utils/modifier_manager.dart';
 import 'package:klikit/modules/add_order/utils/order_entity_provider.dart';
 import 'package:klikit/modules/add_order/utils/webshop_entity_provider.dart';
 import 'package:klikit/modules/common/business_information_provider.dart';
@@ -35,7 +38,10 @@ import 'package:klikit/modules/common/entities/brand.dart';
 import 'package:klikit/modules/common/entities/payment_info.dart';
 import 'package:klikit/modules/widgets/snackbars.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/fonts.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
+import 'package:klikit/resources/styles.dart';
 import 'package:klikit/resources/values.dart';
 
 class CartScreen extends StatefulWidget {
@@ -55,7 +61,6 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final _textController = TextEditingController();
   final _calculateBillNotifier = ValueNotifier<CartBill?>(null);
-  late ValueNotifier<int?> _paymentChanelNotifier;
   CartBill? _cartBill;
   int _currentDiscountType = DiscountType.flat;
   int _currentOrderType = OrderType.DINE_IN;
@@ -85,7 +90,6 @@ class _CartScreenState extends State<CartScreen> {
       _paymentChannel = paymentInfo.paymentChannel;
     }
     _customerInfo = CartManager().customerInfo;
-    _paymentChanelNotifier = ValueNotifier(_paymentChannel);
     _calculateBill();
     super.initState();
   }
@@ -156,30 +160,24 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ),
-       FutureBuilder<Branch?>(
-         future: getIt<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
-         builder: (_,snap){
-           if(snap.hasData && snap.data != null){
-             return  ValueListenableBuilder<int?>(
-               valueListenable: _paymentChanelNotifier,
-               builder: (_, chanelID, __) {
-                 return PlaceOrderButton(
-                   channelID: chanelID,
-                   branch: snap.data!,
-                   totalPrice: _cartBill!.totalPrice,
-                   isWebShopOrder: CartManager().isWebShopOrder,
-                   willUpdateOrder: CartManager().willUpdateOrder,
-                   onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
-                   onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
-                   onUpdateWebshopOrder: () => _updateWebShopOrder(),
-                   onUpdateOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
-                 );
-               },
-             );
-           }
-           return const SizedBox();
-         },
-       ),
+        FutureBuilder<Branch?>(
+          future: getIt<BusinessInformationProvider>().branchByID(SessionManager().branchId()),
+          builder: (_, snap) {
+            if (snap.hasData && snap.data != null) {
+              return PlaceOrderButton(
+                branch: snap.data!,
+                totalPrice: _cartBill!.totalPrice,
+                isWebShopOrder: CartManager().isWebShopOrder,
+                willUpdateOrder: CartManager().willUpdateOrder,
+                onPayNow: () => _placeOrder(CheckoutState.PAY_NOW),
+                onPlaceOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+                onUpdateWebshopOrder: () => _updateWebShopOrder(),
+                onUpdateOrder: () => _placeOrder(CheckoutState.PLACE_ORDER),
+              );
+            }
+            return const SizedBox();
+          },
+        ),
       ],
     );
   }
@@ -247,16 +245,16 @@ class _CartScreenState extends State<CartScreen> {
       future: getIt<BusinessInformationProvider>().fetchPaymentMethods(),
       builder: (_, snap) {
         if (snap.hasData && snap.data != null) {
+          final paymentMethods = snap.data!;
           return Column(
             children: [
               PaymentMethodSelector(
-                methods: snap.data!,
+                methods: paymentMethods,
                 initMethod: _paymentMethod,
                 initChannel: _paymentChannel,
                 onChanged: (paymentMethod, paymentChannel) {
                   _paymentMethod = paymentMethod;
                   _paymentChannel = paymentChannel;
-                  _paymentChanelNotifier.value = _paymentChannel;
                 },
               ),
               Divider(color: AppColors.grey, thickness: 8.rh),
@@ -305,7 +303,6 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void dispose() {
     //_calculateBillNotifier.dispose();
-    _paymentChanelNotifier.dispose();
     _textController.dispose();
     super.dispose();
   }
@@ -324,46 +321,128 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _removeAll(int brandId) {
-    showDialog(
+    showActionablePopup(
       context: context,
-      builder: (dContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(AppSize.s16.rSp),
-            ),
-          ),
-          content: DeleteAllDialogView(
-            onDelete: () {
-              CartManager().removeAllByBrand(brandId);
-              _calculateBill();
-            },
-          ),
-        );
+      title: AppStrings.want_to_delete_all_item_msg.tr(),
+      positiveText: AppStrings.remove.tr(),
+      positiveIcon: ImageResourceResolver.deleteSVG.getImageWidget(
+        width: AppSize.s14.rw,
+        height: AppSize.s14.rh,
+        color: AppColors.white,
+      ),
+      isPositiveAction: false,
+      onAction: () {
+        CartManager().removeAllByBrand(brandId);
+        _calculateBill();
       },
     );
   }
 
   void _remove(AddToCartItem item) {
-    showDialog(
+    final itemBill = _cartBill!.items.firstWhere((element) => element.id == item.item.id);
+
+    showActionablePopup(
       context: context,
-      builder: (dContext) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(AppSize.s16.rSp),
-            ),
-          ),
-          content: DeleteItemDialogView(
-            cartItem: item,
-            itemBill: _cartBill!.items.firstWhere((element) => element.id == item.item.id),
-            onDelete: () async {
-              await CartManager().removeFromCart(item);
-              _calculateBill();
-            },
-          ),
-        );
+      title: AppStrings.want_to_delete_item_msg.tr(),
+      positiveText: AppStrings.remove.tr(),
+      isPositiveAction: false,
+      positiveIcon: ImageResourceResolver.deleteSVG.getImageWidget(
+        width: AppSize.s14.rw,
+        height: AppSize.s14.rh,
+        color: AppColors.white,
+      ),
+      content: cartItemShortDetails(item, itemBill),
+      onAction: () async {
+        await CartManager().removeFromCart(item);
+        _calculateBill();
       },
+    );
+  }
+
+  Widget cartItemShortDetails(AddToCartItem cartItem, ItemBill itemBill) {
+    final haveDiscount = itemBill.discountedItemPrice != itemBill.itemPrice;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: AppSize.s48.rSp,
+          width: AppSize.s48.rSp,
+          child: KTNetworkImage(
+            height: AppSize.s48.rSp,
+            width: AppSize.s48.rSp,
+            imageUrl: cartItem.item.image,
+            boxShape: BoxShape.rectangle,
+            borderRadius: BorderRadius.all(Radius.circular(8.rSp)),
+            boxFit: BoxFit.cover,
+            imageBorderWidth: 0,
+          ),
+        ),
+        SizedBox(width: AppSize.s16.rw),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${cartItem.quantity}x ${cartItem.item.title}',
+                      style: mediumTextStyle(
+                        color: AppColors.primary,
+                        fontSize: AppFontSize.s14.rSp,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: AppSize.s16.rw),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      if (haveDiscount)
+                        Text(
+                          PriceCalculator.formatPrice(
+                            price: itemBill.discountedItemPrice * cartItem.quantity,
+                            code: cartItem.itemPrice.currencyCode,
+                            symbol: cartItem.itemPrice.currencySymbol,
+                          ),
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: AppFontSize.s14.rSp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      Text(
+                        PriceCalculator.formatPrice(
+                          price: itemBill.itemPrice * cartItem.quantity,
+                          code: cartItem.itemPrice.currencyCode,
+                          symbol: cartItem.itemPrice.currencySymbol,
+                        ),
+                        style: TextStyle(
+                          color: haveDiscount ? AppColors.red : AppColors.black,
+                          fontSize: AppFontSize.s14.rSp,
+                          fontWeight: FontWeight.w500,
+                          decoration: haveDiscount ? TextDecoration.lineThrough : TextDecoration.none,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: AppSize.s8.rh),
+              FutureBuilder<String>(
+                future: ModifierManager().allCsvModifiersName(cartItem.modifiers),
+                builder: (context, snapShot) {
+                  if (snapShot.hasData) {
+                    return Text(snapShot.data!);
+                  }
+                  return const SizedBox();
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

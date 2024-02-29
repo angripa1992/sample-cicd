@@ -95,16 +95,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future _registerFcmTokenAndNavigateNextScreen(User user) async {
-    // final fcmToken = await FcmService().getFcmToken();
-    // final response = await _fcmTokenManager.registerToken(fcmToken);
-    // response.fold(
-    //   (failure) {
-    //     showApiErrorSnackBar(context, failure);
-    //   },
-    //   (success) {
+    final fcmToken = await FcmService().getFcmToken();
+    final response = await _fcmTokenManager.registerToken(fcmToken);
+    response.fold(
+      (failure) {
+        showApiErrorSnackBar(context, failure);
+      },
+      (success) {
         _navigateNextScreen(user);
-    //   },
-    // );
+      },
+    );
   }
 
   void _navigateNextScreen(User user) {

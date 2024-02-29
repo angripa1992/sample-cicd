@@ -201,6 +201,8 @@ class OrderModel {
   String? cancellationReason;
   @JsonKey(name: 'estimated_pickup_at')
   String? pickUpAt;
+  @JsonKey(name: 'estimated_delivery_at')
+  String? estimatedDeliveryAt;
   @JsonKey(name: 'restaurant_service_fee')
   int? restaurantServiceFee;
   @JsonKey(name: 'delivery_info')
@@ -240,6 +242,12 @@ class OrderModel {
   bool? gatewayFeePaidByCustomer;
   @JsonKey(name: 'service_fee_paid_by_customer')
   bool? serviceFeePaidByCustomer;
+  @JsonKey(name: 'is_merchant_delivery')
+  bool? isMerchantDelivery;
+  @JsonKey(name: 'delivery_address')
+  String? deliveryAddress;
+  @JsonKey(name: 'reward_point_id')
+  int? rewardPointId;
 
   OrderModel({
     this.id,
@@ -332,6 +340,7 @@ class OrderModel {
     this.restaurantServiceFee,
     this.promos,
     this.pickUpAt,
+    this.estimatedDeliveryAt,
     this.deliveryInfo,
     this.providerSubTotal,
     this.providerGrandTotal,
@@ -348,6 +357,9 @@ class OrderModel {
     this.providerRoundOffAmount,
     this.gatewayFeePaidByCustomer,
     this.serviceFeePaidByCustomer,
+    this.isMerchantDelivery,
+    this.deliveryAddress,
+    this.rewardPointId,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
@@ -442,6 +454,7 @@ class OrderModel {
       restaurantServiceFee: restaurantServiceFee.orZero(),
       promos: promos ?? [],
       estimatedPickUpAt: pickUpAt.orEmpty(),
+      estimatedDeliveryAt: estimatedDeliveryAt.orEmpty(),
       deliveryInfo: deliveryInfo?.toEntity(),
       providerSubTotal: providerSubTotal.orZero(),
       providerGrandTotal: providerGrandTotal.orZero(),
@@ -463,6 +476,9 @@ class OrderModel {
       canReady: canReady.orFalse(),
       canCancel: canCancel.orFalse(),
       canDeliver: canDelivery.orFalse(),
+      isMerchantDelivery: isMerchantDelivery.orFalse(),
+      deliveryAddress: deliveryAddress.orEmpty(),
+      rewardPointId: rewardPointId.orZero(),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:klikit/modules/user/data/request_model/change_password_request_m
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
 import 'package:klikit/modules/user/data/request_model/reset_link_request_model.dart';
 import 'package:klikit/modules/user/data/request_model/user_update_request_model.dart';
+import 'package:klikit/modules/user/domain/entities/auto_accept_order.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:klikit/modules/user/domain/entities/user_settings.dart';
@@ -111,6 +112,34 @@ class UserRepositoryImpl extends UserRepository {
     if (await _networkConnectivity.hasConnection()) {
       try {
         final response = await _userRemoteDataSource.getUserSettings(userId);
+        return Right(response.toEntity());
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AutoAcceptOrder>> fetchAutoAcceptStatus(Map<String, dynamic> params) async {
+    if (await _networkConnectivity.hasConnection()) {
+      try {
+        final response = await _userRemoteDataSource.fetchAutoAcceptStatus(params);
+        return Right(response.toEntity());
+      } on DioException catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    } else {
+      return Left(ErrorHandler.handleInternetConnection().failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AutoAcceptOrder>> toggleAutoAccept(Map<String, dynamic> params) async {
+    if (await _networkConnectivity.hasConnection()) {
+      try {
+        final response = await _userRemoteDataSource.toggleAutoAccept(params);
         return Right(response.toEntity());
       } on DioException catch (error) {
         return Left(ErrorHandler.handle(error).failure);

@@ -7,8 +7,6 @@ class DeviceInfoProvider {
   String platformName() {
     if (Platform.isIOS) {
       return 'ios';
-    } else if (Platform.isWindows) {
-      return "windows";
     } else {
       return 'android';
     }
@@ -37,21 +35,13 @@ class DeviceInfoProvider {
   //OS version
   Future<String> getOsVersion() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isWindows) {
-      WindowsDeviceInfo d = await deviceInfo.windowsInfo;
-      return d.computerName;
-    }
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     return androidInfo.version.release.toString();
   }
 
   Future<String> getDeviceModel() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isWindows) {
-      WindowsDeviceInfo windowsDeviceInfo = await deviceInfo.windowsInfo;
-      return windowsDeviceInfo.computerName.toString();
-    }
-    else if (Platform.isAndroid) {
+    if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       return androidInfo.model.toString();
     } else if (Platform.isIOS) {

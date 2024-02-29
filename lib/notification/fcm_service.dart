@@ -1,20 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/di.dart';
-import 'package:klikit/app/extensions.dart';
-import 'package:klikit/notification/inapp/in_app_notification_handler.dart';
-import 'package:klikit/notification/local_notification_service.dart';
-import 'package:klikit/notification/notification_data_handler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../app/constants.dart';
-import '../app/session_manager.dart';
 import '../env/env_manager.dart';
 import '../env/environment_variables.dart';
-import '../printer/printer_manager.dart';
 import 'fcm_token_manager.dart';
 
 class FcmService {
@@ -104,7 +97,8 @@ Future<EnvironmentVariables> getLocalEnv() async {
 
   final data = await json.decode(envResp);
 
-  EnvironmentVariables env = EnvironmentVariablesModel.fromJson(data).toEntity();
+  EnvironmentVariables env =
+      EnvironmentVariablesModel.fromJson(data).toEntity();
   final localEnv = await EnvManager().fetchEnv(env);
   return localEnv;
 }

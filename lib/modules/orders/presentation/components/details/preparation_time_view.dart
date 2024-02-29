@@ -80,7 +80,7 @@ class _PrepTimeViewState extends State<PrepTimeView> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: AppSize.s8.rw),
                 child: Text(
-                  'Average meal preparation time will be',
+                  AppStrings.avg_prep_time.tr(),
                   style: regularTextStyle(
                     color: AppColors.neutralB500,
                     fontSize: AppFontSize.s12.rSp,
@@ -91,7 +91,7 @@ class _PrepTimeViewState extends State<PrepTimeView> {
             Expanded(
               flex: 2,
               child: KTButton(
-                controller: KTButtonController(label: '${widget.order.preparationTime} Mins'),
+                controller: KTButtonController(label: '${widget.order.preparationTime} ${AppStrings.mins.tr()}'),
                 suffixWidget: ImageResourceResolver.editSVG.getImageWidget(width: AppSize.s14.rw, height: AppSize.s14.rh, color: AppColors.neutralB400),
                 backgroundDecoration: regularRoundedDecoration(backgroundColor: AppColors.greyBright),
                 labelStyle: mediumTextStyle(fontSize: AppSize.s12.rSp, color: AppColors.neutralB700),

@@ -54,33 +54,39 @@ class OrderSummaryCubit extends Cubit<ResponseState> {
         label: AppStrings.completed_orders.tr(),
         value: completed.toString(),
         tooltipMessage: AppStrings.completed_orders_tooltip.tr(),
+        comparisonData: data.metrics.orderComparison.completedOrders,
       ),
       OrderSummaryOverview(
         label: AppStrings.cancelled_orders.tr(),
         value: cancelled.toString(),
         tooltipMessage: AppStrings.cancelled_orders_tooltip.tr(),
+        comparisonData: data.metrics.orderComparison.cancelledOrders,
       ),
       OrderSummaryOverview(
         label: AppStrings.gross_order_value.tr(),
         value: PriceCalculator.formatCompactPrice(price: grossValues / 100, code: currency, symbol: currencySymbol),
         tooltipMessage: AppStrings.gross_order_value_tooltip.tr(),
+        comparisonData: data.metrics.orderComparison.realizedRevenue,
       ),
       OrderSummaryOverview(
         label: AppStrings.discount_value.tr(),
         value: PriceCalculator.formatCompactPrice(price: discount / 100, code: currency, symbol: currencySymbol),
         tooltipMessage: AppStrings.discount_value_tooltip.tr(),
+        comparisonData: data.metrics.orderComparison.discount,
       ),
       if (UserPermissionManager().isBizOwner())
         OrderSummaryOverview(
           label: AppStrings.net_order_value.tr(),
           value: PriceCalculator.formatCompactPrice(price: netRevenue / 100, code: currency, symbol: currencySymbol),
           tooltipMessage: AppStrings.net_order_value_tooltip.tr(),
+          comparisonData: data.metrics.orderComparison.netRevenue,
         ),
       if (UserPermissionManager().isBizOwner())
         OrderSummaryOverview(
           label: AppStrings.lost_revenue.tr(),
           value: PriceCalculator.formatCompactPrice(price: lostRevenue / 100, code: currency, symbol: currencySymbol),
           tooltipMessage: AppStrings.lost_revenue_tooltip.tr(),
+          comparisonData: data.metrics.orderComparison.lostRevenue,
         )
     ];
   }

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/extensions.dart';
+import 'package:klikit/app/session_manager.dart';
 import 'package:klikit/app/size_config.dart';
+import 'package:klikit/app/user_permission_manager.dart';
 import 'package:klikit/resources/fonts.dart';
 import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/strings.dart';
@@ -21,8 +23,17 @@ class ContactSupportScreen extends StatefulWidget {
 }
 
 class _ContactSupportScreenState extends State<ContactSupportScreen> {
+  static const String _whatsappSupportNumberEnglish = "+639660772469";
+  static const String _whatsappSupportNumberIndonesia = "+6281936119055";
+  static const String _supportMail = "help@klikit.io";
+
   Future<String?> _launchWhatsapp() async {
-    final whatsappAndroid = Uri.parse("whatsapp://send?phone=${AppConstant.whatsappSupportNumber}");
+    Uri? whatsappAndroid;
+    if (UserPermissionManager().isBranchManager() && (SessionManager().countryCode() == CountryCode.indonesia || SessionManager().countryCode() == CountryCode.indonesia.toISO())) {
+      whatsappAndroid = Uri.parse("whatsapp://send?phone=$_whatsappSupportNumberIndonesia");
+    } else {
+      whatsappAndroid = Uri.parse("whatsapp://send?phone=$_whatsappSupportNumberEnglish");
+    }
     try {
       await launchUrl(whatsappAndroid);
       return null;
@@ -33,7 +44,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
   }
 
   Future<String?> _mailSupport() async {
-    if (!await launchUrl(Uri.parse('mailto:${AppConstant.supportMail}'))) {
+    if (!await launchUrl(Uri.parse('mailto:$_supportMail'))) {
       return AppStrings.could_not_email_msg.tr();
     } else {
       return null;

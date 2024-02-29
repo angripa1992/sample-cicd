@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
-// import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/language/selected_locale.dart';
@@ -18,22 +16,22 @@ class LanguageManager {
   LanguageManager(this._appPreferences);
 
   // Future<List<Language>> _fetchLanguages() async {
-    // try {
-    //   final remoteConfig = FirebaseRemoteConfig.instance;
-    //   await remoteConfig.setConfigSettings(
-    //     RemoteConfigSettings(
-    //       fetchTimeout: const Duration(minutes: 1),
-    //       minimumFetchInterval: const Duration(hours: 1),
-    //     ),
-    //   );
-    //   await remoteConfig.fetchAndActivate();
-    //   final rawData = remoteConfig.getValue('languages').asString();
-    //   final List<dynamic> data = jsonDecode(rawData);
-    //   final languages = data.map((e) => Language.fromJson(e)).toList();
-    //   return languages;
-    // } catch (exception) {
-    //   return [_fallbackLanguage];
-    // }
+  // try {
+  //   final remoteConfig = FirebaseRemoteConfig.instance;
+  //   await remoteConfig.setConfigSettings(
+  //     RemoteConfigSettings(
+  //       fetchTimeout: const Duration(minutes: 1),
+  //       minimumFetchInterval: const Duration(hours: 1),
+  //     ),
+  //   );
+  //   await remoteConfig.fetchAndActivate();
+  //   final rawData = remoteConfig.getValue('languages').asString();
+  //   final List<dynamic> data = jsonDecode(rawData);
+  //   final languages = data.map((e) => Language.fromJson(e)).toList();
+  //   return languages;
+  // } catch (exception) {
+  //   return [_fallbackLanguage];
+  // }
   // }
 
   Future<List<Language>> getSupportedLanguages() async {

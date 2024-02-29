@@ -1,12 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:klikit/app/extensions.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/resources/strings.dart';
 
 import '../../../../../resources/colors.dart';
-import '../../../../../resources/fonts.dart';
 import '../../../../../resources/styles.dart';
-import '../../../../../resources/values.dart';
 import '../../../domain/entities/order.dart';
 
 class DeliveryAddressView extends StatelessWidget {
@@ -16,54 +15,69 @@ class DeliveryAddressView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return order.deliveryInfo == null
-        ? const SizedBox()
-        : Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSize.s16.rw,
-              vertical: AppSize.s8.rh,
-            ),
+    return (order.deliveryAddress.isNotEmpty || order.deliveryInfo != null)
+        ? Container(
+            margin: EdgeInsets.only(top: 8.rh,right: 8),
+            padding: EdgeInsets.symmetric(vertical: 8.rh, horizontal: 16.rw),
+            color: AppColors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Visibility(
-                  visible: order.deliveryInfo!.address.isNotEmpty,
-                  child: _item(AppStrings.delivery_address.tr(), order.deliveryInfo!.address),
-                ),
-                Visibility(
-                  child: _item(AppStrings.address_instruction.tr(), order.deliveryInfo!.keywords),
-                ),
-                Visibility(
-                  child: _item(AppStrings.delivery_instruction.tr(), order.deliveryInfo!.instruction),
+                Wrap(
+                  spacing: 16.0.rw,
+                  runSpacing: 8.0.rh,
+                  children: [
+                    if (order.isMerchantDelivery && order.deliveryAddress.isNotEmpty)
+                      _infoItem(
+                        AppStrings.delivery_address.tr(),
+                        order.deliveryAddress,
+                      ),
+                    if (!order.isMerchantDelivery && order.deliveryInfo!.address.isNotEmpty)
+                      _infoItem(
+                        AppStrings.delivery_address.tr(),
+                        order.deliveryInfo?.address ?? EMPTY,
+                      ),
+                    if (!order.isMerchantDelivery && order.deliveryInfo!.keywords.isNotEmpty)
+                      _infoItem(
+                        AppStrings.address_instruction.tr(),
+                        order.deliveryInfo?.keywords ?? EMPTY,
+                      ),
+                    if (!order.isMerchantDelivery && order.deliveryInfo!.instruction.isNotEmpty)
+                      _infoItem(
+                        AppStrings.delivery_instruction.tr(),
+                        order.deliveryInfo?.instruction ?? EMPTY,
+                      ),
+                  ],
                 ),
               ],
             ),
-          );
+          )
+        : const SizedBox();
   }
 
-  Widget _item(String title, String description) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: AppSize.s8.rh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            title,
-            style: semiBoldTextStyle(
-              color: AppColors.neutralB500,
-              fontSize: AppFontSize.s16.rSp,
-            ),
+  Widget _infoItem(String title, String description) {
+    return Wrap(
+      direction: Axis.vertical,
+      children: [
+        Text(
+          title,
+          style: mediumTextStyle(
+            color: AppColors.neutralB700,
+            fontSize: 14.rSp,
           ),
-          SizedBox(height: AppSize.s4.rh),
-          Text(
+        ),
+        SizedBox(height: 2.rh),
+        SizedBox(
+          width: ScreenSizes.screenWidth/3,
+          child: Text(
             description,
             style: regularTextStyle(
               color: AppColors.neutralB500,
-              fontSize: AppFontSize.s12.rSp,
+              fontSize: 12.rSp,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

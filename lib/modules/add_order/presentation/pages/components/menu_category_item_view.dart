@@ -1,10 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/modules/add_order/presentation/pages/components/menu_item_add_button.dart';
 import 'package:klikit/modules/add_order/utils/cart_manager.dart';
 import 'package:klikit/resources/colors.dart';
+import 'package:klikit/resources/resource_resolver.dart';
 import 'package:klikit/resources/styles.dart';
 
 import '../../../../../app/enums.dart';
@@ -102,17 +101,30 @@ class MenuCategoryItemView extends StatelessWidget {
             ),
           ),
         ),
-        Text(
-          PriceCalculator.formatPrice(
-            price: menuItemPrice.advancePrice(CartManager().orderType),
-            code: menuItemPrice.currencyCode,
-            symbol: menuItemPrice.currencySymbol,
-          ),
-          style: TextStyle(
-            color: menuAvailability == MenuAvailability.AVAILABLE ? AppColors.neutralB200 : AppColors.blur,
-            fontWeight: FontWeight.normal,
-            fontSize: 14.rSp,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                PriceCalculator.formatPrice(
+                  price: menuItemPrice.advancePrice(CartManager().orderType),
+                  code: menuItemPrice.currencyCode,
+                  symbol: menuItemPrice.currencySymbol,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: menuAvailability == MenuAvailability.AVAILABLE ? AppColors.neutralB200 : AppColors.blur,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14.rSp,
+                ),
+              ),
+            ),
+            if (menuItem.haveModifier)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.rw),
+                child: ImageResourceResolver.modifierVizSVG.getImageWidget(),
+              ),
+          ],
         )
       ],
     );

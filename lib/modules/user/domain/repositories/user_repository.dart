@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:klikit/core/network/error_handler.dart';
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
 import 'package:klikit/modules/user/data/request_model/reset_link_request_model.dart';
+import 'package:klikit/modules/user/domain/entities/auto_accept_order.dart';
 import 'package:klikit/modules/user/domain/entities/success_response.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 
@@ -23,4 +24,8 @@ abstract class UserRepository {
   Future<Either<Failure, SuccessResponse>> changeUserSettings(Map<String, dynamic> params);
 
   Future<Either<Failure, UserSettings>> getUserSettings(int userId);
+
+  Future<Either<Failure, AutoAcceptOrder>> fetchAutoAcceptStatus(Map<String, dynamic> params);
+
+  Future<Either<Failure, AutoAcceptOrder>> toggleAutoAccept(Map<String, dynamic> params);
 }

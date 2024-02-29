@@ -103,6 +103,12 @@ extension StringToInteger on String? {
   }
 }
 
+extension COuntyrCodeToISOCOde on String {
+  String toISO() {
+    return '${this}N';
+  }
+}
+
 extension PaperSizeToRollSize on int {
   Roll toRollSize() {
     if (this == RollId.mm58) {

@@ -122,7 +122,7 @@ class _PriceViewState extends State<PriceView> {
                     ),
                   if (widget.order.isManualOrder && widget.order.roundOffAmount != 0)
                     _priceBreakdownItem(
-                      'Rounding Off',
+                      AppStrings.round_off.tr(),
                       widget.order.roundOffAmount,
                       isRoundOff: true,
                     ),

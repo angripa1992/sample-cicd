@@ -129,6 +129,8 @@ class CartBillModel {
         customFee: ZERO,
         roundOffAmount: roundOffAmount.orZero(),
         roundOffAmountCent: roundOffAmountCent.orZero(),
+        rewardPrice: 0,
+        rewarPriceCent: 0,
       );
 }
 

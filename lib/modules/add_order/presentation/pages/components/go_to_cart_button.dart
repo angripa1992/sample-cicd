@@ -48,7 +48,7 @@ class GoToCartButton extends StatelessWidget {
                           style: regularTextStyle(color: AppColors.white, fontSize: 12.rSp),
                         ),
                         Text(
-                          'View Cart',
+                          AppStrings.view_cart.tr(),
                           style: mediumTextStyle(
                             color: AppColors.white,
                             fontSize: AppFontSize.s14.rSp,

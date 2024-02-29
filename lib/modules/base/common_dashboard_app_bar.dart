@@ -29,7 +29,7 @@ class CommonDashboardAppBar extends StatelessWidget {
     return SafeArea(
       child: Container(
         color: AppColors.white,
-        padding: EdgeInsets.only(left: (onNavBack != null) ? 0 : AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s10.rh, bottom: AppSize.s12.rh),
+        padding: EdgeInsets.only(left: (onNavBack != null) ? 0 : AppSize.s16.rw, right: AppSize.s16.rw, top: AppSize.s8.rh, bottom: AppSize.s8.rh),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
