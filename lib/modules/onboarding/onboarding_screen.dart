@@ -40,12 +40,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
       WidgetsBinding.instance.addPostFrameCallback(
         (_) async {
           if (mounted) {
-            final notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-            if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-              NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
-            } else {
+            // final notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+            // if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+            //   NotificationHandler().handleBackgroundNotification(notificationAppLaunchDetails?.notificationResponse?.payload);
+            // } else {
               _gotoNextScreen();
-            }
+            // }
           }
         },
       );
@@ -56,11 +56,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
   void _gotoNextScreen() {
     Timer(const Duration(seconds: 2), () {
       if (SessionManager().isLoggedIn() && !SessionManager().firstLogin()) {
-        if (UserPermissionManager().isBizOwner()) {
+        // if (UserPermissionManager().isBizOwner()) {
           _navigateBaseScreen();
-        } else {
-          _registerFcmToken();
-        }
+        // } else {
+        //   _registerFcmToken();
+        // }
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);
       }
@@ -68,16 +68,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
   }
 
   Future _registerFcmToken() async {
-    final fcmToken = await FcmService().getFcmToken();
-    final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
-    response.fold(
-      (failure) {
-        showApiErrorSnackBar(context, failure);
-      },
-      (success) {
-        _navigateBaseScreen();
-      },
-    );
+    // final fcmToken = await FcmService().getFcmToken();
+    // final response = await _fcmTokenManager.registerToken(fcmToken ?? '');
+    // response.fold(
+    //   (failure) {
+    //     showApiErrorSnackBar(context, failure);
+    //   },
+    //   (success) {
+    //     _navigateBaseScreen();
+    //   },
+    // );
   }
 
   void _navigateBaseScreen() {
