@@ -63,6 +63,10 @@ dependencies:
     git:
       url: https://github.com/angripa1992/docket_design_template.git
       ref: master
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/window_size
 
 dev_dependencies:
   flutter_test:

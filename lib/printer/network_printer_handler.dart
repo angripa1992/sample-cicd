@@ -64,17 +64,17 @@ class NetworkPrinterHandler extends PrinterHandler {
     required LocalPrinter? localPrinter,
     required bool isFromBackground,
   }) async {
-    // final connected = await connect(localPrinter: localPrinter, isFromBackground: isFromBackground, showMessage: false);
-    // if (connected) {
-    //   try {
-    //     await PrinterManager.instance.send(type: PrinterType.network, bytes: data);
-    //   } on PlatformException {
-    //     _showMessage(isFromBackground, true, AppStrings.defaultError.tr(), true);
-    //     return false;
-    //   }
-    // } else {
-    //   return false;
-    // }
+    final connected = await connect(localPrinter: localPrinter, isFromBackground: isFromBackground, showMessage: false);
+    if (connected) {
+      try {
+        await PrinterManager.instance.send(type: PrinterType.network, bytes: data);
+      } on PlatformException {
+        _showMessage(isFromBackground, true, AppStrings.defaultError.tr(), true);
+        return false;
+      }
+    } else {
+      return false;
+    }
 
     // try {
     //   await _channel.invokeMethod('printData', {
@@ -85,7 +85,7 @@ class NetworkPrinterHandler extends PrinterHandler {
     //   _showMessage(isFromBackground, true, AppStrings.defaultError.tr(), true);
     //   return false;
     // }
-    await WifiPrinterPlugin.printData(localPrinter?.deviceAddress, data);
+    // await WifiPrinterPlugin.printData(localPrinter?.deviceAddress, data);
 
     return true;
   }
