@@ -90,7 +90,8 @@ class DateTimeFormatter {
   }
 
   static Future<String> timeZone() async {
-    final String currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+    const String currentTimeZone = "Asia/Jakarta";
+    // tz.getLocation(locationName)
     return currentTimeZone;
   }
 

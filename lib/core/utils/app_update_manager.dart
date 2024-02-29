@@ -35,18 +35,19 @@ class AppUpdateManager {
   }
 
   Future<bool> checkForUpdate() async {
-    try {
-      final baseUrl = getIt
-          .get<EnvironmentVariables>()
-          .baseUrl;
-      final currentVersionStr = await getIt.get<DeviceInfoProvider>().versionCode();
-      final currentVersion = num.parse(currentVersionStr);
-      final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);
-      final updatedVersionCode = response['appversion_android'];
-      return updatedVersionCode > currentVersion;
-    } catch (error) {
-      return false;
-    }
+    // try {
+    //   final baseUrl = getIt
+    //       .get<EnvironmentVariables>()
+    //       .baseUrl;
+    //   final currentVersionStr = await getIt.get<DeviceInfoProvider>().versionCode();
+    //   final currentVersion = num.parse(currentVersionStr);
+    //   final response = await PublicRestClient().request('$baseUrl/v1/appversion', Method.GET, null);
+    //   final updatedVersionCode = response['appversion_android'];
+    //   return updatedVersionCode > currentVersion;
+    // } catch (error) {
+    //   return false;
+    // }
+    return false;
   }
 
   Future<void> gotoPlayStore() async {
