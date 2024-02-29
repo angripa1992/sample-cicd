@@ -7,27 +7,28 @@ import 'package:klikit/app/klikit.dart';
 import 'package:klikit/core/network/slack_logger.dart';
 import 'package:klikit/env/environment_variables.dart';
 import 'package:klikit/language/smart_asset_loader.dart';
-import 'package:klikit/printer/wifi_printer_plugin.dart';
 import 'package:klikit/resources/assets.dart';
 import 'package:wakelock/wakelock.dart';
-import 'package:window_size/window_size.dart';
-import 'app/crashlytics_config.dart';
+import 'package:window_manager/window_manager.dart';
+
 import 'app/di.dart';
 import 'core/utils/permission_handler.dart';
 import 'env/env_manager.dart';
 import 'language/language_manager.dart';
 import 'modules/widgets/loader.dart';
-import 'notification/fcm_service.dart';
 import 'notification/local_notification_service.dart';
 
 void mainCommon(EnvironmentVariables env) async {
 
 
   WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  if (Platform.isWindows) {
+  }
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    setWindowTitle('Klikit Business');
-    setWindowMaxSize(const Size(1080, 820));
-    setWindowMinSize(const Size(980, 720));
+
+    WindowManager.instance.setMaximumSize(const Size(1080, 820));
+    WindowManager.instance.setMinimumSize(const Size(980, 720));
   }
   Wakelock.enable();
   // await Firebase.initializeApp();

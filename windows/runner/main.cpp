@@ -26,7 +26,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
 
   FlutterWindow window(project);
   Win32Window::Point origin(0, 0);
-  Win32Window::Size size(min_width, min_height)
+  Win32Window::Size size(1080, 980);
   if (!window.CreateAndShow(L"Klikit Business", origin, size)) {
     return EXIT_FAILURE;
   }
