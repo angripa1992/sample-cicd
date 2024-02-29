@@ -67,6 +67,14 @@ class LanguageManager {
     return _appPreferences.language();
   }
 
+  Locale getCurrentLocale() {
+    try {
+      final currentLanguage = _languages.firstWhere((element) => element.id == currentLanguageId());
+      return makeLocaleFromLanguage(currentLanguage);
+    } catch (e) {
+      return _fallbackLocale;
+    }
+  }
   Future<void> saveCurrentLanguageCode(int id) {
     return _appPreferences.saveLanguage(id);
   }
