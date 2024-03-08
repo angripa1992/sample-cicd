@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:klikit/app/app_preferences.dart';
 import 'package:klikit/core/network/network_connectivity.dart';
 import 'package:klikit/core/provider/device_information_provider.dart';
+import 'package:klikit/core/utils/socket_handler.dart';
 import 'package:klikit/modules/add_order/data/datasource/add_order_datasource.dart';
 import 'package:klikit/modules/add_order/data/repository/add_order_repository_impl.dart';
 import 'package:klikit/modules/add_order/domain/repository/add_order_repository.dart';
@@ -220,6 +221,8 @@ Future<void> initAppModule(EnvironmentVariables environmentVariables) async {
   getIt.registerFactory(() => FetchAddOrderMenuItemsCubit(getIt.get()));
   getIt.registerFactory(() => CalculateBillCubit(getIt.get()));
   getIt.registerFactory(() => PlaceOrderCubit(getIt.get()));
+  //socket
+  getIt.registerLazySingleton<SocketHandler>(() => SocketHandler(getIt(),getIt(),getIt()));
 }
 
 Future<void> registerLocalDB() async {

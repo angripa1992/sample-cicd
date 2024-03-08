@@ -20,7 +20,7 @@ enum SourceTpe {
 }
 
 class OrderSource {
-  final int id;
+  late final int id;
   final String title;
   final String logo;
   final SourceTpe sourceType;
@@ -33,4 +33,5 @@ class OrderSource {
         logo,
         sourceType,
       );
+
 }

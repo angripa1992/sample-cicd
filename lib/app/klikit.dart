@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
+import 'package:klikit/core/utils/socket_handler.dart';
 import 'package:klikit/resources/themes.dart';
 import 'package:salesiq_mobilisten/salesiq_mobilisten.dart';
 import '../core/route/routes.dart';
@@ -9,9 +11,11 @@ import '../core/route/routes_generator.dart';
 import '../core/route/routes_observer.dart';
 import 'dart:io' as io;
 
+
 import '../env/environment_variables.dart';
 
 class Klikit extends StatefulWidget {
+
   const Klikit({Key? key}) : super(key: key);
 
   @override
@@ -19,11 +23,14 @@ class Klikit extends StatefulWidget {
 }
 
 class _KlikitState extends State<Klikit> {
+
   @override
   void initState() {
     super.initState();
     initPlatformState();
     initMobilisten();
+    initSocket();
+
   }
 
   Future<void> initMobilisten() async {
@@ -66,5 +73,9 @@ class _KlikitState extends State<Klikit> {
       initialRoute: Routes.splash,
       builder: EasyLoading.init(),
     );
+  }
+  initSocket(){
+    final socketHandler = getIt.get<SocketHandler>();
+    socketHandler.onStart();
   }
 }
