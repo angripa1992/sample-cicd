@@ -37,20 +37,23 @@ class SocketHandler {
       });
 
       socket.on('order_placed', (data) async {
-        // print('Received event data order_placed: ${json.encode(data)}');
-        Order? order = await _orderRepository.fetchOrderById(fromJson(data));
+        print('Received event data order_placed: ${data}');
+        Order? order = await _orderRepository.fetchOrderById(getOrderIdFromKlikitEvent(data));
         _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
       });
       socket.on('tpp_order_placed', (data) async{
-        // print('Received event data tpp_order_placed: $data');
-        Order? order = await _orderRepository.fetchOrderById(fromJson(data));
+        print('Received event data tpp_order_placed: $data');
+        Order? order = await _orderRepository.fetchOrderById(getOrderIdFromProviderEvent(data));
         _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
       });
     } catch (e) {
       rethrow;
     }
   }
-  int fromJson(Map<String, dynamic> json) {
+  int getOrderIdFromKlikitEvent(Map<String, dynamic> json) {
     return json['id'];
+  }
+  int getOrderIdFromProviderEvent(List<dynamic> json) {
+    return json[0]['id'];
   }
 }
