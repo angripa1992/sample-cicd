@@ -23,7 +23,6 @@ import 'notification/local_notification_service.dart';
 
 void mainCommon(EnvironmentVariables env) async {
 
-
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
