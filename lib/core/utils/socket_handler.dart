@@ -46,7 +46,7 @@ class SocketHandler {
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromKlikitEvent(data));
 
         await player.play(AssetSource('sounds/new_order.wav'));
-        // _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
+        _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
       });
       socket.on('tpp_order_placed', (data) async{
         print('Received event data tpp_order_placed: $data');
