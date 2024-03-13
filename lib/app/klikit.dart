@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/core/utils/socket_handler.dart';
