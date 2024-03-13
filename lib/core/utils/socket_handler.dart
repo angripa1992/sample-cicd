@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -13,7 +14,11 @@ class SocketHandler {
   final TokenProvider _tokenProvider;
   final PrinterManager _printerManager;
   final OrderRepository _orderRepository;
-  SocketHandler(this._tokenProvider,this._printerManager,this._orderRepository);
+  final player = AudioPlayer();
+  SocketHandler(this._tokenProvider,this._printerManager,this._orderRepository){
+    player.setVolume(1.0);
+  }
+
   void onStart() {
     final socket = io.io(
       'wss://connect.klikit.io',
@@ -39,13 +44,22 @@ class SocketHandler {
       socket.on('order_placed', (data) async {
         print('Received event data order_placed: ${data}');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromKlikitEvent(data));
-        _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
+
+        await player.play(AssetSource('sounds/new_order.wav'));
+        // _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
       });
       socket.on('tpp_order_placed', (data) async{
         print('Received event data tpp_order_placed: $data');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromProviderEvent(data));
+        await player.play(AssetSource('sounds/new_order.wav'));
         _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
       });
+
+      socket.on('order_cancelled', (data) async{
+        print('Received event data order_cancelled: $data');
+        await player.play(AssetSource('sounds/cancel_order.wav'));
+      });
+
     } catch (e) {
       rethrow;
     }
