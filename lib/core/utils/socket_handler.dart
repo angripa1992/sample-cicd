@@ -1,13 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
+import 'package:klikit/resources/assets.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
+import '../../app/di.dart';
+import '../../env/environment_variables.dart';
 import '../../modules/orders/domain/entities/order.dart';
-import '../../printer/network_printer_handler.dart';
 import '../../printer/printer_manager.dart';
 
 class SocketHandler {
@@ -20,10 +21,10 @@ class SocketHandler {
   }
 
   void onStart() {
+    final env = getIt.get<EnvironmentVariables>();
     final socket = io.io(
-      'wss://connect.klikit.io',
+      env.socketUrl,
       io.OptionBuilder().setTransports(['websocket']).enableAutoConnect().setQuery({
-        // 'token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhaWQiOiJjMjNkZmI4MC0zNTE2LTQ4OGEtOTE4Zi1hY2Q4MTM4ZjgzM2YiLCJleHAiOjE3MDk4ODEyMjgsInJpZCI6IjcxYzQxMWRlLWQ1ODctNDBhYS1hOGRhLWFmYjNiNGQxMTMzNCIsInVpZCI6ODk0fQ.wFP4WpvZeL8VFZ2VreeF8suH0Y4ERWwRbpzkxgHH_qw',
         'token': _tokenProvider.getAccessToken(),
         // 'EIO':'3'
       }).build(),
@@ -42,22 +43,22 @@ class SocketHandler {
       });
 
       socket.on('order_placed', (data) async {
-        print('Received event data order_placed: ${data}');
+        // print('Received event data order_placed: $data');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromKlikitEvent(data));
-
-        await player.play(AssetSource('sounds/new_order.wav'));
+        await player.play(AssetSource(AppSounds.aNewOrder));
         _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
+
       });
       socket.on('tpp_order_placed', (data) async{
-        print('Received event data tpp_order_placed: $data');
+        // print('Received event data tpp_order_placed: $data');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromProviderEvent(data));
-        await player.play(AssetSource('sounds/new_order.wav'));
+        await player.play(AssetSource(AppSounds.aNewOrder));
         _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
       });
 
       socket.on('order_cancelled', (data) async{
-        print('Received event data order_cancelled: $data');
-        await player.play(AssetSource('sounds/cancel_order.wav'));
+        // print('Received event data order_cancelled: $data');
+        await player.play(AssetSource(AppSounds.aCancelOrder));
       });
 
     } catch (e) {

@@ -8,6 +8,7 @@ class EnvironmentVariables {
   String slackUrl;
   String zohoAppKey;
   String zohoAppAccessKey;
+  String socketUrl;
 
   EnvironmentVariables({
     required this.baseUrl,
@@ -17,6 +18,7 @@ class EnvironmentVariables {
     required this.slackUrl,
     required this.zohoAppKey,
     required this.zohoAppAccessKey,
+    required this.socketUrl,
   });
 }
 
@@ -28,6 +30,7 @@ class EnvironmentVariablesModel {
   String? slackUrl;
   String? zohoAppKey;
   String? zohoAppAccessKey;
+  String? socketUrl;
 
   EnvironmentVariablesModel({
     this.baseUrl,
@@ -57,6 +60,7 @@ class EnvironmentVariablesModel {
         zohoAppKey: zohoAppKey.orEmpty(),
         zohoAppAccessKey: zohoAppAccessKey.orEmpty(),
         consumerUrl: consumerUrl.orEmpty(),
+        socketUrl: socketUrl.orEmpty()
       );
 }
 
