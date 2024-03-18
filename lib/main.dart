@@ -35,11 +35,11 @@ void mainCommon(EnvironmentVariables env) async {
   // CrashlyticsConfiguration().initialize();
   await EasyLocalization.ensureInitialized();
   await initAppModule(environmentVariables);
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-    onDidReceiveNotificationResponse: notificationTap,
-    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
-  );
+  // await flutterLocalNotificationsPlugin.initialize(
+  //   initializationSettings,
+  //   onDidReceiveNotificationResponse: notificationTap,
+  //   onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  // );
   // await FcmService().initApp();
   // FcmService().registerForegroundListener();
   // FcmService().registerRefreshTokenListener();
