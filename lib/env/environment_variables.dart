@@ -40,6 +40,7 @@ class EnvironmentVariablesModel {
     this.segmentWriteKey,
     this.zohoAppKey,
     this.zohoAppAccessKey,
+    this.socketUrl
   });
 
   EnvironmentVariablesModel.fromJson(Map<String, dynamic> json) {
@@ -50,6 +51,7 @@ class EnvironmentVariablesModel {
     slackUrl = json['slack_url'];
     zohoAppKey = json['zoho_app_key'];
     zohoAppAccessKey = json['zoho_app_access_key'];
+    socketUrl = json['socket_url'];
   }
 
   EnvironmentVariables toEntity() => EnvironmentVariables(

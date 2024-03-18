@@ -24,11 +24,11 @@ import 'notification/local_notification_service.dart';
 void mainCommon(EnvironmentVariables env) async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    WindowManager.instance.setMaximumSize(const Size(1080, 820));
-    WindowManager.instance.setMinimumSize(const Size(980, 720));
-  }
+  // await windowManager.ensureInitialized();
+  // if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+  //   WindowManager.instance.setMaximumSize(const Size(1080, 820));
+  //   WindowManager.instance.setMinimumSize(const Size(980, 720));
+  // }
   Wakelock.enable();
   // await Firebase.initializeApp();
   final environmentVariables = await EnvManager().fetchEnv(env);
