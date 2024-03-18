@@ -46,14 +46,14 @@ class SocketHandler {
         // print('Received event data order_placed: $data');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromKlikitEvent(data));
         await player.play(AssetSource(AppSounds.aNewOrder));
-        _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
+        _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: true);
 
       });
       socket.on('tpp_order_placed', (data) async{
         // print('Received event data tpp_order_placed: $data');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromProviderEvent(data));
         await player.play(AssetSource(AppSounds.aNewOrder));
-        _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: false);
+        _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: true);
       });
 
       socket.on('order_cancelled', (data) async{
