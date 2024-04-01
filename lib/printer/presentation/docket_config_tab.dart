@@ -189,7 +189,7 @@ class _DocketConfigTabState extends State<DocketConfigTab> {
                   if (state is Failed) {
                     showApiErrorSnackBar(context, state.failure);
                   } else if (state is Success<ActionSuccess>) {
-                    _savePrinterSettingLocally(willClearLocalPrinter: true);
+                    _savePrinterSettingLocally(willClearLocalPrinter: false);
                     showSuccessSnackBar(context, state.data.message ?? '');
                   }
                 },

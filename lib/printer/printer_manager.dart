@@ -94,7 +94,7 @@ class PrinterManager {
             order: order,
             printingType: PrintingType.manual,
             type: type,
-            iminPrinterHandler: BluetoothPrinterHandler(),
+            iminPrinterHandler: printerHandler(),
             androidPrinterHandler: printerHandler(),
             isFromBackground: false,
             printingData: printingData,
@@ -195,9 +195,9 @@ class PrinterManager {
         locale: locale,
       );
     } else if (deviceType == Device.imin) {
-      if (localPrinter?.deviceType == CType.BLE && printingData != null) {
-        await iminPrinterHandler?.print(data: printingData, localPrinter: localPrinter, isFromBackground: isFromBackground);
-      }
+      // if (localPrinter?.deviceType == CType.BLE && printingData != null) {
+        await iminPrinterHandler?.print(data: printingData!, localPrinter: localPrinter, isFromBackground: isFromBackground);
+      // }
     } else {
       if (printingData != null) {
         final isSucceed = await androidPrinterHandler?.print(data: printingData, localPrinter: localPrinter, isFromBackground: isFromBackground);

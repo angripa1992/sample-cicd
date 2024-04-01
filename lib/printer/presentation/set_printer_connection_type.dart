@@ -82,7 +82,7 @@ class _SetPrinterConnectionTypeState extends State<SetPrinterConnectionType> {
               onChanged: _changePrinterConnectionType,
               name: AppStrings.usb.tr(),
             ),
-          if (widget.isDocket && widget.device != Device.imin)
+          if (widget.isDocket)
             PrinterSettingRadioItem(
               value: CType.WIFI,
               groupValue: _connectionType!,
