@@ -38,10 +38,6 @@ class SocketHandler {
       // Connecting to Socket.IO server
       socket.connect();
 
-      socket.onConnectError((data) => {
-      print('error $data')
-      });
-
       socket.on('order_placed', (data) async {
         // print('Received event data order_placed: $data');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromKlikitEvent(data));
