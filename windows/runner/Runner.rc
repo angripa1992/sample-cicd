@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "io.klikit.enterprise" "\0"
-            VALUE "FileDescription", "sample_cicd" "\0"
+            VALUE "FileDescription", "klikit_windows" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "sample_cicd" "\0"
+            VALUE "InternalName", "klikit_windows" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 io.klikit.enterprise. All rights reserved." "\0"
-            VALUE "OriginalFilename", "sample_cicd.exe" "\0"
-            VALUE "ProductName", "sample_cicd" "\0"
+            VALUE "OriginalFilename", "klikit_windows.exe" "\0"
+            VALUE "ProductName", "klikit_windows" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

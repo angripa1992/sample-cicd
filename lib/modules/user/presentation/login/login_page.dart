@@ -198,23 +198,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: AppSize.s14.rSp,
                             ),
                           ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              alignment: Alignment.centerLeft,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(Routes.webView, arguments: AppConstant.signUpUrl);
-                            },
-                            child: Text(
-                              AppStrings.dont_have_account.tr(),
-                              style: boldTextStyle(
-                                color: AppColors.primaryDark,
-                                fontSize: AppFontSize.s14.rSp,
-                              ),
-                            ),
-                          ),
+                          // TextButton(
+                          //   style: TextButton.styleFrom(
+                          //     padding: EdgeInsets.zero,
+                          //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          //     alignment: Alignment.centerLeft,
+                          //   ),
+                          //   onPressed: () {
+                          //     Navigator.of(context).pushNamed(Routes.webView, arguments: AppConstant.signUpUrl);
+                          //   },
+                          //   child: Text(
+                          //     AppStrings.dont_have_account.tr(),
+                          //     style: boldTextStyle(
+                          //       color: AppColors.primaryDark,
+                          //       fontSize: AppFontSize.s14.rSp,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       const ConsumerProtectionView(loggedIn: false),
