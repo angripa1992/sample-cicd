@@ -109,7 +109,7 @@ class PrinterManager {
     required bool isFromBackground,
   }) async {
     final printerSetting = _preferences.printerSetting();
-    final iminPrinterHandler = BluetoothPrinterHandler();
+    final iminPrinterHandler = printerHandler();
     final androidPrinterHandler = printerHandler();
     final deviceType = LocalPrinterDataManager().activeDevice();
     final locale = getIt<LanguageManager>().getCurrentLocale();
@@ -227,9 +227,9 @@ class PrinterManager {
       await SunmiZReportPrinter().printZReport(data, rollSize, locale);
     } else if (deviceType == Device.imin) {
       var printingData = await CommonZReportTemplate().generateZTicket(data: data, roll: rollSize, locale: locale);
-      if (localPrinter?.deviceType == CType.BLE) {
-        await BluetoothPrinterHandler().print(data: printingData, localPrinter: localPrinter, isFromBackground: false);
-      }
+      // if (localPrinter?.deviceType == CType.BLE) {
+        await printerHandler().print(data: printingData, localPrinter: localPrinter, isFromBackground: false);
+      // }
     } else {
       final printingData = await _generateZReportTicket(model, reportDate, reportEndDate: reportEndDate, locale: locale);
       if (localPrinter?.deviceType == cType && printingData != null) {

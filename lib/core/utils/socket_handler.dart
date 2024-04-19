@@ -32,7 +32,7 @@ class SocketHandler {
     try {
 
       // Periodically send a ping to keep the WebSocket connection alive
-      Timer.periodic(Duration(seconds: 30), (timer) {
+      Timer.periodic(const Duration(seconds: 20), (timer) {
         socket.emit('ping', []);
       });
       // Connecting to Socket.IO server
@@ -41,15 +41,18 @@ class SocketHandler {
       socket.on('order_placed', (data) async {
         // print('Received event data order_placed: $data');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromKlikitEvent(data));
-        await player.play(AssetSource(AppSounds.aNewOrder));
+
         _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: true);
+        await player.play(AssetSource(AppSounds.aNewOrder));
+
 
       });
       socket.on('tpp_order_placed', (data) async{
         // print('Received event data tpp_order_placed: $data');
         Order? order = await _orderRepository.fetchOrderById(getOrderIdFromProviderEvent(data));
-        await player.play(AssetSource(AppSounds.aNewOrder));
         _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: true);
+        await player.play(AssetSource(AppSounds.aNewOrder));
+
       });
 
       socket.on('order_cancelled', (data) async{
@@ -58,6 +61,7 @@ class SocketHandler {
       });
 
     } catch (e) {
+      print("socker error $e");
       rethrow;
     }
   }
