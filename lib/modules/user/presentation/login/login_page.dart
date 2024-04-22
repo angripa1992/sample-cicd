@@ -5,6 +5,7 @@ import 'package:klikit/app/constants.dart';
 import 'package:klikit/app/di.dart';
 import 'package:klikit/app/size_config.dart';
 import 'package:klikit/core/route/routes.dart';
+import 'package:klikit/core/utils/socket_handler.dart';
 import 'package:klikit/modules/user/data/request_model/login_request_model.dart';
 import 'package:klikit/modules/user/domain/entities/user.dart';
 import 'package:klikit/modules/user/presentation/login/bloc/login_bloc.dart';
@@ -120,6 +121,10 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
+  _initSocket(){
+    final socketHandler = getIt.get<SocketHandler>();
+    socketHandler.onStart();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,6 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               showApiErrorSnackBar(context, state.failure);
                             } else if (state is LoginStateSuccess) {
                               _checkRole(state.user);
+                              _initSocket();
                             }
                           },
                           builder: (context, state) {

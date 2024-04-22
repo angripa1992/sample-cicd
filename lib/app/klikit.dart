@@ -27,8 +27,7 @@ class _KlikitState extends State<Klikit> {
   void initState() {
     super.initState();
     initPlatformState();
-    initMobilisten();
-    initSocket();
+    // initMobilisten();
 
   }
 
@@ -72,9 +71,5 @@ class _KlikitState extends State<Klikit> {
       initialRoute: Routes.splash,
       builder: EasyLoading.init(),
     );
-  }
-  initSocket(){
-    final socketHandler = getIt.get<SocketHandler>();
-    socketHandler.onStart();
   }
 }
