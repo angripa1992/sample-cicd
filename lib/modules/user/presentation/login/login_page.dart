@@ -181,7 +181,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               showApiErrorSnackBar(context, state.failure);
                             } else if (state is LoginStateSuccess) {
                               _checkRole(state.user);
-                              _initSocket();
+                              Future.delayed(const Duration(seconds: 2), () async {
+                                _initSocket();
+                              });
+
                             }
                           },
                           builder: (context, state) {

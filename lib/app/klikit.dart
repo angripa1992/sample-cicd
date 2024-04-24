@@ -28,9 +28,13 @@ class _KlikitState extends State<Klikit> {
     super.initState();
     initPlatformState();
     // initMobilisten();
-
+    _initSocket();
   }
 
+  _initSocket(){
+    final socketHandler = getIt.get<SocketHandler>();
+    socketHandler.onStart();
+  }
   Future<void> initMobilisten() async {
     final env = getIt.get<EnvironmentVariables>();
     if (io.Platform.isIOS || io.Platform.isAndroid) {
@@ -72,4 +76,5 @@ class _KlikitState extends State<Klikit> {
       builder: EasyLoading.init(),
     );
   }
+
 }

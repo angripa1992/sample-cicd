@@ -30,13 +30,19 @@ class SocketHandler {
       }).build(),
     );
     try {
-
+      // print("init socket handler $token");
       // Periodically send a ping to keep the WebSocket connection alive
       Timer.periodic(const Duration(seconds: 20), (timer) {
         socket.emit('ping', []);
       });
       // Connecting to Socket.IO server
       socket.connect();
+
+      socket.onConnectError((data) => {
+        Future.delayed(const Duration(seconds: 2), () async {
+          onStart();
+        })
+      });
 
       socket.on('order_placed', (data) async {
         // print('Received event data order_placed: $data');
