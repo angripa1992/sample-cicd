@@ -26,7 +26,7 @@ void mainCommon(EnvironmentVariables env) async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-    WindowManager.instance.setMaximumSize(const Size(1080, 820));
+    WindowManager.instance.setMaximumSize(const Size(980, 720));
     WindowManager.instance.setMinimumSize(const Size(980, 720));
   }
   Wakelock.enable();

@@ -16,64 +16,92 @@ class SocketHandler {
   final PrinterManager _printerManager;
   final OrderRepository _orderRepository;
   final player = AudioPlayer();
-  SocketHandler(this._tokenProvider,this._printerManager,this._orderRepository){
+
+  late io.Socket socket;
+  bool isConnecting =
+      false; // Flag to prevent reconnecting while already trying
+
+  SocketHandler(
+      this._tokenProvider, this._printerManager, this._orderRepository) {
     player.setVolume(1.0);
   }
 
-  void onStart() {
+  void initializeSocket() {
     final env = getIt.get<EnvironmentVariables>();
-    final socket = io.io(
+    // Initialize the socket connection
+    socket = io.io(
       env.socketUrl,
-      io.OptionBuilder().setTransports(['websocket']).enableAutoConnect().setQuery({
-        'token': _tokenProvider.getAccessToken(),
-        // 'EIO':'3'
-      }).build(),
+      io.OptionBuilder()
+          .setTransports(['websocket'])
+          .disableAutoConnect() // Disable auto-connect
+          .setQuery({
+            'token': _tokenProvider.getAccessToken(),
+          })
+          .build(),
     );
-    try {
-      // print("init socket handler $token");
-      // Periodically send a ping to keep the WebSocket connection alive
-      Timer.periodic(const Duration(seconds: 20), (timer) {
-        socket.emit('ping', []);
-      });
-      // Connecting to Socket.IO server
+
+    socket.onConnect((_) {
+      print('Socket connected');
+    });
+
+    socket.onConnectError((error) {
+      print('Socket connection error: $error');
+      _handleSocketError();
+    });
+
+    socket.onDisconnect((_) {
+      print('Socket disconnected');
+      _handleSocketError();
+    });
+
+    socket.on('order_placed', (data) async {
+      // print('Received event data order_placed: $data');
+      Order? order = await _orderRepository
+          .fetchOrderById(getOrderIdFromKlikitEvent(data));
+
+      _printerManager.doAutoDocketPrinting(
+          order: order!, isFromBackground: true);
+      await player.play(AssetSource(AppSounds.aNewOrder));
+    });
+    socket.on('tpp_order_placed', (data) async {
+      // print('Received event data tpp_order_placed: $data');
+      Order? order = await _orderRepository
+          .fetchOrderById(getOrderIdFromProviderEvent(data));
+      _printerManager.doAutoDocketPrinting(
+          order: order!, isFromBackground: true);
+      await player.play(AssetSource(AppSounds.aNewOrder));
+    });
+
+    socket.on('order_cancelled', (data) async {
+      // print('Received event data order_cancelled: $data');
+      await player.play(AssetSource(AppSounds.aCancelOrder));
+    });
+
+    // Connect to the socket manually
+    _connectSocket();
+  }
+
+  void _connectSocket() {
+    if (!socket.connected && !isConnecting) {
+      isConnecting = true; // Set flag to prevent multiple connection attempts
       socket.connect();
-
-      socket.onConnectError((data) => {
-        Future.delayed(const Duration(seconds: 2), () async {
-          onStart();
-        })
-      });
-
-      socket.on('order_placed', (data) async {
-        // print('Received event data order_placed: $data');
-        Order? order = await _orderRepository.fetchOrderById(getOrderIdFromKlikitEvent(data));
-
-        _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: true);
-        await player.play(AssetSource(AppSounds.aNewOrder));
-
-
-      });
-      socket.on('tpp_order_placed', (data) async{
-        // print('Received event data tpp_order_placed: $data');
-        Order? order = await _orderRepository.fetchOrderById(getOrderIdFromProviderEvent(data));
-        _printerManager.doAutoDocketPrinting(order: order!, isFromBackground: true);
-        await player.play(AssetSource(AppSounds.aNewOrder));
-
-      });
-
-      socket.on('order_cancelled', (data) async{
-        // print('Received event data order_cancelled: $data');
-        await player.play(AssetSource(AppSounds.aCancelOrder));
-      });
-
-    } catch (e) {
-      print("socker error $e");
-      rethrow;
+      isConnecting = false; // Reset flag after connecting
     }
   }
+
+  void _handleSocketError() {
+    // Handle socket connection errors here
+    // Implement logic to retry connection or handle accordingly
+    // Example: Retry connection after a delay
+    Future.delayed(const Duration(seconds: 5), () {
+      _connectSocket();
+    });
+  }
+
   int getOrderIdFromKlikitEvent(Map<String, dynamic> json) {
     return json['id'];
   }
+
   int getOrderIdFromProviderEvent(List<dynamic> json) {
     return json[0]['id'];
   }

@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   _initSocket(){
     final socketHandler = getIt.get<SocketHandler>();
-    socketHandler.onStart();
+    socketHandler.initializeSocket();
   }
 
   @override

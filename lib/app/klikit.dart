@@ -33,7 +33,7 @@ class _KlikitState extends State<Klikit> {
 
   _initSocket(){
     final socketHandler = getIt.get<SocketHandler>();
-    socketHandler.onStart();
+    socketHandler.initializeSocket();
   }
   Future<void> initMobilisten() async {
     final env = getIt.get<EnvironmentVariables>();
