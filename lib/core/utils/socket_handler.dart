@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/resources/assets.dart';
@@ -15,11 +15,10 @@ class SocketHandler {
   final TokenProvider _tokenProvider;
   final PrinterManager _printerManager;
   final OrderRepository _orderRepository;
-  final player = AudioPlayer();
+  final AudioPlayer player = AudioPlayer();
 
   late io.Socket socket;
-  bool isConnecting =
-      false; // Flag to prevent reconnecting while already trying
+  bool isConnecting = false; // Flag to prevent reconnecting while already trying
 
   SocketHandler(
       this._tokenProvider, this._printerManager, this._orderRepository) {
@@ -35,8 +34,8 @@ class SocketHandler {
           .setTransports(['websocket'])
           .disableAutoConnect() // Disable auto-connect
           .setQuery({
-            'token': _tokenProvider.getAccessToken(),
-          })
+        'token': _tokenProvider.getAccessToken(),
+      })
           .build(),
     );
 
@@ -61,20 +60,24 @@ class SocketHandler {
 
       _printerManager.doAutoDocketPrinting(
           order: order!, isFromBackground: true);
-      await player.play(AssetSource(AppSounds.aNewOrder));
+      await player.setAsset(AppSounds.aNewOrder);
+      await player.play();
     });
+
     socket.on('tpp_order_placed', (data) async {
       // print('Received event data tpp_order_placed: $data');
       Order? order = await _orderRepository
           .fetchOrderById(getOrderIdFromProviderEvent(data));
       _printerManager.doAutoDocketPrinting(
           order: order!, isFromBackground: true);
-      await player.play(AssetSource(AppSounds.aNewOrder));
+      await player.setAsset(AppSounds.aNewOrder);
+      await player.play();
     });
 
     socket.on('order_cancelled', (data) async {
       // print('Received event data order_cancelled: $data');
-      await player.play(AssetSource(AppSounds.aCancelOrder));
+      await player.setAsset(AppSounds.aCancelOrder);
+      await player.play();
     });
 
     // Connect to the socket manually
