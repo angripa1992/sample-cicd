@@ -55,9 +55,14 @@ class SessionManager {
 
   String userName() => '${_user?.firstName} ${_user?.lastName}';
 
-  bool menuV2EnabledForKlikitOrder() => (_user?.menuV2EnabledForKlikitOrder ?? false) && (_user?.menuVersionForKlikitOrder ?? MenuVersion.v1) == MenuVersion.v2;
+  bool menuV2EnabledForKlikitOrder() => true;
 
-  bool menuV2Enabled() => (_user?.menuV2Enabled ?? false) && (_user?.menuVersion ?? MenuVersion.v1) == MenuVersion.v2;
+  bool menuV2Enabled() => true;
+
+  // bool menuV2EnabledForKlikitOrder() => (_user?.menuV2EnabledForKlikitOrder ?? false) && (_user?.menuVersionForKlikitOrder ?? MenuVersion.v1) == MenuVersion.v2;
+  //
+  // bool menuV2Enabled() => (_user?.menuV2Enabled ?? false) && (_user?.menuVersion ?? MenuVersion.v1) == MenuVersion.v2;
+
 
   int branchId() {
     if (_user != null && _user!.branchIDs.isNotEmpty) {
