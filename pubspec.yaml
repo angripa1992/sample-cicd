@@ -66,7 +66,7 @@ dependencies:
       url: https://github.com/angripa1992/docket_design_template.git
       ref: master
   window_manager: ^0.2.7
-  just_audio: ^0.9.19
+#  just_audio: ^0.9.19
 dev_dependencies:
   flutter_test:
     sdk: flutter
