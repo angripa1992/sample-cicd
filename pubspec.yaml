@@ -35,7 +35,7 @@ dependencies:
   defer_pointer: ^0.0.2
   flutter_local_notifications: ^16.3.2
   package_info_plus: ^3.0.2
-#  audioplayers: ^2.0.0
+  audioplayers: ^2.0.0
   permission_handler: ^10.3.0
   flutter_pos_printer_platform: 1.1.0
   percent_indicator: ^4.2.2

@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:klikit/core/network/token_provider.dart';
 import 'package:klikit/modules/orders/domain/repository/orders_repository.dart';
 import 'package:klikit/resources/assets.dart';
@@ -12,23 +11,20 @@ import '../../env/environment_variables.dart';
 import '../../modules/orders/domain/entities/order.dart';
 import '../../printer/printer_manager.dart';
 
-final _winmm = DynamicLibrary.open('winmm.dll');
-
-typedef PlaySoundC = Int32 Function(Pointer<Utf16> sound, IntPtr hmod, Uint32 fdwSound);
-typedef PlaySoundDart = int Function(Pointer<Utf16> sound, int hmod, int fdwSound);
-
-final playSound = _winmm.lookupFunction<PlaySoundC, PlaySoundDart>('PlaySoundW');
-
 class SocketHandler {
   final TokenProvider _tokenProvider;
   final PrinterManager _printerManager;
   final OrderRepository _orderRepository;
+  final player = AudioPlayer();
 
   late io.Socket socket;
-  bool isConnecting = false; // Flag to prevent reconnecting while already trying
+  bool isConnecting =
+  false; // Flag to prevent reconnecting while already trying
 
   SocketHandler(
-      this._tokenProvider, this._printerManager, this._orderRepository);
+      this._tokenProvider, this._printerManager, this._orderRepository) {
+    player.setVolume(1.0);
+  }
 
   void initializeSocket() {
     final env = getIt.get<EnvironmentVariables>();
@@ -59,24 +55,26 @@ class SocketHandler {
     });
 
     socket.on('order_placed', (data) async {
+      // print('Received event data order_placed: $data');
       Order? order = await _orderRepository
           .fetchOrderById(getOrderIdFromKlikitEvent(data));
 
       _printerManager.doAutoDocketPrinting(
           order: order!, isFromBackground: true);
-      _playNotificationSound(AppSounds.aNewOrder);
+      await player.play(AssetSource(AppSounds.aNewOrder));
     });
-
     socket.on('tpp_order_placed', (data) async {
+      // print('Received event data tpp_order_placed: $data');
       Order? order = await _orderRepository
           .fetchOrderById(getOrderIdFromProviderEvent(data));
       _printerManager.doAutoDocketPrinting(
           order: order!, isFromBackground: true);
-      _playNotificationSound(AppSounds.aNewOrder);
+      await player.play(AssetSource(AppSounds.aNewOrder));
     });
 
     socket.on('order_cancelled', (data) async {
-      _playNotificationSound(AppSounds.aCancelOrder);
+      // print('Received event data order_cancelled: $data');
+      await player.play(AssetSource(AppSounds.aCancelOrder));
     });
 
     // Connect to the socket manually
@@ -94,6 +92,7 @@ class SocketHandler {
   void _handleSocketError() {
     // Handle socket connection errors here
     // Implement logic to retry connection or handle accordingly
+    // Example: Retry connection after a delay
     Future.delayed(const Duration(seconds: 5), () {
       _connectSocket();
     });
@@ -105,11 +104,5 @@ class SocketHandler {
 
   int getOrderIdFromProviderEvent(List<dynamic> json) {
     return json[0]['id'];
-  }
-
-  void _playNotificationSound(String soundPath) {
-    final sound = soundPath.toNativeUtf16();
-    playSound(sound, 0, 0x00020001); // SND_ASYNC | SND_FILENAME
-    calloc.free(sound);
   }
 }
