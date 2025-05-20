@@ -32,12 +32,12 @@ void RegisterPrintMethodChannel(flutter::FlutterViewController* controller) {
                     const auto& byteList = std::get<flutter::EncodableList>(data_iter->second);
                     std::vector<uint8_t> bytes;
                     for (const auto& val : byteList) {
-                        bytes.push_back(std::get<int>(val));
+                        bytes.push_back(static_cast<uint8_t>(std::get<int>(val)));
                     }
 
                     std::wstring printerName = std::wstring(
-                            std::get<std::string>(name_iter->second).begin(),
-                            std::get<std::string>(name_iter->second).end());
+                    std::get<std::string>(name_iter->second).begin(),
+                    std::get<std::string>(name_iter->second).end());
 
                     if (PrintRawDataToUSBPrinter(bytes, printerName)) {
                         result->Success(flutter::EncodableValue(true));
