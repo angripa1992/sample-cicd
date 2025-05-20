@@ -3,42 +3,47 @@
 #include <vector>
 #include <winspool.h>
 
-bool PrintRawDataToUSBPrinter(
-        const std::vector<uint8_t>& data,
-        const std::wstring& printer_name
-) {
-    HANDLE printer_handle;
-    DOC_INFO_1 doc_info;
-    DWORD bytes_written;
-
-    if (!OpenPrinterW((LPWSTR)printer_name.c_str(), &printer_handle, NULL)) {
+bool PrintRawDataToUSBPrinter(const std::vector<uint8_t>& data, const std::wstring& printerName) {
+    // Open printer
+    HANDLE hPrinter;
+    if (!OpenPrinterW((LPWSTR)printerName.c_str(), &hPrinter, NULL)) {
+        std::wcerr << L"[ERROR] Failed to open printer: " << printerName << std::endl;
         return false;
     }
 
-    doc_info.pDocName = (LPWSTR)L"Flutter Print Job";
-    doc_info.pOutputFile = NULL;
-    doc_info.pDatatype = (LPWSTR)L"RAW";
+    // Create a DOC_INFO_1 structure
+    DOC_INFO_1 docInfo;
+    docInfo.pDocName = (LPWSTR)L"ESC/POS Print Job";
+    docInfo.pOutputFile = NULL;
+    docInfo.pDatatype = (LPWSTR)L"RAW";
 
-    if (StartDocPrinter(printer_handle, 1, (LPBYTE)&doc_info) == 0) {
-        ClosePrinter(printer_handle);
+    DWORD jobId = StartDocPrinter(hPrinter, 1, (LPBYTE)&docInfo);
+    if (jobId == 0) {
+        ClosePrinter(hPrinter);
+        std::wcerr << L"[ERROR] Failed to start document" << std::endl;
         return false;
     }
 
-    if (!StartPagePrinter(printer_handle)) {
-        EndDocPrinter(printer_handle);
-        ClosePrinter(printer_handle);
+    if (!StartPagePrinter(hPrinter)) {
+        EndDocPrinter(hPrinter);
+        ClosePrinter(hPrinter);
+        std::wcerr << L"[ERROR] Failed to start page" << std::endl;
         return false;
     }
 
-    if (!WritePrinter(printer_handle, (void*)data.data(), static_cast<DWORD>(data.size()), &bytes_written)) {
-        EndPagePrinter(printer_handle);
-        EndDocPrinter(printer_handle);
-        ClosePrinter(printer_handle);
+    DWORD bytesWritten;
+    BOOL success = WritePrinter(hPrinter, data.data(), static_cast<DWORD>(data.size()), &bytesWritten);
+
+    EndPagePrinter(hPrinter);
+    EndDocPrinter(hPrinter);
+    ClosePrinter(hPrinter);
+
+    if (!success || bytesWritten != data.size()) {
+        std::wcerr << L"[ERROR] Failed to write all data to printer" << std::endl;
         return false;
     }
 
-    EndPagePrinter(printer_handle);
-    EndDocPrinter(printer_handle);
-    ClosePrinter(printer_handle);
+    std::wcout << L"[SUCCESS] Data sent to printer" << std::endl;
     return true;
 }
+
