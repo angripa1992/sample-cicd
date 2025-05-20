@@ -40,7 +40,8 @@ void RegisterPrintMethodChannel(flutter::FlutterViewController* controller) {
                     const auto& byte_list = std::get<flutter::EncodableList>(bytes_it->second);
                     std::vector<uint8_t> data;
                     for (const auto& val : byte_list) {
-                        data.push_back(std::get<int>(val));
+                        // Safely cast to uint8_t
+                        data.push_back(static_cast<uint8_t>(std::get<int>(val) & 0xFF));
                     }
 
                     std::wstring printer_name_w(
