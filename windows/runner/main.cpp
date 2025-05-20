@@ -8,7 +8,7 @@
 #include <flutter/plugin_registrar_windows.h>
 #include <flutter/standard_method_codec.h>
 
-void RegisterPrintMethodChannel(FlutterWindow* window)) {
+void RegisterPrintMethodChannel(FlutterWindow* window) {
     auto controller = window->controller();
     if (!controller || !controller->engine()) {
         std::cerr << "Flutter engine not ready for method channel." << std::endl;
