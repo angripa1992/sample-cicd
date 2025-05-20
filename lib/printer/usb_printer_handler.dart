@@ -77,8 +77,9 @@ class UsbPrinterHandler extends PrinterHandler {
     debugPrint(LocalPrinterDataManager().localPrinter()?.deviceName);
     final result = await _channel.invokeMethod('print', {
       'bytes': data,
-      'printer': 'KLIKIT',
+      'printer': LocalPrinterDataManager().localPrinter()?.deviceName,
     });
+    debugPrint("print result $result");
     return result;
     // final connected = await connect(localPrinter: localPrinter, showMessage: false, isFromBackground: isFromBackground);
     // if (connected) {
