@@ -30,7 +30,7 @@ bool PrintRawDataToUSBPrinter(
         return false;
     }
 
-    if (!WritePrinter(printer_handle, (void*)data.data(), data.size(), &bytes_written)) {
+    if (!WritePrinter(printer_handle, (void*)data.data(), static_cast<DWORD>(data.size()), &bytes_written)) {
         EndPagePrinter(printer_handle);
         EndDocPrinter(printer_handle);
         ClosePrinter(printer_handle);
