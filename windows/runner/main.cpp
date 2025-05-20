@@ -8,18 +8,22 @@
 #include <flutter/plugin_registrar_windows.h>
 #include <flutter/standard_method_codec.h>
 
-void RegisterPrintMethodChannel(FlutterWindow* window) {
-    auto controller = window->controller();
-    if (!controller || !controller->engine()) {
-        std::cerr << "Flutter engine not ready for method channel." << std::endl;
+void RegisterPrintMethodChannel() {
+    auto registrar = flutter::PluginRegistrarManager::GetInstance()
+            ->GetRegistrar<flutter::PluginRegistrarWindows>("Klikit Business");
+
+    if (!registrar) {
+        std::cerr << "Could not get registrar." << std::endl;
         return;
     }
 
-    auto messenger = controller->engine()->messenger();
+    auto messenger = registrar->messenger();
 
     auto channel = std::make_unique<flutter::MethodChannel<flutter::EncodableValue>>(
-            messenger, "escpos_usb_printer",
-                    &flutter::StandardMethodCodec::GetInstance());
+            messenger,
+                    "escpos_usb_printer",
+                    &flutter::StandardMethodCodec::GetInstance()
+    );
 
     channel->SetMethodCallHandler(
             [](const flutter::MethodCall<flutter::EncodableValue>& call,
@@ -47,7 +51,8 @@ void RegisterPrintMethodChannel(FlutterWindow* window) {
 
                     std::wstring printerName = std::wstring(
                             std::get<std::string>(name_iter->second).begin(),
-                            std::get<std::string>(name_iter->second).end());
+                            std::get<std::string>(name_iter->second).end()
+                    );
 
                     if (PrintRawDataToUSBPrinter(bytes, printerName)) {
                         result->Success(flutter::EncodableValue(true));
