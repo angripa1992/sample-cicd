@@ -76,7 +76,12 @@ class UsbPrinterHandler extends PrinterHandler {
     debugPrint("debug device printer");
     debugPrint(LocalPrinterDataManager().localPrinter()?.deviceName);
     final result = await _channel.invokeMethod('print', {
-      'bytes': data,
+      'bytes': [
+        0x1B, 0x40, // ESC @ -> Initialize
+        0x48, 0x65, 0x6C, 0x6C, 0x6F, // Hello
+        0x0A, // Line feed
+        0x1D, 0x56, 0x01, // Cut
+      ],
       'printer': LocalPrinterDataManager().localPrinter()?.deviceName,
     });
     debugPrint("print result $result");
