@@ -73,6 +73,8 @@ class UsbPrinterHandler extends PrinterHandler {
     required LocalPrinter? localPrinter,
     required bool isFromBackground,
   }) async {
+    debugPrint("debug device printer");
+    debugPrint(LocalPrinterDataManager().localPrinter()?.deviceName);
     final result = await _channel.invokeMethod('print', {
       'bytes': data,
       'printer': 'KLIKIT',
