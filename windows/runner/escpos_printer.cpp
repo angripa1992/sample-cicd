@@ -1,43 +1,44 @@
-#include <windows.h>
-#include <iostream>
+#include <Windows.h>
+#include <string>
+#include <vector>
+#include <winspool.h>
 
-bool PrintRawDataToUSBPrinter(const std::vector<uint8_t>& data, const std::wstring& printerName) {
-    HANDLE hPrinter;
-    DOC_INFO_1 docInfo;
-    DWORD dwWritten;
+bool PrintRawDataToUSBPrinter(
+        const std::vector<uint8_t>& data,
+        const std::wstring& printer_name
+) {
+    HANDLE printer_handle;
+    DOC_INFO_1 doc_info;
+    DWORD bytes_written;
 
-    if (!OpenPrinter((LPWSTR)printerName.c_str(), &hPrinter, NULL)) {
-        std::wcerr << L"Failed to open printer: " << printerName << std::endl;
+    if (!OpenPrinterW((LPWSTR)printer_name.c_str(), &printer_handle, NULL)) {
         return false;
     }
 
-    docInfo.pDocName = (LPWSTR)L"ESC POS Document";
-    docInfo.pOutputFile = NULL;
-    docInfo.pDatatype = (LPWSTR)L"RAW";
+    doc_info.pDocName = (LPWSTR)L"Flutter Print Job";
+    doc_info.pOutputFile = NULL;
+    doc_info.pDatatype = (LPWSTR)L"RAW";
 
-    if (StartDocPrinter(hPrinter, 1, (LPBYTE)&docInfo) == 0) {
-        std::cerr << "StartDocPrinter failed." << std::endl;
-        ClosePrinter(hPrinter);
+    if (StartDocPrinter(printer_handle, 1, (LPBYTE)&doc_info) == 0) {
+        ClosePrinter(printer_handle);
         return false;
     }
 
-    if (!StartPagePrinter(hPrinter)) {
-        std::cerr << "StartPagePrinter failed." << std::endl;
-        EndDocPrinter(hPrinter);
-        ClosePrinter(hPrinter);
+    if (!StartPagePrinter(printer_handle)) {
+        EndDocPrinter(printer_handle);
+        ClosePrinter(printer_handle);
         return false;
     }
 
-    if (!WritePrinter(hPrinter, data.data(), data.size(), &dwWritten)) {
-        std::cerr << "WritePrinter failed." << std::endl;
-        EndPagePrinter(hPrinter);
-        EndDocPrinter(hPrinter);
-        ClosePrinter(hPrinter);
+    if (!WritePrinter(printer_handle, (void*)data.data(), data.size(), &bytes_written)) {
+        EndPagePrinter(printer_handle);
+        EndDocPrinter(printer_handle);
+        ClosePrinter(printer_handle);
         return false;
     }
 
-    EndPagePrinter(hPrinter);
-    EndDocPrinter(hPrinter);
-    ClosePrinter(hPrinter);
+    EndPagePrinter(printer_handle);
+    EndDocPrinter(printer_handle);
+    ClosePrinter(printer_handle);
     return true;
 }
