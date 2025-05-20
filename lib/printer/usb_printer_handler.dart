@@ -1,4 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
+ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/icon_data.dart';
@@ -14,6 +14,8 @@ import 'package:klikit/resources/strings.dart';
 import 'data/printer_setting.dart';
 
 class UsbPrinterHandler extends PrinterHandler {
+  static const MethodChannel _channel = MethodChannel('escpos_usb_printer');
+
   @override
   Future<List<PrinterDevice>> getDevices<PrinterDevice>() async {
     final List<PrinterDevice> scanResults = [];
@@ -71,17 +73,23 @@ class UsbPrinterHandler extends PrinterHandler {
     required LocalPrinter? localPrinter,
     required bool isFromBackground,
   }) async {
-    final connected = await connect(localPrinter: localPrinter, showMessage: false, isFromBackground: isFromBackground);
-    if (connected) {
-      try {
-        await PrinterManager.instance.send(type: PrinterType.usb, bytes: data);
-      } on PlatformException {
-        _showMessage(isFromBackground, true, AppStrings.defaultError.tr(), true);
-        return false;
-      }
-    } else {
-      return false;
-    }
+    final result = await _channel.invokeMethod('print', {
+      'bytes': data,
+      'printer': 'KLIKIT',
+    });
+    return result;
+    // final connected = await connect(localPrinter: localPrinter, showMessage: false, isFromBackground: isFromBackground);
+    // if (connected) {
+    //   try {
+    //     await PrinterManager.instance.send(type: PrinterType.usb, bytes: data);
+    //   } on PlatformException {
+    //     _showMessage(isFromBackground, true, AppStrings.defaultError.tr(), true);
+    //     return false;
+    //   }
+    // } else {
+    //   return false;
+    // }
+
     return true;
   }
 
